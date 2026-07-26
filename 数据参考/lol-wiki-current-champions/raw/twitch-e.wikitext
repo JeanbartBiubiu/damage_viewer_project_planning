@@ -1,0 +1,27 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Contaminate|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twitch
+|skill        = E
+|icon         = Contaminate.png
+|blurb        = {{sbc|Active:}} {{ci|Twitch}} spreads a toxin to nearby enemies afflicted with ''{{ai|Deadly Venom|Twitch}}'', dealing {{as|physical damage}}. This deals additional {{as|physical|pdamage}} and {{as|magic damage}} based on stacks of ''{{ai|Deadly Venom|Twitch}}''.
+|description  = {{sbc|Active:}} '''Twitch''' sends out a lethal toxin to each nearby enemy afflicted by ''{{ai|Deadly Venom|Twitch}}'', dealing them {{as|physical damage}}.
+|leveling     = {{st|Base Physical Damage|{{ap|20 to 60}}}}
+|description2 = ''Contaminate'' deals additional {{as|physical damage}} and {{as|35% AP}} {{as|magic damage}} for each stack of ''{{ai|Deadly Venom|Twitch}}'' on the target.
+|leveling2    = {{st|Physical Damage Per Stack|{{ap|15 to 35}} {{as|(+ 35% '''bonus''' AD)}}|Minimum Mixed Damage|{{ap|20+15 to 60+35}} {{as|(+ 35% '''bonus''' AD)}} {{as|(+ 35% AP)}}|Maximum Mixed Damage|{{ap|20+15*6 to 60+35*6}} {{as|(+ 210% '''bonus''' AD)}} {{as|(+ {{ap|35*6}}% AP)}}}}
+|description3 = ''A nearby enemy with {{ai|Deadly Venom|Twitch}} is required to cast this ability. The target does not have to be {{tip|sight|visible}} to be targeted by this ability.''
+|cooldown     = {{ap|12 to 8}}
+|cost         = {{ap|50 to 90}}
+|costtype     = Mana
+|effect radius= {{tip|cr|icononly = true}} 1200
+|cast time    = {{fd|0.25}}
+|targeting    = Proximity
+|damagetype   = Physical
+|spelleffects = Aoe
+|spellshield  = True
+|affects      = Enemies
+|projectile   = false
+|notes   =
+* ''Contaminate'' will deal the additional damage to targets based on the number of {{ai|Deadly Venom|Twitch}} stacks they had at the start of the cast time.
+* '''Twitch''' is given a range indicator for ''Contaminate's'' radius upon infecting an enemy champion with {{ai|Deadly Venom|Twitch}} (actual range is slightly larger than shown by the indicator).
+* ''Contaminate'' will not deal damage to enemies that are not within range of the ability before the cast time completes.
+** If the target moves out of range after the cast time, they are still dealt the damage.
+}}

@@ -1,0 +1,34 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Condemn|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Vayne
+|skill        = E
+|icon         = Condemn.png
+|blurb        = {{sbc|Active:}} {{ci|Vayne}} fires a heavy bolt at the target enemy that deals {{as|physical damage}} and {{tip|airborne|knocks them back}}.
+|blurb2      = If the target hits [[terrain]], they are briefly {{tip|stun|stunned}} and dealt {{as|'''bonus''' physical damage}}.
+|description  = {{sbc|Active:}} '''Vayne''' fires a heavy bolt at the target enemy that deals {{as|physical damage}} and {{tip|airborne|knocks them back}} 475 units, though not through terrain.
+|leveling     = {{st|Physical Damage|{{ap|50 to 190}} {{as|(+ 50% '''bonus''' AD)}}}}
+|description2 = If the target collides with [[terrain]], they take {{ccs|{{as|'''bonus''' physical damage}}|physical}} and become {{tip|stun|stunned}} for {{ap|1.5}} seconds.
+|leveling2    = {{st|Bonus Physical Damage|{{ap|50*1.5 to 190*1.5}} {{as|(+ 75% '''bonus''' AD)}}|Total Physical Damage|{{ap|50*2.5 to 190*2.5}} {{as|(+ 125% '''bonus''' AD)}}}}
+|target range = {{tip|er|icononly = true}} 550
+|speed        = {{dv|{{tt|2200|Missile speed}}|{{tt|2000|Knockback speed}}}}
+|cooldown     = {{ap|20 to 12}}
+|cast time    = {{fd|0.25}}
+|cost         = 90
+|costtype     = Mana
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = physical
+|projectile   = true
+|spelleffects = spell
+|onhiteffects =
+|spellshield  = True
+|callforhelp  = True
+|notes        =
+* ''Condemn's'' {{tip|airborne|displacement}} direction is determined at the end of the cast time.
+** Because of this, '''Vayne''' may use {{si|Flash}} during the cast time to create a better angle.
+* {{tip|Cleanse|Cleansing}} the {{tip|airborne|knock back}} will also end the displacement early.
+* The [[spell indicator]] for this ability also displays the direction for the knock back relative to '''Vayne's''' position.
+* ''Condemn's'' {{tip|stun}} duration starts when '''Vayne's''' target collides with a wall (they can be immobilized for up to 2 seconds depending on {{tip|airborne|displacement}} duration based on distance traveled).
+* ''Condemn's'' missile will fail to fire if '''Vayne''' is {{tip|suppression|suppressed}} during the cast time.{{bug|2}}
+* ''Condemn'' can interact with [[Terrain#Player-Generated|player-generated terrain]].
+{{Unit-targeted cancel conditions}}
+}}

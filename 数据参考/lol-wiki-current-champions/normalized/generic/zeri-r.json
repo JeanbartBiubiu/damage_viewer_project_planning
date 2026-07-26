@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "zeri-r",
+  "candidateKey": "hero_skill|hero_zeri|R|超限爆闪",
+  "ownerId": "hero_zeri",
+  "wikiChampionTitle": "Zeri",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Zeri/R",
+  "zhDisplayName": "超限爆闪",
+  "resolvedTitle": "Template:Data Zeri/Lightning Crash",
+  "wikiPageId": 1517508,
+  "revisionId": 4016978,
+  "revisionTimestamp": "2026-05-13T14:36:46Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Zeri/Lightning%20Crash",
+  "contentSha256": "d5335584b29602564b602b4711db7584d5ccaa03e1c4232f73c1b45e6da76240",
+  "rawByteSize": 4988,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Zeri''' discharges an electric nova that deals {{as|magic damage}} to nearby enemies. If this hits at least one enemy champion, she enters ''Overcharged'' for 5 seconds. Hitting an enemy champion with an ability or ''{{ai|Living Battery|Zeri|charged}}'' attack will extend the duration by {{fd|2.5}} seconds, up to its original duration.\n",
+    "leveling": "{{st|Magic Damage|{{ap|150 to 350}} {{as|(+ 60% '''bonus''' AD)}} {{as|(+ 110% AP)}}}}\n",
+    "description2": "{{sbc|Overcharged:}} '''Zeri''' gains {{as|{{sti|15% '''bonus''' movement speed}}}} and {{as|{{sti|30% '''bonus''' attack speed}}}} and an increased attack speed cap of {{as|{{ap|1.5+({{ccd|Zeri|as_ratio}}*0.3)}}|as}}. ''{{ai|Burst Fire 3|Zeri|Burst Fire}}'' is empowered to have a 20% shorter cast time and a decreased spread angle, and instead fires 3 rounds that travel with increased speed. The first round to hit an enemy per {{tip|cast instance}} chains electricity to the nearest {{tip|sight|visible}} enemy within 650 units of the target, up to 4 subsequent targets, to deal {{as|40% AD}} {{as|physical damage}}. This damage can {{tip|critically strike}} for {{as|{{critical damage|40}}|critical damage}} {{as|AD}} {{as|'''bonus''' physical damage}}.\n",
+    "description3": "During ''Overcharged'', '''Zeri''' can generate {{tip|stacks}} of ''Hypercharged'' from enemy champions that last {{fd|2.5}} seconds. She generates 1 stack for each one she hits with an ability or ''{{ai|Living Battery|Zeri|charged}}'' attack, increased to 3 on abilities that {{tip|critically strike}}. Subsequent hits refresh the duration of ''Hypercharged''. ''{{ai|Burst Fire 3|Zeri|Burst Fire}}'' grants stacks only against the first target hit.\n",
+    "description4": "{{sbc|Hypercharged:}} For each stack, '''Zeri''' gains {{as|{{sti|{{fd|1.5}}% '''bonus''' movement speed}}}}.\n",
+    "description5": "'''''Zeri''' can move during Lightning Crash's cast time.''\n",
+    "cooldown": "{{ap|80 to 70}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical Magic\n",
+    "notes": "* ''Lightning Crash'' does not interrupt '''Zeri's''' previous orders.\n* '''Zeri''' can stack ''Hypercharged'' up to 100,000 times.\n* Applies {{tip|area damage}} for the nova and {{tip|proc damage}} for the chain lightning.\n* {{tip|Spell shield}} blocks ''Lightning Crash's'' initial nova but does not prevent '''Zeri''' from becoming ''Overcharged''.\n** It does not block ''{{ai|Burst Fire 3|Zeri|Burst Fire}}'' electricity chain.\n* {{tip|Clone|Clones}} count for granting ''Overcharge''.\n* ''Lightning Crash's'' and ''{{ais|Spark Surge|Zeri}}'' empowerments to ''{{ai|Burst Fire 4|Zeri|Burst Fire}}'' can combine together.\n{{safesubst:unexpected|desc=\n* ''{{ai|Burst Fire 3|Zeri|Burst Fire}}'' electricity chain will not trigger if the first target hit is a {{tip|ward}} or {{tip|stealthed trap|trap}}, even if it is [[Stealth#Stealthed_traps_and_wards|stealthed]]. [https://www.youtube.com/watch?v=WzZ3PGwEBik] {{bug}}|affectedEffects=Zeri R|estimatedPatchOrigin=V12.2|<!--added automatically-->wikiUploadTimestamp=1774305490|<!--added automatically-->pagename=Template:Data Zeri/Lightning Crash\n}}\n* ''{{ai|Burst Fire 3|Zeri|Burst Fire}}'' electricity chain will not chain across {{tip|structures}}.\n* Entering {{tip|resurrection}} causes '''Zeri''' to lose all stacks of ''Hypercharged''.\n** ''Overcharged'' is not removed, however.{{bug|2}}\n** '''Zeri''' will not be able to gain stacks of ''Hypercharged'' again after reviving while ''Overcharged'' is active.{{bug}}\n{{Effect at cast time end}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "description5": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

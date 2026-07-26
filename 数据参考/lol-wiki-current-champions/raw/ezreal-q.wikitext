@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Mystic Shot|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ezreal
+|skill        = Q
+|icon         = Mystic Shot.png
+|blurb        = {{sbc|Active:}} {{ci|Ezreal}} fires a bolt of energy that deals {{as|physical damage}} to the first enemy hit.
+|blurb2       = If the bolt hits an enemy, all of '''Ezreal's''' ability cooldowns are {{sti|cdr|reduced}}.
+|blurb4       = ''Mystic Shot'' applies {{tip|on-hit}} and {{tip|on-attack}} effects.
+|description  = {{sbc|Active:}} '''Ezreal''' fires a bolt of energy in the target direction that deals {{as|physical damage}} to the first enemy hit, applying {{tip|on-hit}} effects and triggering {{tip|on-attack}} effects.
+|leveling     = {{st|Physical Damage|{{ap|20 to 120}} {{as|(+ 130% AD)}} {{as|(+ 40% AP)}}}}
+|description2 = If ''Mystic Shot'' successfully hits an enemy, the {{sti|'''current''' cooldowns}} of '''Ezreal's''' abilities, including ''Mystic Shot's'', are reduced by {{fd|1.5}} seconds.
+|cooldown     = {{ap|5.5 to 4.5}}
+|cost         = {{ap|28 to 40}}
+|costtype     = Mana
+|target range = {{tip|cr|icononly = true}} 1200
+|speed        = 2000
+|width        = {{tip|er|icononly = true}} 120
+|cast time    = {{fd|0.25}}
+|queue time   = {{fd|0.05}}
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = special
+|spelleffects = special
+|projectile   = True
+|parry        = True
+|onhiteffects = True
+|callforhelp  = True
+|grounded     =
+|knockdown    =
+|notes        =
+* ''Mystic Shot'' deals {{tip|basic damage}}, but also triggers spell effects by also being tagged as {{tip|spell damage}}.
+* ''Mystic Shot'' benefits from {{as|{{sti|life steal}}}}, {{tip|omnivamp}}, and {{tip|physical vamp}}, but not {{tip|spell vamp}}.
+* Even if the ability is blocked by {{tip|spell shield}} it will still trigger the cooldown reduction.
+{{Effect at cast time end}}
+* ''Mystic Shot'' will be buffered and cast when the cooldown ends if the player attempts to cast it within {{fd|0.05}} seconds of the cooldown ending.
+}}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twitch-p",
+  "candidateKey": "hero_skill|hero_twitch|P|死亡毒液",
+  "ownerId": "hero_twitch",
+  "wikiChampionTitle": "Twitch",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Twitch/I",
+  "zhDisplayName": "死亡毒液",
+  "resolvedTitle": "Template:Data Twitch/Deadly Venom",
+  "wikiPageId": 1309583,
+  "revisionId": 4013286,
+  "revisionTimestamp": "2026-04-28T22:22:17Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twitch/Deadly%20Venom",
+  "contentSha256": "1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44",
+  "rawByteSize": 2158,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Twitch's''' {{tip|basic attacks}} {{tip|on-hit}} apply a {{tip|stack}} of ''Deadly Venom'' for 6 seconds, refreshing on subsequent applications and stacking up to 6 times.\n",
+    "description2": "{{sbc|Deadly Venom:}} For each stack, the target is dealt{{ft|{{sti|true damage|{{as|{{pp|1 to 5 for 5|1 to 17|formula=1 every 4 levels}}|true damage}}}} {{as|(+ 3% AP)}} {{as|true damage}} per second over the duration,|{{sti|true damage|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=1, +1 every 4 levels}}|true damage}}}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|'''total''' true damage}} over the duration,}}for a maximum of{{ft|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|true damage}} with each tick.|{{as|{{pp|1*6*6 to 5*6*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6*6}}% AP)}} {{as|'''total''' true damage}} over the duration.}}This effect is considered a {{tip|poison}}.\n",
+    "damagetype": "True\n",
+    "notes": "* ''Deadly Venom'' deals {{tip|proc damage|proc}} {{tip|persistent damage|damage over time}}, and does not trigger {{tip|spell effects}}.\n* The first 5 stacks on a target are indicated each by a small mark around them, while a target affected by the maximum stacks of 6 is indicated by a single large mark above them instead.\n* ''Deadly Venom'' does not affect {{tip|structures}}.\n* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts are special-cased to generate one ''Deadly Venom'' stack per enemy hit.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

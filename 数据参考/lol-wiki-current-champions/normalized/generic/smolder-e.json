@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "smolder-e",
+  "candidateKey": "hero_skill|hero_smolder|E|扑棱，扑棱，扑棱！",
+  "ownerId": "hero_smolder",
+  "wikiChampionTitle": "Smolder",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Smolder/E",
+  "zhDisplayName": "扑棱，扑棱，扑棱！",
+  "resolvedTitle": "Template:Data Smolder/Flap, Flap, Flap",
+  "wikiPageId": 1631187,
+  "revisionId": 4025347,
+  "revisionTimestamp": "2026-06-05T11:06:40Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Smolder/Flap%2C%20Flap%2C%20Flap",
+  "contentSha256": "f93a0f829e25f668efae3b0345baa1959256b05410ab6cb2f76afedc0a67c744",
+  "rawByteSize": 2696,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Smolder''' takes flight for {{fd|1.25}} seconds, becoming {{tip|ghosted}} and gaining {{sti|{{as|75% '''bonus''' movement speed}}}}, {{tip|unobstructed vision}}, and the ability to ignore terrain collision. While in flight, he automatically fires up to 5 {{as|(+ 1 per 100 ''{{ai|Dragon Practice|Smolder}}'' stacks)|buzzword3}} bolts at the nearest and {{tt|most wounded|Lowest health percent}} {{tip|sight|visible}} enemy, dealing {{as|physical damage}} with each hit and prioritizing enemy champions.\n",
+    "leveling": "{{st|Physical Damage per Hit|{{ap|10 to 30}} {{as|(+ 30% AD)}}}}\n{{st|Minimum Total Physical Damage|{{ap|10*5 to 30*5}} {{as|(+ {{ap|30*5}}% AD)}}}}\n",
+    "description2": "''Flap, Flap, Flap'' ends immediately if '''Smolder''' casts another ability or becomes {{tip|immobilize|immobilized}}.\n",
+    "cooldown": "{{ap|24 to 16}}\n",
+    "cost": "65\n",
+    "costtype": "mana\n",
+    "damagetype": "physical\n",
+    "notes": "* The number of additional bolts based on {{ai|Dragon Practice|Smolder}} stacks is rounded down.\n* '''Smolder''' reveals himself while attacking enemies, even inside terrain.\n* {{tip|Spell shield}} will block only one bolt.\n* Self {{tip|immobilize|immobilizations}} such as {{ii|Zhonya's Hourglass}} also count for ending ''Flap, Flap, Flap''.\n* {{si|Recall}} is disabled while '''Smolder''' is inside terrain.\n* ''Flap, Flap, Flap'' can interact with [[Terrain#Player-Generated|player-generated terrain]].\n* If '''Smolder''' is inside terrain when the effect ends, he will be placed correspondingly to the nearest valid space.\n* The following table refers for interactions while '''Smolder''' is flying:\n{{ct|attack=Causes '''Smolder''' to move towards the attack target.|cast=interrupts|move=true|items==true,,interrupts|spells=true|interrupts=death,root}}\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

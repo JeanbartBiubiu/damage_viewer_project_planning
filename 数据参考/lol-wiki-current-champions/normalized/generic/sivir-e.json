@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "sivir-e",
+  "candidateKey": "hero_skill|hero_sivir|E|法术护盾",
+  "ownerId": "hero_sivir",
+  "wikiChampionTitle": "Sivir",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Sivir/E",
+  "zhDisplayName": "法术护盾",
+  "resolvedTitle": "Template:Data Sivir/Spell Shield",
+  "wikiPageId": 1308840,
+  "revisionId": 3788826,
+  "revisionTimestamp": "2024-10-19T09:28:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Sivir/Spell%20Shield",
+  "contentSha256": "e283e13b19eca7fc1b2d66c587fb251f8407d147f40a943e278bdb7315a14998",
+  "rawByteSize": 1423,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Sivir''' gains a {{tip|spell shield}} for {{fd|1.5}} seconds. Upon successfully blocking a hostile effect, she {{tip|heals}} herself and activates ''{{ai|Fleet of Foot|Sivir}}'' after {{fd|0.25}} seconds.\n",
+    "leveling": "{{st|Heal|{{as|{{ap|60 to 80}}% AD}} {{as|(+ 50% AP)}}}}\n",
+    "cooldown": "{{ap|24 to 18}}\n",
+    "notes": "* ''Spell Shield'' will heal and activate {{ai|Fleet of Foot|Sivir}} if any effect is blocked. This includes effects such as [[champion ability|champion abilities]], [[Named item effect|item effects]], {{uis|Dragon}} basic attacks, as well as the abilities of {{ui|Baron Nashor}} and {{ui|Rift Herald}}.\n* ''Spell Shield'' will still block abilities that have already been applied to '''Sivir''' if the delayed effects of that ability is [[area of effect]] (e.g. {{ai|Blaze 2|Brand|Blaze's}} explosion, {{ai|Chum the Waters|Fizz}}, and {{ai|Time Bomb|Zilean}}).\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cooldown": true,
+    "notes": true,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

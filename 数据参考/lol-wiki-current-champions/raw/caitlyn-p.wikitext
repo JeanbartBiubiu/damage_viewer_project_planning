@@ -1,0 +1,33 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Headshot|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Caitlyn
+|skill        = I
+|icon         = false
+|blurb        = {{sbc|Innate:}} {{cis|Caitlyn}} {{tip|basic attacks}} generate {{tip|stacks}} of ''Count'' {{tip|on-attack}}. At maximum stacks, her next basic attack will fire a ''Headshot'' dealing {{as|'''bonus''' physical damage}} that scales with her {{sti|{{as|critical strike chance}}}}.
+|blurb2       = On {{ai|Yordle Snap Trap|Caitlyn|trapped}} or {{ai|90 Caliber Net|Caitlyn|netted}} targets, she gains another ''Headshot'' at extra {{sti|range|attack range}}.
+|description  = {{sbc|Innate:}} '''Caitlyn's''' {{tip|basic attacks}} generate a {{tip|stack}} of ''Count'' {{tip|on-attack}}, doubled if she is within {{tip|brush}}. At 5 stacks, or 4 while in ''brush'', her next basic attack consumes all stacks {{tip|on-attack}} to become a ''Headshot''.
+|icon2        = Headshot.png
+|description2 = {{sbc|Headshot:}} '''Caitlyn's''' basic attack is empowered to have an {{tip|uncancellable windup}} and deal {{as|{{pp|key=%|60 to 100 for 3|1 to 13}}|ad}} {{as|(+ {{critical damage|0 to 100|critScaling=true}}) AD}} {{as|'''bonus''' physical damage}}, increased to {{as|110% (+ {{critical damage|0 to 100|critScaling=true}}) AD}} against non-champions.
+|icon3        = Headshot 2.png
+|description3 = Enemies that step over a ''{{ai|Yordle Snap Trap|Caitlyn}}'' or are hit by ''{{ai|90 Caliber Net|Caitlyn}}'' can grant an additional ''Headshot'' against them at {{sti|range|1300 range}} within {{fd|1.8}} seconds, without consuming stacks. Each method grants only one ''Headshot'' at a time.
+|targeting    = Passive
+|speed        = {{tt|3000|Headshots missile speed}}
+|affects      = Self
+|damagetype   = Physical
+|spellshield  = False
+|projectile   = True
+|spelleffects = Basic
+|parry        = True
+|notes        =
+* If '''Caitlyn's''' current target becomes trapped by {{ai|Yordle Snap Trap|Caitlyn}} or {{ai|90 Caliber Net|Caitlyn}} while her attack is on cooldown, this ongoing cooldown will be refunded partially so that her next attack on them can begin earlier.
+** Swapping the target to an enemy trapped by {{ai|Yordle Snap Trap|Caitlyn}} or {{ai|90 Caliber Net|Caitlyn}} also reduces her ongoing attack cooldown.
+*** {{pending for test}}: The exact attack cooldown refund appears to be 50% of the attack cooldown at current attack speed, but at a minimum amount it lets '''Caitlyn''' start the attack against the trapped target within {{fd|0.5}} seconds of her previous attack windup completing.
+* The bonus range from {{ii|Rapid Firecannon}} will not have any effect during {{ai|Yordle Snap Trap|Caitlyn|trap}} and {{ai|90 Caliber Net|Caitlyn|net}} extended ''Headshot'' attacks.
+* Only the ordinary {{as|100% attack damage}} portion of the attack can critically strike. The bonus from ''Headshot'' is added after the critical strike is rolled.
+** The full damage of ''Headshot'' applies {{as|{{sti|life steal}}}}.
+** ''Headshot'' is a single instance of damage, thus does not trigger {{cais|Tantrum|Amumu}} or {{ii|Warden's Mail}} passives twice.
+* Since '''Caitlyn's''' Art and Sustainability Update, Ability-granted ''Headshots'' are the same as the original ''Headshot'' override attack, though what lets them cast at high range is still relatively special. They trigger {{tip|on-attack}} effects (including stacking ''Headshot'').
+** {{Pending for test}} {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}}, is special cased to search targets with the increased range as well.
+* Because ''Headshot'' stacks are generated {{tip|on-attack}}, {{iis|Runaan's Hurricane}} {{nies|Wind's Fury}} bolts will not generate any.
+* The empowered attack will not trigger against {{tip|ward}}s.
+** Stacks will still be generated towards ''Headshot'' when attacking them.
+}}

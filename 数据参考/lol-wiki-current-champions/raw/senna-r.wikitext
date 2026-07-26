@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Dawning Shadow|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Senna
+|skill        = R
+|icon         = Dawning Shadow.png
+|blurb        = {{sbc|Active:}} {{ci|Senna}} fires a massive beam in the target direction.
+|blurb2       = Enemies in the center are dealt {{as|physical damage}} and {{tip|standard sight|revealed}} for a short time. '''Senna''' and allied champions hit by the beam are {{tip|shield|shielded}} for a short time.
+|description  = {{sbc|Active:}} '''Senna''' fires a massive beam in the target direction. The beam consists of a broad wave of light, and a narrow wave of shadow at the center.
+|description2 = The shadow wave deals {{as|physical damage}} to enemy {{tip|champions}} hit and {{tip|standard sight|reveals}} them for 3 seconds, as well as hits all ''{{ai|Absolution|Senna|Mist Wraiths}}''.
+|leveling2    = {{st|Physical Damage|{{ap|250 to 550}} {{as|(+ 115% '''bonus''' AD)}} {{as|(+ 70% AP)}}}}
+|icon3        = Dawning Shadow 2.png
+|description3 = The light wave grants a {{tip|shield}} to '''Senna''' and allied champions hit for 3 seconds, and grants {{tip|sight}} of {{tt|the area|Can see through brush and terrain.}} along the path for 2 seconds.
+|leveling3    = {{st|Shield Strength|{{ap|120 to 200}} {{as|(+ 50% AP)}} {{as|(+ 150% {{ai|Absolution|Senna|Mist}})|mist}}}}
+|cast time    = 1
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|320|Shadow wave width}}|{{tt|2400|Light wave width}}}}
+|cooldown     = {{ap|140 to 100}}
+|cost         = {{ap|100}}
+|costtype     = Mana
+|target range = Global
+|speed        = 20000
+|queue time   = {{fd|0.5}}
+|targeting    = Direction
+|affects      = Self, Allies, Enemies
+|damagetype   = physical
+|spellshield  = true
+|spelleffects = aoe
+|projectile   = true
+|grounded     =
+|knockdown    =
+|flavorsound  = {{sm2|Senna Original_R_0.ogg}} ''"No shadow without light!"''
+|notes        =
+* The broad wave is a singular projectile that can be {{tip|projectile|destroyed}}.
+** The narrow wave will be destroyed with it in the process.
+{{Effect at cast time start}}
+* '''Senna''' reveals herself during the cast time.
+|tips         =
+* On [[Summoner's Rift]], ''Dawning Shadow'' will take approximately {{ap|18000/20000}} seconds to land if fired from Nexus to Nexus or from the midpoint of bot lane to the midpoint of toplane.
+}}

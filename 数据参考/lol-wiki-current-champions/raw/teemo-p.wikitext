@@ -1,0 +1,25 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Guerrilla Warfare|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Teemo
+|skill        = I
+|icon         = Guerrilla Warfare.png
+|blurb        = {{sbc|Innate:}} {{ci|Teemo}} becomes {{tip|invisible}} after a brief moment remaining idle without taking damage, and will maintain so long as he remains idle or not {{tip|airborne|displaced}}.
+|blurb2       = While '''Teemo''' is in {{tip|brush}}, he will gain and maintain stealth even while moving.
+|blurb3       = {{sbc|Innate - Element of Surprise:}} When '''Teemo''' breaks the stealth, he gains {{sti|as|{{as|'''bonus''' attack speed}}}} for a few seconds.
+|description  = {{sbc|Innate:}} '''Teemo''' gains {{tip|invisibility}} after {{fd|1.5}} seconds without moving, taking non-{{tip|persistent damage|over time}} damage, performing actions that {{tip|break stealth}}, {{tip|channel|channeling}}, or being in {{tip|stasis (buff)|stasis}}. '''Teemo''' will maintain stealth so long as he remains idle and is not {{tip|airborne|displaced}}. While in {{tip|brush}}, '''Teemo''' gains the stealth even while moving and can move without breaking stealth, but will lose the stealth in this case if he is {{tip|airborne|knocked up}}.
+|icon2        = Teemo Guerrilla Warfare 2.png
+|description2 = {{sbc|Innate - Element of Surprise:}} When '''Teemo''' breaks the stealth, he gains {{sti|{{as|{{pp|key=%|20 to 80 for 4|1;5;10;15}} '''bonus''' attack speed}}}} for 5 seconds.
+|targeting    = Passive
+|affects      = Self
+|notes        =
+* ''Element of Surprise's'' buff does not {{tip|stack}} with itself, only refreshes on subsequent triggers within the duration.
+* All {{tip|forced action}} effects will break ''Guerilla Warfare's'' {{tip|stealth}} while '''Teemo''' is standing outside of {{tip|brush}}. While he is inside brush, all of them will also break the stealth if he is ''forced'' to move outside brush.
+** {{tip|Berserk}} and {{tip|taunt}} can additionally break the stealth if '''Teemo''' is ''forced'' to use a basic attack, which is an action that breaks stealth by default.
+* ''Guerilla Warfare's'' stealth is special-cased to be interrupted whenever '''Teemo''' moves from his location by any means (Move order, {{tip|dash}}, or {{tip|blink}}), thus, performing actions that do not normally {{tip|break stealth}} which also involve movement will cause the stealth to break. If '''Teemo''' is in a {{tip|brush}}, however, the stealth is not broken by the above effects so long as his destination location is still inside brush.
+{{safesubst:unexpected|desc=
+* Due to the unique implementation of ''Guerilla Warfare's'' stealth:
+** Some area-of-effect (AoE) {{tip|airborne|knockups}}, may '''not''' be able to break '''Teemo's''' stealth. {{bug}}
+*** While '''Teemo''' is {{tip|airborne}} without his stealth broken, other area-of-effect spells (mostly older ones) '''are''' able to break '''Teemo's''' stealth, such as {{iis|Randuin's Omen}} {{nie|Humility}}. {{bug}}
+** A highly technical explanation can be found [https://www.reddit.com/r/leagueoflegends/comments/1mxe564/comment/na5pnvi/?context=3 here].|affectedEffects=Teemo I|estimatedPatchOrigin=V1.0.0.61|<!--added automatically-->wikiUploadTimestamp=1774045293|<!--added automatically-->pagename=Template:Data Teemo/Guerrilla Warfare
+}}
+* Using a basic attack breaks the stealth at the end of the attack windup.
+}}

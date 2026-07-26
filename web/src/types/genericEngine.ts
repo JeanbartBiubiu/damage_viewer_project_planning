@@ -118,6 +118,8 @@ export type OperationDefinition = {
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
+  /** Optional non-negative repeat delay (ms); omit when unset/0 for legacy payloads. */
+  repeatDelayMs?: number;
   triggerStateKey?: string;
   threshold?: number;
 };
@@ -157,7 +159,15 @@ export type AbilityDefinition = {
   castCondition?: GenericFormulaExpr;
   operations?: OperationDefinition[];
   listenerSpec?: ListenerDefinition;
-  tickSpec?: { intervalMs: number; onTick: OperationDefinition[]; startDelayMs?: number };
+  tickSpec?: {
+    intervalMs: number;
+    onTick: OperationDefinition[];
+    startDelayMs?: number;
+    /** Resolved type key for tick state anchor scope (paired with anchorStateKey). */
+    anchorScope?: string;
+    /** Trimmed state key for tick state anchor (paired with anchorScope). */
+    anchorStateKey?: string;
+  };
   stateSchema?: Record<string, unknown>;
 };
 

@@ -1,0 +1,33 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Rocket Jump|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Tristana
+|skill        = W
+|icon         = Rocket Jump.png
+|blurb        = {{sbc|Active:}} {{ci|Tristana}} jumps to the target location. Upon landing, she deals {{as|magic damage}} and {{tip|slows}} nearby enemies for a short time.
+|blurb2      = When '''Tristana''' scores an enemy {{tip|champion}} {{tip|takedown}} or detonates ''{{ai|Explosive Charge|Tristana}}'' at max stacks on a champion, it will {{sti|cdr|reset}} ''Rocket Jump's'' cooldown.
+|description  = {{sbc|Active:}} '''Tristana''' {{tip|dash|jumps}} to the target location. Upon landing, she deals {{as|magic damage}} to nearby enemies and {{tip|slows}} them by 40% for 2 seconds.
+|leveling     = {{st|Magic Damage|{{ap|70 to 210}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 50% AP)}}}}
+|description2 = Scoring an enemy {{tip|champion}} {{tip|takedown}} or detonating ''{{ai|Explosive Charge|Tristana}}'' at maximum stacks on a champion will reset ''Rocket Jump's'' {{sti|cooldown}}.
+|description3 = '''''Tristana''' can cast any of her [[champion ability|abilities]] during the dash.''
+|cooldown     = {{ap|22 to 14}}
+|cost         = {{ap|30 to 50}}
+|costtype     = mana
+|target range = {{tip|cr|icononly = true}} {{tt|900|Maximum dash distance}}<!--has a minimum dash range, needs to be measured-->
+|targeting    = Location
+|cast time    = {{fd|0.25}}
+|effect radius= {{tip|cr|icononly = true}} 350
+|speed        = {{tt|1100|Can differ based on dash range/terrain interference}}
+|affects      = Enemies / Self
+|damagetype   = Magic
+|spelleffects = spellaoe
+|spellshield  = True
+|projectile   =
+|knockdown    = True
+|grounded     = True
+|outofrange   = cast at max
+|notes        =
+* '''Tristana''' can still use her [[champion ability|abilities]], [[summoner spell]]s, and [[active ability items|item actives]] during ''Rocket Jump''.
+* ''Rocket Jump's'' dash speed depends on the distance of the jump. Close-ranged jumps are much shorter while long-ranged jumps leave '''Tristana''' in the air significantly longer.
+* If '''Tristana''' has less than 850 movement speed, a full-range ''Rocket Jump'' (including its cast time) will make her arrive quicker at its destination than walking at this speed could.
+* Killing {{tip|clone|clones}} or detonating {{ai|Explosive Charge|Tristana}} on them also resets ''Rocket Jump's'' cooldown.
+** The former may be unintended.
+}}

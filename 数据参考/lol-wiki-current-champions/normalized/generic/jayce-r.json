@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jayce-r",
+  "candidateKey": "hero_skill|hero_jayce|R|墨丘利之炮 / 墨丘利之锤",
+  "ownerId": "hero_jayce",
+  "wikiChampionTitle": "Jayce",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Jayce/R",
+  "zhDisplayName": "墨丘利之炮 / 墨丘利之锤",
+  "resolvedTitle": "Template:Data Jayce/Transform Mercury Cannon",
+  "wikiPageId": 1331691,
+  "revisionId": 3989867,
+  "revisionTimestamp": "2026-02-03T23:21:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jayce/Transform%20Mercury%20Cannon",
+  "contentSha256": "5ef1aaf216a327c0aa1cc668944647fca887f43e6df2d8af1cb8c1b074709e98",
+  "rawByteSize": 2107,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Jayce''' transforms into {{cci|Transform Mercury Cannon.png||{{sbc|Cannon Stance}}}}, receiving access to its {{tip|abilities}}, becoming {{tip|ranged}} with {{sti|500 attack range}}, and empowering his next {{tip|basic attack}} to reduce the target's {{sti|armor penetration|{{as|armor}}}} and {{sti|magic penetration|{{as|magic resistance}}}} by {{pp|key=%|20 to 35 for 4|1 to 16}} for 5 seconds.\n",
+    "description2": "{{Data Jayce/Transform Mercury Hammer|pst2|description2}}\n",
+    "cooldown": "6\n",
+    "damagetype": "",
+    "notes": "* Transformations do not count as ability activations for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* The resistance reduction does not apply to structures.\n* Both ''Transform'' on-hit effects have no set duration and will only be consumed when ''Jayce'' either lands a basic attack or switches stances.\n* The enhanced attack will not be consumed if it is parried ({{tip|dodge}}, {{tip|block}}, {{tip|blind}}, and {{ai|Riposte|Fiora}}).\n* The empowered attack will not trigger against {{tip|structures}} nor {{tip|wards}}.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

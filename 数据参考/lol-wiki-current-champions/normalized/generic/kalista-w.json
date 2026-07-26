@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kalista-w",
+  "candidateKey": "hero_skill|hero_kalista|W|哨兵",
+  "ownerId": "hero_kalista",
+  "wikiChampionTitle": "Kalista",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Kalista/W",
+  "zhDisplayName": "哨兵",
+  "resolvedTitle": "Template:Data Kalista/Sentinel",
+  "wikiPageId": 1307668,
+  "revisionId": 4007621,
+  "revisionTimestamp": "2026-04-12T07:36:44Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kalista/Sentinel",
+  "contentSha256": "d5b77c4c464ee11521130013b07ed004444bb20e442ee53379fd5ec9802c2e2d",
+  "rawByteSize": 3549,
+  "fields": {
+    "description": "{{sbc|Passive - Soul-Marked:}} While '''Kalista''' and her ''{{ii|The Black Spear|Oathsworn}}'' are {{tip|tether|tethered}}, their basic attacks and ''{{ai|Pierce|Kalista}}'' apply a ''Soul-Mark'' to the target hit for 4 seconds.\n",
+    "description2": "If both '''Kalista's''' and the ''Oathsworn's'' ''Soul-Mark'' are applied to the same enemy, the marks are consumed to deal {{as|magic damage}} to the target, capped against non-champions. ''Soul-Mark'' cannot affect an enemy more than once every few seconds.\n",
+    "leveling2": "{{st|Bonus Magic Damage|{{as|{{ap|10 to 18}}% of target's '''maximum''' health}}}}\n{{st|Maximum Non-Champion Damage|{{ap|100 to 200}}}}\n",
+    "description3": "{{sbc|Active:}} '''Kalista''' summons a ''Sentinel'' that patrols back and forth on a path along the target direction, granting {{tip|sight}} of its surroundings as it travels.\n",
+    "description4": "'''Kalista''' periodically [[stock]]s a ''Sentinel'' charge, up to a maximum of 2.\n",
+    "description5": "''See [[Kalista#Pets|Pets]] for more details about Sentinels.''\n",
+    "cooldown": "30\n",
+    "cost": "",
+    "costtype": "",
+    "damagetype": "magic\n",
+    "notes": "* The damage is dealt {{tip|on-attack}} of '''Kalista's''' basic attack if she applies the second mark. If the ''Oathsworn'' does so instead, the damage is dealt [[on-hit]] of their basic attack.\n* ''Soul-Marked's'' bonus damage is credited to '''Kalista''' and will benefit from both her {{sti|magic penetration|{{as|magic penetration}}}} and [[spell effects]].\n** If her {{ii|The Black Spear|Oathsworn}} ally scores a kill using ''Soul-Marked's'' bonus damage they will get a message stating 'Kill Secured' in place of the usual gold pop-up (the gold itself is credited to '''Kalista''').\n* The ''Sentinel's'' {{tip|sight}} reveal on enemy {{tip|champion|champions}} is accredited for [[assist|assists]] and potentially [[kill|kills]] (if they die shortly after being spotted).\n** It does not reveal {{tip|stealth|stealthed}} targets.\n* ''Sentinel'' will cast from wherever '''Kalista''' is at the end of the cast time.\n* {{Pending for test}} ''Soul Mark's'' interaction with ''parrying'' effects ({{tip|dodge}}, {{tip|block}}, {{tip|blind}}).\n* {{pending for test}} If ''Pierce'' kills the target by ''Soul-Mark's'' additional damage, it will/will not continue.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "description5": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

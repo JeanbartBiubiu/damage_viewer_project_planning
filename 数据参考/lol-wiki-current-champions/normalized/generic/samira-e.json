@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "samira-e",
+  "candidateKey": "hero_skill|hero_samira|E|狂飙",
+  "ownerId": "hero_samira",
+  "wikiChampionTitle": "Samira",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Samira/E",
+  "zhDisplayName": "狂飙",
+  "resolvedTitle": "Template:Data Samira/Wild Rush",
+  "wikiPageId": 1459317,
+  "revisionId": 4008028,
+  "revisionTimestamp": "2026-04-13T04:00:01Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Samira/Wild%20Rush",
+  "contentSha256": "a4cadd7417a20386273b6317e8bfec7c93bb0945a7f0b65a4e12de8571097480",
+  "rawByteSize": 2532,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Samira''' {{tip|dash|dashes}} a fixed distance in the direction of the target enemy or enemy {{tip|turret|structure}}, dealing {{as|magic damage}} to enemies she passes through. She also gains {{sti|{{as|'''bonus''' attack speed}}}} for 5 seconds.\n",
+    "leveling": "{{st|Magic Damage|{{ap|50 to 90}} {{as|(+ 20% '''bonus''' AD)}}}}\n{{st|Bonus Attack Speed|{{ap|20 to 40}}%}}\n",
+    "description2": "Scoring a {{tip|takedown}} against an enemy {{tip|champion}} within 3 seconds of damaging them resets ''Wild Rush's'' {{sti|cooldown}}.\n",
+    "description3": "''{{ai|Flair|Samira}} and {{ai|Inferno Trigger|Samira}} can be cast during the dash. Casting {{ai|Blade Whirl|Samira}} will buffer it to cast at the end of the dash.''\n",
+    "cooldown": "{{ap|20 to 12}}\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* '''Samira''' gains the attack speed buff at the start of the dash.\n* ''Wild Rush'' does not deal its damage to turrets.\n* ''Wild Rush'' prioritizes targeting champions over turrets.\n* {{ai|Inferno Trigger|Samira}} will be buffered to cast at the end of the dash if {{ai|Flair|Samira}} was cast during the dash.\n* Casting {{si|Flash}} during ''Wild Rush'' will interrupt the dash but deal damage to nearby enemies at the location.\n** If {{ai|Flair|Samira}} was cast during this time, an explosive will also be placed at that location.\n* ''Wild Rush'' will also reset if '''Samira''' kills or gets assist credit on a {{tip|clone}} that dies (to hostiles).{{bug|2}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

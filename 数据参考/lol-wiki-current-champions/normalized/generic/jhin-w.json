@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jhin-w",
+  "candidateKey": "hero_skill|hero_jhin|W|致命华彩",
+  "ownerId": "hero_jhin",
+  "wikiChampionTitle": "Jhin",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Jhin/W",
+  "zhDisplayName": "致命华彩",
+  "resolvedTitle": "Template:Data Jhin/Deadly Flourish",
+  "wikiPageId": 1307581,
+  "revisionId": 4021795,
+  "revisionTimestamp": "2026-05-21T13:25:33Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jhin/Deadly%20Flourish",
+  "contentSha256": "14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65",
+  "rawByteSize": 2942,
+  "fields": {
+    "description": "{{Anchor|Caught Out}}{{sbc|Passive:}} Enemy {{tip|champions}} that trigger a ''{{ai|Captive Audience|Jhin|Lotus Trap}}'' to bloom or are damaged by '''Jhin''' or allied champions are ''marked'' for 4 seconds.\n",
+    "description2": "{{sbc|Active:}} '''Jhin''' fires a shot in the target direction that deals {{as|physical damage}} to all enemies in a line until colliding with an enemy champion, reduced by 25% against {{tip|minions}}.\n",
+    "leveling2": "{{st|Physical Damage|{{ap|70 to 210}} {{as|(+ 50% AD)}}|Minion Damage|{{ap|70*0.75 to 210*0.75}} {{as|(+ {{fd|37.5}}% AD)}}}}\n",
+    "description3": "Hitting a ''marked'' champion {{tip|root|roots}} them for a duration and grants '''Jhin''' {{ais|Whisper|Jhin|Every Moment Matters}} {{sti|ms|{{as|'''bonus''' movement speed|ms}}}}.\n",
+    "leveling3": "{{st|Root Duration|{{ap|1.25 to 2.25}} seconds}}\n",
+    "cooldown": "12\n",
+    "cost": "{{ap|50 to 70}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* Applies {{tip|spell damage}} to the enemy champion and {{tip|area damage}} to all other enemy units.\n* The ''Caught Out'' mark only appears if ''Deadly Flourish'' can potentially {{tip|root}} the target, and will not if the ability's cooldown is longer than 4 seconds or isn't ranked up.\n{{Effect at cast time start}}\n* The ability will not preserve the caster's facing direction when using {{si|Flash}} and similar effects.\n* Uniquely, ''Deadly Flourish'' is special-cased to be {{tip|projectile|intercepted}} by valid counters because it looks like a blockable missile, even though it functionally is not a missile.\n* While {{ai|Inherent Glamour|Neeko|disguised}} as a non-champion, {{ci|Neeko}} cannot be affected by ''Deadly Flourish''.{{bug}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

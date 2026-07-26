@@ -31,6 +31,14 @@ const (
 	ReadEventTargetResource
 	// ReadDamageAmount is a transient read available only while a pipeline damage modifier evaluates.
 	ReadDamageAmount
+	// ReadDamageTrait / ReadDamageType are boolean (0/1) predicates over the current damage operation.
+	ReadDamageTrait
+	ReadDamageType
+	// ReadDamageCastOrigin / ReadDamageAbilityType are boolean (0/1) provenance predicates.
+	ReadDamageCastOrigin
+	ReadDamageAbilityType
+	// ReadEventDamage is an immutable numeric snapshot field under event.damage.*.
+	ReadEventDamage
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -256,10 +264,89 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if path == "damage.amount" {
 		return ReadDamageAmount, "amount", true
 	}
+	if strings.HasPrefix(path, "damage.trait.") {
+		name := strings.TrimPrefix(path, "damage.trait.")
+		if name == "" || strings.Contains(name, ".") || strings.Contains(name, "/") {
+			return 0, "", false
+		}
+		return ReadDamageTrait, name, true
+	}
+	if strings.HasPrefix(path, "damage.type.") {
+		name := strings.TrimPrefix(path, "damage.type.")
+		if !isKnownDamageTypePredicateName(name) {
+			return 0, "", false
+		}
+		return ReadDamageType, name, true
+	}
+	if strings.HasPrefix(path, "damage.cast_origin.") {
+		name := strings.TrimPrefix(path, "damage.cast_origin.")
+		if name == "" || strings.Contains(name, ".") || strings.Contains(name, "/") {
+			return 0, "", false
+		}
+		return ReadDamageCastOrigin, name, true
+	}
+	if strings.HasPrefix(path, "damage.ability_type.") {
+		name := strings.TrimPrefix(path, "damage.ability_type.")
+		if name == "" || strings.Contains(name, ".") || strings.Contains(name, "/") {
+			return 0, "", false
+		}
+		return ReadDamageAbilityType, name, true
+	}
 	return 0, "", false
 }
 
+// isKnownDamageTypePredicateName reports whether name is a compile-time damage.type.* token.
+func isKnownDamageTypePredicateName(name string) bool {
+	switch name {
+	case "physical", "magic", "true":
+		return true
+	default:
+		return false
+	}
+}
+
+// CanonicalDamageTypeKey maps a damage.type.* predicate name or settlement alias to the
+// canonical damage/* catalog key used for runtime matching.
+func CanonicalDamageTypeKey(nameOrKey string) string {
+	switch strings.ToLower(nameOrKey) {
+	case "physical", "damage/physical":
+		return "damage/physical"
+	case "magic", "damage/magic", "magical", "damage/magical":
+		return "damage/magic"
+	case "true", "damage/true":
+		return "damage/true"
+	default:
+		return nameOrKey
+	}
+}
+
+// EventDamageSnapshotField names the frozen event.damage.* numeric paths.
+var EventDamageSnapshotFields = map[string]struct{}{
+	"baseRawAmount":         {},
+	"preMitigationAmount":   {},
+	"mitigatedAmount":       {},
+	"originalCritChance":    {},
+	"effectiveCritChance":   {},
+	"forcedCritWeight":      {},
+	"naturalCritWeight":     {},
+	"forcedCritMultiplier":  {},
+	"naturalCritMultiplier": {},
+	"normalPart":            {},
+	"critPart":              {},
+	"naturalBranchRawAmount": {},
+}
+
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	if strings.HasPrefix(path, "event.damage.") {
+		key := strings.TrimPrefix(path, "event.damage.")
+		if key == "" {
+			return 0, "", false
+		}
+		if _, ok := EventDamageSnapshotFields[key]; !ok {
+			return 0, "", false
+		}
+		return ReadEventDamage, key, true
+	}
 	type prefixKind struct {
 		prefix string
 		kind   GenericReadKind

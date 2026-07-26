@@ -46,7 +46,10 @@ export type CombatantSlot = 'source' | 'target';
 /** Eligibility tag for ADC completed-item entities (Batch-C). */
 export const ADC_COMPLETED_ITEM_TYPE_KEY = 'tag/adc_completed_item';
 
-const MAX_SOURCE_EQUIPMENT = 6;
+/** Eligibility tag for generic loadout equipment entities (e.g. Jak'Sho). */
+export const LOADOUT_EQUIPMENT_TYPE_KEY = 'tag/loadout_equipment';
+
+const MAX_LOADOUT_EQUIPMENT = 6;
 
 export type CombatDataAssembleSelection = {
   sourceEntityId: string;
@@ -55,6 +58,8 @@ export type CombatDataAssembleSelection = {
   targetStage?: number;
   /** Optional source-side static equipment loadout (item entity ids). Max 6, unique. */
   sourceEquipmentEntityIds?: string[];
+  /** Optional target-side static equipment loadout (item entity ids). Max 6, unique. */
+  targetEquipmentEntityIds?: string[];
 };
 
 export type CombatantNumericOverrides = {
@@ -144,39 +149,48 @@ export function assembleCompileRequest(
   const targetEntity = findEntity(graph, selection.targetEntityId);
   const indexes = buildIndexes(graph);
   const typeCatalog = buildTypeCatalog(graph, indexes.types);
-  const adcCompletedItemIds = collectAdcCompletedItemEntityIds(graph, indexes.types);
-  if (adcCompletedItemIds.has(sourceEntity.entityId)) {
+  const eligibleEquipmentIds = collectEligibleLoadoutEquipmentEntityIds(graph, indexes.types);
+  if (eligibleEquipmentIds.has(sourceEntity.entityId)) {
     throw new CombatDataAssembleError(
-      `source entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${sourceEntity.entityId}`
+      `source entity is tagged as eligible loadout equipment: ${sourceEntity.entityId}`
     );
   }
-  if (adcCompletedItemIds.has(targetEntity.entityId)) {
+  if (eligibleEquipmentIds.has(targetEntity.entityId)) {
     throw new CombatDataAssembleError(
-      `target entity is tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${targetEntity.entityId}`
+      `target entity is tagged as eligible loadout equipment: ${targetEntity.entityId}`
     );
   }
-  const sourceEquipmentEntityIds = resolveSourceEquipment(
+  const sourceEquipmentEntityIds = resolveEquipmentLoadout(
     graph,
     indexes.types,
-    selection.sourceEquipmentEntityIds
+    selection.sourceEquipmentEntityIds,
+    'source'
+  );
+  const targetEquipmentEntityIds = resolveEquipmentLoadout(
+    graph,
+    indexes.types,
+    selection.targetEquipmentEntityIds,
+    'target'
   );
 
-  const heroMountIds = graph.entityProviderMounts
+  const sourceHeroMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === sourceEntity.entityId)
     .map((m) => m.providerId);
-  const equipmentMountIds: string[] = [];
-  for (const equipmentId of sourceEquipmentEntityIds) {
-    for (const mount of graph.entityProviderMounts) {
-      if (mount.entityId === equipmentId) {
-        equipmentMountIds.push(mount.providerId);
-      }
-    }
-  }
+  const sourceEquipmentMountIds = collectEquipmentMountProviderIds(
+    graph,
+    sourceEquipmentEntityIds
+  );
   // Hero mounts first, then selected equipment mounts (selection order); dedupe preserves order.
-  const sourceMountIds = unique([...heroMountIds, ...equipmentMountIds]);
-  const targetMountIds = graph.entityProviderMounts
+  const sourceMountIds = unique([...sourceHeroMountIds, ...sourceEquipmentMountIds]);
+
+  const targetHeroMountIds = graph.entityProviderMounts
     .filter((m) => m.entityId === targetEntity.entityId)
     .map((m) => m.providerId);
+  const targetEquipmentMountIds = collectEquipmentMountProviderIds(
+    graph,
+    targetEquipmentEntityIds
+  );
+  const targetMountIds = unique([...targetHeroMountIds, ...targetEquipmentMountIds]);
   const providerIds = unique([...sourceMountIds, ...targetMountIds]);
 
   const sharedProviders: ProviderDefinition[] = [];
@@ -212,7 +226,8 @@ export function assembleCompileRequest(
     'target',
     selection.targetStage,
     overrides.target,
-    targetMountIds
+    targetMountIds,
+    targetEquipmentEntityIds
   );
 
   const revisionTag = `rev:${graph.currentRevision}`;
@@ -326,12 +341,15 @@ export function computeSessionSignature(compileRequest: CompileRequest): string 
  * {@link ADC_COMPLETED_ITEM_TYPE_KEY}. Used by validation page item pickers.
  */
 export function listAdcCompletedItemEntityIds(graph: CombatDataGraph): Set<string> {
-  const types: TypeIndex = { byId: new Map(), byKey: new Map() };
-  for (const t of graph.types) {
-    types.byId.set(t.typeId, { typeKey: t.typeKey, reservedTypeId: t.reservedTypeId });
-    types.byKey.set(t.typeKey, { typeId: t.typeId, reservedTypeId: t.reservedTypeId });
-  }
-  return collectAdcCompletedItemEntityIds(graph, types);
+  return collectAdcCompletedItemEntityIds(graph, buildTypeIndex(graph));
+}
+
+/**
+ * Entity ids eligible as loadout equipment: union of
+ * {@link ADC_COMPLETED_ITEM_TYPE_KEY} and {@link LOADOUT_EQUIPMENT_TYPE_KEY}.
+ */
+export function listEligibleLoadoutEquipmentEntityIds(graph: CombatDataGraph): Set<string> {
+  return collectEligibleLoadoutEquipmentEntityIds(graph, buildTypeIndex(graph));
 }
 
 export function normalizeDriverPlan(plan: DriverPlan): DriverPlan {
@@ -587,10 +605,11 @@ export function domainFromTypeKey(typeKey: string): string {
   return typeKey.slice(0, slash);
 }
 
-function resolveSourceEquipment(
+function resolveEquipmentLoadout(
   graph: CombatDataGraph,
   types: TypeIndex,
-  equipmentIds: string[] | undefined
+  equipmentIds: string[] | undefined,
+  slot: CombatantSlot
 ): string[] {
   if (equipmentIds === undefined || equipmentIds.length === 0) {
     return [];
@@ -600,26 +619,26 @@ function resolveSourceEquipment(
   for (const entityId of equipmentIds) {
     if (seen.has(entityId)) {
       throw new CombatDataAssembleError(
-        `source equipment contains duplicate entity id: ${entityId}`
+        `${slot} equipment contains duplicate entity id: ${entityId}`
       );
     }
     seen.add(entityId);
   }
 
-  if (equipmentIds.length > MAX_SOURCE_EQUIPMENT) {
+  if (equipmentIds.length > MAX_LOADOUT_EQUIPMENT) {
     throw new CombatDataAssembleError(
-      `source equipment allows at most ${MAX_SOURCE_EQUIPMENT} items, got ${equipmentIds.length}`
+      `${slot} equipment allows at most ${MAX_LOADOUT_EQUIPMENT} items, got ${equipmentIds.length}`
     );
   }
 
-  const eligible = collectAdcCompletedItemEntityIds(graph, types);
+  const eligible = collectEligibleLoadoutEquipmentEntityIds(graph, types);
   for (const entityId of equipmentIds) {
     if (!graph.entities.some((item) => item.entityId === entityId)) {
-      throw new CombatDataAssembleError(`source equipment entity not found: ${entityId}`);
+      throw new CombatDataAssembleError(`${slot} equipment entity not found: ${entityId}`);
     }
     if (!eligible.has(entityId)) {
       throw new CombatDataAssembleError(
-        `source equipment entity is not tagged ${ADC_COMPLETED_ITEM_TYPE_KEY}: ${entityId}`
+        `${slot} equipment entity is not tagged as eligible loadout equipment: ${entityId}`
       );
     }
   }
@@ -627,8 +646,36 @@ function resolveSourceEquipment(
   return equipmentIds;
 }
 
-function collectAdcCompletedItemEntityIds(graph: CombatDataGraph, types: TypeIndex): Set<string> {
-  const tagType = types.byKey.get(ADC_COMPLETED_ITEM_TYPE_KEY);
+function collectEquipmentMountProviderIds(
+  graph: CombatDataGraph,
+  equipmentEntityIds: string[]
+): string[] {
+  const mountIds: string[] = [];
+  for (const equipmentId of equipmentEntityIds) {
+    for (const mount of graph.entityProviderMounts) {
+      if (mount.entityId === equipmentId) {
+        mountIds.push(mount.providerId);
+      }
+    }
+  }
+  return mountIds;
+}
+
+function buildTypeIndex(graph: CombatDataGraph): TypeIndex {
+  const types: TypeIndex = { byId: new Map(), byKey: new Map() };
+  for (const t of graph.types) {
+    types.byId.set(t.typeId, { typeKey: t.typeKey, reservedTypeId: t.reservedTypeId });
+    types.byKey.set(t.typeKey, { typeId: t.typeId, reservedTypeId: t.reservedTypeId });
+  }
+  return types;
+}
+
+function collectEntityIdsByTypeKey(
+  graph: CombatDataGraph,
+  types: TypeIndex,
+  typeKey: string
+): Set<string> {
+  const tagType = types.byKey.get(typeKey);
   if (!tagType) {
     return new Set();
   }
@@ -638,6 +685,21 @@ function collectAdcCompletedItemEntityIds(graph: CombatDataGraph, types: TypeInd
       continue;
     }
     ids.add(rel.targetId);
+  }
+  return ids;
+}
+
+function collectAdcCompletedItemEntityIds(graph: CombatDataGraph, types: TypeIndex): Set<string> {
+  return collectEntityIdsByTypeKey(graph, types, ADC_COMPLETED_ITEM_TYPE_KEY);
+}
+
+function collectEligibleLoadoutEquipmentEntityIds(
+  graph: CombatDataGraph,
+  types: TypeIndex
+): Set<string> {
+  const ids = collectEntityIdsByTypeKey(graph, types, ADC_COMPLETED_ITEM_TYPE_KEY);
+  for (const id of collectEntityIdsByTypeKey(graph, types, LOADOUT_EQUIPMENT_TYPE_KEY)) {
+    ids.add(id);
   }
   return ids;
 }
@@ -656,7 +718,10 @@ function buildCombatant(
   const attributes = buildAttributeSlots(graph, entity.entityId, stage);
   const resources = buildResourceSlots(graph, entity.entityId, stage);
   // Order: base/stage → equipment static attrs → numeric overrides (final).
-  applyEquipmentAttributes(graph, attributes, equipmentEntityIds);
+  // Target-only: derive bonus_armor / bonus_magic_resist from equipment armor/MR.
+  applyEquipmentAttributes(graph, attributes, equipmentEntityIds, {
+    deriveBonusResistance: slot === 'target'
+  });
   applyAttributeOverrides(attributes, overrides?.attributes);
   applyResourceOverrides(resources, overrides?.resources);
 
@@ -762,11 +827,17 @@ function buildAttributeSlots(
  * Sum selected equipment entity_attribute_values into combatant attribute slots.
  * Existing slots: add to base/current/max/resolved.
  * Missing slots: create all four fields equal to the summed equipment value.
+ *
+ * When deriveBonusResistance is true (target loadout only):
+ * each equipment entity's armor/magic_resist also contributes to bonus_armor /
+ * bonus_magic_resist unless that same entity already has an explicit bonus_* row.
+ * Hero base/stage armor/MR never enters bonus buckets.
  */
 function applyEquipmentAttributes(
   graph: CombatDataGraph,
   attributes: Record<string, AttributeSlot>,
-  equipmentEntityIds: string[]
+  equipmentEntityIds: string[],
+  options: { deriveBonusResistance?: boolean } = {}
 ): void {
   if (equipmentEntityIds.length === 0) {
     return;
@@ -774,12 +845,46 @@ function applyEquipmentAttributes(
 
   const equipmentIdSet = new Set(equipmentEntityIds);
   const sums = new Map<string, number>();
+  const attrsByEntity = new Map<string, Map<string, number>>();
+
   for (const row of graph.entityAttributes) {
     if (!equipmentIdSet.has(row.entityId)) {
       continue;
     }
     assertFiniteNumber(row.baseValue, `equipment.${row.entityId}.${row.attrKey}`);
     sums.set(row.attrKey, (sums.get(row.attrKey) ?? 0) + row.baseValue);
+    let perEntity = attrsByEntity.get(row.entityId);
+    if (!perEntity) {
+      perEntity = new Map();
+      attrsByEntity.set(row.entityId, perEntity);
+    }
+    perEntity.set(row.attrKey, (perEntity.get(row.attrKey) ?? 0) + row.baseValue);
+  }
+
+  if (options.deriveBonusResistance) {
+    let derivedBonusArmor = 0;
+    let derivedBonusMagicResist = 0;
+    for (const entityId of equipmentEntityIds) {
+      const perEntity = attrsByEntity.get(entityId);
+      if (!perEntity) {
+        continue;
+      }
+      if (!perEntity.has('bonus_armor') && perEntity.has('armor')) {
+        derivedBonusArmor += perEntity.get('armor')!;
+      }
+      if (!perEntity.has('bonus_magic_resist') && perEntity.has('magic_resist')) {
+        derivedBonusMagicResist += perEntity.get('magic_resist')!;
+      }
+    }
+    if (derivedBonusArmor !== 0) {
+      sums.set('bonus_armor', (sums.get('bonus_armor') ?? 0) + derivedBonusArmor);
+    }
+    if (derivedBonusMagicResist !== 0) {
+      sums.set(
+        'bonus_magic_resist',
+        (sums.get('bonus_magic_resist') ?? 0) + derivedBonusMagicResist
+      );
+    }
   }
 
   for (const attrKey of [...sums.keys()].sort()) {
@@ -859,7 +964,8 @@ function cloneProviderForSlot(
     mapListener(listener, indexes, slot, providerRef)
   );
 
-  const lifecycle = mapLifecycle(indexes.lifecyclesByProvider.get(providerId), indexes, slot);
+  const lifecycleRow = indexes.lifecyclesByProvider.get(providerId);
+  const lifecycle = mapLifecycle(lifecycleRow, indexes, slot);
   const tickOps = collectTickOperations(indexes, providerId, slot);
   if (tickOps.length > 0) {
     const intervalMs = lifecycle?.tickIntervalMs;
@@ -868,14 +974,16 @@ function cloneProviderForSlot(
         `provider ${providerId} has tick sequences but missing positive tickIntervalMs`
       );
     }
-    const startDelayMs = indexes.lifecyclesByProvider.get(providerId)?.startDelayMs;
+    const startDelayMs = lifecycleRow?.startDelayMs;
+    const tickAnchor = projectTickAnchor(lifecycleRow, indexes, providerId);
     abilities.push({
       abilityKey: '__tick__',
       kind: 'tick',
       tickSpec: {
         intervalMs,
         onTick: tickOps,
-        ...(startDelayMs !== undefined ? { startDelayMs } : {})
+        ...(startDelayMs !== undefined ? { startDelayMs } : {}),
+        ...tickAnchor
       }
     });
   }
@@ -1140,6 +1248,56 @@ function mapLifecycle(
   return result;
 }
 
+const TICK_ANCHOR_SCOPE_TYPE_KEY = 'state_scope/provider_target';
+
+/**
+ * Project optional Backend tick-anchor pair onto Wasm TickSpec fields.
+ * Both lifecycle fields must be absent/null or both set; invalid pairs fail closed.
+ */
+function projectTickAnchor(
+  lifecycle: ProviderLifecycle | undefined,
+  indexes: GraphIndexes,
+  providerId: string
+): { anchorScope: string; anchorStateKey: string } | Record<string, never> {
+  if (!lifecycle) {
+    return {};
+  }
+
+  const scopeTypeId = lifecycle.tickAnchorScopeTypeId;
+  const stateKeyRaw = lifecycle.tickAnchorStateKey;
+  const hasScope = scopeTypeId !== undefined && scopeTypeId !== null;
+  const hasKey = stateKeyRaw !== undefined && stateKeyRaw !== null;
+
+  if (!hasScope && !hasKey) {
+    return {};
+  }
+  if (!hasScope || !hasKey) {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorScopeTypeId and tickAnchorStateKey must both be set or both omitted`
+    );
+  }
+
+  const stateKey = String(stateKeyRaw).trim();
+  if (stateKey === '') {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorStateKey must be non-blank when tick anchors are set`
+    );
+  }
+
+  const scopeKey = requireTypeKey(
+    indexes.types,
+    scopeTypeId,
+    `provider ${providerId} tickAnchorScope`
+  );
+  if (scopeKey !== TICK_ANCHOR_SCOPE_TYPE_KEY) {
+    throw new CombatDataAssembleError(
+      `provider ${providerId} tickAnchorScopeTypeId must resolve to ${TICK_ANCHOR_SCOPE_TYPE_KEY} (got ${scopeKey})`
+    );
+  }
+
+  return { anchorScope: scopeKey, anchorStateKey: stateKey };
+}
+
 function collectTickOperations(
   indexes: GraphIndexes,
   providerId: string,
@@ -1311,6 +1469,7 @@ function mapEffectStep(
     }
     case 'repeatDetail': {
       const d = step.repeatDetail!;
+      // Positive delayMs → repeatDelayMs; omitted/0 keep legacy operation shape (no field).
       return {
         ...base,
         ref: step.stepId,
@@ -1320,7 +1479,8 @@ function mapEffectStep(
         repeatCount: d.repeatCount,
         repeatTag: d.repeatTag,
         triggerStateKey: d.triggerStateKey,
-        threshold: d.threshold
+        threshold: d.threshold,
+        ...(typeof d.delayMs === 'number' && d.delayMs > 0 ? { repeatDelayMs: d.delayMs } : {})
       };
     }
     case 'executeDetail': {

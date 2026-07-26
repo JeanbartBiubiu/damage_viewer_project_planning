@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "yunara-p",
+  "candidateKey": "hero_skill|hero_yunara|P|初生之誓",
+  "ownerId": "hero_yunara",
+  "wikiChampionTitle": "Yunara",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Yunara/I",
+  "zhDisplayName": "初生之誓",
+  "resolvedTitle": "Template:Data Yunara/Vow of the First Lands",
+  "wikiPageId": 1699661,
+  "revisionId": 4016849,
+  "revisionTimestamp": "2026-05-13T01:44:50Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Yunara/Vow%20of%20the%20First%20Lands",
+  "contentSha256": "ff68851d6585864c8e8d937d52ff431f4776df68eecd41a26a45ebd2398f3679",
+  "rawByteSize": 1222,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Yunara's''' {{tip|critical strike|critical strikes}} deal {{as|10%|magic damage}} {{as|(+ 10% per 100 AP)}} {{as|'''bonus''' magic damage}}.\n",
+    "damagetype": "magic\n",
+    "notes": "* The '''bonus''' damage is calculated based on the total damage of the critical strike {{tt|pre-mitigation|Damage calculated before modifiers}}.\n** If '''Yunara''' critically strikes against a champion that has {{ii|Randuin's Omen}}, the '''bonus''' magic damage from ''Vow of the First Lands'' and the '''bonus''' magic damage on-hit from {{ai|Q|Yunara}} will both be reduced by 30%.{{bug|2}}\n*** This can result in a critical strike yielding less bonus magic damage than if the basic attack had not critically struck.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

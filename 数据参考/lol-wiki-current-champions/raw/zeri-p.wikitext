@@ -1,0 +1,35 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Living Battery|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Zeri
+|skill        = I
+|icon         = false
+|description  = {{sbc|Innate:}} '''Zeri''' generates 1 charge for every 40 units she travels by any means and 10 charge every time she casts ''{{ai|Burst Fire|Zeri}}'', up to a maximum of 100 charge. Her {{tip|basic attacks}} consume charge to deal '''modified''' damage.<br/>'''Zeri''' gains maximum charge when the game starts and upon [[respawn]]ing.
+|icon2        = Zeri Living Battery.png
+|description2 = {{tip|Basic Attack|{{sbc|Basic Attack:}}}} '''Zeri''' zaps the target, dealing {{as|{{pp|10+(15/17)*(x-1)*(0.7025+0.0175*(x-1)) for 20}}|magic damage}} {{as|(+ 3% AP)}} {{as|magic damage}}, applying {{tip|spell effects}} as {{tip|spell damage}}, triggering on-cast effects and {{ccs|executing|magic}} the target if they are below {{pp|70 + (160-70)/17*(x-1) for 20|color=hp}} {{as|(+ 20% AP)}} {{sti|{{as|health}}}}. This cannot {{tip|critically strike}} and does not apply nor trigger {{tip|on-hit}} and {{tip|on-attack}} effects.
+|icon3        = Zeri Living Battery 2.png
+|description3 = At full charge, '''Zeri's''' next attack is empowered to consume all charge to deal {{as|{{pp|75 + (160-75)/17*(x-1) for 20}}|magic damage}} {{as|(+ 110% AP)}} {{as|(+ {{pp|1 + (11-1)/17*(x-1) for 20|key=%}} of target's '''maximum''' health)}} {{as|magic damage}}. The damage based on the target's health ratio is capped at 300 against {{tip|monsters}}.
+|attack range = {{ccd|Zeri|range}}
+|speed        = {{tt|N/A|Non-projectile}}
+|cost         = {{dv|{{tt|10|Regular zaps}}|{{tt|100|Full charge zap}}}}
+|costtype     = charge
+|targeting    = Unit
+|spelleffects = Spell
+|parry        = false
+|projectile   = false
+|spellshield  = special
+|affects      = Self
+|damagetype   = magic
+|notes        =
+* Charged attacks only deal the '''base''' damage to {{tip|structures}}.
+* Uncharged attacks do not execute enemies that are {{tip|shield|shielded}} or {{tip|invulnerable}} while below the health threshold.
+* {{tip|Spell shield}} will only block a fully charged attack. Uncharged attacks are not blocked.
+* The attack's range '''is''' affected by attack range modifiers ({{ii|Rapid Firecannon}}) (tested on patch 26.12).
+* Uncharged and charged attacks trigger {{iis|Tear of the Goddess}} {{nie|Mana Charge}}.
+* Attacking a turret does not consume [[Crystalline Overgrowth]].
+* The empowered attack will trigger but not be consumed against {{tip|wards}} or [[jungle plants]].
+* If [[Minion#Last_Hit_Indicator|Last Hit Indicator]] enabled, it will indicate ''Living Battery's'' {{tip|execute}} threshold instead of its usual function.
+|flavorsound = {{sm2|Zeri_Original_BasicAttackEmpowered_3.ogg}} ''"Electrocute!"''
+<!-- Blurb -->
+|blurb       = {{sbc|Innate:}} {{ci|Zeri}} generates charge when she moves and casts ''{{ai|Burst Fire|Zeri}}''. Her next {{tip|basic attack}} will consume charge to deal {{as|magic damage}}.
+|blurb2      = At full charge, the attack consumes all charge to deal {{as|magic damage}} based on the {{as|target's '''maximum''' health}}.
+|blurb4      = '''Zeri's''' {{tip|basic attacks}} apply {{tip|spell effects}} as {{tip|spell damage}} and trigger on-cast effects, but they do not deal {{as|physical damage}} and '''cannot''' {{tip|critically strike}} nor trigger {{tip|on-hit}} and {{tip|on-attack}} effects.
+}}

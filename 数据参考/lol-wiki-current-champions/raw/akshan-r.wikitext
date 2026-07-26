@@ -1,0 +1,56 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Comeuppance|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Akshan
+|skill        = R
+|icon         = Comeuppance.png
+|description  = {{sbc|Active:}} '''Akshan''' locks onto the target enemy champion and begins {{tip|channel|channeling}} for {{fd|2.5}} seconds, {{tip|true sight|revealing}} them as well as {{tip|sight|revealing}} himself. He gradually stores bullets into his weapon over the duration.
+|leveling     = {{st|Maximum Bullets Stored|{{ap|5 to 7}}}}
+{{st|Bullet Storing Interval Time|{{ap|2.5/4 to 2.5/6|round=4}} seconds}}
+|description2 = ''Comeuppance'' can be recast after {{fd|0.5}} seconds during the channel, and does so automatically afterwards. ''Comeuppance'' is placed on a {{sti|cd|5-second}} cooldown if the channel is cancelled.
+|description3 = {{sbc|Recast:}} '''Akshan''' fires all stored bullets at the target, each briefly granting {{tip|sight}} around their trajectory and dealing {{as|physical damage}} to the first enemy hit, increased by {{critical damage|0 to 30|critScaling=true}}, as well as by {{as|{{pp|key=%|key1=%|type=target's '''missing''' health|0 to 200 for 11|0 to 100|formula=2% per 1% of target's '''missing''' health, capped at 100% '''missing''' health}}|health}}. The shots can hit {{tip|structures}}.
+|leveling3    = <!--
+-->{{st|Minimum Physical Damage per Bullet|{{ap|25 to 45}} {{as|(+ 15% AD)}}<!--
+-->|Maximum Physical Damage per Bullet|{{ap|25*3 to 45*3}} {{as|(+ {{ap|15*3}}% AD)}}<!--
+-->|Minimum Charged Physical Damage|{{ap|5*25|6*35|7*45}} {{as|(+ {{ap|15*5 to 15*7}}% AD)}}<!--
+-->|Damage to target on 67% missing hp|{{ap|3*5*25|3*6*35|3*7*45}} {{as|(+ {{ap|3*5*15 to 3*7*15}}% AD)}}<!--
+-->}}
+|description4 = Each bullet's damage {{tip|applies life steal|applies}} {{as|{{sti|life steal}}}} and {{tip|execute|executes}} {{tip|minions}}.
+|description5 = '''''Akshan''' can move while channeling Comeuppance.''
+|cooldown     = {{ap|100 to 70}}
+|cdstart      = post-effect
+|cost         = 100
+|costtype     = Mana
+|cast time    = none
+|target range = {{tip|cr|icononly = true}} 2500
+|width        = {{tip|er|icononly = true}} 120
+|speed        = 3200
+|targeting    = Unit
+|affects      = Self, Enemies
+|damagetype   = Physical
+|spellshield  = special
+|spelleffects = spell
+|silence      = true
+|projectile   = true
+|callforhelp  = false
+|notes        =
+* ''Comeuppance'' refreshes the duration of ''{{ai|Dirty Fighting|Akshan}}'' stacks on the target every {{fd|0.25}} seconds.
+* A kill threshold will appear on the [[health bar]] of the target locked onto during the channel, which increases each time '''Akshan''' stores a bullet. If the target's {{as|'''current''' health}} falls below the threshold, their health bar will be framed in red.
+** The indicator factors the bonus damage applied by {{ai|Dirty Fighting|Akshan}} as well as [[damage modifier|damage modifiers]] and the target's resistances.
+** It also factors the projected increase in the target's {{as|'''missing''' health}}, from which each consecutive bullet scales more.
+** It updates dynamically over the channel's duration, reacting to fluctuations of the target's health and damage mitigations.
+* The {{tip|true sight|reveal}} will linger for 2 seconds after the channel has ended.
+* {{tip|Spell shield}} will not prevent the lock-on and will only block a single bullet.
+* ''Comeuppance'' will not go on a reduced cooldown if '''Akshan''' {{tip|death|dies}} during the channel.
+* ''Comeuppance'' will cancel if the target becomes {{tip|untargetable}} or {{tip|death|dies}} during the channel.
+* Damage to structures '''does''' scale with their {{as|'''missing''' health}}.
+* This ability's damage is calculated based on the caster's current stats and changes dynamically.
+* ''Comeuppance'' is special cased to put {{cai|Inherent Glamour|Neeko}} on cooldown when targeting '''Neeko''' and to break the disguise before damaging her.
+* The following table refers for interactions while '''Akshan''' is {{tip|channel|channeling}}:
+{{ct|move=true|cast={{ai|Q|Akshan}} and {{ai|W|Akshan}} are disabled. {{ai|E|Akshan}} is usable.|attack=false|items=false|consume=false|spells=true,true,false,false,interrupts|interrupts=death,silence}}
+|flavorsound  = {{sm2|Akshan Original R 1.ogg}} ''"Here comes the 'uppance!"''
+<!-- Blurb -->
+|blurbicon    = Comeuppance.png
+|blurb        = {{sbc|Active:}} {{ci|Akshan}} locks onto the target enemy champion and begins {{tip|channel|channeling}} power into his gun to store bullets, {{tip|true sight|revealing}} them as well as {{tip|sight|revealing}} himself. ''Comeuppance'' will recast after the channel, or can recast early.
+|blurb2       = {{sbc|Recast:}} Akshan fires the stored bullets at the target, each dealing {{as|physical damage}} to the first enemy hit, increased by {{as|their '''missing''' health}}.
+|blurb3       = '''Akshan''' can move normally and cast ''{{ai|Heroic Swing|Akshan}}'' while channeling and firing ''Comeuppance''.
+|blurb4       = ''Comeuppance'' applies {{sti|life steal}} and can hit {{tip|turrets}}.
+}}

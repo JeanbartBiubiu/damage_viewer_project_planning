@@ -1,0 +1,26 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Void Ooze|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kog'Maw
+|skill        = E
+|icon         = Void Ooze.png
+|blurb        = {{sbc|Active:}} {{ci|Kog'Maw}} spews a gob of ooze in the target direction that deals {{as|magic damage}} to enemies hit. It leaves a field of ooze in its wake for a few seconds that {{tip|slow|slows}} enemies.
+|description  = {{sbc|Active:}} '''Kog'Maw''' spews a gob of ooze in the target direction that deals {{as|magic damage}} to enemies hit.
+|leveling     = {{st|Magic Damage|{{ap|70 to 230}} {{as|(+ 65% AP)}}}}
+|description2 = A field of ooze is created in its wake for 3 seconds, {{tip|slow|slowing}} enemies within the area every {{fd|0.25}} seconds.
+|leveling2    = {{st|Slow|{{ap|40 to 60}}%}}
+|range        = {{tip|cr|icononly = true}} 1360
+|width        = {{tip|er|icononly = true}} 240<!-- / {{tip|cr|icononly = true}} {{tt|X|Ooze field Width}}-->
+|speed        = 1400
+|cooldown     = 12
+|cost         = {{ap|40 to 100}}
+|cast time    = {{fd|0.25}}
+|costtype     = Mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = Area of effect
+|projectile   = True
+|notes        =
+{{Effect at cast time start}}
+* {{pending for test}}: The missile leaves a blob of ooze on the ground every 125 units traveled.
+}}

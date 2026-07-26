@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "smolder-p",
+  "candidateKey": "hero_skill|hero_smolder|P|龙之研习",
+  "ownerId": "hero_smolder",
+  "wikiChampionTitle": "Smolder",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Smolder/I",
+  "zhDisplayName": "龙之研习",
+  "resolvedTitle": "Template:Data Smolder/Dragon Practice",
+  "wikiPageId": 1631182,
+  "revisionId": 4025344,
+  "revisionTimestamp": "2026-06-05T11:06:03Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Smolder/Dragon%20Practice",
+  "contentSha256": "0df04e3ea2e32d28ad401d5ac2014e4468150f57c9628d06cd2e22c3f7a948f8",
+  "rawByteSize": 2048,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Smolder''' generates a {{tip|stack}} of {{as|''Dragon Practice''|buzzword3}} each time he hits an enemy champion with an {{tip|ability}}, or whenever ''{{ai|Super Scorcher Breath|Smolder}}'' kills a {{tip|minion}} or {{tip|monster}}. His basic abilities deal {{as|'''bonus''' magic damage}} based on stacks.\n* ''{{ai|Q|Smolder}}'': Deals {{as|'''bonus''' magic damage}} equal to {{critical damage|25 to 55|0 to 30|critScaling=true}} {{as|of ''Dragon Practice'' stacks|buzzword3}}.\n* ''{{ai|W|Smolder}}'': Explosions deal {{as|'''bonus''' magic damage}} equal to {{as|55% of ''Dragon Practice'' stacks|buzzword3}}.\n* ''{{ai|E|Smolder}}'': Attacks each deal {{as|'''bonus''' magic damage}} equal to {{critical damage|8 to 12.8|0 to 4.8|critScaling=true}} {{as|of ''Dragon Practice'' stacks|buzzword3}}.\n",
+    "damagetype": "Magic\n",
+    "notes": "* {{ai|Super Scorcher Breath|Smolder}} grants a stack if the target dies while the initial missile is in flight.\n** This happens even if the target dies to {{ais|Super Scorcher Breath 3|Smolder|Super Scorcher Breath}} burn, giving him a total of 2 stacks.\n* {{ai|Achooo!|Smolder}} can only grant a stack of {{as|Dragon Practice|buzzword3}} with the first hit against each enemy champion.\n* {{ai|Flap, Flap, Flap|Smolder}} can only grant one stack of {{as|Dragon Practice|buzzword3}} per cast.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

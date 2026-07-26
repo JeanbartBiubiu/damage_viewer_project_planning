@@ -1,0 +1,33 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Ricochet|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Sivir
+|skill        = W
+|icon         = Ricochet.png
+|blurb        = {{sbc|Active:}} {{ci|Sivir}} gains {{sti|{{as|'''bonus''' attack speed}}}} for a few seconds. During this time, her basic attacks create projectiles that repeatedly bounce to nearby surrounding enemies, dealing {{as|physical damage}}.
+|description  = {{sbc|Active:}} '''Sivir''' empowers her crossblade for the next 4 seconds, gaining {{sti|{{as|'''bonus''' attack speed}}}} and causing her basic attacks to bounce to additional surrounding enemies, dealing {{as|physical damage}} to them. If the triggering attack {{tip|critical strike|critically strikes}}, the bounces will do so as well for {{as|{{critical damage|{{ccd|Sivir|crit_base}}|100}}|critical damage}} damage. ''Ricochet'' deals 65% damage against {{tip|minions}} and executes them if they would be left below {{sti|{{as|15 health}}}}.
+|leveling     = {{st|Bonus Attack Speed|{{ap|20 to 40}}%}}
+{{st|Bounce Damage|{{as|{{ap|40 to 50}}% AD}}|Bounce Critical Damage|{{as|{{ap|40*{{ccd|Sivir|crit_base}}/100 to 50*{{ccd|Sivir|crit_base}}/100}}% AD}}}}
+{{st|Minion Bounce Damage|{{as|{{ap|40*0.65 to 50*0.65}}% AD}}|Minion Bounce Critical Damage|{{as|{{ap|(40*0.65)*{{ccd|Sivir|crit_base}}/100 to (50*0.65)*{{ccd|Sivir|crit_base}}/100}}% AD}}}}
+|description2 = Bounces occur only up to 8 times and can target each enemy up to one additional time per empowered attack. They prioritize the nearest new target, then the nearest target if no new targets are available.
+|description3 = ''Ricochet {{tip|basic attack reset|resets}} '''Sivir's''' basic attack timer if it was {{tt|not already active|See notes}}. The target does not have to be {{tip|sight|visible}} to be bounced to.''
+|cooldown     = 12
+|cdstart      = on-cast
+|cost         = 60
+|costtype     = Mana
+|effect radius= {{tt|500|Bounce range}}
+|speed        = {{dv|{{tt|{{ccd|Sivir|missile_speed}}|Attack missile speed, same as basic attack}}| {{tt|1000|Bounced missile speed}}}}
+|cast time    = none
+|queue time   = {{fd|0.5}}
+|targeting    = Auto
+|affects      = Self
+|damagetype   = Physical
+|spelleffects = proc
+|onhiteffects = Special
+|spellshield  = False
+|parry        = unknown
+|projectile   = True
+|notes        =
+* ''Ricochet''-enhanced basic attacks can bounce from structures onto secondary targets but not from nearby units onto structures.
+* {{Pending for test}}: ''Ricochet's '' interactions with {{tip|dodge|dodging}}, {{tip|block|blocking}}, and {{tip|blind|blinding}} effects.
+* ''Ricochet'' do not apply to additional targets with {{ii|Runaan's Hurricane}}.
+* '''Sivir's''' attack timer will only reset from casting ''Ricochet'' if the ability's buff was not already active on her. Refreshing the buff will not grant an attack reset.{{bug}}
+}}

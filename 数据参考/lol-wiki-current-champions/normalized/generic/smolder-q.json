@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "smolder-q",
+  "candidateKey": "hero_skill|hero_smolder|Q|超级灼热龙息",
+  "ownerId": "hero_smolder",
+  "wikiChampionTitle": "Smolder",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Smolder/Q",
+  "zhDisplayName": "超级灼热龙息",
+  "resolvedTitle": "Template:Data Smolder/Super Scorcher Breath",
+  "wikiPageId": 1631183,
+  "revisionId": 4030432,
+  "revisionTimestamp": "2026-06-16T02:43:29Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Smolder/Super%20Scorcher%20Breath",
+  "contentSha256": "fa22270e67b597e72bd1eaccf4be98f23be1d5687165e6ef3184ca928199b877",
+  "rawByteSize": 6804,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Smolder''' spits a fireball at the target enemy that deals {{as|physical damage}}, increased by {{critical damage|0 to 75|critScaling=true}}; applies {{tip|on-hit}} effects; applies {{as|{{sti|life steal}}}} at 50% effectiveness; and triggers {{tip|on-attack}} effects. If ''Super Scorcher Breath'' kills at least one target, '''Smolder''' restores {{sti|{{as|15 mana}}}}.\n",
+    "leveling": "{{st|Physical Damage|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{#var:ad}}% '''bonus''' AD)}}}}\n",
+    "description2": "''Super Scorcher Breath'' becomes empowered with new effects based on the number of ''{{as|{{ai|Dragon Practice|Smolder}} stacks|buzzword3}}'':\n",
+    "description3": "{{sbc|Tier 1 - 25 stacks:}} The fireball explodes upon collision to deal the same {{as|physical damage}} to nearby enemies. The explosion benefits from {{as|{{sti|life steal}}}} at 50% effectiveness and applies {{tip|on-hit}} effects.\n",
+    "description4": "{{sbc|Tier 2 - 125 stacks:}} The fireball sends forth 2 {{as|(+ {{fd|0.8}} per 100 ''{{ai|Dragon Practice|Smolder}}'' stacks)|buzzword3}} bolts of fire in an arc upon collision that explode at maximum range, dealing {{ap|{{#var:t2_mod}}*100}}% of the same damage to enemies hit. The bolts benefit from {{as|{{sti|life steal}}}} at 50% effectiveness and apply {{tip|on-hit}} effects.\n",
+    "leveling4": "{{st|Physical Damage|{{ap|{{#var:b1}}*{{#var:t2_mod}} to {{#var:b5}}*{{#var:t2_mod}}}} {{as|(+ {{ap|{{#var:ad}}*{{#var:t2_mod}}}}% '''bonus''' AD)}}}}\n",
+    "description5": "{{sbc|Tier 3 - 225 stacks:}} Enemies hit are set on fire for 3 seconds, causing them to take {{as|'''bonus''' true damage}} equal to{{ft|{{as|{{fd|{{#var:t3_ad}}}}% per 100 '''bonus''' AD}} {{as|(+ {{fd|{{#var:t3_i}}}}% per 100 ''{{ai|Dragon Practice|Smolder}}'' stacks)|buzzword3}} {{as|of their '''maximum''' health}} over the duration, capped at 300 against monsters.|{{as|{{ap|{{#var:t3_ad}}/3|round=2}}% per 100 '''bonus''' AD}} {{as|(+ {{ap|{{#var:t3_i}}/3|round=2}}% per 100 ''{{ai|Dragon Practice|Smolder}}'' stacks)|buzzword3}} {{as| of their '''maximum''' health}} each second, capped at {{ap|300/3}} per tick against monsters.}}Subsequent applications of the burn stack, though not refreshing the duration of the previous burn. Enemy {{tip|champions}} afflicted with the burn are also {{tip|execute|executed}} once '''Smolder''' deals damage to them that would leave them below {{as|{{fd|6.5}}% of their '''maximum''' health}}.\n",
+    "cooldown": "{{ap|5.5 to 3.5}}\n",
+    "cost": "25\n",
+    "costtype": "mana\n",
+    "damagetype": "Physical True\n",
+    "notes": "* Any applied ''{{ai|Dragon Practice|Smolder}}'' damage is affected by the same damage modifiers as ''Super Scorcher Breath'' and does not benefit from the ability's {{sti|life steal}}.\n* ''Super Scorcher Breath's'' damage tags:\n** The fireball deals {{tip|spell damage}} and procs {{tip|basic damage}} required effects.\n** The explosion deals {{tip|area damage}}.\n** The burn deals {{tip|proc damage}}.\n* Only '''Smolder's''' damage counts for triggering the execute.\n** If the target is below the threshold while afflicted with the burn, they will be executed on the next instance of damage dealt by '''Smolder''', which includes the burn tick.\n* If ''Super Scorcher Breath'' would damage the target to below the execution threshold, they are executed on the same damage instance.\n* The number of additional bolts launched based on {{ai|Dragon Practice|Smolder}} stacks is rounded up.{{bug|2}}\n** At 125 {{ai|Dragon Practice|Smolder}} stacks, the fireball will launch 3 bolts.\n* At 225 {{ai|Dragon Practice|Smolder}} stacks, the burn's damage based on the target's health ratio will increase by at least {{fd|{{#expr:{{#var:t3_i}}*2.25}}}}%.\n* ''Super Scorcher Breath'' can only hit enemies once per cast.\n* The minion and monster damage modifier applies only to the physical damage.\n* ''Super Scorcher Breath's'' initial fireball, explosion and extra bolts can all be {{tip|block|blocked}} and {{tip|dodge|dodged}}.\n** The application of the burn is negated in all cases.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "leveling4": true,
+    "description5": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

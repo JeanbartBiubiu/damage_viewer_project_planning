@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Bullet Time|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Miss Fortune
+|skill        = R
+|icon         = Bullet Time.png
+|blurb        = {{sbc|Active:}} {{ci|Miss Fortune}} {{tip|channel|channels}} for a short time, firing several waves of bullets in the target direction that deal {{as|physical damage}} to enemies hit. Each wave can {{tip|critically strike}}.
+|description  = {{sbc|Active:}} '''Miss Fortune''' {{tip|channel|channels}} for up to 3 seconds, firing a number of waves of bullets in the target direction. Each wave is in a spread of 6 projectiles that deals {{as|physical damage}} to enemies hit.
+|leveling     = {{st|Physical Damage per Wave|{{ap|20 to 40}} {{as|(+ 60% AD)}} {{as|(+ 25% AP)}}}}
+{{st|Total Waves|{{ap|14 to 18}}|Maximum Total Physical Damage|{{ap|20*14 to 40*18}} {{as|(+ {{ap|60*14 to 60*18}}% AD)}} {{as|(+ {{ap|25*14 to 25*18}}% AP)}}}} {{st|Wave Interval Time|{{ap|2.85/(14 to 18)|round=4}} seconds}}
+|description2 = Each of the waves can {{tip|critical strike|critically strike}} for {{as|{{critical damage|130|30}}|critical damage}} damage.
+|cooldown     = {{ap|120 to 100}}
+|cdstart      = on-cast
+|cast time = none
+|cost         = 100
+|costtype     = Mana
+|effect radius= {{tt|1450|Range of each bullet stream}}
+|width        = {{tip|er|icononly=true}} {{tt|40|Width of each bullet stream}}
+|speed        = 2000
+|angle        = {{tt|30{{degree}}|The effective angle is wider based the width of the missile streams + enemy size}}
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = False
+|spelleffects = aoedot
+|projectile   = True
+|silence      = true
+|notes        =
+* The damage dealt by each wave of ''Bullet Time'' is calculated when the wave reaches the target.
+* '''Miss Fortune''' {{tip|sight|reveals}} herself for {{fd|4.5}} seconds if there is an enemy champion within the area.
+* Targets cannot be damaged by more than one projectile per wave.
+* The bullet streams that each fire 1 projectile per wave are spead by 6{{degree}} between one another, aiming towards the angles +-3/9/15{{degree}} from '''Miss Fortune's''' facing direction.
+* ''Bullet Time'' picks 6 locations on the ground 500 units from '''Miss Fortune''' (with the aforementioned angles) and fires a bullet stream towards each.
+** If '''Miss Fortune''' is moved to a new location, these locations '''will''' update (since patch [[V13.3]]); the cone will fire towards her new facing direction.
+* ''Bullet Time'' fires the first wave at {{rutngt|0.05}}, and the last at {{rutngt|2.9}}. Times between waves are equally spread between these values.
+** '''Miss Fortune''' may cancel the last ~{{fd|0.1}} seconds of channel time at no loss of effect.
+* The following table refers for interactions while '''Miss Fortune''' is {{tip|channel|channeling}}:
+{{ct|channel|attack=interrupts|cast=interrupts|move=interrupts|items=interrupts,true,,false|consume=true|spells=true,interrupts,interrupts,interrupts,interrupts}}
+}}

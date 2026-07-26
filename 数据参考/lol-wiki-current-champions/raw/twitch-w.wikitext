@@ -1,0 +1,26 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Venom Cask|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twitch
+|skill        = W
+|icon         = Venom Cask.png
+|blurb        = {{sbc|Active:}} {{ci|Twitch}} hurls a cask of corrosive mixture that explodes at the target location, inflicting ''{{ai|Deadly Venom|Twitch}}'' to enemies hit.
+|blurb2       = The area then becomes contaminated for a short time, continually {{tip|slow|slowing}} enemies and inflicting ''{{ai|Deadly Venom|Twitch}}''.
+|description  = {{sbc|Active:}} '''Twitch''' hurls a cask of corrosive mixture at the target location that breaks upon landing, applying ''{{ai|Deadly Venom|Twitch}}'' to enemies in the area and granting {{tip|sight}} of it.
+|description2 = The area then becomes contaminated for 3 seconds, applying a ''{{ai|Deadly Venom|Twitch}}'' stack each second to enemies within and {{tip|slow|slowing}} them.
+|leveling2    = {{st|Slow|{{ap|30 to 50}}% {{as|(+ 6% per 100 AP)}}}}
+|cooldown     = {{ap|13 to 9}}
+|cast time    = {{fd|0.25}}
+|cost         = 70
+|costtype     = Mana
+|target range = 950
+|speed        = 1400
+|effect radius= {{tip|er|icononly = true}} 300
+|targeting    = Location
+|affects      = Enemies
+|projectile   = True
+|spelleffects =
+|spellshield  = True
+|outofrange   = walk to location
+|notes   =
+* ''Venom Cask'' can apply a maximum of 4 {{ai|Deadly Venom|Twitch}} stacks per enemy per cast.
+* ''Venom Cask's'' missile will fail to fire if '''Twitch''' is {{tip|suppression|suppressed}} during the cast time.{{bug|2}}
+}}

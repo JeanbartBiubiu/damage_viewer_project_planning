@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kogmaw-r",
+  "candidateKey": "hero_skill|hero_kogmaw|R|活体大炮",
+  "ownerId": "hero_kogmaw",
+  "wikiChampionTitle": "Kog'Maw",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Kog'Maw/R",
+  "zhDisplayName": "活体大炮",
+  "resolvedTitle": "Template:Data Kog'Maw/Living Artillery",
+  "wikiPageId": 1307963,
+  "revisionId": 4007636,
+  "revisionTimestamp": "2026-04-12T08:34:32Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kog'Maw/Living%20Artillery",
+  "contentSha256": "32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641",
+  "rawByteSize": 2453,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kog'Maw''' spits a globule of acid into the air that drops to the target location after {{fd|0.6}} seconds, granting {{tip|sight}} of the area before dealing {{as|magic damage}} to enemies hit and {{tip|standard sight|revealing}} them for 2 seconds. ''Living Artillery's'' damage is increased by {{as|{{pp|type=target's '''missing''' health|key=%|0 to 50 for 11|key1=%|0 to 60|formula=0.833% per 1% of target's '''missing''' health. ''This is capped at 50% increase at 60% '''missing''' health.''}}|health}}, or instead by {{ccs|100%|magic}} if the target is below {{as|40% '''maximum''' health}}.\n",
+    "leveling": "{{st|Minimum Magic Damage|{{ap|100 to 180}} {{as|(+ 75% '''bonus''' AD)}} {{as|(+ {{ap|35 to 45}}% AP)}}|Maximum Magic Damage|{{ap|100*2 to 180*2}} {{as|(+ {{ap|75*2}}% '''bonus''' AD)}} {{as|(+ {{ap|35*2 to 45*2}}% AP)}}}}\n",
+    "description2": "'''Kog'Maw''' then generates a {{tip|stack}} of ''Living Artillery'' for 8 seconds, refreshing on subsequent casts and stacking up to 9 times.\n",
+    "description3": "{{sbc|Living Artillery:}} For each stack, ''Living Artillery's'' {{sti|{{as|mana cost}}}} is increased by {{as|40|mana}}.\n",
+    "cooldown": "{{ap|2 to 1}}\n",
+    "cost": "{{pp|type=stacks|40 to 400 for 10|0 to 9}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Living Artillery'' will not reveal {{tip|stealth|stealthed}} champions.\n* [[Ping]]ing ''Living Artillery'' will additionally display the remaining time duration of its stacks.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -11,10 +11,18 @@ import (
 // Wiki-data-ready generic ABI proofs for items 2501 / 3097 / 3075.
 // Path: CompileGeneric → RunGeneric only (no single_attacker_dps / legacy DPS).
 //
+// Numeric authority (2501): 数据参考/lol-wiki-current-items/manifest.json
+//   revid 4030984, contentSha256 e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
+//   (Overlord's Bloodmail pass=Tyranny, pass2=Retribution). Not DDragon / 数据参考/item.json.
+//
 // 2501 Tyranny: source-only provider modifier bonus AD = 0.025 * max(0, hp.max-hp.base).
 //   Note: ResolveAttributes rewrites unmodified attr.resolved → base, so the Wiki-shaped
 //   hp.resolved-hp.base is not observable inside modifier formulas; hp.max carries bonus HP
 //   (same field family as Manamune mana.max).
+// 2501 Retribution: second source AD attribute modifier on the same item_2501 provider;
+//   ValuePolicy=multiply Priority=100 (Tyranny remains add Priority=0). Factor =
+//   1 + clamp((max(0, hp.max-hp.current)/max(1, hp.max)), 0, 0.70) * (0.12/0.70).
+//   Multiplies already-resolved AD (incl. Tyranny); formula does not read ad.resolved.
 // 3097 Bolt: precharged energized window only (seed charge=100 → next real basic_attack_hit
 //            deals 100 bonus magic then consume). No energize-rate claims.
 // 3075 Thorns: target-owned basic_attack_hit + source_opponent retaliation
@@ -25,14 +33,20 @@ const (
 	wikiReadyHitAbility  = spellbladeHitAbilityKey
 	wikiReadyHitEvent    = spellbladeHitEvent
 
-	// --- 2501 Tyranny / 专横 ---
-	tyrannyProviderRef = "item:overlord_tyranny"
-	tyrannyStableID    = "item_2501"
-	tyrannyModifierKey = "item_2501_tyranny_bonus_ad"
-	tyrannyRatio       = 0.025
-	tyrannyBaseAD      = 100.0
-	tyrannyHPBase      = 1000.0
-	tyrannyAAOpRef     = "op:tyranny_aa"
+	// --- 2501 Tyranny / 专横 + Retribution / 报复 (same item_2501 provider) ---
+	tyrannyProviderRef      = "item:overlord_tyranny"
+	tyrannyStableID         = "item_2501"
+	tyrannyModifierKey      = "item_2501_tyranny_bonus_ad"
+	retributionModifierKey  = "item_2501_retribution_ad_factor"
+	tyrannyRatio            = 0.025
+	retributionMissingCap   = 0.70
+	retributionMaxBonus     = 0.12
+	tyrannyBaseAD           = 100.0
+	tyrannyHPBase           = 1000.0
+	tyrannyBonusHealthFixed = 400.0 // Tyranny +10 AD before Retribution multiply
+	tyrannyAAOpRef          = "op:tyranny_aa"
+	retributionAAOpRef      = "op:retribution_aa"
+	retributionAAAfterHPOp  = "op:retribution_aa_after_hp"
 
 	// --- 3097 Bolt / 弩箭 ---
 	boltChargeKey   = "energized_charge"
@@ -182,18 +196,102 @@ func tyrannyBonusADExpr() model.GenericFormulaExpr {
 	}
 }
 
+// retributionADFactorExpr is the multiply-policy value (not bonus AD itself):
+// 1 + clamp((max(0, hp.max-hp.current)/max(1, hp.max)), 0, 0.70) * (0.12/0.70).
+// Does not read ad.resolved — multiplies already-resolved AD from prior modifiers.
+func retributionADFactorExpr() model.GenericFormulaExpr {
+	zero := 0.0
+	one := 1.0
+	cap := retributionMissingCap
+	scale := retributionMaxBonus / retributionMissingCap
+	missingRatio := model.GenericFormulaExpr{
+		Op: "div",
+		Args: []model.GenericFormulaExpr{
+			{
+				Op: "max",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &zero},
+					{
+						Op: "sub",
+						Args: []model.GenericFormulaExpr{
+							{Op: "read", Path: "source.attr.hp.max"},
+							{Op: "read", Path: "source.attr.hp.current"},
+						},
+					},
+				},
+			},
+			{
+				Op: "max",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &one},
+					{Op: "read", Path: "source.attr.hp.max"},
+				},
+			},
+		},
+	}
+	clamped := model.GenericFormulaExpr{
+		Op:   "clamp",
+		Expr: &missingRatio,
+		Min:  &model.GenericFormulaExpr{Op: "const", Value: &zero},
+		Max:  &model.GenericFormulaExpr{Op: "const", Value: &cap},
+	}
+	return model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{Op: "const", Value: &one},
+			{
+				Op: "mul",
+				Args: []model.GenericFormulaExpr{
+					clamped,
+					{Op: "const", Value: &scale},
+				},
+			},
+		},
+	}
+}
+
+func retributionFactor(missingRatio float64) float64 {
+	clamped := missingRatio
+	if clamped < 0 {
+		clamped = 0
+	}
+	if clamped > retributionMissingCap {
+		clamped = retributionMissingCap
+	}
+	return 1 + clamped*(retributionMaxBonus/retributionMissingCap)
+}
+
+func tyrannyContributionAD(bonusHealth float64) float64 {
+	if bonusHealth < 0 {
+		bonusHealth = 0
+	}
+	return tyrannyRatio * bonusHealth
+}
+
 func mountTyrannyProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
 	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
 		ProviderKey: tyrannyProviderRef,
 		Kind:        "item",
 		StableID:    tyrannyStableID,
-		Modifiers: []model.ModifierDefinition{{
-			ModifierKey: tyrannyModifierKey,
-			Kind:        "attribute",
-			Target:      "ad",
-			ValuePolicy: "add",
-			Value:       tyrannyBonusADExpr(),
-		}},
+		Modifiers: []model.ModifierDefinition{
+			{
+				ModifierKey: tyrannyModifierKey,
+				Kind:        "attribute",
+				Target:      "ad",
+				ValuePolicy: "add",
+				Priority:    0,
+				Value:       tyrannyBonusADExpr(),
+			},
+			{
+				// Retribution: multiply after Tyranny add; stages empty/NULL.
+				ModifierKey: retributionModifierKey,
+				Kind:        "attribute",
+				Target:      "ad",
+				ValuePolicy: "multiply",
+				Priority:    100,
+				Value:       retributionADFactorExpr(),
+			},
+		},
 	})
 	compileReq.Combatants[0].Providers = append(compileReq.Combatants[0].Providers, model.CombatantProviderMount{
 		ProviderRef: tyrannyProviderRef, DefinitionRef: tyrannyProviderRef,
@@ -277,6 +375,159 @@ func TestGenericWikiReadyItemsTyrannyBonusADFromBonusHealth(t *testing.T) {
 			t.Fatalf("bonusHP=%v: sourceDamageDealt=%v want %v",
 				tc.bonusHealth, done.Summary.SourceDamageDealt, wantAD)
 		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// 2501 Retribution (same item_2501 provider; multiply after Tyranny)
+// ---------------------------------------------------------------------------
+
+func loadRetributionFixture(t *testing.T, missingRatio float64) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	compileReq, runReq := loadBasicFixture(t)
+	mountTyrannyProvider(&compileReq, &runReq)
+
+	hpMax := tyrannyHPBase + tyrannyBonusHealthFixed
+	if missingRatio < 0 {
+		missingRatio = 0
+	}
+	currentHP := hpMax * (1 - missingRatio)
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ad", model.AttributeSlotDef{
+		Base: tyrannyBaseAD, Current: tyrannyBaseAD, Max: tyrannyBaseAD, Resolved: tyrannyBaseAD,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "hp", model.AttributeSlotDef{
+		Base: tyrannyHPBase, Current: currentHP, Max: hpMax, Resolved: currentHP,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
+		Base: 0, Current: 0, Max: 0, Resolved: 0,
+	})
+
+	compileReq.SharedProviders[0].Abilities = []model.AbilityDefinition{{
+		AbilityKey: wikiReadyHitAbility,
+		Kind:       "active",
+		Types:      []string{"ability/basic_attack"},
+		Operations: []model.OperationDefinition{{
+			Operation:  "damage",
+			Target:     "target",
+			DamageType: "damage/physical",
+			Ref:        retributionAAOpRef,
+			Amount: &model.GenericFormulaExpr{
+				Op: "read", Path: "source.attr.ad.resolved",
+			},
+		}},
+	}}
+	setWikiReadyDriverHits(&runReq, 1, "retribution")
+	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
+	runReq.Sampling.SampleEveryMs = 100000
+	return compileReq, runReq
+}
+
+// TestGenericWikiReadyItemsRetributionMissingHealthADMultiply proves Wiki Retribution:
+// missing HP 0 / 50% / 70% / 90%(capped) → factor 1 / ~1.0857 / 1.12 / 1.12 on
+// (base AD + Tyranny), without reading ad.resolved inside the modifier formula.
+func TestGenericWikiReadyItemsRetributionMissingHealthADMultiply(t *testing.T) {
+	tyrannyBonus := tyrannyContributionAD(tyrannyBonusHealthFixed) // 10
+	preMulAD := tyrannyBaseAD + tyrannyBonus                        // 110
+	cases := []struct {
+		missingRatio float64
+		wantFactor   float64
+	}{
+		{0, retributionFactor(0)},
+		{0.50, retributionFactor(0.50)},
+		{0.70, retributionFactor(0.70)},
+		{0.90, retributionFactor(0.90)}, // above cap → same as 0.70
+	}
+	for _, tc := range cases {
+		wantAD := preMulAD * tc.wantFactor
+		compileReq, runReq := loadRetributionFixture(t, tc.missingRatio)
+		done := runWikiReadyGeneric(t, compileReq, runReq)
+
+		gotAD := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorSource, "ad")
+		gotBase := combatantAttrBase(t, done.FinalSnapshot, model.SelectorSource, "ad")
+		if math.Abs(gotBase-tyrannyBaseAD) > 1e-12 {
+			t.Fatalf("missing=%v: ad.base=%v want %v", tc.missingRatio, gotBase, tyrannyBaseAD)
+		}
+		if math.Abs(gotAD-wantAD) > 1e-9 {
+			t.Fatalf("missing=%v: ad.resolved=%v want %v (preMul %v * factor %v; Tyranny +%v)",
+				tc.missingRatio, gotAD, wantAD, preMulAD, tc.wantFactor, tyrannyBonus)
+		}
+		if math.Abs(sumDamageRawByOpRef(done, retributionAAOpRef)-wantAD) > 1e-6 {
+			t.Fatalf("missing=%v: AA raw=%v want %v",
+				tc.missingRatio, sumDamageRawByOpRef(done, retributionAAOpRef), wantAD)
+		}
+		if math.Abs(done.Summary.SourceDamageDealt-wantAD) > 1e-6 {
+			t.Fatalf("missing=%v: sourceDamageDealt=%v want %v",
+				tc.missingRatio, done.Summary.SourceDamageDealt, wantAD)
+		}
+	}
+}
+
+// TestGenericWikiReadyItemsRetributionReResolvesAfterSourceHPMutation proves the
+// existing HP/attribute re-resolve path updates Retribution mid-run without reading
+// ad.resolved inside the modifier formula.
+func TestGenericWikiReadyItemsRetributionReResolvesAfterSourceHPMutation(t *testing.T) {
+	compileReq, runReq := loadRetributionFixture(t, 0) // start full HP
+	ensureDamageTrueType(&compileReq)
+	hpMax := tyrannyHPBase + tyrannyBonusHealthFixed
+	// Drop to 30% current (= 70% missing) via true self-damage, then AA again.
+	selfDamage := hpMax * 0.70
+	compileReq.SharedProviders[0].Abilities = []model.AbilityDefinition{{
+		AbilityKey: wikiReadyHitAbility,
+		Kind:       "active",
+		Types:      []string{"ability/basic_attack"},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:  "damage",
+				Target:     "target",
+				DamageType: "damage/physical",
+				Ref:        retributionAAOpRef,
+				Amount: &model.GenericFormulaExpr{
+					Op: "read", Path: "source.attr.ad.resolved",
+				},
+			},
+			{
+				Operation:  "damage",
+				Target:     "source",
+				DamageType: "damage/true",
+				Ref:        "op:retribution_self_hp_drop",
+				Amount:     &model.GenericFormulaExpr{Op: "const", Value: &selfDamage},
+			},
+			{
+				Operation:  "damage",
+				Target:     "target",
+				DamageType: "damage/physical",
+				Ref:        retributionAAAfterHPOp,
+				Amount: &model.GenericFormulaExpr{
+					Op: "read", Path: "source.attr.ad.resolved",
+				},
+			},
+		},
+	}}
+	setWikiReadyDriverHits(&runReq, 1, "retribution_reresolve")
+	done := runWikiReadyGeneric(t, compileReq, runReq)
+
+	tyrannyBonus := tyrannyContributionAD(tyrannyBonusHealthFixed)
+	preMulAD := tyrannyBaseAD + tyrannyBonus
+	wantFull := preMulAD * retributionFactor(0)
+	wantMissing := preMulAD * retributionFactor(0.70)
+
+	if got := sumDamageRawByOpRef(done, retributionAAOpRef); math.Abs(got-wantFull) > 1e-6 {
+		t.Fatalf("pre-HP-drop AA raw=%v want %v (full HP factor)", got, wantFull)
+	}
+	if got := sumDamageRawByOpRef(done, retributionAAAfterHPOp); math.Abs(got-wantMissing) > 1e-6 {
+		t.Fatalf("post-HP-drop AA raw=%v want %v (70%% missing after re-resolve)", got, wantMissing)
+	}
+	gotAD := combatantAttrResolved(t, done.FinalSnapshot, model.SelectorSource, "ad")
+	if math.Abs(gotAD-wantMissing) > 1e-9 {
+		t.Fatalf("final ad.resolved=%v want %v after source HP mutation", gotAD, wantMissing)
+	}
+	gotHP := combatantFinalHP(t, done.FinalSnapshot, model.SelectorSource)
+	wantHP := hpMax - selfDamage
+	if math.Abs(gotHP-wantHP) > 1e-6 {
+		t.Fatalf("source hp.current=%v want %v", gotHP, wantHP)
 	}
 }
 

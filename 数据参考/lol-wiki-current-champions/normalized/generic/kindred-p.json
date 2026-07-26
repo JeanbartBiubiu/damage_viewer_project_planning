@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kindred-p",
+  "candidateKey": "hero_skill|hero_kindred|P|千珏之印",
+  "ownerId": "hero_kindred",
+  "wikiChampionTitle": "Kindred",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Kindred/I",
+  "zhDisplayName": "千珏之印",
+  "resolvedTitle": "Template:Data Kindred/Mark of the Kindred",
+  "wikiPageId": 1307936,
+  "revisionId": 3994253,
+  "revisionTimestamp": "2026-02-27T11:10:12Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kindred/Mark%20of%20the%20Kindred",
+  "contentSha256": "9ac60eae427fac9ba279734dba2c01b34852eb0be84a01d95296328794afc14a",
+  "rawByteSize": 4291,
+  "fields": {
+    "description": "{{sbc|Innate:}} Both '''Lamb''' and '''Wolf''' mark targets to ''hunt''. Scoring a {{tip|takedown}} against a ''hunted'' target collects a stack of ''Mark of the Kindred''. <br/><br/>{{sbc|Mark of the Kindred:}} '''Lamb''' gains {{pp|type=marks|75;100;125;150;175;200;225;250|4;7;10;13;16;19;22;25|formula=+75 at 4 stacks, and +25 every 3 stacks thereafter, up to 250 bonus range at 25 stacks.}} {{sti|range|'''bonus''' range}} on her basic attacks and ''{{ai|Mounting Dread|Kindred}}''.\n",
+    "description2": "{{sbc|Innate - Lamb:}} '''Lamb''' is offered a selection of enemy {{tip|champions}} to ''hunt'' if she has not been [[combat status|in combat]] with them in the last 6 seconds. Once selected, the mark is applied after an 8-second delay and thereafter it can be collected by '''Kindred'''. '''Lamb''' gains the ability to select a new target every 75 seconds. ''Targets successfully hunted cannot be marked again for 4 minutes.''\n",
+    "description3": "{{sbc|Innate - Wolf:}} Starting at {{sbc|2:53}}, '''Wolf''' periodically marks a random large {{tip|monster}} within the enemy team's jungle for 180 seconds. The ''hunted'' camp is highlighted on the [[Map (League of Legends)|mini map]] to both teams. Once the ''hunted'' target is slain or the mark expires, '''Wolf''' will wait 45 seconds before selecting a new target. <br/>The type of monster that '''Wolf''' can mark changes based on '''Kindred's''' current ''Mark of the Kindred'' stacks:\n* {{sbc|0 :}} {{ui|Rift Scuttler}}\n* {{sbc|1 – 3:}} {{ui|Rift Scuttler}}, {{ui|Crimson Raptor}}, {{ui|Gromp}}\n* {{sbc|4 – 7:}} {{ui|Ancient Krug}}, {{ui|Blue Sentinel}}, {{ui|Greater Murk Wolf}}, or {{ui|Red Brambleback}}\n* {{sbc|8 + :}} {{ui|Rift Herald}} or {{ui|Baron Nashor}}, {{ui|Dragon}} or {{ui|Elder Dragon}}\n",
+    "damagetype": "",
+    "notes": "* The selection of enemy champions to mark is offered through a special menu in the HUD that displays the portraits of up to 5 enemy champions. The player can mark an enemy by {{LMB}} clicking on their portrait or via the Champion Specific Interaction [[hotkey]]s (default: {{sbc|Shift}}+{{sbc|F1–F5}}).\n** Marked enemies have a trim around their portrait. Unavailable selections are greyed out.\n** The portraits are ordered based on their spawn ID.\n* {{tip|Takedown|Takedowns}} on {{tip|monsters}} occur if '''Kindred''' had damaged them within the last 6 seconds.\n** This only includes if the monster was slain by '''Kindred''' or an ally.\n* Only killing the large monster is required to claim '''Wolf's''' mark.\n* Gaining stacks from champions that would change what constitutes a valid target for '''Wolf''' will not affect '''Kindred's''' ability to claim '''Wolf's''' current target.\n* '''Wolf''' cannot mark monsters that have been slain, even if '''Kindred's''' team doesn't know that the camp has been slain.\n* '''Wolf's''' cooldown is not displayed in-game. Combined with the above point and the target restrictions, '''Wolf''' may go extended periods of time without seeming to do anything.\n* '''Wolf's''' marked target will always have its mark removed from the map 15 seconds after dying for both teams, regardless of whether they have vision of it or not.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

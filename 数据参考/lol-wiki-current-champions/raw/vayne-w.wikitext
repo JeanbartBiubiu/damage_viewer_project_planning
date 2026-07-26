@@ -1,0 +1,24 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Silver Bolts|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Vayne
+|skill        = W
+|icon         = Silver Bolts.png
+|blurb        = {{sbc|Passive:}} {{cis|Vayne}} {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Condemn|Vayne}}'' will apply a {{tip|stack}} of ''Silver Bolts'', which expires upon attacking a new enemy.
+|blurb2      = The third stack will consume them all to deal {{as|'''bonus''' true damage}} based on the {{as|target's '''maximum''' health}}.
+|description  = {{sbc|Passive:}} '''Vayne's''' {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Condemn|Vayne}}'' apply a {{tip|stack}} of ''Silver Bolts'' for {{fd|3.5}} seconds, refreshing on subsequent applications, expiring upon attacking a new enemy, and stacking up to 3 times.
+|description2 = The third stack consumes them all to deal {{sti|{{as|'''bonus''' true damage}}}}, with a minimum threshold.
+|leveling2    = {{st|Bonus True Damage|{{as|{{ap|6 to 10}}% of target's '''maximum''' health}}}}
+{{st|Minimum Bonus Damage|{{ap|50 to 110}}}}
+|description3 = ''Silver Bolts'' deals modified damage against {{tip|monsters}}.
+|leveling3    = {{st|Monster Damage|{{ap|140 to 200}}}}
+|targeting    = Passive
+|affects      = Enemies
+|damagetype   = true
+|spelleffects = Proc
+|parry = true
+|spellshield  = False
+|notes        =
+* {{tip|Stacks}} are not removed if '''Vayne''' switches to attacking a target immune to ''Silver Bolts'' ({{tip|structures}}, {{tip|wards}}).
+* ''Silver Bolts'' do not apply to additional targets with {{ii|Runaan's Hurricane}}.
+* The stacks can be consumed even if the target is in {{tip|stasis}}.
+|flavorsound  = {{sm2|Vayne_Original_LevelUpW_0.ogg}} ''"Purge with silver."''
+}}

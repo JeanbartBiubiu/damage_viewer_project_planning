@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "lucian-q",
+  "candidateKey": "hero_skill|hero_lucian|Q|透体圣光",
+  "ownerId": "hero_lucian",
+  "wikiChampionTitle": "Lucian",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Lucian/Q",
+  "zhDisplayName": "透体圣光",
+  "resolvedTitle": "Template:Data Lucian/Piercing Light",
+  "wikiPageId": 1308176,
+  "revisionId": 3982579,
+  "revisionTimestamp": "2026-01-09T09:22:29Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Lucian/Piercing%20Light",
+  "contentSha256": "d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981",
+  "rawByteSize": 1608,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lucian''' fires a laser in a line in the direction of the target enemy that deals {{as|physical damage}} to enemies hit.\n",
+    "leveling": "{{st|Physical Damage|{{ap|80 to 220}} {{as|(+ 100% '''bonus''' AD)}}}}\n",
+    "cost": "{{ap|48 to 80}}\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|9 to 5}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Piercing Light'' will attempt to lead the target if it is moving but does not adjust further during the cast time (enemies can dodge the laser if they change their position by a sufficient amount during the cast time).\n* '''Lucian''' can buffer {{ai|W|Lucian}} or {{ai|R|Lucian}} during the cast time. {{ai|E|Lucian}} is locked out.\n** This is why '''Lucian''' can use them early if the cast time prematurely ends.\n* ''Piercing Light's cast time ends prematurely if the initial target dies, allowing '''Lucian''' to attack and move freely, or to immediately begin casting either {{ai|W|Lucian}} or {{ai|R|Lucian}}.{{bug|2}}''\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

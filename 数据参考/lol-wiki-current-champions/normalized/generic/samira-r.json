@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "samira-r",
+  "candidateKey": "hero_skill|hero_samira|R|炼狱扳机",
+  "ownerId": "hero_samira",
+  "wikiChampionTitle": "Samira",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Samira/R",
+  "zhDisplayName": "炼狱扳机",
+  "resolvedTitle": "Template:Data Samira/Inferno Trigger",
+  "wikiPageId": 1459318,
+  "revisionId": 3992663,
+  "revisionTimestamp": "2026-02-18T20:44:59Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Samira/Inferno%20Trigger",
+  "contentSha256": "4b7e8eea31dda62bc4ec084db3fdc964668d6316e495fc62bdb78cde64296a9f",
+  "rawByteSize": 3480,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Samira''' unleashes a torrent of shots for {{rutngt|2.25}}, '''reducing''' her {{as|movement speed}} by {{as|30%|ms}} and rapidly shooting at  nearby enemies over {{rutngt|2}} at sporadic times in {{tt|{{fd|0.2}}-second intervals|on average; total of 5 intervals of 0.231 and 5 of 0.198 seconds}} each (up to 10 times per enemy), dealing {{as|physical damage}} with each shot, reduced by 75% against {{tip|minions}}. This damage is affected by {{tip|critical strike}} modifiers and {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} at 100% effectiveness.\n",
+    "leveling": "{{st|Physical Damage Per Shot|{{ap|20 to 60}} {{as|(+ 30% AD)}}|Total Physical Damage|{{ap|20*10 to 60*10}} {{as|(+ {{ap|30*10}}% AD)}}}}\n{{st|Minion Damage Per Shot|{{ap|20*0.25 to 60*0.25}} {{as|(+ {{ap|30*0.25}}% AD)}}|Total Minion Damage|{{ap|20*0.25*10 to 60*0.25*10}} {{as|(+ {{ap|30*0.25*10}}% AD)}}}}\n",
+    "description2": "''A nearby {{tip|sight|visible}} enemy is required to cast this ability, and targets do not have to be visible to be shot at. {{ai|Daredevil Impulse|Samira|Style|image= Samira Rank S.png}} stacks are consumed at the end of the effect.''\n",
+    "description3": "'''''Samira''' cannot basic attack nor cast {{ai|Flair|Samira}} and {{ai|Blade Whirl|Samira}} during Inferno Trigger, but she can still move. Inferno Trigger will end prematurely if '''Samira''' is affected by any form of {{tip|cast-inhibiting crowd control}} as well as {{tip|disarm}}. Inferno Trigger cannot be cast while '''Samira''' is {{tip|disarm|disarmed}}.''\n",
+    "cost": "6 Style\n",
+    "costtype": "",
+    "damagetype": "Physical\n",
+    "notes": "* '''Samira's''' facing direction remains as it had been or, if she is moving, towards that direction during ''Inferno Trigger''.\n* The {{as|{{sti|movement speed}}}} reduction stacks additively with other {{as|movement speed}} bonuses.\n** It is a negative bonus, not a {{tip|slow}}, and is thus not reduced by {{tip|slow resist}}.\n* ''Inferno Trigger's'' area of effect is fixed around '''Samira'''.\n* {{tip|Spell shield}} will block the damage of one shot.\n* ''Inferno Trigger'' will not end if there are no enemies that remain in range.\n* The bottom of the [[Summoner|player's]] screen will have a fiery visual effect while '''Samira''' is at ''S'' rank and ''Inferno Trigger'' has at least one rank.\n* Since {{ais|R|Samira}} cooldown is static, {{ri|Ultimate Hunter}} will be swapped with {{ri|Treasure Hunter}} for '''Samira''' at the start of the game.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

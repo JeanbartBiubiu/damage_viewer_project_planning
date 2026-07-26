@@ -1,0 +1,56 @@
+{{#vardefine:q_mod|{{pp|0 to 50 for 11|0 to 1.25|key=%|type=[[File:Varus Piercing Arrow.png|20px|border]] ''Piercing Arrow's'' charge time|formula=5% per 0.125 seconds. ''This is capped at 1.25 seconds.''|round1=3}}}}<!-- Piercing Arrow's' charge scaling formula, this replacement is only done for convenience since the formula is the same for all effects.
+
+The following values are defined as parameters.
+-->{{#vardefine:o1|4}}<!--  On-hit base (rank 1) damage
+-->{{#vardefine:o5|40}}<!-- On-hit rank 5 damage
+-->{{#vardefine:oap|25}}<!--On-hit damage AP ratio as a PERCENTAGE
+-->{{#vardefine:obad|15}}<!--On-hit damage bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:cdr|13}}<!--Blight detonation: single-stack cooldown reduction as a PERCENTAGE
+-->{{#vardefine:b1|3}}<!--  Blight detonation: rank 1 single-stack max HP ratio as a PERCENTAGE
+-->{{#vardefine:b5|5}}<!--  Blight detonation: rank 5 single-stack max HP ratio as a PERCENTAGE
+-->{{#vardefine:ap|1.3}}<!--Blight detonation: single-stack max HP ratio per 100 AP as a PERCENTAGE
+-->{{#vardefine:a1|6}}<!--  Active: rank 1 missing HP ratio as a PERCENTAGE
+-->{{#vardefine:a2|14}}<!-- Active: rank 5 missing HP ratio as a PERCENTAGE
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Blighted Quiver|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Varus
+|skill        = W
+|icon         = false
+|icon2        = Blighted Quiver 2.png
+|description  = {{sbc|Passive:}} '''Varus'''' {{tip|basic attacks}} are empowered to deal {{as|'''bonus''' magic damage}} and apply a {{tip|stack}} of ''Blight'' {{tip|on-hit}} for 6 seconds, refreshing on subsequent applications and stacking up to 3 times. '''Varus' ''' {{tip|abilities}} detonate all ''Blight'' stacks on affected enemies hit.
+|leveling     = {{st|Bonus Magic Damage|{{ap|{{#var:o1}} to {{#var:o5}}}} {{as|(+ {{#var:obad}}% '''bonus''' AD)}} {{as|(+ {{#var:oap}}% AP)}}}}
+|description2 = {{sbc|Blight:}} For each stack consumed, the target is dealt {{as|'''bonus''' magic damage}}. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', this damage is increased by {{#var:q_mod}}. This damage is capped at {{ap|360/3}} per stack against {{tip|monsters}}, for a total cap of 360 at maximum stacks.<br><br>Additionally, each stack consumed against a {{tip|champion}} or epic {{tip|monster}} reduces the {{sti|'''remaining''' cooldowns}} of '''Varus' ''' basic abilities by {{#var:cdr}}% of each of their '''total''' cooldowns, up to a {{ap|{{#var:cdr}}*3}}% cooldown reduction per target. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', the cooldown reduction is increased by {{#var:q_mod}}, up to a {{pp|{{#var:cdr}}*3 to {{#var:cdr}}*3*1.5|0 to 1.25 by 0.125|key=%|type=[[File:Varus Piercing Arrow.png|20px|border]] Piercing Arrow's charge time|formula=39% + 1.95% per 0.125 seconds. ''This is capped at 1.25 seconds.''|round1=3|showtype=false}} cooldown reduction per target from consuming maximum stacks against them.
+|leveling2    = {{st|Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}} to {{#var:b5}}}}% {{as|(+ {{fd|{{#var:ap}}}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3 to {{#var:b5}}*3}}% {{as|(+ {{ap|{{#var:ap}}*3}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}
+{{st|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}}*1.5 to {{#var:b5}}*1.5}}% {{as|(+ {{ap|{{#var:ap}}*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3*1.5 to {{#var:b5}}*3*1.5}}% {{as|(+ {{ap|{{#var:ap}}*3*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}
+|icon3        = Blighted Quiver.png
+|description3 = {{sbc|Active:}} '''Varus'''' next ''{{ai|Piercing Arrow|Varus}}'' within {{fd|5.5}} seconds is empowered to deal {{as|'''additional bonus''' magic damage|magic damage}}, increased by {{#var:q_mod}}. This damage is capped at 360 against {{tip|monsters}}.
+|leveling3    = {{st|Active Minimum Magic Damage|{{as|{{ap|{{#var:a1}} to {{#var:a2}}}}% of target's '''missing''' health}}|Active Maximum Magic Damage|{{as|{{ap|{{#var:a1}}*1.5 to {{#var:a2}}*1.5}}% of target's '''missing''' health}}}}
+|description4 =  If '''Varus''' does not cast ''{{ai|Piercing Arrow|Varus}}'', ''Blighted Quiver'' can be recast after 1 second within the duration, and does so automatically afterwards or when he dies. ''Blighted Quiver'' can be cast during the first {{fd|0.85}} seconds of ''{{ais|Piercing Arrow|Varus}}'' charge, and will be placed on full cooldown after the charge ends even if ''{{ai|Piercing Arrow|Varus}}'' is not recast.
+|description5 = {{sbc|Recast:}} '''Varus''' ends ''Blighted Quiver'' and places it on a 1-second cooldown.
+|description6 = ''Blighted Quiver's active and recast can both be used while affected by {{tip|cast-inhibiting crowd control}}.''
+|cooldown     = {{tt|40|Starts after the effect is used with Piercing Arrow}}
+|cdstart      = post-effect
+|targeting    = Auto
+|cast time = none
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = Special
+|spelleffects = Proc
+|parry = true
+|projectile   =
+|grounded     =
+|knockdown    =
+|notes        =
+* The monster damage cap is also increased by {{#var:q_mod}} if the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}''.
+* {{tip|Spell shield}} will not block the {{tip|on-hit}} damage but will block the consumption damage if the target is hit by his abilities.
+* ''Blighted Quiver'' will not apply stacks nor deal {{tip|on-hit}} damage if blocked by {{tip|blind}}, {{tip|block}} or {{tip|dodge}} effects.
+** The consumption damage will not be blocked.
+* ''Blighted Quiver's'' active damage is dealt after the damage of {{ai|Piercing Arrow|Varus}}.
+* ''Blighted Quiver'' does not count as an ability activation for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.
+* The attacks do not affect {{tip|structures}} nor {{tip|wards}}.
+<!-- Blurb -->
+|blurbicon    = Blighted Quiver.png
+|blurb        = {{sbc|Passive:}} {{cis|Varus}} {{tip|basic attacks}} deal {{as|'''bonus''' magic damage}} and apply a {{tip|stack}} of ''Blight'', up to 3. His {{tip|abilities}} detonate all ''Blight'' stacks on enemies hit to apply new effects.
+|blurb2       = {{sbc|Blight:}} For each stack consumed, the target is dealt {{as|'''bonus''' magic damage}}. If they are a {{tip|champion}} or epic {{tip|monster}}, '''Varus''' {{sti|cdr|refunds}} a portion of his basic abilities' {{sti|cooldown|cooldowns}}.
+|blurb3      = {{sbc|Active:}} '''Varus' '''next ''{{ai|Piercing Arrow|Varus}}'' within a few seconds deals {{as|'''bonus''' magic damage}} to enemies based on {{as|their '''missing''' health}}.<br>{{sbc|Recast:}} '''Varus''' ends ''Blighted Quiver'', placing it on a {{sti|cd|brief}} cooldown.
+|blurb4      = All effects are increased based on ''{{ais|Piercing Arrow|Varus}}'' charge time.
+}}
