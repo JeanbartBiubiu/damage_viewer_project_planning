@@ -13,6 +13,7 @@
        repeat_tag AS "repeatTag",
        trigger_state_key AS "triggerStateKey",
        threshold AS "threshold",
+       delay_ms AS "delayMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.repeat_effect_details
@@ -32,6 +33,7 @@
        repeat_tag AS "repeatTag",
        trigger_state_key AS "triggerStateKey",
        threshold AS "threshold",
+       delay_ms AS "delayMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.repeat_effect_details
@@ -41,15 +43,16 @@
 
     <update id="upsert">
         INSERT INTO public.repeat_effect_details
-            (game_id, step_id, repeat_scope_type_id, repeat_count, repeat_tag, trigger_state_key, threshold, change_revision, updated_at)
+            (game_id, step_id, repeat_scope_type_id, repeat_count, repeat_tag, trigger_state_key, threshold, delay_ms, change_revision, updated_at)
         VALUES
-            (#{gameId}, #{stepId}, #{repeatScopeTypeId}, #{repeatCount}, #{repeatTag}, #{triggerStateKey}, #{threshold}, #{changeRevision}, NOW())
+            (#{gameId}, #{stepId}, #{repeatScopeTypeId}, #{repeatCount}, #{repeatTag}, #{triggerStateKey}, #{threshold}, #{delayMs}, #{changeRevision}, NOW())
         ON CONFLICT (game_id, step_id) DO UPDATE SET
             repeat_scope_type_id = EXCLUDED.repeat_scope_type_id,
             repeat_count = EXCLUDED.repeat_count,
             repeat_tag = EXCLUDED.repeat_tag,
             trigger_state_key = EXCLUDED.trigger_state_key,
             threshold = EXCLUDED.threshold,
+            delay_ms = EXCLUDED.delay_ms,
             change_revision = EXCLUDED.change_revision,
             updated_at = NOW()
     </update>
@@ -69,6 +72,7 @@
        repeat_tag AS "repeatTag",
        trigger_state_key AS "triggerStateKey",
        threshold AS "threshold",
+       delay_ms AS "delayMs",
        change_revision AS "changeRevision",
        updated_at AS "updatedAt"
         FROM public.repeat_effect_details
@@ -81,7 +85,7 @@
     <insert id="copyChangedToLog">
         INSERT INTO public.repeat_effect_details_log (
             game_id, version_id, change_revision, step_id,
-            repeat_scope_type_id, repeat_count, repeat_tag, trigger_state_key, threshold
+            repeat_scope_type_id, repeat_count, repeat_tag, trigger_state_key, threshold, delay_ms
         )
         SELECT
             game_id,
@@ -92,7 +96,8 @@
             repeat_count,
             repeat_tag,
             trigger_state_key,
-            threshold
+            threshold,
+            delay_ms
         FROM public.repeat_effect_details
         WHERE game_id = #{gameId}
           AND change_revision &gt; #{previousRevision}
@@ -103,6 +108,7 @@
             repeat_count = EXCLUDED.repeat_count,
             repeat_tag = EXCLUDED.repeat_tag,
             trigger_state_key = EXCLUDED.trigger_state_key,
-            threshold = EXCLUDED.threshold
+            threshold = EXCLUDED.threshold,
+            delay_ms = EXCLUDED.delay_ms
     </insert>
 </mapper>

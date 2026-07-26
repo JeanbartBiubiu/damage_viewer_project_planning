@@ -63,7 +63,7 @@ class AbilityCombatDataServiceTest {
     @Test
     void putAbilityForwardsCastConditionFormulaKeyWhenPresent() {
         when(revisionService.nextRevision(GAME_ID)).thenReturn(21L);
-        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow("cast-ok"));
+        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow("cast-ok", null));
 
         ObjectNode body = baseAbilityBody();
         body.put("castConditionFormulaKey", "cast-ok");
@@ -80,14 +80,15 @@ class AbilityCombatDataServiceTest {
             eq("q"),
             eq(10),
             eq("Ability"),
-            eq("cast-ok")
+            eq("cast-ok"),
+            isNull()
         );
     }
 
     @Test
     void putAbilityForwardsNullCastConditionWhenAbsentOrNull() {
         when(revisionService.nextRevision(GAME_ID)).thenReturn(22L);
-        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow(null));
+        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow(null, null));
 
         ObjectNode bodyAbsent = baseAbilityBody();
         ObjectNode responseAbsent = service.putAbility(GAME_ID, ABILITY_ID, bodyAbsent);
@@ -100,6 +101,7 @@ class AbilityCombatDataServiceTest {
             eq("q"),
             eq(10),
             eq("Ability"),
+            isNull(),
             isNull()
         );
 
@@ -116,6 +118,70 @@ class AbilityCombatDataServiceTest {
             eq("q"),
             eq(10),
             eq("Ability"),
+            isNull(),
+            isNull()
+        );
+    }
+
+    @Test
+    void putAbilityForwardsCastOriginWhenPresent() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(24L);
+        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow(null, "champion"));
+
+        ObjectNode body = baseAbilityBody();
+        body.put("castOrigin", "champion");
+
+        ObjectNode response = service.putAbility(GAME_ID, ABILITY_ID, body);
+
+        assertEquals(24L, response.get("currentRevision").asLong());
+        assertEquals("champion", response.get("castOrigin").asText());
+        verify(abilitiesMapper).upsert(
+            eq(GAME_ID),
+            eq(24L),
+            eq(ABILITY_ID),
+            eq("provider-1"),
+            eq("q"),
+            eq(10),
+            eq("Ability"),
+            isNull(),
+            eq("champion")
+        );
+    }
+
+    @Test
+    void putAbilityForwardsNullCastOriginWhenAbsentOrNull() {
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(25L);
+        when(abilitiesMapper.findById(GAME_ID, ABILITY_ID)).thenReturn(abilityRow(null, null));
+
+        ObjectNode bodyAbsent = baseAbilityBody();
+        ObjectNode responseAbsent = service.putAbility(GAME_ID, ABILITY_ID, bodyAbsent);
+        assertTrue(responseAbsent.get("castOrigin").isNull());
+        verify(abilitiesMapper).upsert(
+            eq(GAME_ID),
+            eq(25L),
+            eq(ABILITY_ID),
+            eq("provider-1"),
+            eq("q"),
+            eq(10),
+            eq("Ability"),
+            isNull(),
+            isNull()
+        );
+
+        when(revisionService.nextRevision(GAME_ID)).thenReturn(26L);
+        ObjectNode bodyNull = baseAbilityBody();
+        bodyNull.putNull("castOrigin");
+        ObjectNode responseNull = service.putAbility(GAME_ID, ABILITY_ID, bodyNull);
+        assertTrue(responseNull.get("castOrigin").isNull());
+        verify(abilitiesMapper).upsert(
+            eq(GAME_ID),
+            eq(26L),
+            eq(ABILITY_ID),
+            eq("provider-1"),
+            eq("q"),
+            eq(10),
+            eq("Ability"),
+            isNull(),
             isNull()
         );
     }
@@ -129,7 +195,7 @@ class AbilityCombatDataServiceTest {
         return body;
     }
 
-    private static Map<String, Object> abilityRow(String castConditionFormulaKey) {
+    private static Map<String, Object> abilityRow(String castConditionFormulaKey, String castOrigin) {
         Map<String, Object> row = new LinkedHashMap<>();
         row.put("gameId", GAME_ID);
         row.put("abilityId", ABILITY_ID);
@@ -138,6 +204,7 @@ class AbilityCombatDataServiceTest {
         row.put("abilityKindTypeId", 10);
         row.put("displayName", "Ability");
         row.put("castConditionFormulaKey", castConditionFormulaKey);
+        row.put("castOrigin", castOrigin);
         row.put("changeRevision", 1L);
         return row;
     }
