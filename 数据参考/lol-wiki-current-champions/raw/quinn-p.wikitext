@@ -1,0 +1,28 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Harrier|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Quinn
+|skill        = I
+|icon         = Harrier.png
+|blurb        = {{sbc|Innate:}} {{cis|Quinn}} damaging abilities mark enemies with ''Harrier'' and {{tip|standard sight|reveal}} them for a few seconds. Periodically, {{ui|Valor}} marks a nearby enemy with ''Harrier''.
+|blurb2      = '''Quinn's''' next basic attack against a ''Harrier'' target consumes the mark to deal {{as|'''bonus''' physical damage}}.
+|description  = {{sbc|Innate:}} '''Quinn's''' ''{{ai|Blinding Assault|Quinn}}'' against the primary target, ''{{ai|Vault|Quinn}}'', and ''{{ai|Skystrike|Quinn}}'' mark enemies hit with ''Harrier'' for 4 seconds, during which they are {{tip|standard sight|revealed}}. '''{{ci|Valor}}''' will periodically mark a nearby {{tip|sight|visible}} enemy if no ''Harrier'' targets exist for 1 second.
+|description2 = '''Quinn's''' {{tip|basic attacks}} {{tip|on-hit}} against ''Harrier'' targets are empowered to consume the mark to deal {{pp|15 + (120-15)/17*(x-1) for 20|color=physical damage}} {{as|(+ 40% '''bonus''' AD)}} {{as|'''bonus''' physical damage}}.
+|description3 = ''Harrier'' deals {{as|75 '''bonus''' physical damage}} against {{tip|monsters}}.
+|description4 = While ''{{ai|Behind Enemy Lines|Quinn}}'' is active, ''Harrier'' is disabled and all ''Harrier'' marks are removed.
+|effect radius= 525
+|static       = {{tt|{{pp|type=critical strike chance|color=critical chance|7*(0.99^((x-1)*10))|key1=%|0 to 100 by 10|formula=7*(0.99^critical strike chance %)}}|Starts after the mark expired or was consumed or overwritten by another mark.}}
+|cdstart      = post-effect
+|targeting    = Passive
+|affects      = Self
+|damagetype   = Physical
+|parry        = True
+|spelleffects = Proc
+|spellshield  = False
+|notes   =
+* If a mark applied by an ability is overwritten, consumed, or timed out, ''Harrier'' goes on a 1-second cooldown if it's not already on cooldown.
+* ''Harrier's'' targeting priority:
+*# Last unit hit (if it was a small minion it appears to select a different target).
+*# Lowest-health enemy champion.
+*# Lowest-health enemy minion.
+* ''Harrier'' is consumed even if it is parried, the attack is negated in any case.
+* ''Harrier'' will not mark enemy {{tip|minions}} while '''Quinn''' is not {{tip|sight|visible}}, but will mark enemy {{tip|champions}}.
+}}

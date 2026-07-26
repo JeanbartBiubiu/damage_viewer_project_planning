@@ -1,0 +1,43 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Sentinel|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kalista
+|skill        = W
+|icon         = Sentinel 2.png
+|blurbicon    = Sentinel.png
+|blurb        = {{sbc|Passive - Soul-Marked:}} While {{ci|Kalista}} and her {{ii|The Black Spear|Oathsworn}} are {{tip|tether|tethered}}, their basic attacks and ''{{ai|Pierce|Kalista}}'' apply a ''Soul-Mark'' to their targets for a few seconds. If both ''Soul-Marks'' are applied to the same target, they take {{as|'''bonus''' magic damage}}.
+|blurb2       = {{sbc|Passive:}} '''Kalista''' periodically [[stock]]s a ''Sentinel'' charge, up to a cap.
+|blurb3       = {{sbc|Active:}} '''Kalista''' summons a ''Sentinel'' that patrols back and forth on a path to the target location, granting {{tip|sight}} along its trajectory as it travels.
+|description  = {{sbc|Passive - Soul-Marked:}} While '''Kalista''' and her ''{{ii|The Black Spear|Oathsworn}}'' are {{tip|tether|tethered}}, their basic attacks and ''{{ai|Pierce|Kalista}}'' apply a ''Soul-Mark'' to the target hit for 4 seconds.
+|icon2        = Sentinel 3.png
+|description2 = If both '''Kalista's''' and the ''Oathsworn's'' ''Soul-Mark'' are applied to the same enemy, the marks are consumed to deal {{as|magic damage}} to the target, capped against non-champions. ''Soul-Mark'' cannot affect an enemy more than once every few seconds.
+|leveling2    = {{st|Bonus Magic Damage|{{as|{{ap|10 to 18}}% of target's '''maximum''' health}}}}
+{{st|Maximum Non-Champion Damage|{{ap|100 to 200}}}}
+|icon3        = Sentinel.png
+|description3 = {{sbc|Active:}} '''Kalista''' summons a ''Sentinel'' that patrols back and forth on a path along the target direction, granting {{tip|sight}} of its surroundings as it travels.
+|description4 = '''Kalista''' periodically [[stock]]s a ''Sentinel'' charge, up to a maximum of 2.
+|description5 = ''See [[Kalista#Pets|Pets]] for more details about Sentinels.''
+|target range = {{tt|1400 - 5000|Minimum and maximum cast distance}}
+|tether radius= {{tip|cr|1100|nolink=true}}
+|ontargetcdstatic= 10
+|cooldown     = 30
+|recharge     = {{ap|90 to 50}}
+|cast time    = {{fd|0.5}}
+|cost         =
+|costtype     =
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = magic
+|spelleffects = proc
+|parry        = unknown
+|spellshield  =
+|projectile   =
+|outofrange   = cast at max
+|notes        =
+* The damage is dealt {{tip|on-attack}} of '''Kalista's''' basic attack if she applies the second mark. If the ''Oathsworn'' does so instead, the damage is dealt [[on-hit]] of their basic attack.
+* ''Soul-Marked's'' bonus damage is credited to '''Kalista''' and will benefit from both her {{sti|magic penetration|{{as|magic penetration}}}} and [[spell effects]].
+** If her {{ii|The Black Spear|Oathsworn}} ally scores a kill using ''Soul-Marked's'' bonus damage they will get a message stating 'Kill Secured' in place of the usual gold pop-up (the gold itself is credited to '''Kalista''').
+* The ''Sentinel's'' {{tip|sight}} reveal on enemy {{tip|champion|champions}} is accredited for [[assist|assists]] and potentially [[kill|kills]] (if they die shortly after being spotted).
+** It does not reveal {{tip|stealth|stealthed}} targets.
+* ''Sentinel'' will cast from wherever '''Kalista''' is at the end of the cast time.
+* {{Pending for test}} ''Soul Mark's'' interaction with ''parrying'' effects ({{tip|dodge}}, {{tip|block}}, {{tip|blind}}).
+* {{pending for test}} If ''Pierce'' kills the target by ''Soul-Mark's'' additional damage, it will/will not continue.
+}}

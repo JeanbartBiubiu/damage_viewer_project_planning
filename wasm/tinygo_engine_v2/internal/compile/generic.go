@@ -79,6 +79,7 @@ type CompiledListener struct {
 	HasAbilityRef       bool
 	MaxTriggersPerEvent int
 	ChainLimitKey       string
+	PerCastThrottleMs   int
 	EventMatcher        typeset.Matcher
 	OwnerCombatantKey   string // empty for rules listeners; concrete key for provider-owned
 	OwnerProviderRef    string // empty for rules / inline without mount context
@@ -136,11 +137,19 @@ type CompiledAbilityCooldown struct {
 }
 
 // CompiledTickSpec 是 compile 后的 tick ability 行为。
+// AnchorScope/AnchorStateKey 非空表示 target-state-anchored 模式（StartDelayMs 保持 0，不默认成 interval）。
 type CompiledTickSpec struct {
-	IntervalMs   int64
-	StartDelayMs int64
-	OnTickStart  uint16
-	OnTickCount  uint16
+	IntervalMs     int64
+	StartDelayMs   int64
+	OnTickStart    uint16
+	OnTickCount    uint16
+	AnchorScope    string
+	AnchorStateKey string
+}
+
+// IsAnchored 报告该 tickSpec 是否为配对锚点模式。
+func (ts *CompiledTickSpec) IsAnchored() bool {
+	return ts != nil && ts.AnchorScope != "" && ts.AnchorStateKey != ""
 }
 
 // CompiledAbility 是 compile 后的 ability 定义。
@@ -149,6 +158,7 @@ type CompiledAbility struct {
 	Kind                 string
 	TypeSet              typeset.TypeSet
 	Params               map[string]float64
+	CastOrigin           string // champion|item|pet|innate；空表示未声明
 	Cost                 *CompiledAbilityCost
 	Cooldown             *CompiledAbilityCooldown
 	CastConditionProgram formula.GenericProgramID
@@ -186,6 +196,7 @@ type CompiledOperation struct {
 	RepeatScope           string
 	RepeatCount           int
 	RepeatTag             string
+	RepeatDelayMs         int
 	TriggerStateKey       string
 	Threshold             float64
 }
@@ -309,6 +320,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 
 	namedRegistry := formula.CompileNamedFormulas(req.Formulas, collector.addError)
 	for _, prog := range namedRegistry.Programs {
+		validateDamagePredicateReads(prog.Instr, "formulas["+prog.Key+"]", catalog, collector.addError)
 		session.Formulas.Index[prog.Key] = formula.GenericProgramID(len(session.Formulas.Programs))
 		session.Formulas.Programs = append(session.Formulas.Programs, prog)
 	}
@@ -479,6 +491,13 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 	if compiled.Params == nil {
 		compiled.Params = map[string]float64{}
 	}
+	if ability.CastOrigin != "" {
+		if _, ok := model.ValidCastOrigins[ability.CastOrigin]; !ok {
+			collector.addError(model.GenericErrUnknownRef, path+".castOrigin", "invalid castOrigin", ability.CastOrigin)
+		} else {
+			compiled.CastOrigin = ability.CastOrigin
+		}
+	}
 	compiled.TypeSet = typeset.ValidateTypeKeys(ability.Types, typeset.EntityAbility, session.Types, path+".types", collector.addError)
 	typeset.ValidateTypeKeys(ability.Tags, typeset.EntityAbility, session.Types, path+".tags", collector.addError)
 	if ability.Cost != nil {
@@ -536,8 +555,43 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compileOperation(op, path+".tickSpec.onTick["+itoa(k)+"]", int(providerIndex), ctx)
 		}
 		tickSpec.OnTickCount = uint16(len(session.Operations)) - tickSpec.OnTickStart
-		if tickSpec.StartDelayMs <= 0 {
-			tickSpec.StartDelayMs = tickSpec.IntervalMs
+		// Anchor pair validation must run before ordinary startDelayMs defaulting.
+		anchorScope := ts.AnchorScope
+		anchorKey := ts.AnchorStateKey
+		hasScope := anchorScope != ""
+		hasKey := anchorKey != ""
+		switch {
+		case hasScope && !hasKey:
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "tickSpec.anchorStateKey required when anchorScope is set", ability.AbilityKey)
+		case hasKey && !hasScope:
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorScope", "tickSpec.anchorScope required when anchorStateKey is set", ability.AbilityKey)
+		case hasScope && hasKey:
+			if ability.Kind != "tick" {
+				collector.addError(model.GenericErrMissingRequiredField, path+".kind", "anchored tickSpec requires tick ability", ability.AbilityKey)
+			}
+			if anchorScope != "state_scope/provider_target" {
+				collector.addError(model.GenericErrUnknownTypeKey, path+".tickSpec.anchorScope", "tickSpec.anchorScope must be state_scope/provider_target", ability.AbilityKey)
+			}
+			if ts.StartDelayMs != 0 {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.startDelayMs", "anchored tickSpec requires startDelayMs omitted or 0", ability.AbilityKey)
+			}
+			providerFields := session.Providers[providerIndex].StateFields
+			field, fieldOK := providerFields[anchorKey]
+			if !fieldOK {
+				collector.addError(model.GenericErrUnknownRef, path+".tickSpec.anchorStateKey", "tickSpec.anchorStateKey not found in provider initialStateSchema", ability.AbilityKey)
+			} else if field.DurationMs <= 0 {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "anchored tickSpec requires anchor state durationMs > 0", ability.AbilityKey)
+			} else if field.RefreshPolicy != model.ProviderStateRefreshOnWrite {
+				collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.anchorStateKey", "anchored tickSpec requires anchor state refresh_on_write", ability.AbilityKey)
+			}
+			tickSpec.AnchorScope = anchorScope
+			tickSpec.AnchorStateKey = anchorKey
+			// Anchored mode: startDelay remains 0 (do not default to intervalMs).
+			tickSpec.StartDelayMs = 0
+		default:
+			if tickSpec.StartDelayMs <= 0 {
+				tickSpec.StartDelayMs = tickSpec.IntervalMs
+			}
 		}
 		compiled.TickSpec = tickSpec
 	} else if ability.Kind == "tick" {
@@ -613,6 +667,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		collector.addError(model.GenericErrMissingRequiredField, path+".valuePolicy", "valuePolicy is required", mod.ModifierKey)
 	}
 	instr := formula.CompileGenericFormula(mod.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
+	validateDamagePredicateReads(instr, path+".value", ctx.catalog, collector.addError)
 	if len(instr) > 0 {
 		key := path + ".value"
 		compiled.ValueProgram = ctx.registerFormula(key, instr)
@@ -620,6 +675,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	}
 	if mod.Condition != nil {
 		condInstr := formula.CompileGenericFormula(*mod.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		validateDamagePredicateReads(condInstr, path+".condition", ctx.catalog, collector.addError)
 		if len(condInstr) > 0 {
 			key := path + ".condition"
 			compiled.ConditionProg = ctx.registerFormula(key, condInstr)
@@ -633,33 +689,62 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 }
 
 // validatePipelineModifier collects errors for unsupported pipeline vocabulary.
-// Supported: command=damage, channel=basic_damage,
-// stage=outgoing_pre_mitigation|incoming_post_mitigation,
-// bucket=all_instances|first_per_cast, valuePolicy=multiply|override.
+// command=damage stages: outgoing_pre_mitigation|incoming_crit_part_post_mitigation|incoming_post_mitigation
+// command=crit stages: crit_chance_pre_settlement|crit_multiplier_forced_branch|crit_multiplier_natural_branch
+// Channels: basic_damage|all_damage. Buckets: all_instances|first_per_cast.
 func validatePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
-	if mod.Command != "damage" {
-		collector.addError(model.GenericErrUnknownRef, path+".command", "unsupported pipeline modifier command", mod.Command)
-	}
-	if mod.Channel != "basic_damage" {
-		collector.addError(model.GenericErrUnknownRef, path+".channel", "unsupported pipeline modifier channel", mod.Channel)
-	}
-	switch mod.Stage {
-	case "outgoing_pre_mitigation", "incoming_post_mitigation":
+	switch mod.Channel {
+	case "basic_damage", "all_damage":
 	default:
-		collector.addError(model.GenericErrUnknownRef, path+".stage", "unsupported pipeline modifier stage", mod.Stage)
+		collector.addError(model.GenericErrUnknownRef, path+".channel", "unsupported pipeline modifier channel", mod.Channel)
 	}
 	switch mod.Bucket {
 	case "all_instances", "first_per_cast":
 	default:
 		collector.addError(model.GenericErrUnknownRef, path+".bucket", "unsupported pipeline modifier bucket", mod.Bucket)
 	}
+	if !mod.HasValue {
+		collector.addError(model.GenericErrMissingRequiredField, path+".value", "pipeline modifier value is required", mod.ModifierKey)
+	}
+	switch mod.Command {
+	case "damage":
+		validateDamagePipelineModifier(mod, path, collector)
+	case "crit":
+		validateCritPipelineModifier(mod, path, collector)
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".command", "unsupported pipeline modifier command", mod.Command)
+	}
+}
+
+func validateDamagePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+	switch mod.Stage {
+	case "outgoing_pre_mitigation", "incoming_post_mitigation":
+		switch mod.ValuePolicy {
+		case "multiply", "override", "subtract":
+		default:
+			collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "unsupported pipeline modifier valuePolicy", mod.ValuePolicy)
+		}
+	case "incoming_crit_part_post_mitigation":
+		switch mod.ValuePolicy {
+		case "multiply", "override":
+		default:
+			collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "unsupported pipeline modifier valuePolicy", mod.ValuePolicy)
+		}
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".stage", "unsupported pipeline modifier stage", mod.Stage)
+	}
+}
+
+func validateCritPipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+	switch mod.Stage {
+	case "crit_chance_pre_settlement", "crit_multiplier_forced_branch", "crit_multiplier_natural_branch":
+	default:
+		collector.addError(model.GenericErrUnknownRef, path+".stage", "unsupported pipeline modifier stage", mod.Stage)
+	}
 	switch mod.ValuePolicy {
 	case "multiply", "override":
 	default:
 		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "unsupported pipeline modifier valuePolicy", mod.ValuePolicy)
-	}
-	if !mod.HasValue {
-		collector.addError(model.GenericErrMissingRequiredField, path+".value", "pipeline modifier value is required", mod.ModifierKey)
 	}
 }
 
@@ -694,6 +779,7 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 		ListenerKey:         listener.ListenerKey,
 		MaxTriggersPerEvent: listener.MaxTriggersPerEvent,
 		ChainLimitKey:       listener.ChainLimitKey,
+		PerCastThrottleMs:   listener.PerCastThrottleMs,
 		OwnerCombatantKey:   ownerCombatantKey,
 		OwnerProviderRef:    ownerProviderRef,
 		SourceAbilityIndex:  sourceAbilityIndex,
@@ -705,7 +791,14 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 	if listener.ListenerKey == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".listenerKey", "listenerKey is required", "")
 	}
+	if listener.PerCastThrottleMs < 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".perCastThrottleMs", "perCastThrottleMs must be >= 0", listener.ListenerKey)
+		compiled.PerCastThrottleMs = 0
+	}
 	compiled.EventMatcher = typeset.CompileGenericMatcher(listener.EventMatcher, ctx.session.Types, typeset.EntityListener, path+".eventMatcher", collector.addError)
+	if compiled.PerCastThrottleMs > 0 && !listenerMatcherRequiresDamageInstance(listener.EventMatcher) {
+		collector.addError(model.GenericErrMatcherDomainError, path+".perCastThrottleMs", "perCastThrottleMs requires event/damage_instance in eventMatcher.all (cast-instance event context)", listener.ListenerKey)
+	}
 	if listener.AbilityRef != "" {
 		compiled.HasAbilityRef = true
 		compiled.AbilityRef = listener.AbilityRef
@@ -715,6 +808,17 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 	}
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
 	return compiled
+}
+
+// listenerMatcherRequiresDamageInstance reports whether EventMatcher.All includes event/damage_instance.
+// Per-cast throttle keys on castInstanceId, which damage_instance events carry.
+func listenerMatcherRequiresDamageInstance(matcher model.TypeMatcher) bool {
+	for _, key := range matcher.All {
+		if key == "event/damage_instance" {
+			return true
+		}
+	}
+	return false
 }
 
 func compileProviderListener(listener model.ListenerDefinition, path string, ctx *genericCompileContext) CompiledListener {
@@ -760,6 +864,12 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.CritEligible && op.Operation != "damage" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "critEligible is only supported on damage operations", op.Operation)
 	}
+	if op.RepeatDelayMs < 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs must be >= 0", itoa(op.RepeatDelayMs))
+	}
+	if op.RepeatDelayMs != 0 && op.Operation != model.OperationKindRepeat {
+		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs is only supported on repeat operations", op.Operation)
+	}
 	switch op.Operation {
 	case "damage":
 		if op.DamageType == "" {
@@ -773,6 +883,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		if op.Amount == nil {
 			collector.addError(model.GenericErrMissingRequiredField, path+".amount", "damage operation requires amount", "")
 		}
+		// Damage operation Types are cataloged damage_trait/* only; reject unknown/wrong-domain keys.
+		typeset.ValidateTypeKeys(op.Types, typeset.EntityOperationDamageTrait, catalog, path+".types", collector.addError)
 	case "heal", "shield", "resource_change", "attribute_change":
 		if op.Amount == nil {
 			collector.addError(model.GenericErrMissingRequiredField, path+".amount", op.Operation+" requires amount", "")
@@ -801,9 +913,11 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		}
 		scope, scopeErr := resolveProviderStateScope(op.Types)
 		if scopeErr != "" {
-			collector.addError(model.GenericErrUnknownTypeKey, path+".types", scopeErr, strings.Join(op.Types, ","))
+			collector.addError(model.GenericErrUnknownTypeKey, path+".types", "state_change "+scopeErr, strings.Join(op.Types, ","))
 		}
 		_ = scope
+	case model.OperationKindStateDurationChange:
+		validateStateDurationChangeOperation(op, path, ownerProviderIndex, ctx)
 	case model.OperationKindRepeat:
 		validateRepeatOperation(op, path, ownerProviderIndex, ctx)
 	case model.OperationKindExecuteThreshold:
@@ -826,16 +940,21 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		RepeatScope:           op.RepeatScope,
 		RepeatCount:           op.RepeatCount,
 		RepeatTag:             op.RepeatTag,
+		RepeatDelayMs:         op.RepeatDelayMs,
 		TriggerStateKey:       op.TriggerStateKey,
 		Threshold:             op.Threshold,
 	}
-	if op.Operation == "state_change" {
+	if op.Operation == "damage" {
+		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)
+	}
+	if op.Operation == "state_change" || op.Operation == model.OperationKindStateDurationChange {
 		if scope, errMsg := resolveProviderStateScope(op.Types); errMsg == "" {
 			compiled.StateScope = scope
 		}
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		validateDamagePredicateReads(instr, path+".amount", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".amount"
 			if _, exists := session.Formulas.Index[key]; !exists {
@@ -848,6 +967,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	}
 	if op.Condition != nil {
 		instr := formula.CompileGenericFormula(*op.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		validateDamagePredicateReads(instr, path+".condition", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".condition"
 			compiled.ConditionProgram = ctx.registerFormula(key, instr)
@@ -878,15 +998,52 @@ func resolveProviderStateScope(types []string) (scope string, errMsg string) {
 				return "", "unsupported state scope"
 			}
 			if found != "" && found != t {
-				return "", "state_change requires a single state scope"
+				return "", "requires a single state scope"
 			}
 			found = t
 		}
 	}
 	if found == "" {
-		return "", "state_change requires state_scope/provider or state_scope/provider_target"
+		return "", "requires state_scope/provider or state_scope/provider_target"
 	}
 	return found, ""
+}
+
+// validateStateDurationChangeOperation collect-all 校验 timed-state duration subtract 合同。
+func validateStateDurationChangeOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
+	collector := ctx.collector
+	if ownerProviderIndex < 0 || ownerProviderIndex >= len(ctx.session.Providers) {
+		collector.addError(model.GenericErrMissingRequiredField, path+".operation", "state_duration_change requires owning provider context", op.Operation)
+	}
+	if op.Ref == "" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".ref", "state_duration_change requires ref state key", "")
+	}
+	if op.Amount == nil {
+		collector.addError(model.GenericErrMissingRequiredField, path+".amount", "state_duration_change requires amount", "")
+	}
+	if op.ValuePolicy != "subtract" {
+		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "state_duration_change requires valuePolicy=subtract", op.ValuePolicy)
+	}
+	if op.Target != model.SelectorSource && op.Target != model.SelectorSelf {
+		collector.addError(model.GenericErrOperationTargetMissing, path+".target", "state_duration_change target must be source or self", op.Target)
+	}
+	scope, scopeErr := resolveProviderStateScope(op.Types)
+	if scopeErr != "" {
+		collector.addError(model.GenericErrUnknownTypeKey, path+".types", "state_duration_change "+scopeErr, strings.Join(op.Types, ","))
+	}
+	_ = scope
+	if op.Ref == "" || ownerProviderIndex < 0 || ownerProviderIndex >= len(ctx.session.Providers) {
+		return
+	}
+	fields := ctx.session.Providers[ownerProviderIndex].StateFields
+	field, ok := fields[op.Ref]
+	if !ok {
+		collector.addError(model.GenericErrUnknownRef, path+".ref", "state_duration_change unknown state key", op.Ref)
+		return
+	}
+	if field.DurationMs <= 0 {
+		collector.addError(model.GenericErrMissingRequiredField, path+".ref", "state_duration_change requires timed state with durationMs>0", op.Ref)
+	}
 }
 
 func finalizeListenerIndex(ctx *genericCompileContext) {
@@ -1071,6 +1228,108 @@ func isKnownDamageSettlementType(damageType string) bool {
 	default:
 		return false
 	}
+}
+
+// validateDamagePredicateReads fail-closes unknown damage.trait.* / damage.type.* catalog bindings.
+func validateDamagePredicateReads(
+	instr []formula.GenericInstr,
+	path string,
+	catalog typeset.CatalogResult,
+	addError func(code model.GenericErrCode, path, message, ref string),
+) {
+	for _, in := range instr {
+		if in.Op != formula.GenericOpRead {
+			continue
+		}
+		switch in.ReadKind {
+		case formula.ReadDamageTrait:
+			key := "damage_trait/" + in.ReadKey
+			id, ok := catalog.Registry.Lookup(key)
+			if !ok {
+				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown damage trait predicate", "damage.trait."+in.ReadKey)
+				continue
+			}
+			if catalog.Domains[id] != "damage_trait" {
+				addError(model.GenericErrMatcherDomainError, path+".path", "damage trait predicate domain mismatch", key)
+			}
+		case formula.ReadDamageType:
+			if !damageTypePredicateDeclared(in.ReadKey, catalog) {
+				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown damage type predicate", "damage.type."+in.ReadKey)
+			}
+		case formula.ReadDamageCastOrigin:
+			key := "cast_origin/" + in.ReadKey
+			id, ok := catalog.Registry.Lookup(key)
+			if !ok {
+				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown cast origin predicate", "damage.cast_origin."+in.ReadKey)
+				continue
+			}
+			if catalog.Domains[id] != "cast_origin" {
+				addError(model.GenericErrMatcherDomainError, path+".path", "cast origin predicate domain mismatch", key)
+			}
+		case formula.ReadDamageAbilityType:
+			key := "ability/" + in.ReadKey
+			id, ok := catalog.Registry.Lookup(key)
+			if !ok {
+				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown ability type predicate", "damage.ability_type."+in.ReadKey)
+				continue
+			}
+			if catalog.Domains[id] != "ability" {
+				addError(model.GenericErrMatcherDomainError, path+".path", "ability type predicate domain mismatch", key)
+			}
+		}
+	}
+}
+
+func damageTypePredicateDeclared(predName string, catalog typeset.CatalogResult) bool {
+	canonical := formula.CanonicalDamageTypeKey(predName)
+	candidates := []string{canonical, predName}
+	switch predName {
+	case "physical":
+		candidates = append(candidates, "physical", "damage/physical")
+	case "magic":
+		candidates = append(candidates, "magic", "damage/magic", "magical", "damage/magical")
+	case "true":
+		candidates = append(candidates, "true", "damage/true")
+	}
+	seen := map[string]struct{}{}
+	for _, key := range candidates {
+		if key == "" {
+			continue
+		}
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		seen[key] = struct{}{}
+		id, ok := catalog.Registry.Lookup(key)
+		if !ok {
+			continue
+		}
+		if catalog.Domains[id] == "damage" {
+			return true
+		}
+	}
+	return false
+}
+
+// normalizeDamageTraitTypes keeps cataloged damage_trait/* keys in declaration order.
+func normalizeDamageTraitTypes(types []string, catalog typeset.CatalogResult) []string {
+	if len(types) == 0 {
+		return nil
+	}
+	out := make([]string, 0, len(types))
+	seen := map[string]struct{}{}
+	for _, t := range types {
+		id, ok := catalog.Registry.Lookup(t)
+		if !ok || catalog.Domains[id] != "damage_trait" {
+			continue
+		}
+		if _, dup := seen[t]; dup {
+			continue
+		}
+		seen[t] = struct{}{}
+		out = append(out, t)
+	}
+	return out
 }
 
 // ParsedAbilityRef 是解析后的 abilityRef 组件。

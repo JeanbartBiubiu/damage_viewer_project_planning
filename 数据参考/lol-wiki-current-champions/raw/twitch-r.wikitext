@@ -1,0 +1,46 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Spray and Pray|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twitch
+|skill        = R
+|icon         = Spray and Pray.png
+|blurb        = {{sbc|Active:}} {{ci|Twitch}} gains {{sti|{{as|'''bonus''' attack damage}}}} and {{sti|range|'''bonus''' attack range}} for a few seconds, during which his basic attacks are replaced with bolts that deal the {{as|attack's damage|AD}} to all enemies in a line.
+|description  = {{sbc|Active:}} '''Twitch''' gains {{sti|{{as|'''bonus''' attack damage}}}} and {{sti|range|300 '''bonus''' attack range}} for 6 seconds, during which his {{tip|basic attack|basic attacks}} are replaced by ''bolts'' that travel slightly further than his attack range in a straight line, dealing damage to {{tt|every enemy unit|non-champions and champions, wards and plants, turrets and structures}} hit.
+|leveling     = {{st|Bonus Attack Damage|{{ap|30 to 60}}}}
+|description2 = The ''bolts'' deal {{pp|key=%|type=enemies hit|110-10*x|0 to 4 for 5|formula=100% - 10% per enemy hit. ''This is capped at 60% damage.''|changedisplay=true}} of the triggering {{as|attack's damage|AD}}, apply {{tip|on-hit}} effects, and can {{tip|critically strike}} for {{as|{{critical damage|{{ccd|Twitch|crit_base}}|100}}|critical damage}} damage.
+|cooldown     = 90
+|cdstart      = on-cast
+|cost         = 100
+|costtype     = Mana
+|target range = {{tip|er|icononly = true}} Twitch's {{sti|range|attack range}}
+|range        = {{tip|er|icononly = true}} {{tt|1100 (+ 100% '''bonus''' {{sti|attack range}})|Bolt missile travel range}}
+|width        = {{tip|er|icononly = true}} {{tt|120|bolt width}}
+|speed        = 5000
+|targeting    = Auto
+|cast time    = none
+|affects      = Self
+|damagetype   = Physical
+|spelleffects = basic
+|callforhelp  = True
+|projectile   = true
+|parry        = True
+|spellshield  =
+|notes        =
+* The extra distance that the ''bolts'' travel scales with '''bonus''' attack range.
+* ''Spray and Pray'' allows '''Twitch''' to outrange {{tip|turret|turrets}} by 50 units, allowing him to hit them without them returning fire.
+* '''Twitch''' targets his line attack at his target's location at the ''start'' of his attack windup.
+** The ''bolts'' reach targets at a delay, composed of '''Twitch's''' windup time and distance the ''bolt'' has to travel at finite speed. Even the primary target can dodge the attack if they are moving quickly enough.
+* {{tip|On-attack}} effects such as {{ai|Help, Pix!|Lulu}} and {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} will be triggered as usual from the completion of '''Twitch's''' basic attack windup. They will obey their standard target-acquisition rules in spite of ''Spray and Pray's'' special basic attack behavior.
+* The ''bolt'' projectiles will naturally pass through terrain and enemy structures (the latter will be damaged by ''bolts'' even if they are not directly targeted).
+* If '''Twitch''' is {{tip|blind|blinded}} before winding up the attack, the hits will ''miss'' against '''all''' targets.
+* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} interacts with ''Spray and Pray's'' {{sti|'''bonus''' attack range}} but not with the modified missile effect (the secondary bolts will not have pass-through effects).
+* Whenever the ''bolts'' penetrate a target, a small elongated cloud appears at the location, which's VFX and SFX '''can''' be seen and heard inside the Fog of War.
+* The ''bolts<nowiki>'</nowiki>'' travel distance scales with the full value of '''Twitch's''' {{sti|range|attack range}} increases such as {{ii|Rapid Firecannon}}, but not with size increases (which only increase his effective attack range, thereby the target range).
+* (Outdated as of [[V10.13]], now can hit everything with edge range, except for turrets) The {{tip|cr|icononly = true}} center of a unit must be within the maximum travel distance of the ''bolt'' missile, and in front of the spawn location ('''Twitch's''' {{tip|cr|icononly = true}} center) for the ''bolt'' to be able to hit them.
+** Other than this condition, the ''bolt'' missile has to only touch (pass within its half width of 60 units) the {{tip|er|icononly = true}} edge of the unit's radius.
+** This is standard behaviour for ''linear skillshots''.
+* {{iis|Malignance}} {{nie|Hatefog}} is special cased to work with ''Spray and Pray''.
+* ''Bolt'' damage is considered {{tip|area of effect}} for {{ri|Axiom Arcanist}}. <!--intended feature lmao-->
+** It is '''not''' considered ''area of effect'' for other effects, i.e {{tip|omnivamp}}.
+|tips         =
+* {{iis|Runaan's Hurricane}} bolts can target the same units that are hit by '''Twitch's''' penetrated ''bolt'', increasing the total damage dealt to them and applying {{tip|on-hit}} effects twice.
+|flavorsound  = {{sm2|Twitch_Original_R_7.ogg}} ''"Pins and needles!"''
+}}

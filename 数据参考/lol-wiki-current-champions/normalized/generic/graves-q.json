@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "graves-q",
+  "candidateKey": "hero_skill|hero_graves|Q|穷途末路",
+  "ownerId": "hero_graves",
+  "wikiChampionTitle": "Graves",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Graves/Q",
+  "zhDisplayName": "穷途末路",
+  "resolvedTitle": "Template:Data Graves/End of the Line",
+  "wikiPageId": 1307367,
+  "revisionId": 4007501,
+  "revisionTimestamp": "2026-04-11T22:23:57Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Graves/End%20of%20the%20Line",
+  "contentSha256": "c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5",
+  "rawByteSize": 2266,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Graves''' fires a round in the target direction that deals {{as|physical damage}} to enemies it passes through and leaves behind a powder trail.\n",
+    "leveling": "{{st|Physical Damage|{{ap|50 to 150}} {{as|(+ 65% '''bonus''' AD)}}}}\n",
+    "description2": "After 2 seconds, or {{rutngt|0.2}} upon colliding with terrain, the round detonates to deal {{as|physical damage}} to enemies within a wide perpendicular area and in a reverse wave along the powder trail.\n",
+    "leveling2": "{{st|Physical Damage|{{ap|80 to 260}} {{as|(+ {{ap|55 to 115}}% '''bonus''' AD)}}|Total Physical Damage|{{ap|50+80 to 150+260}} {{as|(+ {{ap|65+55 to 65+115}}% '''bonus''' AD)}}}}\n",
+    "description3": "''Enemies can only be hit once per pass.''\n",
+    "cooldown": "{{ap|13 to 6}}\n",
+    "cost": "80\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* {{tip|Spell shield|Spell shields}} can only block one instance of the ability's damage.\n* {{ai|Wind Wall|Yasuo}} will destroy the projectile entirely and mitigate all effects, including the trail on the ground.\n* {{ai|Unbreakable|Braum}} is considered to be terrain for the purposes of the projectile, triggering its second effect.\n{{Effect at cast time end}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

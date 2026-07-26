@@ -1,0 +1,42 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Clean Cuts|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Xayah
+|skill        = I
+|icon          = false
+|icon2        = Clean Cuts.png
+|blurb        = {{sbc|Innate:}} {{as|Feathers|buzzword}} shot by {{ci|Xayah}} will linger in the ground at max range for a few seconds.
+|blurb2      = {{sbc|Innate:}} '''Xayah's''' {{tip|ability}} casts generate three {{tip|stack}} of ''Clean Cuts'', stacking up to five times. '''Xayah's''' basic attacks consume a stack to instead shoot a {{as|Feather|buzzword}} that deals {{as|the attack's damage|pdamage}} to the target and {{as|physical damage}} to other enemies hit.
+|blurb3      = {{sbc|Innate - Lover's Leap:}} '''Xayah''' and {{ci|Rakan}} can join each other's {{si|Recall}} to complete together.
+|description  = {{sbc|Innate:}} {{as|Feathers|buzzword}} shot by '''Xayah''' will linger and be planted in the ground at maximum range for 6 seconds.
+|description2 = {{sbc|Innate:}} '''Xayah's''' {{tip|ability}} casts generate 3 {{tip|stacks}} of ''Clean Cuts'', lasting for 8 seconds, refreshing on subsequent casts, and stacking up to 5 times. '''Xayah's''' {{tip|basic attacks}} are empowered to each consume a stack {{tip|on-attack}} to instead shoot a {{as|Feather|buzzword}} that deals the triggering {{as|attack's damage}} to the primary target and {{as|{{pp|key=%|35 to 55 for 3|1 to 13}} AD}} {{as|physical damage}} to other enemies hit. The secondary target damage can {{tip|critical strike|critically strike}} for {{as|{{critical damage|{{ccd|Xayah|crit_base}}|100}}|critical damage}} damage if the triggering attack does.
+|icon3        = Empowered Recall.png
+|description3 = {{sbc|Innate - Lover's Leap:}} If either '''Xayah''' or {{ci|Rakan}} is channeling {{si|Recall}}, the other may move nearby and channel their own to join alongside them. '''Both''' reach base at the time of which the initiator's {{si|Recall}} completes.
+|effect radius= {{tt|1000|Feather landing location from Xayah's location, taken at the time of the attack dealing damage to main target}}
+|width        = {{tip|er|icononly = true}} 120
+|speed        = 4000
+|targeting    = Passive
+|affects      = Enemies
+|damagetype   = physical
+|spellshield  = False
+|spelleffects = special
+|grounded     =
+|knockdown    =
+|parry        = special
+|callforhelp  =
+|projectile   = special
+|notes        =
+* Deals {{tip|basic damage}} to the primary target and {{tip|area damage}} to secondary targets.
+* {{as|Feathers|buzzword}} will stop upon being intercepted by {{tip|projectile|projectile-blocking}} effects.
+** {{Pending for test}}: {{tip|homing projectile destruction|Missile popping}} before and after striking the primary target.
+* After striking their target, the attack will proceed in a line in the same direction it was already flying.
+** If the target is more than 1000 units from '''Xayah''' when the empowered attack hits them, the attack will not keep flying in a line and drop the {{as|Feather|buzzword}} at their location immediately.
+** Unlike similar effects, the homing and line trajectories use the same missile.
+* All her {{as|Feathers|buzzword}} on the ground will be destroyed when '''Xayah''' {{tip|death|dies}}, and while she is dead, missiles that are still in flight will not spawn new ones, either.
+* ''Clean Cut's'' feathers will spawn even if the basic attack is {{tip|blocked}}.
+* ''Clean Cut's'' hit can be {{tip|dodge|dodged}} by or {{tip|blind|missed}} against the primary target.
+** This will not prevent the missile from continuing on its path nor from dealing damage to secondary targets. The damage cannot be dodged as or missed against a secondary target.
+* The empowered attack will not trigger against {{tip|structures}} nor {{tip|wards}}.
+** The duration will be refreshed when starting the attack windup against them.
+* The number of ''Clean Cuts'' stacks available is represented by a [[File:Xayah Passive Feather.png|20px|link=]] feather counter in her ammo bar, visible to the player only.
+|yvideo       = v5ZWhwj7DjQ
+|yvideo2      = 2MCSNQNgpPg
+}}

@@ -1,0 +1,51 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Piercing Darkness|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Senna
+|skill        = Q
+|icon         = Piercing Darkness.png
+|blurb        = {{sbc|Active:}} {{ci|Senna}} fires a spectral laser toward the target unit. '''Senna''' and allied champions hit are {{tip|heal|healed}}. Enemies hit are dealt {{as|physical damage}}, which {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} and {{tip|on-hit}} effects, and {{tip|slow|slowed}} for a short time.
+|blurb2       = ''Piercing Darkness' '' cooldown is {{sti|cdr|reduced}} {{tip|on-hit}}.
+|description  = {{sbc|Active:}} '''Senna''' fires a beam in the direction of the target unit. The beam consists of a wider ray of light, and a narrower ray of shadow at the center.<br><br>The shadow ray deals {{as|physical damage}} to enemies hit and {{tip|slow|slows}} them by 15% {{as|(+ 15% per 100 '''bonus''' AD)}} {{as|(+ 7% per 100 AP)}} for a duration. The damage dealt to enemy champions {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} at 100% effectiveness.
+|leveling     = {{st|Physical Damage|{{ap|30 to 130}} {{as|(+ 60% '''bonus''' AD)}}}}
+{{st|Slow Duration|{{ap|1 to 2}} seconds}}
+|description2 = The light ray {{tip|heal|heals}} '''Senna''' and allied {{tip|champions}} hit.
+|leveling2    = {{st|Healing|{{ap|40 to 120}} {{as|(+ 40% '''bonus''' AD)}} {{as|(+ 35% AP)}}}}
+|description3 = ''Piercing Darkness'' is {{tt|considered|Piercing Darkness doesn't actually apply basic damage}} to trigger a single {{tip|basic attack}} against {{tip|turrets}}, {{tip|wards}}, [[jungle plants]], {{ai|Absolution 3|Senna|Mist Wraiths}} and [[Champion_summoned_units#Targetable|any other attack-interactive units]] hit. It also applies {{tip|on-hit}} effects against {{tip|champions}} and {{tip|turrets}} hit, and triggers {{tip|on-attack}} effects against {{tt|one champion hit|see notes}}.
+|description4 = ''Piercing Darkness' '' {{sti|'''current''' cooldown}} is reduced by 1 second {{tip|on-attack}}.
+|cast time    = {{as|80% of '''Senna's''' windup time|as}} ({{fd|{{#expr:0.8*{{ccd|Senna|windup}}*(1/{{ccd|Senna|as_base}})round2}}}} at {{as|'''base''' attack speed}})
+|cost         = {{ap|70 to 110}}
+|costtype     = Mana
+|cooldown     = 15
+|target range = {{tip|er|icononly = true}} {{tt|600 – 1100|Based on attack range}}
+|range        = {{tip|er|icononly = true}} 1300
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|100|Shadow ray width}}|{{tt|280|Light ray width}}}}
+|targeting    = Unit
+|affects      = Allies, Enemies, Turrets, Wards
+|damagetype   = Physical
+|onhiteffects = true
+|spelleffects = special
+|parry        = Unknown
+|spellshield  = special
+|projectile   = False
+|notes        =
+* Applies {{tip|spell damage}} to the same champion it applies {{tip|on-attack}} effects to and {{tip|area damage}} to all other targets.
+* The ability's cast time respects the attack speed [[Attack speed|floor and cap]].
+** {{ri|Hail of Blades}} will spend a stack on hitting a champion with ''Piercing Darkness'' but only if {{ri|Hail of Blades}} was activated first by an auto-attack.
+* '''Senna''' can generally target anything that is not either explicitly {{tip|untargetable}} or herself.
+** Valid targets include anything that can be targeted by a basic attack from someone.
+* ''Piercing Darkness'' respects all {{tip|turret}}-specific rules when striking them.
+* {{tip|On-hit}} effects are applied in order of struck units' spawn IDs. This matters for effects that are consumed on-hit (e.g. {{tip|Spellblade}}), which are applied to the target with the lowest {{tt|Spawn ID|among enemy champions, this would also be the enemy first pick in Blind Pick mode}}.
+** "Spawn ID" is an unofficial abbreviation to describe the spawn order for all units at the start of a game, below are some examples.
+** If '''Senna''' targets an enemy champion but hits at least one more enemy champion simultaneously, {{ris|Press the Attack}} first stack will be applied to that target. If no champion was targeted, it will default to the champion with the lowest Spawn ID out of the ones struck by the ability. Whether the effect stacks up on a champion or not when multiple enemy champions are stuck also depends on Spawn ID.
+** If ''Piercing Darkness'' struck an enemy champion and turret simultaneously, with {{ii|Rapid Firecannon}} fully charged, the passive effect will most likely trigger on the turret since towers are often spawned before champions.
+* Similarly, {{tip|on-attack}} effects are applied in order of struck champions' spawn IDs. However, there are some specific on-attack effects that will apply to both the target of ''Piercing Darkness'' and the target with the lowest {{tt|Spawn ID|among enemy champions, this would also be the enemy first pick in Blind Pick mode}} if the two unit is not identical.{{bug|2}} {{tt|Confirmed cases|All under the condition that the targeted enemy champion does NOT have the lowest Spawn ID among all struck enemy champions}}:
+** {{nie|Energized}} effects are stacked twice the amount.
+** {{Pending for test}}
+* {{tip|Spell shield}} will not prevent on-hit effects from being applied.
+* {{Pending for test}} ''Piercing Darkness'' interaction with {{tip|dodge|dodging}}, {{tip|block|blocking}}, and {{tip|blind|blinding}} effects.
+|tips         =
+* Because '''Senna's''' windup percent scales down with levels but her windup time also only scales with 60% of attack speed bonuses, the precise numbers get complicated quickly.
+** At base attack speed and level 1, '''Senna's''' attack windup is {{#expr:{{ccd|Senna|windup}}*(1/{{ccd|Senna|as_base}})round2}} seconds.
+** A reduced formula for calculating ''Piercing Darkness' ''cast time at a given attack timer is '''80% of''' [ {{#expr:({{ccd|Senna|windup}}/{{ccd|Senna|as_base}})round3}} + {{#expr:{{ccd|Senna|windup_modifier}}*{{ccd|Senna|windup}}round4}}{{times}}(1{{divided by}}{{as|'''total''' attack speed|attack speed}}{{minus}}1{{divided by}}{{#expr:({{ccd|Senna|windup}}/{{ccd|Senna|as_base}})round3}}) ] seconds.
+** The cast time equals {{rutngt|0.25}} (which is the standard for most abilities in ''League of Legends'') at approximately {{as|{{fd|204.3}}% '''bonus''' attack speed|attack speed}} (as of [[V25.10]]).
+** Reducing '''Senna's''' attack speed via {{tip|cripple|attack speed reductions}} also increases ''Piercing Darkness' ''cast time by 60% of the amount.
+}}

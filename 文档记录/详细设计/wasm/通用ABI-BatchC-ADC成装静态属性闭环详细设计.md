@@ -38,7 +38,7 @@ revision 采用锁定 `game_data_state` 后的候选 revision；只有 type、en
 4. 聚合顺序：英雄 base/stage → 装备 `entity_attribute_values.baseValue` 求和 → numeric overrides。
 5. 已有属性对 base/current/max/resolved 同步加值；新属性创建四个相同值。
 6. 装备的 stage、type、resource、provider mount、ability、listener 和 passive 均不合并。
-7. target 不支持装备 loadout。
+7. 本批合同仅支持 source loadout；target 侧装备投影不在本批范围。后续贾修（`item_6665`）合同另增 union-tagged target-loadout 路径，**不**改变本批 source-side 静态聚合范围。
 
 百分比和固定值都按 DB 原值直接相加。例如薇恩 18 级 `attack_speed=1.027138` 加破败 `0.25` 后为 `1.277138`。
 

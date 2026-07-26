@@ -1,0 +1,31 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Ambush|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twitch
+|skill        = Q
+|icon         = Ambush.png
+|blurb        = {{sbc|Active:}} {{ci|Twitch}} becomes {{tip|camouflage|camouflaged}} for some time, gaining {{sti|ms|{{as|'''bonus''' movement speed}}}}, increased while facing enemy {{tip|champions}} that cannot see him.
+|blurb2      = Upon breaking stealth, '''Twitch''' gains {{sti|{{as|'''bonus''' attack speed}}}} for a few seconds.
+|blurb3      = When an enemy {{tip|champion}} dies while afflicted with ''{{ai|Deadly Venom|Twitch}}'', ''Ambush's'' cooldown is {{sti|cdr|reset}}.
+|description  = {{sbc|Active:}} After a 1-second delay, '''Twitch''' becomes {{tip|camouflage|camouflaged}} for a duration. Attacking or casting ''{{ai|Venom Cask|Twitch}}'' or ''{{ai|Contaminate|Twitch}}'' ends ''Ambush'' immediately.
+|leveling     = {{st|Stealth Duration|{{ap|10 to 14}} seconds}}
+|icon2        = Ambush 2.png
+|description2 = During this time, '''Twitch''' gains {{sti|ms|{{as|10% '''bonus''' movement speed}}}}, increased to {{as|30%|ms}} while facing enemy {{tip|champions}} within a 1000-unit radius who cannot see him.
+|icon3        = Ambush 3.png
+|description3 = Upon breaking stealth, '''Twitch''' gains {{sti|{{as|'''bonus''' attack speed}}}} for 6 seconds.
+|leveling3    = {{st|Bonus Attack Speed|{{ap|40 to 60}}%}}
+|description4 = When an enemy {{tip|champion}} dies while afflicted with ''{{ai|Deadly Venom|Twitch}}'', ''Ambush's'' {{sti|cooldown}} is reset.
+|customlabel  = Detection Radius
+|custominfo   = 500
+|cooldown     = 16
+|cdstart      = post-effect
+|cost         = 40
+|cast time = none
+|costtype     = Mana
+|targeting    = Auto
+|affects      = Self
+|notes   =
+* Entering stealth cancels '''Twitch's''' current basic attack.
+* ''Ambush'' follows the same rules as stealth but he can still perform actions normally before entering {{tip|camouflage}}. Activating {{si|Recall}} during the 1-second delay allows him to {{tip|channel}} it while stealthed.
+* If '''Twitch''' enters {{tip|stasis}} during the delay, he will gain the {{tip|camouflage}} after the stasis ends.
+* Using a basic attack {{tip|breaks stealth|breaks the stealth}} at the start of the attack windup.
+|flavorsound  = {{sm2|Twitch_Original_Q_3.ogg}} ''"Sneaky, sneaky... "''
+}}

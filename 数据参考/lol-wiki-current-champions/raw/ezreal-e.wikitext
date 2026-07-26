@@ -1,0 +1,30 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Arcane Shift|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ezreal
+|skill        = E
+|icon         = Arcane Shift.png
+|blurb        = {{sbc|Active:}} {{ci|Ezreal}} {{tip|blinks}} to the target location and fires a bolt that strikes the nearest enemy, dealing {{as|magic damage}}.
+|description  = {{sbc|Active:}} '''Ezreal''' {{tip|blinks}} from his current location to up to 475 units towards the target location, then fires a homing bolt towards the nearest enemy that deals {{as|magic damage}} and {{tip|standard sight|reveals}} them for 1 second.
+|leveling     = {{st|Magic Damage|{{ap|80 to 280}} {{as|(+ 60% '''bonus''' AD)}} {{as|(+ 75% AP)}}}}
+|description2 = ''Arcane Shift'' prioritizes firing at the nearest enemy marked by ''{{ai|Essence Flux|Ezreal}}''.
+|description3 = ''The target does not have to be {{tip|sight|visible}} to be hit by this ability.''
+|cooldown     = {{ap|26 to 14}}
+|target range = {{tt|475|Maximum blink range}}
+|effect radius= {{tip|cr|icononly = true}} {{tt|750|Homing missile range}}
+|speed        = {{tt|2000|Homing missile speed}}
+|cast time    = {{fd|0.25}}
+|cost         = 70
+|costtype     = Mana
+|queue time   = {{fd|0.5}}
+|targeting    = Location
+|affects      = Enemies, Self
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = spell
+|projectile   = True
+|grounded     = True
+|callforhelp  = True
+|outofrange   = cast at max
+|notes        =
+* If '''Ezreal''' is moved during the cast time, his range to blink will update accordingly. This does not exceed the maximum target range.
+* The target is revealed as soon as '''Ezreal''' fires the missile at them.
+}}

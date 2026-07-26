@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "graves-r",
+  "candidateKey": "hero_skill|hero_graves|R|终极爆弹",
+  "ownerId": "hero_graves",
+  "wikiChampionTitle": "Graves",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Graves/R",
+  "zhDisplayName": "终极爆弹",
+  "resolvedTitle": "Template:Data Graves/Collateral Damage",
+  "wikiPageId": 1307373,
+  "revisionId": 4007499,
+  "revisionTimestamp": "2026-04-11T22:21:36Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Graves/Collateral%20Damage",
+  "contentSha256": "834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1",
+  "rawByteSize": 2722,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Graves''' fires an explosive shell in the target direction that deals {{as|physical damage}} to enemies hit and causes him to {{tip|dash|recoil}} 400 units in the opposite direction.\n",
+    "leveling": "{{st|Physical Damage|{{ap|275 to 575}} {{as|(+ 150% '''bonus''' AD)}}}}\n",
+    "description2": "Upon hitting an enemy {{tip|champion}} or reaching the end of its range, the shell explodes in a cone to deal reduced damage to additional enemies.\n",
+    "leveling2": "{{st|Reduced Damage|{{ap|200 to 440}} {{as|(+ 120% '''bonus''' AD)}}}}\n",
+    "cooldown": "{{ap|100 to 60}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* Applies {{tip|spell damage}} to the target hit by the shell (including to non-champions struck before exploding{{bug}}) and {{tip|area damage}} to targets within the explosion cone.\n* The projectile will still explode early if the champion hit by the shell is protected by a {{tip|spell shield}}.\n* The explosion cone is anchored on the location of the shell missile when it collided with a champion, or otherwise its maximum cast range.\n* The cone damage is always located 150 units behind, based off its direction\n* ''Collateral Damage'' is not disabled while {{tip|ground|grounded}} or {{tip|root|rooted}}, but '''Graves''' will not dash after the cast time while affected by them.\n* '''Graves''' will not {{tip|dash}} after the cast time if he is {{tip|airborne}}.\n{{Effect at cast time end}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

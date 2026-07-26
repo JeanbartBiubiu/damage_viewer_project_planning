@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Buster Shot|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Tristana
+|skill        = R
+|icon         = Buster Shot.png
+|blurb        = {{sbc|Active:}} {{ci|Tristana}} fires a massive cannonball at the target enemy that deals {{as|magic damage}}. They and surrounding enemies are also briefly {{tip|airborne|knocked back}} and {{tip|stun|stunned}}, during which they are {{tip|standard sight|revealed}}.
+|description  = {{sbc|Active:}} '''Tristana''' fires a massive cannonball at the target enemy that deals {{as|magic damage}}. They and surrounding enemies are also {{tip|airborne|knocked back}} and {{tip|stun|stunned}} for a duration, during which all targets are {{tip|standard sight|revealed}}.
+|leveling     = {{st|Magic Damage|{{ap|225 to 325}} {{as|(+ 70% '''bonus''' AD)}} {{as|(+ 100% AP)}}}}
+{{st|Knock Back Distance|{{ap|600|800|1000}}}}
+{{st|Stun Duration|{{ap|0.4 to 0.7}} seconds}}
+|cooldown     = 100
+|cost         = 100
+|costtype     = mana
+|target range = {{tip|er|icononly = true}} {{pp|550 to 700}}
+|cast time    = {{fd|0.25}}
+|targeting    = Unit
+|effect radius= {{tip|cr|icononly = true}} {{tt|200|Around target once the missile hits}}
+|speed        = {{dv|{{tt|2000|Missile speed}}|{{tt|1500|Knockback speed, can differ slightly based on circumstance}}}}
+|affects      = Enemies
+|damagetype   = Magic
+|spelleffects = special
+|spellshield  = True
+|projectile   = True
+|callforhelp  = True
+|knockdown    =
+|grounded     =
+|notes        =
+* Applies {{tip|spell damage}} to the primary target and deals 0 {{tip|default damage}} to secondary targets.
+** The 0 damage to secondary targets triggers {{tip|turret}} aggro, but does not stack ''{{ai|Explosive Charge|Tristana}}''.
+* '''Tristana''' will attempt to basic attack the target afterwards.
+* ''Buster Shot's'' {{tip|airborne|displacement}} direction is based on '''Tristana's''' location at the end of the cast time.
+** The primary target is pushed in a straight line away from that location, but the knockback distance and speed may be impeded by terrain.
+** Secondary targets are displaced parallel to the primary target's displacement.
+* The {{tip|airborne|icononly = true}} debuff is removed early when the forced movement stops.
+* {{tip|Displacement immunity}} will also resist the application of the {{tip|stun}}.
+{{Unit-targeted cancel conditions}}
+}}

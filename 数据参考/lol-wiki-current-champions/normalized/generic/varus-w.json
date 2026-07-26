@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "varus-w",
+  "candidateKey": "hero_skill|hero_varus|W|枯萎箭袋",
+  "ownerId": "hero_varus",
+  "wikiChampionTitle": "Varus",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Varus/W",
+  "zhDisplayName": "枯萎箭袋",
+  "resolvedTitle": "Template:Data Varus/Blighted Quiver",
+  "wikiPageId": 1309980,
+  "revisionId": 4026472,
+  "revisionTimestamp": "2026-06-09T22:00:43Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Varus/Blighted%20Quiver",
+  "contentSha256": "16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2",
+  "rawByteSize": 7062,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Varus'''' {{tip|basic attacks}} are empowered to deal {{as|'''bonus''' magic damage}} and apply a {{tip|stack}} of ''Blight'' {{tip|on-hit}} for 6 seconds, refreshing on subsequent applications and stacking up to 3 times. '''Varus' ''' {{tip|abilities}} detonate all ''Blight'' stacks on affected enemies hit.\n",
+    "leveling": "{{st|Bonus Magic Damage|{{ap|{{#var:o1}} to {{#var:o5}}}} {{as|(+ {{#var:obad}}% '''bonus''' AD)}} {{as|(+ {{#var:oap}}% AP)}}}}\n",
+    "description2": "{{sbc|Blight:}} For each stack consumed, the target is dealt {{as|'''bonus''' magic damage}}. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', this damage is increased by {{#var:q_mod}}. This damage is capped at {{ap|360/3}} per stack against {{tip|monsters}}, for a total cap of 360 at maximum stacks.<br><br>Additionally, each stack consumed against a {{tip|champion}} or epic {{tip|monster}} reduces the {{sti|'''remaining''' cooldowns}} of '''Varus' ''' basic abilities by {{#var:cdr}}% of each of their '''total''' cooldowns, up to a {{ap|{{#var:cdr}}*3}}% cooldown reduction per target. If the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}'', the cooldown reduction is increased by {{#var:q_mod}}, up to a {{pp|{{#var:cdr}}*3 to {{#var:cdr}}*3*1.5|0 to 1.25 by 0.125|key=%|type=[[File:Varus Piercing Arrow.png|20px|border]] Piercing Arrow's charge time|formula=39% + 1.95% per 0.125 seconds. ''This is capped at 1.25 seconds.''|round1=3|showtype=false}} cooldown reduction per target from consuming maximum stacks against them.\n",
+    "leveling2": "{{st|Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}} to {{#var:b5}}}}% {{as|(+ {{fd|{{#var:ap}}}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3 to {{#var:b5}}*3}}% {{as|(+ {{ap|{{#var:ap}}*3}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}\n{{st|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage per Stack|{{as|{{ap|{{#var:b1}}*1.5 to {{#var:b5}}*1.5}}% {{as|(+ {{ap|{{#var:ap}}*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}|[[File:Varus Piercing Arrow.png|20px|border|link=]] Maximum Bonus Magic Damage at Max Stacks|{{as|{{ap|{{#var:b1}}*3*1.5 to {{#var:b5}}*3*1.5}}% {{as|(+ {{ap|{{#var:ap}}*3*1.5}}% per 100 AP)}} of the target's '''maximum''' health|health)}}}}\n",
+    "description3": "{{sbc|Active:}} '''Varus'''' next ''{{ai|Piercing Arrow|Varus}}'' within {{fd|5.5}} seconds is empowered to deal {{as|'''additional bonus''' magic damage|magic damage}}, increased by {{#var:q_mod}}. This damage is capped at 360 against {{tip|monsters}}.\n",
+    "leveling3": "{{st|Active Minimum Magic Damage|{{as|{{ap|{{#var:a1}} to {{#var:a2}}}}% of target's '''missing''' health}}|Active Maximum Magic Damage|{{as|{{ap|{{#var:a1}}*1.5 to {{#var:a2}}*1.5}}% of target's '''missing''' health}}}}\n",
+    "description4": "If '''Varus''' does not cast ''{{ai|Piercing Arrow|Varus}}'', ''Blighted Quiver'' can be recast after 1 second within the duration, and does so automatically afterwards or when he dies. ''Blighted Quiver'' can be cast during the first {{fd|0.85}} seconds of ''{{ais|Piercing Arrow|Varus}}'' charge, and will be placed on full cooldown after the charge ends even if ''{{ai|Piercing Arrow|Varus}}'' is not recast.\n",
+    "description5": "{{sbc|Recast:}} '''Varus''' ends ''Blighted Quiver'' and places it on a 1-second cooldown.\n",
+    "description6": "''Blighted Quiver's active and recast can both be used while affected by {{tip|cast-inhibiting crowd control}}.''\n",
+    "cooldown": "{{tt|40|Starts after the effect is used with Piercing Arrow}}\n",
+    "damagetype": "Magic\n",
+    "notes": "* The monster damage cap is also increased by {{#var:q_mod}} if the stacks were consumed with ''{{ai|Piercing Arrow|Varus}}''.\n* {{tip|Spell shield}} will not block the {{tip|on-hit}} damage but will block the consumption damage if the target is hit by his abilities.\n* ''Blighted Quiver'' will not apply stacks nor deal {{tip|on-hit}} damage if blocked by {{tip|blind}}, {{tip|block}} or {{tip|dodge}} effects.\n** The consumption damage will not be blocked.\n* ''Blighted Quiver's'' active damage is dealt after the damage of {{ai|Piercing Arrow|Varus}}.\n* ''Blighted Quiver'' does not count as an ability activation for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* The attacks do not affect {{tip|structures}} nor {{tip|wards}}.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "description5": true,
+    "description6": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

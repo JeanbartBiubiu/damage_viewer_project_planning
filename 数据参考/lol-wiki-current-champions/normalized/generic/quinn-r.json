@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "quinn-r",
+  "candidateKey": "hero_skill|hero_quinn|R|深入敌后",
+  "ownerId": "hero_quinn",
+  "wikiChampionTitle": "Quinn",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Quinn/R",
+  "zhDisplayName": "深入敌后",
+  "resolvedTitle": "Template:Data Quinn/Behind Enemy Lines",
+  "wikiPageId": 1319148,
+  "revisionId": 4021953,
+  "revisionTimestamp": "2026-05-22T15:43:49Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Quinn/Behind%20Enemy%20Lines",
+  "contentSha256": "dcb0152c001edd23b95b81d2a8da588ce46ed0e658def89615bf3cc36e1aaa8c",
+  "rawByteSize": 4387,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Quinn''' {{tip|channels}} for 2 seconds, signaling '''{{ci|Valor}}''' to pair up. Upon completion, he picks her up and they unite, increasing her {{sti|ms|{{as|{{tt|'''total''' movement speed|Increases base movement as well as bonus movement speed}}}}}}, granting her {{tip|ghosted|ghosting}}, and allowing her to cast ''{{ai|Skystrike|Quinn}}''. ''Behind Enemy Lines'' can be recast after {{fd|0.5}} seconds during the channel.\n",
+    "leveling": "{{st|Total Movement Speed Increase|{{ap|70 to 130}}%}}\n",
+    "description2": "Taking damage from non-{{tip|minions}} while ''Behind Enemy Lines'' is active or while '''Quinn''' is {{tip|channel|channeling}} the ability causes her to lose the {{as|'''bonus total''' movement speed}} for 3 seconds. Becoming {{tip|immobilize|immobilized}}, {{tip|ground|grounded}}, or {{tip|silence|silenced}} ends ''Behind Enemy Lines'' immediately and puts it on {{sti|cooldown}} without performing ''{{ai|Skystrike|Quinn}}''.\n",
+    "description3": "Once ''Behind Enemy Lines'' has been learned, [[death|respawning]] or entering {{tt|any|see notes}} [[Spawn|summoning platform]] will spawn '''{{ci|Valor}}''' instantly.\n",
+    "description4": "{{sbc|Recast:}} '''Quinn''' cancels the channel, placing ''Behind Enemy Lines'' on cooldown.\n",
+    "cooldown": "3\n",
+    "cost": "{{ap|50 to 0}}\n",
+    "costtype": "Mana\n",
+    "notes": "* Taking damage from non-{{tip|minions}} removes the bonus movement speed buff temporarily by suppressing it with the status effect of a {{tip|slow}}.\n** This slow is not affected by {{tip|slow resist}} or {{tip|slow immunity}}, but it can be {{tip|cleanse|cleansed}}.\n** While the slow is in effect, ''Behind Enemy Lines'' is not considered to grant increased {{as|movement speed}} for the purpose of {{ri|Celerity}}.\n* ''Behind Enemy Lines'' does not refund its {{sti|{{as|mana cost}}}} if the channel was canceled via recast.\n** The only exception is if '''Quinn's''' {{as|mana}} falls below the {{as|mana cost}}, in which case she is granted enough {{as|mana}} back (the equal amount needed) to be able to cast ''Behind Enemy Lines'' again.\n* [[death|Respawning]] or returning to the [[Spawn|summoning platform]] will not spawn '''{{ci|Valor}}''' if ''Behind Enemy Lines'' is on cooldown.\n* If '''{{ci|Valor}}''' is spawned by [[death|respawning]] or returning to the [[Spawn|summoning platform]], {{ai|Skystrike|Quinn}} will be disabled from being manually cast for {{fd|2.5}} seconds upon uniting. However, it will still automatically activate upon declaring a {{tip|basic attack}} or casting {{ai|Blinding Assault|Quinn}} or {{ai|Vault|Quinn}}.\n* ''Behind Enemy Lines'' ends immediately without {{ai|Skystrike|Quinn}} being cast if she enters or is inside the enemy [[fountain]]. The ability will go on full {{sti|cooldown}}.\n** '''Quinn''' will also spawn '''{{ci|Valor}}''' when entering the enemy fountain.{{bug}}\n* Self or allied applied {{tip|immobilize|immobilizations}} such as {{ui|Blast Cone}}, {{ai|Tempered Fate|Bard}}, and {{ii|Zhonya's Hourglass}} also count for ending ''Behind Enemy Lines''.\n* The following table refers for interactions while '''Quinn''' is {{tip|channel|channeling}}:\n** ''Behind Enemy Lines'' is not a [[Channel#Movement Channels|movement channel]], and so will not be {{tip|interrupt|interrupted}} by {{tip|root}} and {{tip|ground}}.\n{{ct|channel|attack=interrupts|cast=interrupts|move=false|items=interrupts,true,,false|spells=true, interrupts, interrupts, interrupts, interrupts}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

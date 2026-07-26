@@ -1,0 +1,32 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Mounting Dread|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kindred
+|skill        = E
+|icon         = Mounting Dread.png
+|blurb        = {{sbc|Active:}} {{ci|Lamb}} fires a shot at the target enemy that briefly {{tip|slow|slows}} them and applies a {{tip|stack}} of ''Mounting Dread''. '''Lamb's''' {{tip|basic attacks}} against this target stack ''Mounting Dread'' up to a cap.
+|blurb2      = Applying maximum stacks consumes them all, causing {{ci|Wolf}} to pounce on the target and deal {{as| physical damage}} based on both '''Kindred's''' {{as|{{sti|critical strike chance}}}} and the target's {{as|'''missing''' health}}.
+|description  = {{sbc|Active:}} '''Lamb''' fires a shot at the target enemy that {{tip|slow|slows}} them by 30% {{as|(+ 5% per 100 AP)}} for 1 second and marks them for 4 seconds. Her {{tip|basic attacks}} against the marked target each apply a {{tip|stack}}, refreshing the duration and stacking up to 3 times.
+|description2 = The third stack directs '''Wolf''' to pounce on the target, consuming all stacks to deal {{as|'''additional''' physical damage|physical damage}}, increased by {{critical damage|0 to 50|critScaling=true}}.
+|leveling2    = {{st|Additional Physical Damage|{{ap|80 to 200}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 5% {{as|(+ {{fd|0.5}}% per {{ai|Mark of the Kindred|Kindred|Mark}})|buzzword}} of target's '''missing''' health)}}}}
+|description3 = The damage based on the {{as|'''missing''' health}} ratio is capped at 200 against {{tip|monster|monsters}}.
+|target range = {{tip|er|icononly = true}} {{pp|500;575;600;625;650;675;700;725;750|0;4;7;10;13;16;19;22;25|type=Marks}}
+|cooldown     = {{ap|14 to 8}}
+|cast time    = {{fd|0.25}}
+|cost         = 50
+|costtype     = Mana
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = spell
+|projectile   = True
+|parry        = true
+|grounded     =
+|knockdown    =
+|notes        =
+* If the target becomes {{tip|untargetable}}, {{tip|death|dies}}, or is too far away or no longer in {{tip|sight}} during the cast time, this ability will cancel and not pay its cost but still go on {{sti|cooldown}}.{{bug}}
+* This ability cannot target a unit with ''Mounting Dread'' stacks.
+* ''Mounting Dread'' will prioritize casting on the closest champion within {{tip|cr|icononly = true}} {{tt|100|estimated}} radius of the cursor, even if other eligible targets are closer.
+** As a consequence of this mechanic, ''Mounting Dread'' can still be cast on champions with ''Mounting Dread'' stacks.{{bug}}
+*** Reapplying ''Mounting Dread'' through this method will apply the slow, but will not reset the stack count.
+* {{pending for test}} Reapplying ''Mounting Dread'' against {{ai|Inherent Glamour|Neeko|disguised}} {{ci|Neeko}} will reset the stack count.{{bug}}
+}}

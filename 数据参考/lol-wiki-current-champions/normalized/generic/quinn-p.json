@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "quinn-p",
+  "candidateKey": "hero_skill|hero_quinn|P|侵扰",
+  "ownerId": "hero_quinn",
+  "wikiChampionTitle": "Quinn",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Quinn/I",
+  "zhDisplayName": "侵扰",
+  "resolvedTitle": "Template:Data Quinn/Harrier",
+  "wikiPageId": 1308953,
+  "revisionId": 4024765,
+  "revisionTimestamp": "2026-06-03T00:49:03Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Quinn/Harrier",
+  "contentSha256": "740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c",
+  "rawByteSize": 2390,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Quinn's''' ''{{ai|Blinding Assault|Quinn}}'' against the primary target, ''{{ai|Vault|Quinn}}'', and ''{{ai|Skystrike|Quinn}}'' mark enemies hit with ''Harrier'' for 4 seconds, during which they are {{tip|standard sight|revealed}}. '''{{ci|Valor}}''' will periodically mark a nearby {{tip|sight|visible}} enemy if no ''Harrier'' targets exist for 1 second.\n",
+    "description2": "'''Quinn's''' {{tip|basic attacks}} {{tip|on-hit}} against ''Harrier'' targets are empowered to consume the mark to deal {{pp|15 + (120-15)/17*(x-1) for 20|color=physical damage}} {{as|(+ 40% '''bonus''' AD)}} {{as|'''bonus''' physical damage}}.\n",
+    "description3": "''Harrier'' deals {{as|75 '''bonus''' physical damage}} against {{tip|monsters}}.\n",
+    "description4": "While ''{{ai|Behind Enemy Lines|Quinn}}'' is active, ''Harrier'' is disabled and all ''Harrier'' marks are removed.\n",
+    "damagetype": "Physical\n",
+    "notes": "* If a mark applied by an ability is overwritten, consumed, or timed out, ''Harrier'' goes on a 1-second cooldown if it's not already on cooldown.\n* ''Harrier's'' targeting priority:\n*# Last unit hit (if it was a small minion it appears to select a different target).\n*# Lowest-health enemy champion.\n*# Lowest-health enemy minion.\n* ''Harrier'' is consumed even if it is parried, the attack is negated in any case.\n* ''Harrier'' will not mark enemy {{tip|minions}} while '''Quinn''' is not {{tip|sight|visible}}, but will mark enemy {{tip|champions}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

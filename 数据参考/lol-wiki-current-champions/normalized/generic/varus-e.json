@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "varus-e",
+  "candidateKey": "hero_skill|hero_varus|E|恶灵箭雨",
+  "ownerId": "hero_varus",
+  "wikiChampionTitle": "Varus",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Varus/E",
+  "zhDisplayName": "恶灵箭雨",
+  "resolvedTitle": "Template:Data Varus/Hail of Arrows",
+  "wikiPageId": 1309978,
+  "revisionId": 3969402,
+  "revisionTimestamp": "2025-11-24T16:03:58Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Varus/Hail%20of%20Arrows",
+  "contentSha256": "7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9",
+  "rawByteSize": 1750,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Varus''' fires a hail of arrows at the target location that land after {{fd|0.5}} seconds, dealing {{as|physical damage}} to enemies hit.\n",
+    "leveling": "{{st|Physical Damage|{{ap|60 to 180}} {{as|(+ 90% '''bonus''' AD)}}}}\n",
+    "description2": "The area then becomes desecrated for 4 seconds, {{tip|slow|slowing}} enemies within and inflicting them with {{tip|Grievous Wounds}}.\n",
+    "leveling2": "{{st|Slow|{{ap|30 to 50}}%}}\n",
+    "cooldown": "{{ap|18|16|14|12|10}}\n",
+    "cost": "90\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* {{tip|Slow}} lingers for {{fd|0.25}} seconds after leaving the marked area.\n* ''Hail of Arrows'' consumes {{ai|Blighted Quiver|Varus}} stacks for bonus damage a second time after ~{{fd|0.3}} seconds of hitting, allowing stacks applied during this time to be triggered.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

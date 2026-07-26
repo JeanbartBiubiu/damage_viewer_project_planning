@@ -1,0 +1,5042 @@
+{
+  "schemaVersion": "lol-wiki-mechanism-candidate-routing-manifest-v1",
+  "purpose": "identity_and_audit_routing_only_not_numeric_truth",
+  "frozenPlanRev": "wiki-only-candidate-registry-source-allowlist-v3",
+  "entryCount": 242,
+  "sourceKindCounts": {
+    "hero_skill": 165,
+    "item_passive": 77
+  },
+  "classificationBucketCounts": {
+    "migrated": 48,
+    "partial": 5,
+    "blocked": 120,
+    "out_of_scope": 69
+  },
+  "entries": [
+    {
+      "candidateKey": "hero_skill|hero_akshan|P|无所不用",
+      "inventoryOrdinal": 0,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_akshan",
+      "skillKey": "P",
+      "keyLabelZh": "无所不用",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "every_n_hit",
+          "on_hit",
+          "stacking_dirty_fighting",
+          "magic_proc_on_third_stack"
+        ],
+        "gapCode": "partial_remaining",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "partial"
+      },
+      "pageId": "akshan-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_akshan|Q|去而复还",
+      "inventoryOrdinal": 1,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_akshan",
+      "skillKey": "Q",
+      "keyLabelZh": "去而复还",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "akshan-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_akshan|W|赴险夺人",
+      "inventoryOrdinal": 2,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_akshan",
+      "skillKey": "W",
+      "keyLabelZh": "赴险夺人",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "economy_gold",
+          "boundaryReason": "赴险夺人：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "pageId": "akshan-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_akshan|E|骄行荡寇",
+      "inventoryOrdinal": 3,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_akshan",
+      "skillKey": "E",
+      "keyLabelZh": "骄行荡寇",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "explicit_user_scope",
+          "excludedBehavior": "explicit_user_audit_scope",
+          "boundaryReason": "骄行荡寇：用户显式划定审计范围外；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "pageId": "akshan-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_akshan|R|恩怨相抵",
+      "inventoryOrdinal": 4,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_akshan",
+      "skillKey": "R",
+      "keyLabelZh": "恩怨相抵",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "akshan-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_aphelios|P|传知者与真知者",
+      "inventoryOrdinal": 5,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_aphelios",
+      "skillKey": "P",
+      "keyLabelZh": "传知者与真知者",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "aphelios_owner_allowlist",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "complex_owner_skip",
+          "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+          "boundaryReason": "传知者与真知者：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+        }
+      },
+      "pageId": "aphelios-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_aphelios|Q|武器技能",
+      "inventoryOrdinal": 6,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_aphelios",
+      "skillKey": "Q",
+      "keyLabelZh": "武器技能",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "aphelios_owner_allowlist",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "complex_owner_skip",
+          "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+          "boundaryReason": "武器技能：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+        }
+      },
+      "pageId": "aphelios-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_aphelios|W|月相轮转",
+      "inventoryOrdinal": 7,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_aphelios",
+      "skillKey": "W",
+      "keyLabelZh": "月相轮转",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "aphelios_owner_allowlist",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "complex_owner_skip",
+          "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+          "boundaryReason": "月相轮转：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+        }
+      },
+      "pageId": "aphelios-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_aphelios|E|武器队列系统",
+      "inventoryOrdinal": 8,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_aphelios",
+      "skillKey": "E",
+      "keyLabelZh": "武器队列系统",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "no_single_target_dps_effect"
+        ],
+        "gapCode": "",
+        "damageDisposition": "aphelios_owner_allowlist",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "complex_owner_skip",
+          "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+          "boundaryReason": "武器队列系统：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+        }
+      },
+      "pageId": "aphelios-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_aphelios|R|清辉夜凝",
+      "inventoryOrdinal": 9,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_aphelios",
+      "skillKey": "R",
+      "keyLabelZh": "清辉夜凝",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "aphelios_owner_allowlist",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "complex_owner_skip",
+          "excludedBehavior": "aphelios_weapon_ammo_swap_system",
+          "boundaryReason": "清辉夜凝：复杂所有者/武器弹药系统整包跳过；主目标伤害分支已复核为边界外。",
+          "damageRelevantSubBranchDisposition": "aphelios_owner_allowlist"
+        }
+      },
+      "pageId": "aphelios-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ashe|P|冰霜射击",
+      "inventoryOrdinal": 10,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ashe",
+      "skillKey": "P",
+      "keyLabelZh": "冰霜射击",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "seeded_random_crit_sequence"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ashe-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ashe|Q|射手的专注",
+      "inventoryOrdinal": 11,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ashe",
+      "skillKey": "Q",
+      "keyLabelZh": "射手的专注",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "stacking_stat_modifier_on_hit"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "ashe-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ashe|W|万箭齐发",
+      "inventoryOrdinal": 12,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ashe",
+      "skillKey": "W",
+      "keyLabelZh": "万箭齐发",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "ability_flat_bonus_ad_damage",
+          "first_missile_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "ashe-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ashe|E|鹰击长空",
+      "inventoryOrdinal": 13,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ashe",
+      "skillKey": "E",
+      "keyLabelZh": "鹰击长空",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_vision",
+          "excludedBehavior": "ward_vision_or_trap_reveal",
+          "boundaryReason": "鹰击长空：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "ashe-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ashe|R|魔法水晶箭",
+      "inventoryOrdinal": 14,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ashe",
+      "skillKey": "R",
+      "keyLabelZh": "魔法水晶箭",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ashe-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_azir|P|恕瑞玛的传承",
+      "inventoryOrdinal": 15,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_azir",
+      "skillKey": "P",
+      "keyLabelZh": "恕瑞玛的传承",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "building_or_nonchampion_only",
+          "excludedBehavior": "building_or_epic_monster_damage",
+          "boundaryReason": "恕瑞玛的传承：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "pageId": "azir-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_azir|Q|狂沙猛攻",
+      "inventoryOrdinal": 16,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_azir",
+      "skillKey": "Q",
+      "keyLabelZh": "狂沙猛攻",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "azir-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_azir|W|沙兵现身",
+      "inventoryOrdinal": 17,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_azir",
+      "skillKey": "W",
+      "keyLabelZh": "沙兵现身",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "azir-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_azir|E|流沙移形",
+      "inventoryOrdinal": 18,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_azir",
+      "skillKey": "E",
+      "keyLabelZh": "流沙移形",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "azir-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_azir|R|禁军之墙",
+      "inventoryOrdinal": 19,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_azir",
+      "skillKey": "R",
+      "keyLabelZh": "禁军之墙",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "azir-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_caitlyn|P|爆头",
+      "inventoryOrdinal": 20,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_caitlyn",
+      "skillKey": "P",
+      "keyLabelZh": "爆头",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "caitlyn-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_caitlyn|Q|和平使者",
+      "inventoryOrdinal": 21,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_caitlyn",
+      "skillKey": "Q",
+      "keyLabelZh": "和平使者",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "caitlyn-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_caitlyn|W|约德尔诱捕器",
+      "inventoryOrdinal": 22,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_caitlyn",
+      "skillKey": "W",
+      "keyLabelZh": "约德尔诱捕器",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "caitlyn-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_caitlyn|E|90口径绳网",
+      "inventoryOrdinal": 23,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_caitlyn",
+      "skillKey": "E",
+      "keyLabelZh": "90口径绳网",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "caitlyn-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_caitlyn|R|让子弹飞",
+      "inventoryOrdinal": 24,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_caitlyn",
+      "skillKey": "R",
+      "keyLabelZh": "让子弹飞",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "caitlyn-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_corki|P|海克斯科技军备",
+      "inventoryOrdinal": 25,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_corki",
+      "skillKey": "P",
+      "keyLabelZh": "海克斯科技军备",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "corki-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_corki|Q|磷光炸弹",
+      "inventoryOrdinal": 26,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_corki",
+      "skillKey": "Q",
+      "keyLabelZh": "磷光炸弹",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "corki-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_corki|W|瓦尔基里俯冲",
+      "inventoryOrdinal": 27,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_corki",
+      "skillKey": "W",
+      "keyLabelZh": "瓦尔基里俯冲",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "corki-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_corki|E|格林机枪",
+      "inventoryOrdinal": 28,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_corki",
+      "skillKey": "E",
+      "keyLabelZh": "格林机枪",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "corki-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_corki|R|火箭轰击",
+      "inventoryOrdinal": 29,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_corki",
+      "skillKey": "R",
+      "keyLabelZh": "火箭轰击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "corki-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_draven|P|德莱文联盟",
+      "inventoryOrdinal": 30,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_draven",
+      "skillKey": "P",
+      "keyLabelZh": "德莱文联盟",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "economy_gold",
+          "boundaryReason": "德莱文联盟：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "pageId": "draven-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_draven|Q|旋转飞斧",
+      "inventoryOrdinal": 31,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_draven",
+      "skillKey": "Q",
+      "keyLabelZh": "旋转飞斧",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "draven-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_draven|W|血性冲刺",
+      "inventoryOrdinal": 32,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_draven",
+      "skillKey": "W",
+      "keyLabelZh": "血性冲刺",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "draven-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_draven|E|开道利斧",
+      "inventoryOrdinal": 33,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_draven",
+      "skillKey": "E",
+      "keyLabelZh": "开道利斧",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "draven-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_draven|R|冷血追命",
+      "inventoryOrdinal": 34,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_draven",
+      "skillKey": "R",
+      "keyLabelZh": "冷血追命",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "draven-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ezreal|P|咒能高涨",
+      "inventoryOrdinal": 35,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ezreal",
+      "skillKey": "P",
+      "keyLabelZh": "咒能高涨",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "stacking_stat_modifier_on_hit",
+          "attack_speed_percent_add"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "ezreal-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ezreal|Q|秘术射击",
+      "inventoryOrdinal": 36,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ezreal",
+      "skillKey": "Q",
+      "keyLabelZh": "秘术射击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ezreal-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ezreal|W|精华跃动",
+      "inventoryOrdinal": 37,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ezreal",
+      "skillKey": "W",
+      "keyLabelZh": "精华跃动",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ezreal-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ezreal|E|奥术跃迁",
+      "inventoryOrdinal": 38,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ezreal",
+      "skillKey": "E",
+      "keyLabelZh": "奥术跃迁",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ezreal-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_ezreal|R|精准弹幕",
+      "inventoryOrdinal": 39,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_ezreal",
+      "skillKey": "R",
+      "keyLabelZh": "精准弹幕",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "ezreal-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_graves|P|新命运",
+      "inventoryOrdinal": 40,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_graves",
+      "skillKey": "P",
+      "keyLabelZh": "新命运",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "graves-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_graves|Q|穷途末路",
+      "inventoryOrdinal": 41,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_graves",
+      "skillKey": "Q",
+      "keyLabelZh": "穷途末路",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "graves-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_graves|W|烟幕弹",
+      "inventoryOrdinal": 42,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_graves",
+      "skillKey": "W",
+      "keyLabelZh": "烟幕弹",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "graves-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_graves|E|快速拔枪",
+      "inventoryOrdinal": 43,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_graves",
+      "skillKey": "E",
+      "keyLabelZh": "快速拔枪",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "stacking_stat_modifier_on_hit"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "graves-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_graves|R|终极爆弹",
+      "inventoryOrdinal": 44,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_graves",
+      "skillKey": "R",
+      "keyLabelZh": "终极爆弹",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "graves-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jayce|P|海克斯科技电容",
+      "inventoryOrdinal": 45,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jayce",
+      "skillKey": "P",
+      "keyLabelZh": "海克斯科技电容",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "no_single_target_dps_effect"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "海克斯科技电容：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "jayce-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jayce|Q|苍穹之跃 / 电能震荡",
+      "inventoryOrdinal": 46,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jayce",
+      "skillKey": "Q",
+      "keyLabelZh": "苍穹之跃 / 电能震荡",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jayce-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jayce|W|闪电领域 / 超能电荷",
+      "inventoryOrdinal": 47,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jayce",
+      "skillKey": "W",
+      "keyLabelZh": "闪电领域 / 超能电荷",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jayce-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jayce|E|雷霆一击 / 加速之门",
+      "inventoryOrdinal": 48,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jayce",
+      "skillKey": "E",
+      "keyLabelZh": "雷霆一击 / 加速之门",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jayce-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jayce|R|墨丘利之炮 / 墨丘利之锤",
+      "inventoryOrdinal": 49,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jayce",
+      "skillKey": "R",
+      "keyLabelZh": "墨丘利之炮 / 墨丘利之锤",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jayce-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jhin|P|低语",
+      "inventoryOrdinal": 50,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jhin",
+      "skillKey": "P",
+      "keyLabelZh": "低语",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "seeded_random_crit_sequence"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jhin-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jhin|Q|曼舞手雷",
+      "inventoryOrdinal": 51,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jhin",
+      "skillKey": "Q",
+      "keyLabelZh": "曼舞手雷",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jhin-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jhin|W|致命华彩",
+      "inventoryOrdinal": 52,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jhin",
+      "skillKey": "W",
+      "keyLabelZh": "致命华彩",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jhin-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jhin|E|万众倾倒",
+      "inventoryOrdinal": 53,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jhin",
+      "skillKey": "E",
+      "keyLabelZh": "万众倾倒",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jhin-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jhin|R|完美谢幕",
+      "inventoryOrdinal": 54,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jhin",
+      "skillKey": "R",
+      "keyLabelZh": "完美谢幕",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jhin-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jinx|P|罪恶快感",
+      "inventoryOrdinal": 55,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jinx",
+      "skillKey": "P",
+      "keyLabelZh": "罪恶快感",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "building_or_nonchampion_only",
+          "excludedBehavior": "building_or_epic_monster_damage",
+          "boundaryReason": "罪恶快感：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "pageId": "jinx-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jinx|Q|枪炮交响曲！",
+      "inventoryOrdinal": 56,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jinx",
+      "skillKey": "Q",
+      "keyLabelZh": "枪炮交响曲！",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jinx-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jinx|W|震荡电磁波！",
+      "inventoryOrdinal": 57,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jinx",
+      "skillKey": "W",
+      "keyLabelZh": "震荡电磁波！",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jinx-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jinx|E|嚼火者手雷！",
+      "inventoryOrdinal": 58,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jinx",
+      "skillKey": "E",
+      "keyLabelZh": "嚼火者手雷！",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jinx-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_jinx|R|超究极死神飞弹！",
+      "inventoryOrdinal": 59,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_jinx",
+      "skillKey": "R",
+      "keyLabelZh": "超究极死神飞弹！",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "jinx-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kaisa|P|体表活肤",
+      "inventoryOrdinal": 60,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kaisa",
+      "skillKey": "P",
+      "keyLabelZh": "体表活肤",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "on_hit",
+          "stacking_plasma",
+          "missing_health_consume"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kaisa-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kaisa|Q|艾卡西亚暴雨",
+      "inventoryOrdinal": 61,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kaisa",
+      "skillKey": "Q",
+      "keyLabelZh": "艾卡西亚暴雨",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kaisa-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kaisa|W|虚空索敌",
+      "inventoryOrdinal": 62,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kaisa",
+      "skillKey": "W",
+      "keyLabelZh": "虚空索敌",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kaisa-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kaisa|E|极限超载",
+      "inventoryOrdinal": 63,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kaisa",
+      "skillKey": "E",
+      "keyLabelZh": "极限超载",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kaisa-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kaisa|R|猎手本能",
+      "inventoryOrdinal": 64,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kaisa",
+      "skillKey": "R",
+      "keyLabelZh": "猎手本能",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "猎手本能：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "kaisa-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kalista|P|武术姿态",
+      "inventoryOrdinal": 65,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kalista",
+      "skillKey": "P",
+      "keyLabelZh": "武术姿态",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "武术姿态：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "kalista-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kalista|Q|穿刺",
+      "inventoryOrdinal": 66,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kalista",
+      "skillKey": "Q",
+      "keyLabelZh": "穿刺",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kalista-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kalista|W|哨兵",
+      "inventoryOrdinal": 67,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kalista",
+      "skillKey": "W",
+      "keyLabelZh": "哨兵",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kalista-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kalista|E|撕裂",
+      "inventoryOrdinal": 68,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kalista",
+      "skillKey": "E",
+      "keyLabelZh": "撕裂",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kalista-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kalista|R|命运的召唤",
+      "inventoryOrdinal": 69,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kalista",
+      "skillKey": "R",
+      "keyLabelZh": "命运的召唤",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "命运的召唤：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "pageId": "kalista-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kayle|P|登神长阶",
+      "inventoryOrdinal": 70,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kayle",
+      "skillKey": "P",
+      "keyLabelZh": "登神长阶",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kayle-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kayle|Q|耀焰冲击",
+      "inventoryOrdinal": 71,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kayle",
+      "skillKey": "Q",
+      "keyLabelZh": "耀焰冲击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kayle-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kayle|W|星界恩典",
+      "inventoryOrdinal": 72,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kayle",
+      "skillKey": "W",
+      "keyLabelZh": "星界恩典",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "heal_shield_or_survivability",
+          "boundaryReason": "星界恩典：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "kayle-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kayle|E|星火符刃",
+      "inventoryOrdinal": 73,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kayle",
+      "skillKey": "E",
+      "keyLabelZh": "星火符刃",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kayle-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kayle|R|圣裁之刻",
+      "inventoryOrdinal": 74,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kayle",
+      "skillKey": "R",
+      "keyLabelZh": "圣裁之刻",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kayle-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kindred|P|千珏之印",
+      "inventoryOrdinal": 75,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kindred",
+      "skillKey": "P",
+      "keyLabelZh": "千珏之印",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "attack_range_bonus",
+          "fixed_max_marks_phase_a",
+          "baked_qwe_mark_coefficients"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kindred-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kindred|Q|乱箭之舞",
+      "inventoryOrdinal": 76,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kindred",
+      "skillKey": "Q",
+      "keyLabelZh": "乱箭之舞",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kindred-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kindred|W|狼灵狂热",
+      "inventoryOrdinal": 77,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kindred",
+      "skillKey": "W",
+      "keyLabelZh": "狼灵狂热",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kindred-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kindred|E|横生惧意",
+      "inventoryOrdinal": 78,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kindred",
+      "skillKey": "E",
+      "keyLabelZh": "横生惧意",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "damage_multiplier_or_health_ratio"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kindred-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kindred|R|羊灵生息",
+      "inventoryOrdinal": 79,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kindred",
+      "skillKey": "R",
+      "keyLabelZh": "羊灵生息",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_or_takedown_utility",
+          "boundaryReason": "羊灵生息：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "pageId": "kindred-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kogmaw|P|来自艾卡西亚的惊喜",
+      "inventoryOrdinal": 80,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "P",
+      "keyLabelZh": "来自艾卡西亚的惊喜",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kogmaw-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kogmaw|Q|腐蚀唾液",
+      "inventoryOrdinal": 81,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "Q",
+      "keyLabelZh": "腐蚀唾液",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kogmaw-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kogmaw|W|生化弹幕",
+      "inventoryOrdinal": 82,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "W",
+      "keyLabelZh": "生化弹幕",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "kogmaw-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kogmaw|E|虚空淤泥",
+      "inventoryOrdinal": 83,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "E",
+      "keyLabelZh": "虚空淤泥",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kogmaw-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_kogmaw|R|活体大炮",
+      "inventoryOrdinal": 84,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_kogmaw",
+      "skillKey": "R",
+      "keyLabelZh": "活体大炮",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "kogmaw-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_lucian|P|圣光银弹",
+      "inventoryOrdinal": 85,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_lucian",
+      "skillKey": "P",
+      "keyLabelZh": "圣光银弹",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "lucian-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_lucian|Q|透体圣光",
+      "inventoryOrdinal": 86,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_lucian",
+      "skillKey": "Q",
+      "keyLabelZh": "透体圣光",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "lucian-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_lucian|W|热诚烈弹",
+      "inventoryOrdinal": 87,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_lucian",
+      "skillKey": "W",
+      "keyLabelZh": "热诚烈弹",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "lucian-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_lucian|E|冷酷追击",
+      "inventoryOrdinal": 88,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_lucian",
+      "skillKey": "E",
+      "keyLabelZh": "冷酷追击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "冷酷追击：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "lucian-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_lucian|R|圣枪洗礼",
+      "inventoryOrdinal": 89,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_lucian",
+      "skillKey": "R",
+      "keyLabelZh": "圣枪洗礼",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "lucian-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_missfortune|P|厄运的眷顾",
+      "inventoryOrdinal": 90,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_missfortune",
+      "skillKey": "P",
+      "keyLabelZh": "厄运的眷顾",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "missfortune-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_missfortune|Q|一箭双雕",
+      "inventoryOrdinal": 91,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_missfortune",
+      "skillKey": "Q",
+      "keyLabelZh": "一箭双雕",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "missfortune-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_missfortune|W|大步流星",
+      "inventoryOrdinal": 92,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_missfortune",
+      "skillKey": "W",
+      "keyLabelZh": "大步流星",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "missfortune-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_missfortune|E|枪林弹雨",
+      "inventoryOrdinal": 93,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_missfortune",
+      "skillKey": "E",
+      "keyLabelZh": "枪林弹雨",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "missfortune-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_missfortune|R|弹幕时间",
+      "inventoryOrdinal": 94,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_missfortune",
+      "skillKey": "R",
+      "keyLabelZh": "弹幕时间",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "seeded_random_crit_sequence"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "missfortune-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_quinn|P|侵扰",
+      "inventoryOrdinal": 95,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_quinn",
+      "skillKey": "P",
+      "keyLabelZh": "侵扰",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "quinn-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_quinn|Q|炫目攻势",
+      "inventoryOrdinal": 96,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_quinn",
+      "skillKey": "Q",
+      "keyLabelZh": "炫目攻势",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "quinn-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_quinn|W|敏锐感知",
+      "inventoryOrdinal": 97,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_quinn",
+      "skillKey": "W",
+      "keyLabelZh": "敏锐感知",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "quinn-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_quinn|E|旋翔掠杀",
+      "inventoryOrdinal": 98,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_quinn",
+      "skillKey": "E",
+      "keyLabelZh": "旋翔掠杀",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "quinn-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_quinn|R|深入敌后",
+      "inventoryOrdinal": 99,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_quinn",
+      "skillKey": "R",
+      "keyLabelZh": "深入敌后",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "quinn-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_samira|P|悍勇本色",
+      "inventoryOrdinal": 100,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_samira",
+      "skillKey": "P",
+      "keyLabelZh": "悍勇本色",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "samira-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_samira|Q|交火",
+      "inventoryOrdinal": 101,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_samira",
+      "skillKey": "Q",
+      "keyLabelZh": "交火",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "samira-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_samira|W|锋旋",
+      "inventoryOrdinal": 102,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_samira",
+      "skillKey": "W",
+      "keyLabelZh": "锋旋",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "samira-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_samira|E|狂飙",
+      "inventoryOrdinal": 103,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_samira",
+      "skillKey": "E",
+      "keyLabelZh": "狂飙",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "samira-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_samira|R|炼狱扳机",
+      "inventoryOrdinal": 104,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_samira",
+      "skillKey": "R",
+      "keyLabelZh": "炼狱扳机",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "samira-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_senna|P|赦除",
+      "inventoryOrdinal": 105,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_senna",
+      "skillKey": "P",
+      "keyLabelZh": "赦除",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "senna-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_senna|Q|黑暗洞灭",
+      "inventoryOrdinal": 106,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_senna",
+      "skillKey": "Q",
+      "keyLabelZh": "黑暗洞灭",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "senna-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_senna|W|无尽厮守",
+      "inventoryOrdinal": 107,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_senna",
+      "skillKey": "W",
+      "keyLabelZh": "无尽厮守",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "senna-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_senna|E|黑雾咒附",
+      "inventoryOrdinal": 108,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_senna",
+      "skillKey": "E",
+      "keyLabelZh": "黑雾咒附",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_vision",
+          "excludedBehavior": "ward_vision_or_trap_reveal",
+          "boundaryReason": "黑雾咒附：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "senna-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_senna|R|暗影燎原",
+      "inventoryOrdinal": 109,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_senna",
+      "skillKey": "R",
+      "keyLabelZh": "暗影燎原",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "senna-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_sivir|P|敏锐疾行",
+      "inventoryOrdinal": 110,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_sivir",
+      "skillKey": "P",
+      "keyLabelZh": "敏锐疾行",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "敏锐疾行：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "sivir-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_sivir|Q|回旋之刃",
+      "inventoryOrdinal": 111,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_sivir",
+      "skillKey": "Q",
+      "keyLabelZh": "回旋之刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "sivir-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_sivir|W|弹射",
+      "inventoryOrdinal": 112,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_sivir",
+      "skillKey": "W",
+      "keyLabelZh": "弹射",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "sivir-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_sivir|E|法术护盾",
+      "inventoryOrdinal": 113,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_sivir",
+      "skillKey": "E",
+      "keyLabelZh": "法术护盾",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "heal_shield_or_survivability",
+          "boundaryReason": "法术护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "sivir-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_sivir|R|狩猎",
+      "inventoryOrdinal": 114,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_sivir",
+      "skillKey": "R",
+      "keyLabelZh": "狩猎",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "狩猎：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "pageId": "sivir-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_smolder|P|龙之研习",
+      "inventoryOrdinal": 115,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_smolder",
+      "skillKey": "P",
+      "keyLabelZh": "龙之研习",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "smolder-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_smolder|Q|超级灼热龙息",
+      "inventoryOrdinal": 116,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_smolder",
+      "skillKey": "Q",
+      "keyLabelZh": "超级灼热龙息",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "smolder-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_smolder|W|阿嚏！",
+      "inventoryOrdinal": 117,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_smolder",
+      "skillKey": "W",
+      "keyLabelZh": "阿嚏！",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "smolder-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_smolder|E|扑棱，扑棱，扑棱！",
+      "inventoryOrdinal": 118,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_smolder",
+      "skillKey": "E",
+      "keyLabelZh": "扑棱，扑棱，扑棱！",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "smolder-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_smolder|R|妈----！",
+      "inventoryOrdinal": 119,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_smolder",
+      "skillKey": "R",
+      "keyLabelZh": "妈----！",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "smolder-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_teemo|P|游击队军备",
+      "inventoryOrdinal": 120,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_teemo",
+      "skillKey": "P",
+      "keyLabelZh": "游击队军备",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "teemo-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_teemo|Q|致盲吹箭",
+      "inventoryOrdinal": 121,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_teemo",
+      "skillKey": "Q",
+      "keyLabelZh": "致盲吹箭",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "teemo-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_teemo|W|小莫快跑",
+      "inventoryOrdinal": 122,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_teemo",
+      "skillKey": "W",
+      "keyLabelZh": "小莫快跑",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "小莫快跑：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "teemo-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_teemo|E|毒性射击",
+      "inventoryOrdinal": 123,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_teemo",
+      "skillKey": "E",
+      "keyLabelZh": "毒性射击",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "teemo-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_teemo|R|种蘑菇",
+      "inventoryOrdinal": 124,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_teemo",
+      "skillKey": "R",
+      "keyLabelZh": "种蘑菇",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "teemo-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_tristana|P|瞄准",
+      "inventoryOrdinal": 125,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_tristana",
+      "skillKey": "P",
+      "keyLabelZh": "瞄准",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "no_single_target_dps_effect"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "stat_or_active_only",
+          "excludedBehavior": "static_stats_or_active_only",
+          "boundaryReason": "瞄准：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "tristana-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_tristana|Q|急速射击",
+      "inventoryOrdinal": 126,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_tristana",
+      "skillKey": "Q",
+      "keyLabelZh": "急速射击",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "tristana-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_tristana|W|火箭跳跃",
+      "inventoryOrdinal": 127,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_tristana",
+      "skillKey": "W",
+      "keyLabelZh": "火箭跳跃",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "tristana-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_tristana|E|爆炸火花",
+      "inventoryOrdinal": 128,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_tristana",
+      "skillKey": "E",
+      "keyLabelZh": "爆炸火花",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "tristana-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_tristana|R|毁灭射击",
+      "inventoryOrdinal": 129,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_tristana",
+      "skillKey": "R",
+      "keyLabelZh": "毁灭射击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "tristana-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twistedfate|P|灌铅骰子",
+      "inventoryOrdinal": 130,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twistedfate",
+      "skillKey": "P",
+      "keyLabelZh": "灌铅骰子",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "no_single_target_dps_effect"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "economy_gold",
+          "boundaryReason": "灌铅骰子：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "pageId": "twistedfate-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twistedfate|Q|万能牌",
+      "inventoryOrdinal": 131,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twistedfate",
+      "skillKey": "Q",
+      "keyLabelZh": "万能牌",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twistedfate-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twistedfate|W|选牌",
+      "inventoryOrdinal": 132,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twistedfate",
+      "skillKey": "W",
+      "keyLabelZh": "选牌",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twistedfate-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twistedfate|E|卡牌骗术",
+      "inventoryOrdinal": 133,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twistedfate",
+      "skillKey": "E",
+      "keyLabelZh": "卡牌骗术",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_runtime",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "twistedfate-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twistedfate|R|命运",
+      "inventoryOrdinal": 134,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twistedfate",
+      "skillKey": "R",
+      "keyLabelZh": "命运",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_vision",
+          "excludedBehavior": "ward_vision_or_trap_reveal",
+          "boundaryReason": "命运：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "twistedfate-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twitch|P|死亡毒液",
+      "inventoryOrdinal": 135,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twitch",
+      "skillKey": "P",
+      "keyLabelZh": "死亡毒液",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twitch-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twitch|Q|埋伏",
+      "inventoryOrdinal": 136,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twitch",
+      "skillKey": "Q",
+      "keyLabelZh": "埋伏",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twitch-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twitch|W|剧毒之桶",
+      "inventoryOrdinal": 137,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twitch",
+      "skillKey": "W",
+      "keyLabelZh": "剧毒之桶",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "control_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_control_or_debuff",
+          "excludedBehavior": "crowd_control_or_slow",
+          "boundaryReason": "剧毒之桶：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "twitch-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twitch|E|毒性爆发",
+      "inventoryOrdinal": 138,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twitch",
+      "skillKey": "E",
+      "keyLabelZh": "毒性爆发",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twitch-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_twitch|R|火力全开",
+      "inventoryOrdinal": 139,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_twitch",
+      "skillKey": "R",
+      "keyLabelZh": "火力全开",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "twitch-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_varus|P|复仇之欲",
+      "inventoryOrdinal": 140,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_varus",
+      "skillKey": "P",
+      "keyLabelZh": "复仇之欲",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "varus-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_varus|Q|穿刺之箭",
+      "inventoryOrdinal": 141,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_varus",
+      "skillKey": "Q",
+      "keyLabelZh": "穿刺之箭",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "varus-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_varus|W|枯萎箭袋",
+      "inventoryOrdinal": 142,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_varus",
+      "skillKey": "W",
+      "keyLabelZh": "枯萎箭袋",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "varus-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_varus|E|恶灵箭雨",
+      "inventoryOrdinal": 143,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_varus",
+      "skillKey": "E",
+      "keyLabelZh": "恶灵箭雨",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "varus-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_varus|R|腐败锁链",
+      "inventoryOrdinal": 144,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_varus",
+      "skillKey": "R",
+      "keyLabelZh": "腐败锁链",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "varus-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_vayne|P|暗夜猎手",
+      "inventoryOrdinal": 145,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_vayne",
+      "skillKey": "P",
+      "keyLabelZh": "暗夜猎手",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "暗夜猎手：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "vayne-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_vayne|Q|闪避突袭",
+      "inventoryOrdinal": 146,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_vayne",
+      "skillKey": "Q",
+      "keyLabelZh": "闪避突袭",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "distance_based_damage_modifier"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "vayne-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_vayne|W|圣银弩箭",
+      "inventoryOrdinal": 147,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_vayne",
+      "skillKey": "W",
+      "keyLabelZh": "圣银弩箭",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "existing_batch_b_seed"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "vayne-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_vayne|E|恶魔审判",
+      "inventoryOrdinal": 148,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_vayne",
+      "skillKey": "E",
+      "keyLabelZh": "恶魔审判",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "vayne-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_vayne|R|终极时刻",
+      "inventoryOrdinal": 149,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_vayne",
+      "skillKey": "R",
+      "keyLabelZh": "终极时刻",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "vayne-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_xayah|P|锐切",
+      "inventoryOrdinal": 150,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_xayah",
+      "skillKey": "P",
+      "keyLabelZh": "锐切",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "xayah-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_xayah|Q|双刃",
+      "inventoryOrdinal": 151,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_xayah",
+      "skillKey": "Q",
+      "keyLabelZh": "双刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "xayah-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_xayah|W|致死羽衣",
+      "inventoryOrdinal": 152,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_xayah",
+      "skillKey": "W",
+      "keyLabelZh": "致死羽衣",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "pageId": "xayah-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_xayah|E|倒钩",
+      "inventoryOrdinal": 153,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_xayah",
+      "skillKey": "E",
+      "keyLabelZh": "倒钩",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "xayah-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_xayah|R|暴风羽刃",
+      "inventoryOrdinal": 154,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_xayah",
+      "skillKey": "R",
+      "keyLabelZh": "暴风羽刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "xayah-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_yunara|P|初生之誓",
+      "inventoryOrdinal": 155,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_yunara",
+      "skillKey": "P",
+      "keyLabelZh": "初生之誓",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "seeded_random_crit_sequence"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "yunara-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_yunara|Q|灵蕴拳",
+      "inventoryOrdinal": 156,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_yunara",
+      "skillKey": "Q",
+      "keyLabelZh": "灵蕴拳",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "yunara-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_yunara|W|善恶轮 | 寂灭掌",
+      "inventoryOrdinal": 157,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_yunara",
+      "skillKey": "W",
+      "keyLabelZh": "善恶轮 | 寂灭掌",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "yunara-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_yunara|E|明踪步 | 夜影翻",
+      "inventoryOrdinal": 158,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_yunara",
+      "skillKey": "E",
+      "keyLabelZh": "明踪步 | 夜影翻",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "明踪步 | 夜影翻：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "pageId": "yunara-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_yunara|R|定圣诀",
+      "inventoryOrdinal": 159,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_yunara",
+      "skillKey": "R",
+      "keyLabelZh": "定圣诀",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "no_single_target_dps_effect"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "yunara-r"
+    },
+    {
+      "candidateKey": "hero_skill|hero_zeri|P|内能迁转",
+      "inventoryOrdinal": 160,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_zeri",
+      "skillKey": "P",
+      "keyLabelZh": "内能迁转",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "on_hit"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "zeri-p"
+    },
+    {
+      "candidateKey": "hero_skill|hero_zeri|Q|电火迸射",
+      "inventoryOrdinal": 161,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_zeri",
+      "skillKey": "Q",
+      "keyLabelZh": "电火迸射",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "zeri-q"
+    },
+    {
+      "candidateKey": "hero_skill|hero_zeri|W|强穿激光",
+      "inventoryOrdinal": 162,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_zeri",
+      "skillKey": "W",
+      "keyLabelZh": "强穿激光",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "zeri-w"
+    },
+    {
+      "candidateKey": "hero_skill|hero_zeri|E|灿丽花火",
+      "inventoryOrdinal": 163,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_zeri",
+      "skillKey": "E",
+      "keyLabelZh": "灿丽花火",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "zeri-e"
+    },
+    {
+      "candidateKey": "hero_skill|hero_zeri|R|超限爆闪",
+      "inventoryOrdinal": 164,
+      "sourceKind": "hero_skill",
+      "ownerId": "hero_zeri",
+      "skillKey": "R",
+      "keyLabelZh": "超限爆闪",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "primary_damage_branch_salvage",
+        "resolvedBucket": "blocked"
+      },
+      "pageId": "zeri-r"
+    },
+    {
+      "candidateKey": "item_passive|2501|item_passive|专横",
+      "inventoryOrdinal": 165,
+      "sourceKind": "item_passive",
+      "ownerId": "2501",
+      "skillKey": "item_passive",
+      "keyLabelZh": "专横",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "2501",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2501|item_passive|报复",
+      "inventoryOrdinal": 166,
+      "sourceKind": "item_passive",
+      "ownerId": "2501",
+      "skillKey": "item_passive",
+      "keyLabelZh": "报复",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "2501",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2510|item_passive|咒刃",
+      "inventoryOrdinal": 167,
+      "sourceKind": "item_passive",
+      "ownerId": "2510",
+      "skillKey": "item_passive",
+      "keyLabelZh": "咒刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "spellblade_next_attack_state"
+        ],
+        "gapCode": "partial_remaining",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "partial"
+      },
+      "wikiItemId": "2510",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2512|item_passive|守夜",
+      "inventoryOrdinal": 168,
+      "sourceKind": "item_passive",
+      "ownerId": "2512",
+      "skillKey": "item_passive",
+      "keyLabelZh": "守夜",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "cooldown_or_ability_haste_only",
+          "excludedBehavior": "cooldown_haste_without_damage",
+          "boundaryReason": "守夜：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "2512",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2512|item_passive|开战弹幕",
+      "inventoryOrdinal": 169,
+      "sourceKind": "item_passive",
+      "ownerId": "2512",
+      "skillKey": "item_passive",
+      "keyLabelZh": "开战弹幕",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "seeded_random_crit_sequence"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "2512",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2517|item_passive|饥馑",
+      "inventoryOrdinal": 170,
+      "sourceKind": "item_passive",
+      "ownerId": "2517",
+      "skillKey": "item_passive",
+      "keyLabelZh": "饥馑",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "cooldown_or_ability_haste_only",
+          "excludedBehavior": "cooldown_haste_without_damage",
+          "boundaryReason": "饥馑：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "2517",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2517|item_passive|盛宴",
+      "inventoryOrdinal": 171,
+      "sourceKind": "item_passive",
+      "ownerId": "2517",
+      "skillKey": "item_passive",
+      "keyLabelZh": "盛宴",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_omnivamp",
+          "boundaryReason": "盛宴：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "2517",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2520|item_passive|成型炸药",
+      "inventoryOrdinal": 172,
+      "sourceKind": "item_passive",
+      "ownerId": "2520",
+      "skillKey": "item_passive",
+      "keyLabelZh": "成型炸药",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "2520",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2520|item_passive|破坏",
+      "inventoryOrdinal": 173,
+      "sourceKind": "item_passive",
+      "ownerId": "2520",
+      "skillKey": "item_passive",
+      "keyLabelZh": "破坏",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "building_or_nonchampion_only",
+          "excludedBehavior": "building_or_epic_monster_damage",
+          "boundaryReason": "破坏：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "2520",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2523|item_passive|高倍望远镜",
+      "inventoryOrdinal": 174,
+      "sourceKind": "item_passive",
+      "ownerId": "2523",
+      "skillKey": "item_passive",
+      "keyLabelZh": "高倍望远镜",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "outgoing_pre_mitigation_basic_damage_amp",
+          "fixed_maximum_multiplier"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "2523",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|2523|item_passive|奥术瞄准",
+      "inventoryOrdinal": 175,
+      "sourceKind": "item_passive",
+      "ownerId": "2523",
+      "skillKey": "item_passive",
+      "keyLabelZh": "奥术瞄准",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "takedown_attack_range_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_or_takedown_utility",
+          "boundaryReason": "奥术瞄准：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "2523",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3004|item_passive|敬畏",
+      "inventoryOrdinal": 176,
+      "sourceKind": "item_passive",
+      "ownerId": "3004",
+      "skillKey": "item_passive",
+      "keyLabelZh": "敬畏",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3004",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3004|item_passive|法力流",
+      "inventoryOrdinal": 177,
+      "sourceKind": "item_passive",
+      "ownerId": "3004",
+      "skillKey": "item_passive",
+      "keyLabelZh": "法力流",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "blocked_runtime",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "wikiItemId": "3004",
+      "wikiEffectSlots": [
+        "pass2",
+        "pass3"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3026|item_passive|重生",
+      "inventoryOrdinal": 178,
+      "sourceKind": "item_passive",
+      "ownerId": "3026",
+      "skillKey": "item_passive",
+      "keyLabelZh": "重生",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "revive_or_death_save",
+          "boundaryReason": "重生：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3026",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3031|item_passive|无被动或仅主动/属性",
+      "inventoryOrdinal": 179,
+      "sourceKind": "item_passive",
+      "ownerId": "3031",
+      "skillKey": "item_passive",
+      "keyLabelZh": "无被动或仅主动/属性",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "stat_only_or_active_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "stat_or_active_only",
+          "excludedBehavior": "static_stats_or_active_only",
+          "boundaryReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3031",
+      "wikiEffectSlots": []
+    },
+    {
+      "candidateKey": "item_passive|3032|item_passive|熟能生巧",
+      "inventoryOrdinal": 180,
+      "sourceKind": "item_passive",
+      "ownerId": "3032",
+      "skillKey": "item_passive",
+      "keyLabelZh": "熟能生巧",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3032",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3032|item_passive|疾风骤雨",
+      "inventoryOrdinal": 181,
+      "sourceKind": "item_passive",
+      "ownerId": "3032",
+      "skillKey": "item_passive",
+      "keyLabelZh": "疾风骤雨",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3032",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3033|item_passive|重伤",
+      "inventoryOrdinal": 182,
+      "sourceKind": "item_passive",
+      "ownerId": "3033",
+      "skillKey": "item_passive",
+      "keyLabelZh": "重伤",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_control_or_debuff",
+          "excludedBehavior": "grievous_wounds_only",
+          "boundaryReason": "重伤：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3033",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3036|item_passive|巨人杀手",
+      "inventoryOrdinal": 183,
+      "sourceKind": "item_passive",
+      "ownerId": "3036",
+      "skillKey": "item_passive",
+      "keyLabelZh": "巨人杀手",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "damage_multiplier_or_health_ratio"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3036",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3046|item_passive|幽影华尔兹",
+      "inventoryOrdinal": 184,
+      "sourceKind": "item_passive",
+      "ownerId": "3046",
+      "skillKey": "item_passive",
+      "keyLabelZh": "幽影华尔兹",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "幽影华尔兹：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3046",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3071|item_passive|切割",
+      "inventoryOrdinal": 185,
+      "sourceKind": "item_passive",
+      "ownerId": "3071",
+      "skillKey": "item_passive",
+      "keyLabelZh": "切割",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "stacking_stat_modifier_on_hit"
+        ],
+        "gapCode": "partial_remaining",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "partial"
+      },
+      "wikiItemId": "3071",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3071|item_passive|热烈",
+      "inventoryOrdinal": 186,
+      "sourceKind": "item_passive",
+      "ownerId": "3071",
+      "skillKey": "item_passive",
+      "keyLabelZh": "热烈",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "热烈：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3071",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3072|item_passive|灵液护盾",
+      "inventoryOrdinal": 187,
+      "sourceKind": "item_passive",
+      "ownerId": "3072",
+      "skillKey": "item_passive",
+      "keyLabelZh": "灵液护盾",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "灵液护盾：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3072",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3073|item_passive|海克斯充能",
+      "inventoryOrdinal": 188,
+      "sourceKind": "item_passive",
+      "ownerId": "3073",
+      "skillKey": "item_passive",
+      "keyLabelZh": "海克斯充能",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "cooldown_or_ability_haste_only",
+          "excludedBehavior": "cooldown_haste_without_damage",
+          "boundaryReason": "海克斯充能：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3073",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3073|item_passive|过载",
+      "inventoryOrdinal": 189,
+      "sourceKind": "item_passive",
+      "ownerId": "3073",
+      "skillKey": "item_passive",
+      "keyLabelZh": "过载",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3073",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3074|item_passive|顺劈",
+      "inventoryOrdinal": 190,
+      "sourceKind": "item_passive",
+      "ownerId": "3074",
+      "skillKey": "item_passive",
+      "keyLabelZh": "顺劈",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "3074",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3078|item_passive|咒刃",
+      "inventoryOrdinal": 191,
+      "sourceKind": "item_passive",
+      "ownerId": "3078",
+      "skillKey": "item_passive",
+      "keyLabelZh": "咒刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "spellblade_next_attack_state"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3078",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3078|item_passive|加快",
+      "inventoryOrdinal": 192,
+      "sourceKind": "item_passive",
+      "ownerId": "3078",
+      "skillKey": "item_passive",
+      "keyLabelZh": "加快",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "加快：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3078",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3085|item_passive|风怒",
+      "inventoryOrdinal": 193,
+      "sourceKind": "item_passive",
+      "ownerId": "3085",
+      "skillKey": "item_passive",
+      "keyLabelZh": "风怒",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "风怒：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "3085",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3087|item_passive|电火花",
+      "inventoryOrdinal": 194,
+      "sourceKind": "item_passive",
+      "ownerId": "3087",
+      "skillKey": "item_passive",
+      "keyLabelZh": "电火花",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "电火花：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "3087",
+      "wikiEffectSlots": [
+        "pass3"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3087|item_passive|电疗",
+      "inventoryOrdinal": 195,
+      "sourceKind": "item_passive",
+      "ownerId": "3087",
+      "skillKey": "item_passive",
+      "keyLabelZh": "电疗",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3087",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3091|item_passive|喧争",
+      "inventoryOrdinal": 196,
+      "sourceKind": "item_passive",
+      "ownerId": "3091",
+      "skillKey": "item_passive",
+      "keyLabelZh": "喧争",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "on_hit"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3091",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3094|item_passive|神射手",
+      "inventoryOrdinal": 197,
+      "sourceKind": "item_passive",
+      "ownerId": "3094",
+      "skillKey": "item_passive",
+      "keyLabelZh": "神射手",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3094",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3097|item_passive|盈能",
+      "inventoryOrdinal": 198,
+      "sourceKind": "item_passive",
+      "ownerId": "3097",
+      "skillKey": "item_passive",
+      "keyLabelZh": "盈能",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "blocked_data",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "wikiItemId": "3097",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3097|item_passive|弩箭",
+      "inventoryOrdinal": 199,
+      "sourceKind": "item_passive",
+      "ownerId": "3097",
+      "skillKey": "item_passive",
+      "keyLabelZh": "弩箭",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3097",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3100|item_passive|咒刃",
+      "inventoryOrdinal": 200,
+      "sourceKind": "item_passive",
+      "ownerId": "3100",
+      "skillKey": "item_passive",
+      "keyLabelZh": "咒刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "spellblade_next_attack_state"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3100",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3115|item_passive|艾卡西亚之咬",
+      "inventoryOrdinal": 201,
+      "sourceKind": "item_passive",
+      "ownerId": "3115",
+      "skillKey": "item_passive",
+      "keyLabelZh": "艾卡西亚之咬",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "on_hit"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3115",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3124|item_passive|怨怒",
+      "inventoryOrdinal": 202,
+      "sourceKind": "item_passive",
+      "ownerId": "3124",
+      "skillKey": "item_passive",
+      "keyLabelZh": "怨怒",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "on_hit",
+          "flat_magic_damage"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3124",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3124|item_passive|沸腾打击",
+      "inventoryOrdinal": 203,
+      "sourceKind": "item_passive",
+      "ownerId": "3124",
+      "skillKey": "item_passive",
+      "keyLabelZh": "沸腾打击",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "stacking_stat_modifier_on_hit",
+          "phantom_hit_on_hit_repeat"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3124",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3139|item_passive|无被动或仅主动/属性",
+      "inventoryOrdinal": 204,
+      "sourceKind": "item_passive",
+      "ownerId": "3139",
+      "skillKey": "item_passive",
+      "keyLabelZh": "无被动或仅主动/属性",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "stat_only_or_active_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "无被动或仅主动/属性：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3139",
+      "wikiEffectSlots": []
+    },
+    {
+      "candidateKey": "item_passive|3142|item_passive|鬼影萦绕",
+      "inventoryOrdinal": 205,
+      "sourceKind": "item_passive",
+      "ownerId": "3142",
+      "skillKey": "item_passive",
+      "keyLabelZh": "鬼影萦绕",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_movement_or_dash",
+          "excludedBehavior": "movement_speed_or_dash",
+          "boundaryReason": "鬼影萦绕：纯移速/冲刺/位移，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3142",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3146|item_passive|无被动或仅主动/属性",
+      "inventoryOrdinal": 206,
+      "sourceKind": "item_passive",
+      "ownerId": "3146",
+      "skillKey": "item_passive",
+      "keyLabelZh": "无被动或仅主动/属性",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "stat_only_or_active_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "stat_or_active_only",
+          "excludedBehavior": "static_stats_or_active_only",
+          "boundaryReason": "无被动或仅主动/属性：静态属性或仅主动效果，不构成被动主目标伤害分支；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3146",
+      "wikiEffectSlots": []
+    },
+    {
+      "candidateKey": "item_passive|3153|item_passive|雾之锋",
+      "inventoryOrdinal": 207,
+      "sourceKind": "item_passive",
+      "ownerId": "3153",
+      "skillKey": "item_passive",
+      "keyLabelZh": "雾之锋",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "on_hit",
+          "target_current_hp_ratio"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3153",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3153|item_passive|抓挠之影",
+      "inventoryOrdinal": 208,
+      "sourceKind": "item_passive",
+      "ownerId": "3153",
+      "skillKey": "item_passive",
+      "keyLabelZh": "抓挠之影",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "slow",
+          "control_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_control_or_debuff",
+          "excludedBehavior": "crowd_control_or_slow",
+          "boundaryReason": "抓挠之影：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3153",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3156|item_passive|救主灵刃",
+      "inventoryOrdinal": 209,
+      "sourceKind": "item_passive",
+      "ownerId": "3156",
+      "skillKey": "item_passive",
+      "keyLabelZh": "救主灵刃",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3156",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3161|item_passive|龙之力量",
+      "inventoryOrdinal": 210,
+      "sourceKind": "item_passive",
+      "ownerId": "3161",
+      "skillKey": "item_passive",
+      "keyLabelZh": "龙之力量",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "cooldown_or_ability_haste_only",
+          "excludedBehavior": "cooldown_haste_without_damage",
+          "boundaryReason": "龙之力量：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3161",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3161|item_passive|专注意志",
+      "inventoryOrdinal": 211,
+      "sourceKind": "item_passive",
+      "ownerId": "3161",
+      "skillKey": "item_passive",
+      "keyLabelZh": "专注意志",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "ability_pet_stack_grant",
+          "per_cast_throttle",
+          "stacking_outgoing_amp",
+          "cast_origin_provenance"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3161",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3179|item_passive|夜行者",
+      "inventoryOrdinal": 212,
+      "sourceKind": "item_passive",
+      "ownerId": "3179",
+      "skillKey": "item_passive",
+      "keyLabelZh": "夜行者",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "spellblade_next_attack_state",
+          "start_ready_true_on_hit",
+          "armor_pen_flat_scaled_true"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3179",
+      "wikiEffectSlots": [
+        "pass3"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3179|item_passive|封锁",
+      "inventoryOrdinal": 213,
+      "sourceKind": "item_passive",
+      "ownerId": "3179",
+      "skillKey": "item_passive",
+      "keyLabelZh": "封锁",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_vision",
+          "excludedBehavior": "ward_vision_or_trap_reveal",
+          "boundaryReason": "封锁：纯视野/显形/守卫侦察，不含伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "3179",
+      "wikiEffectSlots": [
+        "pass",
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3181|item_passive|船长",
+      "inventoryOrdinal": 214,
+      "sourceKind": "item_passive",
+      "ownerId": "3181",
+      "skillKey": "item_passive",
+      "keyLabelZh": "船长",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3181",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3181|item_passive|登舰小组",
+      "inventoryOrdinal": 215,
+      "sourceKind": "item_passive",
+      "ownerId": "3181",
+      "skillKey": "item_passive",
+      "keyLabelZh": "登舰小组",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "building_or_nonchampion_only",
+          "excludedBehavior": "building_or_epic_monster_damage",
+          "boundaryReason": "登舰小组：仅作用于防御塔/史诗野怪/非英雄单位，非英雄主目标 DPS；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "3181",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3302|item_passive|晦影",
+      "inventoryOrdinal": 216,
+      "sourceKind": "item_passive",
+      "ownerId": "3302",
+      "skillKey": "item_passive",
+      "keyLabelZh": "晦影",
+      "auditBaseline": {
+        "legacyClassification": "ready_to_encode",
+        "mechanismTags": [
+          "on_hit",
+          "flat_magic_damage"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3302",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3302|item_passive|交相",
+      "inventoryOrdinal": 217,
+      "sourceKind": "item_passive",
+      "ownerId": "3302",
+      "skillKey": "item_passive",
+      "keyLabelZh": "交相",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3302",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3508|item_passive|咒刃",
+      "inventoryOrdinal": 218,
+      "sourceKind": "item_passive",
+      "ownerId": "3508",
+      "skillKey": "item_passive",
+      "keyLabelZh": "咒刃",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "spellblade_next_attack_state"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "3508",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c",
+      "inventoryOrdinal": 219,
+      "sourceKind": "item_passive",
+      "ownerId": "3748",
+      "skillKey": "item_passive",
+      "keyLabelZh": "顺劈",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "partial_remaining",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "partial"
+      },
+      "wikiItemId": "3748",
+      "wikiEffectSlots": [
+        "pass"
+      ],
+      "fragmentDiscriminator": "item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|71fa0f0c"
+    },
+    {
+      "candidateKey": "item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a",
+      "inventoryOrdinal": 220,
+      "sourceKind": "item_passive",
+      "ownerId": "3748",
+      "skillKey": "item_passive",
+      "keyLabelZh": "顺劈",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "partial_remaining",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "partial"
+      },
+      "wikiItemId": "3748",
+      "wikiEffectSlots": [
+        "pass"
+      ],
+      "fragmentDiscriminator": "item_passive|3748|item_passive|顺劈|数据参考/item.json#data.3748|020f8b5a"
+    },
+    {
+      "candidateKey": "item_passive|3814|item_passive|废除",
+      "inventoryOrdinal": 221,
+      "sourceKind": "item_passive",
+      "ownerId": "3814",
+      "skillKey": "item_passive",
+      "keyLabelZh": "废除",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "废除：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "3814",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0",
+      "inventoryOrdinal": 222,
+      "sourceKind": "item_passive",
+      "ownerId": "6333",
+      "skillKey": "item_passive",
+      "keyLabelZh": "无视痛苦",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "incoming_damage_store",
+          "boundaryReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6333",
+      "wikiEffectSlots": [
+        "pass"
+      ],
+      "fragmentDiscriminator": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|668e55b0"
+    },
+    {
+      "candidateKey": "item_passive|6333|item_passive|蔑视",
+      "inventoryOrdinal": 223,
+      "sourceKind": "item_passive",
+      "ownerId": "6333",
+      "skillKey": "item_passive",
+      "keyLabelZh": "蔑视",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_heal",
+          "boundaryReason": "蔑视：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "6333",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8",
+      "inventoryOrdinal": 224,
+      "sourceKind": "item_passive",
+      "ownerId": "6333",
+      "skillKey": "item_passive",
+      "keyLabelZh": "无视痛苦",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "incoming_damage_store",
+          "boundaryReason": "无视痛苦：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6333",
+      "wikiEffectSlots": [
+        "pass2"
+      ],
+      "fragmentDiscriminator": "item_passive|6333|item_passive|无视痛苦|数据参考/item.json#data.6333|52e96cc8"
+    },
+    {
+      "candidateKey": "item_passive|6609|item_passive|劈削",
+      "inventoryOrdinal": 225,
+      "sourceKind": "item_passive",
+      "ownerId": "6609",
+      "skillKey": "item_passive",
+      "keyLabelZh": "劈削",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_control_or_debuff",
+          "excludedBehavior": "grievous_wounds_only",
+          "boundaryReason": "劈削：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "6609",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6610|item_passive|光盾打击",
+      "inventoryOrdinal": 226,
+      "sourceKind": "item_passive",
+      "ownerId": "6610",
+      "skillKey": "item_passive",
+      "keyLabelZh": "光盾打击",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "6610",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6631|item_passive|顺劈",
+      "inventoryOrdinal": 227,
+      "sourceKind": "item_passive",
+      "ownerId": "6631",
+      "skillKey": "item_passive",
+      "keyLabelZh": "顺劈",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "6631",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6672|item_passive|放倒它",
+      "inventoryOrdinal": 228,
+      "sourceKind": "item_passive",
+      "ownerId": "6672",
+      "skillKey": "item_passive",
+      "keyLabelZh": "放倒它",
+      "auditBaseline": {
+        "legacyClassification": "already_covered",
+        "mechanismTags": [
+          "every_n_hit",
+          "target_missing_hp_amp"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "6672",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6673|item_passive|救主灵刃",
+      "inventoryOrdinal": 229,
+      "sourceKind": "item_passive",
+      "ownerId": "6673",
+      "skillKey": "item_passive",
+      "keyLabelZh": "救主灵刃",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "救主灵刃：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6673",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6675|item_passive|超凡入圣",
+      "inventoryOrdinal": 230,
+      "sourceKind": "item_passive",
+      "ownerId": "6675",
+      "skillKey": "item_passive",
+      "keyLabelZh": "超凡入圣",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "cooldown_or_ability_haste_only",
+          "excludedBehavior": "cooldown_haste_without_damage",
+          "boundaryReason": "超凡入圣：纯冷却缩减/技能急速，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6675",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6676|item_passive|死",
+      "inventoryOrdinal": 231,
+      "sourceKind": "item_passive",
+      "ownerId": "6676",
+      "skillKey": "item_passive",
+      "keyLabelZh": "死",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "execute_threshold"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "6676",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6676|item_passive|税",
+      "inventoryOrdinal": 232,
+      "sourceKind": "item_passive",
+      "ownerId": "6676",
+      "skillKey": "item_passive",
+      "keyLabelZh": "税",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "meta_or_non_target_dps"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "economy_gold",
+          "boundaryReason": "税：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "6676",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6692|item_passive|永升之月",
+      "inventoryOrdinal": 233,
+      "sourceKind": "item_passive",
+      "ownerId": "6692",
+      "skillKey": "item_passive",
+      "keyLabelZh": "永升之月",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "永升之月：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6692",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6694|item_passive|严寒",
+      "inventoryOrdinal": 234,
+      "sourceKind": "item_passive",
+      "ownerId": "6694",
+      "skillKey": "item_passive",
+      "keyLabelZh": "严寒",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "execute_threshold"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_control_or_debuff",
+          "excludedBehavior": "crowd_control_or_slow",
+          "boundaryReason": "严寒：纯控制/减速/重伤，无主目标伤害增量；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6694",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0",
+      "inventoryOrdinal": 235,
+      "sourceKind": "item_passive",
+      "ownerId": "6695",
+      "skillKey": "item_passive",
+      "keyLabelZh": "掠盾者",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "trigger_phrase_no_damage_amp",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "trigger_phrase_no_damage_amp"
+        }
+      },
+      "wikiItemId": "6695",
+      "wikiEffectSlots": [
+        "pass"
+      ],
+      "fragmentDiscriminator": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|2892fed0"
+    },
+    {
+      "candidateKey": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|7bcc8c31",
+      "inventoryOrdinal": 236,
+      "sourceKind": "item_passive",
+      "ownerId": "6695",
+      "skillKey": "item_passive",
+      "keyLabelZh": "掠盾者",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "survivability_only"
+        ],
+        "gapCode": "",
+        "damageDisposition": "no_primary_target_damage_branch",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "pure_heal_shield_survival",
+          "excludedBehavior": "self_shield_or_survivability",
+          "boundaryReason": "掠盾者：纯治疗/护盾/生存/免死，不增加对主目标输出；审计边界外。",
+          "damageRelevantSubBranchDisposition": "no_primary_target_damage_branch"
+        }
+      },
+      "wikiItemId": "6695",
+      "wikiEffectSlots": [
+        "pass"
+      ],
+      "fragmentDiscriminator": "item_passive|6695|item_passive|掠盾者|数据参考/item.json#data.6695|7bcc8c31"
+    },
+    {
+      "candidateKey": "item_passive|6696|item_passive|涌动",
+      "inventoryOrdinal": 237,
+      "sourceKind": "item_passive",
+      "ownerId": "6696",
+      "skillKey": "item_passive",
+      "keyLabelZh": "涌动",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "cooldown_or_haste_without_rotation"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_or_takedown_utility",
+          "boundaryReason": "涌动：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "6696",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6697|item_passive|盛名",
+      "inventoryOrdinal": 238,
+      "sourceKind": "item_passive",
+      "ownerId": "6697",
+      "skillKey": "item_passive",
+      "keyLabelZh": "盛名",
+      "auditBaseline": {
+        "legacyClassification": "needs_manual_baseline",
+        "mechanismTags": [
+          "dps_relevant_manual_review"
+        ],
+        "gapCode": "",
+        "damageDisposition": "post_kill_next_encounter_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "economy_or_post_takedown",
+          "excludedBehavior": "post_kill_temporary_ad",
+          "boundaryReason": "盛名：击杀/经济收益发生在当前唯一主目标死亡之后，encounter 已结束；审计边界外。",
+          "damageRelevantSubBranchDisposition": "post_kill_next_encounter_only"
+        }
+      },
+      "wikiItemId": "6697",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6698|item_passive|顺劈",
+      "inventoryOrdinal": 239,
+      "sourceKind": "item_passive",
+      "ownerId": "6698",
+      "skillKey": "item_passive",
+      "keyLabelZh": "顺劈",
+      "auditBaseline": {
+        "legacyClassification": "out_of_scope_for_single_target_dps",
+        "mechanismTags": [
+          "multi_target_or_area"
+        ],
+        "gapCode": "",
+        "damageDisposition": "other_target_or_building_only",
+        "resolvedBucket": "out_of_scope",
+        "outOfScope": {
+          "boundaryCategory": "other_targets_only",
+          "excludedBehavior": "other_target_or_aoe_damage",
+          "boundaryReason": "顺劈：该 component 伤害仅作用于额外目标，主目标不受该 component 伤害；审计边界外。",
+          "damageRelevantSubBranchDisposition": "other_target_or_building_only"
+        }
+      },
+      "wikiItemId": "6698",
+      "wikiEffectSlots": [
+        "pass"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6699|item_passive|通电",
+      "inventoryOrdinal": 240,
+      "sourceKind": "item_passive",
+      "ownerId": "6699",
+      "skillKey": "item_passive",
+      "keyLabelZh": "通电",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "blocked_runtime",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "blocked"
+      },
+      "wikiItemId": "6699",
+      "wikiEffectSlots": [
+        "pass2"
+      ]
+    },
+    {
+      "candidateKey": "item_passive|6699|item_passive|苍穹",
+      "inventoryOrdinal": 241,
+      "sourceKind": "item_passive",
+      "ownerId": "6699",
+      "skillKey": "item_passive",
+      "keyLabelZh": "苍穹",
+      "auditBaseline": {
+        "legacyClassification": "needs_runtime_extension",
+        "mechanismTags": [
+          "energized_charge_and_consume"
+        ],
+        "gapCode": "",
+        "damageDisposition": "not_applicable",
+        "resolvedBucket": "migrated"
+      },
+      "wikiItemId": "6699",
+      "wikiEffectSlots": [
+        "pass3"
+      ]
+    }
+  ]
+}

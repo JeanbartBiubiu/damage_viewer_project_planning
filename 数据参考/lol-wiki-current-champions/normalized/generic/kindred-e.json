@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kindred-e",
+  "candidateKey": "hero_skill|hero_kindred|E|横生惧意",
+  "ownerId": "hero_kindred",
+  "wikiChampionTitle": "Kindred",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Kindred/E",
+  "zhDisplayName": "横生惧意",
+  "resolvedTitle": "Template:Data Kindred/Mounting Dread",
+  "wikiPageId": 1307928,
+  "revisionId": 4022506,
+  "revisionTimestamp": "2026-05-26T10:02:37Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kindred/Mounting%20Dread",
+  "contentSha256": "19b3fcaebacc7f41676122e57574eb3e4a91cbc838a915439c02f6cca79bf5b4",
+  "rawByteSize": 2856,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lamb''' fires a shot at the target enemy that {{tip|slow|slows}} them by 30% {{as|(+ 5% per 100 AP)}} for 1 second and marks them for 4 seconds. Her {{tip|basic attacks}} against the marked target each apply a {{tip|stack}}, refreshing the duration and stacking up to 3 times.\n",
+    "description2": "The third stack directs '''Wolf''' to pounce on the target, consuming all stacks to deal {{as|'''additional''' physical damage|physical damage}}, increased by {{critical damage|0 to 50|critScaling=true}}.\n",
+    "leveling2": "{{st|Additional Physical Damage|{{ap|80 to 200}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 5% {{as|(+ {{fd|0.5}}% per {{ai|Mark of the Kindred|Kindred|Mark}})|buzzword}} of target's '''missing''' health)}}}}\n",
+    "description3": "The damage based on the {{as|'''missing''' health}} ratio is capped at 200 against {{tip|monster|monsters}}.\n",
+    "cooldown": "{{ap|14 to 8}}\n",
+    "cost": "50\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* If the target becomes {{tip|untargetable}}, {{tip|death|dies}}, or is too far away or no longer in {{tip|sight}} during the cast time, this ability will cancel and not pay its cost but still go on {{sti|cooldown}}.{{bug}}\n* This ability cannot target a unit with ''Mounting Dread'' stacks.\n* ''Mounting Dread'' will prioritize casting on the closest champion within {{tip|cr|icononly = true}} {{tt|100|estimated}} radius of the cursor, even if other eligible targets are closer.\n** As a consequence of this mechanic, ''Mounting Dread'' can still be cast on champions with ''Mounting Dread'' stacks.{{bug}}\n*** Reapplying ''Mounting Dread'' through this method will apply the slow, but will not reset the stack count.\n* {{pending for test}} Reapplying ''Mounting Dread'' against {{ai|Inherent Glamour|Neeko|disguised}} {{ci|Neeko}} will reset the stack count.{{bug}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

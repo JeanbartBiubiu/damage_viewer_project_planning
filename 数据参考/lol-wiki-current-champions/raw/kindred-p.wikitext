@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Mark of the Kindred|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kindred
+|skill        = I
+|icon         = Mark of the Kindred.png
+|icon2        = Lamb's Mask profileicon.png
+|icon3        = Wolf's Mask profileicon.png
+|blurb        =  {{sbc|Innate:}} Both {{ci|Lamb}} and {{ci|Wolf}} mark targets to ''hunt''. Scoring a {{tip|takedown}} against a ''hunted'' target collects a permanent stack of ''Mark of the Kindred''. '''Lamb''' can select an enemy {{tip|champion}} to ''hunt'', and '''Wolf''' automatically selects a large {{tip|monster}} to ''hunt''.
+|blurb4      = {{sbc|Mark of the Kindred:}} '''Lamb''' gains {{sti|range|'''bonus''' range}} on her basic attacks and ''{{ai|Mounting Dread|Kindred}}''. For each stack, {{cis|Kindred}} abilities become more potent.
+|description  = {{sbc|Innate:}} Both '''Lamb''' and '''Wolf''' mark targets to ''hunt''. Scoring a {{tip|takedown}} against a ''hunted'' target collects a stack of ''Mark of the Kindred''. <br/><br/>{{sbc|Mark of the Kindred:}} '''Lamb''' gains {{pp|type=marks|75;100;125;150;175;200;225;250|4;7;10;13;16;19;22;25|formula=+75 at 4 stacks, and +25 every 3 stacks thereafter, up to 250 bonus range at 25 stacks.}} {{sti|range|'''bonus''' range}} on her basic attacks and ''{{ai|Mounting Dread|Kindred}}''.
+|description2 = {{sbc|Innate - Lamb:}} '''Lamb''' is offered a selection of enemy {{tip|champions}} to ''hunt'' if she has not been [[combat status|in combat]] with them in the last 6 seconds. Once selected, the mark is applied after an 8-second delay and thereafter it can be collected by '''Kindred'''. '''Lamb''' gains the ability to select a new target every 75 seconds. ''Targets successfully hunted cannot be marked again for 4 minutes.''
+|description3 = {{sbc|Innate - Wolf:}} Starting at {{sbc|2:53}}, '''Wolf''' periodically marks a random large {{tip|monster}} within the enemy team's jungle for 180 seconds. The ''hunted'' camp is highlighted on the [[Map (League of Legends)|mini map]] to both teams. Once the ''hunted'' target is slain or the mark expires, '''Wolf''' will wait 45 seconds before selecting a new target. <br/>The type of monster that '''Wolf''' can mark changes based on '''Kindred's''' current ''Mark of the Kindred'' stacks:
+* {{sbc|0 :}} {{ui|Rift Scuttler}}
+* {{sbc|1 – 3:}} {{ui|Rift Scuttler}}, {{ui|Crimson Raptor}}, {{ui|Gromp}}
+* {{sbc|4 – 7:}} {{ui|Ancient Krug}}, {{ui|Blue Sentinel}}, {{ui|Greater Murk Wolf}}, or {{ui|Red Brambleback}}
+* {{sbc|8 + :}} {{ui|Rift Herald}} or {{ui|Baron Nashor}}, {{ui|Dragon}} or {{ui|Elder Dragon}}
+|ontargetcdstatic= {{tt|240|Lamb's mark}}
+|targeting    = Passive
+|affects      = Self, Enemies
+|damagetype   =
+|spellshield  =
+|spelleffects =
+|projectile   =
+|grounded     =
+|knockdown    =
+|notes        =
+* The selection of enemy champions to mark is offered through a special menu in the HUD that displays the portraits of up to 5 enemy champions. The player can mark an enemy by {{LMB}} clicking on their portrait or via the Champion Specific Interaction [[hotkey]]s (default: {{sbc|Shift}}+{{sbc|F1–F5}}).
+** Marked enemies have a trim around their portrait. Unavailable selections are greyed out.
+** The portraits are ordered based on their spawn ID.
+* {{tip|Takedown|Takedowns}} on {{tip|monsters}} occur if '''Kindred''' had damaged them within the last 6 seconds.
+** This only includes if the monster was slain by '''Kindred''' or an ally.
+* Only killing the large monster is required to claim '''Wolf's''' mark.
+* Gaining stacks from champions that would change what constitutes a valid target for '''Wolf''' will not affect '''Kindred's''' ability to claim '''Wolf's''' current target.
+* '''Wolf''' cannot mark monsters that have been slain, even if '''Kindred's''' team doesn't know that the camp has been slain.
+* '''Wolf's''' cooldown is not displayed in-game. Combined with the above point and the target restrictions, '''Wolf''' may go extended periods of time without seeming to do anything.
+* '''Wolf's''' marked target will always have its mark removed from the map 15 seconds after dying for both teams, regardless of whether they have vision of it or not.
+|flavorsound  = {{sm2|Kindred_Original_P_Mark_Enemy_10.ogg}} ''"Our mark looms over you."''
+}}

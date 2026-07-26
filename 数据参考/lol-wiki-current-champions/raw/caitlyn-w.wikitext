@@ -1,0 +1,34 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Yordle Snap Trap|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Caitlyn
+|skill        = W
+|icon         = Yordle Snap Trap.png
+|blurb        = {{sbc|Active:}} {{ci|Caitlyn}} sets a trap at the target location that lasts for a while. The trap springs when an enemy champion steps on it, {{tip|true sight|revealing}} and {{tip|root|rooting}} them.
+|blurb2       = '''Caitlyn''' periodically [[ammunition|stocks]] a charge of ''Yordle Snap Trap'', up to a cap.
+|blurb3       = The next ''{{ai|Headshot|Caitlyn}}'' against a trapped target will deal {{as|'''bonus''' physical damage}}.
+|description  = {{sbc|Active:}} '''Caitlyn''' sets a visible trap at the target location that is {{tip|untargetable}} and arms after 1 second, lasting for a duration. The trap grants {{tip|sight}} of the area for 1 second after being placed.
+|leveling     = {{st|Trap Duration|{{ap|30 to 50}} seconds}}
+|description2 = '''Caitlyn''' periodically [[ammunition|stocks]] a ''Yordle Snap Trap'' charge, up to a maximum amount. Deploying traps beyond the maximum destroys the oldest one.
+|leveling2    = {{st|Maximum Number of Traps|{{ap|3|3|4|4|5}}}}
+|description3 = The next enemy champion that springs the trap is {{tip|root|rooted}} for {{fd|1.5}} seconds and {{tip|true sight|revealed}} for 3 seconds, as well as takes additional damage from the ''{{ai|Headshot|Caitlyn}}'' granted by this ability. Trapped targets become immune to further ''Yordle Snap Traps'' for 3 seconds, preventing them from springing subsequent traps for the duration.
+|leveling3    = {{st|{{ai|Headshot|Caitlyn}} Damage Increase|{{ap|35 to 215}} {{as|(+ 30% '''bonus''' AD)}}}}
+|target range = 800
+|collision radius= {{tip|er|icononly = true}} 15
+|cooldown     = {{fd|0.5}}
+|recharge     = {{ap|26 to 10}}
+|cast time    = {{fd|0.25}}
+|cost         = 20
+|costtype     = Mana + 1 Charge
+|targeting    = Location
+|affects      = Enemies
+|damagetype   =
+|spellshield  = True
+|spelleffects =
+|projectile   =
+|grounded     =
+|knockdown    =
+|outofrange   = walk to location
+|notes        =
+* Multiple armed traps on the same location will spring all at once if an enemy steps on one of them.
+|tips         =
+* Check the scoreboard occasionally and aim to use ''Yordle Snap Trap'' on top of enemies who want to stay still during {{iis|Zhonya's Hourglass}} Time Stop or {{iis|Guardian Angel}} Rebirth, as the trap is guaranteed the moment they become targetable again.
+}}

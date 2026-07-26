@@ -1,0 +1,39 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:b1|15}}<!-- Generic/Normal rank 1 total base damage
+-->{{#vardefine:b5|23}}<!-- Generic/Normal rank 5 total base damage
+-->{{#vardefine:ad1|104}}<!-- Generic/Normal rank 1 total AD ratio as a PERCENTAGE
+-->{{#vardefine:ad5|120}}<!-- Generic/Normal rank 5 total AD ratio as a PERCENTAGE
+-->{{#vardefine:crit|150}}<!-- Total critical strike damage as a PERCENTAGE
+-->{{#vardefine:ie_mod_W|50}}<!-- Infinity edge modifier as a PERCENTAGE
+-->{{#vardefine:ie_dam|{{#expr:{{#invoke:ItemData|get|item=Infinity Edge|datatype=critdamage}}*{{#var:ie_mod_W}}/10000}}}}<!-- Infinity Edge damage DO NOT CHANGE
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Ultrashock Laser|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Zeri
+|skill        = W
+|icon         = Zeri Ultrashock Laser.png
+|blurb        = {{sbc|Active:}} {{ci|Zeri}} fires an electric pulse in the target direction that deals {{as|physical damage}} to the first enemy hit and {{tip|slows}} them for a short duration.
+|blurb2      = If this hits [[terrain]], it transforms into a laser that fires in a line, dealing {{as|physical damage}} to enemies hit and {{tip|critical strike|critically striking}} against {{tip|champions}} and {{tip|monsters}}.
+|description  = {{sbc|Active:}} '''Zeri''' fires an electric pulse in the target direction that deals {{as|physical damage}} to the first enemy hit and {{tip|slows}} them for 2 seconds.<br><br>If the pulse hits [[terrain]], it transforms into a laser in a line that grants {{tip|sight}} of the area for {{fd|1.75}} seconds and fires after {{fd|0.85}} seconds, applying the same effects to enemies hit and {{tip|critical strike|critically striking}} for {{as|{{critical damage|{{#var:crit}}|{{#var:ie_mod_W}}}}|critical damage}} damage against {{tip|champions}} and {{tip|monsters}}.
+|leveling     = {{st|Physical Damage|{{ap|30 to 190}} {{as|(+ 120% AD)}} {{as|(+ 50% AP)}}|Critical Strike Damage|{{ap|30*{{#var:crit}}/100 to 190*{{#var:crit}}/100}} {{as|(+ {{ap|120*{{#var:crit}}/100}}% AD)}} {{as|(+ {{ap|50*{{#var:crit}}/100}}% AP)}}|Infinity Edge Damage|{{ap|30*({{#var:crit}}/100+{{#var:ie_dam}}) to 190*({{#var:crit}}/100+{{#var:ie_dam}})}} {{as|(+ {{ap|120*({{#var:crit}}/100+{{#var:ie_dam}})}}% AD)}} {{as|(+ {{ap|50*({{#var:crit}}/100+{{#var:ie_dam}})}}% AP)}}}}
+{{st|Slow|{{ap|30 to 50}}%}}
+|cooldown     = {{ap|12 to 8}}
+|cast time    = {{as|{{pp|type='''bonus''' attack speed|round=3|0.55;0.528;0.495;0.462;0.429;0.396;0.363;0.33;0.3|key1=%|0;24.4444;61.1111;97.7778;134.444;171.111;207.778;244.444;277.778|formula=0.55-0.09 per 100% '''bonus''' attack speed. ''This is capped at 45.5% reduction at 277.8% '''bonus''' attack speed.''}}}}
+|cost         = {{ap|50 to 90}}
+|costtype     = Mana
+|range        = {{dv|{{tip|cr|icononly = true}} {{tt|1200|Initial missile}}|{{tip|er|icononly = true}} {{tt|-50 – 1550|1600 units total empowered length}}}}
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|80|Initial missile}}|{{tip|er|icononly = true}} {{tt|200|Laser beam width}}}}
+|speed        = {{tt|2500|Initial missile}}
+|targeting    = Direction
+|damagetype   = Magic
+|projectile   = special
+|affects      = Enemies
+|spelleffects = special
+|onhiteffects =
+|spellshield  = true
+|parry        =
+|callforhelp  =
+|notes        =
+* Applies {{tip|spell damage}} for the pulse and {{tip|area damage}} for the laser.
+* The pulse missile is blocked by {{tip|projectile|projectile-interception}} effects but not the laser.
+* ''Ultrashock Laser'' interacts with [[Terrain#Player-Generated|player-generated terrain]].
+{{Effect at cast time start}}
+}}

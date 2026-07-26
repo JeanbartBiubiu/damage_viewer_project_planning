@@ -1,0 +1,21 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Deadly Venom|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Twitch
+|skill        = I
+|icon         = false
+|icon2        = Deadly Venom.png
+|blurb        = {{sbc|Innate:}} {{cis|Twitch}} {{tip|basic attacks}} {{tip|on-hit}} apply {{tip|stacks}} of ''Deadly Venom'' for a few seconds, which stacks up to a cap.
+|blurb4      = {{sbc|Deadly Venom:}} For each stack, the target is continually dealt {{as|true damage}}. This effect is considered a {{tip|poison}}.
+|description  = {{sbc|Innate:}} '''Twitch's''' {{tip|basic attacks}} {{tip|on-hit}} apply a {{tip|stack}} of ''Deadly Venom'' for 6 seconds, refreshing on subsequent applications and stacking up to 6 times.
+|description2 = {{sbc|Deadly Venom:}} For each stack, the target is dealt{{ft|{{sti|true damage|{{as|{{pp|1 to 5 for 5|1 to 17|formula=1 every 4 levels}}|true damage}}}} {{as|(+ 3% AP)}} {{as|true damage}} per second over the duration,|{{sti|true damage|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=1, +1 every 4 levels}}|true damage}}}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|'''total''' true damage}} over the duration,}}for a maximum of{{ft|{{as|{{pp|1*6 to 5*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6}}% AP)}} {{as|true damage}} with each tick.|{{as|{{pp|1*6*6 to 5*6*6 for 5|1 to 17|formula=6 every 4 levels}}|true damage}} {{as|(+ {{#expr:3*6*6}}% AP)}} {{as|'''total''' true damage}} over the duration.}}This effect is considered a {{tip|poison}}.
+|targeting    = Passive
+|damagetype   = True
+|affects      = Enemies
+|spelleffects = special
+|parry        = true
+|spellshield  = False
+|notes   =
+* ''Deadly Venom'' deals {{tip|proc damage|proc}} {{tip|persistent damage|damage over time}}, and does not trigger {{tip|spell effects}}.
+* The first 5 stacks on a target are indicated each by a small mark around them, while a target affected by the maximum stacks of 6 is indicated by a single large mark above them instead.
+* ''Deadly Venom'' does not affect {{tip|structures}}.
+* {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} bolts are special-cased to generate one ''Deadly Venom'' stack per enemy hit.
+}}

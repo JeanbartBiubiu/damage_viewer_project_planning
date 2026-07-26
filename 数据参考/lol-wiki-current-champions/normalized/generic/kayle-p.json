@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kayle-p",
+  "candidateKey": "hero_skill|hero_kayle|P|登神长阶",
+  "ownerId": "hero_kayle",
+  "wikiChampionTitle": "Kayle",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Kayle/I",
+  "zhDisplayName": "登神长阶",
+  "resolvedTitle": "Template:Data Kayle/Divine Ascent",
+  "wikiPageId": 1388325,
+  "revisionId": 4038393,
+  "revisionTimestamp": "2026-06-30T09:28:38Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kayle/Divine%20Ascent",
+  "contentSha256": "57059ceeffcd2a5988c64b9ea63552a6c7837cc4dffb4c02803f288b7c629a81",
+  "rawByteSize": 6838,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Kayle''' ascends through four forms that each grant additional bonuses. She ascends upon spending a skill point at {{stil|experience|levels}} 1, 6, 11, and 16.\n",
+    "description2": "{{sbc|Level 1 - Zealous:}} '''Kayle's''' {{tip|basic attacks}} {{tip|on-attack}} generate a {{tip|stack}} of ''Zeal'' for 5 seconds, refreshing on subsequent attacks and stacking up to 5 times. For each stack, she gains {{sti|attack speed|{{as|6%|attack speed}} {{as|'''bonus''' attack speed}}}}, up to a maximum of {{sti|attack speed|{{as|30%|attack speed}}}}. At max stacks, she becomes ''Exalted'', gaining {{sti|ms|{{as|10% '''bonus''' movement speed}}}}.\n",
+    "description3": "{{sbc|Level 6 - Arisen:}} '''Kayle''' becomes {{tip|ranged}} and gains {{sti|range|350 '''bonus''' attack range}} for a total of {{sti|range|525}}.\n",
+    "description4": "{{sbc|Level 11 - Aflame:}} '''Kayle''' gains 10% bonus {{tip|size}}. While '''Kayle''' is ''Exalted'', her basic attacks {{tip|on-attack}} also launch a ''wave'' of fire forward that deals {{pplevel|20+3*(x-1)|11+x-1|formula=20 + 3 for every  level starting from level 11|color=magic damage}} {{as|(+ 10% '''bonus''' AD)}} {{as|(+ 25% AP)}} {{as|magic damage}} to all enemies it passes through. The ''wave'' is affected by {{tip|critical strike}} modifiers.\n",
+    "description5": "{{sbc|Level 16 - Transcendent:}} '''Kayle''' gains an additional {{sti|range|100 '''bonus''' attack range}} for a total of {{sti|range|625}}, and permanently gains the full effects of ''Zealous''.\n",
+    "damagetype": "magic\n",
+    "notes": "'''Zealous'''\n* The stacking {{as|'''bonus''' attack speed}} can be tracked on the HUD via a buff called [[File:Kayle Divine Ascent 2.png|20px|link=]] '''Zeal''', while the maximum stacks bonus grants the buff [[File:Kayle Divine Ascent.png|20px|link=]] '''Exalted'''.\n* Subsequent applications will also refresh the duration of all stacks, but all of them are lost when expired.\n* If '''Kayle''' is in her attack animation after the stacks expire, she gains another {{fd|0.5}} seconds to refresh/stack [[File:Kayle Divine Ascent 2.png|20px|link=]] '''Zeal'''.\n'''Arisen'''\n* Basic attacks within {{sti|range|175 units}} will still use '''Kayle's''' melee basic attack animations and do not utilize {{tip|projectile|projectiles}}.\n** They are still classified as {{tip|ranged}} attacks.\n** Due to this fact, projectile-blocking effects cannot intercept basic attacks while '''Kayle's''' target is within her \"melee\" range.\n'''Aflame'''\n* On becoming {{sbc|Aflame}}, '''Kayle's''' bonus size grows linearly over 1 second.\n* Basic attacks against [[structures]] do not trigger fire waves.\n* While at 4 stacks of [[File:Kayle Divine Ascent 2.png|20px|link=]] '''Zeal''', the next attack {{tip|on-attack}} reaching the fifth stack will be empowered by {{sbc|Aflame}}, releasing the first fire wave.\n'''Transcendent'''\n* The [[File:Kayle Divine Ascent 2.png|20px|link=]] '''Zeal''' and [[File:Kayle Divine Ascent.png|20px|link=]] '''Exalted''' buffs are replaced by a new buff that grants the benefits of both and it is not visible on '''Kayle's ''' HUD.\n'''Fire Waves Details'''\n* [[File:Celestine Wish Kayle Fire Wave.png|thumb|Hitboxes shows by a graph side by side.]] A wave consists of three projectiles for the hitbox and a fourth for visuals.\n* The hitbox projectiles spawn 75 units behind '''Kayle''', travel through her, and are destroyed once they've traveled 850 units. Their technical details are:\n** {{sbc|Range:}} {{tip|cr|850}} (755 effective)\n** {{sbc|Width:}} {{tip|er|200}}\n** {{sbc|Projectile Speed:}} 2800\n** {{sbc|Angle:}} 18{{degree}} (left and right at 9{{degree}} to their side, respectively)\n* The distance of the fire waves scales with '''bonus''' attack range.\n* {{tip|Projectile}}-blocking effects can block each projectile individually.\n** It is possible to block the visuals, but still get hit by an unblocked \"invisible\" hitbox projectile.\n* Hitting an enemy with multiple projectiles of the same wave will not increase the damage dealt.\n* The fire wave shares {{tip|cast instance}} with the triggering basic attack.\n** The amount of {{ri|Conqueror}} stacks gained will be {{rd|2|1}} if the basic attack deals damage first or 2 if the wave does so.\n* Keep in mind that it's still two damage instances. If one triggers {{ri|Bone Plating}}, the other's damage will be blocked.\n* Fire waves roll {{tip|critical strike|critical strike chance}} on each target hit individually.\n* A known issue is that despite dealing {{tip|area damage|area spell damage}} the fire wave does not:\n** Consume {{nie|Mana Charge}} from {{ii|Tear of the Goddess}} and its upgrades.\n** Trigger {{ri|Manaflow Band}}.\n'''Interactions & Other'''\n* Because '''Kayle''' is both a {{tip|melee}} and {{tip|ranged}} champion, she can purchase both ranged and melee exclusive items at anytime, but their effects will function depending on her current range type; the same principle also applies to [[runes]].\n** However, keep in mind that, prior to ascending to ''Arisen'', {{ai|Starfire Spellblade|Kayle}} also changes this behaviour based on its usage.\n* Waves are fired in the direction that '''Kayle''' is facing. Changing that during the attack windup via {{si|Flash}} will also change the direction of the wave.\n* Each ascension has an unique animation and a voice line. ''([[Kayle/LoL/Audio|See: Kayle's quotes]])''\n* The ascensions' animation will override the current one, but it does not cancel '''Kayle's''' current action, nor her previous orders.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "description5": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "quinn-e",
+  "candidateKey": "hero_skill|hero_quinn|E|旋翔掠杀",
+  "ownerId": "hero_quinn",
+  "wikiChampionTitle": "Quinn",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Quinn/E",
+  "zhDisplayName": "旋翔掠杀",
+  "resolvedTitle": "Template:Data Quinn/Vault",
+  "wikiPageId": 1308957,
+  "revisionId": 4024768,
+  "revisionTimestamp": "2026-06-03T00:51:11Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Quinn/Vault",
+  "contentSha256": "9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714",
+  "rawByteSize": 2649,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Quinn''' {{tip|dashes}} to the target enemy, marking them with ''{{ai|Harrier|Quinn}}'', dealing {{as|physical damage}}, {{tip|airborne|knocking them back}} a very short distance over {{fd|0.5}} seconds, and {{tip|slow|slowing}} them by 50% decaying over {{fd|1.5}} seconds. She then {{tip|dash|leaps back}} 525 units away from them.\n",
+    "description2": "''Vault {{tip|basic attack reset|resets}} '''Quinn's''' basic attack timer {{tt|shortly after|See notes}} the initial dash. {{ai|Heightened Senses|Quinn}} can be cast during either of the dashes.''\n",
+    "leveling": "{{st|Physical damage|{{ap|40 to 140}} {{as|(+ 20% '''bonus''' AD)}}}}\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "cost": "50\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* '''Quinn''' will track the target if they change locations.\n** She will dash to the target's previous location without applying ''Vault's'' effects if the target is too far away or moves beyond {{tt|1200|Estimated}} units.\n* ''Vault'' {{tip|basic attack reset|resets}} '''Quinn's''' remaining attack cooldown a short delay after the first dash ends (even if interrupted).\n** This delay is a fuzzy {{fd|0.25}} to {{fd|0.5}} seconds and this matches up with the moment the target of ''Vault'' is marked with {{ai|Harrier|Quinn}}.\n* '''Quinn''' will automatically attempt to attack the target once she completes ''Vault''.\n* The target will turn to face the opposite direction after being {{tip|airborne|knocked back}}.\n* Unlike its constant cast range ''Vault's'' bounce's can vary to allow '''Quinn''' to close or to make a gap between herself and the target (depending on casting position) or even to jump through a wall (if there is enough landing room on the other side).\n* ''Vault's'' {{tip|airborne|knock back}} also interrupts the windup of basic attacks with {{tip|uncancellable windup|uncancellable windups}}.{{bug|2}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

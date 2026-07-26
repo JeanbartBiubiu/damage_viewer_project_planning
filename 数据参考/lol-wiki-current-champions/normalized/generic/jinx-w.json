@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jinx-w",
+  "candidateKey": "hero_skill|hero_jinx|W|震荡电磁波！",
+  "ownerId": "hero_jinx",
+  "wikiChampionTitle": "Jinx",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Jinx/W",
+  "zhDisplayName": "震荡电磁波！",
+  "resolvedTitle": "Template:Data Jinx/Zap!",
+  "wikiPageId": 1307598,
+  "revisionId": 3907092,
+  "revisionTimestamp": "2025-06-06T17:47:18Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jinx/Zap!",
+  "contentSha256": "8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f",
+  "rawByteSize": 1321,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Jinx''' fires a shock blast in the target direction that deals {{as|physical damage}} to the first enemy it hits and {{tip|standard sight|reveals}} and {{tip|slow|slows}} them for 2 seconds.\n",
+    "leveling": "{{st|Physical Damage|{{ap|10 to 210}} {{as|(+ 140% AD)}}}}\n{{st|Slow|{{ap|40 to 80}}%}}\n",
+    "cost": "{{ap|40 to 60}}\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|8|7|6|5|4}}\n",
+    "damagetype": "Physical\n",
+    "notes": "{{Effect at cast time start}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

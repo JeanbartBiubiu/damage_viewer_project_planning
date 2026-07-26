@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "quinn-w",
+  "candidateKey": "hero_skill|hero_quinn|W|敏锐感知",
+  "ownerId": "hero_quinn",
+  "wikiChampionTitle": "Quinn",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Quinn/W",
+  "zhDisplayName": "敏锐感知",
+  "resolvedTitle": "Template:Data Quinn/Heightened Senses",
+  "wikiPageId": 1308956,
+  "revisionId": 4024767,
+  "revisionTimestamp": "2026-06-03T00:50:38Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Quinn/Heightened%20Senses",
+  "contentSha256": "d7ac8dad4099a83a2cd898fa4a913fd6700f6dcd459271d2fe93090778b323d3",
+  "rawByteSize": 1582,
+  "fields": {
+    "description": "{{sbc|Passive:}} Whenever '''Quinn''' uses a basic attack {{tip|on-attack}} against a target marked by ''{{ai|Harrier|Quinn}}'' or consumes their mark, she gains {{sti|{{as|'''bonus''' attack speed}}}} and {{sti|ms|{{as|'''bonus''' movement speed}}}} for 2 seconds.\n",
+    "leveling": "{{st|Bonus Attack Speed|{{ap|28 to 80}}%}}\n{{st|Bonus Movement Speed|{{ap|20 to 40}}%}}\n",
+    "description2": "{{sbc|Active:}} {{ci|Valor}} grants {{tip|sight}} of the surrounding area for 2 seconds and {{tip|standard sight|reveals}} enemy champions within for the same duration.\n",
+    "cooldown": "{{ap|50 to 30}}\n",
+    "notes": "* '''Quinn''' marks enemy champions who were previously unseen but were revealed ''Heightened Senses'' in order to gain [[assist]] credit, lasting for the standard credit timer.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "notes": true,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ashe-p",
+  "candidateKey": "hero_skill|hero_ashe|P|冰霜射击",
+  "ownerId": "hero_ashe",
+  "wikiChampionTitle": "Ashe",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Ashe/I",
+  "zhDisplayName": "冰霜射击",
+  "resolvedTitle": "Template:Data Ashe/Frost Shot",
+  "wikiPageId": 1306803,
+  "revisionId": 4038216,
+  "revisionTimestamp": "2026-06-30T07:27:41Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Frost%20Shot",
+  "contentSha256": "def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da",
+  "rawByteSize": 1880,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Ashe's''' {{tip|basic attacks}} deal {{as|'''bonus''' physical damage}} equal to {{critical damage|0 to 100|0 to 100|critScaling=true}} of the {{as|attack's damage}}. {{tip|critical strike|Critical strikes}} do not deal any additional damage.\n",
+    "description2": "{{sbc|Innate - Frost Shot:}} '''Ashe's''' basic attacks and ability hits apply ''Frost'' to enemies for 2 seconds, which {{tip|slow|slows}} them by {{pplevel|key=%|20 to 30}} for the duration.\n",
+    "description3": "{{sbc|Innate - Critical Slow:}} '''Ashe's''' {{tip|critical strike|critical strikes}} double ''Frost's'' slow strength to {{pplevel|key=%|20*2 to 30*2}}, decaying over the first second of the duration to its normal strength.\n",
+    "damagetype": "Physical\n",
+    "notes": "* '''Ashe's''' critical strikes are still considered {{as|critical strike damage}} and thus will be reduced by {{iis|Randuin's Omen}} {{nie|Resilience}}.\n* {{iis|Runaan's Hurricane}} will not deal additional damage on {{tip|critical strike|critical strikes}}.\n* {{ri|Cheap Shot}} will trigger on a subsequent basic attack even when the target is no longer slowed.{{bug|2}}\n<!--Blurb-->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

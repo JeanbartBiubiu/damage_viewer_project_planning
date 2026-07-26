@@ -1,0 +1,47 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Fate's Call|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kalista
+|skill        = R
+|icon         = Fate's Call.png
+|blurb        = {{sbc|Active:}} {{ci|Kalista}} invokes her {{ii|The Black Spear|tether}} to retrieve her ''Oathsworn'', {{tip|vanish|vanishing}} and {{tip|cleanse|cleansing}} them from all {{tip|crowd control}}, and hold them for a few seconds.
+|blurb2       = While held, the ''Oathsworn'' may {{tip|dash}} to reappear at the target location. If they collide with an enemy {{tip|champion}}, they {{tip|airborne|knock up}} all nearby enemies.
+|description  = {{sbc|Active:}} '''Kalista''' invokes her {{ii|The Black Spear|tether}} to retrieve and hold her ''Oathsworn'' for 4 seconds. '''Kalista''' {{tip|cleanse|cleanses}} the ''Oathsworn'' from all {{tip|crowd control}} and renders them {{tip|invulnerable}} and {{tip|untargetable}} for the duration, and {{tip|dash|pulls}} them to her over 1 second.
+|description2 = While held, the ''Oathsworn'' is {{tip|vanish|vanished}} and may {{tt|select|Default MB1 / left-click}} a target location to {{tip|dash}} to with {{tip|displacement immunity}}, ending ''Fate's Call's'' invocation and reappearing at the location. If the invocation ends without the ''Oathsworn'' selecting a target location, they will automatically do so at maximum range from '''Kalista's''' facing direction.
+|description3 = The ''Oathsworn's'' dash stops upon colliding with an enemy {{tip|champion}}. Upon the dash ending by collision or arriving to the targeted location, the ''Oathsworn'' {{tip|airborne|knocks back}} all nearby enemies and keeps them {{tip|airborne}} for a set duration, while simultaneously {{tip|lunge|landing}} to their {{sti|attack range|'''base''' attack range}} {{tt|from the closest target hit|See notes}}.
+|description4 = ''The Oathsworn must be within tether range to cast this ability, and is also {{tip|silence|silenced}} and unable to perform movement or attack commands while Fate's Call is in effect.''
+|leveling3    = {{st|Airborne Duration|{{ap|1 to 2}} seconds}}
+|target range = 1200
+|cooldown     = {{ap|160 to 120}}
+|cdstart      = on-cast
+|cast time = none
+|cost         = 100
+|costtype     = mana
+|targeting    = Proximity
+|affects      = {{ii|Black Spear|Oathsworn}} Ally / Enemies
+|damagetype   =
+|spellshield  = True
+|grounded     =
+|knockdown    = false
+|projectile   =
+|notes        =
+* The ''Oathsworn's'' landing location of the lunge is precisely to their base attack range from the closest target they hit and relative to where this target would be displaced to from the knock back.
+** In other words, the ''Oathsworn'' will land to a location where they are within their exact base attack range of the target by the end of the target's displacement.
+** The calculated landing spot does not evaluate if the target was successfully displaced or not, meaning that the ''Oathsworn'' will end up closer than their base attack range if the closest target hit was not knocked back.
+* The {{tip|airborne}} effect is attributed to ''Fate's Call's'' initial caster.
+* If the ''Oathsworn'' does not hit any targets with the knock up effect, the dash will simply end and they will reappear at the target location.
+* '''Kalista''' is briefly unable to start basic attacks or cast basic abilities when the ''Oathsworn'' starts their flight.
+* The following will defer ''Fate's Call's'' effects at the time of cast to the end of their duration if the ''Oathsworn'' is:
+** In a [[cast time]].
+** {{tip|Channel|Channeling}}.
+*** ''Fate's Call'' will not defer by the following channels: {{si|Recall}}, {{ai|Defiant Dance|Irelia}}, {{ai|Realm Warp|Ryze}}, and {{ai|The Culling|Lucian}}.
+*** ''Fate's Call'' cannot be cast during the following channels: {{si|Teleport}}, {{ai|Gate|Twisted Fate}}, {{ai|Grand Starfall|Pantheon}}, {{ai|Hero's Entrance|Galio}} and {{ai|Stand United|Shen}}.
+** Using an ability that preloads {{tip|unstoppableforcemarker|UnstoppableForceMarker}}.
+*** If the ''Oathsworn'' is still occupied after 6 seconds of being deferred from this time, ''Fate's Call'' will cancel.
+* ''Fate's Call'' will not pull the ''Oathsworn'' if they are {{tip|dash|dashing}} but they will be retrieved after 1 second regardless.
+* ''Fate's Call'' can be cast even if the ''Oathsworn'' is {{tip|untargetable}}.
+* ''Fate's Call'' is disabled if the ''Oathsworn'' is {{tip|resurrection|resurrecting}} or is being affected by another ''Fate's Call''.
+* ''Fate's Call'' can be used even if the ''Oathsworn'' is in a {{tip|zombie state}}.
+* ''Fate's Call'' does not render the target {{tip|vanish|vanished}} while being held if they are creating {{ais|E|Senna}} aura.
+* The ''Oathsworn'' being held is represented by a light over '''Kalista's''' head.
+* '''Kalista's''' [[death]] does not cancel ''Fate's Call''.
+|flavorsound= {{sm2|Kalista_Original_RAllyLowHealth_0.ogg}} ''"They shall not have you!"''
+}}

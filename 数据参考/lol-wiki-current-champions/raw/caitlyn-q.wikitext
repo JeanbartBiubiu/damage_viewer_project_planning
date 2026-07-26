@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Piltover Peacemaker|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Caitlyn
+|skill        = Q
+|icon         = Piltover Peacemaker.png
+|blurb        = {{sbc|Active:}} {{ci|Caitlyn}} revs up her rifle to unleash a penetrating shot that deals {{as|physical damage}} to enemies hit.
+|blurb2       = The projectile expands after the first target but also deals less damage.
+|description  = {{sbc|Active:}} '''Caitlyn''' fires a piercing shot in the target direction that deals {{as|physical damage}} to the first enemy it passes through, after which it expands in width but deals only 60% damage to enemies it hits thereafter.
+|leveling     = {{st|Physical Damage|{{ap|50 to 210}} {{as|(+ {{ap|125 to 205}}% AD)}}|Reduced Damage|{{ap|50*0.6 to 210*0.6}} {{as|(+ {{ap|125*0.6 to 205*0.6}}% AD)}}}}
+|description2 = Enemies {{tip|true sight|revealed}} by ''{{ai|Yordle Snap Trap|Caitlyn}}'' always take {{ccs|full damage|physical}} from ''Piltover Peacemaker''.
+|cast time    = {{fd|0.625}}
+|range        = {{dv|{{tip|cr|icononly = true}} 1300|{{tip|er|icononly = true}} 1240}}
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|120|Initial missile}}|{{tt|180|Expanded missile}}}}
+|speed        = 2200
+|cooldown     = {{ap|10 to 6}}
+|cost         = {{ap|55 to 75}}
+|costtype     = mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = Area of effect
+|projectile   = True
+|grounded     =
+|knockdown    =
+|notes        =
+* Upon ''Piltover Peacemaker'' dealing damage to an enemy, '''Caitlyn's''' [[attack timer]] is forcibly {{tip|basic attack reset|reset}}.{{bug}}
+* Enemies hit while protected by a {{tip|spell shield}} will still be considered a target for calculating damage for subsequent hits.
+{{Effect at cast time start}}
+}}

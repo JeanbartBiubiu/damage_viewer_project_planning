@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "vayne-w",
+  "candidateKey": "hero_skill|hero_vayne|W|圣银弩箭",
+  "ownerId": "hero_vayne",
+  "wikiChampionTitle": "Vayne",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Vayne/W",
+  "zhDisplayName": "圣银弩箭",
+  "resolvedTitle": "Template:Data Vayne/Silver Bolts",
+  "wikiPageId": 1309989,
+  "revisionId": 3949891,
+  "revisionTimestamp": "2025-08-26T19:47:02Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Vayne/Silver%20Bolts",
+  "contentSha256": "fe4559b2bca55dc8d95c66e9241d96b77c4abe2cb39505f7ce90bfe174886e41",
+  "rawByteSize": 1724,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Vayne's''' {{tip|basic attacks}} {{tip|on-hit}} and ''{{ai|Condemn|Vayne}}'' apply a {{tip|stack}} of ''Silver Bolts'' for {{fd|3.5}} seconds, refreshing on subsequent applications, expiring upon attacking a new enemy, and stacking up to 3 times.\n",
+    "description2": "The third stack consumes them all to deal {{sti|{{as|'''bonus''' true damage}}}}, with a minimum threshold.\n",
+    "leveling2": "{{st|Bonus True Damage|{{as|{{ap|6 to 10}}% of target's '''maximum''' health}}}}\n{{st|Minimum Bonus Damage|{{ap|50 to 110}}}}\n",
+    "description3": "''Silver Bolts'' deals modified damage against {{tip|monsters}}.\n",
+    "leveling3": "{{st|Monster Damage|{{ap|140 to 200}}}}\n",
+    "damagetype": "true\n",
+    "notes": "* {{tip|Stacks}} are not removed if '''Vayne''' switches to attacking a target immune to ''Silver Bolts'' ({{tip|structures}}, {{tip|wards}}).\n* ''Silver Bolts'' do not apply to additional targets with {{ii|Runaan's Hurricane}}.\n* The stacks can be consumed even if the target is in {{tip|stasis}}.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

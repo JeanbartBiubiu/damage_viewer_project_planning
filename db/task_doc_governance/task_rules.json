@@ -549,12 +549,17 @@
       "title": "通用 ABI 最小验证统一机制清单剩余阻塞收口",
       "module": "wasm",
       "feature": "generic_min_validation_coverage_audit",
-      "status": "完成",
+      "status": "进行中",
       "priority": 1,
-      "completion_note": "254 去重机制统一清单终态：completed=31、partial_actionable=0、ready_to_implement=0、blocked_runtime=29、blocked_data=119、out_of_scope=70、regression_only=5、stale_or_duplicate=0；actionableKeyCount=0。docs 仅映射 2026-07-17 剩余阻塞汇总测试记录。",
-      "completed_at": "2026-07-17",
       "docs": [
-        "文档记录/测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-17.md"
+        "文档记录/测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md",
+        "文档记录/详细设计/最小验证/V2-Batch-2512-开战弹幕机制闭环计划.md",
+        "文档记录/详细设计/wasm/Wiki冠军数值真源与PhaseA边界-2026-07-19.md",
+        "文档记录/详细设计/wasm/Wiki-only候选注册表与Unified显式来源白名单设计.md",
+        "文档记录/测试记录/wasm/Wiki-only候选注册表与Unified显式来源白名单验证记录-2026-07-20.md",
+        "文档记录/详细设计/最小验证/V2-Batch-3073-过载机制闭环计划.md",
+        "文档记录/详细设计/最小验证/V2-Batch-6610-光盾打击机制闭环计划.md",
+        "文档记录/详细设计/最小验证/V2-Batch-3032-疾风骤雨机制闭环计划.md"
       ]
     },
     {
@@ -629,16 +634,30 @@
     },
     {
       "task_key": "wasm-generic-dusk-and-dawn-spellblade",
-      "title": "通用 ABI 黄昏与黎明 Spellblade 主伤害机制",
+      "title": "通用 ABI 黄昏与黎明 Spellblade 机制",
       "module": "wasm",
       "feature": "generic_dusk_and_dawn_spellblade",
       "status": "完成",
       "priority": 1,
-      "completion_note": "item_2510 已完成精确主伤害、ready/ICD 的 Backend seed、TinyGo 数值/状态回归、Web 投影和 G8 partial 证据；治疗与 0.2 秒 delayed second on-hit 明确保留为 partial gap，未执行 live migration 或 publish。",
-      "completed_at": "2026-07-14",
+      "completion_note": "item_2510 咒刃 exact 全合同已闭环：10s ready；魔法 0.75 base AD + 0.10 resolved AP；自身治疗一次 0.10 AP + 0.03 bonus HP；+200ms canonical copyable-on-hit replay；1.5s ICD；共享 ready gate/无递归；通用 repeatDelayMs + Backend delay_ms + Web delayMs 投影；G8 migrated / Unified completed/full；未执行 live migration 或 publish。",
+      "completed_at": "2026-07-21",
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-黄昏与黎明Spellblade机制详细设计.md",
         "文档记录/测试记录/wasm/通用ABI-黄昏与黎明Spellblade机制验证记录-2026-07-14.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-jaksho-voidborn-target-loadout",
+      "title": "通用 ABI 贾修虚空天生目标装备投影机制",
+      "module": "wasm",
+      "feature": "generic_jaksho_voidborn_target_loadout",
+      "status": "完成",
+      "priority": 1,
+      "completion_note": "item_6665 虚空天生已标 completed/full/generic_runtime：真实 targetEquipmentEntityIds 投影目标装备静态 armor/MR、目标侧派生 bonus（explicit-bonus-row-wins）与 target-owned provider；t=5000 +30% 投影 bonus（75/75+45/45→88.5/88.5）后续 tick 幂等；Backend 62011/tag/loadout_equipment；Unified completed58/blocked_runtime115/partial3；G8 不变；驱动模型最终复验 Backend 611、owning Web 322/103、integrated Web 127/95、Wasm full go test/bench/build/smoke 全部通过；证据边界不含 live migrate/publish。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-贾修虚空天生目标装备投影机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-贾修虚空天生目标装备投影机制验证记录-2026-07-21.md"
       ]
     },
     {
@@ -676,7 +695,7 @@
       "feature": "generic_manamune_awe",
       "status": "完成",
       "priority": 1,
-      "completion_note": "item_3004 敬畏已完成最大法力转额外 AD 的动态 modifier、Backend seed、TinyGo/Web 回归及 G8 精确迁移；法力流叠层与魔切变形独立保持 blocked。",
+      "completion_note": "item_3004 敬畏已完成有效法力转额外 AD 的动态 modifier（2026-07-14 初版 mana.max；2026-07-26 兼容扩展为 mana.resolved）、Backend seed、TinyGo/Web 回归及 G8 精确迁移；法力流满层直达 Phase-A 由独立任务 wasm-generic-manamune-manaflow-direct-max-state 闭环，魔切变形等完整保真仍属排除。",
       "completed_at": "2026-07-14",
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-魔宗敬畏机制详细设计.md",
@@ -747,11 +766,971 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "multi-model",
-      "completion_note": "跨 Backend/Wasm/Web worktree 交付已完整闭环（幂等 seed、generic runtime 回归、assembler 投影与 G8 partial 证据），但游戏语义仅为 candidate-level partial：仅 rank5 E 的 30 mana / 10000ms CD、ability_started（充能完成近似）→4000ms supercharge_active、attack_speed percent_add 0.80*state；移动速度+幽灵、attack-windup、真实充能/施法时序、每次普攻 0.5s CD 返还、进化隐形、其它 rank、完整 rotation/cadence、live migration/publish/E2E 均未建模，不得误称完整 E。",
+      "completion_note": "用户批准 Phase-A rank5 1v1 攻速分支已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4038391 / SHA256 327dc441e84bf2b320dccbe9099b4e98bf42562529e95facd417fbbc27d99e24；30 mana / 10000ms CD、ability_started（充能完成近似）→4000ms timed state（Wasm fixture supercharge_as_active / Backend seed supercharge_active；provider-local/data-defined，本证据语义等价，非跨 bundle 字面同键）、attack_speed percent_add 0.80*state（base 0.60→1.08）、CD 阻断重复施放；CompileGeneric→RunGeneric 证据齐。移动速度+幽灵、attack-windup、真实充能/cast 时序、普攻 0.5s CD 返还、进化隐形、其它 rank、rotation/cadence、多目标、live migration/publish/E2E 为用户批准排除，非 remainingGap/blocker；不得误称完整游戏技能保真。",
       "completed_at": "2026-07-15",
       "docs": [
         "文档记录/详细设计/wasm/通用ABI-卡莎E极限超载Supercharge机制详细设计.md",
         "文档记录/测试记录/wasm/通用ABI-卡莎E极限超载Supercharge机制验证记录-2026-07-15.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-xayah-deadly-plumage",
+      "title": "通用 ABI 霞 W 致死羽衣 Deadly Plumage Phase-A rank5 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_deadly_plumage",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "用户批准 Phase-A rank5 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4010669 / SHA256 09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7；40 mana / 14000ms CD / 4000ms timed AS +55%；source-owned pipeline basic_damage*(1+0.25*deadly_plumage_active)=×1.25（Wiki 次级羽刃 25% 合并近似，非第二 missile）；expected-crit 一次后再 ×1.25 一次；排除 on-hit/proc；Guinsoo phantom 不重放非 CopyableOnHit 基攻且不重跑倍率。CompileGeneric→RunGeneric 证据齐。移速/Rakan/Runaan/多目标/projectile/in-flight/ward/blind/dodge/block/独立次级羽刃/其它 rank/live migration/publish/E2E 为用户批准排除，非 remainingGap/blocker；不得误称完整游戏技能保真。 2026-07-25 ability-type listener isolation addendum：type62012 ability/xayah_deadly_plumage + W relation + listener ability_id IS NULL + exact ALL {20205,20212,62012}；runtime ability type matcher / empty AbilityRef；Q 共存证明 Q 不交叉武装 W 而 W 仍可自武装；owning8ace954/集成6bab0b8/Wasm dd7dae6/审计d94d35a；W G8/Unified canonical hashes 不变（G8 dd91a84a…938f / Unified b03237eb…45ed4）；isolation-only，不重分类 W，不改变 40 mana/14000ms/4000ms/+55%/×1.25 pipeline 合同。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞W致死羽衣DeadlyPlumage机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞W致死羽衣DeadlyPlumage机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kayle-radiant-blast",
+      "title": "通用 ABI 凯尔 Q 耀焰冲击 Radiant Blast Phase-A rank5 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kayle_radiant_blast",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "本任务冻结的 Phase-A rank5 主目标 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4005105 / SHA256 ded516de4861d88de21ba54de9a8723b654f424f1cc3f9dac30d06382ee1a87c；魔法伤害 180+0.60*(ad.resolved-ad.base)+0.50*ap.resolved；先伤后击碎；provider-target kayle_q_sundered（0/1/4000ms refresh_on_write）→ opponent armor/MR percent_add −15%；100 mana / 8000ms CD。CompileGeneric→RunGeneric 证据齐。slow/portal delay/windup cast/projectile/cross-secondary/ranks1–4/death persistence/live migration/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真；Bootstrap 面板 provenance 非 Q 数值真理。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯尔Q耀焰冲击RadiantBlast机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯尔Q耀焰冲击RadiantBlast机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-new-destiny",
+      "title": "通用 ABI 格雷福斯 P 新命运 New Destiny Phase-A 贴脸机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_new_destiny",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "冻结 Phase-A 贴脸最大弹丸 1v1 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4038342 / SHA256 553bda222e9e85f0eff6d4cba3b8723979a58b68fba9097d2dfa1bd373117aa8；合并物理 AD*F(x)*(1+3*s)；C2 natural/forced override 同公式不双乘 crit_damage；恰好一次 damage + 一次 basic_attack_hit；copyable_on_hit=false。CompileFrame→RunFrame→ReleaseSessionFrame 证据齐。精确装填速度公式（Wiki unknown）为 completed-boundary exclusion（missingFields=[]）；弹药/弹道/多目标/RNG/live/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真；Bootstrap 面板 provenance 非 P 数值真理。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯P新命运NewDestiny机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯P新命运NewDestiny机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-quickdraw-max-stack",
+      "title": "generic ABI Graves E Quickdraw max-stack Phase-A",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_quickdraw_max_stack",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "用户批准 Phase-A rank5 满层 True Grit 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4007744 / SHA256 ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1；mana40 / CD12000ms；一次 cast override true_grit_stacks 0→8（max8）；armor/bonus_armor 各 +152（19*8）；MR/bonus_MR 各 +76（19*0.5*8）；SQL duration_ms=NULL/refresh NULL ↔ DTO durationMs=0。Backend seed + JUnit 10/10；Wasm CompileFrame→RunFrame→ReleaseSessionFrame 证据齐。intermediate stacks、4s refresh/expiry、dash direction/geometry、reload、attack reset、pellet cooldown reduction、targeting/collision/multi-target、full gameplay fidelity、live migration/publish/E2E 为 Phase-A 排除，非 remainingGap/blocker；不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-20",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯E快速拔枪Quickdraw满层机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯E快速拔枪Quickdraw满层机制验证记录-2026-07-20.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-twitch-deadly-venom",
+      "title": "通用 ABI 图奇 P 死亡毒液机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_twitch_deadly_venom",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_twitch|P|死亡毒液 已标 completed/full/generic_runtime（G8 migrated）：Wiki rev4013286 / SHA256 1567c0efec7f9e9021f6dc02410f92262dfa30128acc457c531199dbc9121b44；max6/6000ms/普攻叠1/每秒真实伤害 flat1·2·3·4·5（L1/5/9/13/17+）+0.03*AP；generic target-state-anchored tick（TickSpec anchorScope/anchorStateKey；DB tick_anchor_*）。Unified 254：completed59/blocked_runtime114/full59/none192；G8 242：migrated50/blocked119。验证含 Wasm focused/full/bench/build/smoke、Backend owning 625、Web owning/integrated Vitest；integrated Backend full 非全量通过（CRLF/归档环境 caveat，Twitch 测试通过）。未执行 live migration/publish。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-图奇P死亡毒液DeadlyVenom机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-图奇P死亡毒液DeadlyVenom机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-malzahar-malefic-visions",
+      "title": "通用 ABI 玛尔扎哈 E 恶咒降临 Malefic Visions 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_malzahar_malefic_visions",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_malzahar|E|恶咒降临 已标 completed/full/generic_runtime（Unified EXTRA，非 G8）：EXTRA sidecar malzahar-e.json page1308233/rev4015185/SHA256 9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84；Rank5 mana100/CD7000；active=1 max1/4000ms/refresh_on_write；anchored250/0；16 inclusive magic ticks t250..4000；每跳13.75+0.05AP、合计220+0.80AP。Unified 254：sourceCount12（9active+3gen）/completed60/blocked_runtime113/full60/none191；G8 不变242=migrated50/partial4/blocked119/OOS69。integrated Backend full 非全量通过（CRLF legacy seed caveat；Malzahar7+GenericTickAnchor4通过）。未执行 live migration/publish。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-varus-blighted-quiver",
+      "title": "通用 ABI 韦鲁斯 W 枯萎箭袋 Blighted Quiver 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_blighted_quiver",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|W|枯萎箭袋 已标 completed/full/generic_runtime（G8 migrated）：Wiki page1309980/rev4026472/timestamp2026-06-09/SHA256 16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2；sourceCount仍12；completedBoundary fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; rank5; no_equipment_interop。Rank5被动magic 40+0.15*bonusAD+0.25*AP后Blight max3/6000ms；W active max1/5500ms；W-scoped满充能Q ordering scaffold：物理360+1.20*bonusAD→W active 21% missingHP→Blight×1.5→conditional reset。Backend owning ca8809d/集成5b2a18e（41/41；641/641）；Wasm exact d6f2ea5；审计85910fb。Unified 254：sourceCount12/completed61/blocked_runtime112/full61/none190；G8 242=migrated51/partial4/blocked118/OOS69。不完成真实Q key；未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-21",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯W枯萎箭袋BlightedQuiver机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯W枯萎箭袋BlightedQuiver机制验证记录-2026-07-21.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-draven-stand-aside",
+      "title": "通用 ABI 德莱文 E 开道利斧 Stand Aside 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_draven_stand_aside",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_draven|E|开道利斧 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Draven/Stand Aside page1307070/rev4034694/timestamp2026-06-23T21:12:57Z/raw1168/SHA256 7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d；sidecar draven-e.json；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget。Rank5：70mana/12000ms；immediate primary-target scaffold；一笔非暴击/不可复制物理215+0.50*bonusAD；交叉AD62/142/bonus80→raw255/armor100→127.5；t0/t12000命中、t11999 CD阻挡。无canonical cast-delay/phases；250ms timing显式排除。Backend owning 5f1f2bb/集成09dbf07（40/40；650/650）；Wasm exact d1e6c32；审计2905b6d（首轮run-0c1cfd87外部终止非独立验收；恢复run-16a3942e）。DESIGN_REVIEW v2 READY run-5317a2c2（v1非READY）。Unified 254：sourceCount12/completed62/blocked_runtime111/full62/none189；G8 242=migrated52/partial4/blocked117/OOS69。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-德莱文E开道利斧StandAside机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-德莱文E开道利斧StandAside机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-teemo-blinding-dart",
+      "title": "通用 ABI 提莫 Q 致盲吹箭 Blinding Dart 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_teemo_blinding_dart",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_teemo|Q|致盲吹箭 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Teemo/Q→Blinding Dart page1308208/rev3948425/timestamp2025-08-19T15:37:23Z/raw1639/SHA256 4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7；sidecar teemo-q.json；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry。Rank5：90mana/7000ms；immediate primary-target scaffold；一笔非暴击/不可复制魔法260+0.70*AP；交叉AP200→raw400/MR100→200；t0/t7000命中、t6999 CD skip；mana334→154。控制排除先例Draven E/Kayle Q；不宣称致盲保真。Backend owning 1803c8c/集成7e27f33（34/34；659/659）；Wasm exact 6470c5d（4/4）；审计14b793e。DESIGN_REVIEW READY run-b74658a7。Unified 254：sourceCount12/completed63/blocked_runtime110/full63/none188；G8 242=migrated53/partial4/blocked116/OOS69；implementation_gap=92。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-提莫Q致盲吹箭BlindingDart机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-提莫Q致盲吹箭BlindingDart机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-vayne-condemn-primary-hit",
+      "title": "通用 ABI 薇恩 E 恶魔审判 Condemn 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_vayne_condemn_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_vayne|E|恶魔审判 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Vayne/E→Condemn page1309990/rev4008541/timestamp2026-04-14T23:45:40Z/raw2380/SHA256 f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37；sidecar vayne-e.json；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile。Rank5：90mana/12000ms；immediate primary-target scaffold；一笔非暴击/不可复制物理190+0.50*(resolvedAD-baseAD)；交叉baseAD60/resolvedAD140/bonus80→raw230/armor100→115；t0/t12000命中、t11999 CD skip；mana232→52。不宣称击退/地形/wall_bonus/眩晕/弹道保真。Backend owning e7d28f6/集成61290cb（36/36；668/668）；Wasm exact 252f799（4/4）；审计881cb1c。DESIGN_REVIEW READY run-f03ab9ee。Unified 254：sourceCount12/completed64/blocked_runtime109/full64/none187；G8 242=migrated54/partial4/blocked115/OOS69；implementation_gap=91。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-薇恩E恶魔审判Condemn主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-薇恩E恶魔审判Condemn主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kogmaw-void-ooze-primary-hit",
+      "title": "通用 ABI 克格莫 E 虚空淤泥 Void Ooze 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kogmaw_void_ooze_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kogmaw|E|虚空淤泥 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kog'Maw/E→Void Ooze page1307961/rev3965135/timestamp2025-11-11T17:05:55Z/canonical raw1356/SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b；sidecar kogmaw-e.json；本地raw1357/SHA6744b391…（newline；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration。Rank5：100mana/12000ms；immediate primary-target scaffold（Effect at cast time start兼容）；一笔非暴击/不可复制魔法230+0.65*AP；交叉AP100→raw295/MR100→147.5；t0/t11999/t12000两次命中+一次CD skip；mana325→125。不宣称弹道/几何/多目标/淤泥场/减速保真。Backend owning b1752e4/集成24c1ddf（35/35；677/677）；Wasm exact 3507920（4/4）；审计c673e4d。DESIGN_REVIEW READY run-9c0645bd。Unified 254：sourceCount12/completed65/blocked_runtime108/full65/none186；G8 242=migrated55/partial4/blocked114/OOS69；implementation_gap=90。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-克格莫E虚空淤泥VoidOoze主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-克格莫E虚空淤泥VoidOoze主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-varus-hail-of-arrows-primary-hit",
+      "title": "通用 ABI 韦鲁斯 E 恶灵箭雨 Hail of Arrows 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_hail_of_arrows_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|E|恶灵箭雨 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Varus/E→Hail of Arrows page1309978/rev3969402/timestamp2025-11-24T16:03:58Z/canonical raw1750/SHA256 7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9；sidecar varus-e.json；本地raw1748/SHA42ebcd88…（newline；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation。源字段矛盾：description+labeled rank表物理60to180(+90%bAD) vs 孤立damagetype=Magic；reviewed policy以description+rank表管辖本物理分支，runtime physical，Magic披露且非runtime真源。Rank5：90mana/10000ms；immediate primary-target scaffold（0.5s landing显式排除）；一笔非暴击/不可复制物理180+0.90*(resolvedAD-baseAD)；交叉baseAD59/resolved159→raw270/armor100→135；t0/t9999/t10000两次命中+一次CD skip；mana320→140。不宣称落地延迟/几何/多目标/箭雨场/减速/重伤/枯萎引爆保真。Backend owning a08cdfd/集成e924afd（46/46；687/687）；Wasm exact 6be94af（4/4）；审计37217fd。DESIGN_REVIEW READY run-49be1bd0。Unified 254：sourceCount12/completed66/blocked_runtime107/full66/none185；G8 242=migrated56/partial4/blocked113/OOS69；implementation_gap=89。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯E恶灵箭雨HailOfArrows主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯E恶灵箭雨HailOfArrows主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kaisa-void-seeker-primary-hit",
+      "title": "通用 ABI 卡莎 W 虚空索敌 Void Seeker 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kaisa_void_seeker_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kaisa|W|虚空索敌 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kai'Sa/W→Void Seeker page1353553/rev4034696/timestamp2026-06-23T21:14:14Z/canonical raw1843/SHA256 aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1；sidecar kaisa-w.json；本地raw1842/SHA496936a8…（newline；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund。Rank5：75mana/14000ms；immediate primary-target scaffold（0.4s cast与Effect at cast time end显式排除）；一笔非暴击/不可复制魔法130+1.30*totalAD+0.45*AP（AD为total AD，永不bonus）；交叉totalAD100/AP100→raw305/MR100→152.5；t0/t13999/t14000两次命中+一次CD skip；mana345→195；HP1000→695。governed tags仅ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold（无total_ad_ratio；bonus_ad_ratio为假）。不宣称施放延迟/弹道/几何/视野揭示/Plasma进化/冷却返还保真。Backend owning 9d9200a/集成1dc8d5b（56/56；696/696）；Wasm exact 41e88a2（4/4）；审计26285fa。DESIGN_REVIEW v2 READY run-3ae202d3（v1 truncation无效）。Unified 254：sourceCount12/completed67/blocked_runtime106/full67/none184；G8 242=migrated57/partial4/blocked112/OOS69；implementation_gap=88。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卡莎W虚空索敌VoidSeeker主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卡莎W虚空索敌VoidSeeker主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-twisted-fate-wild-cards-primary-hit",
+      "title": "通用 ABI 卡牌大师 Q 万能牌 Wild Cards 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_twisted_fate_wild_cards_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_twistedfate|Q|万能牌 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Twisted Fate/Q→Wild Cards page1309741/rev3950864/timestamp2025-08-31T01:31:17Z/canonical raw1237/SHA256 9cdd62cc18d41a4bbe1e42ac8202b40a776f7da51c67c6f2fea37f9ed1f0d597；sidecar twistedfate-q.json；本地raw1235/SHA256 dd26f599…e4dbc4（newline/materialization；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget。Rank5：100mana/5000ms；immediate primary-target scaffold（cast0.25与Effect at cast time end显式排除）；一笔非暴击/不可复制魔法240+0.50*(ad.resolved-ad.base)+0.85*AP；交叉baseAD52/resolvedAD100/AP100→raw349/MR100→174.5；t0/t4999/t5000两次命中+一次CD skip；mana333→133；HP1000→651。Wiki once-per-pass仅正当化单次直击主目标，非runtime pass/projectile/collision保真。governed tags集合ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold。不宣称cast/fan/cone/projectile/pass/geometry/AOE/multitarget/full-fidelity。Backend owning 18b959e/集成a0da4f8（20/20；705/705）；Wasm exact 589db93（4/4）；审计906951f。DESIGN_REVIEW v2 READY run-16802cbb（v1 run-bbf86b5a READY笔记吸收）。Unified 254：sourceCount12/completed68/blocked_runtime105/full68/none183；G8 242=migrated58/partial4/blocked111/OOS69；implementation_gap=87。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整Wild Cards/游戏技能保真。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卡牌大师Q万能牌WildCards主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卡牌大师Q万能牌WildCards主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-smoke-screen-primary-hit",
+      "title": "通用 ABI 格雷福斯 W 烟幕弹 Smoke Screen 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_smoke_screen_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|W|烟幕弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/W→Smoke Screen page1307368/rev3956197/timestamp2025-09-26T13:12:00Z/canonical raw2441/SHA256 20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d；sidecar graves-w.json；本地raw亦2441/SHA256 fa0bf661…5246b2（CRLF0；same-length materialization caveat；sidecar/pages canonical；故意不断言 local raw hash 相等；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_target_single_hit; immediate_impact_scaffold; magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction。Rank5：90mana/18000ms；immediate primary-target scaffold（cast0.25与Effect at cast time end显式排除）；一笔非暴击/不可复制魔法260+0.60*AP；交叉AP200→raw380/MR100→190；t0/t17999/t18000两次命中+一次CD skip；mana325→145；HP1000→620。旧G8 out_of_scope/meta_or_non_target_dps/blocked_data为历史provenance；当前Wiki gapKind none + 已实现单主目标伤害切片允许migrated/completed。不宣称cast/projectile/AOE/slow/smoke/nearsight/sight/full-fidelity。Backend owning 1238c53/集成037bae3（30/30；714/714）；Wasm exact 78ab90c（4/4）；审计6e94e7a。DESIGN_REVIEW v2 READY run-1fee8ffb（v1 run-4ab63cc3）。Unified 254：sourceCount12/completed69/blocked_runtime104/full69/none182；G8 242=migrated59/partial4/blocked110/OOS69；implementation_gap=86。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/E2E。不得误称完整Smoke Screen/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯W烟幕弹SmokeScreen主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯W烟幕弹SmokeScreen主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-collateral-damage-primary-hit",
+      "title": "通用 ABI 格雷福斯 R 终极爆弹 Collateral Damage 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_collateral_damage_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|R|终极爆弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/R→Collateral Damage page1307373/rev4007499/timestamp2026-04-11T22:21:36Z/canonical raw2722/SHA256 834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1；sidecar graves-r.json；本地raw2723恰一终端LF，修剪后=canonical（terminal-LF materialization caveat；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_single_hit; immediate_impact_scaffold; physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage。Rank3：100mana/60000ms；immediate primary-target scaffold（cast delay/recoil/弹道几何/直线多目标/爆炸锥显式排除）；一笔非暴击/不可复制物理575+1.50*bonusAD；交叉baseAD66/resolvedAD120/bonusAD54→raw656/armor100→328；t0/t59999/t60000两次命中+一次CD skip；mana325→125；HP1000→344。附加敌人减伤锥440+1.20 bonus AD对本切片显式排除（非否认/未建模）。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。不宣称cast/recoil/projectile/line/multitarget/explosion/cone/full-fidelity。Backend owning 9c1087b/集成c2a8a97（39/39；723/723）；Wasm exact 4abadf1（4/4；gofmt run-3834b0bb）；审计2f83a06。DESIGN_REVIEW_ONLY READY run-51a3bb00（结构化createPlan VERDICT=READY；792/792；runDelta0）。Unified 254：sourceCount12/completed70/blocked_runtime103/full70/none181；G8 242=migrated60/partial4/blocked109/OOS69；implementation_gap=85；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Collateral Damage/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-22",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯R终极爆弹CollateralDamage主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯R终极爆弹CollateralDamage主目标命中机制验证记录-2026-07-22.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-ashe-enchanted-crystal-arrow-primary-hit",
+      "title": "通用 ABI 艾希 R 魔法水晶箭 Enchanted Crystal Arrow 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ashe_enchanted_crystal_arrow_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ashe|R|魔法水晶箭 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Ashe/R→Enchanted Crystal Arrow page1306811/rev4026934/timestamp2026-06-10T19:09:50Z/canonical raw2394/SHA256 1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f；sidecar ashe-r.json；本地raw2393/SHA2bce161…d4bb28，修剪终端LF→2392+第三哈希≠canonical（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_single_hit; immediate_impact_scaffold; magic_600_plus_1_20_ap; no_cast_delay_projectile_travel_collision_geometry_distance_stun_aoe_frost_or_sight。Rank3：100mana/60000ms；immediate primary-target scaffold（cast0.25/Effect at cast time start显式排除）；一笔非暴击/不可复制魔法600+1.20*AP；交叉AP200→raw840/MR100→420；t0/t59999/t60000两次命中+一次CD skip；mana280→80；HP1000→160。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。不宣称cast/projectile/distance-stun/AOE/Frost/sight/full-fidelity。Backend owning 5d4a13f/集成2f820e4（39/39；732/732）；Wasm exact bb3dd81（4/4）；审计7c73c74。DESIGN_REVIEW_ONLY READY run-6bd37601（结构化createPlan VERDICT=READY；653/653；runDelta0）。Unified 254：sourceCount12/completed71/blocked_runtime102/full71/none180；G8 242=migrated61/partial4/blocked108/OOS69；implementation_gap=84；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Enchanted Crystal Arrow/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-艾希R魔法水晶箭EnchantedCrystalArrow主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-艾希R魔法水晶箭EnchantedCrystalArrow主目标命中机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-ezreal-trueshot-barrage-primary-hit",
+      "title": "通用 ABI 伊泽瑞尔 R 精准弹幕 Trueshot Barrage 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ezreal_trueshot_barrage_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ezreal|R|精准弹幕 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Ezreal/R→Trueshot Barrage page1307113/rev4013235/timestamp2026-04-28T21:20:36Z/canonical raw1453/SHA256 e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0；sidecar ezreal-r.json；本地raw1450/SHAddc98466…014f943，修剪终端LF→1449/SHA57a04bc0…53f3ce，BOM前缀→1453/SHA27fbea33…a1c639仍≠canonical（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_750_plus_1_00_bonus_ad_plus_1_10_ap; no_cast_delay_queue_projectile_travel_collision_geometry_direction_multitarget_sight_minion_or_monster_modified_damage。Rank3：100mana/90000ms；immediate primary-champion scaffold（cast1/queue0.5/Effect at cast time start显式排除）；一笔非暴击/不可复制魔法750+1.00*(ad.resolved-ad.base)+1.10*AP；交叉baseAD60/resolvedAD110/bonusAD50/AP200→raw1020/MR100→510；t0/t89999/t90000两次命中+一次CD skip；mana300→100；HP1500→480。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/bonus_ad_ratio/immediate_impact_scaffold。Backend seed对hero_ezreal/ad/ap/mana为外部既有数据check-only，不物化身份/面板/资源，不调用Batch-B（seed执行前置，非未解决公式/Wiki缺口）。不宣称cast/queue/projectile/geometry/direction/multitarget/sight/minion-monster-modified/full-fidelity。Backend owning dea4538/集成8c93017（9/9；741/741；run-86e431e9）；Wasm exact e13d887（5/5；run-3d4dafae）；审计c090aa1（恢复run-89d56506 delta4/outside0；前序超时run-d696de7b非证据）。DESIGN_REVIEW_ONLY READY run-4324de07（VERDICT=READY；REVIEWED_PLAN_REV=ezreal-r-trueshot-barrage-primary-hit-phase-a-v2；1353/1353；runDelta0；v1 REVISE已并入v2）。Unified 254：sourceCount12/completed72/blocked_runtime101/full72/none179；G8 242=migrated62/partial4/blocked107/OOS69；implementation_gap=83；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Trueshot Barrage/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-伊泽瑞尔R精准弹幕TrueshotBarrage主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-伊泽瑞尔R精准弹幕TrueshotBarrage主目标命中机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-varus-chain-of-corruption-primary-hit",
+      "title": "通用 ABI 韦鲁斯 R 腐败锁链 Chain of Corruption 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_chain_of_corruption_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|R|腐败锁链 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Varus/R→Chain of Corruption page1309977/rev4008213/timestamp2026-04-14T05:44:24Z/canonical raw5223/SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed；sidecar varus-r.json；本地raw5222/SHAaa50685e…242207，修剪终端LF→5221/SHAa5b63883…29b585（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_single_hit; immediate_impact_scaffold; magic_350_plus_1_00_ap; no_cast_delay_projectile_travel_collision_geometry_direction_root_reveal_blight_stack_schedule_tendril_seek_spread_or_multitarget。Rank3：100mana/60000ms；immediate primary-champion scaffold（unspecified cast delay/Effect at cast time end显式排除）；一笔非暴击/不可复制魔法350+1.00*AP；交叉AP200→raw550/MR100→275；t0/t59999/t60000两次命中+一次CD skip；mana300→100；HP1000→450。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。Backend seed对Batch-B hero_varus身份与AP为check-only，自包含ensure mana定义与hero_varus mana320/320，不写入games/game_entities/attribute_definitions/entity_attribute_values（seed执行前置，非未解决公式/Wiki缺口）。不宣称cast/projectile/geometry/direction/root/reveal/blight/tendril/spread/multitarget/full-fidelity。Backend owning 067b0f8/集成982145c（9/9；750/750；run-2b0e4920）；Wasm exact 74f3b22（5/5；run-62f7fad2；初步无WASMOPT直接TinyGo未接受，标准scripts/build-wasm.ps1通过）；审计9c0b831（run-242965a8 delta6/outside0；1395/1395）。DESIGN_REVIEW_ONLY READY run-d8c81fca（VERDICT=READY；REVIEWED_PLAN_REV=varus-r-chain-of-corruption-primary-hit-phase-a-v1；2298/2298；runDelta0；非阻塞笔记已吸收；较早SDK/API初始化失败非审查证据）。Unified 254：sourceCount12/completed73/blocked_runtime100/full73/none178；G8 242=migrated63/partial4/blocked106/OOS69；implementation_gap=82；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入；Web资产漂移为独立artifact-currentness限制。未执行live migration/publish/push/E2E。不得误称完整Chain of Corruption/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯R腐败锁链ChainOfCorruption主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯R腐败锁链ChainOfCorruption主目标命中机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-vayne-final-hour-timed-bonus-ad",
+      "title": "通用 ABI 薇恩 R 终极时刻 Final Hour 限时攻击力机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_vayne_final_hour_timed_bonus_ad",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_vayne|R|终极时刻 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Vayne/R→Final Hour page1309991/rev3807995/timestamp2024-11-05T22:07:10Z/canonical raw2015/SHA256 e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d；sidecar vayne-r.json；本地raw2012/SHA343d19e3…7c7642（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_timed_bonus_ad_self_buff; direct_provider_state_change; flat_ad_plus_65_for_12000ms; no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement。Rank3：80mana/70000ms；direct provider-scope override const1 state_change→final_hour_active（default0/max1/12000ms/refresh-on-write）；AD add 65*provider.state.final_hour_active；R无伤害；零listener/ability_started/source_owner scaffold。交叉AD60→125→60；armor100探针激活125/62.5、到期60/30；t0/t69999/t70000两次成功+一次CD skip；mana300→140；第二次成功re-arm。governed tags序ability_cost_cooldown/cast_triggered_timed_bonus_ad/flat_ad_add/timed_provider_state。稳定键唯一终极时刻（主审检出稳定键错写已纠正；见验证记录）。Backend初始owning4440c3d/集成2710647（10/10；760/760；run-15784837）+纠正owning8eb9f2a/集成18dbff1（run-f017e85b）；multi-worktree镜像cleanup run-a7d8aa5e后正常cherry-pick。Wasm exact3a35a95（8/8；run-a204706f；初始run-3f60586c含orphaned read-running非干净设计门控）。审计ce62f902（run-d0e7ff61 delta6/outside0；1249/1249）。DESIGN_REVIEW_ONLY第三轮新鲜READY run-5057146f（REVIEWED_PLAN_REV=vayne-r-final-hour-timed-bonus-ad-phase-a-v2；1465/1465；97calls；runDelta0/diff0；v1截断无效）。Unified254：sourceCount12/completed74/blocked_runtime99/full74/none177；G8 242=migrated64/partial4/blocked105/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=81；actionableKeyCount=0为当前事实非停工条件。无生产Wasm/Web写入。未执行live migration/publish/push/E2E。不得误称完整Final Hour/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-23",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-薇恩R终极时刻FinalHour限时攻击力机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-薇恩R终极时刻FinalHour限时攻击力机制验证记录-2026-07-23.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kogmaw-living-artillery",
+      "title": "通用 ABI 克格莫 R 活体大炮 Living Artillery 缺失生命倍率与叠层耗蓝机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kogmaw_living_artillery",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kogmaw|R|活体大炮 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kog'Maw/R→Living Artillery page1307963/rev4007636/timestamp2026-04-12T08:34:32Z/canonical raw2453/SHA256 32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641；sidecar kogmaw-r.json；本地raw2452/SHA11db6c16…d5e447（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_target_living_artillery; immediate_impact_scaffold; magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; escalating_mana_40_plus_40_per_stack_max9_for_8000ms; no_delay_location_geometry_multitarget_sight_reveal_or_stealth。Rank3：CD1000ms；cost40*(1+living_artillery_stacks)在ops前；stacks default0/max9/8000ms/refresh-on-write；恰好两条有序ops（op0主目标魔法；op1 provider add1）；零listener/ability-start。基底嵌套二元add(add(180,0.75*bonusAD),0.45*AP)（永不背书三元add）；倍率≥40%HP为1+min(0.5,(5/6)*missingFraction)，<40%恰好2。交叉baseAD61/resolvedAD141/AP100→base285；maxHP1000/MR100 current1000→285/142.5、current400→427.5/213.75、current399→570/285；t0/t999/t1000 mana500两成功+一CD skip costs40/80 mana380/state2；mana119首次40后resource skip mana79/state1；十次成功40..400合计2200/cap9；8000ms lazy expiry/refresh。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_and_ap_ratio/missing_health_damage_multiplier/stack_escalating_mana_cost/timed_provider_state。Backend初始owning100679a/集成175b03a（run-4f56303d；10/10）+纠正owning473bd50/集成d563b67（run-41587930；嵌套二元+递归arity；10/10；full Maven770/770）。Wasm exact d58370a（run-d4d07603含orphaned read-running非干净设计门控；测试纠正run-674066df）；cost-gate+focused/`-count=100`/full Go/标准scripts/build-wasm.ps1 1,169,377 bytes SHA65A4C6F8…C6A0/Node smoke PASS。Web资产同步38b9229（run-bbd076d3；由陈旧1,155,992/6A525083…同步到1,169,377/65A4…C6A0；lint/typecheck/Vitest330/build PASS；无Playwright/E2E）。审计e81b5b6（run-6d79d49c delta6/outside0；orphaned read-running；无truncation）。DESIGN_REVIEW v2 READY run-723a2309（strict grok-4.5；effort high；fast false；1628 parseable；73 calls；runDelta0/diff0；唯一接受门控）；v1 run-aa3c9386为REVISE非干净/非READY。Unified254：sourceCount12/completed75/blocked_runtime98/full75/none176；G8 242=migrated65/partial4/blocked104/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=80；actionableKeyCount=0为当前事实非停工条件。Unified evidence task-key count=61为不同度量；治理tasks=88。未执行live migration/publish/push/E2E。不得误称完整Living Artillery/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-克格莫R活体大炮LivingArtillery缺失生命倍率与叠层耗蓝机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-克格莫R活体大炮LivingArtillery缺失生命倍率与叠层耗蓝机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-quinn-blinding-assault-primary-hit",
+      "title": "通用 ABI 奎因 Q 炫目攻势 Blinding Assault 主目标伤害机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_quinn_blinding_assault_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_quinn|Q|炫目攻势 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Quinn/Q→Blinding Assault page1308954/rev4024766/timestamp2026-06-03T00:49:42Z/canonical raw1742/SHA256 abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d；sidecar quinn-q.json；本地raw1742/SHAbe887856…2737bd（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_205_plus_1_00_bonus_ad_plus_0_50_ap; no_valor_projectile_travel_collision_geometry_aoe_monster_double_damage_harrier_mark_nearsight_disarm_or_other_ranks。Rank5：70mana/9000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理205+1.00*(resolvedAD-baseAD)+0.50*AP（嵌套二元add）；零provider state/listener/direct emit/control/repeat。交叉分支raw205/285/255/335→armor100 mitigated102.5/142.5/127.5/167.5；默认baseAD59/resolvedAD139/AP100→335/167.5；mana210 t0/t8999/t9000两成功+一CD skip final70；mana69 resource skip/无伤害。Q不产生basic_attack_hit、不武装W、不改AS；runtime可合成既有ability_started。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/bonus_ad_ratio/immediate_impact_scaffold。Backend中性AP0/resource insert-only投影自既有W-seed mana EAV，永不硬编码269或覆盖既有AP/resource行；owning5c174b5/集成e030cd9（10/10；780/780；run-86f61e34；两笔orphaned read-only独立复核）。Wasm exact ba71996（run-4d74ec5c delta1/outside0；1136 events；72 calls；-count=100/full Go PASS；标准build 1,169,377/SHA65A4…C6A0未变；Node smoke PASS）。无生产Wasm/Web写入；Web资产保持同步不变。审计b08e8b6（run-f83d7474 delta6/outside0；1217/86；四generator PASS；仅Quinn Q对象变化）。DESIGN_REVIEW READY run-ad05d978（grok-4.5/high/fast=false；1872 events；83 calls；runDelta0/diff0；非阻塞笔记已吸收）。Unified254：sourceCount12/completed76/blocked_runtime97/full76/none175；G8 242=migrated66/partial4/blocked103/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=79；actionableKeyCount=0为当前事实非停工条件。治理tasks=89。未执行live migration/publish/push/E2E。不得误称完整Blinding Assault/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-奎因Q炫目攻势BlindingAssault主目标伤害机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-奎因Q炫目攻势BlindingAssault主目标伤害机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-quinn-vault-primary-hit",
+      "title": "通用 ABI 奎因 E 旋翔掠杀 Vault 主目标伤害机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_quinn_vault_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_quinn|E|旋翔掠杀 已标 completed/full/generic_runtime（G8 migrated exact override；dash prose非distance damage multiplier；保留raw baseline provenance）：Wiki Template:Data Quinn/E→Vault page1308957/rev4024768/timestamp2026-06-03T00:51:11Z/canonical raw2649/SHA256 9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714；sidecar quinn-e.json；本地raw2649/SHA317ac3cc…8438e24b（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_hit; immediate_impact_scaffold; physical_140_plus_0_20_bonus_ad; no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_basic_attack_reset_auto_attack_or_other_ranks。Rank5：50mana/8000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理140+0.20*(resolvedAD-baseAD)（嵌套二元add）；零provider state/listener/direct emit/control/repeat。交叉baseAD59/resolvedAD139→raw156/armor100 mitigated78；baseline resolvedAD59→raw140/mitigated70；mana150 t0/t7999/t8000两成功+一CD skip final50；mana49 resource skip/无伤害。E不产生basic_attack_hit、不武装W、不改AS；runtime可合成既有ability_started。Backend顺序W→Q(resource)→E；E仅检查既有中性mana resource行，不以Q provider为前置。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。Backend owning c487eb4/集成3f698ab（9/9；789/789；run-31ec64a5；delta3/outside0；1003/37）。Wasm exact bfe9e5b（run-0a658dac delta1/outside0；685 events；29 calls；-count=100/full Go PASS；标准build 1,169,377/SHA65A4…C6A0未变；Node smoke PASS）。无生产Wasm/Web写入；Web资产保持同步不变。审计299da97（run-ca65f4d0 delta6/outside0；1192/75；四generator PASS；仅Quinn E对象变化）。DESIGN_REVIEW READY run-d8b6235d（grok-4.5/high/fast=false；1265 events；43 calls；runDelta0/diff0；非阻塞笔记已吸收）。Unified254：sourceCount12/completed77/blocked_runtime96/full77/none174；G8 242=migrated67/partial4/blocked102/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=79；actionableKeyCount=0为当前事实非停工条件。治理tasks=90。未执行live migration/publish/push/E2E。不得误称完整Vault/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-奎因E旋翔掠杀Vault主目标伤害机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-奎因E旋翔掠杀Vault主目标伤害机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-quinn-harrier-premarked-consume",
+      "title": "通用 ABI 奎因 P 侵扰 Harrier 预标记普攻消耗机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_quinn_harrier_premarked_consume",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_quinn|P|侵扰 已标 completed/full/generic_runtime（G8 migrated exact override；保留raw baseline provenance）：Wiki Template:Data Quinn/I→Harrier page1308953/rev4024765/timestamp2026-06-03T00:49:03Z/canonical raw2390/SHA256 740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c；sidecar quinn-p.json；本地raw2390/SHA08853c2c…a731（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary level18_preexisting_harrier_target_single_basic_attack_consume; bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; no_mark_generation_ability_application_duration_reveal_valor_targeting_monster_bonus_r_disable_parry_or_other_levels。Level18：premark目标上owner basic_attack_hit时同既有W provider有序arm heightened_senses_active=1→一笔非暴击/不可复制物理120+0.40*(resolvedAD-baseAD)（嵌套二元add）→consume mark（Backend 20110+20252 / Wasm source+provider_target）；无mark不触发。交叉bonusAD80→raw152/armor100 mitigated76；baseline raw120/60；t0/t3000两次AA仅一次P bonus；W→P与P→W listener顺序结果相同；不宣称W AS幅度校正。governed tags序on_hit/formula_on_hit/bonus_ad_ratio/copyable_on_hit_false/provider_target_state_consume。Backend owning 0a6301e/集成12d9281（8/8；797/797；run-391e437d；delta3/outside0；960/46）。Wasm exact 7c84b36（run-a3e0519c delta1/outside0；1010 events；61 calls；一笔orphaned read-only grep；diff独立复核；-count=100/full Go PASS；标准build 1,169,377/SHA65A4…C6A0未变；Node smoke PASS）。无生产Wasm/Web写入；Web资产保持同步不变。审计7c81a6b（run-9d0ecd29 delta6/outside0；1042/92；四generator PASS；仅Quinn P对象变化）。DESIGN_REVIEW v2 READY run-e139d9f9（grok-4.5/high/fast=false；2037 events；55 calls；runDelta0/diff0；无truncation/orphans）；v1 REVISE非干净门控（orphaned wrong-path read；selector/20110+20252已吸收）。Unified254：sourceCount12/completed78/blocked_runtime95/full78/none173；G8 242=migrated68/partial4/blocked101/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=78；actionableKeyCount=0为当前事实非停工条件。治理tasks=91。未执行live migration/publish/push/E2E。不得误称完整Harrier/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-奎因P侵扰Harrier预标记普攻消耗机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-奎因P侵扰Harrier预标记普攻消耗机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-ezreal-arcane-shift-primary-hit",
+      "title": "通用 ABI 伊泽瑞尔 E 奥术跃迁 Arcane Shift 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ezreal_arcane_shift_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ezreal|E|奥术跃迁 已标 completed/full/generic_runtime（G8 migrated exact override hero_ezreal|E；保留raw classification/tags/auditBaseline provenance）：Wiki Template:Data Ezreal/E→Arcane Shift page1307111/rev3989862/timestamp2026-02-03T23:19:20Z/canonical raw1661/SHA256 7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347；sidecar ezreal-e.json；本地raw1661/SHAf48a3270…01792（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_hit; immediate_impact_scaffold; magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks。Rank5：70mana/14000ms；immediate primary-champion scaffold；一笔非暴击/不可复制魔法add(add(280,0.60*(resolvedAD-baseAD)),0.75*AP)（嵌套二元add）；成功命中保留Rising Spell Force一层。交叉baseAD60/resolvedAD110/AP200→raw460/MR100 mitigated230；分支280/140、310/155、430/215、460/230；mana210 t0/t13999/t14000两成功+一CD skip final70/HP540；mana69 resource skip/不变/无事件。P共存：E成功t0+E CD skip t100→恰好一笔E伤害、一次ability_started、一层P stack、AS1.1。Backend ability/graph自洽；hero_ezreal/ad/ap/mana check-only不物化；不触碰既有P/R。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold。Backend owning89e6677/集成0594b20（8/8；805/805；run-7a22587d；102events/44calls；delta3/outside0）。Wasm exact065beb1（接受run-2cede25b；114events/53calls；delta1/outside0；前两次IMPLEMENTATION no-op未接受；-run EzrealArcaneShift -count=100/full Go PASS；标准build 1,169,377/SHA65A4…C6A0；Node smoke PASS）。无生产Wasm/Web写入；Web资产保持同步不变。审计8d776967…（run-a183dc38 delta6/outside0；169/79；四generator PASS；仅Ezreal E对象变化）。DESIGN_REVIEW v3 READY run-5b85f4a8（74events/37calls；runDelta0/diff0；无truncation/orphans；override key=hero_ezreal|E非阻塞已接受）；v1/v2文本READY因orphaned read(s)无效非门控。Unified254：sourceCount12/completed79/blocked_runtime94/full79/none172；G8 242=migrated69/partial4/blocked100/OOS69；Wiki-only registry candidate242/migrated48/partial5/blocked120/OOS69；implementation_gap=77；actionableKeyCount=0为当前事实非停工条件。治理tasks=92。未执行live migration/publish/push/E2E。不得误称完整Arcane Shift/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-24",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-伊泽瑞尔E奥术跃迁ArcaneShift主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-伊泽瑞尔E奥术跃迁ArcaneShift主目标命中机制验证记录-2026-07-24.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-xayah-double-daggers-primary-two-hit",
+      "title": "通用 ABI 霞 Q 双刃 Double Daggers 主目标双击机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_double_daggers_primary_two_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_xayah|Q|双刃 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Xayah/Q→Double Daggers page1324541/rev4008615/timestamp2026-04-15T00:26:21Z/canonical raw2615/SHA256 8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd；sidecar xayah-q.json；live redirect page1324536/rev2864045 仅 live request detail 非 stored sidecar；本地raw2615/SHA6a1fde0a…974de（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_secondary_target_reduction_feather_generation_ground_state_or_other_ranks。Rank5：35mana/8000ms；immediate primary-champion scaffold；两次有序 distinct left/right 非暴击/不可复制物理各105+0.50*(resolvedAD-baseAD)（嵌套二元add）；成功施放自动一次ability_started（无显式event op）；零Q state/modifier/listener。交叉baseAD60/resolvedAD60各105/合计210 armor100各52.5/合计105；resolvedAD110各130/合计260 armor100各65/合计130；mana105/HP1000 t0/t7999/t8000两成功+一CD skip四笔伤害final mana35/HP740两次ability_started；mana34 resource skip。W isolation：type62012+relation+listener ability_id IS NULL+ALL{20205,20212,62012}；runtime ability type matcher/empty AbilityRef；Q不交叉武装W；W仍可自武装；不改变W分类或40mana/14000ms/4000ms/+55%/×1.25合同。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。DESIGN_REVIEW v3 READY run-136665fe（grok-4.5/high/fast=false；162events/81calls；runDelta0/diff0；v1/v2非门控）。Backend owning8ace954（恢复run-3c2645ea；18/18；813/813；首轮run-b39fb6ca中断非最终）/集成6bab0b8（接受run-f84ba8c6；Q/W 17/17；无效冲突run-32a65624）；Wasm worktree full Maven CRLF caveat（632/51 legacy LF；新Q/W通过；非Xayah失败；非全量通过主张）。Wasm exact dd7dae6（run-8fbe36dd delta2/outside0；1077/52；focused DoubleDaggers/DeadlyPlumage + -count=100 + full Go PASS；标准build 1,169,377/SHA65A4…C6A0；Node smoke PASS）。无生产Wasm/Web写入。审计d94d35a（run-aae6eb8d delta6/outside0；1028/80；G8/Unified --check PASS；仅Xayah Q对象变化；W hashes不变 G8 dd91a84a…938f / Unified b03237eb…45ed4）。Unified254：sourceCount12/completed80/blocked_runtime93/full80/none171；G8 242=migrated70/partial4/blocked99/OOS69；implementation_gap=76；actionableKeyCount=0为当前事实非停工条件。治理tasks=93。未执行live migration/publish/push/E2E。不得误称完整Double Daggers/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞Q双刃DoubleDaggers主目标双击机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞Q双刃DoubleDaggers主目标双击机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-xayah-featherstorm-primary-hit",
+      "title": "通用 ABI 霞 R 暴风羽刃 Featherstorm 主目标伤害量子机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_featherstorm_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_xayah|R|暴风羽刃 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Xayah/R→Featherstorm page1324544/rev4008617/timestamp2026-04-15T00:26:44Z/canonical raw1761/SHA256 cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077；sidecar xayah-r.json；本地raw1761/SHAdebf23b0…43ace1（local raw materialization caveat；sidecar/pages权威；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity。Phase-A语义框定：leveling-labeled数值一次所选施加为有界物理伤害量子；不证明Wiki/完整R once-only或完整Featherstorm仅一次总命中；不建模五次伤害ops/同目标多羽基数。Rank3：100mana/100000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理400+1.00*(resolvedAD-baseAD)（嵌套二元add）；成功施放自动一次ability_started（无显式event op）；零R state/modifier/listener。交叉baseAD60/resolvedAD60 raw400 armor0=400 armor100=200；resolvedAD110 raw450 armor0=450 armor100=225；mana300/HP1000/armor100 t0/t99999/t100000两成功+一CD skip两笔R damage-quantum final mana100/HP550两次自动R ability_started；mana99 resource skip不变。W/Q/R isolation：type62012+relation+listener ability_id IS NULL+ALL{20205,20212,62012}；runtime ability type matcher/empty AbilityRef；R/Q不武装W；W自武装；R仍一量子、Q仍双击；Q为可选独立sibling。Backend R seed为Xayah/ad/mana+校正后W isolation的external-existing-data/check-only；不物化identity/panel/resource；不突变W/Q；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。DESIGN_REVIEW v2 READY run-4a01857d（grok-4.5/high/fast=false；1303events/86tool/43calls；runDelta0/diff0；v1 run-b3d8f4b0 REVISE非门控）。Backend owning354fd287（run-7443696e delta3/outside0；791events；focused R/Q/W 25/25=W9+Q8+R8；full Maven821/821；规划26非通过计数）/集成741e1ff（run-dcff2c73 delta3/outside0；README+39R；focused25/25；未重跑全量Maven；不得主张Wasm-worktree全量Maven通过）。Wasm exact57ec17c（run-9594cfdb delta1/outside0；1321events；focused5top/11sub + full Go + bench + TinyGo + Node smoke PASS；Built/Web资产1,169,377/SHA65A4…C6A0同步不变；无Web变更/拷贝）。审计893298e（run-1513d389 delta6/outside0；1071events；G8/Unified generate+--check PASS；仅Xayah R对象变化；W/Q hashes不变 G8 W dd91a84a…938f / Unified W b03237eb…45ed4 / G8 Q 8305be23…823ba / Unified Q 83a2402f…fd13a5）。Unified254：sourceCount12/completed81/blocked_runtime92/full81/none170；G8 242=migrated71/partial4/blocked98/OOS69；implementation_gap=75；actionableKeyCount=0为当前事实非停工条件。治理tasks=94。未执行live migration/publish/push/E2E。不得误称完整Featherstorm/游戏技能保真或full-R once-only；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞R暴风羽刃Featherstorm主目标伤害量子机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞R暴风羽刃Featherstorm主目标伤害量子机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-jinx-zap-primary-hit",
+      "title": "通用 ABI 金克丝 W 震荡电磁波 Zap 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jinx_zap_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jinx|W|震荡电磁波！ 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jinx/W→Zap! page1307598/rev3907092/timestamp2025-06-06T17:47:18Z/canonical raw1321/SHA256 8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f；sidecar jinx-w.json+pages权威；本地raw1319/SHAc373cc25…ba12624（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_1_40_total_ad; no_cast_timing_direction_range_width_projectile_travel_collision_first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity。Rank5：60mana/4000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理210+1.40*source.attr.ad.resolved（二元add；total AD，不得减base AD亦不得称bonus AD）；成功施放自动一次ability_started；零W state/modifier/listener。交叉totalAD60 raw294 armor0=294 armor100=147；totalAD110 raw364 armor0=364 armor100=182；mana180/HP1000/AD110/armor100 t0/t3999/t4000 success/skip/success两笔W damage final mana60/HP636两次自动W ability_started；mana59 resource skip不变。standalone不合成Batch-B/sibling Jinx；Backend无repository-owned hero_jinx/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold。DESIGN_REVIEW READY run-06e10fcf（grok-4.5/high/fast=false；1572events/116tool；runDelta0/diff0；非阻塞external-existing-data/check-only）。Backend owning b5abdb7（接受run-81e20ed5 delta3/outside0；1043events/123calls；focused Jinx/Kai'Sa/Draven 27/27；full Maven830/830；seed SHA270F8FC9…4641；JUnit SHA09FA10C3…A7E1；两earlier failed attempts非接受）/集成a09adf1（run-d143b302 delta3/outside0；1313events/67calls；README+27；集成新Jinx 9/9；legacy Draven/Kai'Sa CRLF must BEGIN caveat；不得主张集成27/27）。Wasm exact 2afde02（run-8d129133 delta1/outside0；1364events/157calls；focused6top/7sub + -count=100 + full Go + bench + TinyGo + Node smoke PASS；Built/Web资产1,169,377/SHA65A4…C6A0同步不变）。审计4549b73（run-527ef39c delta6/outside0；1092parseable/201calls；G8/Unified generate+--check PASS；仅Jinx W对象变化；Xayah W/Q/R hashes不变 G8 W dd91a84a…938f / Unified W b03237eb…45ed4 / G8 Q 8305be23…823ba / Unified Q 83a2402f…fd13a5 / G8 R 0eaf18ab…906c9 / Unified R 39b10cd4…1d4a79）。Unified254：sourceCount12/completed82/blocked_runtime91/full82/none169；G8 242=migrated72/partial4/blocked97/OOS69；implementation_gap=74；actionableKeyCount=0为当前事实非停工条件。治理tasks=95。未执行live migration/publish/push/E2E。不得误称完整Zap!/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-金克丝W震荡电磁波Zap主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-金克丝W震荡电磁波Zap主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-jhin-deadly-flourish-primary-hit",
+      "title": "通用 ABI 烬 W 致命华彩 Deadly Flourish 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jhin_deadly_flourish_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jhin|W|致命华彩 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jhin/W→Deadly Flourish page1307581/rev4021795/timestamp2026-05-21T13:25:33Z/canonical raw2942/SHA256 14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65；sidecar jhin-w.json+pages权威；本地raw2940/SHA76790ba5…67f78b（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; physical_210_plus_0_50_total_ad; no_cast_timing_direction_range_width_line_geometry_multitarget_champion_collision_projectile_interception_spell_shield_mark_creation_mark_detection_root_bonus_movement_speed_minion_reduction_other_ranks_or_full_fidelity。Rank5：70mana/12000ms；immediate primary-champion scaffold；一笔非暴击/不可复制物理210+0.50*source.attr.ad.resolved（二元add；total AD，不得减base AD亦不得称bonus AD）；成功施放自动一次ability_started；零W state/modifier/listener；小兵-only 25%减伤不适用于所选冠军已排除。交叉totalAD60 raw240 armor0=240 armor100=120；totalAD100 raw260 armor0=260 armor100=130；mana210/HP1000/AD100/armor100 t0/t11999/t12000 success/skip/success两笔W damage final mana70/HP740两次自动W ability_started；mana69 resource skip不变。standalone不合成Batch-B/sibling Jhin；Backend无repository-owned hero_jhin/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold。DESIGN_REVIEW READY run-619cf912（grok-4.5/high/fast=false；1351parseable/66tool；runDelta0/diff0；非阻塞external-existing-data/check-only、raw caveat、raw G8 OOS/meta provenance）。Backend owning 4903c00（接受run-7efdfc0a delta3/outside0；843events/74calls；focused Jhin/Jinx/Kai'Sa 27/27；full Maven839/839；seed SHA0759F309…DC92；JUnit SHADDAFC311…F0B7）/集成0c103f8（run-3e62e677 delta3/outside0；909events/46calls；README+27；主会话集成Jhin+Jinx 18/18；legacy Draven/Kai'Sa CRLF caveat未重跑/修复；不得主张集成全量）。Wasm exact d62d2e4（run-c3427736 delta1/outside0；941events/100calls；focused6top/7sub + -count=100 + full Go + bench + TinyGo + Node smoke PASS；Built/Web资产1,169,377/SHA65A4…C6A0同步不变）。审计fc6f854（run-858cab7f delta6/outside0；1157parseable/187calls；G8/Unified generate+--check PASS；仅Jhin W对象变化；Jinx W与Xayah W/Q/R八hashes不变 G8 Jinx W 00d140f2…a0291 / Unified Jinx W 7fcee85e…c72946 / G8 Xayah W dd91a84a…938f / Unified Xayah W b03237eb…45ed4 / G8 Xayah Q 8305be23…823ba / Unified Xayah Q 83a2402f…fd13a5 / G8 Xayah R 0eaf18ab…906c9 / Unified Xayah R 39b10cd4…1d4a79）。Unified254：sourceCount12/completed83/blocked_runtime90/full83/none168；G8 242=migrated73/partial4/blocked96/OOS69；implementation_gap=73；actionableKeyCount=0为当前事实非停工条件。治理tasks=96。未执行live migration/publish/push/E2E。不得误称完整Deadly Flourish/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-烬W致命华彩DeadlyFlourish主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-烬W致命华彩DeadlyFlourish主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-caitlyn-90-caliber-net-primary-hit",
+      "title": "通用 ABI 凯特琳 E 90口径绳网主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_caitlyn_90_caliber_net_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_caitlyn|E|90口径绳网 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Caitlyn/E→90 Caliber Net page1306916/rev4007584/timestamp2026-04-12T06:47:56Z/canonical raw2095/SHA256 9357e7b28b05f738cd8049a2d10a115e4033a54123c0e71f55d1262a92884db2；sidecar caitlyn-e.json+pages权威；本地raw2094/SHA3a5eba6d…080073（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_first_enemy_single_magic_hit; immediate_impact_scaffold; magic_280_plus_0_80_ap; no_cast_timing_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_suppression_spell_shield_recoil_dash_terrain_buffered_actions_slow_headshot_mark_other_ranks_or_full_fidelity。Rank5：75mana/8000ms；immediate primary-champion first-enemy scaffold；一笔非暴击/不可复制魔法280+0.80*source.attr.ap.resolved（二元add；type20221/add20170；20230禁止）；成功施放自动一次ability_started；零E state/modifier/listener。交叉AP0 raw280/MR100 mit140；AP100 raw360/MR100 mit180；mana225/HP1000/AP100/MR100 t0/t7999/t8000 success/skip/success两笔E damage final mana75/HP640两次自动E ability_started；mana74 resource skip不变。standalone不合成Batch-B/sibling Caitlyn；Backend无repository-owned hero_caitlyn/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。设计谱系：v1 run-548ec2e9 REVISE（缺ap_ratio）；v2 run-2b72f456 READY但实现提示错误type ID无效；唯一有效DESIGN_READY v3 run-d3046d66（strict；1317events/53completed read-only；runDelta0/diff0；无truncation/user decision；纠正20221=damage/magic、20230禁止；peer旧DDragon drift仅报告）。Backend owning 9506d01（符合性run-8518202c delta3/outside0；1042events/35calls；focused63/63；full Maven848/848；seed SHA863642AB…8DE8；JUnit SHA0D04AF7A…E184；初始run-3099c9bc type矛盾/paused three-path非接受）/集成384d658（run-d6107740 delta3/outside0；886events/31calls；README+27；主会话Caitlyn/Jhin/Jinx27/27；owning full848权威）。Wasm exact 4433ef1（run-71c65c6a delta1/outside0；1107events/66calls；focused6top/7sub + -count=100 + full Go + bench + TinyGo + Node smoke PASS；Built与独立Web worktree资产1,169,377/SHA65A4…C6A0同步不变；仓库内嵌旧Web资产历史未触碰不得主张为当前parity）。审计f4fecaa（run-af59e353 delta6/outside0；1237events/86calls；G8/Unified generate+--check PASS；仅Caitlyn E语义对象变化；稳定order/keys；locks不变）。Unified254：sourceCount12/completed84/partial_actionable0/ready0/blocked_runtime89/blocked_data3/OOS72/regression5/stale1；full84/partial3/none167；G8 242=migrated74/partial4/blocked95/OOS69/inScope173；implementation_gap=72；actionableKeyCount=0为当前事实非停工条件。治理tasks=97。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整90 Caliber Net/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯特琳E-90口径绳网主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯特琳E-90口径绳网主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-kalista-pierce-primary-hit",
+      "title": "通用 ABI 卡莉丝塔 Q 穿刺 Pierce 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_kalista_pierce_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_kalista|Q|穿刺 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Kalista/Q→Pierce page1307666/rev3997075/timestamp2026-03-06T15:53:18Z/canonical raw1625/SHA256 90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67；sidecar kalista-q.json+pages权威；本地raw1623/SHA0b8dd9cf…1c94（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_270_plus_1_05_total_ad; no_cast_timing_martial_poise_dash_cancel_direction_range_width_line_geometry_multitarget_first_enemy_collision_projectile_interception_spell_shield_kill_continuation_rend_stack_transfer_other_ranks_or_full_fidelity。Rank5：80mana/9000ms；immediate primary-champion first-enemy scaffold；一笔非暴击/不可复制物理270+1.05*source.attr.ad.resolved（直接total AD读取；不得减base/不得称bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉(AD0,A0)=(270,270)；(AD0,A100)=(270,135)；(AD100,A0)=(375,375)；(AD100,A100)=(375,187.5)；(AD200,A100)=(480,240)；mana240/HP1000/AD100/armor100 t0/t8999/t9000 success/skip/success两笔Q damage final mana80/HP625两次自动Q ability_started；mana79 resource skip不变。standalone不合成Batch-B/sibling Kalista；Backend无repository-owned hero_kalista/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold（无total-AD tag）。DESIGN_READY run-55166e3f（strict grok-4.5/high/fast=false；1024events/45complete read-only；runDelta0/diff0；无truncation/user decision）。Backend owning 04c061f（run-7c1ed300 delta3/outside0；968events/32complete call groups；focused Kalista/Jinx/Jhin27/27；Cursor full857/857；首轮瞬时既有Kog'Maw LivingArtillery regex SOE→隔离10/10→全量重跑857/857，非Kalista失败；seed SHA6f273a57…9af4；JUnit SHA2f42b6ac…c885）/镜像bdb5d32（run-ae314a2e delta3/outside0；542events/4complete calls；三Backend产物精确字节/hash对等；README整文件漂移有意同步）。Wasm exact 99e7b39（初始run-05b5303e delta1/outside0；1307events/26complete call groups；gofmt修正run-f1f16286 delta1/outside0；370events/4calls；gofmt -d clean；focused + full Go + bench + TinyGo + Node smoke + Node generic-run bench PASS；Built与独立Web worktree资产1,169,377/SHA65A4…C6A0同步不变）。审计f513014（run-95662474 delta6/outside0；1350parseable；无truncation；74complete tool groups+一笔unmatched read-only read running——不得伪称完全配对；主会话独立重跑两生成器/四checks/count parsing/HEAD比较；Registry/Batch-G/G8/Unified PASS；仅Kalista Q语义对象变化；稳定order/keys）。Unified254：sourceCount12/completed85/partial_actionable0/ready0/blocked_runtime88/blocked_data3/OOS72/regression5/stale1；full85/partial3/none166；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated75/partial4/blocked94/OOS69/inScope173；implementation_gap=71；actionableKeyCount=0为当前事实非停工条件。治理tasks=98。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Pierce/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卡莉丝塔Q-穿刺主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卡莉丝塔Q-穿刺主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit",
+      "title": "通用 ABI 凯特琳 Q 和平使者 Piltover Peacemaker 首个敌人命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_caitlyn_piltover_peacemaker_first_enemy_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_caitlyn|Q|和平使者 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Caitlyn/Q→Piltover Peacemaker page1306911/rev4007583/timestamp2026-04-12T06:47:12Z/canonical raw1841/SHA256 6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf；sidecar caitlyn-q.json+pages权威；本地raw1838/SHA93da3009…0b9a（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; physical_210_plus_2_05_total_ad; no_cast_timing_attack_timer_reset_direction_range_width_line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_full_damage_projectile_spell_shield_other_ranks_or_full_fidelity。Rank5：75mana/6000ms；immediate primary-champion first-enemy full physical hit scaffold；一笔非暴击/不可复制物理210+2.05*source.attr.ad.resolved（直接total AD读取；不得减base/不得称bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉(AD0,A0)=(210,210)；(AD0,A100)=(210,105)；(AD100,A0)=(415,415)；(AD100,A100)=(415,207.5)；(AD200,A100)=(620,310)；mana225/HP1000/AD100/armor100 t0/t5999/t6000 success/skip/success两笔Q damage final mana75/HP585两次自动Q ability_started；mana74 resource skip不变。standalone与Caitlyn E隔离；不合成Batch-B/sibling Caitlyn；Backend无repository-owned hero_caitlyn/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/immediate_impact_scaffold（无total-AD tag）。DESIGN_READY run-34ad42ca（strict grok-4.5/high/fast=false；967events/43complete tool groups；runDelta0/diff0；无truncation/user decision；NB-BOUNDARY-TOKEN非阻塞）。Backend初始run-ba1d21cf delta3/outside0；862events/35complete groups——主审查发现Effect at cast time end证据漂移，接受前纠正；纠正owning b5ef446（run-bf0f077e delta3/outside0；437events/23complete groups；exact end→start机械纠正；主会话adjacent45/45+full866/866；seed SHAF4D3F06F…A9DBA；JUnit SHA009B90AF…CED5C）/镜像245a111（run-5ae9e64e delta3/outside0；392parseable/2complete tool groups；三文件精确parity）。Wasm exact 0fe29e7（run-3d21efe6 delta1/outside0；884events/32complete groups；focused+full Go+bench+TinyGo+Node PASS；Built与独立Web worktree资产1,169,377/SHA65A4…C6A0同步不变；无Web写入）。审计8afb881（run-f6331084 delta6/outside0；1174events/70complete groups；主会话重跑两生成器/四checks/HEAD语义比较；Registry/Batch-G/G8/Unified PASS；仅Caitlyn Q语义对象变化；稳定order/keys）。Unified254：sourceCount12/completed86/partial_actionable0/ready0/blocked_runtime87/blocked_data3/OOS72/regression5/stale1；full86/partial3/none165；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated76/partial4/blocked93/OOS69/inScope173；implementation_gap=70；actionableKeyCount=0为当前事实非停工条件。治理tasks=99。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Piltover Peacemaker/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯特琳Q-和平使者首个敌人命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯特琳Q-和平使者首个敌人命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-lucian-piercing-light-selected-target-hit",
+      "title": "通用 ABI 卢锡安 Q 透体圣光 Piercing Light 选定目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_piercing_light_selected_target_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|Q|透体圣光 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/Q→Piercing Light page1308176/rev3982579/timestamp2026-01-09T09:22:29Z/canonical raw1608/SHA256 d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981；sidecar lucian-q.json+pages权威；本地raw1608/SHAcd65b80f…06c1（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; physical_220_plus_1_00_bonus_ad; no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_initial_target_death_early_end_other_ranks_or_full_fidelity。Rank5：80mana/5000ms；immediate selected-target single physical hit scaffold；一笔非暴击/不可复制物理220+1.00*(source.attr.ad.resolved-source.attr.ad.base)（显式bonus AD减法；永不total-AD直接读取；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉base60/resolved60/armor0 raw/final220；base60/resolved160/armor0 raw/final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw420/final210；runtime含显式total-AD反证；mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t4999/t5000 success/skip/success两笔Q damage final mana80/HP680两次自动Q ability_started；mana79 resource skip不变。standalone；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。有效DESIGN_READY run-198e699d（strict grok-4.5/high/fast=false；1117events/58complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）；首次run-2f6f3f3c SDK ETIMEDOUT/52parseable/无verdict无效非门控。Backend owning bfc9d54（run-8c1bb9bc delta3/outside0；858events/43complete tool groups；Cursor focused9/adjacent38；主focused+adjacent47/47+full875/875；seed SHA7ca13108…8717；JUnit SHAb4b2d209…e78b）/镜像826cdada（run-67e686b6 delta3/outside0；483events/5complete tool groups；三文件精确parity）。Wasm exact aaca3591（run-688cced5 delta1/outside0；923events/38complete tool groups；focused+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计初始run-2bbf3928 runDelta0因执行提示两处转录SHA矛盾正确停止非接受；接受f4c758e4（run-0994e769 delta6/outside0；1219parseable/66complete tool groups；零truncation；summary.json因未转义反斜杠不可解析；主会话独立解析events/signatures并重跑两生成器+registry+Batch-G checks；仅Lucian Q语义对象变化；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed87/partial_actionable0/ready0/blocked_runtime86/blocked_data3/OOS72/regression5/stale1；full87/partial3/none164；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated77/partial4/blocked92/OOS69/inScope173；implementation_gap=69；actionableKeyCount=0为当前事实非停工条件。治理tasks=100。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Piercing Light/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安Q-透体圣光选定目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安Q-透体圣光选定目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-lucian-ardent-blaze-primary-hit",
+      "title": "通用 ABI 卢锡安 W 热诚烈弹 Ardent Blaze 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_ardent_blaze_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|W|热诚烈弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/W→Ardent Blaze page1308178/rev3594941/timestamp2023-09-12T19:08:23Z/canonical raw2542/SHA256 b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5；sidecar lucian-w.json+pages权威；本地raw2542/SHAa57b0e49…2236（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_215_plus_0_90_ap; no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_shield_exception_other_ranks_or_full_fidelity。Rank5：60mana/10000ms；immediate primary-champion single magic hit scaffold；一笔非暴击/不可复制魔法215+0.90*source.attr.ap.resolved（type20221/add20170；无显式event op）；成功施放自动一次ability_started；零W state/modifier/listener/geometry/AOE/mark/movement-speed。交叉AP0/MR0 raw/final215；AP0/MR100 raw215/final107.5；AP100/MR0 raw/final305；AP100/MR100 raw305/final152.5；AP200/MR100 raw395/final197.5；mana180/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success两笔W damage final mana60/HP695两次自动W ability_started；mana59 resource skip不变。standalone；不依赖Lucian Q；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。有效DESIGN_READY run-d01cb420（strict grok-4.5/high/fast=false；1294events/54complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）。Backend owning 2b29c4e4（run-b2d06b00 delta3/outside0；1180events/45complete tool groups；Cursor focused9/adjacent36/full884 PASS；主focused9+adjacent Lucian W/Q+Caitlyn E+Graves W各9+full884 failures/errors/skips0；seed SHAe9f8f30a…3942；JUnit SHA8f5ca7ab…5466；README SHA54f0dfca…2396）/镜像7e8a40c2（run-5fa6889a delta3/outside0；669events/6complete tool groups；三文件精确parity含三hashes）。Wasm exact d57dc3bd（run-5f46f27b delta1/outside0；1052events/58complete tool groups；gofmt clean；七个focused top-level+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；根目录误cwd focused失败已纠正为nonblocking validation-invocation note非实现失败）。审计接受98fb3e8d（run-ddd6a776 delta6/outside0；1469parseable/81/81complete tool groups；零truncation；主会话重跑两生成器+registry+Batch-G；registry242仍migrated48/partial5/blocked120/OOS69；仅Lucian W语义对象变化；coverageRecords零语义变化；三处source hash机械刷新；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed88/partial_actionable0/ready0/blocked_runtime85/blocked_data3/OOS72/regression5/stale1；full88/partial3/none163；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated78/partial4/blocked91/OOS69/inScope173；implementation_gap=68；actionableKeyCount=0为当前事实非停工条件。治理tasks=101。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Ardent Blaze/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安W-热诚烈弹主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安W-热诚烈弹主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-lucian-the-culling-single-shot-quantum",
+      "title": "通用 ABI 卢锡安 R 圣枪洗礼 The Culling 单发伤害量子机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_lucian_the_culling_single_shot_quantum",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_lucian|R|圣枪洗礼 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Lucian/R→The Culling page1308182/rev4007670/timestamp2026-04-12T10:40:21Z/canonical raw4477/SHA256 7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7；sidecar lucian-r.json+pages权威；本地raw4477/SHAb6361228…c74d（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; physical_45_plus_0_25_total_ad_plus_0_15_ap; no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity。Rank3：100mana/90000ms；immediate primary-champion first-enemy single physical shot-quantum scaffold；一笔非暴击/不可复制物理射击量子45+0.25*source.attr.ad.resolved+0.15*source.attr.ap.resolved（精确嵌套二元add树；直接读取total AD；永不resolved-base bonus AD；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener/matcher/repeat/control/channel/projectile/geometry/multishot/crit。交叉baseAD0/resolvedAD0/AP0/armor0 raw/final45；baseAD60/resolvedAD60/AP0/armor0 raw/final60；baseAD60/resolvedAD160/AP0/armor0 raw/final85；baseAD60/resolvedAD160/AP100/armor0 raw/final100；baseAD60/resolvedAD160/AP100/armor100 raw100/final50；baseAD60/resolvedAD260/AP200/armor100 raw140/final70；baseAD0与baseAD60在resolvedAD160/AP100/armor0下均raw/final100（total-AD直接读取证明）；mana300/baseAD60/resolvedAD160/AP100/HP1000/armor100 t0/t89999/t90000 success/skip/success两笔R shot-quantum damage final mana100/HP900两次自动R ability_started；mana99 resource skip不变。standalone；不依赖Lucian Q/W；不合成Batch-B/sibling Lucian；Backend无repository-owned hero_lucian/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold；明确禁止total_ad_ratio（Total AD仅显式出现在boundary/reason/formula）。恰好一发伤害量子，不是一次完整R命中或大招总伤害。有效DESIGN_READY run-38f41c33（strict grok-4.5/high/fast=false；1237events/58/58complete tool groups；runDelta0/diff0；无truncation/blocker/nonblocking/user decision）；较早v1 run-b398bd76 REVISE（禁止total_ad_ratio已吸收进v2）但仅70/71 tool groups——无效设计门控。Backend owning a2f5bca2（run-ba1348fd delta3/outside0；1123events/41/41complete tool groups；Cursor focused9/adjacent53/full893 PASS；主focused9+adjacent53通过；首次full瞬时既有KogMaw StackOverflowError后隔离10/10+fresh full893/893——nonblocking validation-runtime caveat非Lucian R合同失败；seed SHA6a05ec9d…17c73；JUnit SHAc4716cdd…1fea3；README SHA21be70f9…26702）/镜像d83b09e6（run-cd1ae71e delta3/outside0；511events/7/7complete tool groups；三文件精确parity含三hashes）。Wasm exact ab2d9f7e（run-f15b1fae delta1/outside0；1411events/68/68complete tool groups；gofmt clean；八个focused top-level+full Go+bench+TinyGo+Node smoke+generic benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计首次NetworkError before agent/run创建非接受；接受2406a813（run-eb6578a2 delta6/outside0；1520/1520parseable/83/83complete tool groups；零truncation；主会话重跑两生成器+registry+Batch-G；registry242仍migrated48/partial5/blocked120/OOS69；仅Lucian R语义对象变化；coverageRecords零语义变化；三处source hash机械刷新；稳定order/keys；先前completed/migrated锁定）。Unified254：sourceCount12/completed89/partial_actionable0/ready0/blocked_runtime84/blocked_data3/OOS72/regression5/stale1；full89/partial3/none162；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated79/partial4/blocked90/OOS69/inScope173；implementation_gap=67；actionableKeyCount=0为当前事实非停工条件。治理tasks=102。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整The Culling/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-卢锡安R-圣枪洗礼单发伤害量子机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-卢锡安R-圣枪洗礼单发伤害量子机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum",
+      "title": "通用 ABI 凯特琳 R 让子弹飞 Ace in the Hole 单发子弹量子机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_caitlyn_ace_in_the_hole_single_bullet_quantum",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_caitlyn|R|让子弹飞 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Caitlyn/R→Ace in the Hole page1306918/rev3982561/timestamp2026-01-09T09:02:59Z/canonical raw3119/SHA256 08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8；sidecar caitlyn-r.json+pages权威；本地raw3119/SHA015c1dbe…5003（local raw materialization caveat；相等size不是字节等价；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; physical_650_plus_1_00_bonus_ad; no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity。Rank3：100mana/90000ms；immediate selected-primary-champion single physical bullet-quantum scaffold；一笔非暴击/不可复制物理子弹量子650+1.00*(source.attr.ad.resolved-source.attr.ad.base)（精确嵌套二元树；显式bonus AD减法；type20220/add20170；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener/matcher/repeat/control/channel/projectile/geometry/interception/crit。交叉base/resolved0/armor0 raw/final650；base/resolved60/armor0 raw/final650；base60/resolved160/armor0 raw/final750；base60/resolved160/armor100 raw750/final375；base60/resolved260/armor100 raw850/final425；base0/resolved100与base60/resolved160在armor0下均raw/final750（bonus-AD减法证明）；mana300/base60/resolved160/HP1000/armor100 t0/t89999/t90000 success/skip/success两笔R damage final mana100/HP250两次自动R ability_started；mana99 resource skip不变。standalone；不依赖Caitlyn Q/E；不合成Batch-B/sibling Caitlyn；Backend无repository-owned hero_caitlyn/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold。恰好一次选定目标伤害量子，不是完整R。有效DESIGN_READY run-ad0cf1c5（strict grok-4.5/high/fast=false；1395/1395events/39/39complete tool groups；runDelta0/diff0；无truncation/blocker/user decision）；较早run-ea447e2c READY但一个read-only grep组未完成——无效设计门控。Backend owning f088e184（run-6c0e0b4b delta3/outside0；1235events/39/39complete tool groups；Cursor focused9/adjacent27/full902 PASS；主focused+adjacent通过；默认full两次既有KogMaw regex StackOverflow后隔离通过+MAVEN_OPTS=-Xss4m full902/902——nonblocking validation-runtime caveat非Caitlyn R合同失败；seed SHAe0397359…c2422；JUnit SHA683c8063…baef6；README SHA21b62b86…c3e06）/镜像486b8d81（run-99ca9934 delta3/outside0；594events；精确parity）。Wasm exact 9fc57e7（run-2235f102 delta1/outside0；1137events；gofmt clean；focused/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受6e76d47（run-8f6d09b6 delta8/outside0；1292/1292parseable/87/87complete tool groups；零truncation；主会话重跑G8/Unified/Wiki/Batch-G/provisional；仅Caitlyn R语义对象变化；provisional仅移除Caitlyn R；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed90/partial_actionable0/ready0/blocked_runtime83/blocked_data3/OOS72/regression5/stale1；full90/partial3/none161；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated80/partial4/blocked89/OOS69/inScope173；implementation_gap=66；provisional86=runtime83/data3/hero84/item2；actionableKeyCount=0为当前事实非停工条件。治理tasks=104。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Ace in the Hole/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-凯特琳R-让子弹飞单发子弹量子机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-凯特琳R-让子弹飞单发子弹量子机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-tristana-buster-shot-primary-hit",
+      "title": "通用 ABI 崔丝塔娜 R 毁灭射击 Buster Shot 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_tristana_buster_shot_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_tristana|R|毁灭射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Tristana/R→Buster Shot page1308525/rev4008205/timestamp2026-04-14T05:37:16Z/canonical raw2385/SHA256 2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058；sidecar tristana-r.json+pages权威；本地raw2382/SHA42e07f07…8c7b（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; magic_325_plus_0_70_bonus_ad_plus_1_00_ap; no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_other_ranks_or_full_fidelity。Rank3：100mana/100000ms；immediate selected-primary-champion single magic hit scaffold；一笔非暴击/不可复制魔法命中325+0.70*(source.attr.ad.resolved-source.attr.ad.base)+1.00*source.attr.ap.resolved（精确嵌套二元树；显式bonus AD减法；type20221/add20170；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener/matcher/repeat/control/knockback/stun/reveal/displacement/terrain/geometry/Explosive Charge。交叉base0/resolved0/AP0/MR0 raw/final325；base60/resolved60/AP0/MR0 raw/final325；base60/resolved160/AP0/MR0 raw/final395；base60/resolved160/AP100/MR0 raw/final495；base60/resolved160/AP100/MR100 raw495/final247.5；base60/resolved260/AP200/MR100 raw665/final332.5；base0/resolved100与base60/resolved160在AP100/MR0下均raw/final495（bonus-AD减法证明）；mana300/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t99999/t100000 success/skip/success两笔R damage final mana100/HP505两次自动R ability_started；mana99 resource skip不变。standalone；不依赖Tristana P/Q/W/E/Explosive Charge；不合成Batch-B/sibling Tristana；Backend无repository-owned hero_tristana/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold。恰好一次选定目标魔法命中，不是完整R。有效DESIGN_READY run-1aebb169（strict model；1278events/57/57complete tool groups；runDelta0/diff0；无truncation/mutation；三条非阻塞笔记已接受）。Backend owning 8b98bcb（run-7b7557fb delta3/outside0；938events；Cursor/主focused9/adjacent53/full911 PASS；seed SHA4481b2ac…9558；JUnit SHA1d929006…70d9；README SHA17729acf…2519）/镜像30209c4（run-34e8effd delta3/outside0；476events；精确parity）。Wasm exact b4d10e4（run-3b606ac5 delta1/outside0；986events；gofmt clean；focused7/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受c078ae7（run-d543c652 delta8/outside0；1410parseable/135complete tool groups；零truncation；主五检查通过；首次语义比较helper在checks后命中本地Node ENOBUFS——nonblocking local tooling caveat；更大buffer重跑证明仅Tristana R语义变化；provisional仅移除Tristana R；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed91/partial_actionable0/ready0/blocked_runtime82/blocked_data3/OOS72/regression5/stale1；full91/partial3/none160；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated81/partial4/blocked88/OOS69/inScope173；implementation_gap=65；provisional85=runtime82/data3/hero83/item2；actionableKeyCount=0为当前事实非停工条件。治理tasks=105。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Buster Shot/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-崔丝塔娜R-毁灭射击主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-崔丝塔娜R-毁灭射击主目标命中机制验证记录-2026-07-25.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed",
+      "title": "通用 ABI 崔丝塔娜 Q 急速射击 Rapid Fire 限时攻速机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_tristana_rapid_fire_timed_bonus_attack_speed",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_tristana|Q|急速射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Tristana/Q→Rapid Fire page1308522/rev4026462/timestamp2026-06-09T21:59:03Z/canonical raw872/SHA256 f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da；sidecar tristana-q.json+pages权威；本地raw866/SHAdb084b41…d170（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_self_timed_bonus_attack_speed; duration_7000ms; bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; ability_type_listener_isolation_from_buster_shot; no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_cooldown_bypass_other_ranks_or_full_fidelity。Rank5：35mana/16000ms；state rapid_fire_active default0/max1/duration7000；attack_speed percent_add精确1.20*rapid_fire_active；game-local type62013 ability/tristana_rapid_fire；listener空AbilityRef+exact ALL started/source_owner/Q-type；无damage/显式event；成功施放自动一次ability_started。交叉baseline AS0.60；active AS1.32 t0 through6999；baseline0.60 at7000；mana105 t0/t15999/t16000 success/skip/success两次Q starts readyAt16000 final mana35/state1/AS1.32；mana34 resource skip不变。显式Q/R isolation：R alone留下Q state0/AS0.60且仅R damage；Q武装Q/AS1.32且无R damage。正常路径因CD16000>duration7000无法窗内再施放refresh；不得把runtime refresh策略本身描述为non-refreshing。standalone；不依赖P/W/E/basic/Explosive Charge；不依赖/合成Buster Shot；不合成Batch-B/sibling Tristana；Backend无repository-owned hero_tristana/attack_speed/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_attack_speed_modifier/timed_state/ability_type_listener_isolation（Unified全局排序可能改变显示序——集合相同）。有效DESIGN_READY run-22dbfa4d（strict model；1496events/65/65complete tool groups；runDelta0/diff0；无truncation/mutation；三条非阻塞笔记已接受）。Backend owning abc7500c（run-9ab9684f delta3/outside0；主focused11/adjacent49/full922 PASS；seed SHA146a1c6e…e09d；JUnit SHAfa2e8658…01d08；README SHA551ebe55…87d31）/镜像5d468bfa（run-e8e80b77 delta3/outside0；精确parity）。较早run-766a0fbf因driving-prompt SHA typo以delta0停止且无task write——非完成证据。Wasm exact ddbca0f9（run-6e1cb345 delta1/outside0；focused6/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受1683418（run-c4348cec delta8/outside0；主五检查通过；语义比较仅Tristana Q G8/Unified变化；provisional仅移除Tristana Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed92/partial_actionable0/ready0/blocked_runtime81/blocked_data3/OOS72/regression5/stale1；full92/partial3/none159；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated82/partial4/blocked87/OOS69/inScope173；implementation_gap=64；provisional84=runtime81/data3/hero82/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion92/254=36.2%；completed+provisional coverage176/254=69.3%；84张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=106。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Rapid Fire/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-崔丝塔娜Q-急速射击限时攻速机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-崔丝塔娜Q-急速射击限时攻速机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-tristana-rocket-jump-primary-landing-hit",
+      "title": "通用 ABI 崔丝塔娜 W 火箭跳跃 Rocket Jump 主目标落地命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_tristana_rocket_jump_primary_landing_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_tristana|W|火箭跳跃 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Tristana/W→Rocket Jump page1308523/rev4007758/timestamp2026-04-12T14:13:05Z/canonical raw2444/SHA256 cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec；sidecar tristana-w.json+pages权威；本地raw2443/SHA7283b2eb…1cabd9（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; magic_210_plus_1_00_bonus_ad_plus_0_50_ap; no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_charge_reset_cast_during_dash_other_ranks_or_full_fidelity。Rank5：50mana/14000ms；immediate selected-primary-champion single magic landing hit scaffold；一笔非暴击/不可复制魔法命中210+1.00*(source.attr.ad.resolved-source.attr.ad.base)+0.50*source.attr.ap.resolved（精确嵌套二元树；显式bonus AD减法；type20221/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零W state/modifier/listener；无W type/type62013。交叉base0/resolved0/AP0/MR0 raw/final210；base60/resolved60/AP0/MR0 raw/final210；base60/resolved160/AP0/MR0 raw/final310；base60/resolved160/AP100/MR0 raw/final360；base60/resolved160/AP100/MR100 raw360/final180；base60/resolved260/AP200/MR100 raw510/final255；base0/resolved100与base60/resolved160在AP100/MR0下均raw/final360（bonus-AD减法证明）；mana150/baseAD60/resolvedAD160/AP100/HP1000/MR100 t0/t13999/t14000 success/skip/success两笔W damage final mana50/HP640两次自动W ability_started；mana49 resource skip不变。显式Q/W isolation：W不武装Q；Q不产生W伤害。standalone；不依赖Tristana P/Q/E/R/Explosive Charge；不合成Batch-B/sibling Tristana；Backend无repository-owned hero_tristana/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定目标魔法落地命中，不是完整W。有效DESIGN_READY run-a2de6890（strict model；1665events/45/45complete tool groups；runDelta0/diff0；无truncation/mutation）。先前v1 run-46960ef9因一个未完成只读grep组无效为正式门控；taxonomy已接受进v2；该run无写入。Backend owning 7cafeab8（run-846684b0 delta3/outside0；主focused10/adjacent57/full932 PASS；seed SHA6f11143c…ef8643；JUnit SHA706a8eac…f2104d；README SHAfb6ccd34…87bcc0a）/镜像ac304d30（run-4d26ad0d delta3/outside0；精确parity）。Wasm exact 9d2716cb（run-6370d434 delta1/outside0；focused7/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受6cc6b00（run-c399c177 delta8/outside0；主五检查通过；语义比较仅Tristana W G8/Unified变化；provisional仅移除Tristana W；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed93/partial_actionable0/ready0/blocked_runtime80/blocked_data3/OOS72/regression5/stale1；full93/partial3/none158；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated83/partial4/blocked86/OOS69/inScope173；implementation_gap=63；provisional83=runtime80/data3/hero81/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion93/254=36.6%；completed+provisional coverage176/254=69.3%；83张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=107。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Rocket Jump/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-崔丝塔娜W-火箭跳跃主目标落地命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-崔丝塔娜W-火箭跳跃主目标落地命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-graves-end-of-the-line-first-outbound-pass",
+      "title": "通用 ABI 格雷福斯 Q 穷途末路 End of the Line 首段出站命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_graves_end_of_the_line_first_outbound_pass",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_graves|Q|穷途末路 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Graves/Q→End of the Line page1307367/rev4007501/timestamp2026-04-11T22:23:57Z/canonical raw2266/SHA256 c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5；sidecar graves-q.json+pages权威；本地raw2265/SHAcd2744fb…df0377（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; physical_150_plus_0_65_bonus_ad; no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_terrain_interaction_other_ranks_or_full_fidelity。Rank5：80mana/6000ms；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；一笔非暴击/不可复制物理命中150+0.65*(source.attr.ad.resolved-source.attr.ad.base)（精确二元树；显式bonus AD减法；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener；无Q-specific type。交叉base0/resolved0/armor0 raw/final150；base60/resolved60/armor0 raw/final150；base60/resolved160/armor0 raw/final215；base60/resolved160/armor100 raw215/final107.5；base60/resolved260/armor100 raw280/final140；base0/resolved100与base60/resolved160在armor0下均raw/final215（bonus-AD减法证明）；mana240/baseAD60/resolvedAD160/HP1000/armor100 t0/t5999/t6000 success/skip/success两笔Q damage final mana80/HP785两次自动Q ability_started；mana79 resource skip不变。显式Q/E isolation：Q不改变True Grit；E不产生Q伤害；Q seed不含E rows。standalone；不依赖Graves P/E/W/R/True Grit/basic；不合成Batch-B/sibling Graves；Backend无repository-owned hero_graves/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标首段出站物理命中，不是完整Q。有效DESIGN_READY run-03dd4514（strict model；2178/2178 parseable events/59/59 complete tool groups；runDelta0/diff0；无truncation/mutation）。先前v1 run-957c034a返回REVISE但因一个未完成只读grep组无效为正式门控；路径校正已接受进v2；该run无写入。Backend owning 9294292（run-bc2c80e8 delta3/outside0；主focused50/full943 PASS；seed SHAe17d4739…f88ca0；JUnit SHA16cafe13…6b00ac；README SHAe7dddfcd…0296a6）/镜像a54cf6f（run-43d31e5d delta3/outside0；精确parity）。Wasm exact c16107e（run-d574c128 delta1/outside0；focused7/full/bench/build/smoke/benchmark PASS；test bytes66870/SHAa95e0d96…8c8e77；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受4585926（run-8dbc58fd delta8/outside0；主五检查通过；语义比较仅Graves Q G8/Unified变化；provisional仅移除Graves Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed94/partial_actionable0/ready0/blocked_runtime79/blocked_data3/OOS72/regression5/stale1；full94/partial3/none157；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated84/partial4/blocked85/OOS69/inScope173；implementation_gap=62；provisional82=runtime79/data3/hero80/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion94/254=37.0%；completed+provisional coverage176/254=69.3%；82张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=108。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整End of the Line/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-格雷福斯Q穷途末路EndOfTheLine首段出站命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-格雷福斯Q穷途末路EndOfTheLine首段出站命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-senna-last-embrace-first-enemy-hit",
+      "title": "通用 ABI 赛娜 W 无尽厮守 Last Embrace 首个敌人命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_senna_last_embrace_first_enemy_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_senna|W|无尽厮守 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Senna/W→Last Embrace page1409576/rev4009139/timestamp2026-04-15T21:34:10Z/canonical raw1656/SHA256 48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492；normalized2120/SHA c570469e…5fdc8b；pages685/SHA 7f9ffc93…1f41f4；sidecar senna-w.json+pages权威；本地raw1651/SHA737cc69b…090d5e（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; physical_230_plus_0_90_bonus_ad; no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_other_ranks_or_full_fidelity。Rank5：70mana/11000ms；immediate selected-primary-champion first-enemy single physical hit scaffold；一笔非暴击/不可复制物理命中230+0.90*(source.attr.ad.resolved-source.attr.ad.base)（精确二元树；显式bonus AD减法；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零W state/modifier/listener/root/control/secondary-target；无W-specific type。交叉base0/resolved0/armor0 raw/final230；base60/resolved60/armor0 raw/final230；base60/resolved160/armor0 raw/final320；base60/resolved160/armor100 raw320/final160；base60/resolved260/armor100 raw410/final205；base0/resolved100与base60/resolved160在armor0下均raw/final320（bonus-AD减法证明）；mana210/baseAD60/resolvedAD160/HP1000/armor100 t0/t10999/t11000 success/skip/success两笔W damage final mana70/HP680两次自动W ability_started；mana69 resource skip不变。standalone；仅W挂载；不合成P/Q/E/R/basic或W state/modifier/listener/root/control/secondary-target；不合成Batch-B/sibling Senna；Backend无repository-owned hero_senna/AD/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标首个敌人物理命中，不是完整W。有效DESIGN_READY run-96bfe31f（strict model；1900/1900 parseable events/39/39 complete tool groups；runDelta0/diff0；无truncation/mutation）。先前v1 run-0ebc4622返回READY但因一个未完成只读grep组无效为正式门控；非阻塞建议已接受进v2；该run无写入。Backend owning c0c3090（run-713c4d15 delta3/outside0；主focused68/full954 PASS；seed SHA0327787a…95efc7；JUnit SHA9bb02ffd…5d75ff；README SHA1ad375f7…8c55af）/镜像b90607b（run-c70b5ca7 delta3/outside0；精确parity）。Wasm exact ebf7730（run-5ba15211 delta1/outside0；focused/full/bench/build/smoke/benchmark PASS；test bytes62703/SHA4a449fc0…696051；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受24e2dd3（run-fa34263a delta8/outside0；主五检查通过；语义比较仅Senna W G8/Unified变化；provisional仅移除Senna W；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed95/partial_actionable0/ready0/blocked_runtime78/blocked_data3/OOS72/regression5/stale1；full95/partial3/none156；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated85/partial4/blocked84/OOS69/inScope173；implementation_gap=61；provisional81=runtime78/data3/hero79/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion95/254=37.4%；completed+provisional coverage176/254=69.3%；81张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=109。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Last Embrace/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-赛娜W无尽厮守LastEmbrace首个敌人命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-赛娜W无尽厮守LastEmbrace首个敌人命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-jhin-dancing-grenade-primary-first-hit",
+      "title": "通用 ABI 烬 Q 曼舞手雷 Dancing Grenade 主目标首击机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jhin_dancing_grenade_primary_first_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jhin|Q|曼舞手雷 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jhin/Q→Dancing Grenade page1307579/rev4007611/timestamp2026-04-12T07:23:12Z/canonical raw1913/SHA256 522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1；normalized2388/SHA 6f5c6dcc9771140136705f8e6554cb999f7ec5a1272515d5cbd03b910bdd20b1；pages682/SHA 642d7c88a064cd3107a4cf9f51a75be2ca91bb2e904afd6cfa8cf3ead92b7897；sidecar jhin-q.json+pages权威；本地raw1911/SHA17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; physical_144_plus_0_74_total_ad_plus_0_60_ap; no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_other_ranks_or_full_fidelity。Rank5：60mana/5000ms；immediate selected-primary-champion first-grenade single physical hit scaffold；一笔非暴击/不可复制物理命中144+0.74*source.attr.ad.resolved+0.60*source.attr.ap.resolved（精确嵌套二元树；total AD直接读取；不得减base/不得称bonus AD；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener/projectile/bounce；无Q-specific type。交叉AD0/AP0/armor0=144；AD100/AP0/armor0=218；AD0/AP100/armor0=204；AD100/AP100/armor0=278；AD100/AP100/armor100 raw278/final139；AD200/AP100/armor100 raw352/final176；baseAD0 vs baseAD60 at resolvedAD100/AP0/armor0 both218；mana180/baseAD60/resolvedAD100/AP100/HP1000/armor100 t0/t4999/t5000 success/skip/success两笔Q damage final mana60/HP722两次自动Q ability_started；mana59 resource skip不变。standalone显式Q/W isolation；不合成Batch-B/sibling Jhin；Backend无repository-owned hero_jhin/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold（无total_ad_ratio/salvage）。恰好一次选定主目标首雷物理命中，不是完整Q。有效DESIGN_READY run-a8330b2c（strict model；1888/1888events/35/35complete tool groups；runDelta0/diff0；无truncation/mutation）。Backend owning ce22594（run-72245e2f delta3/outside0；主focused61/full965 PASS；seed SHA414da928…73db11；JUnit SHAb2c7a800…7f38ca；README SHA96dfddaa…d38fc6）/镜像488898e（run-299aaaa4 delta3/outside0；精确parity）。Wasm exact f70be27（run-02c77f33 delta1/outside0 + 机械gofmt run-ae92e35e delta1/outside0 formatting correction only——诚实记录非合同失败；最终test bytes71563/SHA deaa6604…99679cc4；focused/full/bench/build/smoke/benchmark PASS；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入）。审计接受10a3211（run-2dd9… delta8/outside0；主五检查通过；仅Jhin Q语义对象变化；provisional仅移除Jhin Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed96/partial_actionable0/ready0/blocked_runtime77/blocked_data3/OOS72/regression5/stale1；full96/partial3/none155；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated86/partial4/blocked83/OOS69/inScope173；implementation_gap=60；provisional80=runtime77/data3/hero78/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion96/254=37.8%；completed+provisional coverage176/254=69.3%；80张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=110。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Dancing Grenade/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-烬Q曼舞手雷DancingGrenade主目标首击机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-烬Q曼舞手雷DancingGrenade主目标首击机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-corki-phosphorus-bomb-primary-impact",
+      "title": "通用 ABI 库奇 Q 磷光炸弹 Phosphorus Bomb 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_corki_phosphorus_bomb_primary_impact",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_corki|Q|磷光炸弹 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Corki/Q→Phosphorus Bomb page1306953/rev4007588/timestamp2026-04-12T06:50:59Z/canonical raw1531/SHA256 e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365；normalized2148/SHA 3c4584b2e8442e7ff2ae1d2d4c4d8dff4613efa98bf7ba4cd3ab44ef05c8572d；pages691/SHA bff7e3533e2bba561c03e91da5d7c07ffc095e07a0669b321cc7fd480d18f42a；sidecar corki-q.json+pages权威；本地raw1529/SHAc39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; magic_240_plus_1_25_bonus_ad_plus_1_00_ap; no_cast_time_location_targeting_range_radius_geometry_projectile_travel_minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_other_ranks_or_full_fidelity。Rank5：80mana/7000ms；immediate selected-primary-champion single magic impact hit scaffold；一笔非暴击/不可复制魔法命中240+1.25*(source.attr.ad.resolved-source.attr.ad.base)+1.00*source.attr.ap.resolved（精确嵌套二元树；bonus AD显式减法；不得按total-AD直读；type20221/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零Q state/modifier/listener/projectile/explosion；无Q-specific type。交叉base60/resolved60/AP0/MR0=240；base60/resolved160/AP0/MR0=365；base60/resolved60/AP100/MR0=340；base60/resolved160/AP100/MR0=465；base60/resolved156/AP100/MR100 raw460/final230；base60/resolved220/AP100/MR100 raw540/final270；base0/resolved100 vs base60/resolved160 AP0/MR0 both365；mana240/baseAD60/resolvedAD156/AP100/HP1000/MR100 t0/t6999/t7000 success/skip/success两笔Q damage final mana80/HP540两次自动Q ability_started；mana79 resource skip不变。standalone；不合成P/W/E/R/basic或Batch-B/sibling Corki；Backend无repository-owned hero_corki/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold（无salvage/meta_or_non_target_dps governed；raw upstream含历史out_of_scope/meta_or_non_target_dps/primary_damage_branch_salvage仅provenance）。恰好一次选定主目标魔法命中，不是完整Q。有效DESIGN_READY run-aa057cdf（strict model；2062/2062events/52/52complete tool groups；runDelta0；无truncation/mutation）。Backend owning 6003a7e（run-14d830d3 delta3/outside0；主focused75/full975 PASS；seed bytes29669/SHA fa1ac487…00ecdd3；JUnit bytes56626/SHA 16f0170e…cd5752；README bytes269588/SHA 538f73d1…0ae66f）/镜像b352677（run-3356a0a5 delta3/outside0；精确parity）。Wasm exact b381b1e（run-07f7d8a7 delta1/outside0；focused/full/bench/build/smoke/benchmark PASS；test bytes65821/SHA 58f47763…a68a09；独立Web资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无生产runtime/ABI变更）。Cursor曾误比Wasm worktree内嵌陈旧web/副本（1101630/SHA2ce1…）并报告mismatch——主会话核实独立C:\\project\\damage_web_dev资产精确parity且无Web写入。审计接受6a0c450（run-a5165548 delta8/outside0；主五检查通过；仅Corki Q语义对象变化；provisional仅移除Corki Q；稳定order/keys/digests；先前completed/migrated锁定；审计助手178/254=70.1%算术已驳回；正确(97+79)/254=176/254=69.3%）。Unified254：sourceCount12/completed97/partial_actionable0/ready0/blocked_runtime76/blocked_data3/OOS72/regression5/stale1；full97/partial3/none154；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated87/partial4/blocked82/OOS69/inScope173；implementation_gap=59；provisional79=runtime76/data3/hero77/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion97/254=38.2%；completed+provisional coverage176/254=69.3%；79张template-eligible blocked键均有provisional卡；provisional不是completed主张。治理tasks=111。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Phosphorus Bomb/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-库奇Q磷光炸弹PhosphorusBomb主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-库奇Q磷光炸弹PhosphorusBomb主目标命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-senna-dawning-shadow-primary-hit",
+      "title": "通用 ABI 赛娜 R 暗影燎原 Dawning Shadow 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_senna_dawning_shadow_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_senna|R|暗影燎原 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Senna/R→Dawning Shadow page1409580/rev4008033/timestamp2026-04-13T04:08:13Z/canonical raw2356/SHA256 4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36；normalized2597/SHA 79ced482…f66307；pages689/SHA 9b7fcb0a…f9e704e；sidecar senna-r.json+pages权威；本地raw2353/SHA1b448ff4…3195dc（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_550_plus_1_15_bonus_ad_plus_0_70_ap; no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_other_ranks_or_full_fidelity。Rank3：100mana/100000ms；immediate selected-primary enemy champion single physical hit scaffold；一笔非暴击/不可复制物理命中550+1.15*(source.attr.ad.resolved-source.attr.ad.base)+0.70*source.attr.ap.resolved（精确嵌套二元树；显式bonus AD减法；不得按total-AD直读；type20220/add20170；无20230；无显式event op）；成功施放自动一次ability_started；零R state/modifier/listener；无R-specific type。交叉base60/resolved60/AP0/armor0 raw/final550；base60/resolved160/AP0/armor0 raw/final665；base60/resolved60/AP100/armor0 raw/final620；base60/resolved160/AP100/armor0 raw/final735；base60/resolved140/AP100/armor100 raw712/final356；base60/resolved220/AP100/armor100 raw804/final402；base0/resolved100与base60/resolved160在AP0/armor0下均raw/final665（bonus-AD减法证明）；mana300/baseAD60/resolvedAD140/AP100/armor100/HP1000 t0/t99999/t100000 success/skip/success两笔R damage final mana100/HP288两次自动R ability_started；mana99 resource skip不变。standalone；保留既有Senna W；显式R/W isolation；不合成P/Q/E/basic/loadout/bootstrap/siblings；Backend无repository-owned hero_senna/AD/AP/mana materializer——external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/ap_ratio/immediate_impact_scaffold（无completed salvage tag）。恰好一次选定主目标敌方英雄物理命中，不是完整R。有效DESIGN_READY run-d6961d41（strict top-level model；1175/1175 parseable events/59/59 complete tool groups；runDelta0；无truncation/mutation）。先前v1/v2虽技术上READY但各因一个非终态tool group无效为正式门控；不得引为有效门控。Backend owning b774a8d（run-bd288908 delta3/outside0；主focused71/full987 PASS；seed bytes30279/SHA ecec375b…01867bc；JUnit bytes57319/SHA 8854b329…29ad71c；README bytes277142/SHA aa5360f5…f6b5b2）/镜像4316923（run-027e2f56 delta3/outside0；精确parity）。Wasm exact a8e4c08（run-04b39596 delta1/outside0；focused/full/build/smoke/bench PASS；test bytes73643/SHA a42359e9…f39fa9；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无生产runtime/ABI变更）。审计接受eb6fd9f（run-9c552457 delta8/outside0；主五检查通过；语义比较仅Senna R G8/Unified变化；provisional仅移除Senna R；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed98/partial_actionable0/ready0/blocked_runtime75/blocked_data3/OOS72/regression5/stale1；full98/partial3/none153；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated88/partial4/blocked81/OOS69/inScope173；implementation_gap=58；provisional78=runtime75/data3/hero76/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion98/254=38.6%；completed+provisional coverage176/254=69.3%；78张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=112。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Dawning Shadow/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-赛娜R暗影燎原DawningShadow主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-赛娜R暗影燎原DawningShadow主目标命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-ezreal-mystic-shot-primary-hit",
+      "title": "通用 ABI 伊泽瑞尔 Q 秘术射击 Mystic Shot 主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ezreal_mystic_shot_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ezreal|Q|秘术射击 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Ezreal/Q→Mystic Shot page1307107/rev4013233/timestamp2026-04-28T21:19:30Z/canonical raw2054/SHA256 be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533；normalized2527/SHA b7e8639d…18ab47；pages692/SHA f5f133ee…107060；sidecar ezreal-q.json+pages权威；本地raw2052/SHAd8348b3b…b05dbd（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_other_ranks_or_full_fidelity。Rank5：40mana/4500ms；immediate selected-primary enemy champion single physical hit scaffold；一笔非暴击/不可复制物理命中120+1.30*source.attr.ad.resolved+0.40*source.attr.ap.resolved（精确嵌套二元树；total AD直读；不得减base AD；type20220/add20170；无20230；无显式event op；无Q-specific type）；成功施放自动一次ability_started；成功命中保留Rising Spell Force一层；零Q state/modifier/listener。交叉raw/final198/99、328/164、238/119、368/184；base反证两路径均328/164；mana120 t0/t4499/t4500 success/skip/success两笔Q damage两次自动Q ability_started final mana40/HP632；mana39 resource skip；P共存一层stack AS1.0→1.1随后cooldown skip无变化。standalone Q；保留既有P/E/R；Backend hero_ezreal/ad/ap/mana external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/ap_ratio/immediate_impact_scaffold（无total_ad_ratio；无stale cooldown_or_haste_without_rotation；无salvage/meta tag）。恰好一次选定主目标敌方英雄物理命中，不是完整Q。有效DESIGN_READY run-619e5122（1639/1639 parseable events/45/45 complete tool groups；runDelta0；无truncation/mutation；user decision none）。先前v1 run-aeadbd2b为valid REVISE（2072/2072；36/36；delta0；total_ad tag与impl-gap-family校正均已接受）；非正式READY门控。Backend owning 41fce6a（run-679d546c delta3/outside0；主focused11/full998 PASS；seed bytes29100/SHA 13e78f71…b265574；JUnit bytes58894/SHA 17025b15…550dc3e；README bytes284316/SHA 7d442658…b63aa3f）/镜像ae66c56（run-e67ff0d6 delta3/outside0；精确parity）。Wasm exact 000e253（run-0d56a32e delta1/outside0；focused/count=100/full/build/smoke/bench PASS；test bytes68455/SHA 6e8ceb79…0196032；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无生产runtime/ABI变更）。审计接受b3cbd6b（run-4272960b delta8/outside0；主五检查通过；语义比较仅Ezreal Q G8/Unified变化；provisional仅移除Ezreal Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed99/partial_actionable0/ready0/blocked_runtime74/blocked_data3/OOS72/regression5/stale1；full99/partial3/none152；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated89/partial4/blocked80/OOS69/inScope173；implementation_gap仍58（Q不在该家族）；provisional77=runtime74/data3/hero75/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion99/254=39.0%；completed+provisional coverage176/254=69.3%；77张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=113。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Mystic Shot/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-伊泽瑞尔Q秘术射击MysticShot主目标命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-伊泽瑞尔Q秘术射击MysticShot主目标命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-akshan-avengerang-first-outbound-hit",
+      "title": "通用 ABI 阿克尚 Q 去而复还 Avengerang 首段出站命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_akshan_avengerang_first_outbound_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_akshan|Q|去而复还 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Akshan/Q→Avengerang page1502462/rev4007510/timestamp2026-04-11T22:35:01Z/canonical raw2570/SHA256 1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b；normalized2948/SHA f6b0dd49…6d9a1a；pages688/SHA 11d2da87…8509e0；sidecar akshan-q.json+pages权威；本地raw2570/SHA407e4671…b8c973（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity。Rank5：80mana/immediate cooldown scaffold5000ms（真实Wiki冷却在飞镖返回后开始为completed-boundary exclusion，不是faithful approximation亦不是blocker）；immediate selected-primary champion first-outbound-pass single physical hit scaffold；一笔非暴击/不可复制物理命中165+0.70*(source.attr.ad.resolved-source.attr.ad.base)（精确嵌套二元树；显式bonus AD减法；不得按total-AD直读；type20220/add20170；无20230；无显式event op；无Q-specific type）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉armor100 base52/resolved52 raw165/final82.5；base52/resolved152 raw235/final117.5；反证base0/resolved100与base52/resolved152均raw/final235；mana240/baseAD52/resolvedAD152/armor100/HP1000 t0/t4999/t5000 success/skip/success两笔Q damage两次自动Q ability_started final mana80/HP765；mana79 resource skip。standalone Q；保留Dirty Fighting/basic；Q不合成ability-hit stacks。Backend前置absent-only mana resource definition/value via ON CONFLICT DO NOTHING，派生自既有panel mana，永不覆盖；hero/ad/mana panel EAV与Dirty Fighting/basic repository-owned/preserved；不live-publish。governed tags序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/immediate_impact_scaffold（无salvage tag）。恰好一次选定主目标首段出站物理命中，不是完整Q。正式最终DESIGN_READY run-bde07e54（26/26 complete tool groups；runDelta0；无truncation/mutation；无user decision；省略聚合event-total）。先前v1 run-0abb40b7 valid REVISE（1855/1855；46/46；delta0；absent-only mana与cooldown-start-after-return文档化均已接受）。有效v2 READY run-11d562ed（1682/1682；36/36；delta0）曾治理初始Backend；被中止的v2 Wasm test run不是完成证据。有效v3 run-f627e870 REVISE（2169/2169；52/52；delta0；fixture truth/scope校正均已接受）。v4为正式最终门控。Production Wasm/public ABI/Web变更不需要。Backend owning bd8dbcb（run-70747b97 delta3/outside0；主focused12/full1010 PASS；seed bytes30848/SHA d45d8297…c81dcd；JUnit bytes59429/SHA 2f64e5c0…cac296；README bytes291215/SHA 188b0174…a5310b——聚合README全文件hash仅为历史材料身份，故意不是持续Wasm测试不变量）/镜像45d589a（run-5be3a5ed delta3/outside0；精确parity）。最终runtime/test-governance b58a549（run-e99bc519 delta2/outside0；47/47 complete tool groups；focused Akshan/Ezreal、Akshan count100、full Go、TinyGo build、Node smoke/bench PASS；Akshan test bytes66516/SHA dc922f42…618805；Ezreal durability-repaired test bytes67920/SHA db308c2a…719767；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无Web写入；英雄名_test.go仅机制级回归/治理证据，排除normal/TinyGo生产构建；无英雄专用生产分支；无生产runtime/ABI变更；不损害generic runtime实现主张）。审计接受144d6e9（run-dc10edec delta8/outside0；88/88 complete tool groups；主五检查通过；语义比较仅Akshan Q G8/Unified变化；provisional仅移除Akshan Q；稳定order/keys/digests；先前completed/migrated锁定）。Unified254：sourceCount12/completed100/partial_actionable0/ready0/blocked_runtime73/blocked_data3/OOS72/regression5/stale1；full100/partial3/none151；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated90/partial4/blocked79/OOS69/inScope173；implementation_gap仍58（Q不在该家族）；provisional76=runtime73/data3/hero74/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion100/254=39.4%；completed+provisional coverage176/254=69.3%；76张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=114。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Avengerang/游戏技能保真；immediate 5000ms CD scaffold不是真实返回后冷却的faithful approximation；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-阿克尚Q去而复还Avengerang首段出站命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-阿克尚Q去而复还Avengerang首段出站命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-sivir-boomerang-blade-first-outbound-hit",
+      "title": "通用 ABI 希维尔 Q 回旋之刃 Boomerang Blade 首段出站命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_sivir_boomerang_blade_first_outbound_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_sivir|Q|回旋之刃 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Sivir/Q→Boomerang Blade page1308837/rev4016378/timestamp2026-05-11T05:05:57Z/canonical raw2745/SHA256 0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e；normalized3018/SHA 2320f7ad…86ff02；pages691/SHA adeab858…323fa9；sidecar sivir-q.json+pages权威；本地raw2745/SHA b8d46412…2396a4（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity。Rank5：75mana/immediate cooldown scaffold8000ms；immediate selected-primary champion first-outbound-pass single physical hit scaffold；一笔非暴击/不可复制物理命中(160+0.70*(ad.resolved-ad.base)+0.60*ap.resolved)*(1+0.40*min(1,max(0,crit_chance.resolved)))（精确嵌套；每条read path恰好一次；formula-local crit clamp——generic formula reads不应用DB attribute bounds；缺失formula attrs当前读零，不得主张fail-closed；type20220/add20170；无20230；无显式event op；无Q-specific type）；成功施放自动一次ability_started；零Q state/modifier/listener。交叉armor100 raw290/348/406→final145/174/203（含negative/overcap clamp与bonusAD/AP counterproof）；mana225/HP1000/armor100（crit0.5）t0/t7999/t8000 success/skip/success两笔Q damage两次自动Q ability_started final mana75/HP652；mana74 resource skip。standalone Q。Backend前置hero_sivir/ad/ap/crit_chance/mana external-existing-data/check-only；seed不物化identity/panel/resource；无Sivir materializer；不live-publish；Wasm fixtures定义crit_chance。governed tags任务序ability_cost_cooldown/active_physical_damage/bonus_ad_ratio/ap_ratio/crit_scaling/immediate_impact_scaffold（G8保留该序；Unified canonical排序时ap_ratio先于bonus_ad_ratio——同一membership，不得描述为语义差异；无salvage tag）。恰好一次选定主目标首段出站物理命中，不是完整Q。正式最终DESIGN_READY run-4db83782（runDelta0；2099 parseable；61/61 groups；无truncation/mutation；无user decision）。先前v1 run-a0605b7c valid REVISE（2226；63/63；delta0；DB bounds/seed未证明bounds已接受）。v2 run-fd9c2756 valid REVISE（2199；46/46；delta0；缺失attrs读零、不得fail-closed已接受）。v3为正式最终门控。Production Wasm/public ABI/Web变更不需要。Backend owning 3ded9cb（run-98d9646e delta3/outside0；主focused64/64+full Maven1023/1023 PASS；seed bytes32326/SHA 4ba04a00…dbf189；JUnit bytes63624/SHA 2f3368a9…e467a；README bytes299113/SHA 913c80f6…b6cf95）/镜像 b14c48f（run-9b7da61c delta3/outside0；6/6 complete groups；精确parity；Sivir JUnit13/13 PASS）。Combined mirror focused suite另暴露既有sibling Essence Reaver与Twisted Fate must BEGIN失败——无关caveat，未修复/未隐藏。最终runtime/test-governance bff4d160（run-5834425f delta1/outside0；focused ten top-level、count100、full Go、Go bench、TinyGo build、Node smoke/bench PASS；test bytes79086/SHA 77a27da7…917cc44；Built与独立Web worktree资产1,169,377/SHA65a4…c6a0同步不变；无生产/Web写入；英雄名_test.go仅为测试/治理身份，排除生产构建；仅构造generic provider/ability/operation/formula合同；无英雄专用生产runtime分支或public ABI变更；不损害generic runtime实现主张）。首审计run-de678bf0因SDK HTTP/2 CANCEL崩溃不作接受证据；新鲜恢复run-9f321848（delta8/outside0；parseable1590-line；无truncation；主五检查PASS；语义比较仅Sivir Q G8/Unified变化；provisional仅移除Sivir Q；稳定order/keys/digests；先前completed/migrated锁定）。接受审计commit 6e8b55c。Unified254：sourceCount12/completed101/partial_actionable0/ready0/blocked_runtime72/blocked_data3/OOS72/regression5/stale1；full101/partial3/none150；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated91/partial4/blocked78/OOS69/inScope173；implementation_gap57（Sivir Q离开该家族）；provisional75=runtime72/data3/hero73/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion101/254=39.8%；completed+provisional coverage176/254=69.3%；75张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=115。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Boomerang Blade/游戏技能保真；不得主张DB bounds由formula reads应用或缺失attr fail-closed；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-希维尔Q回旋之刃BoomerangBlade首段出站命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-希维尔Q回旋之刃BoomerangBlade首段出站命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-jinx-flame-chompers-primary-explosion-hit",
+      "title": "通用 ABI 金克丝 E 嚼火者手雷 Flame Chompers 主目标爆炸命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_jinx_flame_chompers_primary_explosion_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_jinx|E|嚼火者手雷！ 已标 completed/full/generic_runtime（G8 migrated）：Wiki Template:Data Jinx/E→Flame Chompers! page1307600/rev3993368/timestamp2026-02-21T15:35:19Z/canonical raw1786/SHA256 64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee；normalized2228/SHA de7922f6…87183a；pages694/SHA f2822e57…9b360d；sidecar jinx-e.json+pages权威；本地raw1784/SHA aabb099f…73a551（local raw materialization caveat；故意不断言字节等价；非源矛盾）；sourceCount仍12；completedBoundary rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; magic_290_plus_1_00_ap; no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_location_direction_range_geometry_area_multitarget_contact_acquisition_knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_exception_vision_other_ranks_or_full_fidelity。Rank5：90mana/10000ms；immediate selected-primary-champion single magic explosion-hit scaffold；一笔非暴击/不可复制魔法爆炸命中290+1.00*source.attr.ap.resolved（精确嵌套二元add(const290,mul(const1.00,read ap.resolved))；恰好一次AP读；type20221/add20170；无20230；无显式event op；无E-specific type）；成功施放自动一次ability_started；零E state/modifier/listener。交叉MR100 AP0 raw290/final145；AP100 raw390/final195；无关AD反证。mana270/AP100/HP1000/MR100 t0/t9999/t10000 success/skip/success两笔E damage两次自动E ability_started final mana90/HP610；mana89 resource skip。standalone E + 有界E/W isolation；不合成P/Q/R/basic。Backend hero_jinx/ap/mana external-existing-data/check-only；不物化identity/panel/resource；不live-publish。governed tags序ability_cost_cooldown/active_magic_damage/ap_ratio/immediate_impact_scaffold。恰好一次选定主目标魔法爆炸命中量子，不是完整E或一次游戏内E总命中。DESIGN_READY run-893fcb26（strict grok/high/fast=false；runDelta0；1750 parseable；无truncation/mutation/user decision；无prior REVISE；production Wasm/public ABI/Web不需要）。Backend owning df08d6b（run-1f38cae0 delta3/outside0；主focused37/full1032 PASS；seed27322/SHA 686ff89b…7583ee6f；JUnit46529/SHA 519c3e5c…00d35a；README305324/SHA bc71abfe…86b7be）/镜像 3b26d3e（run-1554558c delta3/outside0；精确parity；主focused18 PASS）。Wasm exact 9320b4da（run-5b26afad delta1/outside0；focused7 top-level/count100/E+W/full Go/Go bench/TinyGo/Node smoke+bench PASS；test63966/SHA 59ee84f4…53741b；Built与独立Web资产1,169,377/SHA65a4…c6a0同步不变；无生产/Web写入；英雄名_test.go仅为测试/治理fixture，排除生产构建；仅构造generic Provider/Ability/Formula路径；无英雄专用生产分支或public ABI变更；不损害generic实现主张）。审计接受577d8c58（run-c7d01be2 delta8/outside0；1233 event lines；无truncation；主五检查PASS；语义比较仅Jinx E G8/Unified变化；provisional仅移除Jinx E；稳定order/keys/digests）。Unified254：sourceCount12/completed102/partial_actionable0/ready0/blocked_runtime71/blocked_data3/OOS72/regression5/stale1；full102/partial3/none149；registry242=migrated48/partial5/blocked120/OOS69；G8 242=migrated92/partial4/blocked77/OOS69/inScope173；implementation_gap56（Jinx E离开该家族）；provisional74=runtime71/data3/hero72/item2；actionableKeyCount=0为当前事实非停工条件。报告口径：严格verified completion102/254=40.2%；completed+provisional coverage176/254=69.3%；74张template-eligible blocked键均有provisional卡；provisional不是completed主张。稳定digests：Unified69832c2a…c018；Wiki registry927d8b5a…26c7。治理tasks=116。未执行live migration/publish/push/browser E2E/production Wasm/Web变更。不得误称完整Flame Chompers!/游戏技能保真；未声称总体Goal完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-金克丝E嚼火者手雷FlameChompers主目标爆炸命中机制详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-金克丝E嚼火者手雷FlameChompers主目标爆炸命中机制验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-draven-whirling-death-primary-outbound-hit",
+      "title": "通用 ABI 德莱文 R 冷血追命首段主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_draven_whirling_death_primary_outbound_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_draven|R|冷血追命 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV draven-r-whirling-death-primary-outbound-hit-phase-a-v2；DESIGN v1 REVISE run-816b8669（2236/2236；74/74；delta0；接受 impl-gap56→55 与 hero-named test-only）；正式 READY run-08960edd（1707/1707；61/61；delta0）。Backend 0aa03bc（run-63aff27e delta3/outside0；740 events；43/43）；Wasm 5b1f661（run-2dc1d10e delta1/outside0；726；40/40）；审计 5a6ba20（run-5399d7f1 delta8/outside0；1374；77/78——唯一 incomplete 为只读 grep running；主独立重跑验收）。边界 rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity。计数：G8 migrated93/blocked76；Unified completed103/blocked_runtime70/full103/none148；impl-gap55；provisional73；tasks117；严格 completion103/254=40.6%；coverage176/254=69.3%。主验证 focused51/full1043；Wasm focused/full/bench PASS；五审计 check PASS。无 live/publish/push/E2E/Web/生产 Wasm 写入；资产当前 hash 校验 1169377/65a4…c6a0。不是完整 R；actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-德莱文R冷血追命首段主目标命中Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-德莱文R冷血追命首段主目标命中Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-corki-missile-barrage-normal-primary-hit",
+      "title": "通用 ABI 库奇 R 火箭轰击普通导弹主目标命中机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_corki_missile_barrage_normal_primary_hit",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_corki|R|火箭轰击 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV corki-r-missile-barrage-normal-primary-hit-phase-a-v1；DESIGN_READY run-504c31b1（2198 events；103/103；delta0/outside0）。Backend 2c2392a（run-4fb341ff delta3/outside0；944；55/55；seed36526/08956341…；JUnit58372/74f15e00…；README318576/bf0039cd…；focused32/full1054 PASS）。Wasm d99d01e（run-4c80644c delta1/outside0；985；87/87；test51481/874265e2…；focused/full/bench PASS mean_us112.16）。审计 2548f35（run-b3aafd84 delta8/outside0；1318；89/89；主五 check+断言 PASS）。边界 rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity。计数：Wiki242不变；G8 migrated94/blocked75；Unified completed104/blocked_runtime69/full104/none147；impl-gap54；provisional72；tasks118；严格 completion104/254=40.9%；coverage176/254=69.3%。OOS72最终跳过；真队列72=runtime69+data3。无 live/publish/push/E2E/Web/生产 Wasm；资产当前 hash 1169377/65a4…c6a0。不是完整 R；actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-库奇R火箭轰击普通导弹主目标命中Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-库奇R火箭轰击普通导弹主目标命中Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-ashe-frost-shot-expected-basic-attack",
+      "title": "通用 ABI 艾希 P 冰霜射击期望普攻机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_ashe_frost_shot_expected_basic_attack",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_ashe|P|冰霜射击 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV ashe-p-frost-shot-expected-basic-attack-phase-a-v3；DESIGN_REVIEW_ONLY READY run-b733503b（2095 events；84/84；delta0/outside0）。Backend 0d8fcd4（run-7fdd23e2 delta3/outside0；1006；57/57；focused36/full1056 PASS）。Wasm 25b34cc（run-97ee013f delta1/outside0；714；40/40；既有 generic_ashe_rangers_focus_test.go；focused Ashe/full/bench PASS）。审计 5f5442d（run-1034ade7 delta8/outside0；1204；83/83；Driver 五 check PASS）。边界 normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity。仅 expectation-only Phase-A，非完整 Frost Shot；排除 RNG/on-crit/slow/Flurry-P 集成/弹道/节奏/full fidelity。共享 P/Q seed；补齐 ability/basic_attack relation；英雄名 _test.go 仅测试/治理。计数：Wiki242不变；G8 migrated95/blocked74；Unified completed105/blocked_runtime68/full105/none146；impl-gap54；crit-sequence3；provisional71；tasks119；严格 completion105/254=41.3%；coverage176/254=69.3%。OOS72最终跳过；真队列71=runtime68+data3。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-艾希P冰霜射击期望普攻Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-艾希P冰霜射击期望普攻Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-miss-fortune-bullet-time-max-channel-expected",
+      "title": "通用 ABI 厄运小姐 R 弹幕时间最大完整引导期望伤害机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_miss_fortune_bullet_time_max_channel_expected",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_missfortune|R|弹幕时间 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3；DESIGN_READY run-35c777c6（1780 events；59/59；delta0/outside0；v1/v2 valid REVISE：IE 显式 exclusion + 禁 total_ad_ratio）。Backend 45259a6（run-630c81b0 delta3/outside0；854；44/44；focused30/full1069 PASS；seed33539；无 live）。Wasm 72eb807（run-7bc76691 delta1/outside0；980；67/67；新 _test.go；focused/full/bench PASS）。审计 0d0c8a8（run-1103244f delta8/outside0；1429；122/122；五 check+record/diff PASS）。边界 rank3 最大完整引导聚合期望；18*(40+0.60*AD+0.25*AP)*(1+0.30*clamp(p))；base130；显式排除 Wiki IE ratio 30；CritEligible false；无 total_ad_ratio；恰好一笔聚合量子；非完整 R。计数：Wiki242不变；G8 migrated96/blocked73；Unified completed106/blocked_runtime67/full106/none145；impl-gap54；crit-sequence2（Jhin/Yunara deferred）；provisional70；tasks120；严格 completion106/254=41.7%；coverage176/254=69.3%。OOS72最终跳过；真队列70=runtime67+data3。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-厄运小姐R弹幕时间最大完整引导期望伤害Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-厄运小姐R弹幕时间最大完整引导期望伤害Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-manamune-manaflow-direct-max-state",
+      "title": "通用 ABI 魔宗法力流直接满层 Phase-A 机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_manamune_manaflow_direct_max_state",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "item_passive|3004|item_passive|法力流 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV manamune-manaflow-direct-max-state-phase-a-v2；DESIGN_READY run-0e2afc59；v1 REVISE run-233c2dd6 三条 issue 已接受。用户批准 direct-max-state 近似。Backend 615eda1b（focused18/full1069 PASS；seed17817/be014727…；JUnit21617/99fb0d79…；无 live）。Wasm aba6bee（仅 generic_manamune_awe_test.go；23844/75522eb4…；focused/full/bench PASS；生产 runtime/ABI/asset/Web 不变）。审计 158e2fb（五 check + exact semantics PASS）。边界 item_3004_manaflow_direct_max_state_approximation; source_only_always_on_plus_360_effective_mana; existing_manamune_awe_consumes_effective_mana; two_isolated_item_providers_mounted_to_item_3004; no_charge_progression_timer_queue_attack_or_ability_hit_trigger_per_cast_throttle_incremental_plus3_plus6_resource_current_or_max_mutation_muramana_transform_entity_replacement_on_hit_damage_resource_spend_or_full_fidelity。交叉 mana0/1000/2000→360/1360/2360；AD100→107.2/127.2/147.2。计数：Wiki242不变48/5/120/69；G8 migrated97/blocked72；Unified completed107/blocked_runtime66/full107/none144；provisional69=runtime66/data3；hero68/item1；tasks121；严格 completion107/254=42.1%；coverage176/254=69.3%。OOS72最终跳过；真队列69。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。actionableKeyCount=0 非停工条件。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-魔宗法力流直接满层Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-魔宗法力流直接满层Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-xayah-clean-cuts-three-attack-budget",
+      "title": "通用 ABI 霞P锐切CleanCuts三次攻击预算Phase-A机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_xayah_clean_cuts_three_attack_budget",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_xayah|P|锐切 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV xayah-p-clean-cuts-three-attack-budget-phase-a-v2；DESIGN_READY run-383f969c。用户批准 attack-count-only 近似。Backend d581372c（focused35/full1078 PASS；seed46467/3b108cd9…；JUnit32718/dacfc0dc…；无 live）。Wasm 74b96c8（仅 generic_xayah_clean_cuts_three_attack_budget_test.go；42957/7ecc45b1…；focused/full/bench PASS；生产 runtime/ABI/asset/Web 不变）。审计 3693eca（五 check + exact semantics PASS）。边界 attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; 0→3→2→1→0→0；Wiki on-attack≈damage_instance；排除 feathers/geometry/secondary/E/miss/dodge/QWER/max5/8s/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated98/blocked71；Unified completed108/blocked_runtime65/full108/none143；provisional68=runtime65/data3；hero67/item1；Xayah P缺席；tasks122；严格 completion108/254=42.5%；coverage176/254=69.3%。OOS72最终跳过；真队列68。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-霞P锐切CleanCuts三次攻击预算Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-霞P锐切CleanCuts三次攻击预算Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-samira-flair-max-distance-primary-hit",
+      "title": "莎弥拉Q交火最大距离远程主目标命中Phase-A-v1机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_samira_flair_max_distance_primary_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_samira|Q|交火 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV samira-q-flair-max-distance-primary-hit-phase-a-v1；DESIGN_READY run-9d5340c8（grok-4.5/high/false；1476 events；zero truncated/mutation；runDelta0）。Backend c89841a（run-b30f3551 delta3/outside0/events1275/truncated0；focused43/full1090 PASS；seed29454/8cc40c8f…；JUnit52233/bdbe41df…；无 live）。Wasm d4b55d0（run-28987be3 delta1/outside0/events1123/truncated0；仅 generic_samira_flair_max_distance_primary_hit_test.go；focused/full/bench mean109.61us PASS；生产 runtime/ABI/asset/Web 不变）。审计 9b8e452（run-4bb01f1b delta8/outside0/events1787/truncated0；五 check PASS）。边界 rank5_max_distance_ranged_shot_selected_primary_physical_hit；假定远程分支最大距离无距离倍率/输入；20+1.10*totalAD；mana30/CD2000；排除距离/弹道/近战/Wild Rush/E/暴击/吸血/Style/多目标/other ranks/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated99/blocked70；Unified completed109/blocked_runtime64/full109/none142；provisional67=runtime64/data3；hero66/item1；Samira Q缺席；tasks123；严格 completion109/254=42.9%；coverage176/254=69.3%。OOS72最终跳过；真队列67。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/莎弥拉Q交火最大距离远程主目标命中Phase-A-v1-详细设计.md",
+        "文档记录/测试记录/wasm/莎弥拉Q交火最大距离远程主目标命中Phase-A-v1-验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-vayne-tumble-next-basic-attack-bonus",
+      "title": "薇恩Q闪避突袭Tumble下一次普攻加伤Phase-A-v2机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_vayne_tumble_next_basic_attack_bonus",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_vayne|Q|闪避突袭 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV vayne-q-tumble-next-basic-attack-bonus-phase-a-v2；DESIGN_READY v2 run-d7e5282c（v1 REVISE run-48281305 已吸收 provider-scope/listener hit+source_owner/AP check-only；grok-4.5/high/false；runDelta0；无 mutation/truncation）。Backend e88e172（run-91329062 delta3/outside0/events1353/truncated0；focused51/51 PASS；首轮全量无关瞬时 KogMaw SO；隔离 KogMaw10/10 + 第二轮 full1101/1101 PASS；seed40100/54c82b47…；JUnit33286/959085a0…；无 live）。Wasm 36d5a49（run-d97df9f8 delta1/outside0/events1338/truncated0；仅 generic_vayne_tumble_next_basic_attack_bonus_test.go；focused/full/bench mean111.39us PASS；生产 runtime/ABI/asset/Web 不变）。审计 1bb0721（run-0493e9ef delta8/outside0/events1249/truncated0；五 check PASS）。边界 rank5_next_basic_attack_bonus；cast arm provider-scope 3000ms；1.15*totalAD+0.50*AP；mana30/CD2000；enrich 既有 tumble；排除 dash/geometry/BA reset/隐身/吸血/crit/full Tumble。计数：Wiki242不变48/5/120/69；G8 migrated100/blocked69；Unified completed110/blocked_runtime63/full110/none141；provisional66=runtime63/data3；hero65/item1；Vayne Q缺席；tasks124；严格 completion110/254=43.3%；coverage176/254=69.3%。OOS72最终跳过；真队列66。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-薇恩Q闪避突袭Tumble下一次普攻加伤Phase-A-v2-详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-薇恩Q闪避突袭Tumble下一次普攻加伤Phase-A-v2-验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary",
+      "title": "通用 ABI 厄运小姐 E 枪林弹雨最大时长总伤选定主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_miss_fortune_make_it_rain_max_total_selected_primary",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_missfortune|E|枪林弹雨 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2；DESIGN_READY v2 run-41585a84（v1 valid REVISE run-9e6e2747：AP100 fixture/implGap53/docs paths/tags；grok-4.5/high/false；runDelta0；1528 events；无 truncation/mutation）。Backend c6c2e73（run-a858d21b delta3/outside0/events1028/truncated0；focused E12/12 E+R25/25 full1113/1113 PASS；seed28873/9949ad23…；JUnit50835/27650b5c…；无 live）。Wasm 1693a34（run-99972a69 delta1/outside0/events1181/truncated0；仅 generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go；focused/bench mean106.84us PASS；precommit full 因 Xayah dirty-test+未提交 _test.go 诚实 blocked；提交后 full go test ./... PASS；生产 runtime/ABI/asset/Web 不变）。审计首轮 run-44f9f632 发现同一 key 重复 STATUS_OVERRIDES；修复 run-e68e52ba 移除重复并证明恰好一枚；接受 07afcd7（五 check PASS）。边界 rank5_selected_primary_champion_max_duration_total_magic_damage；190+1.20*AP；mana80/CD14000；exactly one aggregated magic quantum；相对 MF R 有意不对称；故意缺席 immediate_impact/meta current tags；排除 real2s/ticks/schedule/location/slow/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated101/blocked68；Unified completed111/blocked_runtime62/full111/none140；impl-gap53；provisional65=runtime62/data3；hero64/item1；tasks125；严格 completion111/254=43.7%；coverage176/254=69.3%。OOS72最终跳过；真队列65。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-26",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-厄运小姐E枪林弹雨最大时长总伤选定主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-厄运小姐E枪林弹雨最大时长总伤选定主目标Phase-A验证记录-2026-07-26.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit",
+      "title": "通用 ABI 韦鲁斯 Q 穿刺之箭满蓄力最大距离首个敌人主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_piercing_arrow_max_charge_primary_first_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|Q|穿刺之箭 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1；DESIGN_READY run-0d43518f（grok-4.5/high/false；runDelta0；1811 events；无 truncation/mutation）。Backend d493781（run-9a1fea38 delta3/outside0/events927；focused sibling 38/38；full Maven1123/1123 PASS；seed29472/7cef8329…；JUnit50874/ebb54d0c…；无 live）。Wasm 历史：中断 run-177243d7（1095 events；非接受）；复验 run-c277c097（events698；delta0/outside0；Q与Q+W+bench PASS；precommit dirty-test 策略失败）；gofmt run-74661f4a（delta1/outside0/events291）；接受 df61794（post-format 63048/a52e2f41…；full go test ./... 与 bench PASS；生产 runtime/ABI/Web/asset 不变）。审计首轮 run-ff3cae8e 超时且临时 _debug_varusq.mjs outside——拒绝；接受续跑 run-993a88d4（delta3/outside0/events762；五 check+unique override/drift/order PASS）；接受 3a1e11d。边界 rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit；360+1.20*bonusAD；mana70/listed CD12000ms scaffold；exactly one physical quantum；排除 real charge/channel/pierce/projectile/Blight/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated102/blocked67；Unified completed112/blocked_runtime61/full112/none139；impl-gap53；blocked_runtime+blocker blocked_data=1；provisional64=runtime61/data3；hero63/item1；Varus Q 缺席；tasks126；严格 completion112/254=44.1%；coverage176/254=69.3%。OOS72最终跳过；真队列64。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-27",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯Q穿刺之箭满蓄力最大距离首个敌人主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯Q穿刺之箭满蓄力最大距离首个敌人主目标Phase-A验证记录-2026-07-27.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-azir-conquering-sands-one-soldier-primary-hit",
+      "title": "通用 ABI 阿兹尔 Q 狂沙猛攻单沙兵选定主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_azir_conquering_sands_one_soldier_primary_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_azir|Q|狂沙猛攻 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1；DESIGN_READY run-33d1ffcf（grok-4.5/high/false；runDelta0/outside0；1671 events；无 truncation/mutation）。Backend dd214a35（run-1a22222a delta3/outside0/events1440；focused37/37；full Maven1132/1132 PASS；seed29560/9263b65f…；JUnit50880/9409b991…；external check-only；无 live）。Wasm 接受 5580ae77（run-04125cb2 delta1/outside0/events1447；exact _test.go 66442/ea86be56…；focused Azir+四 sibling PASS；precommit dirty-test；postcommit full go test ./... 与 bench PASS；生产 runtime/ABI/Web/asset 不变）。审计首轮 run-2c236416 Temp scratch azir-pre-snapshot.json/azir-validate.mjs——拒绝；接受恢复 run-daf2b308（delta0/outside0/events1115；ADOPTED；五 check+target-record/order/provisional-removal/override uniqueness+git diff --check PASS）；接受 140ae71e。边界 rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit；140+0.55*AP；mana110/listed CD6000ms scaffold；exactly one magic quantum；沙兵仅为 scenario 假定；排除 soldier entity/command/path/dash/geometry/multitarget/slow/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated103/blocked66；Unified completed113/blocked_runtime60/full113/none138；impl-gap52；blocked_runtime+blocker blocked_data=1；provisional63=runtime60/data3；hero62/item1；Azir Q 缺席；tasks127；严格 completion113/254=44.5%；coverage176/254=69.3%。OOS72最终跳过；真队列63。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-27",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-阿兹尔Q狂沙猛攻单沙兵选定主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-阿兹尔Q狂沙猛攻单沙兵选定主目标Phase-A验证记录-2026-07-27.md"
+      ]
+    },
+    {
+      "task_key": "wasm-generic-provisional-mechanism-template-registry",
+      "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_provisional_mechanism_template_registry",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "Phase-T1 scaffold + Phase-T2 连续刷新 + Phase-T3/v4 批量机械草稿填充完成：schema provisional-mechanism-template-registry-v3；plan provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4；实现 commit 77c89e8b5a2f83e24655fbcc26cd69889254a075；v3 DESIGN_READY run-8e65d20b-3d90-498a-82de-eb33b76f7494；v4 amendment READY run-691568c9-bf77-4b88-a436-f9ddcbc94f58；实现/repair run-043b48e0-1e32-4697-87f8-eaec6a304a13 / run-5163661c-b63e-4c01-b99a-f98deede7b87。稳定 digest 不变 Unified254/69832c2a…c018；Wiki242/927d8b5a…26c7；metadata.inputs 恰好 Unified+Wiki；当前 templates74（runtime71/data3；hero72/item2；排除102/72/5/1）；全部74张 provisional_unverified 机械草稿；completedBoundary=null；八 gate pending；七 nonclaims；严格 completion 102/254=40.2%；descriptive coverage 176/254=69.3%；无一机制晋升 completed/full/ready/migrated；无 runtime/Backend/G8/Unified/Wiki/Batch-G/live publish 变更；sourceCount仍12；actionableKeyCount=0 不是停工条件。",
+      "completed_at": "2026-07-25",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-暂定机制模板注册表Phase-T1详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-暂定机制模板注册表Phase-T1验证记录-2026-07-25.md"
       ]
     },
     {

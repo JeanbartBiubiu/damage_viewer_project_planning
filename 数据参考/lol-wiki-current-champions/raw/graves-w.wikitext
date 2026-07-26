@@ -1,0 +1,35 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Smoke Screen|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Graves
+|skill        = W
+|icon         = Smoke Screen.png
+|icon2        = Smoke Screen 2.png
+|blurbicon         = Smoke Screen.png
+|blurb        = {{sbc|Active:}} {{ci|Graves}} fires a smoke canister at the target location that creates a cloud of smoke upon impact, dealing {{as|magic damage}} and {{tip|slow|slowing}} nearby enemies.
+|blurb2       = Enemies within the lingering cloud are {{tip|nearsight|nearsighted}}.
+|description  = {{sbc|Active:}} '''Graves''' fires a smoke canister at the target location that upon impact deals {{as|magic damage}} to enemies within the area and {{tip|slow|slows}} them by 50% for {{fd|0.5}} seconds.
+|leveling     = {{st|Magic Damage|{{ap|60 to 260}} {{as|(+ 60% AP)}}}}
+|description2 = The canister creates a cloud of smoke for 4 seconds that applies {{tip|nearsight}} of outside the area to all enemies within every {{fd|0.25}} seconds, reducing their {{tip|sight}} radius relative to the center.
+|cast time    = {{fd|0.25}}
+|cooldown     = {{ap|26 to 18}}
+|cost         = {{ap|70 to 90}}
+|customlabel  = Sight Reduction
+|custominfo   = {{tt|250|Estimated, reduces sight radius to this number}}
+|costtype     = Mana
+|target range = 950
+|effect radius= {{tip|er|icononly = true}} {{tt|200|Canister landing damage radius}}
+|speed        = {{tt|1500|Starts traveling at the start of the cast time}}
+|projectile   = true
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spelleffects = spellaoe
+|spellshield  = Special
+|outofrange   = walk to location
+|notes        =
+* ''Smoke Screen'' will {{tip|nearsight}} {{tip|untargetable}} units.
+* {{tip|Spell shield|Spell shields}} will block the instance of damage and {{tip|slow}}, but will not mitigate the persistent area of effect.
+* {{tip|cc-immune|Crowd control immunity}} and {{tip|cleanse|cleanses}} have no effect on the user's {{tip|sight}} radius reduction despite the {{tip|nearsight}} being resisted / removed. Loss of allied vision will still be affected.{{bug|2}}
+** Removing or resisting the nearsight will prevent it from being reapplied while staying inside the area (leaving and coming back inside will not).
+* The nearsight debuff applies to non-champions but it does not inherently stop them from performing actions that require {{tip|sight}}, such as [[basic attack]]ing.
+{{Effect at cast time end}}
+}}

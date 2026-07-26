@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "xayah-r",
+  "candidateKey": "hero_skill|hero_xayah|R|暴风羽刃",
+  "ownerId": "hero_xayah",
+  "wikiChampionTitle": "Xayah",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Xayah/R",
+  "zhDisplayName": "暴风羽刃",
+  "resolvedTitle": "Template:Data Xayah/Featherstorm",
+  "wikiPageId": 1324544,
+  "revisionId": 4008617,
+  "revisionTimestamp": "2026-04-15T00:26:44Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Xayah/Featherstorm",
+  "contentSha256": "cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077",
+  "rawByteSize": 1761,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Xayah''' leaps into the air, becoming {{tip|ghosted}} and {{tip|untargetable}} for {{fd|1.5}} seconds. After 1 second, she shoots 5 {{as|Feathers|buzzword}} in a cone in the target direction that deal {{as|physical damage}} to enemies hit.\n",
+    "leveling": "{{st|Physical Damage|{{ap|200 to 400}} {{as|(+ 100% '''bonus''' AD)}}}}\n",
+    "description2": "'''''Xayah''' is unable to basic attack or cast abilities during Featherstorm, but can still move.''\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|140 to 100}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* The individual missiles have 1100 range but start slightly behind Xayah, reducing their total range.\n* The following table refers for interactions while '''Xayah''' is in ''Featherstorm'':\n{{ct|attack=false|move=true|cast=false|items=false|consume=false|spells=true|interrupts=death}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

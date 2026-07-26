@@ -1,0 +1,48 @@
+<!-- The following values are defined as parameters.
+-->{{#vardefine:r_d1|15}}<!-- Rank 1 damage per shot
+-->{{#vardefine:r_d3|45}}<!-- Rank 3 damage per shot
+-->{{#vardefine:r_ad|25}}<!-- AD ratio as a PERCENTAGE
+-->{{#vardefine:r_ap|15}}<!-- AP ratio as a PERCENTAGE
+-->{{#vardefine:r_dm|2.0}}<!-- Minion damage modifier as a DECIMAL
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|The Culling|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Lucian
+|skill        = R
+|icon         = The Culling.png
+|blurb        = {{sbc|Active:}} {{ci|Lucian}} {{tip|channels}} for a few seconds to rapidly fire a torrent of bullets in the target direction. Each shot deals {{as|physical damage}} to the first enemy hit. ''The Culling'' can be recast within the duration.
+|blurb2      = While channeling, '''Lucian''' is {{tip|ghosted}} and may still move.
+|blurb3      = {{sbc|Recast:}} '''Lucian''' ends ''The Culling''.
+|description  = {{sbc|Active:}} '''Lucian''' {{tip|channels}} for up to 3 seconds, rapidly firing up to 22 {{as|(+ {{critical damage|0 to 22.222|flat=true|round=floor|critScaling=true}})|crit chance}} shots in the target direction over the duration. Each shot deals {{as|physical damage}} to the first enemy hit, doubled against {{tip|minions}}. ''The Culling'' can be recast after {{fd|0.75}} seconds during the channel, and does so automatically when the channel ends.
+|leveling     = {{st|Physical Damage Per Shot|{{ap|{{#var:r_d1}} to {{#var:r_d3}}}} {{as|(+ {{#var:r_ad}}% AD)}} {{as|(+ {{#var:r_ap}}% AP)}}}}
+{{st|Minion Damage Per Shot|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_dm}}}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_dm}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_dm}}}}% AP)}}}}
+|description2 = While channeling, '''Lucian''' is {{tip|ghosted}} and may still move.
+|description3 = {{sbc|Recast:}} '''Lucian''' ends ''The Culling''.
+|range        = {{dv|{{tip|cr|icononly = true}} {{tt|1200|Individual missile range}}|{{tip|er|icononly = true}} 1140{{plus}}{{tt|offset|See notes}}}}
+|width        = {{tip|er|icononly = true}} {{tt|220|Individual missile width}}{{plus}}{{tt|offset|See notes}}
+|speed        = 2800
+|cost         = 100
+|costtype     = Mana
+|cooldown     = {{ap|110 to 90}}
+|cdstart      = post-effect
+|cast time    = none
+|targeting    = [[Direction-targeted|Direction]] / [[Auto-targeted|Auto]]
+|affects      = Self, Enemies
+|damagetype   = Physical
+|projectile   = True
+|spelleffects = aoedot
+|spellshield  = Special
+|silence      = true
+|notes   =
+* ''The Culling'' creates the shots at an offset of 35 units to the front plus 35 units towards each side of '''Lucian''' (sides alternating, first shot fired from '''Lucian's''' right gun), unlike the missiles of most abilities.
+<!--{{#vardefine:r_max|{{#expr: 100/{{#var:r_c}}+{{#var:r_ts}}}}}}<!-- (DO NOT MODIFY) -->
+<!--* At {{as|100% critical strike chance}}, ''The Culling'' fires up to {{ap|100/{{#var:r_c}}}} additional shots, for a total of {{#var:r_max}} shots.
+** The '''total''' damage at the maximum number of shots (at {{as|100% critical strike chance}}) is {{as|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_max}}}}|physical damage}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_max}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_max}}}}% AP)}} {{as|physical damage}}.
+** Against minions, this is increased to {{as|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_max}}*{{#var:r_dm}}}}|physical damage}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_max}}*{{#var:r_dm}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_max}}*{{#var:r_dm}}}}% AP)}}.-->
+* The fire rate increases with the number of shots.
+* During ''The Culling'', '''Lucian's''' facing direction is in the direction that he is firing.
+* '''Lucian''' can interact with {{ai|Dark Passage|Thresh}} or allied {{ai|Devour|Tahm Kench}} without {{tip|interrupt|interrupting}} ''The Culling''.
+* The damage dealt by each bullet of ''The Culling'' is calculated when the bullet reaches a target, just like single missile abilities.
+* {{tip|Spell shield}} only blocks one instance of damage.
+* The following table refers for interactions while '''Lucian''' is {{tip|channel|channeling}}:
+{{ct|channel|cast={{ai|Relentless Pursuit|Lucian}} is usable. {{ai|Piercing Light|Lucian}} and {{ai|Ardent Blaze|Lucian}} are disabled. This ability recasts to end channel.|move=true|items=true,true,interrupts,true,true|attack=false|spells=true,true,true,false,false}}
+|flavorsound  = {{sm2|Lucian_Original_R_4.ogg}} ''"Ashes and dust!"''
+}}

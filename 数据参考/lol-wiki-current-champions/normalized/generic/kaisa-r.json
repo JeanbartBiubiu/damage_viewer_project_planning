@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kaisa-r",
+  "candidateKey": "hero_skill|hero_kaisa|R|猎手本能",
+  "ownerId": "hero_kaisa",
+  "wikiChampionTitle": "Kai'Sa",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Kai'Sa/R",
+  "zhDisplayName": "猎手本能",
+  "resolvedTitle": "Template:Data Kai'Sa/Killer Instinct",
+  "wikiPageId": 1353552,
+  "revisionId": 4034697,
+  "revisionTimestamp": "2026-06-23T21:14:22Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kai'Sa/Killer%20Instinct",
+  "contentSha256": "26363a1044fc3c3b6fc956f17ca084458faadbe54ac1b49196004502447cfe5c",
+  "rawByteSize": 2107,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kai'Sa''' grants herself a {{tip|shield}} for 2 seconds and {{tip|dash|dashes}} to a target location near a {{tip|sight|visible}} enemy champion that was {{tt|affected|Stack application or consumption}} by {{as|Plasma|buzzword}} within the last 4 seconds. The shield's duration is refreshed when the dash ends.\n",
+    "leveling": "{{st|Shield Strength|{{ap|100 to 200}} {{as|(+ {{ap|90 to 180}}% AD)}} {{as|(+ 120% AP)}}}}\n",
+    "description2": "''An enemy champion within range and affected by {{as|Plasma|buzzword}} is required to cast this ability. Killer Instinct {{tip|Basic attack reset|resets}} '''Kai'Sa's''' basic attack timer. '''Kai'Sa''' can cast any of her {{tip|abilities}} during the dash.''\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|130 to 70}}\n",
+    "damagetype": "",
+    "notes": "* '''Kai'Sa''' will issue a movement command to the targeted location regardless of whether the target location is valid. The dash is not buffered during this movement command. '''Kai'Sa''' will not dash if the targeted location becomes valid by walking in range or a nearby enemy champion becomes affected by {{as|Plasma|buzzword}}.\n** If the targeted location is not valid, the range indicator will glow.\n* The enemy champion recently affected by {{as|Plasma|buzzword}} must be in range of '''Kai'Sa''' for the targeted location to be valid, and not the targeted location itself.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

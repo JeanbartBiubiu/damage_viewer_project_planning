@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "caitlyn-w",
+  "candidateKey": "hero_skill|hero_caitlyn|W|约德尔诱捕器",
+  "ownerId": "hero_caitlyn",
+  "wikiChampionTitle": "Caitlyn",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Caitlyn/W",
+  "zhDisplayName": "约德尔诱捕器",
+  "resolvedTitle": "Template:Data Caitlyn/Yordle Snap Trap",
+  "wikiPageId": 1306913,
+  "revisionId": 4023135,
+  "revisionTimestamp": "2026-05-28T01:59:43Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Caitlyn/Yordle%20Snap%20Trap",
+  "contentSha256": "4e500c2cc801672b4d110359d6710c9464f6a61e5d3f02f01965d4e90b3e4a6a",
+  "rawByteSize": 2478,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Caitlyn''' sets a visible trap at the target location that is {{tip|untargetable}} and arms after 1 second, lasting for a duration. The trap grants {{tip|sight}} of the area for 1 second after being placed.\n",
+    "leveling": "{{st|Trap Duration|{{ap|30 to 50}} seconds}}\n",
+    "description2": "'''Caitlyn''' periodically [[ammunition|stocks]] a ''Yordle Snap Trap'' charge, up to a maximum amount. Deploying traps beyond the maximum destroys the oldest one.\n",
+    "leveling2": "{{st|Maximum Number of Traps|{{ap|3|3|4|4|5}}}}\n",
+    "description3": "The next enemy champion that springs the trap is {{tip|root|rooted}} for {{fd|1.5}} seconds and {{tip|true sight|revealed}} for 3 seconds, as well as takes additional damage from the ''{{ai|Headshot|Caitlyn}}'' granted by this ability. Trapped targets become immune to further ''Yordle Snap Traps'' for 3 seconds, preventing them from springing subsequent traps for the duration.\n",
+    "leveling3": "{{st|{{ai|Headshot|Caitlyn}} Damage Increase|{{ap|35 to 215}} {{as|(+ 30% '''bonus''' AD)}}}}\n",
+    "cooldown": "{{fd|0.5}}\n",
+    "cost": "20\n",
+    "costtype": "Mana + 1 Charge\n",
+    "damagetype": "",
+    "notes": "* Multiple armed traps on the same location will spring all at once if an enemy steps on one of them.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

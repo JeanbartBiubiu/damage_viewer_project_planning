@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "missfortune-q",
+  "candidateKey": "hero_skill|hero_missfortune|Q|一箭双雕",
+  "ownerId": "hero_missfortune",
+  "wikiChampionTitle": "Miss Fortune",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Miss Fortune/Q",
+  "zhDisplayName": "一箭双雕",
+  "resolvedTitle": "Template:Data Miss Fortune/Double Up",
+  "wikiPageId": 1308251,
+  "revisionId": 3993572,
+  "revisionTimestamp": "2026-02-22T16:04:29Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Double%20Up",
+  "contentSha256": "0a54b482c654246ae877966b87882d49ab73fc9fad075e5483a04b3b7081e1ed",
+  "rawByteSize": 3102,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Miss Fortune''' fires a shot at the target enemy that deals {{as|physical damage}} and bounces to hit another enemy behind them, applying {{tip|on-attack}} effects to the primary target and {{tip|on-hit}} effects to both enemies hit.\n",
+    "leveling": "{{st|Physical Damage|{{ap|20 to 120}} {{as|(+ 100% AD)}} {{as|(+ 35% AP)}}}}\n",
+    "description2": "''Double Up's'' bounce can {{tip|critically strike}} for{{ft|{{as|{{critical damage|150|50}}|critical damage}} damage.|{{sti|{{as|50% '''bonus''' critical damage}}}}.}}If ''Double Up'' kills the primary target, the bounce will {{tip|critically strike}}.\n",
+    "description3": "''The bounce prioritizes units directly behind the primary target. A target does not have to be {{tip|sight|visible}} to be hit by the bounce.''\n",
+    "cooldown": "{{ap|7 to 3}}\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''Double Up'' deals {{tip|basic damage}} to both targets, but also triggers spell effects by also being tagged as {{tip|spell damage}}.\n* {{tip|Spell shield|Spell shields}} can be used by either target. If it is on the primary target, the spell shield will not prevent the shot from bouncing.\n* Neutral units count as valid targets to bounce.\n* The bounce follows a priority order on targets behind in a certain angle:\n*# 500 units in 20º.\n*# 500 units in 40º.\n*# 500 units in 110º.\n*# {{tt|150 units|Estimated}} in 160º.\n* ''Double Up's'' cast range adjusts based on '''Miss Fortune's''' {{sti|attack range}}, which can be increased by items such as {{ii|Rapid Firecannon}}.\n* The damage of a {{tip|critical strike|critically striking}} shot is {{ap|20*1.5 to 120*1.5}} {{as|(+ 150% AD)}} {{as|(+ 52.5% AP)}} {{as|physical damage}}, increased to {{ap|20*1.65 to 120*1.65}} {{as|(+ 165% AD)}} {{as|(+ 57.75% AP)}} {{as|physical damage}} by {{iis|Infinity Edge}} bonus critical damage.\n* If there is no secondary target, the shot will not bounce and the dud will instead fall to the ground.\n** The dud lands on the ground 176 units behind the primary target and has a missile speed of 400 on its way there.\n{{Unit-targeted cancel conditions}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}
