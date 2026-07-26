@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-26T10:22:49.477Z",
+    "generatedAt": "2026-07-26T11:12:58.864Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "1eb601f646d34aba8fb445a1beb84b7f9d80b3339b9353eee70516b9d3c8b65b",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "64ce9c453e441a3e1a9b40cf738d3d30f8315937e36fadcc02bf3dcd3050647d",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "91a8d49b193522d65c39d306639d829e8a3d1350b8f24b366a0e94832296a95a",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "d672227467e21b847e4f82f1d26521a18b89e8ff86af75f1b6579d322276adeb",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "a7438eb31b62ba75f9c059ba725b7c3a463eceb15537d344d1c8b100964d35fa",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "499489f1ed1096085b52939312a86612fce5d773051ef42e0d14d06ab00974d6",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 105,
+      "completed": 106,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 68,
+      "blocked_runtime": 67,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 105,
+      "full": 106,
       "partial": 3,
-      "none": 146
+      "none": 145
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "1eb601f646d34aba8fb445a1beb84b7f9d80b3339b9353eee70516b9d3c8b65b",
-      "byteSize": 1113932,
+      "sha256": "64ce9c453e441a3e1a9b40cf738d3d30f8315937e36fadcc02bf3dcd3050647d",
+      "byteSize": 1121878,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "91a8d49b193522d65c39d306639d829e8a3d1350b8f24b366a0e94832296a95a",
-      "byteSize": 748183,
+      "sha256": "a7438eb31b62ba75f9c059ba725b7c3a463eceb15537d344d1c8b100964d35fa",
+      "byteSize": 767015,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "d672227467e21b847e4f82f1d26521a18b89e8ff86af75f1b6579d322276adeb",
-      "byteSize": 769514,
+      "sha256": "499489f1ed1096085b52939312a86612fce5d773051ef42e0d14d06ab00974d6",
+      "byteSize": 788174,
       "recordCount": 0,
       "role": "generator"
     },
@@ -16920,54 +16920,33 @@
     },
     {
       "key": "hero_skill|hero_missfortune|R|弹幕时间",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_missfortune",
       "skillKey": "R",
       "passiveName": "弹幕时间",
       "mechanismTags": [
-        "deterministic_random_crit_sequence"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "ap_ratio",
+        "crit_scaling",
+        "expected_crit_formula",
+        "immediate_impact_scaffold",
+        "max_full_channel_aggregate",
+        "phase_a_excludes_wiki_ie_crit_ratio_30"
       ],
-      "coverageBoundary": "",
-      "reason": "deterministic_random_crit_sequence：expected crit 不证明可复现 RNG/on-crit 序列语义。",
-      "blocker": "deterministic_random_crit_sequence",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-3987215",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/missfortune-r.json@rev3987215 sha256:354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_missfortune|R|弹幕时间",
-        "dataStatus": "complete",
-        "requiredEvents": [
-          "critical_strike_resolved"
-        ],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [],
-        "missingPrimitives": [
-          "deterministic_random_crit_sequence"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：deterministic_random_crit_sequence"
-      },
+      "coverageBoundary": "rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity",
+      "reason": "Miss Fortune R 弹幕时间/Bullet Time：Wiki request Template:Data Miss Fortune/R → resolved Template:Data Miss Fortune/Bullet Time；page1308257 / rev3987215 / timestamp 2026-01-25T03:47:11Z / canonical bytes3021 / SHA256 354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a（normalized/generic/missfortune-r.json bytes3550/SHA256 b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49 plus pages sibling bytes743/SHA256 43bb41feafeaa7a8416bd91b81f51f4be73d3bf30ff78ccb2190fc317f3084d6 are authority）rank3 maximum full-channel expected Phase-A v3 已由 wasm-generic-miss-fortune-bullet-time-max-channel-expected + backend seed 证据闭环——local raw caveat bytes3021 / SHA 19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；one standalone R provider；rank3 mana100 / CD100000ms；immediate aggregated max-full-channel selected-primary-champion expected total physical damage scaffold；exact generic formula 18*(40+0.60*source.attr.ad.resolved+0.25*source.attr.ap.resolved)*(1+0.30*min(1.00,max(0.00,source.attr.crit_chance.resolved))) via nested binary nodes with each read path exactly once and formula-local crit_chance clamp（total AD = ad.resolved — never subtract ad.base / never call it bonus AD；no governed total_ad_ratio tag；no DB-bound/random crit / crit_damage read / CritEligible settleExpectedCrit claim）；Wiki {{critical damage|130|30}} includes base130 plus IE ratio；implemented slice uses formula-local fixed base130 expectation factor 1+0.30*clamp(p) and deliberately excludes Wiki IE ratio 30 — never claim Wiki omits IE；Ashe P expectation-only precedent is related but Ashe uses runtime crit_damage total multiplier while MF R uses formula-local fixed130 with explicit IE-ratio exclusion；Wiki maximum-total table is noncrit对照；CritEligible=false；CopyableOnHit=false；exactly one aggregated noncrit/noncopyable physical damage quantum（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 AD100/AP0/armor0：p0=1800、p0.5=2070、p1=2340；armor100/p0.5 raw2070→final1035；AP100/p0.5 noncrit2250、raw/final2587.5；p=-0.5→1800；p=1.5→2340；crit_damage 1.3/2.0/2.3 unchanged as IE-ratio exclusion invariance counterproof not IE support）。Attempts mana300/AD100/AP0/crit0.5/HP10000/armor0 at t0/t99999/t100000 → success/skip/success，exactly two R damage items；final mana100/HP5860；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Miss Fortune R provider is standalone；Backend external existing-data/check-only prerequisites only（hero_missfortune/ad/ap/crit_chance/mana）；no Miss Fortune materializer/shared identity-panel-resource write；current generic missing formula attrs read zero, not claimed fail-closed；hero-named `_test.go` is regression/governance evidence only；不暗示任何 production Wasm/public ABI/Web change。READY gate run-35c777c6-66cd-4dc0-8901-39aae01602fc v3。Backend validation honesty：Main focused30/full1069 passed；owning 45259a6；no live。Wasm main validation passed focused/full/bench PASS；test-only；Wasm exact test commit 72eb807；exact test bytes56552 / SHA256 6bcaf93a0ff086193afaf85e9fd6b890c9d7da76d2ebbc2664f4d8cd77b8c37f。completedBoundary：rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity。明确排除 channel timing/tick schedule/interruption/cancel、direction/cone/six projectiles per wave/collision/geometry、multitarget/wave-by-wave snapshot/dynamic stats、sight/reveal/spellshield、RNG-on-crit/basic attack、Wiki IE crit ratio 30、other ranks/siblings/loadout/bootstrap/live/full fidelity；this is exactly one aggregated max-full-channel expected quantum, not full R；不宣称 channel/ticks/geometry/projectiles/multitarget/sight/RNG/IE-ratio/other-ranks/完整游戏保真；no full-fidelity claim；no live/Admin/E2E claim。Backend seed 显式依赖 external existing-data/check-only 前置，不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_missfortune|R|弹幕时间"
         },
         {
@@ -16976,7 +16955,22 @@
           "sourceRecordKey": "hero_skill|hero_missfortune|R|弹幕时间"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-miss-fortune-bullet-time-max-channel-expected",
+          "sourcePath": "db/game_manage/seeds/lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity; backend lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql + LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest (owning 45259a6); Wasm exact test commit 72eb807; seed33539/SHA 0cc6ff2a…; JUnit66012/SHA aef51ab2…; READY run-35c777c6; focused30/full1069 PASS; no live; external existing-data/check-only prerequisites (hero_missfortune/ad/ap/crit_chance/mana; does not write identity/panel/resource values; no Miss Fortune materializer); standalone no Batch-B or sibling Miss Fortune synthesis; formula-local fixed130 with explicit IE-ratio exclusion; no total_ad_ratio; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-miss-fortune-bullet-time-max-channel-expected",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_miss_fortune_bullet_time_max_channel_expected_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity; Wiki request Template:Data Miss Fortune/R → Bullet Time; rev3987215/SHA256 354cac88… / bytes3021; local raw caveat bytes3021/SHA 19ba845f… no equivalence claim; rank3 mana100/CD100000; one aggregated physical 18*(40+0.60*ad.resolved+0.25*ap.resolved)*(1+0.30*min(1,max(0,crit_chance.resolved))) nested binary read-once formula-local clamp; formula-local fixed130 expectation; deliberately excludes Wiki IE ratio 30 — never claim Wiki omits IE; Ashe expectation-only related but MF uses formula-local fixed130 not global crit_damage; CritEligible=false; no crit_damage read/double settlement; Wiki max-total table noncrit; AD100 p0/0.5/1 →1800/2070/2340; armor100→1035; AP100 p0.5→2587.5; crit_damage 1.3/2.0/2.3 unchanged IE-exclusion counterproof; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana300 t0/t99999/t100000 success/skip/success two R damage items final mana100/HP5860 two automatic R ability_started; mana99 resource skip unchanged; missing formula attrs read zero not fail-closed; hero-named _test.go regression/governance only; standalone no sibling synthesis; no total_ad_ratio; Wasm exact test commit 72eb807 bytes56552/SHA 6bcaf93a…; channel/ticks/geometry/projectiles/multitarget/sight/RNG/IE-ratio/other-ranks/live/Admin/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },
