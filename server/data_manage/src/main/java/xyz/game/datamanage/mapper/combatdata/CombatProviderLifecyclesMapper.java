@@ -26,7 +26,9 @@ public interface CombatProviderLifecyclesMapper {
         @Param("maxStacks") Object maxStacks,
         @Param("refreshPolicyTypeId") Object refreshPolicyTypeId,
         @Param("tickIntervalMs") Object tickIntervalMs,
-        @Param("startDelayMs") Object startDelayMs
+        @Param("startDelayMs") Object startDelayMs,
+        @Param("tickAnchorScopeTypeId") Object tickAnchorScopeTypeId,
+        @Param("tickAnchorStateKey") Object tickAnchorStateKey
     );
 
     List<Map<String, Object>> listChangedSince(

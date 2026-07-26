@@ -1,5 +1,6 @@
 -- =============================================================================
--- LoL generic Ashe Q Ranger's Focus seed（寒冰射手 Q 射手的专注 rank-5 部分 ABI）
+-- LoL generic Ashe shared P/Q seed（寒冰射手 P 冰霜射击 expectation-only Phase-A
+-- + Q 射手的专注 Ranger's Focus rank-5 部分 ABI；共享普攻图）
 -- =============================================================================
 --
 -- 目标：幂等写入 hero_ashe 及其共享 provider 上的通用普攻图 + Q 主动 Ranger's Focus：
@@ -11,20 +12,57 @@
 --       Flurry 首发普攻 6×0.28 total AD、后续 5×0.28；每次普攻末尾恰好一次
 --       emit_event(event/basic_attack_hit)。
 --
+-- P Phase-A（expectation-only；FROZEN_PLAN_REV=
+-- ashe-p-frost-shot-expected-basic-attack-phase-a-v3）：
+--   normal_basic_attack_expected_physical_damage;
+--   separate_ability_basic_attack;
+--   total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one;
+--   generic_expected_crit_settlement;
+--   q_flurry_inactive_normal_attack_branch_only;
+--   exactly_one_basic_attack_hit_event;
+--   no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_
+--   randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_
+--   projectile_travel_attack_cadence_other_abilities_or_full_fidelity
+--
+--   普通分支 step_hero_ashe_ba_normal_damage：crit_eligible=true，公式仍为
+--   basic_attack_damage = $owner.attr.ad；runtime EAV crit_chance=0 /
+--   crit_damage=2.0（Patch 26.1 总暴击倍率基线；Infinity Edge +0.3 不在本 seed）。
+--   全部 6 首发 + 5 后续 Flurry 箭矢行：crit_eligible=false。
+--   fail-closed ensure game-local type_id=62003 type_key=ability/basic_attack
+--   （reserved_type_id=NULL）并 type_relations 绑定 ability_hero_ashe_basic_attack。
+--
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
 -- 2. 候选 revision = locked current_revision + 1；仅业务数据实际插入/变化时推进。
 -- 3. 必需 game / reserved_type / attribute_definitions(hp,mana,ad,attack_speed,
---    armor,magic_resist,hp_regen,mana_regen) 缺失则 RAISE EXCEPTION 回滚。
+--    armor,magic_resist,hp_regen,mana_regen,crit_chance,crit_damage) 缺失则
+--    RAISE EXCEPTION 回滚。不创建/新建 attribute_definitions。
 -- 4. 本 seed 自包含 hero_ashe 基线 + 共享 provider 普攻/Q；幂等投影
 --    resource_definitions.mana 与 entity_resource_values（280/280）；不依赖 Batch-B。
 -- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+-- 6. 不新建 P provider/ability；Q/Focus/Flurry/resource/sibling 共存语义不变。
 --
--- 明确排除（本脚本不建模）：
---   通用攻击计时器重置调度；箭矢飞行；冰霜射击；生命偷取；建筑物/多目标；
---   技能轮转/节奏；其它 rank 数值表；live migration；自动 publish。
+-- 明确排除（本脚本不建模；P 仅 expectation-only，非 Frost Shot 完整保真）：
+--   通用攻击计时器重置调度；箭矢飞行；Frost Shot / Critical Slow 减速与持续衰减；
+--   RNG 暴击序列 / on-crit 事件；生命偷取；建筑物/多目标；技能轮转/节奏；
+--   Randuin's / Runaan's / Cheap Shot；Q-Flurry 与 P 伤害集成；其它能力或
+--   full-fidelity；其它 rank 数值表；live migration；自动 publish。
+--   （共享 seed 不扩大 Q 已完成边界对 Frost Shot 保真的排除声明。）
 --
--- 数值来源（注释引用，无运行时外部依赖；2026-07-14 Meraki/Riot latest）：
+-- Wiki 身份（P / Frost Shot；注释引用，无运行时外部依赖）：
+--   request Template:Data Ashe/I → Template:Data Ashe/Frost Shot
+--   page1306803 / rev4038216 / timestamp2026-06-30T07:27:41Z
+--   canonical bytes1880 / SHA256
+--     def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da
+--   normalized bytes2485 / SHA256
+--     575de3e4c99f9a92d3edd4076d33586d4f96b4e4a8511ff5925617e526ff2e2a
+--   pages bytes672 / SHA256
+--     a8e2f81d77f85ad8d7a346ba9a3a3a354e675aa8cc9953765d5c6495f8bbd7ce
+--   local raw bytes1880 / SHA256
+--     5da5112e02a1c3aed266df1a424a33e8c4806c15d94991ec14c3bbaed2ca8378
+--   （local raw 不断言与 canonical 等价。）
+--
+-- Q 数值来源（注释引用，无运行时外部依赖；2026-07-14 Meraki/Riot latest）：
 --   https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Ashe.json
 --   rank-5 Ranger's Focus：AS +75%（percent_add 0.75 * flurry_active）；
 --   箭矢 0.28 * total AD；Flurry 6000ms；Q cost 30 mana；无普通 CD。
@@ -48,6 +86,10 @@ DECLARE
     v_rowcount           integer;
     v_missing_reserved   text;
     v_missing_attrs      text;
+    v_conflict_type_key  text;
+    v_conflict_type_id   integer;
+    v_existing_name      text;
+    v_existing_reserved  integer;
     v_required_reserved  int[] := ARRAY[
         20100, -- value_type/number
         20110, -- selector/self
@@ -72,7 +114,7 @@ DECLARE
     ];
     v_required_attrs     text[] := ARRAY[
         'hp', 'mana', 'ad', 'attack_speed', 'armor', 'magic_resist',
-        'hp_regen', 'mana_regen'
+        'hp_regen', 'mana_regen', 'crit_chance', 'crit_damage'
     ];
 BEGIN
     PERFORM public.ensure_game_partitions(v_game_id);
@@ -165,6 +207,58 @@ BEGIN
     END IF;
 
     -- =========================================================================
+    -- game-local type 62003 / ability/basic_attack（reserved_type_id=NULL）
+    -- Web 可选取独立特殊普攻；generic runtime 抑制普通 ability_started。
+    -- =========================================================================
+    SELECT t.type_key, t.name, t.reserved_type_id
+      INTO v_conflict_type_key, v_existing_name, v_existing_reserved
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_id = 62003
+       AND (
+           t.type_key IS DISTINCT FROM 'ability/basic_attack'
+           OR t.reserved_type_id IS NOT NULL
+       );
+
+    IF FOUND THEN
+        RAISE EXCEPTION
+            'lol_generic_ashe_rangers_focus_seed: type_id=62003 already bound to type_key=% name=% reserved_type_id=% (expected ability/basic_attack, reserved_type_id=NULL)',
+            v_conflict_type_key, v_existing_name, v_existing_reserved;
+    END IF;
+
+    SELECT t.type_id
+      INTO v_conflict_type_id
+      FROM public.types t
+     WHERE t.game_id = v_game_id
+       AND t.type_key = 'ability/basic_attack'
+       AND t.type_id IS DISTINCT FROM 62003;
+
+    IF v_conflict_type_id IS NOT NULL THEN
+        RAISE EXCEPTION
+            'lol_generic_ashe_rangers_focus_seed: type_key=ability/basic_attack already bound to type_id=% (expected 62003)',
+            v_conflict_type_id;
+    END IF;
+
+    INSERT INTO public.types (
+        game_id, type_id, type_key, name, description, reserved_type_id,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62003,
+        'ability/basic_attack',
+        'Basic attack ability',
+        'Game-local tag for independent basic attack abilities used by Ashe P/Q shared graph.',
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id) DO NOTHING;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
     -- 自包含：hero_ashe 基线实体 + level-1 面板 + mana 资源投影
     -- =========================================================================
     INSERT INTO public.game_entities (
@@ -199,7 +293,9 @@ BEGIN
         (v_game_id, 'hero_ashe', 'armor', 26, v_candidate, NOW()),
         (v_game_id, 'hero_ashe', 'magic_resist', 30, v_candidate, NOW()),
         (v_game_id, 'hero_ashe', 'hp_regen', 3.5, v_candidate, NOW()),
-        (v_game_id, 'hero_ashe', 'mana_regen', 7, v_candidate, NOW())
+        (v_game_id, 'hero_ashe', 'mana_regen', 7, v_candidate, NOW()),
+        (v_game_id, 'hero_ashe', 'crit_chance', 0, v_candidate, NOW()),
+        (v_game_id, 'hero_ashe', 'crit_damage', 2.0, v_candidate, NOW())
     ON CONFLICT (game_id, entity_id, attr_key) DO UPDATE SET
         base_value = EXCLUDED.base_value,
         change_revision = EXCLUDED.change_revision,
@@ -540,6 +636,28 @@ BEGIN
        OR public.ability_definitions.ability_kind_type_id IS DISTINCT FROM EXCLUDED.ability_kind_type_id
        OR public.ability_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
        OR public.ability_definitions.cast_condition_formula_key IS DISTINCT FROM EXCLUDED.cast_condition_formula_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.type_relations (
+        game_id, type_id, target_category, target_id, extend,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        62003,
+        'ability',
+        'ability_hero_ashe_basic_attack',
+        '{"role":"basic_attack"}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, type_id, target_category, target_id) DO UPDATE SET
+        extend = EXCLUDED.extend,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.type_relations.extend IS DISTINCT FROM EXCLUDED.extend;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
@@ -969,7 +1087,7 @@ BEGIN
 
     INSERT INTO public.damage_effect_details (
         game_id, step_id, amount_formula_key, damage_type_id, value_policy_type_id,
-        copyable_on_hit, change_revision, updated_at
+        copyable_on_hit, crit_eligible, change_revision, updated_at
     ) VALUES
         (
             v_game_id,
@@ -978,6 +1096,7 @@ BEGIN
             20220,
             20170,
             false,
+            true,
             v_candidate,
             NOW()
         ),
@@ -987,6 +1106,7 @@ BEGIN
             'flurry_arrow_damage',
             20220,
             20170,
+            false,
             false,
             v_candidate,
             NOW()
@@ -998,6 +1118,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         ),
@@ -1007,6 +1128,7 @@ BEGIN
             'flurry_arrow_damage',
             20220,
             20170,
+            false,
             false,
             v_candidate,
             NOW()
@@ -1018,6 +1140,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         ),
@@ -1027,6 +1150,7 @@ BEGIN
             'flurry_arrow_damage',
             20220,
             20170,
+            false,
             false,
             v_candidate,
             NOW()
@@ -1038,6 +1162,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         ),
@@ -1047,6 +1172,7 @@ BEGIN
             'flurry_arrow_damage',
             20220,
             20170,
+            false,
             false,
             v_candidate,
             NOW()
@@ -1058,6 +1184,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         ),
@@ -1067,6 +1194,7 @@ BEGIN
             'flurry_arrow_damage',
             20220,
             20170,
+            false,
             false,
             v_candidate,
             NOW()
@@ -1078,6 +1206,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         ),
@@ -1088,6 +1217,7 @@ BEGIN
             20220,
             20170,
             false,
+            false,
             v_candidate,
             NOW()
         )
@@ -1096,12 +1226,14 @@ BEGIN
         damage_type_id = EXCLUDED.damage_type_id,
         value_policy_type_id = EXCLUDED.value_policy_type_id,
         copyable_on_hit = EXCLUDED.copyable_on_hit,
+        crit_eligible = EXCLUDED.crit_eligible,
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
     WHERE public.damage_effect_details.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
        OR public.damage_effect_details.damage_type_id IS DISTINCT FROM EXCLUDED.damage_type_id
        OR public.damage_effect_details.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id
-       OR public.damage_effect_details.copyable_on_hit IS DISTINCT FROM EXCLUDED.copyable_on_hit;
+       OR public.damage_effect_details.copyable_on_hit IS DISTINCT FROM EXCLUDED.copyable_on_hit
+       OR public.damage_effect_details.crit_eligible IS DISTINCT FROM EXCLUDED.crit_eligible;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;
