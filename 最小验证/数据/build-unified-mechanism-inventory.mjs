@@ -1633,6 +1633,38 @@ const STATUS_OVERRIDES = new Map([
     },
   ],
   [
+    'hero_skill|hero_draven|R|冷血追命',
+    {
+      status: 'completed',
+      completionMode: 'full',
+      lane: 'generic_runtime',
+      reason:
+        'Draven R 冷血追命/Whirling Death：Wiki request Template:Data Draven/R → resolved Template:Data Draven/Whirling Death；page1307072 / rev4040576 / timestamp 2026-07-06T14:27:37Z / canonical bytes3079 / SHA256 e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce（normalized/generic/draven-r.json plus pages sibling are authority）rank3 Phase-A v2 已由 wasm-generic-draven-whirling-death-primary-outbound-hit + backend seed 证据闭环——local raw caveat bytes3079 / SHA 1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；100 mana / 80000ms CD；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 400, mul(const 1.50, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary formula；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no R ability-specific type）（交叉校验 base62/resolved62/armor0 raw=final400；base62/resolved162/armor0 raw=final550；base62/resolved162/armor100 raw550/final275；base0/resolved100 versus base62/resolved162 armor0 both550；zero-bonus raw400/mitigated200）。Attempts mana361/baseAD62/resolvedAD162/HP1000/armor100 at t0/t79999/t80000 → success/skip/success，exactly two R damage items；final mana161/HP450；exactly two automatic R ability_started；mana99 at t0 → resource skip with mana/HP unchanged and no R damage/event。Draven R provider is standalone；Backend self-contained ensure hero_draven + level-1 panel + mana361/361（eight required attrs；no AP）；不暗示 Draven P/Q/W/E/basic dependence；不暗示 Batch-B 或 sibling Draven synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused51/full1043 passed。Wasm main validation passed focused/full/bench；exact test bytes42169 / SHA256 78796042ebd79f7337fd77de552150f9198d7ae5ec2348a6009f29bc5ae219de；built and independent Web asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no Web write。completedBoundary：rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity。明确排除 cast time/direction、projectile travel/collision/sight、recast/reversal/return/homing/second pass、execute/Adoration threshold、multitarget/damage falloff/reset/map edge/once-per-pass geometry、ranks1–2、siblings/loadout/bootstrap/crit/on-hit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full R；不宣称 cast/direction/projectile/travel/collision/sight/recast/reversal/return/homing/second-pass/execute/Adoration/multitarget/falloff/reset/map-edge/once-per-pass/完整游戏保真。Backend seed 自包含 ensure hero_draven/panel/mana，故标 completed。',
+      blocker: '',
+      dataGapEvidence: null,
+      runtimeGapEvidence: null,
+      outOfScopeEvidence: null,
+      evidenceRefs: [
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-whirling-death-primary-outbound-hit',
+          sourcePath:
+            'wasm/tinygo_engine_v2/internal/runtime/generic_draven_whirling_death_primary_outbound_hit_test.go',
+          sourceWorktree: 'wasm',
+          note: 'completedBoundary: rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity; Wiki request Template:Data Draven/R → Whirling Death; rev4040576/SHA256 e38551b6… / bytes3079; local raw caveat bytes3079/SHA 1110179b… no equivalence claim; rank3 100 mana/80000ms CD / one physical 400+1.50*bonusAD via nested binary add(const400, mul(1.50, sub(ad.resolved,ad.base))); base62/resolved62/armor0=400; base62/resolved162/armor0=550; base62/resolved162/armor100 raw550/final275; base0/resolved100 vs base62/resolved162 armor0 both550; zero-bonus raw400/mitigated200; damage 20220/add 20170; no 20230; no explicit event op; no R type; mana361/baseAD62/resolvedAD162/HP1000/armor100 t0/t79999/t80000 success/skip/success two R damage items final mana161/HP450 two automatic R ability_started; mana99 resource skip unchanged; standalone self-contained ensure no sibling synthesis; Wasm exact test commit 5b1f661 bytes42169/SHA 78796042…; cast/direction/projectile/travel/collision/sight/recast/reversal/return/homing/second-pass/execute/Adoration/multitarget/falloff/reset/map-edge/once-per-pass/live/E2E/full-game fidelity intentionally outside Phase-A',
+        },
+        {
+          evidenceType: 'generic_batch',
+          taskKey: 'wasm-generic-draven-whirling-death-primary-outbound-hit',
+          sourcePath:
+            'db/game_manage/seeds/lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql',
+          sourceWorktree: 'backend',
+          note: 'completedBoundary: rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity; backend lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql + LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest (owning 0aa03bc; integrated 0aa03bc); Wasm exact test commit 5b1f661; self-contained ensure hero_draven + level-1 panel + mana361/361 (eight attrs; no AP; does not require sibling publication); standalone no Batch-B or sibling Draven synthesis; not live published',
+        },
+      ],
+    },
+  ],
+  [
     'hero_skill|hero_quinn|P|侵扰',
     {
       status: 'completed',
@@ -3067,6 +3099,10 @@ const COVERAGE_BOUNDARIES = new Map([
   [
     'hero_skill|hero_draven|E|开道利斧',
     'rank5_primary_target_single_hit; immediate_impact_scaffold; physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget',
+  ],
+  [
+    'hero_skill|hero_draven|R|冷血追命',
+    'rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity',
   ],
   [
     'hero_skill|hero_teemo|Q|致盲吹箭',
@@ -9878,6 +9914,139 @@ function validateInventory(inv) {
       'Corki Q must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Phosphorus Bomb ordered tags (no meta_or_non_target_dps/primary_damage_branch_salvage; requires bonus_ad_ratio/ap_ratio/active_magic_damage), Wiki rev4007588/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/7000CD/one magic 240+1.25*bonusAD+1.00*AP nested binary numerics/schedules (240/365/340/465; raw460→230; raw540→270; counterproof both365; 20221/20170; no 20230; no Q type; no explicit event op; t0/t6999/t7000 mana240→80/HP540; mana79 skip), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused75/full975 + Wasm asset SHA, and bilateral evidence (owning 6003a7e / integrated b352677 / Wasm b381b1e; one selected-primary magic impact hit not full Q; no cast/location/projectile/AOE/sight/reveal/live claim)',
     );
   }
+  const mDravenR = inv.mechanisms.find((m) => m.key === 'hero_skill|hero_draven|R|冷血追命');
+  const mDravenRReason = String(mDravenR?.reason || '');
+  const mDravenRBoundary =
+    'rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity';
+  if (
+    !mDravenR ||
+    !STATUS_OVERRIDES.has('hero_skill|hero_draven|R|冷血追命') ||
+    mDravenR.key !== 'hero_skill|hero_draven|R|冷血追命' ||
+    mDravenR.passiveName !== '冷血追命' ||
+    mDravenR.status !== 'completed' ||
+    mDravenR.completionMode !== 'full' ||
+    mDravenR.lane !== 'generic_runtime' ||
+    mDravenR.blocker ||
+    mDravenR.dataGapEvidence !== null ||
+    mDravenR.runtimeGapEvidence !== null ||
+    mDravenR.outOfScopeEvidence !== null ||
+    mDravenR.coverageBoundary !== mDravenRBoundary ||
+    [...(mDravenR.mechanismTags || [])].sort((a, b) => a.localeCompare(b, 'en')).join('|') !==
+      [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ].join('|') ||
+    (mDravenR.mechanismTags || []).includes('multi_target_or_area') ||
+    (mDravenR.mechanismTags || []).includes('primary_damage_branch_salvage') ||
+    (mDravenR.mechanismTags || []).includes('total_ad_ratio') ||
+    !(mDravenR.mechanismTags || []).includes('bonus_ad_ratio') ||
+    !(mDravenR.mechanismTags || []).includes('active_physical_damage') ||
+    mDravenRReason.includes('implementation_gap_no_unresolved_data_fields') ||
+    mDravenRReason.includes('blocked_data') ||
+    mDravenRReason.includes('multi_target_or_area') ||
+    mDravenRReason.includes('needs_manual_baseline') ||
+    mDravenRReason.includes('out_of_scope_for_single_target_dps') ||
+    mDravenRReason.includes('primary_damage_branch_salvage') ||
+    mDravenRReason.includes('total AD；') ||
+    mDravenRReason.includes('total_ad_ratio') ||
+    mDravenRReason.includes('*totalAD') ||
+    !mDravenRReason.includes('4040576') ||
+    !mDravenRReason.includes(
+      'e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce',
+    ) ||
+    !mDravenRReason.includes(
+      '1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059',
+    ) ||
+    !mDravenRReason.includes('Template:Data Draven/R') ||
+    !mDravenRReason.includes('Template:Data Draven/Whirling Death') ||
+    !mDravenRReason.includes('page1307072') ||
+    !mDravenRReason.includes('bytes3079') ||
+    !mDravenRReason.includes('2026-07-06T14:27:37Z') ||
+    !mDravenRReason.includes(mDravenRBoundary) ||
+    !mDravenRReason.includes('source.attr.ad.resolved') ||
+    !mDravenRReason.includes('source.attr.ad.base') ||
+    !mDravenRReason.includes('exact nested binary formula') ||
+    !mDravenRReason.includes('bonus AD by explicit subtraction') ||
+    !mDravenRReason.includes('不得按 total-AD 直读') ||
+    !mDravenRReason.includes('add(const 400') ||
+    !mDravenRReason.includes('1.50') ||
+    !mDravenRReason.includes('100 mana') ||
+    !mDravenRReason.includes('80000') ||
+    !mDravenRReason.includes('20220') ||
+    !mDravenRReason.includes('20170') ||
+    !mDravenRReason.includes('no 20230') ||
+    !mDravenRReason.includes('no explicit event op') ||
+    !mDravenRReason.includes('no R ability-specific type') ||
+    !mDravenRReason.includes('raw=final400') ||
+    !mDravenRReason.includes('raw=final550') ||
+    !mDravenRReason.includes('raw550/final275') ||
+    !mDravenRReason.includes('both550') ||
+    !mDravenRReason.includes('raw400/mitigated200') ||
+    !mDravenRReason.includes('t79999') ||
+    !mDravenRReason.includes('t80000') ||
+    !mDravenRReason.includes('mana361') ||
+    !mDravenRReason.includes('mana161') ||
+    !mDravenRReason.includes('mana99') ||
+    !mDravenRReason.includes('HP450') ||
+    !mDravenRReason.includes('ability_started') ||
+    !mDravenRReason.includes('standalone') ||
+    !mDravenRReason.includes('self-contained ensure') ||
+    !mDravenRReason.includes('不暗示 Draven P/Q/W/E/basic dependence') ||
+    !mDravenRReason.includes('不暗示 Batch-B') ||
+    !mDravenRReason.includes('sibling Draven synthesis') ||
+    !mDravenRReason.includes('production runtime/ABI/Web change') ||
+    !mDravenRReason.includes('focused51/full1043') ||
+    !mDravenRReason.includes('78796042ebd79f7337fd77de552150f9198d7ae5ec2348a6009f29bc5ae219de') ||
+    !mDravenRReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0') ||
+    !mDravenRReason.includes('不宣称') ||
+    !mDravenRReason.includes('no equivalence or contradiction claim') ||
+    !mDravenRReason.includes('exactly one selected-primary first-outbound-pass physical hit') ||
+    mDravenRReason.includes('canonical byte equivalence') ||
+    mDravenRReason.includes('Batch-B prerequisite') ||
+    mDravenRReason.includes('live published') ||
+    !(mDravenR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-whirling-death-primary-outbound-hit' &&
+        e.sourcePath ===
+          'wasm/tinygo_engine_v2/internal/runtime/generic_draven_whirling_death_primary_outbound_hit_test.go' &&
+        e.sourceWorktree === 'wasm' &&
+        String(e.note || '').includes(mDravenRBoundary) &&
+        String(e.note || '').includes('ability_started') &&
+        String(e.note || '').includes('5b1f661') &&
+        String(e.note || '').includes('78796042') &&
+        String(e.note || '').includes('42169') &&
+        String(e.note || '').includes('1110179b') &&
+        String(e.note || '').includes('20220') &&
+        String(e.note || '').includes('20170') &&
+        String(e.note || '').includes('no 20230') &&
+        String(e.note || '').includes('no explicit event op') &&
+        String(e.note || '').includes('no R type') &&
+        String(e.note || '').includes('nested binary') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no sibling synthesis'),
+    ) ||
+    !(mDravenR.evidenceRefs || []).some(
+      (e) =>
+        e.taskKey === 'wasm-generic-draven-whirling-death-primary-outbound-hit' &&
+        e.sourcePath ===
+          'db/game_manage/seeds/lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql' &&
+        e.sourceWorktree === 'backend' &&
+        String(e.note || '').includes(mDravenRBoundary) &&
+        String(e.note || '').includes('LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest') &&
+        String(e.note || '').includes('0aa03bc') &&
+        String(e.note || '').includes('5b1f661') &&
+        String(e.note || '').includes('self-contained ensure') &&
+        String(e.note || '').includes('standalone') &&
+        String(e.note || '').includes('no Batch-B') &&
+        String(e.note || '').includes('sibling Draven synthesis'),
+    )
+  ) {
+    errors.push(
+      'Draven R must be completed/full/generic_runtime with cleared blocker/data/runtime/outOfScope gaps, exact Whirling Death ordered tags (no multi_target_or_area/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), Wiki rev4040576/SHA + local raw caveat + frozen completedBoundary, rank3 100mana/80000CD/one physical 400+1.50*bonusAD nested binary numerics/schedules (400/550; raw550→275; zero-bonus 400→200; counterproof both550; 20220/20170; no 20230; no R type; no explicit event op; t0/t79999/t80000 mana361→161/HP450; mana99 skip), standalone/self-contained-ensure/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused51/full1043 + Wasm asset SHA, and bilateral evidence (owning 0aa03bc / integrated 0aa03bc / Wasm 5b1f661; one selected-primary first-outbound-pass physical hit not full R; no cast/direction/projectile/return/execute/multitarget/live claim)',
+    );
+  }
   if (!m3748a || m3748a.status !== 'out_of_scope' || m3748a.completionMode !== 'partial') {
     errors.push('3748 顺劈 71fa0f0c must be out_of_scope/partial');
   }
@@ -10275,8 +10444,8 @@ function validateInventory(inv) {
   if ((inv.mechanisms || []).length !== 254) {
     errors.push(`mechanisms.length=${inv.mechanisms?.length}, expected 254`);
   }
-  if ((sc.completed || 0) !== 102) {
-    errors.push(`completed=${sc.completed}, expected 102`);
+  if ((sc.completed || 0) !== 103) {
+    errors.push(`completed=${sc.completed}, expected 103`);
   }
   if ((sc.partial_actionable || 0) !== 0) {
     errors.push(`partial_actionable=${sc.partial_actionable}, expected 0`);
@@ -10284,8 +10453,8 @@ function validateInventory(inv) {
   if ((sc.ready_to_implement || 0) !== 0) {
     errors.push(`ready_to_implement=${sc.ready_to_implement}, expected 0`);
   }
-  if ((sc.blocked_runtime || 0) !== 71) {
-    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 71`);
+  if ((sc.blocked_runtime || 0) !== 70) {
+    errors.push(`blocked_runtime=${sc.blocked_runtime}, expected 70`);
   }
   if ((sc.blocked_data || 0) !== 3) {
     errors.push(`blocked_data=${sc.blocked_data}, expected 3`);
@@ -10306,21 +10475,21 @@ function validateInventory(inv) {
       `completionModeCounts sum ${cmSum} != mechanisms.length ${inv.mechanisms.length}`,
     );
   }
-  if ((cm.full || 0) !== 102) {
-    errors.push(`completionMode full=${cm.full}, expected 102`);
+  if ((cm.full || 0) !== 103) {
+    errors.push(`completionMode full=${cm.full}, expected 103`);
   }
   if ((cm.partial || 0) !== 3) {
     errors.push(`completionMode partial=${cm.partial}, expected 3`);
   }
-  if ((cm.none || 0) !== 149) {
-    errors.push(`completionMode none=${cm.none}, expected 149`);
+  if ((cm.none || 0) !== 148) {
+    errors.push(`completionMode none=${cm.none}, expected 148`);
   }
   const implGapCount = (inv.mechanisms || []).filter(
     (m) => m.blocker === 'implementation_gap_no_unresolved_data_fields',
   ).length;
-  if (implGapCount !== 56) {
+  if (implGapCount !== 55) {
     errors.push(
-      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 56`,
+      `implementation_gap_no_unresolved_data_fields=${implGapCount}, expected 55`,
     );
   }
 
