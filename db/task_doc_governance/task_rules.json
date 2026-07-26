@@ -1702,6 +1702,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-azir-conquering-sands-one-soldier-primary-hit",
+      "title": "通用 ABI 阿兹尔 Q 狂沙猛攻单沙兵选定主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_azir_conquering_sands_one_soldier_primary_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_azir|Q|狂沙猛攻 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1；DESIGN_READY run-33d1ffcf（grok-4.5/high/false；runDelta0/outside0；1671 events；无 truncation/mutation）。Backend dd214a35（run-1a22222a delta3/outside0/events1440；focused37/37；full Maven1132/1132 PASS；seed29560/9263b65f…；JUnit50880/9409b991…；external check-only；无 live）。Wasm 接受 5580ae77（run-04125cb2 delta1/outside0/events1447；exact _test.go 66442/ea86be56…；focused Azir+四 sibling PASS；precommit dirty-test；postcommit full go test ./... 与 bench PASS；生产 runtime/ABI/Web/asset 不变）。审计首轮 run-2c236416 Temp scratch azir-pre-snapshot.json/azir-validate.mjs——拒绝；接受恢复 run-daf2b308（delta0/outside0/events1115；ADOPTED；五 check+target-record/order/provisional-removal/override uniqueness+git diff --check PASS）；接受 140ae71e。边界 rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit；140+0.55*AP；mana110/listed CD6000ms scaffold；exactly one magic quantum；沙兵仅为 scenario 假定；排除 soldier entity/command/path/dash/geometry/multitarget/slow/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated103/blocked66；Unified completed113/blocked_runtime60/full113/none138；impl-gap52；blocked_runtime+blocker blocked_data=1；provisional63=runtime60/data3；hero62/item1；Azir Q 缺席；tasks127；严格 completion113/254=44.5%；coverage176/254=69.3%。OOS72最终跳过；真队列63。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-27",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-阿兹尔Q狂沙猛攻单沙兵选定主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-阿兹尔Q狂沙猛攻单沙兵选定主目标Phase-A验证记录-2026-07-27.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
