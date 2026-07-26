@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "unified-mechanism-inventory-v1",
     "generatorPath": "最小验证/数据/build-unified-mechanism-inventory.mjs",
-    "generatedAt": "2026-07-25T20:53:11.442Z",
+    "generatedAt": "2026-07-26T04:13:21.139Z",
     "statusValues": [
       "completed",
       "partial_actionable",
@@ -45,11 +45,11 @@
       "最小验证/V2-BatchV-A-coefficient-buckets.json": "ce8ba08bbc97250c091a50c1c4b2224a4fa71ff9b95e46a2f5702434ef852c4c",
       "最小验证/V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json": "298a03f7cf48121fa9c43b4ec8f0e94f5104a2af00143d7492bbd2c300a9f631",
       "最小验证/V2-full-item-dps-coverage-20260615.json": "b24939c342f73fc1e054d3eaf72a726537dedcb9185a8fe55b7be327e0eb34ce",
-      "最小验证/generic-g8-adc-passive-coverage-audit.json": "322c8849888dfaa550224d43b246a601b979e5121d25cecea5cda014ae500a16",
+      "最小验证/generic-g8-adc-passive-coverage-audit.json": "66286b837248b7aa26fb04d209e66c4d99da7b2ec0fadd9826ba5e1229358f10",
       "最小验证/wiki-only-mechanism-candidate-registry.json": "06b2a124daf77dd84cf2970361fdb4ee854dbebfe8e7cbe1825a02988414bb0a",
       "数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json": "8c3c4901950252dbb3564aded13deb88b06ec34151744e072a6c40c2e1c08a65",
-      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "75e0faea5992f6a8b0139ff62f3da421be032159197f302f99d31cc8ac0475f3",
-      "最小验证/数据/build-unified-mechanism-inventory.mjs": "1ef7ffcbc12bf7bab9d354561f19bcc0bdfd83d8f7657bad35edbc76239b2efb",
+      "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs": "28f0badf560ddb30fa8c0f8c24d621a5e6d152181150de6b0d9d4d52b6605e18",
+      "最小验证/数据/build-unified-mechanism-inventory.mjs": "0adbd598ad97c06117c677f652c14c3c6c961a906bcc1c3e0b87c30eaca5ad10",
       "最小验证/数据/build-wiki-only-mechanism-candidate-registry.mjs": "3de8582c6b3dcf85edfaf4ff57f4316db03aac11119c7562a642c29a37270703",
       "最小验证/V2-Batch-A-target-dummies.seed.json": "dee0654ced616d2c2595b485bffdbd16c966d003dec40c4fe7808283402ea092",
       "最小验证/V2-Batch-C-adc-items.seed.json": "7af47c9f9fad01bd8f151a98b221bc396d7cb6f332da2614cf5a194d2b37248d",
@@ -62,19 +62,19 @@
     "fullItemContainerCount": 518,
     "deduplicatedMechanismCount": 254,
     "statusCounts": {
-      "completed": 99,
+      "completed": 100,
       "partial_actionable": 0,
       "ready_to_implement": 0,
-      "blocked_runtime": 74,
+      "blocked_runtime": 73,
       "blocked_data": 3,
       "out_of_scope": 72,
       "regression_only": 5,
       "stale_or_duplicate": 1
     },
     "completionModeCounts": {
-      "full": 99,
+      "full": 100,
       "partial": 3,
-      "none": 152
+      "none": 151
     },
     "laneCounts": {
       "generic_runtime": 248,
@@ -113,8 +113,8 @@
     {
       "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
       "kind": "coverage_json",
-      "sha256": "322c8849888dfaa550224d43b246a601b979e5121d25cecea5cda014ae500a16",
-      "byteSize": 1078443,
+      "sha256": "66286b837248b7aa26fb04d209e66c4d99da7b2ec0fadd9826ba5e1229358f10",
+      "byteSize": 1084339,
       "recordCount": 242,
       "role": "candidates"
     },
@@ -137,16 +137,16 @@
     {
       "path": "最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs",
       "kind": "generator_mjs",
-      "sha256": "75e0faea5992f6a8b0139ff62f3da421be032159197f302f99d31cc8ac0475f3",
-      "byteSize": 651841,
+      "sha256": "28f0badf560ddb30fa8c0f8c24d621a5e6d152181150de6b0d9d4d52b6605e18",
+      "byteSize": 668270,
       "recordCount": 0,
       "role": "generator"
     },
     {
       "path": "最小验证/数据/build-unified-mechanism-inventory.mjs",
       "kind": "generator_mjs",
-      "sha256": "1ef7ffcbc12bf7bab9d354561f19bcc0bdfd83d8f7657bad35edbc76239b2efb",
-      "byteSize": 673969,
+      "sha256": "0adbd598ad97c06117c677f652c14c3c6c961a906bcc1c3e0b87c30eaca5ad10",
+      "byteSize": 690017,
       "recordCount": 0,
       "role": "generator"
     },
@@ -11776,54 +11776,29 @@
     },
     {
       "key": "hero_skill|hero_akshan|Q|去而复还",
-      "status": "blocked_runtime",
-      "completionMode": "none",
+      "status": "completed",
+      "completionMode": "full",
       "lane": "generic_runtime",
       "sourceKind": "hero_skill",
       "ownerId": "hero_akshan",
       "skillKey": "Q",
       "passiveName": "去而复还",
       "mechanismTags": [
-        "cooldown_or_haste_without_rotation"
+        "ability_cost_cooldown",
+        "active_physical_damage",
+        "bonus_ad_ratio",
+        "immediate_impact_scaffold"
       ],
-      "coverageBoundary": "",
-      "reason": "auditBaseline.gapCode=blocked_data; damageDisposition=primary_damage_branch_salvage",
-      "blocker": "blocked_data",
-      "dataGapEvidence": {
-        "sourceVersion": "lol-wiki-rev-4007510",
-        "sourceRef": "数据参考/lol-wiki-current-champions/normalized/generic/akshan-q.json@rev4007510 sha256:1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b",
-        "availableEffectTables": {},
-        "availableCooldowns": [],
-        "availableCosts": {},
-        "tooltipPlaceholders": [],
-        "unresolvedDamagePlaceholders": [],
-        "varsMapEmpty": true,
-        "variablesEmpty": true,
-        "variables": [],
-        "missingFields": [],
-        "gapKind": "none",
-        "reasonZh": "当前 League Wiki 模板已提供可核验数值合同；剩余为实现/runtime 缺口。",
-        "blocker": ""
-      },
-      "runtimeGapEvidence": {
-        "sourceRef": "最小验证/数据/build-unified-mechanism-inventory.mjs#synthesize:hero_skill|hero_akshan|Q|去而复还",
-        "dataStatus": "complete",
-        "requiredEvents": [],
-        "requiredState": [],
-        "requiredFormulaInputs": [],
-        "requiredScheduling": [
-          "cooldown_or_haste_without_rotation"
-        ],
-        "missingPrimitives": [
-          "blocked_data"
-        ],
-        "remainingBoundary": "按 mechanismTags/blocker 推导的 runtime 缺口：blocked_data"
-      },
+      "coverageBoundary": "rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity",
+      "reason": "Akshan Q 去而复还/Avengerang：Wiki request Template:Data Akshan/Q → resolved Template:Data Akshan/Avengerang；page1502462 / rev4007510 / timestamp 2026-04-11T22:35:01Z / canonical bytes2570 / SHA256 1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b（normalized/generic/akshan-q.json plus pages sibling are authority）rank5 Phase-A v4 已由 wasm-generic-akshan-avengerang-first-outbound-hit + backend seed 证据闭环——local raw caveat bytes2570 / SHA 407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / immediate cooldown scaffold 5000ms（Wiki real cooldown starts after return is completed-boundary exclusion, not claimed implemented and not a remaining blocker）；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 165, mul(const 0.70, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 armor100 base52/resolved52 raw165/final82.5；base52/resolved152 raw235/final117.5；base0/resolved100 versus base52/resolved152 both raw/final235）。Attempts mana240/baseAD52/resolvedAD152/HP1000/armor100 at t0/t4999/t5000 → success/skip/success，exactly two Q damage items；final mana80/HP765；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Dirty Fighting/basic coexistence preserved and Q does not synthesize ability-hit stacks。Akshan Q provider is standalone；Backend has no repository-owned hero_akshan / AD / mana materializer beyond Dirty Fighting prerequisites；record external existing-data/check-only prerequisites only；不暗示 Akshan P/W/E/R/Dirty Fighting stack synthesis dependence；不暗示 Batch-B 或 sibling Akshan synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused12/full1010 passed。Wasm main validation passed gofmt/focused Akshan/Ezreal、Akshan count100、full Go、build、smoke、bench；exact test bytes66516 / SHA256 dc922f4249cb87a5f6afda8f3a88dac011cc5a5683ff6c0a9a8c5cfd16618805；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity。明确排除 direction/range/extension/return pass/homing/projectile travel、cooldown-start-after-return、sight/reveal/movement speed、non-champion damage/spellshield、other ranks/siblings/loadout/bootstrap/crit/onhit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full Q；不宣称 direction/range/extension/return/homing/projectile/cooldown-after-return/sight/reveal/MS/non-champion/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_akshan/ad/mana via Dirty Fighting），不物化 identity/panel/resource values，故标 completed。",
+      "blocker": "",
+      "dataGapEvidence": null,
+      "runtimeGapEvidence": null,
       "outOfScopeEvidence": null,
       "sourceRefs": [
         {
           "path": "最小验证/generic-g8-adc-passive-coverage-audit.json",
-          "legacyStatus": "blocked",
+          "legacyStatus": "migrated",
           "sourceRecordKey": "hero_skill|hero_akshan|Q|去而复还"
         },
         {
@@ -11832,7 +11807,22 @@
           "sourceRecordKey": "hero_skill|hero_akshan|Q|去而复还"
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-avengerang-first-outbound-hit",
+          "sourcePath": "db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql",
+          "sourceWorktree": "backend",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity; backend lol_generic_akshan_avengerang_first_outbound_hit_seed.sql + LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest + README (owning bd8dbcb; integrated 45d589a); Wasm exact test commit b58a549; seed30848/SHA d45d8297…; JUnit59429/SHA 2f64e5c0…; README291215/SHA 188b0174…; external existing-data/check-only prerequisites (hero_akshan/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Akshan synthesis; not live published"
+        },
+        {
+          "evidenceType": "generic_batch",
+          "taskKey": "wasm-generic-akshan-avengerang-first-outbound-hit",
+          "sourcePath": "wasm/tinygo_engine_v2/internal/runtime/generic_akshan_avengerang_first_outbound_hit_test.go",
+          "sourceWorktree": "wasm",
+          "note": "completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Akshan/Q → Avengerang; rev4007510/SHA256 1cbf7dda… / bytes2570; local raw caveat bytes2570/SHA 407e4671… no equivalence claim; rank5 80 mana/immediate cooldown scaffold 5000ms (real CD after return excluded); one physical 165+0.70*bonusAD via exact nested binary add(const165, mul(0.70, sub(ad.resolved,ad.base))); armor100 base52/resolved52 raw165/final82.5; base52/resolved152 raw235/final117.5; base0/resolved100 vs base52/resolved152 both raw/final235; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD52/resolvedAD152/HP1000/armor100 t0/t4999/t5000 success/skip/success two Q damage items final mana80/HP765 two automatic Q ability_started; mana79 resource skip unchanged; Dirty Fighting/basic coexistence preserved and Q does not synthesize ability-hit stacks; standalone no sibling synthesis; Wasm exact test commit b58a549 bytes66516/SHA dc922f42…; direction/range/extension/return/homing/projectile/cooldown-after-return/sight/reveal/MS/non-champion/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A"
+        }
+      ],
       "aliases": [],
       "dependencyOf": []
     },

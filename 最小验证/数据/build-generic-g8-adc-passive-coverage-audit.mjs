@@ -680,6 +680,8 @@ const SEED = {
   ezrealMysticShotPrimaryHitBackend:
     'db/game_manage/seeds/lol_generic_ezreal_mystic_shot_primary_hit_seed.sql',
   akshanDirtyFightingBackend: 'db/game_manage/seeds/lol_generic_akshan_dirty_fighting_seed.sql',
+  akshanAvengerangFirstOutboundHitBackend:
+    'db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql',
   twitchDeadlyVenomBackend: 'db/game_manage/seeds/lol_generic_twitch_deadly_venom_seed.sql',
   terminusJuxtapositionBackend:
     'db/game_manage/seeds/lol_generic_terminus_juxtaposition_seed.sql',
@@ -834,6 +836,8 @@ const WASM = {
     'wasm/tinygo_engine_v2/internal/runtime/generic_ezreal_mystic_shot_primary_hit_test.go',
   akshanDirtyFighting:
     'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_dirty_fighting_test.go',
+  akshanAvengerangFirstOutboundHit:
+    'wasm/tinygo_engine_v2/internal/runtime/generic_akshan_avengerang_first_outbound_hit_test.go',
   twitchDeadlyVenom:
     'wasm/tinygo_engine_v2/internal/runtime/generic_twitch_deadly_venom_test.go',
   terminusJuxtaposition:
@@ -1697,6 +1701,36 @@ const EXACT_OVERRIDES = new Map([
           'wasm-generic-akshan-dirty-fighting',
           SEED.akshanDirtyFightingBackend,
           'completedBoundary: Dirty Fighting AA damage core seeded; remainingGap: secondShotDelayMs / ability-hit wiring / shield+cancel-MS+retarget OOS; backend lol_generic_akshan_dirty_fighting_seed.sql',
+        ),
+      ],
+    },
+  ],
+  [
+    'hero_akshan|Q',
+    {
+      classification: 'migrated',
+      tags: [
+        'ability_cost_cooldown',
+        'active_physical_damage',
+        'bonus_ad_ratio',
+        'immediate_impact_scaffold',
+      ],
+      reason:
+        'hero_akshan Q 去而复还/Avengerang：Wiki request Template:Data Akshan/Q → resolved Template:Data Akshan/Avengerang；page1502462 / rev4007510 / timestamp 2026-04-11T22:35:01Z / canonical bytes2570 / SHA256 1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b（normalized/generic/akshan-q.json plus pages sibling are authority）rank5 Phase-A v4 已由 wasm-generic-akshan-avengerang-first-outbound-hit 闭环为 migrated——local raw caveat bytes2570 / SHA 407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973（canonical identity remains sidecar/pages；no equivalence or contradiction claim）；80 mana / immediate cooldown scaffold 5000ms（Wiki real cooldown starts after return is completed-boundary exclusion, not claimed implemented and not a remaining blocker）；immediate selected-primary-champion first-outbound-pass single physical hit scaffold；one immediate selected-primary-champion single noncritical/noncopyable physical damage operation add(const 165, mul(const 0.70, sub(read source.attr.ad.resolved, read source.attr.ad.base)))（exact nested binary；bonus AD by explicit subtraction；不得按 total-AD 直读，亦不得省略 base 相减）；exactly one noncrit/noncopyable physical damage operation（damage type 20220 + add policy 20170；no 20230；no explicit event op；ability_started is automatic；no Q ability-specific type）（交叉校验 armor100 base52/resolved52 raw165/final82.5；base52/resolved152 raw235/final117.5；base0/resolved100 versus base52/resolved152 both raw/final235）。Attempts mana240/baseAD52/resolvedAD152/HP1000/armor100 at t0/t4999/t5000 → success/skip/success，exactly two Q damage items；final mana80/HP765；exactly two automatic Q ability_started；mana79 at t0 → resource skip with mana/HP unchanged and no Q damage/event。Dirty Fighting/basic coexistence preserved and Q does not synthesize ability-hit stacks。Akshan Q provider is standalone；Backend has no repository-owned hero_akshan / AD / mana materializer beyond Dirty Fighting prerequisites；record external existing-data/check-only prerequisites only；不暗示 Akshan P/W/E/R/Dirty Fighting stack synthesis dependence；不暗示 Batch-B 或 sibling Akshan synthesis；不暗示任何 production runtime/ABI/Web change。Backend validation honesty：Main focused12/full1010 passed。Wasm main validation passed gofmt/focused Akshan/Ezreal、Akshan count100、full Go、build、smoke、bench；exact test bytes66516 / SHA256 dc922f4249cb87a5f6afda8f3a88dac011cc5a5683ff6c0a9a8c5cfd16618805；built production and independent Web source asset both 1169377 bytes/SHA256 65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0 with no production/Web write。completedBoundary：rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity。明确排除 direction/range/extension/return pass/homing/projectile travel、cooldown-start-after-return、sight/reveal/movement speed、non-champion damage/spellshield、other ranks/siblings/loadout/bootstrap/crit/onhit/live/full fidelity；this is exactly one selected-primary first-outbound-pass physical hit, not full Q；不宣称 direction/range/extension/return/homing/projectile/cooldown-after-return/sight/reveal/MS/non-champion/spellshield/other-ranks/完整游戏保真。Backend seed 显式依赖 external existing-data/check-only 前置（hero_akshan/ad/mana via Dirty Fighting），不物化 identity/panel/resource values。',
+      remainingGap: '',
+      coverageEvidence: [
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-avengerang-first-outbound-hit',
+          WASM.akshanAvengerangFirstOutboundHit,
+          'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity; Wiki request Template:Data Akshan/Q → Avengerang; rev4007510/SHA256 1cbf7dda… / bytes2570; local raw caveat bytes2570/SHA 407e4671… no equivalence claim; rank5 80 mana/immediate cooldown scaffold 5000ms (real CD after return excluded); one physical 165+0.70*bonusAD via exact nested binary add(const165, mul(0.70, sub(ad.resolved,ad.base))); armor100 base52/resolved52 raw165/final82.5; base52/resolved152 raw235/final117.5; base0/resolved100 vs base52/resolved152 both raw/final235; damage 20220/add 20170; no 20230; no explicit event op; no Q type; mana240/baseAD52/resolvedAD152/HP1000/armor100 t0/t4999/t5000 success/skip/success two Q damage items final mana80/HP765 two automatic Q ability_started; mana79 resource skip unchanged; Dirty Fighting/basic coexistence preserved and Q does not synthesize ability-hit stacks; standalone no sibling synthesis; Wasm exact test commit b58a549 bytes66516/SHA dc922f42…; direction/range/extension/return/homing/projectile/cooldown-after-return/sight/reveal/MS/non-champion/spellshield/other-ranks/live/E2E/full-game fidelity intentionally outside Phase-A',
+          'wasm',
+        ),
+        evidence(
+          'generic_batch',
+          'wasm-generic-akshan-avengerang-first-outbound-hit',
+          SEED.akshanAvengerangFirstOutboundHitBackend,
+          'completedBoundary: rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity; backend lol_generic_akshan_avengerang_first_outbound_hit_seed.sql + LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest + README (owning bd8dbcb; integrated 45d589a); Wasm exact test commit b58a549; seed30848/SHA d45d8297…; JUnit59429/SHA 2f64e5c0…; README291215/SHA 188b0174…; external existing-data/check-only prerequisites (hero_akshan/ad/mana; does not write identity/panel/resource values); standalone no Batch-B or sibling Akshan synthesis; not live published',
         ),
       ],
     },
@@ -4826,9 +4860,9 @@ function validateAudit(audit) {
   const counts = audit.summary?.classificationCounts || {};
   const sum = CLASSIFICATIONS.reduce((acc, k) => acc + (counts[k] || 0), 0);
   if (sum !== 242) errors.push(`classification sum=${sum}, expected 242`);
-  if (counts.migrated !== 89) errors.push(`migrated=${counts.migrated}, expected 89`);
+  if (counts.migrated !== 90) errors.push(`migrated=${counts.migrated}, expected 90`);
   if (counts.partial !== 4) errors.push(`partial=${counts.partial}, expected 4`);
-  if (counts.blocked !== 80) errors.push(`blocked=${counts.blocked}, expected 80`);
+  if (counts.blocked !== 79) errors.push(`blocked=${counts.blocked}, expected 79`);
   if (counts.out_of_scope !== 69) errors.push(`out_of_scope=${counts.out_of_scope}, expected 69`);
 
   const serialized = JSON.stringify(audit).toLowerCase();
@@ -10556,6 +10590,165 @@ function validateAudit(audit) {
       akshanP.coverageEvidence,
       errors,
       { requireCompletedBoundary: true, lane: 'generic_runtime' },
+    );
+  }
+  const akshanQ = records.find((r) => r.candidateKey === 'hero_skill|hero_akshan|Q|去而复还');
+  const akshanQTags = [...(akshanQ?.genericMechanismTags || [])];
+  const akshanQExpectedTags = [
+    'ability_cost_cooldown',
+    'active_physical_damage',
+    'bonus_ad_ratio',
+    'immediate_impact_scaffold',
+  ];
+  const akshanQReason = String(akshanQ?.classificationReason || '');
+  const akshanQBoundary =
+    'rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; physical_165_plus_0_70_bonus_ad; no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity';
+  if (!EXACT_OVERRIDES.has('hero_akshan|Q')) {
+    errors.push('Akshan Q exact override key hero_akshan|Q must exist before fallback');
+  }
+  if (
+    !akshanQ
+    || akshanQ.candidateKey !== 'hero_skill|hero_akshan|Q|去而复还'
+    || akshanQ.passiveName !== '去而复还'
+    || akshanQ.genericClassification !== 'migrated'
+    || String(akshanQ.remainingGap || '').trim()
+    || (akshanQ.dataGapEvidence?.missingFields || []).length !== 0
+    || akshanQTags.join('|') !== akshanQExpectedTags.join('|')
+    || akshanQTags.includes('cooldown_or_haste_without_rotation')
+    || akshanQTags.includes('meta_or_non_target_dps')
+    || akshanQTags.includes('dps_relevant_manual_review')
+    || akshanQTags.includes('primary_damage_branch_salvage')
+    || akshanQTags.includes('total_ad_ratio')
+    || !akshanQTags.includes('bonus_ad_ratio')
+    || !akshanQTags.includes('active_physical_damage')
+    || String(akshanQ.remainingGap || '').includes('blocked_data')
+    || akshanQReason.includes('needs_manual_baseline')
+    || akshanQReason.includes('blocked_data')
+    || akshanQReason.includes('implementation_gap_no_unresolved_data_fields')
+    || akshanQReason.includes('cooldown_or_haste_without_rotation')
+    || akshanQReason.includes('out_of_scope_for_single_target_dps')
+    || akshanQReason.includes('dps_relevant_manual_review')
+    || akshanQReason.includes('primary_damage_branch_salvage')
+    || akshanQReason.includes('total AD；')
+    || akshanQReason.includes('total_ad_ratio')
+    || akshanQReason.includes('*totalAD')
+    || !akshanQReason.includes('4007510')
+    || !akshanQReason.includes(
+      '1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b',
+    )
+    || !akshanQReason.includes(
+      '407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973',
+    )
+    || !akshanQReason.includes('Template:Data Akshan/Q')
+    || !akshanQReason.includes('Template:Data Akshan/Avengerang')
+    || !akshanQReason.includes('page1502462')
+    || !akshanQReason.includes('bytes2570')
+    || !akshanQReason.includes('2026-04-11T22:35:01Z')
+    || !akshanQReason.includes(akshanQBoundary)
+    || !akshanQReason.includes('source.attr.ad.resolved')
+    || !akshanQReason.includes('source.attr.ad.base')
+    || !akshanQReason.includes('exact nested binary')
+    || !akshanQReason.includes('bonus AD by explicit subtraction')
+    || !akshanQReason.includes('不得按 total-AD 直读')
+    || !akshanQReason.includes('165')
+    || !akshanQReason.includes('0.70')
+    || !akshanQReason.includes('80 mana')
+    || !akshanQReason.includes('5000')
+    || !akshanQReason.includes('immediate cooldown scaffold')
+    || !akshanQReason.includes('cooldown starts after return')
+    || !akshanQReason.includes('not a remaining blocker')
+    || !akshanQReason.includes('20220')
+    || !akshanQReason.includes('20170')
+    || !akshanQReason.includes('no 20230')
+    || !akshanQReason.includes('no explicit event op')
+    || !akshanQReason.includes('no Q ability-specific type')
+    || !akshanQReason.includes('base52/resolved52 raw165/final82.5')
+    || !akshanQReason.includes('base52/resolved152 raw235/final117.5')
+    || !akshanQReason.includes('base0/resolved100 versus base52/resolved152')
+    || !akshanQReason.includes('both raw/final235')
+    || !akshanQReason.includes('t4999')
+    || !akshanQReason.includes('t5000')
+    || !akshanQReason.includes('mana240')
+    || !akshanQReason.includes('mana79')
+    || !akshanQReason.includes('HP765')
+    || !akshanQReason.includes('ability_started')
+    || !akshanQReason.includes('Dirty Fighting/basic coexistence')
+    || !akshanQReason.includes('does not synthesize ability-hit stacks')
+    || !akshanQReason.includes('standalone')
+    || !akshanQReason.includes('external existing-data/check-only')
+    || !akshanQReason.includes('identity/panel/resource')
+    || !akshanQReason.includes('不暗示 Batch-B')
+    || !akshanQReason.includes('sibling Akshan synthesis')
+    || !akshanQReason.includes('production runtime/ABI/Web change')
+    || !akshanQReason.includes('focused12/full1010')
+    || !akshanQReason.includes('66516')
+    || !akshanQReason.includes(
+      'dc922f4249cb87a5f6afda8f3a88dac011cc5a5683ff6c0a9a8c5cfd16618805',
+    )
+    || !akshanQReason.includes('65a4c6f848e614791509a9c849518a3d50c2ef1af4fbcfa55823e56ca1d7c6a0')
+    || !akshanQReason.includes('不宣称')
+    || !akshanQReason.includes('no equivalence or contradiction claim')
+    || !akshanQReason.includes('exactly one selected-primary first-outbound-pass physical hit')
+    || akshanQReason.includes('canonical byte equivalence')
+    || akshanQReason.includes('Batch-B prerequisite')
+    || akshanQReason.includes('live published')
+    || !String(akshanQ.sourceRef || '').includes('akshan-q.json')
+    || !String(akshanQ.sourceRef || '').includes(
+      '1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b',
+    )
+    || akshanQ.auditBaseline?.gapCode !== 'blocked_data'
+    || akshanQ.auditBaseline?.resolvedBucket !== 'blocked'
+    || akshanQ.auditBaseline?.damageDisposition !== 'primary_damage_branch_salvage'
+    || !(akshanQ.auditBaseline?.mechanismTags || []).includes('cooldown_or_haste_without_rotation')
+    || akshanQ.classification !== 'out_of_scope_for_single_target_dps'
+    || !(akshanQ.mechanismTags || []).includes('cooldown_or_haste_without_rotation')
+    || citesForbiddenProvenance(akshanQ.classificationReason)
+    || !(akshanQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'wasm'
+        && e.sourcePath === WASM.akshanAvengerangFirstOutboundHit
+        && e.taskKey === 'wasm-generic-akshan-avengerang-first-outbound-hit'
+        && String(e.note || '').includes(akshanQBoundary)
+        && String(e.note || '').includes('ability_started')
+        && String(e.note || '').includes('b58a549')
+        && String(e.note || '').includes('407e4671')
+        && String(e.note || '').includes('20220')
+        && String(e.note || '').includes('20170')
+        && String(e.note || '').includes('no 20230')
+        && String(e.note || '').includes('no explicit event op')
+        && String(e.note || '').includes('no Q type')
+        && String(e.note || '').includes('exact nested binary')
+        && String(e.note || '').includes('Dirty Fighting/basic coexistence')
+        && String(e.note || '').includes('does not synthesize ability-hit stacks')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no sibling synthesis'),
+    )
+    || !(akshanQ.coverageEvidence || []).some(
+      (e) =>
+        e.sourceWorktree === 'backend'
+        && e.sourcePath === SEED.akshanAvengerangFirstOutboundHitBackend
+        && e.taskKey === 'wasm-generic-akshan-avengerang-first-outbound-hit'
+        && String(e.note || '').includes(akshanQBoundary)
+        && String(e.note || '').includes('LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest')
+        && String(e.note || '').includes('bd8dbcb')
+        && String(e.note || '').includes('45d589a')
+        && String(e.note || '').includes('b58a549')
+        && String(e.note || '').includes('external existing-data/check-only')
+        && String(e.note || '').includes('standalone')
+        && String(e.note || '').includes('no Batch-B')
+        && String(e.note || '').includes('sibling Akshan synthesis'),
+    )
+  ) {
+    errors.push(
+      'Akshan Q must be migrated with empty remainingGap/missingFields, exact Avengerang ordered tags (no cooldown_or_haste_without_rotation/primary_damage_branch_salvage; requires bonus_ad_ratio/active_physical_damage), stale blocked_data/out_of_scope/implementation-gap cleared while retaining raw out_of_scope_for_single_target_dps/cooldown_or_haste_without_rotation/auditBaseline provenance, Wiki rev4007510/SHA + local raw caveat + frozen completedBoundary, rank5 80mana/immediate-cooldown-scaffold5000/one physical 165+0.70*bonusAD exact nested binary numerics (165→82.5/235→117.5; bonusAD counterproof; 20220/20170; no 20230; no Q type; no explicit event op; t0/t4999/t5000 mana240→80/HP765 two damage/two ability_started; mana79 skip; Dirty Fighting coexistence; no ability-hit stack synthesis), standalone/external-existing-data/check-only/no-Batch-B/no-sibling/no-production-runtime-ABI-Web framing, focused12/full1010 + Wasm asset SHA, and bilateral wasm+backend evidence (owning bd8dbcb / integrated 45d589a / Wasm b58a549; one selected-primary first-outbound-pass physical hit not full Q; no direction/return/homing/cooldown-after-return/sight/MS/spellshield/live claim)',
+    );
+  }
+  if (akshanQ) {
+    validateBilateralCoverageEvidence(
+      akshanQ.candidateKey,
+      akshanQ.coverageEvidence,
+      errors,
+      { lane: 'generic_runtime' },
     );
   }
 
