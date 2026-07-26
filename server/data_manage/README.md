@@ -2206,6 +2206,33 @@ cd server/data_manage
 mvn -Dtest=LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest test
 ```
 
+### LoL generic Varus Piercing Arrow max-charge primary-first-hit seed（韦鲁斯 Q / Phase-A v1 最大蓄力第一敌人选定主目标物理命中）
+
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_varus)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_varus,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_varus,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值；Mana ERV **可能已由**既有 Varus E Hail of Arrows / R Chain of Corruption seed 物化，本 seed 仅 check-only、**不断言**无 repository materializer；`ad.base`/`ad.resolved` 是单一 `attribute_definitions(ad)` + `entity_attribute_values(hero_varus,ad)` 上的 **generic runtime 路径**，不是独立 attr_key；仅挂载可 cast 的独立 Q active；与既有 basic / W Blighted Quiver（含 `blighted_quiver_q_max_charge_carrier`）/ E / R **并存且不突变、不依赖、不 enrich**；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+
+1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
+2. `db/game_manage/seeds/lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql`
+3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
+
+建议发布版本：`lol-generic-varus-piercing-arrow-max-charge-primary-first-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_varus|Q|穿刺之箭`（task `wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit`）冻结为 **Phase-A rank-5 立即最大蓄力/最大射程第一敌人选定主目标物理命中 impact scaffold**（`FROZEN_PLAN_REV=varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1`）：
+
+`rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity`
+
+Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
+
+该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_varus` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_varus` **仅** mount 独立 `provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit`（stable id `hero_varus_q_piercing_arrow_max_charge_primary_first_hit`；standalone；不创建/突变 basic/W/E/R，不触碰 `provider_hero_varus_w_blighted_quiver_phase_a` / `blighted_quiver_q_max_charge_carrier`），含 active `ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit`（`ability_key=piercing_arrow_max_charge_primary_first_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 12000ms listed scaffold、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `360 + 1.20*(ad.resolved-ad.base)`（**bonus AD**，二元 `add(const 360, mul(const 1.20, sub(read …resolved, read …base)))`；每条 AD path 恰好一次；无 AP/crit reads；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Wiki：request `Template:Data Varus/Q` → resolved `Template:Data Varus/Piercing Arrow`；page1309981 / rev4026469 / `2026-06-09T22:00:25Z` / canonical 3888 bytes / SHA256 `bdbbe064008b969e153800f7d5cdb305f84eca1ef043d8e6f8ce41c5db2659dd`；sidecar `normalized/generic/varus-q.json`（bytes 4131 / SHA256 `bb5af7baaf053d1266a3702664c2df09e89f67c6125e8cf6da15f28f5b0c1f8e`）。**local raw materialization caveat**：仓库 local raw 3888 / `5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
+
+确定性夹具（注释记录；不连 live / 不执行 runtime）：`base60/resolved60/armor0` raw/final360，armor100 final180；`base60/resolved160/armor0` raw/final480，armor100 final240；`base60/resolved260/armor100` raw600/final300；bonus-AD proof `base0/resolved100` vs `base60/resolved160` at armor0 both480；mana210/base60/resolved160/HP1000/armor100 在 t0/t11999/t12000 → 两次成功 + 一次 cooldown skip、两笔 Q damage、两次自动 Q `ability_started`、final mana70/HP520；mana69 → resource skip、不变、无 Q damage/event；standalone provider 不合成 basic/W/E/R，不突变 W carrier。
+
+**排除**：real charge/channel timing；cooldown reduction by charge duration；cancel/refund/recast；movement slow/cast restrictions；projectile/travel/direction/collision/range geometry；pierce falloff/enemy count/multi-target；W active/passive/Blight/missing-health/detonation/reset/cooldown refund；cosmetic or actual crit；other ranks/siblings/items/loadout/full fidelity；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler；live migration；publish；E2E/full fidelity。
+
+静态契约校验（不连 live DB；含邻近 Varus W/E/R sibling coexistence）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest,LolGenericVarusBlightedQuiverSeedSqlTest,LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest,LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest test
+```
+
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）
 
 在 generic combat-data 基线已就绪、Batch-B 六个 ADC 基础普攻 damage 行与 Batch-C `item_3031` 静态属性已写入后，为既有 `damage_effect_details` / `_log` 补齐 `crit_eligible`，并幂等标记恰好六个 ADC 基础普攻 damage 行：
