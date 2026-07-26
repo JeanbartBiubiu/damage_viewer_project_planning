@@ -1686,6 +1686,22 @@
       ]
     },
     {
+      "task_key": "wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit",
+      "title": "通用 ABI 韦鲁斯 Q 穿刺之箭满蓄力最大距离首个敌人主目标机制",
+      "module": "wasm",
+      "workstream": "wasm",
+      "feature": "generic_varus_piercing_arrow_max_charge_primary_first_hit",
+      "status": "已完成",
+      "priority": 1,
+      "owner_model": "multi-model",
+      "completion_note": "hero_skill|hero_varus|Q|穿刺之箭 已标 completed/full/generic_runtime（G8 migrated）。FROZEN_PLAN_REV varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1；DESIGN_READY run-0d43518f（grok-4.5/high/false；runDelta0；1811 events；无 truncation/mutation）。Backend d493781（run-9a1fea38 delta3/outside0/events927；focused sibling 38/38；full Maven1123/1123 PASS；seed29472/7cef8329…；JUnit50874/ebb54d0c…；无 live）。Wasm 历史：中断 run-177243d7（1095 events；非接受）；复验 run-c277c097（events698；delta0/outside0；Q与Q+W+bench PASS；precommit dirty-test 策略失败）；gofmt run-74661f4a（delta1/outside0/events291）；接受 df61794（post-format 63048/a52e2f41…；full go test ./... 与 bench PASS；生产 runtime/ABI/Web/asset 不变）。审计首轮 run-ff3cae8e 超时且临时 _debug_varusq.mjs outside——拒绝；接受续跑 run-993a88d4（delta3/outside0/events762；五 check+unique override/drift/order PASS）；接受 3a1e11d。边界 rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit；360+1.20*bonusAD；mana70/listed CD12000ms scaffold；exactly one physical quantum；排除 real charge/channel/pierce/projectile/Blight/full fidelity。计数：Wiki242不变48/5/120/69；G8 migrated102/blocked67；Unified completed112/blocked_runtime61/full112/none139；impl-gap53；blocked_runtime+blocker blocked_data=1；provisional64=runtime61/data3；hero63/item1；Varus Q 缺席；tasks126；严格 completion112/254=44.1%；coverage176/254=69.3%。OOS72最终跳过；真队列64。Jhin/Yunara deferred；Aphelios OOS。无 live/publish/push/E2E/Web/生产 Wasm/资产重建。docs commit pending driver。actionableKeyCount=0 非停工条件；总体 Goal 未完成。",
+      "completed_at": "2026-07-27",
+      "docs": [
+        "文档记录/详细设计/wasm/通用ABI-韦鲁斯Q穿刺之箭满蓄力最大距离首个敌人主目标Phase-A详细设计.md",
+        "文档记录/测试记录/wasm/通用ABI-韦鲁斯Q穿刺之箭满蓄力最大距离首个敌人主目标Phase-A验证记录-2026-07-27.md"
+      ]
+    },
+    {
       "task_key": "wasm-generic-provisional-mechanism-template-registry",
       "title": "通用 ABI 暂定机制模板注册表 Phase-T1",
       "module": "wasm",
