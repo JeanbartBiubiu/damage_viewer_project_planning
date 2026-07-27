@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "corki-e",
+  "candidateKey": "hero_skill|hero_corki|E|格林机枪",
+  "ownerId": "hero_corki",
+  "wikiChampionTitle": "Corki",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Corki/E",
+  "zhDisplayName": "格林机枪",
+  "resolvedTitle": "Template:Data Corki/Gatling Gun",
+  "wikiPageId": 1306957,
+  "revisionId": 3948411,
+  "revisionTimestamp": "2025-08-19T14:25:04Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Corki/Gatling%20Gun",
+  "contentSha256": "9f1e8aed9ad2dc3f3958a3de6fd62563a029a022aa0e0bb4dc13efea0b4b12a1",
+  "rawByteSize": 2302,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Corki''' sprays bullets in a cone toward his facing direction for 4 seconds, dealing {{as|physical damage}} every {{fd|0.25}} seconds to all enemies hit and applying a {{tip|stack}} to them at the same tick rate for 2 seconds, refreshing with subsequent hits and stacking up to 4 times. Each stack reduces the target's {{sti|lethality|{{as|armor}}}} and {{sti|magic penetration|{{as|magic resistance}}}}.\n",
+    "leveling": "{{st|Physical Damage Per Tick|{{ap|80/16 to 280/16}} {{as|(+ {{ap|240/16}}% '''bonus''' AD)}}|Total Physical Damage|{{ap|80 to 280}} {{as|(+ 240% '''bonus''' AD)}}}}\n{{st|Resistances Reduction Per Stack|{{ap|3 to 5}}|Total Resistances Reduction|{{ap|3*4 to 5*4}}}}\n",
+    "cooldown": "12\n",
+    "cost": "{{ap|50 to 70}}\n",
+    "costtype": "mana\n",
+    "damagetype": "physical\n",
+    "notes": "* The maximum resistances reduction is applied after 4 ticks (1 second).\n* The direction of the gun firing changes depending on where '''Corki''' is facing.\n** '''Corki''' will turn to face in the direction of the cursor upon casting ''Gatling Gun''. He will also instantly turn when issuing an Attack order on enemies while ''Gatling Gun'' is active.\n** Issuing an Attack Move order at a location will not cause '''Corki''' to instantly turn.{{bug|2}}\n* ''Gatling Gun's'' area of effect can hit close by enemies next to and behind him, due to registering {{tip|er|enemies' edge}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "zeri-p",
+  "candidateKey": "hero_skill|hero_zeri|P|内能迁转",
+  "ownerId": "hero_zeri",
+  "wikiChampionTitle": "Zeri",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Zeri/I",
+  "zhDisplayName": "内能迁转",
+  "resolvedTitle": "Template:Data Zeri/Living Battery",
+  "wikiPageId": 1517504,
+  "revisionId": 4041739,
+  "revisionTimestamp": "2026-07-11T13:31:40Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Zeri/Living%20Battery",
+  "contentSha256": "606fca74a738c7316244158d054700a73b8c4e4ccd63e90e3dc0814f533a737b",
+  "rawByteSize": 3399,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Zeri''' generates 1 charge for every 40 units she travels by any means and 10 charge every time she casts ''{{ai|Burst Fire|Zeri}}'', up to a maximum of 100 charge. Her {{tip|basic attacks}} consume charge to deal '''modified''' damage.<br/>'''Zeri''' gains maximum charge when the game starts and upon [[respawn]]ing.\n",
+    "description2": "{{tip|Basic Attack|{{sbc|Basic Attack:}}}} '''Zeri''' zaps the target, dealing {{as|{{pp|10+(15/17)*(x-1)*(0.7025+0.0175*(x-1)) for 20}}|magic damage}} {{as|(+ 3% AP)}} {{as|magic damage}}, applying {{tip|spell effects}} as {{tip|spell damage}}, triggering on-cast effects and {{ccs|executing|magic}} the target if they are below {{pp|70 + (160-70)/17*(x-1) for 20|color=hp}} {{as|(+ 20% AP)}} {{sti|{{as|health}}}}. This cannot {{tip|critically strike}} and does not apply nor trigger {{tip|on-hit}} and {{tip|on-attack}} effects.\n",
+    "description3": "At full charge, '''Zeri's''' next attack is empowered to consume all charge to deal {{as|{{pp|75 + (160-75)/17*(x-1) for 20}}|magic damage}} {{as|(+ 110% AP)}} {{as|(+ {{pp|1 + (11-1)/17*(x-1) for 20|key=%}} of target's '''maximum''' health)}} {{as|magic damage}}. The damage based on the target's health ratio is capped at 300 against {{tip|monsters}}.\n",
+    "cost": "{{dv|{{tt|10|Regular zaps}}|{{tt|100|Full charge zap}}}}\n",
+    "costtype": "charge\n",
+    "damagetype": "magic\n",
+    "notes": "* Charged attacks only deal the '''base''' damage to {{tip|structures}}.\n* Uncharged attacks do not execute enemies that are {{tip|shield|shielded}} or {{tip|invulnerable}} while below the health threshold.\n* {{tip|Spell shield}} will only block a fully charged attack. Uncharged attacks are not blocked.\n* The attack's range '''is''' affected by attack range modifiers ({{ii|Rapid Firecannon}}) (tested on patch 26.12).\n* Uncharged and charged attacks trigger {{iis|Tear of the Goddess}} {{nie|Mana Charge}}.\n* Attacking a turret does not consume [[Crystalline Overgrowth]].\n* The empowered attack will trigger but not be consumed against {{tip|wards}} or [[jungle plants]].\n* If [[Minion#Last_Hit_Indicator|Last Hit Indicator]] enabled, it will indicate ''Living Battery's'' {{tip|execute}} threshold instead of its usual function.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "graves-e",
+  "candidateKey": "hero_skill|hero_graves|E|快速拔枪",
+  "ownerId": "hero_graves",
+  "wikiChampionTitle": "Graves",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Graves/E",
+  "zhDisplayName": "快速拔枪",
+  "resolvedTitle": "Template:Data Graves/Quickdraw",
+  "wikiPageId": 1307371,
+  "revisionId": 4007744,
+  "revisionTimestamp": "2026-04-12T13:52:43Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Graves/Quickdraw",
+  "contentSha256": "ff4c65c5ce2a0ac1ae757271fbb924b35bf4eca1af0f4d07a69d865db901a4e1",
+  "rawByteSize": 2935,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Graves''' {{tip|dashes}} to the target location, reloading one {{as|shell|buzzword3}} while generating a {{tip|stack}} of ''True Grit'' for 4 seconds, stacking up to 8 times. Dashing towards an enemy {{tip|champion}} generates 2 stacks of ''True Grit''.\n",
+    "description2": "''Quickdraw's'' {{sti|'''current''' cooldown}} is reduced by {{fd|0.5}} seconds for every {{as|pellet|buzzword2}} impacting an enemy.\n",
+    "description3": "{{sbc|True Grit:}} For each stack, '''Graves''' gains {{sti|armor|{{as|'''bonus''' armor}}}}, and {{sti|{{as|'''bonus''' magic resistance}}}} equal to 50% of that amount. Subsequent casts of ''Quickdraw'' and damage versus non-{{tip|minions}} will refresh the duration of ''True Grit''.\n",
+    "description4": "''Quickdraw {{tip|basic attack reset|resets}} '''Graves'''' basic attack timer.''\n",
+    "leveling3": "{{st|Bonus Armor|{{ap|7 to 19}}|Maximum Bonus Armor|{{ap|7*8 to 19*8}}}}\n{{st|Bonus Magic Resistance|{{ap|7*0.5 to 19*0.5}}|Maximum Bonus MR|{{ap|7*0.5*8 to 19*0.5*8}}}}\n",
+    "cooldown": "{{ap|16 to 12}}\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "",
+    "notes": "* If '''Graves''' dashes while reloading, he can cast any of his {{tip|abilities}} during the dash.{{bug|1}}\n* '''Graves''' gains the one additional stack of ''True Grit'' from ''Quickdraw'' if at any point during the dash a {{tip|sight|visible}} enemy champion is in front of ''Graves'' within {{tip|er|icononly = true}} 1300 distance.\n** Enemy champions have to be targetable to grant the additional stack.\n** The additional stack of ''True Grit'' is gained when dashing towards {{tip|clone|clones}} just like actual champions.\n** This check never happens if '''Graves''' dashes 0 distance (impossible outside of bugs), and will not always repeat a final time at the very end of the dash. Otherwise, it occurs continously while '''Graves''' is dashing.\n** This works for a 180 degree sector from Graves to the Champion, as such dashing parallel to the champ will also give a bonus stack.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

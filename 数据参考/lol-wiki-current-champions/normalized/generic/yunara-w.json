@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "yunara-w",
+  "candidateKey": "hero_skill|hero_yunara|W|善恶轮 | 寂灭掌",
+  "ownerId": "hero_yunara",
+  "wikiChampionTitle": "Yunara",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Yunara/W",
+  "zhDisplayName": "善恶轮 | 寂灭掌",
+  "resolvedTitle": "Template:Data Yunara/Arc of Judgment",
+  "wikiPageId": 1699683,
+  "revisionId": 4008650,
+  "revisionTimestamp": "2026-04-15T00:46:24Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Yunara/Arc%20of%20Judgment",
+  "contentSha256": "d41412bf696ea8f7c30d1cd412535ce27bf3f5019498141fdf72e76659316bff",
+  "rawByteSize": 3558,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Yunara''' launches a spinning prayer bead in the target direction that briefly grants {{tip|sight}} of its {{tt|surroundings|Cannot see through terrain nor brush}} as it travels. The bead slows down significantly while colliding with an enemy, lingering as it travels and resetting its remaining duration; upon reaching maximum range, it will expand and linger in place for 1 second regardless of enemies hit.<br><br>The initial hit against each enemy before the bead's expansion deals {{as|magic damage}} and {{tip|slow|slows}} them by 99% decaying over {{fd|1.5}} seconds. While lingering, the bead deals {{#expr:{{#var:lm}}*100/4}}% of the impact damage as {{as|magic damage}} to nearby enemies every {{fd|0.25}} seconds.\n",
+    "leveling": "{{st|Initial Magic Damage|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{#var:adr}}% '''bonus''' AD)}} {{as|(+ {{#var:apr}}% AP)}}}}\n{{st|Linger Magic Damage per Tick|{{ap|({{#var:b1}}*{{#var:lm}})/4 to ({{#var:b5}}*{{#var:lm}})/4}} {{as|(+ {{ap|({{#var:adr}}*{{#var:lm}})/4}}% '''bonus''' AD)}} {{as|(+ {{ap|({{#var:apr}}*{{#var:lm}})/4}}% AP)}}}}\n{{st|Total Expanded Damage|{{ap|(({{#var:b1}}*{{#var:lm}})/4)*4 to (({{#var:b5}}*{{#var:lm}})/4)*4}} {{as|(+ {{ap|(({{#var:adr}}*{{#var:lm}})/4)*4}}% '''bonus''' AD)}} {{as|(+ {{ap|(({{#var:apr}}*{{#var:lm}})/4)*4}}% AP)}}}}\n",
+    "description2": "''Arc of Judgment'' deals {{pp|50 to 100 for 3|1;9;13|key=%}} damage against {{tip|minions}} and {{tip|execute|executes}} them if they would be killed by 6 more damage instances from the linger effect.\n",
+    "cooldown": "10\n",
+    "cost": "60\n",
+    "costtype": "mana\n",
+    "damagetype": "magic\n",
+    "notes": "* Applies {{tip|area damage}} for the initial hit and {{tip|persistent area damage}} for the lingering effect.\n* {{tip|Spell shield}} can block either the initial hit or one damage tick of the lingering effect.{{Effect at cast time end}}\n* ''Arc of Judgment'' can hit an enemy more than once with the initial damage as well with the lingering effect (both while not expanded and while expanded).\n** The bead can hit an enemy multiple times if they collide with it again while it is in flight.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

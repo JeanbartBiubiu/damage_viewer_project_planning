@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "senna-r",
+  "candidateKey": "hero_skill|hero_senna|R|暗影燎原",
+  "ownerId": "hero_senna",
+  "wikiChampionTitle": "Senna",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Senna/R",
+  "zhDisplayName": "暗影燎原",
+  "resolvedTitle": "Template:Data Senna/Dawning Shadow",
+  "wikiPageId": 1409580,
+  "revisionId": 4008033,
+  "revisionTimestamp": "2026-04-13T04:08:13Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Senna/Dawning%20Shadow",
+  "contentSha256": "4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36",
+  "rawByteSize": 2356,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Senna''' fires a massive beam in the target direction. The beam consists of a broad wave of light, and a narrow wave of shadow at the center.\n",
+    "description2": "The shadow wave deals {{as|physical damage}} to enemy {{tip|champions}} hit and {{tip|standard sight|reveals}} them for 3 seconds, as well as hits all ''{{ai|Absolution|Senna|Mist Wraiths}}''.\n",
+    "leveling2": "{{st|Physical Damage|{{ap|250 to 550}} {{as|(+ 115% '''bonus''' AD)}} {{as|(+ 70% AP)}}}}\n",
+    "description3": "The light wave grants a {{tip|shield}} to '''Senna''' and allied champions hit for 3 seconds, and grants {{tip|sight}} of {{tt|the area|Can see through brush and terrain.}} along the path for 2 seconds.\n",
+    "leveling3": "{{st|Shield Strength|{{ap|120 to 200}} {{as|(+ 50% AP)}} {{as|(+ 150% {{ai|Absolution|Senna|Mist}})|mist}}}}\n",
+    "cooldown": "{{ap|140 to 100}}\n",
+    "cost": "{{ap|100}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "physical\n",
+    "notes": "* The broad wave is a singular projectile that can be {{tip|projectile|destroyed}}.\n** The narrow wave will be destroyed with it in the process.\n{{Effect at cast time start}}\n* '''Senna''' reveals herself during the cast time.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

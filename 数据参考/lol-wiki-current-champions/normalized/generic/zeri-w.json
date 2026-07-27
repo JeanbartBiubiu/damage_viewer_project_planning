@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "zeri-w",
+  "candidateKey": "hero_skill|hero_zeri|W|强穿激光",
+  "ownerId": "hero_zeri",
+  "wikiChampionTitle": "Zeri",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Zeri/W",
+  "zhDisplayName": "强穿激光",
+  "resolvedTitle": "Template:Data Zeri/Ultrashock Laser",
+  "wikiPageId": 1517506,
+  "revisionId": 4013271,
+  "revisionTimestamp": "2026-04-28T22:03:40Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Zeri/Ultrashock%20Laser",
+  "contentSha256": "15fcbdd7e08c794cfe503b860732dfead4092b1e4aaa9b8a482a4ac70e6d4bb2",
+  "rawByteSize": 3629,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Zeri''' fires an electric pulse in the target direction that deals {{as|physical damage}} to the first enemy hit and {{tip|slows}} them for 2 seconds.<br><br>If the pulse hits [[terrain]], it transforms into a laser in a line that grants {{tip|sight}} of the area for {{fd|1.75}} seconds and fires after {{fd|0.85}} seconds, applying the same effects to enemies hit and {{tip|critical strike|critically striking}} for {{as|{{critical damage|{{#var:crit}}|{{#var:ie_mod_W}}}}|critical damage}} damage against {{tip|champions}} and {{tip|monsters}}.\n",
+    "leveling": "{{st|Physical Damage|{{ap|30 to 190}} {{as|(+ 120% AD)}} {{as|(+ 50% AP)}}|Critical Strike Damage|{{ap|30*{{#var:crit}}/100 to 190*{{#var:crit}}/100}} {{as|(+ {{ap|120*{{#var:crit}}/100}}% AD)}} {{as|(+ {{ap|50*{{#var:crit}}/100}}% AP)}}|Infinity Edge Damage|{{ap|30*({{#var:crit}}/100+{{#var:ie_dam}}) to 190*({{#var:crit}}/100+{{#var:ie_dam}})}} {{as|(+ {{ap|120*({{#var:crit}}/100+{{#var:ie_dam}})}}% AD)}} {{as|(+ {{ap|50*({{#var:crit}}/100+{{#var:ie_dam}})}}% AP)}}}}\n{{st|Slow|{{ap|30 to 50}}%}}\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "cost": "{{ap|50 to 90}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* Applies {{tip|spell damage}} for the pulse and {{tip|area damage}} for the laser.\n* The pulse missile is blocked by {{tip|projectile|projectile-interception}} effects but not the laser.\n* ''Ultrashock Laser'' interacts with [[Terrain#Player-Generated|player-generated terrain]].\n{{Effect at cast time start}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

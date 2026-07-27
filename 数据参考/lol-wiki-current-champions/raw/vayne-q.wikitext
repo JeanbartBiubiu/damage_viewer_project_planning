@@ -1,0 +1,31 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Tumble|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Vayne
+|skill        = Q
+|icon         = Tumble.png
+|blurb        = {{sbc|Active:}} {{ci|Vayne}} {{tip|dash|dashes}} in the target direction. Her next {{tip|basic attack}} within a few seconds will deal {{as|'''bonus''' physical damage}}.
+|description  = {{sbc|Active:}} '''Vayne''' {{tip|dash|dashes}} a fixed distance in the target direction, though not through terrain, and empowers her next {{tip|basic attack}} within 3 seconds to have an {{tip|uncancellable windup}} and deal {{as|'''bonus''' physical damage}}.
+|leveling     = {{st|Bonus Physical Damage|{{as|{{ap|75 to 115}}% AD}} {{as|(+ 50% AP)}}}}
+|description2 = ''Tumble {{tip|basic attack reset|resets}} '''Vayne's''' basic attack timer.''
+|range        = {{tt|300|Dash distance}}
+|speed        = {{tt|500 + {{as|100% movement speed}}|Dash speed}}
+|cooldown     = {{ap|6 to 2}}
+|cdstart      = post-effect
+|cost         = 30
+|cast time = none
+|costtype     = Mana
+|targeting    = Direction
+|affects      = [[Self-targeted|Self]]
+|damagetype   = physical
+|projectile   =
+|spelleffects = special
+|spellshield  =
+|grounded = true
+|knockdown = true
+|parry        = True
+|notes        =
+{{always quickcast}}
+* The basic attack portion of ''Tumble's'' damage is tagged as {{tip|basic damage}} and {{tip|spell damage}}, while the bonus damage is tagged as {{tip|spell damage}}.
+* The bonus damage applies {{as|{{sti|life steal}}}}.
+* Although ''Tumble'' will reset the basic attack timer, '''Vayne''' cannot attack until the animation is complete.
+* '''Vayne''' can cast {{ai|Final Hour|Vayne}} during ''Tumble''. She does not become {{tip|invisible}} during the dash.
+}}

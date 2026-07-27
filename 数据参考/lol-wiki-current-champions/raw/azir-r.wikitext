@@ -1,0 +1,40 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Emperor's Divide|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Azir
+|skill        = R
+|icon         = Emperor's Divide.png
+|blurb        = {{sbc|Active:}} {{ci|Azir}} summons a wall of soldiers that charges forward, dealing {{as|magic damage}} and {{tip|airborne|knocking back}} enemies hit.
+|blurb2       = The soldiers will linger for a few seconds, acting as terrain against enemies while allowing allies to pass.
+|description  = {{sbc|Active:}} '''Azir''' calls forth a phalanx of soldiers from {{tt|175|See notes}} units behind him, catching enemies from up to {{tt|325|See notes}} units behind him and charging forward {{tt|575|See notes}} units in the target direction.
+|leveling     = {{st|Width|{{ap|6 to 8}} soldiers|Width (charge)|{{tip|er|icononly = true}} {{ap|620 to 820}}|Width (impassable wall)|{{tip|pathing radius|icononly = true}} {{ap|750 to 950}}}}
+|description2 = Enemies impacted by the charge are dealt {{as|magic damage}} and {{tip|airborne|knocked away}} over 1 second to a line 650 units in front of '''Azir'''.
+|leveling2    = {{st|Magic Damage|{{ap|200 to 600}} {{as|(+ 75% AP)}}}}
+|description3 = Upon finishing their charge, the soldiers stand as a wall for 5 seconds, acting as impassible terrain against enemies and granting {{tip|sight}} of their surroundings. '''Azir''' and his allies can move through these soldiers.
+|target range = {{dv|{{tip|cr|icononly = true}} {{tt|400|Charge distance in front of Azir, wall location}}|{{tt|-325|Starting location behind Azir, see notes}}}}
+|effect radius= {{tip|cr|icononly = true}} {{tt|125|Soldier radius, 'lollipop' radius where they come to halt}}
+|speed        = {{dv|{{tt|1000|Knockback missiles speed}}|{{tt|1400|Soldiers dash speed}}}}
+|cooldown     = {{ap|120|105|90}}
+|cost         = 100
+|costtype     = mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Magic
+|cast time    = {{fd|0.5}}
+|spellshield  = True
+|spelleffects = spellaoe
+|projectile   = Special
+|grounded     =
+|knockdown    =
+|notes        =
+* {{tip|Monster|Monsters}} are also {{tip|airborne|knocked back}}.
+* The soldier units are spawned only 175 units behind '''Azir''', but do not control the {{tip|airborne|knock back}} directly. Each comes with a missile that travels the same path and conveys the damage and knockback effect.
+** The furthest area (from 325 to 175 units behind '''Azir''') is covered by a separate set of missiles with the same effects.
+** All of the soldiers and their missiles will end the charge prematurely when one encounters {{ai|Wind Wall|Yasuo}} / {{ai|Unbreakable|Braum}} / {{ai|Blade Whirl|Samira}} / {{ai|Rebuttal|Mel}} or upon colliding with terrain that they cannot charge through.
+* The charge starts at {{fd|0.25}} seconds into the cast time.
+{{Effect at cast time start}}
+* When the dash of the soldiers comes to a halt, all not-yet-affected enemies on top of the soldiers' landing locations (125 radius) are also knocked back.
+* ''Emperor's Divide'' will not be canceled if '''Azir''' dies during the cast time.
+* While the soldiers are charging forward, the wall is not impassable terrain.
+** This means enemies that are immune to {{tip|airborne}} effects can pass through the wall while its moving.
+* The wall '''will''' count as terrain for the purposes of 'into terrain' effects (e.g. {{ai|Condemn|Vayne}}, {{ai|Dredge Line|Nautilus}}, {{ai|Heroic Charge|Poppy}}). This will only affect enemies, allies will pass through the wall in all circumstances, even if knocked into it by an enemy.
+|flavorsound  = {{sm2|Azir_Original_R_5.ogg}} ''"My soldiers march on!"''
+}}

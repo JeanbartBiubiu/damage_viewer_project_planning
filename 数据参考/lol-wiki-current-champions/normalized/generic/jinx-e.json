@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jinx-e",
+  "candidateKey": "hero_skill|hero_jinx|E|嚼火者手雷！",
+  "ownerId": "hero_jinx",
+  "wikiChampionTitle": "Jinx",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Jinx/E",
+  "zhDisplayName": "嚼火者手雷！",
+  "resolvedTitle": "Template:Data Jinx/Flame Chompers!",
+  "wikiPageId": 1307600,
+  "revisionId": 3993368,
+  "revisionTimestamp": "2026-02-21T15:35:19Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jinx/Flame%20Chompers!",
+  "contentSha256": "64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee",
+  "rawByteSize": 1786,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Jinx''' tosses out 3 ''Chompers'' centered at the target location, landing after {{fd|0.4}} seconds, arming after {{fd|0.5}} seconds, and exploding after 5 seconds to deal {{as|magic damage}} to nearby enemies.\n",
+    "leveling": "{{st|Magic Damage|{{ap|90 to 290}} {{as|(+ 100% AP)}}}}\n",
+    "description2": "Each ''Chomper'' explodes on contact with an enemy {{tip|champion|champion}}, {{tip|knockdown|knocking them down}} and {{tip|root|rooting}} them for {{fd|1.5}} seconds. Enemy champions can be affected by only one ''Chomper''.\n",
+    "cost": "90\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|24 to 10}}\n",
+    "damagetype": "Magic\n",
+    "notes": "* ''Chompers'' will halt when encountering {{ai|Wind Wall|Yasuo}} and {{ai|Unbreakable|Braum}}.\n* {{tip|Spell shield}} does not negate the explosion.\n* Each ''Chomper'' gives vision of its surrounding area.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

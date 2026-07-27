@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|MMOOOMMMM!|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Smolder
+|skill        = R
+|icon         = Smolder MMOOOMMMM!.png
+|description  = {{sbc|Active:}} '''Smolder''' shouts for his mother to attack from above, causing her to exhale a wave of fire starting from behind him and towards the target direction, granting {{tip|sight}} of its {{tt|surroundings|Cannot grant sight through terrain and can only grant sight into brush when the center part goes through that brush}} as it travels. The wave {{tip|heal|heals}} '''Smolder''' and deals {{as|physical damage}} to enemies hit, with those in the center taking {{ccs|50% increased damage|physical}} and becoming {{tip|slow|slowed}} by 40% for 2 seconds.
+|leveling     = {{st|Self Heal|{{ap|100 to 170}} {{as|(+ 50% '''bonus''' AD)}} {{as|(+ 75% AP)}}}}
+{{st|Physical Damage|{{ap|150 to 350}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 100% AP)}}|Increased Physical Damage|{{ap|150*1.5 to 350*1.5}} {{as|(+ {{ap|100*1.5}}% '''bonus''' AD)}} {{as|(+ {{ap|100*1.5}}% AP)}}}}
+|description2 = ''MMOOOMMMM!'' deals 50% damage against {{tip|minions}} and {{tip|monsters}}.
+|range        = {{dv|{{tt|4250|Wave forward range}}|{{tt|-600|Wave backwards range}}}}
+|effect radius= {{tip|sight|icononly=true}}{{tt|1000|Wave sight radius}}
+|speed        = 1700
+|width        = {{tt|125|Wave center sweetspot for the increased damage}}
+|cooldown     = {{ap|120 to 100}}
+|cast time    = {{fd|0.75}}
+|cost         = 100
+|costtype     = mana
+|targeting    = Direction
+|affects      = Enemies, Self
+|damagetype   = physical
+|spelleffects = spellaoe
+|spellshield  = true
+|projectile   = true
+|notes        =
+{{Effect at cast time start}}
+{{ct|cast|move=Disabled in the first {{fd|0.4}} seconds of the cast time.|spells=true,false,false,false,false}}
+<!-- Blurb -->
+|blurbicon    = Smolder MMOOOMMMM!.png
+|blurb        = {{sbc|Active:}} {{ci|Smolder}} shouts for his mother to attack from above, causing her to exhale a wave of fire along his path. The wave {{as|{{sti|heals}}|heal}} '''Smolder''' and deals {{as|physical damage}} to enemies hit, enemies within the center are dealt {{ccs|increased damage|physical}} and {{tip|slow|slowed}}.
+}}

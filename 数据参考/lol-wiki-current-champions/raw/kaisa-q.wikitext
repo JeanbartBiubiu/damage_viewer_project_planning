@@ -1,0 +1,41 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:b1|40}}<!-- Generic/Normal rank 1 base damage
+-->{{#vardefine:b5|100}}<!-- Generic/Normal rank 5 base damage
+-->{{#vardefine:ad|55}}<!-- Generic/Normal bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:ap|20}}<!-- Generic/Normal AP ratio as a PERCENTAGE
+-->{{#vardefine:mod|0.25}}<!-- Missile modifier beyond the first as a DECIMAL
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Icathian Rain|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kai'Sa
+|skill        = Q
+|icon         = Icathian Rain.png
+|blurb        = {{sbc|Active:}} {{ci|Kai'Sa}} shoots a swarm of missiles that evenly seek out nearby enemies, dealing {{as|physical damage}}.
+|blurb4       = {{sbc|{{ai|Second Skin|Kai'Sa|Living Weapon}} Bonus:}} ['''Requires {{sti|{{as|attack damage}}}}''']<br/>''Icathian Rain'' fires more missiles.
+|description  = {{sbc|Active:}} '''Kai'Sa''' releases a swarm of 6 missiles that evenly distributes among nearby {{tip|sight|visible}} enemies, each one hitting their target after {{fd|0.4}} seconds to deal {{as|physical damage}}. {{tip|Minions}} below {{sti|health|{{as|35% health}}}} take double damage.
+|leveling     = {{st|Physical Damage Per Missile|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{#var:ad}}% '''bonus''' AD)}} {{as|(+ {{#var:ap}}% AP)}}}}
+|description2 = Non-minions take {{ap|{{#var:mod}}*100}}% damage from missiles beyond their first.
+|leveling2    = {{st|Reduced Damage Per Missile|{{ap|{{#var:b1}}*{{#var:mod}} to {{#var:b5}}*{{#var:mod}}}} {{as|(+ {{ap|{{#var:ad}}*{{#var:mod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*{{#var:mod}}}}% AP)}}|Total Single-Target Damage|{{ap|{{#var:b1}}*(1+{{#var:mod}}*5) to {{#var:b5}}*(1+{{#var:mod}}*5)}} {{as|(+ {{ap|{{#var:ad}}*(1+{{#var:mod}}*5)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*(1+{{#var:mod}}*5)}}% AP)}}}}
+|icon3        = Icathian Rain 2.png
+|description3 = {{sbc|{{ai|Second Skin|Kai'Sa|Evolution}}:}} Requires{{ft|{{sti|{{as|{{pplevel|round=ceil|100-{{ccd|Kai'Sa|dam_lvl}}*(x-1)*(0.7025+0.0175*(x-1))}} attack damage}}}} from items|{{sti|{{as|100 attack damage}}}} from items and stat growth}}to upgrade – ''Icathian Rain'' instead fires 12 missiles.
+|leveling3    = {{st|Total Evolved Single-Target Damage|{{ap|{{#var:b1}}*(1+{{#var:mod}}*11) to {{#var:b5}}*(1+{{#var:mod}}*11)}} {{as|(+ {{ap|{{#var:ad}}*(1+{{#var:mod}}*11)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*(1+{{#var:mod}}*11)}}% AP)}}}}
+|description4 = ''A nearby enemy is required to cast this ability.''
+|target range = 600
+|effect radius=
+|cost         = 55
+|cast time    = none
+|costtype     = Mana
+|cooldown     = {{ap|10 to 6}}
+|targeting    = Proximity
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = Special
+|spelleffects = special
+|projectile   = True
+|grounded     =
+|notes        =
+* The first missile on a target applies {{tip|area damage}}, while the rest on the same target apply {{tip|persistent area damage}}.
+* {{tip|Spell shield|Spell shields}} only block the damage from a single missile.
+* ''Icathian Rain'' acquires its targets upon cast. Moving will not change its targets.
+* Charging {{ai|Supercharge|Kai'Sa}} will not stop the missiles from firing.
+* It takes 1 second for all missiles to fire at a single target.
+|yvideo       = BdABVJ-uhF8
+}}

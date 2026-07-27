@@ -1,0 +1,39 @@
+<!--Edit these paramater values when they get changed
+-->{{#vardefine:b1|55}}<!-- Base Rank 1 Damage
+-->{{#vardefine:b5|215}}<!-- Base Rank 5 Damage
+-->{{#vardefine:adr|85}}<!-- Bonus AD ratio as a PERCENTAGE
+-->{{#vardefine:apr|50}}<!-- AP ratio as a PERCENTAGE
+-->{{#vardefine:lm|0.6}}<!-- Linger Damage Modifier as a DECIMAL
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Arc of Judgment|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Yunara
+|skill        = W
+|icon         = Yunara Arc of Judgment.png
+|description  = {{sbc|Active:}} '''Yunara''' launches a spinning prayer bead in the target direction that briefly grants {{tip|sight}} of its {{tt|surroundings|Cannot see through terrain nor brush}} as it travels. The bead slows down significantly while colliding with an enemy, lingering as it travels and resetting its remaining duration; upon reaching maximum range, it will expand and linger in place for 1 second regardless of enemies hit.<br><br>The initial hit against each enemy before the bead's expansion deals {{as|magic damage}} and {{tip|slow|slows}} them by 99% decaying over {{fd|1.5}} seconds. While lingering, the bead deals {{#expr:{{#var:lm}}*100/4}}% of the impact damage as {{as|magic damage}} to nearby enemies every {{fd|0.25}} seconds.
+|leveling     = {{st|Initial Magic Damage|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{#var:adr}}% '''bonus''' AD)}} {{as|(+ {{#var:apr}}% AP)}}}}
+{{st|Linger Magic Damage per Tick|{{ap|({{#var:b1}}*{{#var:lm}})/4 to ({{#var:b5}}*{{#var:lm}})/4}} {{as|(+ {{ap|({{#var:adr}}*{{#var:lm}})/4}}% '''bonus''' AD)}} {{as|(+ {{ap|({{#var:apr}}*{{#var:lm}})/4}}% AP)}}}}
+{{st|Total Expanded Damage|{{ap|(({{#var:b1}}*{{#var:lm}})/4)*4 to (({{#var:b5}}*{{#var:lm}})/4)*4}} {{as|(+ {{ap|(({{#var:adr}}*{{#var:lm}})/4)*4}}% '''bonus''' AD)}} {{as|(+ {{ap|(({{#var:apr}}*{{#var:lm}})/4)*4}}% AP)}}}}
+|description2 = ''Arc of Judgment'' deals {{pp|50 to 100 for 3|1;9;13|key=%}} damage against {{tip|minions}} and {{tip|execute|executes}} them if they would be killed by 6 more damage instances from the linger effect.
+|range        = 1150
+|speed        = {{dv|{{tt|2150|Normal missile speed}}|{{tt|150|Lingering missile speed}}}}
+|effect radius= {{tt|150|Expanded bead radius}}
+|width        = {{tip|er|icononly = true}} 120
+|cooldown     = 10
+|cast time    = {{pp|0.45 to 0.225 for 11|0 to 100|key1=%|type='''bonus''' attack speed|label1= Bonus AS|color=attack speed|round=3}}
+|cost         = 60
+|costtype     = mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = magic
+|spelleffects = special
+|spellshield  = special
+|projectile   = true
+|notes        =
+* Applies {{tip|area damage}} for the initial hit and {{tip|persistent area damage}} for the lingering effect.
+* {{tip|Spell shield}} can block either the initial hit or one damage tick of the lingering effect.{{Effect at cast time end}}
+* ''Arc of Judgment'' can hit an enemy more than once with the initial damage as well with the lingering effect (both while not expanded and while expanded).
+** The bead can hit an enemy multiple times if they collide with it again while it is in flight.
+<!-- Blurb -->
+|blurbicon    = Yunara Arc of Judgment.png
+|blurb        = {{sbc|Active:}} {{ci|Yunara}} launches a spinning prayer bead that briefly slows down upon hitting an enemy. The initial hit against each enemy deals {{as|magic damage}} and {{tip|slows}} the target, and the bead continually deals {{as|magic damage}} to nearby enemies.
+|blurb2       = Upon reaching maximum range, the bead expands and lingers briefly.
+}}

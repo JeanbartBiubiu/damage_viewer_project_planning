@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "missfortune-p",
+  "candidateKey": "hero_skill|hero_missfortune|P|厄运的眷顾",
+  "ownerId": "hero_missfortune",
+  "wikiChampionTitle": "Miss Fortune",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Miss Fortune/I",
+  "zhDisplayName": "厄运的眷顾",
+  "resolvedTitle": "Template:Data Miss Fortune/Love Tap",
+  "wikiPageId": 1308249,
+  "revisionId": 4027989,
+  "revisionTimestamp": "2026-06-13T08:29:13Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Love%20Tap",
+  "contentSha256": "2ed72684109983e9116050fcc34d6536903b9d04c0569f6633f4b734daae7527",
+  "rawByteSize": 1271,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Miss Fortune's''' {{tip|basic attacks}} are empowered to apply a mark that expires upon attacking a new enemy. If the enemy was unmarked, this also deals {{as|{{pp|key=%|50 to 100 for 6|1;4;7 to 13|formula=50% + 10% every 3 levels up to 7, then + 10% every 2 levels up to 13}} AD}} {{as|'''bonus''' physical damage}}, halved to {{as|{{pp|key=%|50/2 to 100/2 for 6|1;4;7 to 13|formula=25% + 5% every 3 levels up to 7, then + 5% every 2 levels up to 13}} AD}} against {{tip|minion|minions}}.\n",
+    "damagetype": "Physical\n",
+    "notes": "* With {{ii|Runaan's Hurricane}}, ''Love Tap'' only applies to the primary target.\n* The bonus damage applies {{sti|life steal|link=true}}.\n* The empowered attack will not trigger against [[buildings]]<!--buildings?-->.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

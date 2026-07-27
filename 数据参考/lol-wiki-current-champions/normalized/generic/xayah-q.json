@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "xayah-q",
+  "candidateKey": "hero_skill|hero_xayah|Q|双刃",
+  "ownerId": "hero_xayah",
+  "wikiChampionTitle": "Xayah",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Xayah/Q",
+  "zhDisplayName": "双刃",
+  "resolvedTitle": "Template:Data Xayah/Double Daggers",
+  "wikiPageId": 1324541,
+  "revisionId": 4008615,
+  "revisionTimestamp": "2026-04-15T00:26:21Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Xayah/Double%20Daggers",
+  "contentSha256": "8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd",
+  "rawByteSize": 2615,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Xayah''' barrages two {{as|Feathers|buzzword}} in the target direction that each deal {{as|physical damage}} to enemies hit.\n",
+    "leveling": "{{st|Physical Damage Per Hit|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}|Total Physical Damage|{{ap|45*2 to 105*2}} {{as|(+ 100% '''bonus''' AD)}}}}\n",
+    "description2": "Targets hit after the first take 50% reduced damage.\n",
+    "leveling2": "{{st|Reduced Damage per Hit|{{ap|45/2 to 105/2}} {{as|(+ 25% '''bonus''' AD)}}|Total Reduced Damage|{{ap|45 to 105}} {{as|(+ 50% '''bonus''' AD)}}}}\n",
+    "cost": "35\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|10 to 8}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* Daggers shoot from '''Xayah's''' left and right side.\n* Because of the usual tick intervals of the server, ''Double Daggers' ''minimum cast time is typically reached at {{as|{{fd|168.58}}% '''bonus''' attack speed}} already, for a cast time of {{fd|0.132}} seconds (from the default {{rutngt|0.25}}), or the duration of 4 game ticks.\n** If the first 3 game ticks happen to be slightly longer than normal, the minimum cast time of {{fd|0.1}} seconds can actually be reached in very rare cases because of that.\n* '''Xayah''' is unable to declare basic attacks for a set duration during the cast time of ''Double Daggers''. The lock out duration is reduced by {{ft|{{fd|0.007}} seconds per every {{as|1% '''bonus''' attack speed}}|1 second per every {{as|140% '''bonus''' attack speed}}}}.\n* The {{as|Feathers|buzzword}} will stop upon being intercepted by {{tip|projectile|projectile-blocking}} effects.\n* As the feathers are forming, they will deal damage in a small area around '''Xayah's''' before firing.\n* {{tip|Spell shield}} will only block a single instance of damage.\n{{Effect at cast time end}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "senna-q",
+  "candidateKey": "hero_skill|hero_senna|Q|黑暗洞灭",
+  "ownerId": "hero_senna",
+  "wikiChampionTitle": "Senna",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Senna/Q",
+  "zhDisplayName": "黑暗洞灭",
+  "resolvedTitle": "Template:Data Senna/Piercing Darkness",
+  "wikiPageId": 1409573,
+  "revisionId": 4042887,
+  "revisionTimestamp": "2026-07-14T19:40:15Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Senna/Piercing%20Darkness",
+  "contentSha256": "e546be97aaf2f4b9ff2468b22a144f37933f3a6a4a29e2e1d45a69c0adcb8a41",
+  "rawByteSize": 6400,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Senna''' fires a beam in the direction of the target unit. The beam consists of a wider ray of light, and a narrower ray of shadow at the center.<br><br>The shadow ray deals {{as|physical damage}} to enemies hit and {{tip|slow|slows}} them by 15% {{as|(+ 15% per 100 '''bonus''' AD)}} {{as|(+ 7% per 100 AP)}} for a duration. The damage dealt to enemy champions {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} at 100% effectiveness.\n",
+    "leveling": "{{st|Physical Damage|{{ap|30 to 130}} {{as|(+ 60% '''bonus''' AD)}}}}\n{{st|Slow Duration|{{ap|1 to 2}} seconds}}\n",
+    "description2": "The light ray {{tip|heal|heals}} '''Senna''' and allied {{tip|champions}} hit.\n",
+    "leveling2": "{{st|Healing|{{ap|40 to 120}} {{as|(+ 40% '''bonus''' AD)}} {{as|(+ 35% AP)}}}}\n",
+    "description3": "''Piercing Darkness'' is {{tt|considered|Piercing Darkness doesn't actually apply basic damage}} to trigger a single {{tip|basic attack}} against {{tip|turrets}}, {{tip|wards}}, [[jungle plants]], {{ai|Absolution 3|Senna|Mist Wraiths}} and [[Champion_summoned_units#Targetable|any other attack-interactive units]] hit. It also applies {{tip|on-hit}} effects against {{tip|champions}} and {{tip|turrets}} hit, and triggers {{tip|on-attack}} effects against {{tt|one champion hit|see notes}}.\n",
+    "description4": "''Piercing Darkness' '' {{sti|'''current''' cooldown}} is reduced by 1 second {{tip|on-attack}}.\n",
+    "cost": "{{ap|70 to 110}}\n",
+    "costtype": "Mana\n",
+    "cooldown": "15\n",
+    "damagetype": "Physical\n",
+    "notes": "* Applies {{tip|spell damage}} to the same champion it applies {{tip|on-attack}} effects to and {{tip|area damage}} to all other targets.\n* The ability's cast time respects the attack speed [[Attack speed|floor and cap]].\n** {{ri|Hail of Blades}} will spend a stack on hitting a champion with ''Piercing Darkness'' but only if {{ri|Hail of Blades}} was activated first by an auto-attack.\n* '''Senna''' can generally target anything that is not either explicitly {{tip|untargetable}} or herself.\n** Valid targets include anything that can be targeted by a basic attack from someone.\n* ''Piercing Darkness'' respects all {{tip|turret}}-specific rules when striking them.\n* {{tip|On-hit}} effects are applied in order of struck units' spawn IDs. This matters for effects that are consumed on-hit (e.g. {{tip|Spellblade}}), which are applied to the target with the lowest {{tt|Spawn ID|among enemy champions, this would also be the enemy first pick in Blind Pick mode}}.\n** \"Spawn ID\" is an unofficial abbreviation to describe the spawn order for all units at the start of a game, below are some examples.\n** If '''Senna''' targets an enemy champion but hits at least one more enemy champion simultaneously, {{ris|Press the Attack}} first stack will be applied to that target. If no champion was targeted, it will default to the champion with the lowest Spawn ID out of the ones struck by the ability. Whether the effect stacks up on a champion or not when multiple enemy champions are stuck also depends on Spawn ID.\n** If ''Piercing Darkness'' struck an enemy champion and turret simultaneously, with {{ii|Rapid Firecannon}} fully charged, the passive effect will most likely trigger on the turret since towers are often spawned before champions.\n* Similarly, {{tip|on-attack}} effects are applied in order of struck champions' spawn IDs. However, there are some specific on-attack effects that will apply to both the target of ''Piercing Darkness'' and the target with the lowest {{tt|Spawn ID|among enemy champions, this would also be the enemy first pick in Blind Pick mode}} if the two unit is not identical.{{bug|2}} {{tt|Confirmed cases|All under the condition that the targeted enemy champion does NOT have the lowest Spawn ID among all struck enemy champions}}:\n** {{nie|Energized}} effects are stacked twice the amount.\n** {{Pending for test}}\n* {{tip|Spell shield}} will not prevent on-hit effects from being applied.\n* {{Pending for test}} ''Piercing Darkness'' interaction with {{tip|dodge|dodging}}, {{tip|block|blocking}}, and {{tip|blind|blinding}} effects.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -14,13 +14,15 @@ import (
 // basic_damage matches ability TypeSet containing ability/basic_attack only.
 
 const (
-	pipeMagProviderRef  = "item:magnification"
-	pipeMagModifierKey  = "magnification_basic"
-	pipeRockProviderRef = "item:rock_solid"
-	pipeRockModifierKey = "rock_solid_first"
-	pipeOrderLowKey     = "order_low"
-	pipeOrderHighKey    = "order_high"
-	pipeNonBasicAbility = "spell_probe"
+	pipeMagProviderRef      = "item:magnification"
+	pipeMagModifierKey      = "magnification_basic"
+	pipeRockProviderRef     = "item:rock_solid"
+	pipeRockModifierKey     = "rock_solid_first"
+	pipeOrderLowKey         = "order_low"
+	pipeOrderHighKey        = "order_high"
+	pipeNonBasicAbility     = "spell_probe"
+	pipeGiantSlayerProvider = "item:3036_lord_dominiks"
+	pipeGiantSlayerModKey   = "giant_slayer"
 )
 
 func pipeFloat(v float64) *float64 { return &v }
@@ -445,5 +447,110 @@ func TestPipelineZeroModifierResultRemainsValid(t *testing.T) {
 	}
 	if math.Abs(done.Summary.SourceDamageDealt) > 1e-9 {
 		t.Fatalf("summary dealt=%v want 0", done.Summary.SourceDamageDealt)
+	}
+}
+
+// giantSlayerModifier encodes Wiki item 3036 Giant Slayer passive only (no AD/crit/pen stats):
+// 1 + min(0.15, 0.0001 * max(0, target.hp.max - target.hp.base)).
+// Bonus health is proxied as max−base under the current 1v1 champion-source scope;
+// this does not claim a non-champion filter or a dedicated target_bonus_health ABI field.
+func giantSlayerModifier() model.ModifierDefinition {
+	one := 1.0
+	cap := 0.15
+	perUnit := 0.0001
+	zero := 0.0
+	return model.ModifierDefinition{
+		ModifierKey: pipeGiantSlayerModKey,
+		Kind:        "pipeline",
+		Command:     "damage",
+		Channel:     "all_damage",
+		Stage:       "outgoing_pre_mitigation",
+		Bucket:      "all_instances",
+		Priority:    0,
+		ValuePolicy: "multiply",
+		Value: model.GenericFormulaExpr{
+			Op: "add",
+			Args: []model.GenericFormulaExpr{
+				{Op: "const", Value: &one},
+				{
+					Op: "min",
+					Args: []model.GenericFormulaExpr{
+						{Op: "const", Value: &cap},
+						{
+							Op: "mul",
+							Args: []model.GenericFormulaExpr{
+								{Op: "const", Value: &perUnit},
+								{
+									Op: "max",
+									Args: []model.GenericFormulaExpr{
+										{Op: "const", Value: &zero},
+										{
+											Op: "sub",
+											Args: []model.GenericFormulaExpr{
+												{Op: "read", Path: "target.attr.hp.max"},
+												{Op: "read", Path: "target.attr.hp.base"},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+// TestPipelineGiantSlayerBonusHealthOutgoing1v1ChampionSource proves Wiki 3036 Giant Slayer
+// passive damage amp in the CompileGeneric→RunGeneric lane under the current 1v1
+// champion-source boundary, using max−base as the bonus-health proxy (not a dedicated ABI field).
+// Cases: bonusHealth 0→100, 400→104 (ratio), 1500→115 and 2000→115 (cap). Passive only.
+func TestPipelineGiantSlayerBonusHealthOutgoing1v1ChampionSource(t *testing.T) {
+	const hpBase = 100000.0
+	cases := []struct {
+		name        string
+		bonusHealth float64
+		want        float64
+	}{
+		{"bonusHealth_0", 0, 100},
+		{"bonusHealth_400", 400, 104},
+		{"bonusHealth_1500", 1500, 115},
+		{"bonusHealth_2000", 2000, 115},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			compileReq, runReq := loadPipelineDamageFixture(t, 100, 0)
+			hpMax := hpBase + tc.bonusHealth
+			setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+				Base: hpBase, Current: hpMax, Max: hpMax, Resolved: hpMax,
+			})
+			mountPipelineProvider(
+				&compileReq, &runReq, model.SelectorSource,
+				pipeGiantSlayerProvider, "3036", giantSlayerModifier(),
+			)
+			done := runPipelineFixture(t, compileReq, runReq)
+			data := firstOriginalDamage(t, done)
+			if math.Abs(evidenceDataFloat(data, "rawAmount")-tc.want) > 1e-9 {
+				t.Fatalf("rawAmount=%v want %v (bonusHealth=%v)", evidenceDataFloat(data, "rawAmount"), tc.want, tc.bonusHealth)
+			}
+			if math.Abs(evidenceDataFloat(data, "mitigatedAmount")-tc.want) > 1e-9 {
+				t.Fatalf("mitigated=%v want %v", evidenceDataFloat(data, "mitigatedAmount"), tc.want)
+			}
+			if math.Abs(done.Summary.SourceDamageDealt-tc.want) > 1e-9 {
+				t.Fatalf("summary dealt=%v want %v", done.Summary.SourceDamageDealt, tc.want)
+			}
+			mods := damageEvidenceModifiers(data)
+			if len(mods) != 1 || mods[0]["modifierKey"] != pipeGiantSlayerModKey {
+				t.Fatalf("modifiers=%v want exactly one %s", mods, pipeGiantSlayerModKey)
+			}
+			if mods[0]["stage"] != "outgoing_pre_mitigation" {
+				t.Fatalf("stage=%v want outgoing_pre_mitigation", mods[0]["stage"])
+			}
+			if math.Abs(evidenceDataFloat(mods[0], "before")-100) > 1e-9 ||
+				math.Abs(evidenceDataFloat(mods[0], "after")-tc.want) > 1e-9 {
+				t.Fatalf("before/after=%v/%v want 100/%v", mods[0]["before"], mods[0]["after"], tc.want)
+			}
+		})
 	}
 }

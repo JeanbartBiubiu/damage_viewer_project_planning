@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "akshan-q",
+  "candidateKey": "hero_skill|hero_akshan|Q|去而复还",
+  "ownerId": "hero_akshan",
+  "wikiChampionTitle": "Akshan",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Akshan/Q",
+  "zhDisplayName": "去而复还",
+  "resolvedTitle": "Template:Data Akshan/Avengerang",
+  "wikiPageId": 1502462,
+  "revisionId": 4007510,
+  "revisionTimestamp": "2026-04-11T22:35:01Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Akshan/Avengerang",
+  "contentSha256": "1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b",
+  "rawByteSize": 2570,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Akshan''' throws a boomerang in the target direction that briefly grants {{tip|sight}} around its trajectory and deals {{as|physical damage}} to enemies hit, {{tip|standard sight|revealing}} them for 1 second and extending its range each time it hits a target. If this hits an enemy {{tip|champion}}, '''Akshan''' gains {{sti|ms|{{as|20%|ms}}}} {{as|(+ 5% per 100 AP)}} {{as|'''bonus''' movement speed}} that decays over 1 second.\n",
+    "leveling": "{{st|Physical Damage|{{ap|45 to 165}} {{as|(+ 70% '''bonus''' AD)}}}}\n",
+    "description2": "Once the boomerang has passed its original range and has not hit a target in the last 500 units of travelling, it homes back to '''Akshan''' and applies the same effects to enemies hit.\n",
+    "leveling2": "{{st|Total Physical Damage|{{ap|45*2 to 165*2}} {{as|(+ {{ap|70*2}}% '''bonus''' AD)}}}}\n",
+    "description3": "''Avengerang'' deals reduced damage against non-champions.\n",
+    "leveling3": "{{st|Non-Champion Damage|{{ap|40 to 80}}%}}\n",
+    "description4": "''Enemies can be hit only once per pass.''\n",
+    "cooldown": "{{tt|{{ap|9 to 5}}|Starts after the boomerang returns}}\n",
+    "cost": "{{ap|60 to 80}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* {{tip|Spell shield}} will only block a single hit. They do not prevent the initial throw from extending its range.\n{{Effect at cast time end}}\n* This ability's damage is calculated based on the caster's current stats and changes dynamically.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

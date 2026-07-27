@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "akshan-e",
+  "candidateKey": "hero_skill|hero_akshan|E|骄行荡寇",
+  "ownerId": "hero_akshan",
+  "wikiChampionTitle": "Akshan",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Akshan/E",
+  "zhDisplayName": "骄行荡寇",
+  "resolvedTitle": "Template:Data Akshan/Heroic Swing",
+  "wikiPageId": 1502464,
+  "revisionId": 4007412,
+  "revisionTimestamp": "2026-04-11T16:52:05Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Akshan/Heroic%20Swing",
+  "contentSha256": "e4304b3a5f145f7975fee0d07d55d041db25570266d9a46053735425585c99f4",
+  "rawByteSize": 8939,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Akshan''' can activate ''Heroic Swing'' three times before the ability goes on cooldown, and can use the third cast only after {{fd|0.5}} seconds of the second cast. '''Akshan''' may input an attack or movement command to use the second and third casts.\n",
+    "description2": "{{sbc|First Cast:}} '''Akshan''' fires a hook in the target direction that embeds in the first [[terrain]] hit, and enters {{tt|preparation|See notes}} for up to {{fd|2.125}} seconds. ''Heroic Swing's'' second cast can be used while the hook is attached. If the hook fails to attach or '''Akshan''' is {{tt|moved|See notes}} or becomes {{tip|immobilize|immobilized}}, {{tip|ground|grounded}}, or {{tip|polymorph|polymorphed}} within the duration, the preparation will end prematurely, cancelling ''Heroic Swing'' in the process.\n",
+    "description3": "{{sbc|Second Cast:}} '''Akshan''' {{tip|dash|swings}} around the terrain in either a clockwise or counterclockwise direction based on the position of the cursor relative to his {{tt|facing direction|See notes}}, stopping upon colliding with an enemy champion or terrain. While swinging, he fires at the nearest {{tip|sight|visible}} enemy every {{rutngt|0.2}} to deal them {{as|physical damage}} and apply {{tip|on-hit}} effects for each shot, with on-hit damage reduced to 25% effectiveness.<br><br>'''''Akshan''' will be {{tip|knockdown|knocked down}} by any {{tip|immobilize|immobilizing}} or {{tip|polymorph|polymorphing}} crowd control during the dash.''\n",
+    "leveling3": "{{st|Physical Damage per Shot|{{ap|8 to 40}} {{as|(+ 25% AD)}} {{times}} {{as|(1 + {{fd|0.3}} per 100% '''bonus''' attack speed)}}}}\n",
+    "description4": "{{sbc|Third Cast:}} '''Akshan''' ends the swing by {{tip|dash|jumping}} to the target location, though not through terrain, and fires one last shot at a nearby {{tip|sight|visible}} enemy.\n",
+    "description5": "Scoring an enemy champion {{tip|takedown}} reduces ''Heroic Swing's'' {{sti|'''current''' cooldown}} to {{fd|0.5}} seconds. The shots can {{tip|critically strike}} for{{ft|{{as|{{critical damage|150|50}}|critical damage}} damage|{{sti|{{as|50% '''bonus''' critical damage}}}}}}and {{tip|applies life steal|apply}} {{as|{{sti|life steal}}}}.\n",
+    "description6": "''{{ai|Avengerang|Akshan}} and {{ai|Going Rogue|Akshan}} can be cast during the third cast's dash. {{ai|Comeuppance|Akshan}} can be cast at all points during Heroic Swing, though '''Akshan''' cannot fire during the swing while it is active. '''Akshan''' prioritizes firing at enemy champions with stacks of {{ai|Dirty Fighting|Akshan}}, then those damaged by his {{tip|unit-targeted|targeted}} spells in the last 4 seconds, then the nearest enemy. Heroic Swing can be cast during '''Akshan's''' other abilities.''\n",
+    "cooldown": "{{ap|18 to 12}}\n",
+    "cost": "70\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* The second cast's dash will displace '''Akshan''' around the terrain in either a clockwise or counterclockwise direction, with the specific direction being determined by the position of the player's cursor relative to his facing direction.\n** The dash will move clockwise if the player's cursor is anywhere to the left of '''Akshan''' from his facing direction (or perspective), and counterclockwise if the cursor is anywhere to his right.\n* '''Akshan''' will not stop swinging until his dash is stopped.\n** The swing will end prematurely if the terrain the hook was attached to no longer exists, such as [[Terrain#Player-Generated|player-generated terrain]].\n* '''Akshan''' will prioritize firing at enemies he damaged with ''any'' unit-targeted ability or spell within the last 4 seconds, such as {{ai|R|Akshan}} or {{si|Ignite}}.\n* ''Heroic Swing'' grants a buff to '''Akshan''' for 2 seconds that indicates and determines the first cast's duration.\n** This buff starts as soon as the ability is cast, and lingers for {{fd|0.125}} seconds after it expires.\n*** This means the hook can be attached to terrain for longer if it hits it earlier in the duration, and vice versa.\n** If '''Akshan''' {{tip|dash|dashes}} (excluding second cast's dash) or {{tip|blink|blinks}} or becomes affected by {{tip|immobilize|immobilization}}, {{tip|ground}}, or {{tip|polymorph}} in the duration, the buff is removed ''immediately'', causing the first cast to be lost and cancelling ''Heroic Swing'' entirely.\n* If '''Akshan''' is too close to the terrain that the hook embedded into, he will recoil up to 250 units away from the hook's attach location.\n* '''Akshan''' immediately fires one shot at the beginning of his swing and a final shot while dismounting from the swing.\n* '''Akshan''' can fire at any targetable enemy unit excluding {{tip|structures}} and [[jungle plants]].\n* Only ''Heroic Swing's'' first cast is disabled while {{tip|ground|grounded}} or {{tip|root|rooted}}. The third cast is still usable during those effects.\n* ''Heroic Swing's'' second and third cast can both be used while {{tip|silence|silenced}}.\n* {{tip|Takedown|Takedowns}} against {{tip|clone|clones}} do not count for resetting ''Heroic Swing's'' cooldown.\n* If a {{tip|takedown}} is scored while ''Heroic Swing'' is active, the cooldown afterwards will be {{fd|0.5}} seconds.\n* '''Akshan''' will attempt to basic attack the target he fired at with the last shot after the third cast's dash ends, if there is no other input given.\n* Each shot is a separate {{tip|cast instance}}.\n* {{tip|Spell shield}} will only block a single shot.\n* The attack speed scaling on the damage of the attacks includes the bonus attack speed gained from '''Akshan's''' innate attack speed growth.\n** At level 18, each shot at minimum deals {{fd|{{#expr: 90 * (1 + 0.3*17*{{ccd|Akshan|as_lvl}}*0.01)}}}} {{as|(+ {{fd|{{#expr:15 * (1 + 0.3*17*{{ccd|Akshan|as_lvl}}*0.01)}}}}% AD)}} physical damage.\n* Despite this ability not applying {{tip|on-attack}} effects, it does apply {{iis|Navori Flickerblade}} {{nie|Transcendence}}.{{bug|1}}\n* Under certain circumstances, upon attaching the hook to terrain, '''Akshan''' will create a particle on the location permanently.{{bug|1}}\n** This particle can be attacked by minions.\n* This ability's damage is calculated based on the caster's current stats and changes dynamically.\n* {{pending for test}} Hook range including lollipop against walls and final dash distance and speed.\n* The following table refers for interactions while the hook is attached or in flight:\n{{ct|attack=Automatically initiates the second cast.|move=Automatically initiates the second cast.|cast={{ai|Avengerang|Akshan}} and {{ai|Going Rogue|Akshan}} are disabled. {{ai|Comeuppance|Akshan}} is usable.|items=false|consume=false|spells=false,interrupts,false,false,false|interrupts=death,root,ground}}\n* The following table refers for interactions while '''Akshan''' is swinging:\n{{ct|attack=Automatically initiates the third cast.|move=Automatically initiates the third cast.|cast={{ai|Avengerang|Akshan}} and {{ai|Going Rogue|Akshan}} are disabled. {{ai|Comeuppance|Akshan}} is usable.|items=true,true,interrupts,interrupts,true,interrupts,true|consume=true|spells=true,interrupts,false,false,true|interrupts=death,root}}\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "description5": true,
+    "description6": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "reviewed_contract_separate",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

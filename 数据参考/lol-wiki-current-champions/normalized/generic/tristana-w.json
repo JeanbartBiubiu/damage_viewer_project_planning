@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "tristana-w",
+  "candidateKey": "hero_skill|hero_tristana|W|火箭跳跃",
+  "ownerId": "hero_tristana",
+  "wikiChampionTitle": "Tristana",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Tristana/W",
+  "zhDisplayName": "火箭跳跃",
+  "resolvedTitle": "Template:Data Tristana/Rocket Jump",
+  "wikiPageId": 1308523,
+  "revisionId": 4007758,
+  "revisionTimestamp": "2026-04-12T14:13:05Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Tristana/Rocket%20Jump",
+  "contentSha256": "cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec",
+  "rawByteSize": 2444,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Tristana''' {{tip|dash|jumps}} to the target location. Upon landing, she deals {{as|magic damage}} to nearby enemies and {{tip|slows}} them by 40% for 2 seconds.\n",
+    "leveling": "{{st|Magic Damage|{{ap|70 to 210}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 50% AP)}}}}\n",
+    "description2": "Scoring an enemy {{tip|champion}} {{tip|takedown}} or detonating ''{{ai|Explosive Charge|Tristana}}'' at maximum stacks on a champion will reset ''Rocket Jump's'' {{sti|cooldown}}.\n",
+    "description3": "'''''Tristana''' can cast any of her [[champion ability|abilities]] during the dash.''\n",
+    "cooldown": "{{ap|22 to 14}}\n",
+    "cost": "{{ap|30 to 50}}\n",
+    "costtype": "mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* '''Tristana''' can still use her [[champion ability|abilities]], [[summoner spell]]s, and [[active ability items|item actives]] during ''Rocket Jump''.\n* ''Rocket Jump's'' dash speed depends on the distance of the jump. Close-ranged jumps are much shorter while long-ranged jumps leave '''Tristana''' in the air significantly longer.\n* If '''Tristana''' has less than 850 movement speed, a full-range ''Rocket Jump'' (including its cast time) will make her arrive quicker at its destination than walking at this speed could.\n* Killing {{tip|clone|clones}} or detonating {{ai|Explosive Charge|Tristana}} on them also resets ''Rocket Jump's'' cooldown.\n** The former may be unintended.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

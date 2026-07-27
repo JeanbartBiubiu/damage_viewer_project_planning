@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "aphelios-w",
+  "candidateKey": "hero_skill|hero_aphelios|W|月相轮转",
+  "ownerId": "hero_aphelios",
+  "wikiChampionTitle": "Aphelios",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Aphelios/W",
+  "zhDisplayName": "月相轮转",
+  "resolvedTitle": "Template:Data Aphelios/Phase",
+  "wikiPageId": 1413563,
+  "revisionId": 3970739,
+  "revisionTimestamp": "2025-11-29T10:37:26Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Aphelios/Phase",
+  "contentSha256": "f3fb3134b57ae063602a10fabc22f2653c59f18eddd0a7d6d9c95eeb8205471e",
+  "rawByteSize": 818,
+  "fields": {
+    "description": "{{sbc|Toggle:}} '''Aphelios''' switches between his {{as|main weapon}} and {{as|off-hand}} weapon over {{fd|0.25}} seconds.\n",
+    "notes": "* Toggled abilities do not count as ability activations for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* Switching does not interrupt '''any''' commands '''Aphelios''' was issued before or during ''Phase''.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

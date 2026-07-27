@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "sivir-q",
+  "candidateKey": "hero_skill|hero_sivir|Q|回旋之刃",
+  "ownerId": "hero_sivir",
+  "wikiChampionTitle": "Sivir",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Sivir/Q",
+  "zhDisplayName": "回旋之刃",
+  "resolvedTitle": "Template:Data Sivir/Boomerang Blade",
+  "wikiPageId": 1308837,
+  "revisionId": 4016378,
+  "revisionTimestamp": "2026-05-11T05:05:57Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Sivir/Boomerang%20Blade",
+  "contentSha256": "0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e",
+  "rawByteSize": 2745,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Sivir''' hurls her crossblade in the target direction, dealing {{as|physical damage}} to enemies within its path, increased by {{critical damage|0 to 40|critScaling=true}}.\n",
+    "leveling": "{{st|Physical Damage|{{ap|60 to 160}} {{as|(+ 70% '''bonus''' AD)}} {{as|(+ 60% AP)}}}}\n",
+    "description2": "''Boomerang Blade's'' damage is reduced by {{pp|key=%|changedisplay=true|type=non-champions hit|0 to 60 for 5|0 to 4|formula=100%-(15%*Nº of non-champions hit). ''This is capped at 40% damage at 4 enemies hit.''}}. Upon reaching maximum range, the crossblade returns to her, resetting the damage modifier and dealing the same damage to enemies on its way back.\n",
+    "leveling2": "{{st|Minimum Damage|{{ap|60*0.4 to 160*0.4}} {{as|(+ {{ap|70*0.4}}% '''bonus''' AD)}} {{as|(+ 24% AP)}}}}\n{{st|Total Maximum Champion Damage|{{ap|60*2 to 160*2}} {{as|(+ {{ap|70*2}}% '''bonus''' AD)}} {{as|(+ 120% AP)}}}}\n",
+    "description3": "''Enemies can be hit only once per pass.''\n",
+    "cooldown": "{{ap|10 to 8}}\n",
+    "cost": "{{ap|55 to 75}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Physical\n",
+    "notes": "* Due to the cast time effectively rounding up to full game ticks, at undisturbed game tick interval times the technical minimum cast time is {{rutngt|0.1875}} reached at {{as|{{fd|99.8}}% '''bonus''' attack speed}}.\n{{Effect at cast time end}}\n* The damage reduction per unit hit resets back to full damage upon changing direction.\n* ''Boomerang Blade'' will still return to '''Sivir''' even if she dies before it changes direction.\n* {{tip|Spell shield}} only blocks one instance of damage.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

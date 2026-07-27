@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "teemo-p",
+  "candidateKey": "hero_skill|hero_teemo|P|游击队军备",
+  "ownerId": "hero_teemo",
+  "wikiChampionTitle": "Teemo",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Teemo/I",
+  "zhDisplayName": "游击队军备",
+  "resolvedTitle": "Template:Data Teemo/Guerrilla Warfare",
+  "wikiPageId": 1308210,
+  "revisionId": 4010103,
+  "revisionTimestamp": "2026-04-18T15:10:56Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Teemo/Guerrilla%20Warfare",
+  "contentSha256": "bbd4dd78e7d12802b24930c655ee16c0527f94771f0b5aa81ffbec2fa4c2d97b",
+  "rawByteSize": 3384,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Teemo''' gains {{tip|invisibility}} after {{fd|1.5}} seconds without moving, taking non-{{tip|persistent damage|over time}} damage, performing actions that {{tip|break stealth}}, {{tip|channel|channeling}}, or being in {{tip|stasis (buff)|stasis}}. '''Teemo''' will maintain stealth so long as he remains idle and is not {{tip|airborne|displaced}}. While in {{tip|brush}}, '''Teemo''' gains the stealth even while moving and can move without breaking stealth, but will lose the stealth in this case if he is {{tip|airborne|knocked up}}.\n",
+    "description2": "{{sbc|Innate - Element of Surprise:}} When '''Teemo''' breaks the stealth, he gains {{sti|{{as|{{pp|key=%|20 to 80 for 4|1;5;10;15}} '''bonus''' attack speed}}}} for 5 seconds.\n",
+    "notes": "* ''Element of Surprise's'' buff does not {{tip|stack}} with itself, only refreshes on subsequent triggers within the duration.\n* All {{tip|forced action}} effects will break ''Guerilla Warfare's'' {{tip|stealth}} while '''Teemo''' is standing outside of {{tip|brush}}. While he is inside brush, all of them will also break the stealth if he is ''forced'' to move outside brush.\n** {{tip|Berserk}} and {{tip|taunt}} can additionally break the stealth if '''Teemo''' is ''forced'' to use a basic attack, which is an action that breaks stealth by default.\n* ''Guerilla Warfare's'' stealth is special-cased to be interrupted whenever '''Teemo''' moves from his location by any means (Move order, {{tip|dash}}, or {{tip|blink}}), thus, performing actions that do not normally {{tip|break stealth}} which also involve movement will cause the stealth to break. If '''Teemo''' is in a {{tip|brush}}, however, the stealth is not broken by the above effects so long as his destination location is still inside brush.\n{{safesubst:unexpected|desc=\n* Due to the unique implementation of ''Guerilla Warfare's'' stealth:\n** Some area-of-effect (AoE) {{tip|airborne|knockups}}, may '''not''' be able to break '''Teemo's''' stealth. {{bug}}\n*** While '''Teemo''' is {{tip|airborne}} without his stealth broken, other area-of-effect spells (mostly older ones) '''are''' able to break '''Teemo's''' stealth, such as {{iis|Randuin's Omen}} {{nie|Humility}}. {{bug}}\n** A highly technical explanation can be found [https://www.reddit.com/r/leagueoflegends/comments/1mxe564/comment/na5pnvi/?context=3 here].|affectedEffects=Teemo I|estimatedPatchOrigin=V1.0.0.61|<!--added automatically-->wikiUploadTimestamp=1774045293|<!--added automatically-->pagename=Template:Data Teemo/Guerrilla Warfare\n}}\n* Using a basic attack breaks the stealth at the end of the attack windup.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

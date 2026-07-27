@@ -1,0 +1,79 @@
+<!-- Damage values are defined as parameters.
+-->{{#vardefine:b1|22}}<!-- Generic/Normal rank 1 total base damage
+-->{{#vardefine:b5|38}}<!-- Generic/Normal rank 5 total base damage
+-->{{#vardefine:ad1|102}}<!-- Generic/Normal rank 1 total AD ratio as a PERCENTAGE
+-->{{#vardefine:ad5|110}}<!-- Generic/Normal rank 5 total AD ratio as a PERCENTAGE
+-->{{#vardefine:crit|{{#expr:({{ccd|Zeri|crit_base}}/100)}}}}<!-- Zeri's critical strike damage DO NOT CHANGE
+-->{{#vardefine:ie_mod|{{#expr:{{#invoke:ItemData|get|item=Infinity Edge|datatype=critdamage}}*({{#var:crit}}*100/200)/100}}}}<!-- Infinity Edge modifier DO NOT CHANGE
+-->{{#vardefine:rounds|7}}<!--Number of rounds per burst
+-->{{{{{1<noinclude>|Ability data</noinclude>}}}|Burst Fire|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Zeri
+|skill        = Q
+|icon         = Zeri Burst Fire.png
+|blurb       = {{sbc|Active:}} {{ci|Zeri}} fires a burst of {{#var:rounds}} rounds in the target direction that each deal {{as|physical damage}} to the first enemy hit. This is treated as a {{tip|basic attack}}, can {{tip|critically strike}}, and applies {{tip|on-hit}} and {{tip|on-attack}} effects to the first enemy hit.
+|blurb2     = The {{sti|cooldown}} scales down with {{sti|{{as|attack speed}}}}, up to a cap. A portion of the excess {{as|attack speed}} is converted into {{sti|{{as|'''bonus''' attack damage}}}}.
+|description = {{sbc|Active:}} '''Zeri''' fires a burst of {{#var:rounds}} rounds in the target direction over the cast time, each dealing {{as|physical damage}} to the first enemy hit.
+|leveling    = {{st|Total Physical Damage|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{ap|{{#var:ad1}} to {{#var:ad5}}}}% AD)}}|Total Critical Strike Damage|{{ap|{{#var:b1}}*{{#var:crit}} to {{#var:b5}}*{{#var:crit}}}} {{as|(+ {{ap|{{#var:ad1}}*{{#var:crit}} to {{#var:ad5}}*{{#var:crit}}}}% AD)}}|Total Infinity Edge Damage|{{ap|{{#var:b1}}*({{#var:crit}}+{{#var:ie_mod}}) to {{#var:b5}}*({{#var:crit}}+{{#var:ie_mod}})}} {{as|(+ {{ap|{{#var:ad1}}*({{#var:crit}}+{{#var:ie_mod}}) to {{#var:ad5}}*({{#var:crit}}+{{#var:ie_mod}})}}% AD)}}}}
+{{st|Physical Damage per Hit|{{ap|{{#var:b1}}/{{#var:rounds}} to {{#var:b5}}/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}/{{#var:rounds}} to {{#var:ad5}}/{{#var:rounds}}|round=2}}% AD)}}|Critical Strike per Hit|{{ap|{{#var:b1}}*{{#var:crit}}/{{#var:rounds}} to {{#var:b5}}*{{#var:crit}}/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}*{{#var:crit}}/{{#var:rounds}} to {{#var:ad5}}*{{#var:crit}}/{{#var:rounds}}|round=2}}% AD)}}|Infinity Edge Damage per Hit|{{ap|{{#var:b1}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}} to {{#var:b5}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}}|round=2}} {{as|(+ {{ap|{{#var:ad1}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}} to {{#var:ad5}}*({{#var:crit}}+{{#var:ie_mod}})/{{#var:rounds}}|round=2}}% AD)}}}}
+|description2 = ''Burst Fire's'' projectile is treated as a {{tip|basic attack}}: it hits any enemy unit a typical basic attack can; deals {{tip|basic damage}}; can {{tip|critically strike}} for {{as|{{critical damage|{{ccd|Zeri|crit_base}}|100}}|critical damage}} damage; and applies {{tip|on-hit}} and {{tip|on-attack}} effects to the first enemy hit. ''Burst Fire's'' {{sti|cooldown}} and cast time are reduced with {{sti|{{as|attack speed}}}}, with the maximum of {{as|{{fd|1.5}}|attack speed}} attacks per second. 60% of {{as|attack speed}} in excess of the cap is converted into {{sti|{{as|'''bonus''' attack damage}}}}.
+|description3 = '''''Zeri''' can cast Burst Fire while {{tip|silence|silenced}}.''
+|cooldown     =
+|static       = 1{{Divided by}}'''Zeri's''' {{as|attack speed}}
+|customlabel  = Standard Cast Time
+|custominfo   = {{as|100% of '''Zeri's''' windup time|as}} ({{ap|(1/{{ccd|Zeri|as_base}})*{{ccd|Zeri|windup}}|round=3}} at {{as|'''base''' attack speed}})
+|customlabel2 = Cast Time while {{ai|Lightning Crash|Zeri|Overcharged}}
+|custominfo2  = {{as|80% of '''Zeri's''' windup time|as}} ({{ap|(1/{{ccd|Zeri|as_base}})*0.8*{{ccd|Zeri|windup}}|round=3}} at {{as|'''base''' attack speed}})
+|cost         = None
+|costtype     =
+|range        = {{tip|cr|icononly = true}} {{tt|750|Active spray missile reaches}} + 100% '''bonus''' {{sti|attack range}}
+|angle        = {{dv|{{tt|5{{Degree}}|Angle at which the outermost missiles fan out from one another, 2.5 degree from the center}}|{{tt|2{{Degree}}|Decreased spread angle while Overcharged}}}}
+|width        = {{tip|er|icononly = true}} {{tt|80|Active spray missiles}}
+|speed        = {{dv|{{tt|2600|Active spray missile speed}}|{{tt|3400|Empowered spray missile speed while Overcharged}}}}
+|queue time   = {{dv|{{tt|{{fd|0.25}}|Regular cast}}|{{tt|{{fd|0.05}}|Empowered cast while Overcharged}}}}
+|targeting    = Direction <!-- internally Location -->
+|damagetype   = Physical
+|projectile   = true
+|affects      = Self, Enemies
+|spelleffects = special
+|onhiteffects =
+|spellshield  = false
+|parry        = special
+|callforhelp  = true
+|notes        =
+* ''Burst Fire'' is automatically learned with her first skill point upon spawning.
+* ''Burst Fire'' deals {{tip|basic damage}} and does not trigger {{tip|spell effects}}. It is additionally tagged as [[area of effect]] when damaging targets after the first.
+* ''Burst Fire'' is still locked out while '''Zeri''' is affected by any form of other {{tip|cast-inhibiting crowd control}}.
+** {{tip|Silence}} is special cased to specifically not disable ''Burst Fire''.
+** {{tip|Polymorph}}, despite functioning identically to {{tip|silence}}, will still lock ''Burst Fire'' from being cast.
+* Any of ''Burst Fire's'' rounds hitting a champion will draw minion aggro, regardless of whether or not other targets were hit first by ''Burst Fire's'' rounds.
+** A lightning chain from a {{ai|Lightning Crash|Zeri}} empowered ''Burst Fire'' will not draw minion aggro.
+* Casting ''Burst Fire'' does not cancel previous attack ({{ai|Living Battery|Zeri}}) and movement orders.
+* ''Burst Fire'' does not trigger {{iis|Tear of the Goddess}} {{nie|Mana Charge}}.
+* ''Burst Fire's'' cooldown is not reduced by {{iis|Navori Flickerblade}} {{nie|Transcendence}}.
+* {{cais|Tantrum|Amumu}}, {{cais|Nimble Fighter|Fizz}}, and {{cais|Eclipse|Leona}} flat damage reduction apply to '''each''' of the 7 instances of damage from ''Burst Fire''.
+** {{iis|Warden's Mail}} flat damage reduction and cap only apply to the first instance of damage.
+** {{iis|Guardian's Horn}} flat damage reduction only applies to the first instance of damage, but handles it as damage-over-time (reduced to 25% effectiveness).
+* ''Burst Fire'' still counts as an ability activation for the purposes of on-cast effects such as triggering {{ais|Force Pulse|Kassadin}} passive.
+** It does '''not''' count as an ability activation for {{tip|Spellblade}}.
+* ''Burst Fire'' can hit '''all''' enemy units that a basic attack would be able to target. This does include [[jungle plants]], [[structure]]s, and [[ward]]s.
+** Wards will only be hit once by ''Burst Fire''. [[Stealth#Stealthed_traps_and_wards|Stealthed wards and traps]] will not take damage.
+*** ''Burst Fire'' will still apply {{tip|on-attack}} effects to stealthed traps and wards.{{bug}}
+*** {{ci|Neeko}} will be hit multiple times while {{ai|Inherent Glamour|Neeko|disguised}} as a ward, but any subsequent rounds will continue to travel through.
+** Champion-summoned units behave differently depending on the unit.
+*** {{cai|Powder Keg|Gangplank|Powder Keg}} and {{cai|Dark Procession|Yorick}} are hit only once by ''Burst Fire'', and any subsequent rounds not empowered by {{ai|Spark Surge|Zeri}} will stop upon reaching the same object.
+*** {{cai|Sentinel|Kalista}} is hit only once by ''Burst Fire'', but any subsequent rounds will continue to travel through the ''Sentinel''.
+* If ''Burst Fire'' hits an enemy while '''Zeri''' is not visible to enemies, the area around her (400 units) will be revealed for {{fd|4.5}} seconds.
+* ''Burst Fire'' rolls {{tip|critical strike}} for all rounds as well as the additional physical damage dealt when '''Zeri''' is {{ai|Lightning Crash|Zeri|Overcharged}}.
+* ''Burst Fire'' is parried by {{tip|dodge}} and {{tip|block}}.
+** {{tip|Blind}} causes ''Burst Fire'' to cast in a random direction. The rounds will still deal damage to enemies hit.
+* ''Burst Fire's'' rounds are each fired in the target direction from where '''Zeri''' is at the time.
+* '''Only''' attack speed granted by being {{ai|Lightning Crash|Zeri|Overcharged}} can exceed the cap of {{fd|1.5}}.
+** {{ri|Hail of Blades}} does not allow '''Zeri''' to exceed her attack speed cap.
+* Item and rune effects that trigger off of attacking (e.g., {{ri|Fleet Footwork}} and {{ii|Kraken Slayer}}) will only trigger if ''Burst Fire'' hits a unit.
+* If '''Zeri''' would reach maximum {{tip|Energized}} stacks from a ''Burst Fire'' cast, the remaining rounds will trigger ''Energized's'' effect.
+* ''Burst Fire's'' cast-indicator does not show {{sti|range}} increases; modified range VFX are still visible around the champion model.
+* ''Burst Fire'' can apply the effect of {{ii|Horizon Focus}} when the enemy hit is within the last 50 units of this ability.{{bug|2}}
+* ''Burst Fire'' uses a modified icon when empowered by {{ai|Spark Surge|Zeri}} ([[File:Zeri Burst Fire 2.png|20px|link=]]) and {{ai|Lightning Crash|Zeri}} ([[File:Zeri Burst Fire 3.png|20px|link=]]) as well as both ([[File:Zeri Burst Fire 4.png|20px|link=]]).
+* Destroying a ward that is targetable but not visible to '''Zeri's''' team (e.g. a {{ii|Control Ward}} in [[Fog of War]]) via ''Burst Fire'' uniquely allows her to remove its accompanying [[Ward#Ward_Timers|ward timer]] (if it exists) without seeing the ward being destroyed.
+* If '''Zeri''' is affected by an ally {{cai|Tempered Fate|Bard}} during ''Burst Fire's'' cast time, she will be able to cast it during the effect.{{bug}}
+}}

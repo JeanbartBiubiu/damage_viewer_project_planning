@@ -1,0 +1,37 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Collateral Damage|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Graves
+|skill        = R
+|icon         = Collateral Damage.png
+|blurbicon    = Collateral Damage.png
+|blurb        = {{sbc|Active:}} {{ci|Graves}} {{tip|dash|recoils}} backward and fires an explosive shell in the target direction that deals {{as|physical damage}} to enemies it passes through.
+|blurb2       = Upon hitting an enemy champion or max range, the shell explodes to deal {{as|physical damage}} in a cone.
+|description  = {{sbc|Active:}} '''Graves''' fires an explosive shell in the target direction that deals {{as|physical damage}} to enemies hit and causes him to {{tip|dash|recoil}} 400 units in the opposite direction.
+|leveling     = {{st|Physical Damage|{{ap|275 to 575}} {{as|(+ 150% '''bonus''' AD)}}}}
+|description2 = Upon hitting an enemy {{tip|champion}} or reaching the end of its range, the shell explodes in a cone to deal reduced damage to additional enemies.
+|leveling2    = {{st|Reduced Damage|{{ap|200 to 440}} {{as|(+ 120% '''bonus''' AD)}}}}
+|cooldown     = {{ap|100 to 60}}
+|cast time    = {{fd|0.25}}
+|cost         = 100
+|costtype     = Mana
+|range        = {{dv|{{tip|cr|icononly = true}} {{tt|1100|Shell missile range}}|{{tip|er|icononly = true}} {{tt|1690|Maximum range including collateral cone, estimated}}}}
+|width        = {{tip|er|icononly = true}} {{tt|200|Shell missile width}}
+|speed        = {{tt|2100|Shell missile speed. The explosion is instantaneous}}
+|effect radius= {{tip|er|icononly = true}} {{tt|740|Collateral end cone width, estimated}}
+|angle        = {{tip|er|icononly = true}} {{tt|60{{degree}}|Collateral cone angle, estimated}}
+|targeting    = Direction
+|affects      = {{dv|Enemies|Self}}
+|damagetype   = Physical
+|spelleffects = Special
+|spellshield  = special
+|projectile   = True
+|knockdown    = True
+|grounded     = special
+|notes        =
+* Applies {{tip|spell damage}} to the target hit by the shell (including to non-champions struck before exploding{{bug}}) and {{tip|area damage}} to targets within the explosion cone.
+* The projectile will still explode early if the champion hit by the shell is protected by a {{tip|spell shield}}.
+* The explosion cone is anchored on the location of the shell missile when it collided with a champion, or otherwise its maximum cast range.
+* The cone damage is always located 150 units behind, based off its direction
+* ''Collateral Damage'' is not disabled while {{tip|ground|grounded}} or {{tip|root|rooted}}, but '''Graves''' will not dash after the cast time while affected by them.
+* '''Graves''' will not {{tip|dash}} after the cast time if he is {{tip|airborne}}.
+{{Effect at cast time end}}
+}}

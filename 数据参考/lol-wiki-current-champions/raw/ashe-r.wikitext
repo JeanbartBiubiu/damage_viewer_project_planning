@@ -1,0 +1,29 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Enchanted Crystal Arrow|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ashe
+|skill        = R
+|icon         = Enchanted Crystal Arrow.png
+|description  = {{sbc|Active:}} '''Ashe''' fires a massive arrow of ice in the target direction, briefly granting {{tip|sight}} of the {{tt|area|Cannot grant sight through terrain and can only grant sight into brush when the missile flies through that brush}} it flies through. The arrow shatters upon hitting an enemy {{tip|champion}}, dealing them {{as|magic damage}}, {{tip|stun|stunning}} them for {{pp|type=distance traveled|1 to 1 for 5;1 to 3.5 for 10|0 to 2800|formula=1s for the first 800 units traveled; 1+(0.25 per 200 units)s beyond 800 units. ''This is capped at 2800 units traveled.''}} seconds, and granting {{tip|sight}} of the area around them for 1 second.
+|leveling     = {{st|Magic Damage|{{ap|200 to 600}} {{as|(+ 120% AP)}}}}
+|description2 = Enemies surrounding the primary target are dealt the same damage and afflicted with ''{{ai|Frost Shot|Ashe}}''.
+|range        = Global
+|effect radius= {{dv|{{tip|cr|icononly = true}} {{tt|400|Radius of explosion}}|{{tip|sight|icononly=true}} {{tt|350|Missile sight radius}}}}
+|speed        = {{pp|1500 to 2100 by 200|type=Seconds traveled|changedisplay=true|formula=1500 base speed + 200 acceleration}}
+|width        = {{tip|er|icononly = true}} {{tt|260|Missile width}}
+|cooldown     = {{ap|100 to 60}}
+|cast time    = {{fd|0.25}}
+|cost         = 100
+|costtype     = Mana
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = aoe
+|projectile   = True
+|notes        =
+* ''Enchanted Crystal Arrow's'' projectile has an [[File:Enchanted Crystal Arrow Minimap.png|40px|link=]] icon on the mini-map while it is in flight. It can be seen by only '''Ashe''' and her allies.
+{{Effect at cast time start}}
+* The effect will be centered on the first champion struck, not at the location the missile collided with them.
+<!--Blurb-->
+|blurb        = {{sbc|Active:}} {{ci|Ashe}} launches a crystal arrow of ice that {{tip|stun|stuns}} the first enemy champion hit, dealing {{as|magic damage}}. The arrow accelerates initially and its stun duration increases the farther the arrow has traveled.
+|blurb2       = Surrounding enemies take {{as|magic damage}} and are {{ai|Frost Shot|Ashe|slowed}}.
+}}

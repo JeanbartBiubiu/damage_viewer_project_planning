@@ -1,66 +1,82 @@
 TASK_KEY: wasm-generic-dusk-and-dawn-spellblade
 DOC_TYPE: 测试记录
 WORKSTREAM: wasm
-STATUS: partial
+STATUS: pass
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-14
+LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI 黄昏与黎明 Spellblade 机制验证记录
 
 详细设计：[通用 ABI - 黄昏与黎明 Spellblade（item_2510）机制详细设计](../../详细设计/wasm/通用ABI-黄昏与黎明Spellblade机制详细设计.md)。
 
-## 1. 范围
+> 本文件名保持 `…验证记录-2026-07-14.md`；本记录已自 2026-07-14 主伤害 partial 延伸至 **2026-07-21 exact 全合同完成**（heal + +200ms delayed repeat）。
 
-已闭环的主伤害合同为 `0.75 * base AD + 0.10 * resolved AP` 额外魔法伤害、10 秒 ready 与命中起算的 1.5 秒 ICD。治疗和 0.2 秒后的第二次攻击特效不在本实现范围，G8 保持 `partial`。
+## 1. 范围与本地提交
 
-| Worktree | Commit | 内容 |
+已闭环候选 `item_passive|2510|item_passive|咒刃`：`completed/full/generic_runtime`（G8 `migrated`）。Wiki：item 2510；revid `4030984`；SHA `e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d`。
+
+Exact 合同：10s ready；魔法 `0.75 base AD + 0.10 resolved AP`；自身治疗一次 `0.10 AP + 0.03 bonus HP`；强化命中后 +200ms 一次 canonical copyable-on-hit replay；1.5s ICD 自强化命中起算；自身 Spellblade 伤害 non-copyable；五步共享 ready gate；无递归。
+
+| Worktree / 阶段 | Commit | 内容 |
 | --- | --- | --- |
-| Backend | `9cca754` | item_2510 幂等 core seed、静态 SQL 契约与 README 入口 |
-| Wasm | `97d220d` | 精确主伤害/状态/快照/phantom 回归与 G8 partial JSON/CSV 重生成 |
-| Web | `0ecd3ac` | combat-data assembler 2510 core Spellblade 投影回归 |
+| Backend owning | `fc37d59` | `delay_ms` schema/log + 兼容迁移、mapper/API 默认 0、2510 seed 顺序 damage/heal/repeat/icd/ready、JUnit |
+| Web owning | `ee5c091` | `delayMs`→`repeatDelayMs`、省略/0 legacy、admin 非负整数/默认 0 |
+| Wasm primitive | `dc45881` | 可选 `repeatDelayMs` + `GenericEventTriggeredContinuation` |
+| Backend integration | `2b47a8d` | Backend 合入 Wasm 分支 |
+| Wasm-branch Web integration | `d225ddf` | Web 合约合入当前 Wasm 分支架构 |
+| item test | `c9d9779` | `generic_dusk_and_dawn_spellblade_test.go` exact heal/+200ms |
+| audit | `1566426` | G8 `migrated` + Unified `completed/full` |
 
-本轮未执行 live migration、Admin publish 或浏览器对 live backend 的 E2E。
+本轮**未**执行 live migration、Admin publish、push 或浏览器对 live backend 的 E2E。
 
-## 2. Backend
-
-| 验证 | 结果 |
-| --- | --- |
-| `mvn -Dtest=LolGenericDuskAndDawnSpellbladeSeedSqlTest test` | PASS，9/9 |
-| `mvn test` | PASS，241/241 |
-
-静态契约确认 item_2510 only mount、10 秒 ready、命中起算 1.5 秒 ICD、支持的 numeric gate、精确魔法公式、`copyable_on_hit=false` 与 damage → ICD → ready 顺序；同时断言没有 heal、bonus-health、delay/repeat、Vayne/tumble 或自动 publish 依赖。
-
-## 3. Wasm
+## 2. Wasm
 
 | 验证 | 结果 |
 | --- | --- |
-| `go test -count=1 ./internal/runtime -run DuskAndDawn` | PASS |
+| `go test -count=1 ./internal/compile/ ./internal/scheduler/ ./internal/runtime/ -run "RepeatDelay\|TriggeredContinuation\|…"`（primitive） | PASS |
+| `go test -count=1 ./internal/runtime -run DuskAndDawn`（item 集成） | PASS |
 | `go test -count=1 ./...` | PASS |
-| `go run ./cmd/bench` | PASS，`samples=100 avg_us=269.67 max_us=1029.00` |
-| `scripts/build-wasm.ps1` | PASS，`1,087,334` bytes |
-| `node scripts/smoke-node.mjs` | PASS，generic exports 3/3 |
+| `go run ./cmd/bench` | PASS |
+| `scripts/build-wasm.ps1` | PASS |
+| `node scripts/smoke-node.mjs` | PASS |
 
-独立数值交叉验证：`baseAD=100`、`AP=100` 时 raw=85，`magic_resist=100` 后=42.5。回归覆盖 arm/consume、ICD 阻止与到期重武装、ready expiry、event-entry 属性快照和 `copyable_on_hit=false` 的 Guinsoo phantom 隔离。
+独立数值：`baseAD=100`、`AP=100` 时 raw=85，`magic_resist=100` 后=42.5。Heal 探针（AP=100、bonus HP=1000）期望 40。回归覆盖 arm/consume、ICD、ready expiry、snapshot、Guinsoo phantom 隔离、heal 一次、+200ms copyable replay、未武装跳过 heal/repeat。
 
-Wasm 产物为 `C:\project\damage_wasm_dev\wasm\tinygo_engine_v2\dist\tinygo_engine_v2.wasm`，SHA-256 `0D5C676F7FD4BF0EC9A82AAE2A1A0BEE8C46731C96D1D81F875375EE36382CE9`。
+## 3. Backend
+
+| 验证 | 结果 |
+| --- | --- |
+| focused `mvn -Dtest=LolGenericDuskAndDawnSpellbladeSeedSqlTest test` | PASS |
+| full `mvn test` / package（owning + 合入校验） | PASS |
+
+静态契约：item_2510 only mount；10s ready；命中起算 1.5s ICD；精确魔法 + heal；`repeat delay_ms=200`；操作序 `damage → heal → repeat → ICD → ready`；`copyable_on_hit=false`；共享 ready gate；无自动 publish。
 
 ## 4. Web
 
 | 验证 | 结果 |
 | --- | --- |
+| focused assembler + registry（delayMs 200 / omitted / 0；admin blank→0 / 负值拒绝） | PASS |
 | `npm run lint` | PASS |
 | `npm run typecheck` | PASS |
-| `npm run test` | PASS，8 files / 105 tests |
+| `npm run test` | PASS（8 files / 117 tests） |
 | `npm run build` | PASS |
+| `npm run test:wasm-generic` | PASS（4 files / 85 tests） |
 
-Assembler 回归确认 item_2510 只随 source loadout 挂载，投影 namespaced states、`mul(eq,eq)` gate、`0.75 * base AD + 0.10 * resolved AP` 公式和 damage → ICD → ready operations；target 无 provider，且没有 heal、bonus-HP 或 delayed repeat 投影。
+Assembler：`delayMs>0`→`repeatDelayMs`；省略/`0` 不投影该字段。Admin：非负整数、空白默认 0。owning `ee5c091` 与 Wasm-branch 集成 `d225ddf` 均已校验。
 
-## 5. G8 与治理
+## 5. G8 / Unified 与治理
 
-`node 最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs --check` PASS。2510 精确分类为 `partial`，证据指向本 task 与 Backend seed；remaining gap 保留治疗 `0.10 AP + 0.03 bonus HP` 和需 generalized delayed-repeat 的 0.2 秒第二次 on-hit。聚合为 `migrated=16 / partial=4 / blocked=184 / out_of_scope=38`，migrated-only 为 `6.61%`（all）/`7.84%`（in-scope），migrated+partial 为 `8.26%`（all）/`9.80%`（in-scope）。
+| 验证 | 结果 |
+| --- | --- |
+| `node 最小验证/数据/build-generic-g8-adc-passive-coverage-audit.mjs` + `--check` | PASS |
+| `node 最小验证/数据/build-unified-mechanism-inventory.mjs` + `--check` | PASS |
+| 相对 pre-run 基线的 key/非 2510 分类 parity 断言 | PASS |
+| `node tools/task-governance/cli.mjs check` / `rebuild`（SQLite only）/ `docs wasm-generic-dusk-and-dawn-spellblade` | PASS；未运行 `--fix-headers` |
 
-`node tools/task-governance/cli.mjs rebuild` 与 task/docs query 通过。rebuild 报告的既有 5 个 unassigned docs 和 1 个缺失 review archive 均与本任务无关，未修改。
+当前计数：G8 migrated=49 / partial=4 / blocked=120 / out_of_scope=69；Unified total254；completed=57 / blocked_runtime=116 / blocked_data=3 / out_of_scope=72 / regression_only=5 / stale_or_duplicate=1；full=57 / partial=4 / none=193；`actionableKeyCount=0`。
 
-## 6. 已实现与未实现边界
+2510：`remainingGap` 空；Unified blocker 空、`runtimeGapEvidence=null`。
 
-已实现：item_2510 主目标 85（示例）魔法 Spellblade、ready/ICD、数据投影与独立公式一致。近似/未实现：治疗及 0.2 秒 delayed second on-hit；它们并未被宣称已迁移，仍通过 G8 `partial` 的 `remainingGap` 追踪。out-of-scope：live 发布与完整 multi-effect gameplay。
+## 6. 已实现边界
+
+已实现：item_2510 exact Spellblade（主伤害 + heal + +200ms delayed copyable on-hit + ready/ICD + 共享 gate + 非递归）。排除：live migration/publish、多 Spellblade unique-group、完整 gameplay rotation、浏览器 live E2E。不得再把 heal / delayed repeat 描述为 gap。

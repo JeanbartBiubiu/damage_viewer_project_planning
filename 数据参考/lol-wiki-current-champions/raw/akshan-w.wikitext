@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Going Rogue|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Akshan
+|skill        = W
+|blurbicon    = Going Rogue.png
+|icon         = Going Rogue 2.png
+|icon3        = Going Rogue.png
+|description  = {{sbc|Passive:}} '''Akshan''' marks enemy {{tip|champions}} that kill allied champions as ''Scoundrels'' for 60 seconds. If '''Akshan''' scores a {{tip|takedown}} against a ''Scoundrel'' while alive and within 3 seconds of damaging them, he receives an additional {{g|100}} and resurrects all {{tip|death|dead}} allied champions that they have slain after 1 second.
+|description2 = When '''Akshan''' claims a ''Scoundrel's'' bounty he removes the marks of all other enemies. ''Scoundrels'' refresh their mark duration on subsequent kills, and will have their mark removed when they die by any means. '''Akshan''' cannot mark enemies as ''Scoundrels'' while they are dead. Allies are resurrected at their [[Spawn|summoning platform]].
+|description3 = {{sbc|Active:}} '''Akshan''' enters {{tip|camouflage}}, which lasts indefinitely while he is near [[terrain]] or inside {{tip|brush}}, and for 2 seconds otherwise. During this time, he can see trails leading toward ''Scoundrels'', and while facing them if they are within {{tt|5000|Pending for test}} units, he gains {{sti|{{as|'''bonus''' mana regeneration}}}} equal to {{as|12% of his '''missing''' mana}} as well as {{sti|{{as|'''bonus''' movement speed}}}}.
+|leveling3    = {{st|Bonus Movement Speed|{{ap|80 to 120}}}}
+|description4 = ''Going Rogue'' can be recast after 1 second, and does so automatically after its duration. Attacking or casting abilities ends ''Going Rogue'' immediately.
+|description5 = '''''Akshan''' can move during Going Rogue's cast time.''
+|description6 = {{sbc|Recast:}} '''Akshan''' ends ''Going Rogue''.
+|cooldown     = {{ap|18 to 2}}
+|cdstart      = post-effect
+|cost         = {{ap|40 to 0}}
+|costtype     = Mana
+|customlabel  = Detection Radius
+|custominfo   = 800
+|cast time    = {{fd|0.5}}
+|targeting    = Auto
+|affects      = Self, Enemies
+|notes        =
+* The mark displays the duration and slay count.
+** Enemy champions that kill '''Akshan''' will not be marked as ''Scoundrels'' nor increase their slay count.
+* {{tip|Clone|Clones}} do not count for triggering ''Going Rogue's'' passive.
+* ''Going Rogue's'' buff refreshes to last indefinitely upon moving near terrain or into brush, and will refresh to 2 seconds after leaving near terrain or brush.
+* Allied champions within a {{tip|zombie state}} are resurrected only after the state ends.
+* '''Akshan''' can still trigger ''Going Rogue's'' passive while he is within a {{tip|zombie state}}.
+* Using a basic attack breaks the stealth at the start of the attack windup.
+|flavorsound  = {{sm2|Akshan_Original_W_2.ogg}} ''"To the shadows... where the scoundrels hide."''<br>{{sm2|Akshan_Original_SFX_WRevive_buffcast_0.ogg}} ''Ally resurrection alert.''
+<!-- Blurb -->
+|blurb        = {{sbc|Passive:}} Enemy {{tip|champions}} that kill allied champions are marked as a ''Scoundrel'' for a long time. When {{ci|Akshan}} scores a {{tip|takedown}} on a ''Scoundrel'', he gains {{g|'''bonus''' gold}}, all allies killed by the ''Scoundrel'' are resurrected, and ''Scoundrel'' status is removed from all other enemies.
+|blurb2       = {{sbc|Active:}} '''Akshan''' briefly gains {{tip|camouflage}}, or indefinitely while near [[terrain]] and in {{tip|brush}}. During this time, he can see trails leading toward ''Scoundrels'' and gains {{sti|{{as|move speed}}}} and {{sti|{{as|mana regeneration}}}} while moving toward them.
+|blurb3       = {{sbc|Recast:}} '''Akshan''' ends ''Going Rogue''.
+}}

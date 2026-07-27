@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "xayah-e",
+  "candidateKey": "hero_skill|hero_xayah|E|倒钩",
+  "ownerId": "hero_xayah",
+  "wikiChampionTitle": "Xayah",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Xayah/E",
+  "zhDisplayName": "倒钩",
+  "resolvedTitle": "Template:Data Xayah/Bladecaller",
+  "wikiPageId": 1324543,
+  "revisionId": 4002073,
+  "revisionTimestamp": "2026-03-23T15:53:08Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Xayah/Bladecaller",
+  "contentSha256": "3e6ffa135022f13984b26d9551afc323444e1ff9e80506ece5afba820827d486",
+  "rawByteSize": 2832,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Xayah''' recalls all planted {{as|Feathers|buzzword}} to shoot back to her, each dealing {{as|physical damage}} to enemies hit, increased by {{critical damage|0 to 50|critScaling=true}}. ''Bladecaller'' deals 50% damage to {{tip|minions}}.\n",
+    "leveling": "{{st|Physical Damage Per Feather|{{ap|50 to 110}} {{as|(+ 40% '''bonus''' AD)}}|Minion Damage Per Feather|{{ap|50/2 to 110/2}} {{as|(+ {{ap|40/2}}% '''bonus''' AD)}}}}\n",
+    "description2": "An enemy takes {{pp|type=previous feathers hit|key=%|100 to 10 by 5|x-1|formula=100%-(5% per previous feather hit). ''This is capped at 10% damage.''}} damage from a {{as|Feather|buzzword}}.\n",
+    "description3": "A target hit by at least three {{as|Feathers|buzzword}} is {{tip|root|rooted}} for {{fd|1.25}} seconds.\n",
+    "description4": "''A planted {{as|Feather|buzzword}} is required to cast this ability. Enemies can be hit by an individual {{as|Feather|buzzword}} only once per pass.''\n",
+    "cost": "20\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* {{as|Feathers|buzzword}} that are 'in flight' will be called to '''Xayah''' too, but only once they've landed normally first.\n* {{tip|Spell shield}} will only block a single instance of damage.\n* This ability cannot be ranked at [[Experience (champion)|Level]] 1.\n* The damage dealt by ''Bladecaller'' follows a diminishing returns formula not mentioned in the ability's description, successively reducing extra damage from feathers beyond the first.\n** This formula is:\n*** For feathers <=19: Damage of one feather{{times}}(n{{minus}}{{fd|0.05}}{{times}}(n{{minus}}1){{divided by}}2{{times}}n) where n stands for the number of feathers hit.\n*** For feathers >=20: Damage of one feather{{times}}(19{{minus}}{{fd|0.05}}{{times}}(19{{minus}}1){{divided by}}2{{times}}19{{plus}}0.1{{times}}(n{{minus}}19)) where n stands for the number of feathers hit.\n** For example, at rank 1 ''Bladecaller'' deals {{pp|type=feathers hit|50*(x-0.05*(x-1)/2*x) for 19}}.\n* ''Bladecaller'' cannot be cast without a {{as|Feather|buzzword}} on the ground.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

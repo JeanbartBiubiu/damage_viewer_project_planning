@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "caitlyn-p",
+  "candidateKey": "hero_skill|hero_caitlyn|P|爆头",
+  "ownerId": "hero_caitlyn",
+  "wikiChampionTitle": "Caitlyn",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Caitlyn/I",
+  "zhDisplayName": "爆头",
+  "resolvedTitle": "Template:Data Caitlyn/Headshot",
+  "wikiPageId": 1306909,
+  "revisionId": 3982560,
+  "revisionTimestamp": "2026-01-09T09:01:55Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Caitlyn/Headshot",
+  "contentSha256": "5f36d295e4099c5ee5a091b17f0db9f2a50819939a449e59b95d247baaac8251",
+  "rawByteSize": 3831,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Caitlyn's''' {{tip|basic attacks}} generate a {{tip|stack}} of ''Count'' {{tip|on-attack}}, doubled if she is within {{tip|brush}}. At 5 stacks, or 4 while in ''brush'', her next basic attack consumes all stacks {{tip|on-attack}} to become a ''Headshot''.\n",
+    "description2": "{{sbc|Headshot:}} '''Caitlyn's''' basic attack is empowered to have an {{tip|uncancellable windup}} and deal {{as|{{pp|key=%|60 to 100 for 3|1 to 13}}|ad}} {{as|(+ {{critical damage|0 to 100|critScaling=true}}) AD}} {{as|'''bonus''' physical damage}}, increased to {{as|110% (+ {{critical damage|0 to 100|critScaling=true}}) AD}} against non-champions.\n",
+    "description3": "Enemies that step over a ''{{ai|Yordle Snap Trap|Caitlyn}}'' or are hit by ''{{ai|90 Caliber Net|Caitlyn}}'' can grant an additional ''Headshot'' against them at {{sti|range|1300 range}} within {{fd|1.8}} seconds, without consuming stacks. Each method grants only one ''Headshot'' at a time.\n",
+    "damagetype": "Physical\n",
+    "notes": "* If '''Caitlyn's''' current target becomes trapped by {{ai|Yordle Snap Trap|Caitlyn}} or {{ai|90 Caliber Net|Caitlyn}} while her attack is on cooldown, this ongoing cooldown will be refunded partially so that her next attack on them can begin earlier.\n** Swapping the target to an enemy trapped by {{ai|Yordle Snap Trap|Caitlyn}} or {{ai|90 Caliber Net|Caitlyn}} also reduces her ongoing attack cooldown.\n*** {{pending for test}}: The exact attack cooldown refund appears to be 50% of the attack cooldown at current attack speed, but at a minimum amount it lets '''Caitlyn''' start the attack against the trapped target within {{fd|0.5}} seconds of her previous attack windup completing.\n* The bonus range from {{ii|Rapid Firecannon}} will not have any effect during {{ai|Yordle Snap Trap|Caitlyn|trap}} and {{ai|90 Caliber Net|Caitlyn|net}} extended ''Headshot'' attacks.\n* Only the ordinary {{as|100% attack damage}} portion of the attack can critically strike. The bonus from ''Headshot'' is added after the critical strike is rolled.\n** The full damage of ''Headshot'' applies {{as|{{sti|life steal}}}}.\n** ''Headshot'' is a single instance of damage, thus does not trigger {{cais|Tantrum|Amumu}} or {{ii|Warden's Mail}} passives twice.\n* Since '''Caitlyn's''' Art and Sustainability Update, Ability-granted ''Headshots'' are the same as the original ''Headshot'' override attack, though what lets them cast at high range is still relatively special. They trigger {{tip|on-attack}} effects (including stacking ''Headshot'').\n** {{Pending for test}} {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}}, is special cased to search targets with the increased range as well.\n* Because ''Headshot'' stacks are generated {{tip|on-attack}}, {{iis|Runaan's Hurricane}} {{nies|Wind's Fury}} bolts will not generate any.\n* The empowered attack will not trigger against {{tip|ward}}s.\n** Stacks will still be generated towards ''Headshot'' when attacking them.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

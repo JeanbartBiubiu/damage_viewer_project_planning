@@ -1,0 +1,40 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Spark Surge|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Zeri
+|skill        = E
+|icon         = Zeri Spark Surge.png
+|blurb        = {{sbc|Active:}} {{ci|Zeri}} {{tip|dashes}} in the target direction, she will dash across any [[terrain]] she hits. Afterwards, she gains ''Lightning Rounds'' for a short time.
+|blurb2      = ''Spark Surge's'' cooldown is {{sti|cdr|reduced}} if '''Zeri''' hits an enemy with a ''{{ai|Basic Attack 2|Zeri|charged}}'' basic attack or ''{{ai|Burst Fire|Zeri}}''. ''{{ai|Burst Fire|Zeri}}'' reduces the cooldown even more if it {{tip|critical strike|critically strikes}}.
+|blurb4      = {{sbc|Lightning Rounds:}} ''{{ai|Burst Fire 2|Zeri|Burst Fire}}'' deals {{as|'''bonus''' magic damage}} to the first enemy hit and will pierce through enemies to deal modified damage.
+|description  = {{sbc|Active:}} '''Zeri''' {{tip|dashes}} in the target direction. She will dash farther across [[terrain]] if ''Spark Surge'' was cast within 50 units of any, gaining {{tip|unobstructed vision}} of the surrounding 800 units and {{tip|sight|revealing}} herself while there are enemy champions within 1500 units of her.
+|icon2        = Zeri Burst Fire 2.png
+|description2 = Afterwards, she gains ''Lightning Rounds'' for 5 seconds, empowering ''{{ai|Burst Fire|Zeri|Burst Fire}}'' to deal {{as|'''bonus''' magic damage}} to the first enemy hit, increased by {{critical damage|0 to 100|critScaling=true}}, and pierce through enemies. Targets after the first take modified damage which does not apply {{tip|on-hit}} effects or {{as|{{sti|life steal}}}} nor trigger {{tip|on-attack}} effects, but is affected by {{tip|critical strike}} modifiers.
+|leveling2    = {{st|{{ai|Burst Fire|Zeri}} Bonus Magic Damage|{{ap|22 to 30}} {{as|(+ 20% AP)}}}}
+{{st|{{ai|Burst Fire|Zeri}} Secondary Target Damage|{{ap|80 to 100}}%}}
+|description3 = ''Spark Surge's'' {{sti|'''current''' cooldown}} is reduced by {{fd|0.5}} seconds whenever '''Zeri''' hits at least one enemy with a ''{{ai|Basic Attack 2|Zeri|charged}}'' basic attack or ''{{ai|Burst Fire|Zeri}}'', increased to {{fd|1.5}} seconds if the latter {{tip|critical strike|critically strikes}}.
+|description4 = ''Spark Surge {{tip|basic attack reset|resets}} '''Zeri's''' basic attack timer and {{ais|Burst Fire|Zeri}} cooldown. {{ai|Ultrashock Laser|Zeri}} and {{ai|Lightning Crash|Zeri}} can be cast during the dash.''
+|cooldown     = {{ap|24 to 18}}
+|cdstart      = on-cast
+|static       =
+|cast time    = None
+|cost         = {{ap|90 to 70}}
+|costtype     = Mana
+|range        = {{tt|300|Standard dash distance}}
+|width        =
+|speed        = 600 + {{as|100% movement speed|ms}}
+|targeting    = Direction
+|damagetype   = Magic
+|projectile   =
+|affects      = Enemies, Self
+|spelleffects = proc
+|onhiteffects =
+|spellshield  =
+|parry        = true
+|grounded     = true
+|knockdown    = true
+|callforhelp  =
+|flavorsound  = {{sm2|Zeri_Original_E_4.ogg}} ''"Gotta zip!"''
+|notes        =
+* ''Spark Surge's'' extended dash travels based on the thickness of the terrain, up to a maximum distance.
+* The following table refers for interactions while '''Zeri''' is dashing:
+{{ct|attack=false|move=false|cast={{ai|Q|Zeri}} is disabled. {{ai|W|Zeri}} and {{ai|R|Zeri}} are usable.|items=true,,,interrupts|consume=true|spells=true,interrupts,true,true|interrupts=death}}
+}}

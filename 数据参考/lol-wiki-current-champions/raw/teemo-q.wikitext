@@ -1,0 +1,30 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Blinding Dart|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Teemo
+|skill        = Q
+|icon         = Blinding Dart.png
+|blurb        = {{sbc|Active:}} {{ci|Teemo}} shoots a dart at the target enemy that deals {{as|magic damage}} and {{tip|blind|blinds}} them for a short time.
+|description  = {{sbc|Active:}} '''Teemo''' shoots a dart at the target enemy that deals {{as|magic damage}} and {{tip|blind|blinds}} them for a duration.
+|leveling     = {{st|Magic Damage|{{ap|80 to 260}} {{as|(+ 70% AP)}}}}
+{{st|Blind Duration|{{ap|2 to 3}} seconds}}
+|description2 = The duration of the {{tip|blind}} is doubled against {{tip|minions}} and {{tip|monsters}}.
+|leveling2    = {{st|Increased Blind Duration|{{ap|2*2 to 3*2}} seconds}}
+|target range = {{tip|cr|icononly = true}} 680
+|cooldown     = 7
+|cost         = {{ap|70 to 90}}
+|speed        = 2500
+|costtype     = Mana
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Magic
+|projectile   = True
+|callforhelp  = True
+|spelleffects = Single target
+|cast time    = {{fd|0.25}}
+|spellshield  = True
+|notes        =
+* ''Blinding Dart'' will not make abilities that can trigger {{tip|on-hit}} effects ({{ai|Parrrley|Gangplank}}, {{ai|Mystic Shot|Ezreal}}) miss.
+* When blinded, enemies have a green tint on their screen.
+* Because ''Blinding Dart'' uses {{tip|center range}}, it has 45 to 70 more range than his {{tip|basic attack|basic attacks}}, which use {{tip|edge range}}, against other {{tip|champions}}.
+** This bonus becomes lower if '''Teemo''' or his target have {{tip|size}} bonuses.
+{{Unit-targeted cancel conditions}}
+}}

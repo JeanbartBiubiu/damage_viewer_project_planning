@@ -1,0 +1,18 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Vow of the First Lands|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Yunara
+|skill        = I
+|icon         = Yunara Vow of the First Lands.png
+|description  = {{sbc|Innate:}} '''Yunara's''' {{tip|critical strike|critical strikes}} deal {{as|10%|magic damage}} {{as|(+ 10% per 100 AP)}} {{as|'''bonus''' magic damage}}.
+|targeting    = Passive
+|affects      = Self, Enemies
+|damagetype   = magic
+|spelleffects = proc
+|parry        = true
+|notes        =
+* The '''bonus''' damage is calculated based on the total damage of the critical strike {{tt|pre-mitigation|Damage calculated before modifiers}}.
+** If '''Yunara''' critically strikes against a champion that has {{ii|Randuin's Omen}}, the '''bonus''' magic damage from ''Vow of the First Lands'' and the '''bonus''' magic damage on-hit from {{ai|Q|Yunara}} will both be reduced by 30%.{{bug|2}}
+*** This can result in a critical strike yielding less bonus magic damage than if the basic attack had not critically struck.
+<!-- Blurb -->
+|blurbicon    = Yunara Vow of the First Lands.png
+|blurb        = {{sbc|Innate:}} {{cis|Yunara}} {{tip|critical strike|critical strikes}} deal {{as|'''bonus''' magic damage}}.
+}}

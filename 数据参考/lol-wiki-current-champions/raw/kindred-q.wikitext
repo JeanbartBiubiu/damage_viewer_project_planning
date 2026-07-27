@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Dance of Arrows|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kindred
+|skill        = Q
+|icon         = Dance of Arrows.png
+|blurb        = {{sbc|Active:}} {{ci|Lamb}} {{tip|dashes}} toward the target location, gaining {{sti|attack speed|{{as|'''bonus''' attack speed}}}} for a few seconds. She then fires at up to three nearby enemies, dealing {{as|physical damage}}.
+|blurb2      =  This cooldown is {{sti|cdr|reduced}} by casting ''{{ai|Wolf's Frenzy|Kindred}}'' or using ''Dance of Arrows'' within its area.
+|description  = {{sbc|Active:}} '''Lamb''' {{tip|dashes}} toward the target location, gaining {{sti|attack speed|{{as|35%|attack speed}}}} {{as|(+ 5% per {{ai|Mark of the Kindred|Kindred|mark}})|buzzword}} {{as|'''bonus''' attack speed}} for 4 seconds and firing an arrow at up to 3 nearby {{tip|sight|visible}} enemies that deals {{as|physical damage}}. Her current attack target within any proximity will be prioritized by one of the arrows.
+|leveling     = {{st|Physical Damage|{{ap|40 to 140}} {{as|(+ 75% '''bonus''' AD)}}}}
+|description2 = ''Dance of Arrows' '' {{sti|'''total''' cooldown}} is reduced to an amount while '''Lamb''' is within the area of ''{{ai|Wolf's Frenzy|Kindred}}''. Casting ''{{ai|Wolf's Frenzy|Kindred}}'' reduces ''Dance of Arrows' '' '''current''' cooldown to the same amount.
+|leveling2    = {{st|Static Cooldown|{{ap|4 to 2}} seconds}}
+|description3 = ''Dance of Arrows {{tip|basic attack reset|resets}} '''Lamb's''' basic attack timer. '''Lamb''' can cast any of her [[champion ability|abilities]] during the dash.''
+|target range = {{dv|{{tt|300|Maximum dash distance}}|{{tt|400|Maximum extended dash distance across terrain}}}}
+|effect radius= {{tt|{{tip|er|icononly = true}} 500 (+ 100% '''bonus''' {{sti|attack range}})|Always equal to Kindred's attack range}}
+|speed        = {{tt|500 + {{as|100% movement speed}}|Estimated}}
+|cooldown     = 9
+|static       =
+|cost         = 35
+|costtype     = Mana
+|cast time = none
+|targeting    = Location
+|terraingrace = true
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = Area of effect
+|projectile   = True
+|grounded     = True
+|knockdown    = True
+|outofrange   = cast at max
+|notes        =
+* ''Dance of Arrows'' has no minimum dash range.
+{{always quickcast}}
+* The {{sti|cooldown}} will not be modified if it cannot be reduced (the current cooldown would have to be less than the reduction amount in this case).
+|tips         =
+* If '''Kindred's''' {{sti|attack speed|{{as|attack speed}}}} is high enough, it is less efficient to use ''{{ai|Dance of Arrows|Kindred}}'' as a basic attack {{tip|basic attack reset|reset}}.
+}}
