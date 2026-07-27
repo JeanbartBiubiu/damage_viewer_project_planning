@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 import { createRequire } from "node:module";
-import { existsSync, mkdtempSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import {
   MODEL,
+  SMOKE_SETTING_SOURCES,
   appendJsonLine,
   collectAssistantText,
+  disposeAgent,
   ensureSdkPackage,
   getApiKey,
   performPreflight,
   toErrorObject,
   writeJson,
+  writeText,
 } from "./cursor_local_agent_common.mjs";
 
 function parseArgs(argv) {
@@ -84,6 +87,7 @@ async function main() {
     prompt: args.prompt,
     agentName: args.name,
     timeoutMs: args.timeoutMs,
+    settingSources: [...SMOKE_SETTING_SOURCES],
     apiKeyPresent: Boolean(apiKey),
     apiKeyLength: apiKey ? apiKey.length : 0,
     statuses: [],
@@ -96,12 +100,27 @@ async function main() {
   console.log(`API_KEY=${apiKey ? `SET length=${apiKey.length}` : "NOT_SET"}`);
   console.log(`REQUESTED_MODEL=${JSON.stringify(MODEL)}`);
   console.log(`CWD=${args.cwd}`);
+  console.log(`SETTING_SOURCES=${JSON.stringify(summary.settingSources)}`);
   if (args.jsonOut) console.log(`JSON_OUT=${args.jsonOut}`);
   if (args.eventsOut) console.log(`EVENTS_OUT=${args.eventsOut}`);
 
-  const sdkPath = preflight.sdk.path ?? ensureSdkPackage(args.cwd);
+  const sdkInfo = preflight.sdk?.path
+    ? preflight.sdk
+    : ensureSdkPackage(args.cwd);
+  const sdkPath = sdkInfo.path;
   summary.sdkPath = sdkPath;
+  summary.sdk = {
+    path: sdkPath,
+    source: sdkInfo.source ?? preflight.sdk?.source ?? null,
+    actualVersion: sdkInfo.actualVersion ?? preflight.sdk?.actualVersion ?? null,
+    expectedVersion: sdkInfo.expectedVersion ?? preflight.sdk?.expectedVersion ?? null,
+    versionMatch: sdkInfo.versionMatch ?? preflight.sdk?.versionMatch ?? false,
+  };
   console.log(`SDK_READY=${Boolean(sdkPath)}`);
+  console.log(`SDK_VERSION=${summary.sdk.actualVersion ?? "unknown"}`);
+  console.log(`SDK_EXPECTED=${summary.sdk.expectedVersion ?? "unknown"}`);
+  console.log(`SDK_VERSION_MATCH=${summary.sdk.versionMatch}`);
+  console.log(`NODE_SUPPORT=${preflight.runtime?.nodeSupport ?? "unknown"}`);
   console.log(`PREFLIGHT_BLOCKING=${preflight.blocking.length}`);
   console.log(`PREFLIGHT_WARNINGS=${preflight.warnings.length}`);
 
@@ -111,13 +130,22 @@ async function main() {
   if (args.dryRun) {
     summary.completedAt = new Date().toISOString();
     if (args.jsonOut) writeJson(args.jsonOut, summary);
+    // Empty parseable events artifact for dry-run completeness (no network).
+    if (args.eventsOut) writeText(args.eventsOut, "");
     return;
   }
 
+  // Smoke uses a single create+send attempt (no startup retry) to expose raw SDK health.
   const requireSdk = createRequire(import.meta.url);
   const { Agent, JsonlLocalAgentStore } = requireSdk(sdkPath);
   const cwd = existsSync(args.cwd) ? args.cwd : mkdtempSync(join(tmpdir(), "cursor-sdk-fastfalse-smoke-"));
-  const store = new JsonlLocalAgentStore(join(tmpdir(), "cursor-sdk-local-agent-store"));
+  // Per-invocation store: avoid the old fixed shared temp path that accumulated across runs.
+  const storePath = args.outDir
+    ? join(args.outDir, "sdk-local-agent-store")
+    : mkdtempSync(join(tmpdir(), "cursor-sdk-local-agent-store-"));
+  mkdirSync(storePath, { recursive: true });
+  summary.storePath = storePath;
+  const store = new JsonlLocalAgentStore(storePath);
   summary.resolvedCwd = cwd;
 
   let agent;
@@ -130,14 +158,22 @@ async function main() {
       apiKey,
       name: args.name,
       model: MODEL,
-      local: { cwd, store },
+      local: {
+        cwd,
+        store,
+        settingSources: [...summary.settingSources],
+      },
     });
 
     summary.agentId = agent.agentId;
     console.log(`AGENT_ID=${agent.agentId}`);
     run = await agent.send(args.prompt);
     summary.runId = run.id;
+    summary.requestId = run.requestId ?? null;
     console.log(`RUN_ID=${run.id}`);
+    if (summary.requestId) {
+      console.log(`REQUEST_ID=${summary.requestId}`);
+    }
 
     if (args.timeoutMs > 0) {
       timeoutHandle = setTimeout(() => {
@@ -193,6 +229,13 @@ async function main() {
     console.log(`RESULT_MODEL=${JSON.stringify(result.model)}`);
     console.log(`RUN_RESULT=${JSON.stringify(result)}`);
     console.log(`ARTIFACT_COUNT=${Array.isArray(summary.artifacts) ? summary.artifacts.length : 0}`);
+
+    // Only finished is success; other terminal statuses exit non-zero via catch/finally.
+    if (result.status !== "finished") {
+      const err = new Error(`RunResult.status=${result.status} is not finished`);
+      err.name = "RunResultNotFinishedError";
+      throw err;
+    }
   } catch (error) {
     summary.error = toErrorObject(error);
     console.error(`ERROR_NAME=${error?.name ?? "Error"}`);
@@ -201,9 +244,15 @@ async function main() {
     throw error;
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
+    if (agent) {
+      try {
+        summary.disposal = await disposeAgent(agent);
+      } catch (disposalError) {
+        summary.disposalError = toErrorObject(disposalError);
+      }
+    }
     summary.completedAt = new Date().toISOString();
     if (args.jsonOut) writeJson(args.jsonOut, summary);
-    if (agent) agent.close();
   }
 }
 
