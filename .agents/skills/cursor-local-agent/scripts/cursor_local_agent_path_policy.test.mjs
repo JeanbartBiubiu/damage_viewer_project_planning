@@ -8,6 +8,20 @@ import { createHash } from "node:crypto";
 import { mkdtempSync, writeFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import {
+  EXPECTED_CURSOR_SDK_VERSION,
+  REAL_RUN_SETTING_SOURCES,
+  SMOKE_SETTING_SOURCES,
+  calculateStartupRetryDelayMs,
+  disposeAgent,
+  isRetryableStartupError,
+  parsePromptMode,
+  startAgentRunWithRetry,
+  toErrorObject,
+  wrapStartupTerminalFailure,
+} from "./cursor_local_agent_common.mjs";
 import {
   buildPathSignatureMap,
   classifyChanges,
@@ -206,6 +220,344 @@ function testClassifyBasics() {
   assert.ok(outsideScope.some((entry) => entry.relativePath === "文档记录/renamed.md"));
 }
 
+function testSettingSourcesContract() {
+  assert.deepEqual(REAL_RUN_SETTING_SOURCES, ["project"]);
+  assert.deepEqual(SMOKE_SETTING_SOURCES, []);
+  assert.equal(Object.isFrozen(REAL_RUN_SETTING_SOURCES), true);
+  assert.equal(Object.isFrozen(SMOKE_SETTING_SOURCES), true);
+
+  const realClone = [...REAL_RUN_SETTING_SOURCES];
+  const smokeClone = [...SMOKE_SETTING_SOURCES];
+  realClone.push("user");
+  smokeClone.push("project");
+  assert.deepEqual(REAL_RUN_SETTING_SOURCES, ["project"]);
+  assert.deepEqual(SMOKE_SETTING_SOURCES, []);
+  assert.deepEqual(realClone, ["project", "user"]);
+  assert.deepEqual(smokeClone, ["project"]);
+}
+
+function testParsePromptMode() {
+  assert.equal(parsePromptMode("MODE: DESIGN_REVIEW_ONLY\nbody"), "DESIGN_REVIEW_ONLY");
+  assert.equal(parsePromptMode("MODE: IMPLEMENTATION\nbody"), "IMPLEMENTATION");
+  assert.equal(parsePromptMode("MODE: DESIGN_REVIEW_ONLY\r\nbody"), "DESIGN_REVIEW_ONLY");
+  assert.equal(parsePromptMode("MODE: IMPLEMENTATION\r\nbody"), "IMPLEMENTATION");
+  assert.equal(parsePromptMode("\uFEFFMODE: DESIGN_REVIEW_ONLY\nbody"), "DESIGN_REVIEW_ONLY");
+  assert.equal(parsePromptMode("\uFEFFMODE: IMPLEMENTATION\r\nbody"), "IMPLEMENTATION");
+
+  assert.equal(parsePromptMode(" MODE: DESIGN_REVIEW_ONLY\n"), null);
+  assert.equal(parsePromptMode("MODE: DESIGN_REVIEW_ONLY \n"), null);
+  assert.equal(parsePromptMode("# MODE: DESIGN_REVIEW_ONLY\n"), null);
+  assert.equal(parsePromptMode("MODE: DESIGN_REVIEW_ONLY // note\n"), null);
+  assert.equal(parsePromptMode("hello\nMODE: IMPLEMENTATION\n"), null);
+  assert.equal(parsePromptMode(""), null);
+  assert.equal(parsePromptMode("MODE: UNKNOWN\n"), null);
+}
+
+function testToErrorObjectSafeFields() {
+  const err = new Error("boom");
+  err.name = "NetworkError";
+  err.code = "UNAVAILABLE";
+  err.isRetryable = true;
+  err.protoErrorCode = 14;
+  err.cause = { secret: "do-not-serialize" };
+  const obj = toErrorObject(err);
+  assert.equal(obj.name, "NetworkError");
+  assert.equal(obj.message, "boom");
+  assert.equal(obj.code, "UNAVAILABLE");
+  assert.equal(obj.isRetryable, true);
+  assert.equal(obj.protoErrorCode, 14);
+  assert.equal(Object.hasOwn(obj, "cause"), false);
+  assert.equal(JSON.stringify(obj).includes("do-not-serialize"), false);
+
+  const plain = toErrorObject(new Error("x"));
+  assert.equal(Object.hasOwn(plain, "isRetryable"), false);
+  assert.equal(Object.hasOwn(plain, "protoErrorCode"), false);
+  assert.equal(toErrorObject(null), null);
+}
+
+function testRetryClassificationAndBackoff() {
+  assert.equal(isRetryableStartupError({ isRetryable: true, name: "NetworkError" }), true);
+  assert.equal(isRetryableStartupError({ isRetryable: true, name: "RateLimitError" }), true);
+  assert.equal(isRetryableStartupError({ isRetryable: false, name: "NetworkError" }), false);
+  assert.equal(isRetryableStartupError({ isRetryable: true, name: "AuthenticationError" }), false);
+  assert.equal(isRetryableStartupError({ isRetryable: true, name: "ConfigurationError" }), false);
+  assert.equal(isRetryableStartupError({ name: "NetworkError" }), false);
+  assert.equal(isRetryableStartupError(null), false);
+
+  assert.equal(
+    calculateStartupRetryDelayMs({
+      attempt: 1,
+      baseDelayMs: 1000,
+      random: () => 0,
+    }),
+    1000,
+  );
+  assert.equal(
+    calculateStartupRetryDelayMs({
+      attempt: 2,
+      baseDelayMs: 1000,
+      random: () => 0.5,
+    }),
+    2000 + Math.floor(0.5 * 1001),
+  );
+  assert.equal(
+    calculateStartupRetryDelayMs({
+      attempt: 1,
+      baseDelayMs: 1000,
+      error: { name: "RateLimitError", isRetryable: true },
+      random: () => 0,
+    }),
+    30000,
+  );
+  assert.equal(
+    calculateStartupRetryDelayMs({
+      attempt: 3,
+      baseDelayMs: 1000,
+      error: { name: "RateLimitError", isRetryable: true },
+      random: () => 1,
+    }),
+    Math.max(4000 + 1000, 30000),
+  );
+}
+
+async function testStartAgentRunWithRetrySuccessAfterTwoFailures() {
+  const disposed = [];
+  let createCount = 0;
+  const logs = [];
+  const result = await startAgentRunWithRetry({
+    maxAttempts: 3,
+    baseDelayMs: 10,
+    sleep: async () => {},
+    random: () => 0,
+    log: (line) => logs.push(line),
+    createAgent: async () => {
+      createCount += 1;
+      const id = `agent-${createCount}`;
+      return {
+        agentId: id,
+        async [Symbol.asyncDispose]() {
+          disposed.push(id);
+        },
+      };
+    },
+    send: async (agent) => {
+      if (createCount < 3) {
+        const err = new Error("transient");
+        err.name = "NetworkError";
+        err.isRetryable = true;
+        throw err;
+      }
+      return { id: `run-for-${agent.agentId}`, requestId: "req-1" };
+    },
+  });
+
+  assert.equal(createCount, 3);
+  assert.equal(result.attemptsUsed, 3);
+  assert.equal(result.attempts.length, 3);
+  assert.equal(result.disposedFailedAgents, 2);
+  assert.deepEqual(disposed, ["agent-1", "agent-2"]);
+  assert.equal(disposed.includes("agent-3"), false);
+  assert.equal(result.run.id, "run-for-agent-3");
+  assert.ok(logs.some((line) => line.startsWith("STARTUP_ATTEMPT=")));
+  assert.ok(logs.some((line) => line.startsWith("STARTUP_RETRY_DELAY_MS=")));
+  assert.ok(logs.some((line) => line === "STARTUP_ATTEMPTS_USED=3"));
+}
+
+async function testStartAgentRunWithRetryStopsOnAuthConfigNonRetryable() {
+  for (const [name, isRetryable] of [
+    ["AuthenticationError", true],
+    ["ConfigurationError", true],
+    ["UnknownAgentError", false],
+  ]) {
+    let createCount = 0;
+    let threw = null;
+    try {
+      await startAgentRunWithRetry({
+        maxAttempts: 3,
+        baseDelayMs: 1,
+        sleep: async () => {
+          throw new Error("sleep should not run");
+        },
+        createAgent: async () => {
+          createCount += 1;
+          return { agentId: `a-${createCount}`, close() {} };
+        },
+        send: async () => {
+          const err = new Error(name);
+          err.name = name;
+          err.isRetryable = isRetryable;
+          throw err;
+        },
+      });
+    } catch (error) {
+      threw = error;
+    }
+    assert.equal(threw?.name, name);
+    assert.equal(createCount, 1);
+  }
+}
+
+async function testStartAgentRunWithRetryFrozenErrorDoesNotMutate() {
+  const frozen = new Error("frozen-auth");
+  frozen.name = "AuthenticationError";
+  frozen.isRetryable = true;
+  Object.freeze(frozen);
+  assert.equal(Object.isFrozen(frozen), true);
+
+  let threw = null;
+  try {
+    await startAgentRunWithRetry({
+      maxAttempts: 3,
+      baseDelayMs: 1,
+      sleep: async () => {
+        throw new Error("sleep should not run for AuthenticationError");
+      },
+      createAgent: async () => ({ agentId: "frozen-agent", close() {} }),
+      send: async () => {
+        throw frozen;
+      },
+    });
+  } catch (error) {
+    threw = error;
+  }
+
+  assert.ok(threw);
+  assert.notEqual(threw?.name, "TypeError");
+  assert.equal(threw instanceof TypeError, false);
+  assert.equal(threw?.name, "AuthenticationError");
+  assert.equal(threw?.message, "frozen-auth");
+  assert.equal(threw?.startupAttemptsUsed, 1);
+  assert.equal(Array.isArray(threw?.startupAttempts), true);
+  assert.equal(threw?.startupAttempts.length, 1);
+  assert.equal(threw?.disposedFailedAgents, 1);
+  assert.equal(threw?.cause, frozen);
+  assert.equal(Object.hasOwn(toErrorObject(threw), "cause"), false);
+
+  // Original frozen error must remain unmodified.
+  assert.equal(Object.hasOwn(frozen, "startupAttempts"), false);
+  assert.equal(Object.hasOwn(frozen, "startupAttemptsUsed"), false);
+  assert.equal(Object.hasOwn(frozen, "disposedFailedAgents"), false);
+  assert.equal(frozen.name, "AuthenticationError");
+  assert.equal(frozen.message, "frozen-auth");
+}
+
+function testSmokeStoreIsPerInvocation() {
+  const smokeSource = readFileSync(
+    fileURLToPath(new URL("./cursor_local_agent_smoke.mjs", import.meta.url)),
+    "utf8",
+  );
+  // Must not use the historical fixed shared path (exact, no trailing hyphen).
+  assert.equal(
+    smokeSource.includes('join(tmpdir(), "cursor-sdk-local-agent-store")'),
+    false,
+  );
+  assert.doesNotMatch(
+    smokeSource,
+    /new\s+JsonlLocalAgentStore\(\s*join\(\s*tmpdir\(\)\s*,\s*"cursor-sdk-local-agent-store"\s*\)\s*\)/,
+  );
+  // Supports --out-dir branch and unique-temp branch; retains summary.storePath.
+  assert.match(smokeSource, /join\(args\.outDir,\s*"sdk-local-agent-store"\)/);
+  assert.match(smokeSource, /mkdtempSync\(\s*join\(\s*tmpdir\(\)\s*,\s*"cursor-sdk-local-agent-store-"\s*\)\s*\)/);
+  assert.match(smokeSource, /summary\.storePath\s*=/);
+}
+
+function testSmokeRejectsNonFinishedRunResult() {
+  const smokeSource = readFileSync(
+    fileURLToPath(new URL("./cursor_local_agent_smoke.mjs", import.meta.url)),
+    "utf8",
+  );
+  // Source: after RunResult evidence, non-finished statuses throw a named error.
+  assert.match(smokeSource, /RESULT_STATUS=\$\{result\.status\}/);
+  assert.match(smokeSource, /RUN_RESULT=\$\{JSON\.stringify\(result\)\}/);
+  assert.match(smokeSource, /result\.status !== "finished"/);
+  assert.match(smokeSource, /RunResultNotFinishedError/);
+  assert.match(smokeSource, /RunResult\.status=\$\{result\.status\} is not finished/);
+
+  // Logic: finished succeeds; every other terminal status rejects with the actual status in message.
+  function requireFinished(status) {
+    if (status !== "finished") {
+      const err = new Error(`RunResult.status=${status} is not finished`);
+      err.name = "RunResultNotFinishedError";
+      throw err;
+    }
+  }
+  assert.doesNotThrow(() => requireFinished("finished"));
+  for (const status of ["error", "cancelled", "expired", "unknown"]) {
+    assert.throws(
+      () => requireFinished(status),
+      (err) =>
+        err?.name === "RunResultNotFinishedError" &&
+        String(err.message).includes(status),
+    );
+  }
+}
+
+function testWrapStartupTerminalFailurePreservesSafeFields() {
+  const original = new Error("auth-denied");
+  original.name = "AuthenticationError";
+  original.code = "UNAUTHENTICATED";
+  original.isRetryable = false;
+  original.protoErrorCode = 16;
+  original.stack = "AuthenticationError: auth-denied\n    at test";
+  Object.freeze(original);
+
+  const wrapped = wrapStartupTerminalFailure(original, {
+    startupAttempts: [{ attempt: 1 }],
+    startupAttemptsUsed: 1,
+    disposedFailedAgents: 0,
+  });
+  assert.equal(wrapped.name, "AuthenticationError");
+  assert.equal(wrapped.message, "auth-denied");
+  assert.equal(wrapped.code, "UNAUTHENTICATED");
+  assert.equal(wrapped.isRetryable, false);
+  assert.equal(wrapped.protoErrorCode, 16);
+  assert.equal(wrapped.stack, original.stack);
+  assert.equal(wrapped.cause, original);
+  assert.equal(wrapped.startupAttemptsUsed, 1);
+  assert.equal(Object.hasOwn(toErrorObject(wrapped), "cause"), false);
+  assert.equal(Object.hasOwn(original, "startupAttempts"), false);
+}
+
+async function testDisposeAgentPrefersAsyncDispose() {
+  const calls = [];
+  const withAsync = {
+    close() {
+      calls.push("close");
+    },
+    async [Symbol.asyncDispose]() {
+      calls.push("asyncDispose");
+    },
+  };
+  const disposal = await disposeAgent(withAsync);
+  assert.equal(disposal.method, "asyncDispose");
+  assert.deepEqual(calls, ["asyncDispose"]);
+
+  const closeOnly = {
+    close() {
+      calls.push("close-only");
+    },
+  };
+  const disposal2 = await disposeAgent(closeOnly);
+  assert.equal(disposal2.method, "close");
+  assert.ok(calls.includes("close-only"));
+
+  assert.deepEqual(await disposeAgent(null), { method: null });
+}
+
+function testRunLevelFailureNotInStartupRetryPath() {
+  const runSource = readFileSync(fileURLToPath(new URL("./cursor_local_agent_run.mjs", import.meta.url)), "utf8");
+  assert.match(runSource, /result\.status !== "finished"/);
+  assert.match(runSource, /failurePhase === "startup" && !summary\.runId/);
+  assert.match(runSource, /no-replay/);
+  assert.match(runSource, /audit\.failClosed/);
+  assert.match(runSource, /process\.exit\(2\)/);
+  assert.match(runSource, /disposeAgent/);
+  assert.match(runSource, /startAgentRunWithRetry/);
+  // Terminal RunResult failure must be classified as run phase, not fed to startup retry.
+  assert.match(runSource, /summary\.failurePhase = "run"/);
+  assert.equal(EXPECTED_CURSOR_SDK_VERSION, "1.0.24");
+}
+
 testContainment();
 testResolve();
 testClassifyBasics();
@@ -214,4 +566,18 @@ testRenameBoundary();
 testUntrackedMetadataOnly();
 testSignatureDelta();
 testUnreadableFailsClosed();
+testSettingSourcesContract();
+testParsePromptMode();
+testToErrorObjectSafeFields();
+testRetryClassificationAndBackoff();
+testRunLevelFailureNotInStartupRetryPath();
+
+testSmokeStoreIsPerInvocation();
+testSmokeRejectsNonFinishedRunResult();
+testWrapStartupTerminalFailurePreservesSafeFields();
+
+await testStartAgentRunWithRetrySuccessAfterTwoFailures();
+await testStartAgentRunWithRetryStopsOnAuthConfigNonRetryable();
+await testStartAgentRunWithRetryFrozenErrorDoesNotMutate();
+await testDisposeAgentPrefersAsyncDispose();
 console.log("cursor_local_agent_path_policy.test.mjs: PASS");
