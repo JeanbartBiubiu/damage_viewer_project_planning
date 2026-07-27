@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "twistedfate-r",
+  "candidateKey": "hero_skill|hero_twistedfate|R|命运",
+  "ownerId": "hero_twistedfate",
+  "wikiChampionTitle": "Twisted Fate",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Twisted Fate/R",
+  "zhDisplayName": "命运",
+  "resolvedTitle": "Template:Data Twisted Fate/Destiny",
+  "wikiPageId": 1326263,
+  "revisionId": 4017975,
+  "revisionTimestamp": "2026-05-14T09:17:46Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Twisted%20Fate/Destiny",
+  "contentSha256": "afc397445e334baa35fe369ff56fac0d1792306eda5234d0e39e1fbfde485a06",
+  "rawByteSize": 2790,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Twisted Fate''' marks all targetable enemy champions, {{tip|true sight|revealing}} them for a duration. ''Destiny'' can be recast after {{fd|0.5}} seconds within the duration.\n",
+    "leveling": "{{st|Effect Duration|{{ap|6 to 10}} seconds}}\n",
+    "description2": "{{sbc|Recast - Gate:}} '''Twisted Fate''' {{tip|channels}} for {{fd|1.5}} seconds before {{tip|blink|blinking}} to the target location, {{tip|homing projectile destruction|destroying}} enemy {{tip|projectiles}} targeting him in the process.\n",
+    "cooldown": "{{tt|{{ap|170 to 110}}|Starts after recast times out or is used}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "notes": "*Both casts count as ability activations for the purposes of on-cast effects such as {{tip|Spellblade}} and triggering {{ais|Force Pulse|Kassadin}} passive.\n* '''Twisted Fate''' cannot recast ''Destiny'' while {{tip|ground|grounded}} or {{tip|root|rooted}}.\n* The {{tip|nearsight}} from {{ai|Paranoia|Nocturne}} will overpower the {{tip|true sight|reveal}} from ''Destiny'' regardless of which one was cast first (enemy champions can still be revealed by ''Destiny'' after ''Paranoia'' ends if durations permit).\n* Using the recast will inform allies with a [[ping]].\n** Both allies and enemies can see an indicator at the targeted location of where '''Twisted Fate''' will appear.\n* The following table refers for interactions while '''Twisted Fate''' is {{tip|channel|channeling}}:\n** Item actives with cast times as well as {{ii|Titanic Hydra}} are disabled during the channel.\n*** Trying to cast a disabled item active will buffer it to cast at the completion of the channel.\n{{ct|channel|attack=false|move=false|cast={{ai|Pick a Card|Twisted Fate}} is usable. {{ai|Wild Cards|Twisted Fate}} is disabled.|items=true,,interrupts|spells=false|interrupts=death, ground, root, silence}}\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "notes": true,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

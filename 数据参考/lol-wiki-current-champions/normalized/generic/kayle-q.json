@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kayle-q",
+  "candidateKey": "hero_skill|hero_kayle|Q|耀焰冲击",
+  "ownerId": "hero_kayle",
+  "wikiChampionTitle": "Kayle",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Kayle/Q",
+  "zhDisplayName": "耀焰冲击",
+  "resolvedTitle": "Template:Data Kayle/Radiant Blast",
+  "wikiPageId": 1388326,
+  "revisionId": 4005105,
+  "revisionTimestamp": "2026-04-03T22:20:12Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kayle/Radiant%20Blast",
+  "contentSha256": "ded516de4861d88de21ba54de9a8723b654f424f1cc3f9dac30d06382ee1a87c",
+  "rawByteSize": 5063,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kayle''' conjures a portal in front of her that faces the target direction, from which, after 0.25 seconds, a celestial sword launches forward.\n",
+    "description2": "The sword expands upon hitting an enemy, with targets struck in the area dealt {{as|magic damage}}, {{tip|slow|slowed}} for 2 seconds, and inflicted with 15% '''reduced''' {{sti|armor|{{as|armor}}}} and {{sti|magic resistance|{{as|magic resistance}}}} for 4 seconds. <!-- Changed the lethality and magic pen icons to armor and magic resistance icons. Shred is not the same as penetration: The former interacts with a stat, while the latter IS a stat. This change should be applied in general, I think. -->\n",
+    "leveling": "{{st|Magic Damage|{{ap|60 to 180}} {{as|(+ 60% '''bonus''' AD)}} {{as|(+ 50% AP)}}}}\n{{st|Slow|{{ap|25 to 45}}%}}\n",
+    "cooldown": "{{ap|12 to 8}}\n",
+    "cost": "{{ap|60 to 100}}\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "'''Details'''\n* This ability has a cast time and cast delay. The former represents the amount of time Kayle needs to spend to cast and is equal to her attack windup time. The latter is the amount of time the portal needs to launch the sword, which is always {{rutngt|0.25}} seconds, starting from the beginning of the cast time.\n** As implied by the previous point, the portal is created at the start of the cast time and '''Kayle''' does not have to be alive for it to launch the sword.\n** The portal does not follow '''Kayle's''' movements, using {{si|Flash}} or getting displaced won't change its position nor direction either.\n* The cast time can be calculated by dividing '''Kayle's''' ''windup percent'' value ({{fd|0.193555}}) with her current total attack speed.\n** ''Radiant Blast's'' cast time is {{rutngt|0.30968}} at base attack speed, is at most {{rutngt|0.96775}} at the minimum attack speed of {{sti|attack speed|{{as|0.2|attack speed}}}}, and is {{rutngt|0.06445}} at the attack speed cap of {{sti|attack speed|{{as|3.003|attack speed}}}}. The cast time can be further decreased with effects that allows the player to bypass the attack speed cap.\n** Additionally, it should be noted that due to action only taking place on whole game ticks, the cast time can only be changed in fractions of {{fd|0.033}} seconds. This also means that the lowest possible cast time is {{fd|0.033}} seconds, requiring at least {{sti|attack speed|{{as|5.8652|attack speed}}}} attack speed.\n** {{Note|1}} Important to note that in patch [[V9.17]], ''Radiant Blast's'' cast time was changed to be a flat {{fd|0.25}} seconds, rather than scaling with the attack windup time. In patch [[V10.4]], this was undocumentedly changed back. Whether the change to scale with windup time again was intentional or not is unknown.\n* The resistance reduction is applied after the damage has been dealt.\n* The expansion consists of 5 hitboxes, forming a cross-like shape centered 100 units ahead from the impact in its direction. Their technical details can be seen below and visualized on the image to the right. [[File:Celestine Wish Kayle_Q_Explosion.png|thumb|The left side shows projectile's width and the total area traveled if it does not hit a target, while the right side shows the explosions when it hits a target.]]\n** <code>ExplosionCenter</code>: 100 radius\n** <code>ExplosionLeft</code>: 150 distance, 125 width\n** <code>ExplosionRight</code>: 150 distance, 125 width\n** <code>ExplosionBackward</code>: 100 distance, 90 width\n** <code>ExplosionForward</code>: 400 distance, 90 width\n'''Interactions & Other'''\n* The visual effects of the explosion shows the blade and guard of '''Kayle's''' swords.\n* The resistance reduction can be tracked on the HUD as a debuff called [[File: Radiant Blast 2.png|20px|link=]] '''Sundered'''.\n* {{Note|1}} Note that the [[File:Kayle PsyOpsCircle.png|32px]] PsyOps skin still uses the old shred VFX, which also only shows for 3 seconds (effect duration is not affected). This is possibly an oversight as all existing, and at the time released Dragon Slayer, skins were updated properly in [[V11.18]].\n[[File:Celestine_Wish_Kayle_PsyOps_Shred_Indicator_Issue.mp4]]\n<!--Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

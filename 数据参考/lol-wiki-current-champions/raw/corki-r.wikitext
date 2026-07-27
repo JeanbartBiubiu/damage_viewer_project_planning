@@ -1,0 +1,41 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Missile Barrage|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Corki
+|skill        = R
+|icon         = false
+|icon2        = Missile Barrage.png
+|icon4        = Big One.png
+|blurb        = {{sbc|Active:}} {{ci|Corki}} fires a missile in the target direction that explodes upon the first enemy hit, dealing {{as|physical damage}} to enemies in an area.
+|blurb2       = '''Corki''' stores missiles over time, and starts with maximum missiles when he respawns.
+|blurb3       = Every 3rd missile fired is a ''Big One'': which fires farther and deals increased damage in a bigger explosion.
+|description  = {{sbc|Passive:}} {{tip|Basic attacks}} {{tip|on-hit}} against champions reduce ''Missile Barrage's'' remaining recharge time by {{pp|2 to 6 for 11|0 to 100|type=critical strike chance|color=critical chance|key1=%}} seconds.
+|description2 = {{sbc|Active:}} '''Corki''' fires a missile in the target direction that explodes upon the first enemy hit, dealing {{as|physical damage}} to enemies within the area.
+|leveling2    = {{st|Physical Damage|{{ap|90 to 250}} {{as|(+ 85% '''bonus''' AD)}}}}
+|description3 = '''Corki''' periodically [[stock]]s a ''Missile Barrage'' charge, up to a maximum of 4. He gains 2 charges upon learning the ability and maximum charges upon [[death|respawning]].
+|description4 = Every third missile '''Corki''' fires is a ''{{ai|Big One|Corki}}'', dealing 100% increased damage as well as gaining increased range and explosion radius.
+|leveling4    = {{st|Big One Physical Damage|{{ap|90*2 to 250*2}} {{as|(+ {{ap|85*2}}% '''bonus''' AD)}}}}
+|target range = {{dv|{{tip|cr|icononly = true}} {{tt|1300|Standard missile range}}|{{tt|1500|Big One missile range}}}}
+|effect radius= {{dv|{{tip|cr|icononly = true}} {{tt|150|Standard explosion radius}}|{{tt|300|Big One explosion radius}}}}
+|speed        = {{tt|2000|Missile speed for both standard and Big One missiles}}
+|width        = {{tip|er|icononly = true}} {{tt|80|Both standard and Big One missile width}}
+|cooldown     = 2
+|recharge     = 20
+|cost         = 35
+|cast time    = {{fd|0.175}}
+|costtype     = mana + 1 Ammo
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = True
+|spelleffects = spellaoe
+|projectile   = True
+|grounded     =
+|knockdown    =
+|notes        =
+* Once '''Corki''' has learned the ability:
+** He receives a {{tip|buff}} that counts a cycle of the number of times ''Missile Barrage'' has been used since the last ''Big One''.
+** An indicator becomes visible below his [[health bar]] that tracks the number of missiles in reserve and whether a ''Big One'' is available. They are spent from {{tt|left to right|default, for left-to-right locales}}.
+* '''Corki''' retains progress towards a ''Big One'' when he {{tip|fatal damage|dies}}.
+{{Effect at cast time start}}
+* ''Missile Barrage's'' effect radius is centered around the location of the missile as it collides.
+* {{iis|Malignance}} damage from ''Missile Barrage'' does not count toward {{iis|Eclipse}} passive.
+}}

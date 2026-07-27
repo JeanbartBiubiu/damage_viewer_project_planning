@@ -1,0 +1,20 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Hextech Munitions|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Corki
+|skill        = I
+|icon         = Hextech Munitions.png
+|blurb        = {{sbc|Innate:}} {{cis|Corki}} {{tip|basic attacks}} deal {{as|'''bonus''' true damage}}.
+|description  = {{sbc|Innate:}} '''Corki's''' {{tip|basic attacks}} deal {{sti|{{as|'''bonus''' true damage}}}} equal to {{as|20% AD}}. This damage is affected by {{tip|critical strike}} modifiers. Additionally, spell blade effects provide extra triggers.
+|targeting    = Passive
+|affects      = Self
+|damagetype   = Physical True
+|spelleffects = basic
+|parry        = true
+|notes        =
+* The mixed damage is dealt in two simultaneous instances of damage, but will pretend to be a single instance for most effects (such as {{ris|Conqueror}} stacks).
+** The {{as|true damage}} is dealt in an instance before the {{as|physical damage}}.
+** Both instances deal {{tip|basic damage}} and thus natively apply {{as|{{sti|life steal}}}}.
+** The attack applies {{tip|on-hit}} effects only once, right at the start.
+** Even if the target dies from the {{as|true damage}}, the {{as|physical damage}} will still be applied to it.
+*** If the target dies from {{tip|on-hit}} damage, the true damage portion will be skipped and only the physical damage applied.{{bug}}
+** {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} and {{tip|Spellblade}} effects have both been special cased to benefit from ''Hextech Munitions'', causing them to deal {{as|'''bonus''' true damage}} equal to 20% of the {{tt|pre-mitigation damage|Damage calculated before modifiers}} dealt.
+}}

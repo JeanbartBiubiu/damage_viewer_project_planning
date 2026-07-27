@@ -1,0 +1,31 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Dancing Grenade|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Jhin
+|skill        = Q
+|icon         = Dancing Grenade.png
+|blurb        = {{sbc|Active:}} {{ci|Jhin}} throws a grenade at the target enemy that can bounce to up to three additional nearby enemies, dealing {{as|physical damage}}.
+|blurb2       = The grenade's damage increases any time an enemy dies by any means after being hit by the grenade before it strikes its next target.
+|description  = {{sbc|Active:}} '''Jhin''' throws a grenade at the target enemy that deals {{as|physical damage}} and can bounce to up to three additional nearby enemies, prioritizing the closest enemy that has not been hit.
+|leveling     = {{st|Physical Damage|{{ap|44 to 144}} {{as|(+ {{ap|44 to 74}}% AD)}} {{as|(+ 60% AP)}}}}
+|description2 = The grenade's damage is increased by 35% any time an enemy dies by any means after being hit by the grenade before it strikes its next target.
+|leveling2    = {{st|Bonus Damage per Target Death|{{ap|(44 to 144)*0.35}} {{as|(+ {{ap|(44 to 74)*0.35}}% AD)}} {{as|(+ {{ap|60*0.35}}% AP)}}}}
+{{st|Maximum Final Bounce Physical Damage|{{ap|(44 to 144)*(1+0.35*3)}} {{as|(+ {{ap|(44 to 74)*(1+0.35*3)}}% AD)}} {{as|(+ {{ap|60*(1+0.35*3)}}% AP)}}}}
+|cooldown     = {{ap|7 to 5}}
+|cost         = {{ap|40 to 60}}
+|cast time    = {{fd|0.25}}
+|costtype     = Mana
+|target range = {{tip|er|icononly = true}} 550
+|effect radius= {{tip|cr|icononly = true}} {{tt|450|Bounce range}}
+|speed        = {{dv|{{tt|1800|Initial missile speed}}|{{tt|600|Bounce missile speed}}}}
+|targeting    = Unit
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = spellaoe
+|spellshield  = Special
+|projectile   = True
+|callforhelp  = true
+|knockdown    =
+|grounded     =
+|notes        =
+* {{tip|Spell shield}} will not prevent the canister from bouncing.
+{{Unit-targeted cancel conditions}}
+}}

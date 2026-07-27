@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kindred-r",
+  "candidateKey": "hero_skill|hero_kindred|R|羊灵生息",
+  "ownerId": "hero_kindred",
+  "wikiChampionTitle": "Kindred",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Kindred/R",
+  "zhDisplayName": "羊灵生息",
+  "resolvedTitle": "Template:Data Kindred/Lamb's Respite",
+  "wikiPageId": 1307926,
+  "revisionId": 4024177,
+  "revisionTimestamp": "2026-05-30T14:18:23Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kindred/Lamb's%20Respite",
+  "contentSha256": "4504f638dee142c05bdf610df4e95661bfe6a06c0a9e3be1ea2c79814cef2def",
+  "rawByteSize": 2493,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lamb''' blesses the ground underneath herself, creating a sacred zone at the location that lasts for 4 seconds. {{tt|'''All''' units|Ally, enemy, and neutral}} inside the zone gain a {{tip|minimum health threshold}} equal to {{as|{{sti|health|10% of their '''maximum''' health}}}}, and will also become {{tip|invulnerable}} while remaining in the area when they reach or are at the threshold, during which they also cannot be {{tip|heal|healed}}, but can still {{sti|health regeneration|regenerate health|link=health regeneration}}.\n",
+    "description3": "All targetable units within the zone are {{tip|heal|healed}} when the blessing ends.\n",
+    "leveling3": "{{st|Heal|{{ap|225 to 375}}}}\n",
+    "cooldown": "{{tt|{{ap|160 to 120}}|Begins at start of cast time}}\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "damagetype": "",
+    "notes": "* ''Lamb's Respite's'' effects are applied before the cast time.\n* ''Lamb's Respite'' will affect all {{tip|champions}}, {{tip|minions}}, and {{tip|monsters}}, but not {{tip|ward|wards}}, {{tip|turret|turrets}}, or [[jungle plants]].\n* ''Lamb's Respite'' will affect {{tip|untargetable}} units but does not grant them the {{tip|heal}} at the end of the blessing.\n** It will specifically not affect champions that are {{tip|resurrection|resurrecting}} from {{ii|Guardian Angel}}.\n* {{tip|Health resource|Health costs}} will ignore ''Lamb's Respite's'' threshold.\n** The cost will not be paid if the caster is below the threshold.\n* ''Lamb's Respite'' has no effect on {{tip|zombie state}} or {{tip|clone}} units.\n* {{pending for test}} ''Lamb's Respite'' will have no effect if cast while '''Kindred''' is {{tip|untargetable}}.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description3": true,
+    "leveling3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

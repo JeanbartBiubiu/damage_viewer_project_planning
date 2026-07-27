@@ -69,13 +69,71 @@ func TestCompileGenericMatcherDomainErrorForListenerEntity(t *testing.T) {
 	catalog := CompileTypeCatalog(model.TypeCatalog{
 		Types: []model.TypeCatalogEntry{
 			{Key: "event/damage_dealt", Domain: "event"},
+			{Key: "status/stun", Domain: "status"},
+		},
+		Relations: []model.TypeRelation{},
+	}, func(model.GenericErrCode, string, string, string) {})
+	CompileGenericMatcher(model.TypeMatcher{Any: []string{"status/stun"}}, catalog, EntityListener, "eventMatcher", addError)
+	if len(errors) == 0 || errors[0].Code != model.GenericErrMatcherDomainError {
+		t.Fatalf("errors=%+v", errors)
+	}
+}
+
+func TestCompileGenericMatcherAllowsMixedListenerDomains(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code, Path: path, Ref: ref})
+	}
+	catalog := CompileTypeCatalog(model.TypeCatalog{
+		Types: []model.TypeCatalogEntry{
+			{Key: "event/damage_instance", Domain: "event"},
+			{Key: "tag/on_hit", Domain: "tag"},
+			{Key: "ability/ultimate", Domain: "ability"},
+			{Key: "damage/physical", Domain: "damage"},
+			{Key: "damage_trait/on_hit", Domain: "damage_trait"},
+		},
+		Relations: []model.TypeRelation{},
+	}, func(model.GenericErrCode, string, string, string) {})
+	CompileGenericMatcher(model.TypeMatcher{
+		All: []string{
+			"event/damage_instance",
+			"ability/ultimate",
+			"damage/physical",
+			"damage_trait/on_hit",
+		},
+		Any: []string{"tag/on_hit"},
+	}, catalog, EntityListener, "eventMatcher", addError)
+	if len(errors) != 0 {
+		t.Fatalf("unexpected errors=%+v", errors)
+	}
+}
+
+func TestValidateTypeKeysDamageTraitDomain(t *testing.T) {
+	var errors []model.EngineError
+	addError := func(code model.GenericErrCode, path, message, ref string) {
+		errors = append(errors, model.EngineError{Code: code, Ref: ref})
+	}
+	catalog := CompileTypeCatalog(model.TypeCatalog{
+		Types: []model.TypeCatalogEntry{
+			{Key: "damage_trait/on_hit", Domain: "damage_trait"},
+			{Key: "damage/physical", Domain: "damage"},
 			{Key: "ability/basic_attack", Domain: "ability"},
 		},
 		Relations: []model.TypeRelation{},
 	}, func(model.GenericErrCode, string, string, string) {})
-	CompileGenericMatcher(model.TypeMatcher{Any: []string{"ability/basic_attack"}}, catalog, EntityListener, "eventMatcher", addError)
+	ValidateTypeKeys([]string{"damage_trait/on_hit"}, EntityOperationDamageTrait, catalog, "types", addError)
+	if len(errors) != 0 {
+		t.Fatalf("unexpected errors=%+v", errors)
+	}
+	errors = nil
+	ValidateTypeKeys([]string{"damage/physical"}, EntityOperationDamageTrait, catalog, "types", addError)
 	if len(errors) == 0 || errors[0].Code != model.GenericErrMatcherDomainError {
-		t.Fatalf("errors=%+v", errors)
+		t.Fatalf("expected domain error for damage/physical, got %+v", errors)
+	}
+	errors = nil
+	ValidateTypeKeys([]string{"ability/basic_attack"}, EntityOperationDamageTrait, catalog, "types", addError)
+	if len(errors) == 0 || errors[0].Code != model.GenericErrMatcherDomainError {
+		t.Fatalf("expected domain error for ability key, got %+v", errors)
 	}
 }
 

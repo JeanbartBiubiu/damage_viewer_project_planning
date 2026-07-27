@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Essence Flux|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Ezreal
+|skill        = W
+|icon         = Essence Flux.png
+|blurb        = {{sbc|Active:}} {{ci|Ezreal}} fires an orb that shortly marks the first enemy {{tip|champion}}, epic {{tip|monster}}, or {{tip|turret|structure}} hit.
+|blurb2       = His next attack or ability on the target detonates the mark, dealing {{as|magic damage}}. If the mark was detonated by an ability, '''Ezreal''' restores {{as|{{sti|mana}}}}.
+|description  = {{sbc|Active:}} '''Ezreal''' fires an orb in the target direction that marks the first enemy {{tip|champion}}, epic {{tip|monster}}, or {{tip|structure}} hit for 4 seconds.
+|description2 = His next {{tip|basic attack}}<!--on-hit? on-damage?--> or {{tip|ability}} against the target detonates the mark to deal them {{as|'''bonus''' magic damage}}.
+|leveling2    = {{st|Bonus Magic Damage|{{ap|80 to 300}} {{as|(+ 100% '''bonus''' AD)}} {{as|(+ 90% AP)}}}}
+|description3 = If the mark was detonated with an ability, '''Ezreal''' restores {{sti|mana|{{as|60 mana}}}} plus the {{as|mana cost}} of that ability.
+|cooldown     = 8
+|cost         = 50
+|costtype     = Mana
+|target range = 1200
+|speed        = 1700
+|width        = {{tip|er|icononly=true}} 160
+|cast time    = {{fd|0.25}}
+|queue time   = {{fd|0.5}}
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = Special
+|spelleffects = spell
+|projectile   = True
+|parry        = Special
+|grounded     =
+|knockdown    =
+|notes        =
+* The application of ''Essence Flux'' deals 0 {{tip|proc damage}}.
+** This triggers [[combat status|in-combat]] effects such as drawing turret aggro and drawing [[Monster#Monster_Behavior|monster aggression]].
+** It also triggers {{ri|Sudden Impact}} and applies {{ii|Elixir of Sorcery}}.
+** It does not trigger {{ri|Cheap Shot}}, however, as {{tip|proc damage}} doesn't trigger {{ri|Cheap Shot}}.
+* {{tip|Block}} and {{tip|Dodge}} prevents the mark from being triggered by a basic attack.
+* {{tip|Spell shield}} prevents the mark from being triggered by an ability. If the mark is triggered by a basic attack, spell shield will prevent ''Essence Flux's'' damage.
+{{Effect at cast time end}}
+}}

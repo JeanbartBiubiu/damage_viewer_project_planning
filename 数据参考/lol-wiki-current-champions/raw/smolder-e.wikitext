@@ -1,0 +1,36 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Flap, Flap, Flap|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Smolder
+|skill        = E
+|icon         = Smolder Flap, Flap, Flap.png
+|description  = {{sbc|Active:}} '''Smolder''' takes flight for {{fd|1.25}} seconds, becoming {{tip|ghosted}} and gaining {{sti|{{as|75% '''bonus''' movement speed}}}}, {{tip|unobstructed vision}}, and the ability to ignore terrain collision. While in flight, he automatically fires up to 5 {{as|(+ 1 per 100 ''{{ai|Dragon Practice|Smolder}}'' stacks)|buzzword3}} bolts at the nearest and {{tt|most wounded|Lowest health percent}} {{tip|sight|visible}} enemy, dealing {{as|physical damage}} with each hit and prioritizing enemy champions.
+|leveling     = {{st|Physical Damage per Hit|{{ap|10 to 30}} {{as|(+ 30% AD)}}}}
+{{st|Minimum Total Physical Damage|{{ap|10*5 to 30*5}} {{as|(+ {{ap|30*5}}% AD)}}}}
+|description2 = ''Flap, Flap, Flap'' ends immediately if '''Smolder''' casts another ability or becomes {{tip|immobilize|immobilized}}.
+|range        = 700
+|speed        = {{tt|1800|Bolt speed}}
+|cdstart      = on-cast
+|cooldown     = {{ap|24 to 16}}
+|cast time    = none
+|cost         = 65
+|costtype     = mana
+|targeting    = Auto
+|affects      = Self, Enemies
+|damagetype   = physical
+|spelleffects = spell
+|spellshield  = special
+|parry        = false
+|grounded     = true
+|notes        =
+* The number of additional bolts based on {{ai|Dragon Practice|Smolder}} stacks is rounded down.
+* '''Smolder''' reveals himself while attacking enemies, even inside terrain.
+* {{tip|Spell shield}} will block only one bolt.
+* Self {{tip|immobilize|immobilizations}} such as {{ii|Zhonya's Hourglass}} also count for ending ''Flap, Flap, Flap''.
+* {{si|Recall}} is disabled while '''Smolder''' is inside terrain.
+* ''Flap, Flap, Flap'' can interact with [[Terrain#Player-Generated|player-generated terrain]].
+* If '''Smolder''' is inside terrain when the effect ends, he will be placed correspondingly to the nearest valid space.
+* The following table refers for interactions while '''Smolder''' is flying:
+{{ct|attack=Causes '''Smolder''' to move towards the attack target.|cast=interrupts|move=true|items==true,,interrupts|spells=true|interrupts=death,root}}
+<!-- Blurb -->
+|blurbicon    = Smolder Flap, Flap, Flap.png
+|blurb        = {{sbc|Active:}} {{ci|Smolder}} takes flight for a short time, becoming {{tip|ghosted}} and gaining {{sti|{{as|'''bonus''' movement speed}}}} and the ability to ignore terrain collision. While in flight, he automatically fires bolts at a nearby enemy, dealing {{as|physical damage}} with each hit. The number of attacks increases based on {{sti|{{as|critical strike chance}}}}.
+}}

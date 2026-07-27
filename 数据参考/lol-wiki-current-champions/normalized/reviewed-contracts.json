@@ -1,14 +1,13 @@
 {
-  "schemaVersion": "lol-wiki-current-champion-abilities-v1",
-  "fetchedAt": "2026-07-17T14:03:00.072Z",
+  "schemaVersion": "lol-wiki-current-champion-abilities-v2",
+  "fetchedAt": "2026-07-18T18:57:47.640Z",
   "sourceApi": "https://wiki.leagueoflegends.com/en-us/api.php",
   "dataPolicy": {
     "numericTruthPrecedence": [
-      "current_league_wiki_template_revision",
-      "data_dragon_secondary",
-      "batch_b_ocr_historical_provenance_only"
+      "current_league_wiki_template_revision"
     ],
-    "blockedDataPolicy": "A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract. Screenshots/OCR are not an acceptable missing-data source."
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
   },
   "contracts": [
     {
@@ -26,10 +25,9 @@
       "contentSha256": "e4304b3a5f145f7975fee0d07d55d041db25570266d9a46053735425585c99f4",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -91,10 +89,9 @@
       "contentSha256": "22ba762382dedced4b63a451c4513cb3129e3b16a137236e5b637eea7510b534",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -150,10 +147,9 @@
       "contentSha256": "3a6bf74888a0cc48333f5d9058feb129d5326eb3b898f76aa7740d61fdf5948b",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -249,10 +245,9 @@
       "contentSha256": "7e12c2b27533ff696411e2eff05d7f5b5c9e3b1ad45f09e017df2a764abb5e28",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -324,10 +319,9 @@
       "contentSha256": "c68bd17937d584b0f6e149a802c1748d1b62849092d82a267d501997b0a195ed",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -413,10 +407,9 @@
       "contentSha256": "5996c969e2d1b53b3c805737fa161b4a9e235d6e7b7c74899a6580de34ca77ba",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -454,10 +447,9 @@
       "contentSha256": "553bda222e9e85f0eff6d4cba3b8723979a58b68fba9097d2dfa1bd373117aa8",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {
@@ -510,10 +502,9 @@
       "contentSha256": "f7adc35c58f47d28f8bd098a1303cf5cfef5a414783cde389ecf07240e95515f",
       "dataPolicy": {
         "precedence": [
-          "league_wiki_current_template",
-          "ddragon",
-          "batch_b_ocr_historical_provenance_only"
+          "current_league_wiki_template_revision"
         ],
+        "ddragonProvenanceOnly": true,
         "blockedDataOnlyWhen": "checked_league_wiki_template_lacks_or_marks_unknown_required_numeric_contract"
       },
       "contracts": {

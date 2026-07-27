@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "varus-p",
+  "candidateKey": "hero_skill|hero_varus|P|复仇之欲",
+  "ownerId": "hero_varus",
+  "wikiChampionTitle": "Varus",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Varus/I",
+  "zhDisplayName": "复仇之欲",
+  "resolvedTitle": "Template:Data Varus/Living Vengeance",
+  "wikiPageId": 1309982,
+  "revisionId": 4026465,
+  "revisionTimestamp": "2026-06-09T21:59:33Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Varus/Living%20Vengeance",
+  "contentSha256": "9ecf0d698d0ec56f2c19bed4e49b22aec35fb51ad0d1f6785d45b3084edc83c5",
+  "rawByteSize": 2145,
+  "fields": {
+    "description": "{{sbc|Innate:}} When '''Varus''' kills an enemy, he gains {{sti|attack speed|{{as|{{pp|10 to 20|1;7;13|key=%}} '''bonus''' attack speed}}}} as well as {{sti|{{as|'''bonus''' attack damage}}}} and {{sti|{{as|ability power}}}} equal to {{as|11% of his '''total bonus''' attack speed}} for {{pp|5 to 11 for 4|1 to 16}} seconds, refreshing on subsequent unit kills.\n",
+    "description2": "'''Varus''' also gains ''Living Vengeance's'' bonuses upon scoring a {{tip|champion}} {{tip|takedown}}, which empowers it for the same duration to grant him {{as|30% '''bonus''' attack speed}} as well as {{as|'''bonus''' attack damage}} and {{as|ability power}} equal to {{as|33% of his '''total bonus''' attack speed}}, and an increased attack speed cap of {{fd|3.33}}. ''Living Vengeance's'' empowerment may only be refreshed by subsequent champion takedowns.\n",
+    "notes": "* '''Varus''' cannot gain the standard bonuses while ''Living Vengeance'' is empowered. If the buff was active at the time of the empowerment (from scoring a champion takedown), the duration is refreshed while overriding the standard bonuses with the empowered ones.\n** If '''Varus''' kills an enemy unit (non-champion) during the empowerment, he is special cased to gain the buff again after the empowerment expires with the standard bonuses. The re-granted buff lasts for {{pp|5 to 11 for 4|1 to 16}} seconds minus the remaining duration of the empowered version at the time of the last non-champion unit he killed.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

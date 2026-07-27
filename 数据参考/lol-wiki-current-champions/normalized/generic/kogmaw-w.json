@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kogmaw-w",
+  "candidateKey": "hero_skill|hero_kogmaw|W|生化弹幕",
+  "ownerId": "hero_kogmaw",
+  "wikiChampionTitle": "Kog'Maw",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Kog'Maw/W",
+  "zhDisplayName": "生化弹幕",
+  "resolvedTitle": "Template:Data Kog'Maw/Bio-Arcane Barrage",
+  "wikiPageId": 1307959,
+  "revisionId": 3949878,
+  "revisionTimestamp": "2025-08-26T19:39:02Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kog'Maw/Bio-Arcane%20Barrage",
+  "contentSha256": "2992e04a65f8dbe84b21420c234ca202c5d3772e83fa4cc3bd673a1f5af3b982",
+  "rawByteSize": 1182,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kog'Maw''' empowers his [[basic attack]]s for the next 8 seconds to gain {{sti|range|'''bonus''' attack range}} and deal {{as|'''bonus''' magic damage}} {{tip|on-hit}}, capped at 100 against {{tip|minion|minions}} and {{tip|monster|monsters}}.\n",
+    "leveling": "{{st|Bonus Attack Range|{{ap|130 to 210}}}}\n{{st|Bonus Magic Damage|{{as|{{ap|3 to 6}}% {{as|(+ {{fd|1.5}}% per 100 AP)}} of target's '''maximum''' health}}}}\n",
+    "cooldown": "17\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* The attacks do not deal the '''bonus''' damage against [[structures]].\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

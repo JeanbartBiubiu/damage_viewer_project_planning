@@ -1,0 +1,38 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Inferno Trigger|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Samira
+|skill        = R
+|icon         = Samira Inferno Trigger.png
+|blurb        = {{sbc|Active:}} {{ci|Samira}} unleashes a torrent of shots, reducing her {{sti|{{as|movement speed}}}} and rapidly firing shots that deal {{as|physical damage}} to nearby enemies.
+|blurb3      = Each shot can {{tip|critically strike}} and {{tip|applies lifesteal|apply}} {{as|{{sti|life steal}}}}.
+|blurb4      = ''Inferno Trigger'' costs ''{{ai|Daredevil Impulse|Samira|6 Style|image= Samira Rank S.png}}'' stacks.
+|description  = {{sbc|Active:}} '''Samira''' unleashes a torrent of shots for {{rutngt|2.25}}, '''reducing''' her {{as|movement speed}} by {{as|30%|ms}} and rapidly shooting at  nearby enemies over {{rutngt|2}} at sporadic times in {{tt|{{fd|0.2}}-second intervals|on average; total of 5 intervals of 0.231 and 5 of 0.198 seconds}} each (up to 10 times per enemy), dealing {{as|physical damage}} with each shot, reduced by 75% against {{tip|minions}}. This damage is affected by {{tip|critical strike}} modifiers and {{tip|applies lifesteal|applies}} {{as|{{sti|life steal}}}} at 100% effectiveness.
+|leveling     = {{st|Physical Damage Per Shot|{{ap|20 to 60}} {{as|(+ 30% AD)}}|Total Physical Damage|{{ap|20*10 to 60*10}} {{as|(+ {{ap|30*10}}% AD)}}}}
+{{st|Minion Damage Per Shot|{{ap|20*0.25 to 60*0.25}} {{as|(+ {{ap|30*0.25}}% AD)}}|Total Minion Damage|{{ap|20*0.25*10 to 60*0.25*10}} {{as|(+ {{ap|30*0.25*10}}% AD)}}}}
+|description2 = ''A nearby {{tip|sight|visible}} enemy is required to cast this ability, and targets do not have to be visible to be shot at. {{ai|Daredevil Impulse|Samira|Style|image= Samira Rank S.png}} stacks are consumed at the end of the effect.''
+|description3 = '''''Samira''' cannot basic attack nor cast {{ai|Flair|Samira}} and {{ai|Blade Whirl|Samira}} during Inferno Trigger, but she can still move. Inferno Trigger will end prematurely if '''Samira''' is affected by any form of {{tip|cast-inhibiting crowd control}} as well as {{tip|disarm}}. Inferno Trigger cannot be cast while '''Samira''' is {{tip|disarm|disarmed}}.''
+|static       = 5
+|cdstart      = on-cast
+|cost         = 6 Style
+|costtype     =
+|effect radius= {{tip|cr|icononly = true}} 600
+|cast time    = none
+|queue time   = {{fd|0.5}}
+|targeting    = Proximity
+|affects      = Enemies
+|damagetype   = Physical
+|spellshield  = special
+|spelleffects = aoedot
+|projectile   = true
+|callforhelp  = true
+|silence      = true
+|notes        =
+* '''Samira's''' facing direction remains as it had been or, if she is moving, towards that direction during ''Inferno Trigger''.
+* The {{as|{{sti|movement speed}}}} reduction stacks additively with other {{as|movement speed}} bonuses.
+** It is a negative bonus, not a {{tip|slow}}, and is thus not reduced by {{tip|slow resist}}.
+* ''Inferno Trigger's'' area of effect is fixed around '''Samira'''.
+* {{tip|Spell shield}} will block the damage of one shot.
+* ''Inferno Trigger'' will not end if there are no enemies that remain in range.
+* The bottom of the [[Summoner|player's]] screen will have a fiery visual effect while '''Samira''' is at ''S'' rank and ''Inferno Trigger'' has at least one rank.
+* Since {{ais|R|Samira}} cooldown is static, {{ri|Ultimate Hunter}} will be swapped with {{ri|Treasure Hunter}} for '''Samira''' at the start of the game.
+|flavorsound  = {{sm2|Samira_Original_R_1.ogg}} ''"Showtime!"''
+}}

@@ -1,0 +1,38 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Behind Enemy Lines|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Quinn
+|skill        = R
+|icon         = Behind Enemy Lines.png
+|blurb        = {{sbc|Active:}} {{ci|Quinn}} {{tip|channels}} for a short time to pair up with {{ci|Valor}}. They then become united, increasing her {{as|{{sti|movement speed}}}} and becoming {{tip|ghosted}}.
+|blurb2      = The duo lose the movement speed boost upon taking non-minion damage, and disband upon being {{tip|immobilize|immobilized}}, {{tip|ground|grounded}}, or {{tip|silence|silenced}}.
+|blurb3      = While united, '''Quinn''' can cast ''{{ai|Skystrike|Quinn}}''.
+|post-blurb= Quinn/Skystrike
+|description  = {{sbc|Active:}} '''Quinn''' {{tip|channels}} for 2 seconds, signaling '''{{ci|Valor}}''' to pair up. Upon completion, he picks her up and they unite, increasing her {{sti|ms|{{as|{{tt|'''total''' movement speed|Increases base movement as well as bonus movement speed}}}}}}, granting her {{tip|ghosted|ghosting}}, and allowing her to cast ''{{ai|Skystrike|Quinn}}''. ''Behind Enemy Lines'' can be recast after {{fd|0.5}} seconds during the channel.
+|leveling     = {{st|Total Movement Speed Increase|{{ap|70 to 130}}%}}
+|description2 = Taking damage from non-{{tip|minions}} while ''Behind Enemy Lines'' is active or while '''Quinn''' is {{tip|channel|channeling}} the ability causes her to lose the {{as|'''bonus total''' movement speed}} for 3 seconds. Becoming {{tip|immobilize|immobilized}}, {{tip|ground|grounded}}, or {{tip|silence|silenced}} ends ''Behind Enemy Lines'' immediately and puts it on {{sti|cooldown}} without performing ''{{ai|Skystrike|Quinn}}''.
+|description3 = Once ''Behind Enemy Lines'' has been learned, [[death|respawning]] or entering {{tt|any|see notes}} [[Spawn|summoning platform]] will spawn '''{{ci|Valor}}''' instantly.
+|description4 = {{sbc|Recast:}} '''Quinn''' cancels the channel, placing ''Behind Enemy Lines'' on cooldown.
+|cooldown     = 3
+|cdstart      = post-effect
+|cost         = {{ap|50 to 0}}
+|cast time = {{fd|0.25}}
+|costtype     = Mana
+|targeting    = Auto
+|affects      = Self
+|grounded     = true
+|silence      = true
+|notes        =
+* Taking damage from non-{{tip|minions}} removes the bonus movement speed buff temporarily by suppressing it with the status effect of a {{tip|slow}}.
+** This slow is not affected by {{tip|slow resist}} or {{tip|slow immunity}}, but it can be {{tip|cleanse|cleansed}}.
+** While the slow is in effect, ''Behind Enemy Lines'' is not considered to grant increased {{as|movement speed}} for the purpose of {{ri|Celerity}}.
+* ''Behind Enemy Lines'' does not refund its {{sti|{{as|mana cost}}}} if the channel was canceled via recast.
+** The only exception is if '''Quinn's''' {{as|mana}} falls below the {{as|mana cost}}, in which case she is granted enough {{as|mana}} back (the equal amount needed) to be able to cast ''Behind Enemy Lines'' again.
+* [[death|Respawning]] or returning to the [[Spawn|summoning platform]] will not spawn '''{{ci|Valor}}''' if ''Behind Enemy Lines'' is on cooldown.
+* If '''{{ci|Valor}}''' is spawned by [[death|respawning]] or returning to the [[Spawn|summoning platform]], {{ai|Skystrike|Quinn}} will be disabled from being manually cast for {{fd|2.5}} seconds upon uniting. However, it will still automatically activate upon declaring a {{tip|basic attack}} or casting {{ai|Blinding Assault|Quinn}} or {{ai|Vault|Quinn}}.
+* ''Behind Enemy Lines'' ends immediately without {{ai|Skystrike|Quinn}} being cast if she enters or is inside the enemy [[fountain]]. The ability will go on full {{sti|cooldown}}.
+** '''Quinn''' will also spawn '''{{ci|Valor}}''' when entering the enemy fountain.{{bug}}
+* Self or allied applied {{tip|immobilize|immobilizations}} such as {{ui|Blast Cone}}, {{ai|Tempered Fate|Bard}}, and {{ii|Zhonya's Hourglass}} also count for ending ''Behind Enemy Lines''.
+* The following table refers for interactions while '''Quinn''' is {{tip|channel|channeling}}:
+** ''Behind Enemy Lines'' is not a [[Channel#Movement Channels|movement channel]], and so will not be {{tip|interrupt|interrupted}} by {{tip|root}} and {{tip|ground}}.
+{{ct|channel|attack=interrupts|cast=interrupts|move=false|items=interrupts,true,,false|spells=true, interrupts, interrupts, interrupts, interrupts}}
+|flavorsound   = {{sm2|Quinn_Original_R_1.ogg}} ''"Valor, to me!"''
+}}

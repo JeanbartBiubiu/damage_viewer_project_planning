@@ -1,0 +1,45 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Flair|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Samira
+|skill        = Q
+|icon         = Flair.png
+|blurb        = {{sbc|Active:}} {{ci|Samira}} fires a shot in the target direction that deals {{as|physical damage}} to the first enemy hit.
+|blurb2       = If ''Flair'' is cast towards an enemy in melee range, '''Samira''' will instead slash with her sword, dealing {{as|physical damage}}.
+|blurb3       = If ''Flair'' is cast during ''{{ai|Wild Rush|Samira}}'', '''Samira''' deploys explosives in her wake that deal {{as|physical damage}} to enemies hit.
+|description  = {{sbc|Active:}} '''Samira''' fires a shot in the target direction that deals {{as|physical damage}} to the first enemy hit.
+|leveling     = {{st|Physical Damage|{{ap|0 to 20}} {{as|(+ {{ap|110}}% AD)}}}}
+|description2 = If a targetable enemy is in front of '''Samira''' at the time of cast, she will instead slash with her blade in a cone, dealing the same damage to enemies hit.
+|description3 = If ''Flair'' is cast during ''{{ai|Wild Rush|Samira}}'', '''Samira''' deploys explosives in her wake that detonate upon the end of the dash, dealing the same damage to enemies hit.
+|description4 = ''Flair'' can {{tip|critically strike}} for {{as|{{critical damage|150|50}}|critical damage}} damage and will {{tip|applies lifesteal|apply}} {{as|{{sti|life steal}}}} at 100% effectiveness.
+|cooldown     = {{ap|6 to 2}}
+|cdstart      = on-cast
+|cost         = 30
+|costtype     = Mana
+|range        = {{dv|{{tip|cr|icononly = true}} {{tt|950|Gun shot missile range}}|{{tip|cr|icononly = true}} {{tt|400|Cone range strictly forward, cone origin is 200 units behind Samira but can't hit if the unit is closer than 50 units from the cone origin}}}}
+|target range = {{tip|er|icononly = true}} {{tt|340|Blade targeting check length}}
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|120|Gun shot}}|{{tt|130|Blade targeting check width}}}}
+|angle        = {{tt|100|Blade angle}}{{degree}}
+|cast time    = {{fd|0.25}}
+|speed        = {{tt|2600|Gun}}
+|queue time   = {{tt|{{fd|0.5}}|Both gun and blade}}
+|targeting    = Direction
+|affects      = Self, Enemies
+|damagetype   = Physical
+|spellshield  = true
+|spelleffects = special
+|projectile   = special
+|callforhelp  = special
+|notes        =
+* Applies {{tip|spell damage}} on the shot and {{tip|area damage}} on the slash and explosives.
+* ''Flair's'' shot against an enemy champion will aggro nearby enemy minions.
+* ''Flair'' can be cast during ''{{ai|Wild Rush|Samira}}'' even if ''{{ai|Blade Whirl|Samira}}'' or ''{{ai|Inferno Trigger|Samira}}'' are active.
+* The slash and explosives roll their {{tip|critical strike}} against each target individually.
+* The shot and the slash do not count as different abilities for stacking {{ai|Daredevil Impulse|Samira|Style}}.
+* '''Samira's''' next attack after using ''Flair'' will occasionally come out faster.{{bug|2}}
+* '''Samira''' can use {{ai|Wild Rush|Samira}} during ''Flair's'' cast time.
+{{Effect at cast time end}}
+** ''Flair'' will fire or slash from wherever '''Samira''' is at the end of the cast time.
+*** '''Samira''' will always slash in her facing direction, and she will turn to face the target direction only once at the start of the cast time.
+* Only the shot will be destroyed by {{tip|projectile|projectile-intercepting}} effects.
+* The explosive placement is illustrated in {{ai|Wild Rush|Samira}} regardless of whether ''Flair'' is available.
+** The VFX always covers the the full dash's distance even if {{ai|Wild Rush|Samira}} is interrupted mid-dash.
+}}

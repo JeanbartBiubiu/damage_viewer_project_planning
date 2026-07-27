@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "corki-p",
+  "candidateKey": "hero_skill|hero_corki|P|海克斯科技军备",
+  "ownerId": "hero_corki",
+  "wikiChampionTitle": "Corki",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Corki/I",
+  "zhDisplayName": "海克斯科技军备",
+  "resolvedTitle": "Template:Data Corki/Hextech Munitions",
+  "wikiPageId": 1306949,
+  "revisionId": 4003492,
+  "revisionTimestamp": "2026-03-29T22:33:30Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Corki/Hextech%20Munitions",
+  "contentSha256": "a37ac6e0fd7586b485bbe06f74401935d3b0b5a68eb48db2f0496def8d74b73c",
+  "rawByteSize": 1635,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Corki's''' {{tip|basic attacks}} deal {{sti|{{as|'''bonus''' true damage}}}} equal to {{as|20% AD}}. This damage is affected by {{tip|critical strike}} modifiers. Additionally, spell blade effects provide extra triggers.\n",
+    "damagetype": "Physical True\n",
+    "notes": "* The mixed damage is dealt in two simultaneous instances of damage, but will pretend to be a single instance for most effects (such as {{ris|Conqueror}} stacks).\n** The {{as|true damage}} is dealt in an instance before the {{as|physical damage}}.\n** Both instances deal {{tip|basic damage}} and thus natively apply {{as|{{sti|life steal}}}}.\n** The attack applies {{tip|on-hit}} effects only once, right at the start.\n** Even if the target dies from the {{as|true damage}}, the {{as|physical damage}} will still be applied to it.\n*** If the target dies from {{tip|on-hit}} damage, the true damage portion will be skipped and only the physical damage applied.{{bug}}\n** {{iis|Runaan's Hurricane}} {{nie|Wind's Fury}} and {{tip|Spellblade}} effects have both been special cased to benefit from ''Hextech Munitions'', causing them to deal {{as|'''bonus''' true damage}} equal to 20% of the {{tt|pre-mitigation damage|Damage calculated before modifiers}} dealt.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

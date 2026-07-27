@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "corki-r",
+  "candidateKey": "hero_skill|hero_corki|R|火箭轰击",
+  "ownerId": "hero_corki",
+  "wikiChampionTitle": "Corki",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Corki/R",
+  "zhDisplayName": "火箭轰击",
+  "resolvedTitle": "Template:Data Corki/Missile Barrage",
+  "wikiPageId": 1306946,
+  "revisionId": 4042863,
+  "revisionTimestamp": "2026-07-14T19:35:26Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Corki/Missile%20Barrage",
+  "contentSha256": "1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845",
+  "rawByteSize": 3065,
+  "fields": {
+    "description": "{{sbc|Passive:}} {{tip|Basic attacks}} {{tip|on-hit}} against champions reduce ''Missile Barrage's'' remaining recharge time by {{pp|2 to 6 for 11|0 to 100|type=critical strike chance|color=critical chance|key1=%}} seconds.\n",
+    "description2": "{{sbc|Active:}} '''Corki''' fires a missile in the target direction that explodes upon the first enemy hit, dealing {{as|physical damage}} to enemies within the area.\n",
+    "leveling2": "{{st|Physical Damage|{{ap|90 to 250}} {{as|(+ 85% '''bonus''' AD)}}}}\n",
+    "description3": "'''Corki''' periodically [[stock]]s a ''Missile Barrage'' charge, up to a maximum of 4. He gains 2 charges upon learning the ability and maximum charges upon [[death|respawning]].\n",
+    "description4": "Every third missile '''Corki''' fires is a ''{{ai|Big One|Corki}}'', dealing 100% increased damage as well as gaining increased range and explosion radius.\n",
+    "leveling4": "{{st|Big One Physical Damage|{{ap|90*2 to 250*2}} {{as|(+ {{ap|85*2}}% '''bonus''' AD)}}}}\n",
+    "cooldown": "2\n",
+    "cost": "35\n",
+    "costtype": "mana + 1 Ammo\n",
+    "damagetype": "Physical\n",
+    "notes": "* Once '''Corki''' has learned the ability:\n** He receives a {{tip|buff}} that counts a cycle of the number of times ''Missile Barrage'' has been used since the last ''Big One''.\n** An indicator becomes visible below his [[health bar]] that tracks the number of missiles in reserve and whether a ''Big One'' is available. They are spent from {{tt|left to right|default, for left-to-right locales}}.\n* '''Corki''' retains progress towards a ''Big One'' when he {{tip|fatal damage|dies}}.\n{{Effect at cast time start}}\n* ''Missile Barrage's'' effect radius is centered around the location of the missile as it collides.\n* {{iis|Malignance}} damage from ''Missile Barrage'' does not count toward {{iis|Eclipse}} passive.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "leveling4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

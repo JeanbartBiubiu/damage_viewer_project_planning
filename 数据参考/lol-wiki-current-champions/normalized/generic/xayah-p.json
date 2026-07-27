@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "xayah-p",
+  "candidateKey": "hero_skill|hero_xayah|P|锐切",
+  "ownerId": "hero_xayah",
+  "wikiChampionTitle": "Xayah",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Xayah/I",
+  "zhDisplayName": "锐切",
+  "resolvedTitle": "Template:Data Xayah/Clean Cuts",
+  "wikiPageId": 1324540,
+  "revisionId": 3967343,
+  "revisionTimestamp": "2025-11-18T20:49:46Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Xayah/Clean%20Cuts",
+  "contentSha256": "5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171",
+  "rawByteSize": 4068,
+  "fields": {
+    "description": "{{sbc|Innate:}} {{as|Feathers|buzzword}} shot by '''Xayah''' will linger and be planted in the ground at maximum range for 6 seconds.\n",
+    "description2": "{{sbc|Innate:}} '''Xayah's''' {{tip|ability}} casts generate 3 {{tip|stacks}} of ''Clean Cuts'', lasting for 8 seconds, refreshing on subsequent casts, and stacking up to 5 times. '''Xayah's''' {{tip|basic attacks}} are empowered to each consume a stack {{tip|on-attack}} to instead shoot a {{as|Feather|buzzword}} that deals the triggering {{as|attack's damage}} to the primary target and {{as|{{pp|key=%|35 to 55 for 3|1 to 13}} AD}} {{as|physical damage}} to other enemies hit. The secondary target damage can {{tip|critical strike|critically strike}} for {{as|{{critical damage|{{ccd|Xayah|crit_base}}|100}}|critical damage}} damage if the triggering attack does.\n",
+    "description3": "{{sbc|Innate - Lover's Leap:}} If either '''Xayah''' or {{ci|Rakan}} is channeling {{si|Recall}}, the other may move nearby and channel their own to join alongside them. '''Both''' reach base at the time of which the initiator's {{si|Recall}} completes.\n",
+    "damagetype": "physical\n",
+    "notes": "* Deals {{tip|basic damage}} to the primary target and {{tip|area damage}} to secondary targets.\n* {{as|Feathers|buzzword}} will stop upon being intercepted by {{tip|projectile|projectile-blocking}} effects.\n** {{Pending for test}}: {{tip|homing projectile destruction|Missile popping}} before and after striking the primary target.\n* After striking their target, the attack will proceed in a line in the same direction it was already flying.\n** If the target is more than 1000 units from '''Xayah''' when the empowered attack hits them, the attack will not keep flying in a line and drop the {{as|Feather|buzzword}} at their location immediately.\n** Unlike similar effects, the homing and line trajectories use the same missile.\n* All her {{as|Feathers|buzzword}} on the ground will be destroyed when '''Xayah''' {{tip|death|dies}}, and while she is dead, missiles that are still in flight will not spawn new ones, either.\n* ''Clean Cut's'' feathers will spawn even if the basic attack is {{tip|blocked}}.\n* ''Clean Cut's'' hit can be {{tip|dodge|dodged}} by or {{tip|blind|missed}} against the primary target.\n** This will not prevent the missile from continuing on its path nor from dealing damage to secondary targets. The damage cannot be dodged as or missed against a secondary target.\n* The empowered attack will not trigger against {{tip|structures}} nor {{tip|wards}}.\n** The duration will be refreshed when starting the attack windup against them.\n* The number of ''Clean Cuts'' stacks available is represented by a [[File:Xayah Passive Feather.png|20px|link=]] feather counter in her ammo bar, visible to the player only.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "ezreal-e",
+  "candidateKey": "hero_skill|hero_ezreal|E|奥术跃迁",
+  "ownerId": "hero_ezreal",
+  "wikiChampionTitle": "Ezreal",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Ezreal/E",
+  "zhDisplayName": "奥术跃迁",
+  "resolvedTitle": "Template:Data Ezreal/Arcane Shift",
+  "wikiPageId": 1307111,
+  "revisionId": 3989862,
+  "revisionTimestamp": "2026-02-03T23:19:20Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ezreal/Arcane%20Shift",
+  "contentSha256": "7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347",
+  "rawByteSize": 1661,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Ezreal''' {{tip|blinks}} from his current location to up to 475 units towards the target location, then fires a homing bolt towards the nearest enemy that deals {{as|magic damage}} and {{tip|standard sight|reveals}} them for 1 second.\n",
+    "leveling": "{{st|Magic Damage|{{ap|80 to 280}} {{as|(+ 60% '''bonus''' AD)}} {{as|(+ 75% AP)}}}}\n",
+    "description2": "''Arcane Shift'' prioritizes firing at the nearest enemy marked by ''{{ai|Essence Flux|Ezreal}}''.\n",
+    "description3": "''The target does not have to be {{tip|sight|visible}} to be hit by this ability.''\n",
+    "cooldown": "{{ap|26 to 14}}\n",
+    "cost": "70\n",
+    "costtype": "Mana\n",
+    "damagetype": "Magic\n",
+    "notes": "* If '''Ezreal''' is moved during the cast time, his range to blink will update accordingly. This does not exceed the maximum target range.\n* The target is revealed as soon as '''Ezreal''' fires the missile at them.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

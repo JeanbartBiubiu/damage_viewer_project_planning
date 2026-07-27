@@ -559,7 +559,7 @@ cd server/data_manage
 mvn -Dtest=LolGenericWitsEndFraySeedSqlTest test
 ```
 
-### LoL generic Manamune Awe + Manaflow direct-max-state Phase-A seed（魔宗 item_3004）
+### LoL generic Manamune Awe seed（魔宗 item_3004）
 
 在 reserved types、Batch-C `item_3004`（静态 `ad=35` / `mana=500` / `ability_haste=15`，本脚本不改）、以及 `attribute_definitions` 的 `ad` / `mana` 已就绪后，按顺序执行：
 
@@ -568,24 +568,17 @@ mvn -Dtest=LolGenericWitsEndFraySeedSqlTest test
 3. `db/game_manage/seeds/lol_generic_manamune_awe_seed.sql`
 4. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-manamune-awe-manaflow-max-state-phase-a-v2-20260726`（seed 不负责 publish）。
+建议发布版本：`lol-generic-manamune-awe-v1-20260714`（seed 不负责 publish）。
 
-Wiki-only 真源：Module:ItemData/data revid `4030984` / timestamp `2026-06-17T23:47:20Z` / content SHA `e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d`（item 静态 mana 500；Manaflow 上限 +360；Awe 2% maximum mana）。
+该 seed 会：锁定 `game_data_state`；校验 `item_3004` 与 `ad`/`mana` 属性定义及所需 reserved types；幂等投影所需 reserved → `types`；向 `item_3004` 独占 mount `provider_item_3004_manamune_awe`（`provider_kind/passive`），含单 source-bound `ad` add modifier（`selector/self` + `value_policy/add`），公式 AST 为 `mul(0.02, source.attr.mana.max)`。不写 provider state / listener / effect sequence / effect step / damage detail，不写 `game_entities` / `entity_attribute_values`，不改 Batch-C 静态属性。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
 
-该 seed 会：锁定 `game_data_state`；校验 `item_3004` 与 `ad`/`mana` 属性定义及所需 reserved types（check-only，不改静态行）；幂等投影所需 reserved → `types`；向 `item_3004` 独占 mount **两个隔离** passive providers：
-
-1. `provider_item_3004_manamune_awe`：source-bound `ad` add（`selector/self` + `value_policy/add`），公式 `mul(0.02, source.attr.mana.resolved)`（**读 resolved，不读 max**）
-2. `provider_item_3004_manamune_manaflow_max_state`：source-bound `mana` add，公式 `{"op":"const","value":360}`（直达最大态近似：始终 on 的 `mana.resolved += 360`）
-
-每个 provider 恰好一公式 + 一 modifier。运行时依赖 two-pass（Manaflow 先贡献 `mana.resolved`，Awe 再读 resolved）；本近似用 resolved 而非 `mana.max` / resource mana。不写 provider state / listener / effect / ability / operation / lifecycle，不写 `game_entities` / `attribute_definitions` / `entity_attribute_values` / resource 表，不改 Batch-C 静态属性。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-**排除（完整保真外）**：8s 充能、四充能队列、on-hit/ability 触发、+3/+6 增量、per-cast throttle、Muramana 变形/替换、Base/Current/Max 或 resource mana 突变、资源花费、攻击事件、随机/RNG。
+**排除**：Manaflow 充能、on-hit/ability 法力获取、最大充能上限、Muramana 变形、资源修改、攻击事件、随机/RNG。
 
 静态契约校验（不连 live DB）：
 
 ```bash
 cd server/data_manage
-mvn -Dtest=LolGenericManamuneAweSeedSqlTest,LolBatchCAdcItemsSeedSqlTest test
+mvn -Dtest=LolGenericManamuneAweSeedSqlTest test
 ```
 
 ### LoL generic Jak'Sho Voidborn Resilience seed（千变者贾修 item_6665）
@@ -1014,60 +1007,6 @@ cd server/data_manage
 mvn -Dtest=LolGenericDravenStandAsideSeedSqlTest test
 ```
 
-### LoL generic Draven Whirling Death primary outbound-hit seed（德莱文 R / Phase-A v2 选定主冠军首段出站单次物理命中）
-
-在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；恰好八键，不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_draven` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 R active；与既有/未来 Q Spinning Axe / W Blood Rush / E Stand Aside / 普攻 provider **并存**，不重建/替换、不读/不依赖 sibling 发布；不做 live migration、不自动 publish、不连 live DB 执行本 seed）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`）
-2. `db/game_manage/seeds/lol_generic_draven_whirling_death_primary_outbound_hit_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
-
-建议发布版本：`lol-generic-draven-whirling-death-primary-outbound-hit-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_draven|R|冷血追命` 冻结为 **Phase-A rank-3 立即选定主冠军首段出站单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=draven-r-whirling-death-primary-outbound-hit-phase-a-v2`）：
-
-`rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity`
-
-该 seed 会：锁定 `game_data_state`；校验所需 reserved / 恰好八键属性定义（不含 AP）；幂等投影 reserved → `types`；ensure `hero_draven`（`ON CONFLICT DO NOTHING`）与 level-1 面板（hp675 / mana361 / ad62 / AS0.679 / armor29 / MR30 / hpregen3.75 / manaregen8.05）、`resource_definitions.mana` 与 `entity_resource_values`（361/361）；向 `hero_draven` **仅** mount 独立 `provider_hero_draven_r_whirling_death_primary_outbound_hit`（stable id `hero_draven_r_whirling_death_primary_outbound_hit`；与 `provider_hero_draven_q_spinning_axe` / `provider_hero_draven_w_blood_rush` / `provider_hero_draven_e_stand_aside` / `provider_hero_draven_basic_attack` 并存），含 active `ability_hero_draven_r_whirling_death_primary_outbound_hit`（`ability_key=whirling_death_primary_outbound_hit`）、`ability_costs` 100 mana、`ability_cooldowns` 80000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `400 + 1.50*(ad.resolved-ad.base)`（嵌套二元；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`）。**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / geometry / multitarget 行；成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 event step）。Wiki：request `Template:Data Draven/R` → resolved `Template:Data Draven/Whirling Death`；page1307072 / rev4040576 / `2026-07-06T14:27:37Z` / canonical 3079 bytes / SHA256 `e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce`；sidecar `normalized/generic/draven-r.json`。**local raw materialization caveat**：仓库 local Wasm raw sibling 亦 3079 / `1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime）：`base0/resolved0/armor0` raw/final400；`base62/resolved62/armor0` raw/final400；`base62/resolved162/armor0` raw/final550；same armor100 raw550/final275；`base0/resolved100` vs `base62/resolved162` at armor0 both raw/final550（bonusAD counterproof）；mana361/baseAD62/resolvedAD162/targetHP1000/armor100 在 t0/t79999/t80000 → success/cooldown skip/success、exactly two R hits and automatic starts、readyAt80000、final mana261/HP725；mana99 → resource skip、unchanged mana/HP、no R damage/start。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似；亦不否认游戏内折返/处决/多目标等行为——仅不对本边界建模）：cast time/direction；projectile/travel/collision/sight；recast/reversal/return/homing/second pass；execute/Adoration threshold；multitarget/damage falloff/reset/map edge/once-per-pass geometry；ranks1–2；Q/W/E/basic/equipment/loadout 耦合；listener/state/event/modifier/repeat/control；live migration；publish；full fidelity。One selected-target first-outbound-pass physical hit, not full R。
-
-静态契约校验（不连 live DB；含邻近 Draven Q/W/E 与 Graves R primary-hit 先例）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest,LolGenericDravenStandAsideSeedSqlTest,LolGenericDravenBloodRushSeedSqlTest,LolGenericDravenSpinningAxeSeedSqlTest,LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest test
-```
-
-### LoL generic Vayne Tumble next-basic-attack bonus seed（薇恩 Q / Phase-A v2 下次普攻加成）
-
-在 reserved types、Batch-B `hero_vayne`（`ad`/`ap`/`mana` EAV）、mana 资源行、Batch-B 普攻图 + `basic_attack_hit` emit 基线（`lol_vayne_silver_bolts_seed.sql` 或等价）、以及 `lol_generic_spellblade_seed.sql` 最小 `provider_hero_vayne_tumble` / `ability_hero_vayne_tumble`（`ability_key=tumble`）已就绪后，按顺序执行（**enrich** 既有 Tumble 身份；**check-only** 前置，不物化 entity/panel/AP/AD/mana/basic/mount；不做 live migration、不自动 publish）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20160`/`20170`/`20172`/`20181`/`20190`/`20211`/`20212`/`20220`/`20250`/`20260`）
-2. `db/game_manage/seeds/lol_batch_b_adc_entities_seed.sql`（`hero_vayne` + `ad`/`ap`/`mana`）
-3. mana 资源行（其它 seed ensure；本脚本 **check-only**，不写 resource）
-4. `db/game_manage/seeds/lol_vayne_silver_bolts_seed.sql`（或等价 `step_hero_vayne_basic_attack_emit_hit` / `event_ref_hero_vayne_basic_attack_hit`）
-5. `db/game_manage/seeds/lol_generic_spellblade_seed.sql`（最小 tumble provider/ability/mount）
-6. `db/game_manage/seeds/lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql`
-7. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
-
-建议发布版本：`lol-generic-vayne-tumble-next-basic-attack-bonus-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_vayne|Q|闪避突袭` 冻结为 **Phase-A rank-5 next-BA bonus**（`FROZEN_PLAN_REV=vayne-q-tumble-next-basic-attack-bonus-phase-a-v2`）：
-
-`rank5_next_basic_attack_bonus; cast_arm_provider_state; physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble`
-
-Ordered tags：`ability_cost_cooldown` → `cast_triggered_next_ba_arm` → `basic_attack_hit_bonus_damage` → `provider_state_consume`。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_vayne` / `attribute_definitions(ad,ap,mana)` / `entity_attribute_values(hero_vayne,ad|ap|mana)` / mana 资源行 / Batch-B 普攻图 / emit 基线 / 精确 Tumble provider·ability（`tumble`/`20130`）·mount 做 **fail-closed check-only**（缺失即回滚；**不写** `games` / `game_entities` / `attribute_definitions` / `entity_attribute_values` / `resource_*` / basic emit / mount）；幂等投影 reserved → `types`；**enrich** 既有 `provider_hero_vayne_tumble` / `ability_hero_vayne_tumble`（稳定 ID/key/type；display 散文可改，**非**兼容不变量；旧 Spellblade seed 可先/后跑仅改 display）；追加 `tumble_empowered_attack_ready`（explicit default0 / max1 / `duration_ms=3000` / refresh_on_write；`state_scope/provider` 20250）、`ability_costs` 30 mana、`ability_cooldowns` 2000ms、null-duration impact 上一次 provider-scope override1（Q cast **无伤害**，runtime 自然发出一次 `ability_started`）、以及 `ability_id NULL` listener：ALL matcher 恰好 `event/basic_attack_hit` 20211 + `event/source_owner` 20212（**不得**加 `ability/basic_attack` 62003）；两步均门控 `gte(ready,1)`：对 opponent 一次 physical `add(mul(1.15, source.attr.ad.resolved), mul(0.50, source.attr.ap.resolved))`（`crit_eligible=false`；`copyable_on_hit=false`）再 override0；**无** `emit_event`。保留 Basic / W Silver Bolts / E / R / Spellblade。Wiki：request `Template:Data Vayne/Q` → resolved `Template:Data Vayne/Tumble`；page1309988 / rev4015566 / `2026-05-05T15:55:50Z` / 1735 bytes / SHA256 `5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad`；sidecar `normalized/generic/vayne-q.json`。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。**不 claim** 全保真 Vayne Q / full Tumble。
-
-**排除**：dash / movement / direction / distance / terrain / collision；BA reset / windup / cadence；invisibility / R integration；lifesteal / healing；crit / RNG / miss / dodge / full on-hit；multi-target / structures；other ranks / full Tumble；live migration；publish；E2E。
-
-静态契约校验（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest test
-```
-
 ### LoL generic Vayne Condemn primary-hit seed（薇恩 E / Phase-A v1 主目标 impact）
 
 在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`；本公式不要求 AP）已就绪后，按顺序执行（**自包含** ensure `hero_vayne` 最低必要实体/level-1 面板/mana 资源 + 可 cast 的 E active；与既有普攻 / Silver Bolts / tumble provider 并存，不重建/替换；不做 live migration、不自动 publish）：
@@ -1433,34 +1372,6 @@ cd server/data_manage
 mvn -Dtest=LolGenericXayahFeatherstormPrimaryHitSeedSqlTest,LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
 ```
 
-### LoL generic Xayah Clean Cuts three-attack budget seed（逆羽 P / Phase-A v2 攻击次数预算）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_xayah)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_xayah,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_xayah,mana)`，以及校正后的 W isolation 行（`types(62012,ability/xayah_deadly_plumage,reserved_type_id=NULL)`、`type_relations → ability_hero_xayah_w_deadly_plumage`、W listener `ability_id IS NULL`、ALL match 恰好 `{20205,20212,62012}`）已由 `lol_generic_xayah_deadly_plumage_seed.sql`（或等价既有行）提供后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**复制 W 身份 bootstrap，**不**从本 P seed 突变 W/Q/R 图；仅挂载独立 P provider；不做 live migration、不自动 publish、不连 live DB 执行本 seed）。**W** 是共享身份与 ability-type listener isolation 前置；**Q** 与 **R** 为可选 sibling（非本 P 前置，本脚本不 require/mutate）。
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`
-2. `db/game_manage/seeds/lol_generic_xayah_deadly_plumage_seed.sql`（校正后的 W；提供 Xayah 既有数据与 ability-type listener isolation）
-3. （可选）`db/game_manage/seeds/lol_generic_xayah_double_daggers_primary_two_hit_seed.sql` / `lol_generic_xayah_featherstorm_primary_hit_seed.sql`（独立 Q/R sibling；非本 P 前置）
-4. `db/game_manage/seeds/lol_generic_xayah_clean_cuts_three_attack_budget_seed.sql`
-
-建议发布版本：`lol-generic-xayah-clean-cuts-three-attack-budget-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_xayah|P|锐切`（task `wasm-generic-xayah-clean-cuts-three-attack-budget`）冻结为 **Phase-A 攻击次数预算**（`FROZEN_PLAN_REV=xayah-p-clean-cuts-three-attack-budget-phase-a-v2`）：
-
-`attack_count_budget_only; direct_post_cast_arm_gives_3; successful_source_ba_damage_instance_consumes_1; state_sequence_arm_plus_4ba_0_3_2_1_0_0; preserve_wqr_and_w_ability_type_listener_isolation; no_true_qwer_wiring_add_refresh_max5_8s_timer_geometry_feathers_secondary_damage_secondary_crit_e_dependency_miss_dodge_cadence_projectile_rng_expected_crit_on_hit_proc_or_full_ba_clean_cuts_fidelity`
-
-Ordered tags：`attack_count_budget` / `direct_post_cast_arm_override_3` / `basic_attack_damage_instance_consume_1` / `untimed_max3_state_no_default_column`。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_xayah` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值 / 校正后 W isolation 做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`；不写 W/Q/R listener/type_relations）；幂等投影 reserved → `types`；Graves 式 fail-closed ensure game-local `62003 ability/basic_attack`（`reserved_type_id=NULL`；双向 id↔key collision）；向 `hero_xayah` **仅** mount 独立 `provider_hero_xayah_p_clean_cuts_three_attack_budget`（与既有 W、可选 Q/R 并存，不更新/删除/重建）：`clean_cuts_attacks_remaining`（max3 / `duration_ms=NULL` / refresh NULL；schema 无 default 列，缺失状态 runtime=0 直至 arm）；无 cost/CD arm `ability_hero_xayah_p_clean_cuts_direct_post_cast_arm`（`ability_key=clean_cuts_direct_post_cast_arm`；provider-scope override const3）；无 cost/CD BA `ability_hero_xayah_p_clean_cuts_basic_attack`（`ability_key=clean_cuts_basic_attack`；`type_relations`→62003；物理 `read source.attr.ad.resolved`；`crit_eligible=false`；`copyable_on_hit=false`）；listener `ability_id IS NULL`，ALL 恰好 `{20217,62003,20212}`，`max_triggers_per_event=1`，guarded `gt(provider.state.clean_cuts_attacks_remaining,0)` 后 provider-scope add `-1`。不添加共享 Xayah 技能 type_relations。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-Wiki 身份：resolved `Template:Data Xayah/Clean Cuts`；pageId `1324540` / rev `3967343` / `2025-11-18T20:49:46Z`；canonical bytes `4068` / SHA256 `5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171`（`数据参考/lol-wiki-current-champions/normalized/generic/xayah-p.json`）。Wiki on-attack 由成功 `damage_instance` 近似。
-
-**排除**：true Q/W/E/R wiring；add/refresh/max5；8s timer；geometry/feathers/secondary damage/secondary crit/E dependency；miss/dodge；cadence/projectile；RNG/expected crit/on-hit/proc；full BA/Clean Cuts fidelity；identity bootstrap；live migration；自动 publish；E2E。本条目不主张 live DB 执行、publish 或 runtime 保真。
-
-静态契约校验（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest,LolGenericXayahFeatherstormPrimaryHitSeedSqlTest,LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest,LolGenericXayahDeadlyPlumageSeedSqlTest test
-```
-
 ### LoL generic Twitch Deadly Venom seed（图奇 P 死亡毒液 / anchored tick）
 
 前置 DDL：`provider_lifecycles` / `_log` 已含可选成对字段 `tick_anchor_scope_type_id` + `tick_anchor_state_key`（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_tick_anchor_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（至少 `ad`/`ap`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
@@ -1507,29 +1418,25 @@ cd server/data_manage
 mvn -Dtest=LolGenericMalzaharMaleficVisionsSeedSqlTest,GenericTickAnchorDbContractSqlTest test
 ```
 
-### LoL generic Ashe shared P/Q Ranger's Focus seed（寒冰射手 P 冰霜射击 expectation-only Phase-A + Q 射手的专注 / 共享普攻图）
+### LoL generic Ashe Ranger's Focus seed（寒冰射手 Q / rank-5 部分 ABI）
 
-前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`/`crit_chance`/`crit_damage`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish；**不**新建 P provider/ability）：
+前置 DDL：`ability_definitions.cast_condition_formula_key` 已存在（新库见 `schema.sql`；已有库先跑 `db/game_manage/migrations/compatibility/generic_ability_cast_condition_compatibility_migration.sql`）。在 reserved types 与所需 `attribute_definitions`（`hp`/`mana`/`ad`/`attack_speed`/`armor`/`magic_resist`/`hp_regen`/`mana_regen`）就绪后按顺序执行（**自包含**；不做 live migration、不自动 publish）：
 
 1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20100`/`20110`/`20111`/`20120`/`20130`/`20142`/`20150`/`20158`/`20160`/`20170`/`20172`/`20173`/`20181`/`20190`/`20205`/`20211`/`20212`/`20220`/`20250`/`20260`）
 2. `db/game_manage/seeds/lol_generic_ashe_rangers_focus_seed.sql`
 3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish）
 
-建议发布版本：`lol-generic-ashe-rangers-focus-v1-20260714`（seed 不负责 publish）。本 seed 为 **共享 P/Q 普攻图**：Q 边界仍为既有 Ranger's Focus rank-5 部分 ABI；P 候选 `hero_skill|hero_ashe|P|冰霜射击` 冻结为 **expectation-only Phase-A**（`FROZEN_PLAN_REV=ashe-p-frost-shot-expected-basic-attack-phase-a-v3`）：
+建议发布版本：`lol-generic-ashe-rangers-focus-v1-20260714`（seed 不负责 publish）。
 
-`normal_basic_attack_expected_physical_damage; separate_ability_basic_attack; total_ad_times_one_plus_clamped_crit_chance_times_total_crit_multiplier_minus_one; generic_expected_crit_settlement; q_flurry_inactive_normal_attack_branch_only; exactly_one_basic_attack_hit_event; no_rng_crit_sequence_on_crit_event_frost_slow_critical_slow_duration_decay_randuins_specific_acceptance_runaans_cheap_shot_q_flurry_damage_integration_projectile_travel_attack_cadence_other_abilities_or_full_fidelity`
+该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_ashe` `entity_resource_values`（280/280）；写入 level-1 面板（hp610 / mana280 / ad59 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7）；单一共享 `provider_hero_ashe_rangers_focus` 承载 Q + 普攻；四槽 timed Focus（4000/5000/6000/7000ms）+ `flurry_active` 6000ms；Q `cast_condition_formula_key`（Focus≥4）+ `ability_costs` 30 mana；AS `percent_add` `0.75 * provider.state.flurry_active`（`condition_formula_key` 为 NULL）；Flurry 首发 6 / 后续 5 × 0.28 total AD；每次普攻末尾恰好一次 `emit_event(event/basic_attack_hit)`。有 material change 时才推进候选 revision。
 
-该 seed 会：锁定 `game_data_state`；幂等投影 reserved → `types`、`resource_definitions.mana` 与 `hero_ashe` `entity_resource_values`（280/280）；写入 level-1 面板（hp610 / mana280 / ad59 / AS0.658 / armor26 / MR30 / hpregen3.5 / manaregen7）与运行时 EAV `crit_chance=0` / `crit_damage=2.0`（Patch 26.1 总暴击倍率基线；不写 Infinity Edge）；fail-closed ensure game-local `62003 ability/basic_attack`（`reserved_type_id=NULL`）并 `type_relations` 绑定 `ability_hero_ashe_basic_attack`（`extend.role=basic_attack`）；单一共享 `provider_hero_ashe_rangers_focus` 承载 Q + 普攻；四槽 timed Focus（4000/5000/6000/7000ms）+ `flurry_active` 6000ms；Q `cast_condition_formula_key`（Focus≥4）+ `ability_costs` 30 mana；AS `percent_add` `0.75 * provider.state.flurry_active`（`condition_formula_key` 为 NULL）；普通分支 `step_hero_ashe_ba_normal_damage` 物理伤害公式仍 `$owner.attr.ad` 且 `crit_eligible=true`；Flurry 首发 6 / 后续 5 × 0.28 total AD 且全部 `crit_eligible=false` / `copyable_on_hit=false`；每次普攻末尾恰好一次 `emit_event(event/basic_attack_hit)`。有 material change 时才推进候选 revision。
+**排除**：攻击计时器重置、箭矢飞行、冰霜射击、生命偷取、建筑物/多目标、技能轮转/节奏、其它 rank、live migration、publish。
 
-Wiki（P）：request `Template:Data Ashe/I` → `Template:Data Ashe/Frost Shot`；page1306803 / rev4038216 / `2026-06-30T07:27:41Z`；canonical 1880 / SHA256 `def2547f…`；normalized 2485 / `575de3e4…`；pages 672 / `a8e2f81d…`；**local raw caveat**：local raw 1880 / `5da5112e…`，不断言与 canonical 等价。
-
-**排除（P expectation-only 仍排除）**：Frost Shot / Critical Slow 减速与持续衰减、RNG 暴击序列 / on-crit、Randuin's / Runaan's / Cheap Shot、Q-Flurry 与 P 伤害集成、箭矢飞行、攻击节奏、其它能力或 full-fidelity。**Q 已完成边界仍排除 Frost Shot 保真**；共享同一 seed/fixture **不**扩大 Q 的完成声明。另排除：攻击计时器重置、生命偷取、建筑物/多目标、技能轮转、其它 rank、live migration、publish。
-
-静态契约校验（不连 live DB；含邻近 Ashe W/R 与 generic crit）：
+静态契约校验（不连 live DB）：
 
 ```bash
 cd server/data_manage
-mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest,LolGenericAsheVolleySeedSqlTest,LolGenericAsheEnchantedCrystalArrowPrimaryHitSeedSqlTest,LolGenericCritModifierSeedSqlTest test
+mvn -Dtest=LolGenericAsheRangersFocusSeedSqlTest test
 ```
 
 ### LoL generic Ashe Enchanted Crystal Arrow primary-hit seed（寒冰射手 R / Phase-A 主目标 impact）
@@ -1795,7 +1702,7 @@ mvn -Dtest=LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest,LolGenericJhin
 
 ### LoL generic Corki Phosphorus Bomb primary-impact seed（飞机 Q / Phase-A v1 选定主冠军单次魔法 impact 命中）
 
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_corki)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_corki,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_corki,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_corki,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Corki ad/ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；Q 仍为 check-only，**不**拥有/物化 `missile_barrage_ammo`（该资源仅由 R Missile Barrage seed 拥有）；仅挂载可 cast 的独立 Q active **选定主冠军单次魔法 impact 命中**；不要求/突变/合成/复制 P/W/E/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
+在 reserved types 已就绪，且 **外部既有** `game_entities(hero_corki)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_corki,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_corki,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_corki,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Corki ad/ap/mana 行——当前仓库亦无 seed / materializer 负责物化这些行；仅挂载可 cast 的独立 Q active **选定主冠军单次魔法 impact 命中**；不要求/突变/合成/复制 P/W/E/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
 
 1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
 2. `db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql`
@@ -1818,87 +1725,6 @@ Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `bonus_ad_r
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest,LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest,LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest,LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest,LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest test
-```
-
-### LoL generic Corki Missile Barrage normal primary-hit seed（飞机 R / Phase-A v1 普通导弹选定主冠军第一敌人物理命中）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_corki)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_corki,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_corki,mana)` 已存在后，按顺序执行（**check-only / external existing-data** 身份/ad/mana；**不做** hero/panel/ad/mana 自包含写入；**仅拥有**机制专用 `resource_definitions(missile_barrage_ammo)` default_initial2/default_max4 与 `entity_resource_values(hero_corki,missile_barrage_ammo)` initial2/max4；不要求 AP；与既有 Corki Q Phosphorus Bomb 并存且不突变；不要求/突变/合成/复制 P/Q/W/E/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20112`/`20120`/`20130`/`20142`/`20150`/`20152`/`20170`/`20220`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-corki-missile-barrage-normal-primary-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_corki|R|火箭轰击`（task `wasm-generic-corki-missile-barrage-normal-primary-hit`）冻结为 **Phase-A rank-3 立即普通导弹选定主冠军第一敌人物理命中 impact scaffold**（`FROZEN_PLAN_REV=corki-r-missile-barrage-normal-primary-hit-phase-a-v1`）：
-
-`rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `ammo_gate_and_spend` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`（不含 salvage tags；亦不含 `meta_or_non_target_dps`）。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_corki` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `game_entities` / `entity_attribute_values`；不写/覆盖 mana 资源行）；幂等投影 reserved → `types`；**仅**幂等写入 `missile_barrage_ammo` 定义与实体资源值（2/4）；向 `hero_corki` **仅** mount 独立 `provider_hero_corki_r_missile_barrage_normal_primary_hit`（stable id `hero_corki_r_missile_barrage_normal_primary_hit`；standalone；与既有 Corki Q Phosphorus Bomb 并存且不突变；不创建/突变/合成/复制 P/Q/W/E/basic），含 active `ability_hero_corki_r_missile_barrage_normal_primary_hit`（`ability_key=missile_barrage_normal_primary_hit`；`cast_condition_formula_key=missile_barrage_cast_condition` 精确 `gte(read source.resource.missile_barrage_ammo.current, const 1)`；`cast_origin=champion`）、**恰好一个** `ability_costs` 35 mana（绝不第二行 ammo cost——Web 仅投影第一行）、`ability_cooldowns` 2000ms、恰好一个 null-duration impact phase + on_enter sequence，以及两步：step0 `operation/resource_change`（selector/source `20112`；`resource_effect_details` `resource_key=missile_barrage_ammo` / amount formula const -1 / add policy `20170` / operation `20152` / step_order0——仓库首个 LoL seed 使用 `resource_effect_details`）、step1 direct-opponent noncritical/noncopyable physical damage `250 + 0.85*(ad.resolved-ad.base)`（**bonus AD** 显式 `sub(resolved, base)`，不得 total-AD 直读；二元 `add(const 250, mul(const 0.85, sub(read …resolved, read …base)))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / secondary / projectile / movement / geometry / AOE / multitarget / Big One / third-shot / recharge / refill 行。**R 无 ability-specific game-local type**，不新增 R 专用 62xxx type、不写 `type_relations`。成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 listener / event step；无 R-specific type）。mana35 + 1 ammo 以「唯一 ability_costs(mana) + cast_condition gate + resource_effect spend」原子投影。Immediate normal-missile selected-primary first-enemy physical hit 为 Phase-A scaffold，不是实际 direction / projectile travel / collision / explosion AOE / multitarget / Big One / third-shot cycle / double damage / range / radius / periodic stock recharge / respawn refill / basic-attack on-hit recharge reduction / crit scaling / Malignance / Eclipse / full-R fidelity。Wiki：request `Template:Data Corki/R` → resolved `Template:Data Corki/Missile Barrage`；page1306946 / rev4042863 / `2026-07-14T19:35:26Z` / canonical 3065 bytes / SHA256 `1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845`；sidecar `normalized/generic/corki-r.json`（bytes 3265 / SHA256 `dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0`）+ `pages/corki-r.json`（bytes 691 / SHA256 `694cda4c4d4ee4e9606ac1ca82a7085f89b7898884b23653bf718e86bfcd5bc7`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 3063 / `3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime）：`base60/resolved60/armor0` raw/final250；`base60/resolved160/armor0` 335；`base60/resolved160/armor100` raw335/final167.5；bonusAD counterproof `base0/resolved100` vs `base60/resolved160`/armor0 both335；Mana240/Ammo2/base60/resolved160/HP1000/armor100 在 t0/t1999/t2000 → success/skip/success、two R hits/automatic starts、readyAt2000、final mana170/ammo0/HP665；Mana34 或 Ammo0 → skips unchanged/no damage/start；standalone provider 与 Corki Q 并存、不合成 P/Q/W/E/basic。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似）：direction / projectile travel / collision / explosion AOE / multitarget；Big One / third-shot cycle / double damage；range / radius；periodic stock recharge / respawn refill；basic-attack on-hit recharge reduction；crit scaling / Malignance / Eclipse interaction；ranks1–2；P/Q/W/E/basic/siblings/loadout/bootstrap；identity/panel/ad/mana bootstrap（ammo 除外）；listener/state/event/modifier/repeat/control/secondary/projectile/movement/geometry/AOE/sibling；live migration；publish；E2E/live/full fidelity。One normal-missile selected-primary first-enemy physical hit, not full R。
-
-静态契约校验（不连 live DB；含邻近 Corki Q check-only magic impact 与 Draven R physical bonusAD immediate-impact 先例）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest,LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest,LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest test
-```
-
-### LoL generic Miss Fortune Bullet Time max-channel expected seed（厄运小姐 R / Phase-A v3 最大全通道选定主冠军期望总物理伤害）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_missfortune)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_missfortune,ad)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_missfortune,ap)`、`attribute_definitions(crit_chance)`、`entity_attribute_values(hero_missfortune,crit_chance)`、`resource_definitions(mana)`、`entity_resource_values(hero_missfortune,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 Miss Fortune identity/panel/resource materializer / owning Miss Fortune materializer；仅挂载可 cast 的独立 R active **最大全通道期望总物理伤害聚合量子**；standalone sibling absence：不创建/突变/合成/复制 P/Q/W/E/basic；Backend prerequisite checks 为 publication guard，generic runtime 缺失 attr 读为 0 且不断言 fail-closed；不检视/不断言 `crit_chance` DB min/max 元数据；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**；**不以** `数据参考/champion/MissFortune.json` legacy DDragon 为当前真相）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_miss_fortune_bullet_time_max_channel_expected_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-miss-fortune-bullet-time-max-channel-expected-phase-a-v3-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_missfortune|R|弹幕时间`（task `wasm-generic-miss-fortune-bullet-time-max-channel-expected`）冻结为 **Phase-A rank-3 立即最大全通道选定主冠军期望总物理伤害聚合 scaffold**（`FROZEN_PLAN_REV=miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3`）：
-
-`rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `ap_ratio` → `crit_scaling` → `immediate_aggregated_channel_total_scaffold`（显式不包含 `total_ad_ratio`；仓库治理禁止该 governed tag）。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_missfortune` / `ad`+`ap`+`crit_chance` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_missfortune` **仅** mount 独立 `provider_hero_missfortune_r_bullet_time_max_channel_expected`（stable id `hero_missfortune_r_bullet_time_max_channel_expected`；standalone；不创建/突变/合成/复制 P/Q/W/E/basic），含 active `ability_hero_missfortune_r_bullet_time_max_channel_expected`（`ability_key=bullet_time_max_channel_expected`）、`ability_costs` 100 mana、`ability_cooldowns` 100000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `18 * (40 + 0.60*ad.resolved + 0.25*ap.resolved) * (1.00 + 0.30 * min(1.00, max(0.00, crit_chance.resolved)))`（**total AD** 直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；AP + formula-local crit_chance clamp；嵌套二元 `mul(const 18, mul(add(add(const 40, mul(const 0.60, read …ad.resolved)), mul(const 0.25, read …ap.resolved)), add(const 1.00, mul(const 0.30, min(const 1.00, max(const 0.00, read …crit_chance.resolved))))))`；每条 read path 恰好一次；`copyable_on_hit=false`，noncritical / 确定性金额缩放，非 random crit pipeline / 不写 `crit_damage` / `crit_eligible`（`crit_eligible=false`）；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / projectile / geometry / multitarget / wave-by-wave 行。**R 无 ability-specific game-local type**，不新增 R 专用 62xxx type、不写 `type_relations`。成功 cast 由 runtime 自动发出 `ability_started`（本 R 图不添加 listener / event step）。Immediate max-full-channel selected-primary-champion expected total physical **aggregated channel total scaffold** 为 Phase-A，不是实际 channel timing / tick schedule / interruption / cancel / direction / cone / six projectiles per wave / collision / geometry / multitarget / wave-by-wave snapshot / dynamic stats / sight / reveal / spellshield / RNG-on-crit / basic attack / full-R fidelity。Exactly one aggregated max-full-channel expected quantum only, not full R。Wiki：request `Template:Data Miss Fortune/R` → resolved `Template:Data Miss Fortune/Bullet Time`；page1308257 / rev3987215 / `2026-01-25T03:47:11Z` / canonical 3021 bytes / SHA256 `354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a`；sidecar `normalized/generic/missfortune-r.json`（bytes 3550 / SHA256 `b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49`）+ `pages/missfortune-r.json`（bytes 743 / SHA256 `43bb41feafeaa7a8416bd91b81f51f4be73d3bf30ff78ccb2190fc317f3084d6`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 3021 / `19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。Wiki `{{critical damage|130|30}}` **含** Infinity Edge ratio；本 Phase-A **仅**实现 base130 expected crit（factor `1 + 0.30 * formula-clamped crit_chance`）并 **显式排除** Wiki IE ratio 30；绝不主张 Wiki 省略 IE。Wiki Maximum Total Physical Damage 为 noncrit 对照。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。hero-named Wasm `_test.go` 计划作为 **test-only** 回归/治理证据，而非生产分支条件；生产 runtime 仍为 generic。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime；JUnit 静态代数 counterproof）：`totalAD100/AP0` crit0/0.5/1 → raw1800/2070/2340；crit0.5/armor100 → final1035；`totalAD100/AP100/crit0.5` → raw2587.5；crit-0.25 clamps0 →1800；crit1.25 clamps1 →2340；total-AD counterproof `base0/resolved100` vs `base60/resolved100` at AP0/crit0 both1800；standalone isolation mounts only this R and synthesizes no P/Q/W/E/basic。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似）：channel timing / tick schedule / interruption / cancel；direction/cone/six projectiles per wave/collision/geometry；multitarget/wave-by-wave snapshot/dynamic stats；sight/reveal/spellshield；RNG-on-crit/crit pipeline/crit_damage/random crit；**Wiki IE crit ratio 30**（Infinity Edge；Phase-A 显式排除；Wiki 含该 ratio）；ranks1–2；P/Q/W/E/basic/loadout/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/projectile/geometry/multitarget/sibling；live migration；publish；E2E/live/full fidelity。One aggregated max-full-channel expected quantum, not full R。
-
-静态契约校验（不连 live DB；含 Sivir Q formula-local crit_chance clamp / 无 `total_ad_ratio` 先例，以及 crit_eligible 治理种子）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest,LolGenericCritModifierSeedSqlTest,LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest test
-```
-
-### LoL generic Miss Fortune Make It Rain max-duration total selected-primary seed（厄运小姐 E / Phase-A v2 最大时长选定主冠军总魔法伤害聚合）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_missfortune)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_missfortune,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_missfortune,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 Miss Fortune identity/panel/resource materializer；仅挂载可 cast 的独立 E active **最大时长选定主冠军总魔法伤害聚合量子**；与既有独立 R Bullet Time **并存且不突变/不复制**；standalone：不创建/突变/合成/复制 P/Q/W/R/basic；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**；**不以** legacy champion JSON 为当前真相）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-miss-fortune-make-it-rain-max-total-selected-primary-phase-a-v2-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_missfortune|E|枪林弹雨`（task `wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary`）冻结为 **Phase-A rank-5 立即聚合最大时长选定主冠军总魔法伤害 scaffold**（`FROZEN_PLAN_REV=miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2`）：
-
-`rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `immediate_aggregated_duration_total_scaffold`（**显式不含** `immediate_impact_scaffold`）。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_missfortune` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_missfortune` **仅** mount 独立 `provider_hero_missfortune_e_make_it_rain_max_total_selected_primary`（stable id `hero_missfortune_e_make_it_rain_max_total_selected_primary`；standalone；与既有 `provider_hero_missfortune_r_bullet_time_max_channel_expected` 并存且不突变/不复制；不创建/突变/合成/复制 P/Q/W/R/basic），含 active `ability_hero_missfortune_e_make_it_rain_max_total_selected_primary`（`ability_key=make_it_rain_max_total_selected_primary`）、`ability_costs` 80 mana、`ability_cooldowns` 14000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `190 + 1.20*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；无关 AD/crit 变化不得改变 E 伤害；嵌套二元 `add(const 190, mul(const 1.20, read …))`；AP read 恰好一次；`copyable_on_hit=false`，非 crit / `CritEligible=false`；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler / E-specific type / sibling 行。成功 cast 由 runtime 自动发出 `ability_started`（本 E 图不添加 listener / event step）。Immediate aggregated duration-total selected-primary-champion magic **aggregated duration total scaffold** 为 Phase-A，不是实际两秒时长 / 八 ticks / 0.25s tick schedule / location / area / geometry / multitarget / sight / slow / dynamic slow refresh / full-E fidelity。Exactly one immediate aggregated max-duration total magic quantum only, not full E。Wiki：request `Template:Data Miss Fortune/E` → resolved `Template:Data Miss Fortune/Make It Rain`；page1308255 / rev3936384 / `2025-07-24T15:45:56Z` / canonical 1210 bytes / SHA256 `a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7`；sidecar `normalized/generic/missfortune-e.json`（bytes 1972 / SHA256 `d53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596`）+ `pages/missfortune-e.json`（bytes 747 / SHA256 `ac8ffb762ccb1667b7c3f955a60e418cb36553b1c653ebb6a70b613c4bf0a0dc`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 1210 / `5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。Wiki total `190 + 120% AP` 可推导为 eight ticks `190/8 + (120/8)% AP` over two seconds；本 Phase-A **仅**实现立即聚合总额，**无** tick schedule。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。hero-named Wasm `_test.go` 计划作为 **test-only** 回归/治理证据，而非生产分支条件；生产 runtime 仍为 generic。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime；JUnit 静态代数 counterproof）：AP0 → raw190；MR100 → final95；AP100 → raw310；MR100 → final155；unrelated AD/crit inputs absent from formula。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似）：actual two seconds / eight ticks / 0.25s schedule / tick snapshot / rounding；location/area/radius/acquisition/geometry/multi-target/sight；slow/AP-scaled slow/refresh/cleanse；spell-effects/persistent-area/interruption/animation；ranks1–4；P/Q/W/R/basic/loadout/full fidelity；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler/sibling；live migration；publish；E2E/live/full fidelity。One immediate aggregated max-duration total magic quantum, not full E。
-
-静态契约校验（不连 live DB；含邻近 Miss Fortune R standalone aggregated-channel 并存/非突变，以及 Jinx E 选定主冠军 AP-magic 先例）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest,LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest,LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest test
 ```
 
 ### LoL generic Caitlyn 90 Caliber Net primary-hit seed（凯特琳 E / Phase-A v3 主冠军第一敌人命中）
@@ -2177,87 +2003,6 @@ Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `bonus_ad_r
 ```bash
 cd server/data_manage
 mvn -Dtest=LolGenericTristanaBusterShotPrimaryHitSeedSqlTest,LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericTwistedFateWildCardsPrimaryHitSeedSqlTest,LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest,LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest test
-```
-
-### LoL generic Samira Flair max-distance primary-hit seed（莎弥拉 Q / Phase-A v1 最大距离远程射击选定主目标单次物理命中）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_samira)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_samira,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_samira,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值——当前仓库亦无 materializer / 无 seed 负责物化 Samira 身份/面板/资源行；本 seed 不物化；仅挂载可 cast 的独立 Q active **最大距离远程射击选定主目标单次物理命中**；standalone sibling absence：不创建/突变/合成/复制 P/W/E/R/basic；Backend prerequisite checks 为 publication guard，generic runtime 缺失 attr 读为 0 且不断言 fail-closed；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_samira_flair_max_distance_primary_hit_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-samira-flair-max-distance-primary-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_samira|Q|交火`（task `wasm-generic-samira-flair-max-distance-primary-hit`）冻结为 **Phase-A rank-5 立即最大距离远程射击选定主目标单次物理命中 impact scaffold**（`FROZEN_PLAN_REV=samira-q-flair-max-distance-primary-hit-phase-a-v1`）：
-
-`rank5_max_distance_ranged_shot_selected_primary_physical_hit; immediate_impact_scaffold; physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `immediate_impact_scaffold`（显式不包含 `total_ad_ratio`；仓库治理禁止该 governed tag）。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_samira` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_samira` **仅** mount 独立 `provider_hero_samira_q_flair_max_distance_primary_hit`（stable id `hero_samira_q_flair_max_distance_primary_hit`；standalone；不创建/突变/合成/复制 P/W/E/R/basic），含 active `ability_hero_samira_q_flair_max_distance_primary_hit`（`ability_key=flair_max_distance_primary_hit`）、`ability_costs` 30 mana、`ability_cooldowns` 2000ms、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `20 + 1.10*source.attr.ad.resolved`（**total AD**，直接读 `ad.resolved`，不减 `ad.base`、不称 bonus AD；二元 `add(const 20, mul(const 1.10, read …))`；每条 read path 恰好一次；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）。Maximum-distance **仅**选择远程射击分支；公式本身**无**距离乘数。**零** provider state / modifiers / listeners / matchers / explicit events / repeats / control / projectile / geometry / melee / Wild Rush / style 行。**Q 无 ability-specific game-local type**，不新增 Q 专用 62xxx type、不写 `type_relations`。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Immediate max-distance ranged-shot selected-primary physical hit 为 Phase-A scaffold，不是实际 distance / range / direction / projectile / collision / melee slash / Wild Rush/E explosives / crit / expected crit / RNG / 150% / lifesteal / style / multitarget / full-Q fidelity。Exactly one immediate damage quantum only, not full Q。Wiki：request `Template:Data Samira/Q` → resolved `Template:Data Samira/Flair`；page1459315 / rev4008027 / `2026-04-13T03:58:01Z` / canonical 3596 bytes / SHA256 `7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203`；sidecar `normalized/generic/samira-q.json`（bytes 3596 / SHA256 `9077cd57cd3f2713d4725a2b3264b987163feb57d97c892669bc35bbde8ecc0d`）+ `pages/samira-q.json`（bytes 666 / SHA256 `c572e9baffa2c4ec196fe5a410c3ca89ddfc717e63be43be6428626ef7e93976`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 3596 / `fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾（仅 materialization/serialization caveat）。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime）：`totalAD0` raw20 / armor0=20 / armor100=10；`totalAD100` raw130 / armor100=65；`totalAD110` raw141 / armor100=70.5；total-AD counterproof `base0/resolved100` vs `base60/resolved100` both130；mana90/HP1000/totalAD100/armor100 在 t0/t1999/t2000 → success/cooldown skip/success、exactly two Q hits and automatic starts、readyAt2000、final mana30/HP870；mana29 → resource skip；standalone isolation mounts only this Q and synthesizes no P/W/E/R/basic。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似）：distance/range/direction/projectile/collision；melee slash/cone blade；Wild Rush/E explosives；crit/expected crit/RNG/150% critical damage；lifesteal；style/Daredevil Impulse；multi-target；ranks1–4；P/W/E/R/basic/loadout/on-hit；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/control/projectile/geometry/sibling；live migration；publish；E2E/live/full fidelity。One selected-primary max-distance ranged-shot hit, not full Q。公式无距离乘数。
-
-静态契约校验（不连 live DB；含邻近 total-AD Jinx W / Kalista Q check-only 先例）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest,LolGenericJinxZapPrimaryHitSeedSqlTest,LolGenericKalistaPiercePrimaryHitSeedSqlTest,LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest test
-```
-
-### LoL generic Varus Piercing Arrow max-charge primary-first-hit seed（韦鲁斯 Q / Phase-A v1 最大蓄力第一敌人选定主目标物理命中）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_varus)`、`attribute_definitions(ad)`、`entity_attribute_values(hero_varus,ad)`、`resource_definitions(mana)`、`entity_resource_values(hero_varus,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值；Mana ERV **可能已由**既有 Varus E Hail of Arrows / R Chain of Corruption seed 物化，本 seed 仅 check-only、**不断言**无 repository materializer；`ad.base`/`ad.resolved` 是单一 `attribute_definitions(ad)` + `entity_attribute_values(hero_varus,ad)` 上的 **generic runtime 路径**，不是独立 attr_key；仅挂载可 cast 的独立 Q active；与既有 basic / W Blighted Quiver（含 `blighted_quiver_q_max_charge_carrier`）/ E / R **并存且不突变、不依赖、不 enrich**；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**）：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20220`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-varus-piercing-arrow-max-charge-primary-first-hit-phase-a-v1-20260726`（seed 不负责 publish）。候选 `hero_skill|hero_varus|Q|穿刺之箭`（task `wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit`）冻结为 **Phase-A rank-5 立即最大蓄力/最大射程第一敌人选定主目标物理命中 impact scaffold**（`FROZEN_PLAN_REV=varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1`）：
-
-`rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_falloff_projectile_geometry_blight_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `active_physical_damage` → `bonus_ad_ratio` → `immediate_impact_scaffold`。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_varus` / `ad` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_varus` **仅** mount 独立 `provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit`（stable id `hero_varus_q_piercing_arrow_max_charge_primary_first_hit`；standalone；不创建/突变 basic/W/E/R，不触碰 `provider_hero_varus_w_blighted_quiver_phase_a` / `blighted_quiver_q_max_charge_carrier`），含 active `ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit`（`ability_key=piercing_arrow_max_charge_primary_first_hit`）、`ability_costs` 70 mana、`ability_cooldowns` 12000ms listed scaffold、恰好一个 null-duration impact phase + on_enter sequence，以及一次 physical damage `360 + 1.20*(ad.resolved-ad.base)`（**bonus AD**，二元 `add(const 360, mul(const 1.20, sub(read …resolved, read …base)))`；每条 AD path 恰好一次；无 AP/crit reads；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20220` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。Wiki：request `Template:Data Varus/Q` → resolved `Template:Data Varus/Piercing Arrow`；page1309981 / rev4026469 / `2026-06-09T22:00:25Z` / canonical 3888 bytes / SHA256 `bdbbe064008b969e153800f7d5cdb305f84eca1ef043d8e6f8ce41c5db2659dd`；sidecar `normalized/generic/varus-q.json`（bytes 4131 / SHA256 `bb5af7baaf053d1266a3702664c2df09e89f67c6125e8cf6da15f28f5b0c1f8e`）。**local raw materialization caveat**：仓库 local raw 3888 / `5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime）：`base60/resolved60/armor0` raw/final360，armor100 final180；`base60/resolved160/armor0` raw/final480，armor100 final240；`base60/resolved260/armor100` raw600/final300；bonus-AD proof `base0/resolved100` vs `base60/resolved160` at armor0 both480；mana210/base60/resolved160/HP1000/armor100 在 t0/t11999/t12000 → 两次成功 + 一次 cooldown skip、两笔 Q damage、两次自动 Q `ability_started`、final mana70/HP520；mana69 → resource skip、不变、无 Q damage/event；standalone provider 不合成 basic/W/E/R，不突变 W carrier。
-
-**排除**：real charge/channel timing；cooldown reduction by charge duration；cancel/refund/recast；movement slow/cast restrictions；projectile/travel/direction/collision/range geometry；pierce falloff/enemy count/multi-target；W active/passive/Blight/missing-health/detonation/reset/cooldown refund；cosmetic or actual crit；other ranks/siblings/items/loadout/full fidelity；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler；live migration；publish；E2E/full fidelity。
-
-静态契约校验（不连 live DB；含邻近 Varus W/E/R sibling coexistence）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest,LolGenericVarusBlightedQuiverSeedSqlTest,LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest,LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest test
-```
-
-### LoL generic Azir Conquering Sands one-soldier selected-primary hit seed（沙皇 Q / Phase-A v1 假定一枚既有沙兵选定主目标单次魔法命中）
-
-在 reserved types 已就绪，且 **外部既有** `game_entities(hero_azir)`、`attribute_definitions(ap)`、`entity_attribute_values(hero_azir,ap)`、`resource_definitions(mana)`、`entity_resource_values(hero_azir,mana)` 已存在后，按顺序执行（**check-only / external existing-data**；**不做** hero/panel/mana 自包含写入，**不**物化身份/面板/资源值，**不**物化 Azir ap/mana 行——当前仓库亦无 Azir materializer 负责物化这些行；仅挂载可 cast 的独立 Q active **假定一枚既有沙兵选定主目标单次魔法命中**；「一枚既有沙兵」为 caller/scenario assumption 与 completed-boundary exclusion，**不**建模/enforce 沙兵状态或 cast-precondition gate；不要求/突变/合成/复制 P/W/E/R/basic 或任何 soldier provider；不做 live migration、不自动 publish、不连 live DB 执行本 seed；**本 seed 非自包含**——未来执行/发布前须外部供给 `hero_azir` + AP + mana（publication/live prerequisite limitation，非本脚本物化许可））：
-
-1. `db/game_manage/seeds/reserved_types_seed.sql`（需含 `20111`/`20120`/`20130`/`20142`/`20150`/`20170`/`20221`/`20260`；不含 `20230`）
-2. `db/game_manage/seeds/lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql`
-3. 校验通过后再显式 Admin `POST /api/admin/games/lol/versions:publish`（本脚本**不会**自动 publish；本任务亦不执行该可选 publish 步骤）
-
-建议发布版本：`lol-generic-azir-conquering-sands-one-soldier-primary-hit-phase-a-v1-20260727`（seed 不负责 publish）。候选 `hero_skill|hero_azir|Q|狂沙猛攻`（task `wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit`）冻结为 **Phase-A rank-5 立即假定一枚既有沙兵选定主目标单次魔法命中 impact scaffold**（`FROZEN_PLAN_REV=azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1`）：
-
-`rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity`
-
-Ordered tags：`ability_cost_cooldown` → `active_magic_damage` → `ap_ratio` → `one_existing_soldier_selected_primary_hit_scaffold`。
-
-该 seed 会：锁定 `game_data_state`；对 game / reserved / `hero_azir` / `ap` 定义与实体值 / `mana` 资源定义与实体资源值做 **fail-closed check-only EXISTS**（缺失即回滚；不写 `attribute_definitions` / `resource_definitions` / `game_entities` / `entity_attribute_values` / `entity_resource_values`）；幂等投影 reserved → `types`；向 `hero_azir` **仅** mount 独立 `provider_hero_azir_q_conquering_sands_one_soldier_primary_hit`（stable id `hero_azir_q_conquering_sands_one_soldier_primary_hit`；standalone；不创建/突变/合成/复制 P/W/E/R/basic/soldier），含 active `ability_hero_azir_q_conquering_sands_one_soldier_primary_hit`（`ability_key=conquering_sands_one_soldier_primary_hit`）、`ability_costs` 110 mana、`ability_cooldowns` 6000ms listed scaffold、恰好一个 null-duration impact phase + on_enter sequence，以及一次 magic damage `140 + 0.55*source.attr.ap.resolved`（AP 直接读 `ap.resolved`；嵌套二元 `add(const 140, mul(const 0.55, read …))`；AP path 恰好一次；无 AD/crit/crit_damage reads；`copyable_on_hit=false`，非 crit / `crit_eligible=false`；运行时类型 `20221` + add policy `20170`；禁止可执行图/`required reserved` 使用 `20230=provider_action/apply`）；**零** provider state / modifiers / listeners / matchers / explicit events / repeats / tick / control / scheduler / projectile / soldier / slow / movement 行。成功 cast 由 runtime 自动发出 `ability_started`（本 Q 图不添加 listener / event step）。不含 salvage tags；亦不含 governed tag `meta_or_non_target_dps`（该 raw 为 legacy provenance，永非 governed tag）。Wiki：request `Template:Data Azir/Q` → resolved `Template:Data Azir/Conquering Sands`；page1306850 / rev4024967 / `2026-06-04T07:26:59Z` / canonical 2512 bytes / SHA256 `168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2`；sidecar `normalized/generic/azir-q.json`（bytes3119 / SHA256 `9e2cfc28ced422699bbb40722ba46d82167c79f34bbd696f2fc4080e52120fb7`）+ `pages/azir-q.json`（bytes684 / SHA256 `a15a3c54079cd8a75584c9725bb792441103ff27cafa31fa136d076791fa71f4`；Wasm repo authoritative）。**local raw materialization caveat**：仓库 local raw 2510 / `6885ead987cae40fa37992d170337007629e3f12ebfc494eb3a1f54b5fb110e4`；同 size 不等于等价；canonical 以 sidecar/pages 为准，不断言等价、亦不主张源矛盾。Wiki 称 Q 需要已召唤沙兵、后续沙兵不加伤害/减速；Phase-A 假定一枚既有沙兵但不建模该 gate。有 material change 时才推进候选 revision；不 DELETE、不 DDL、不自动 publish。
-
-确定性夹具（注释记录；不连 live / 不执行 runtime；测试夹具可创建外部前置行，生产 seed 不得）：`AP0/MR0` raw/final140；`AP100/MR100` raw195/final97.5；无关 AD/crit/crit_damage 变化不改变输出；mana330/AP100/HP1000/MR100 在 t0/t5999/t6000 → success/skip/success、exactly two Q damage items、两次自动 `ability_started`、final mana110/HP805、readyAt6000；mana109 → resource skip、不变、无 Q damage/start；idempotence/no-op rerun 且无 sibling/provider mutation；standalone provider 不合成 P/W/E/R/basic/soldier。
-
-**排除**（completed-boundary exclusions；不得实现或描述为近似）：ranks1–4；soldier entity/spawn/despawn/count/formation/placement/attack state；cast-precondition enforcement；command/path/dash/travel/collision/Wind Wall/Rebuttal；target location/range/geometry/pass-through/arrival/multiple enemies；slow/duration/refresh；P/W/E/R/basic/items/loadout；identity/panel/resource bootstrap；listener/state/event/modifier/repeat/tick/control/scheduler/projectile/soldier/slow/movement/sibling；live migration；publish；E2E/live/Admin/Web/Wasm/asset/full-game/full-Q fidelity。One assume-one-existing-soldier selected-primary single magic hit, not full Q。
-
-静态契约校验（不连 live DB；含邻近 Lucian W / Corki Q / Jinx E AP-magic check-only immediate-impact 先例）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest,LolGenericLucianArdentBlazePrimaryHitSeedSqlTest,LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest,LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest test
 ```
 
 ### LoL generic Crit / Infinity Edge eligibility（crit_eligible）

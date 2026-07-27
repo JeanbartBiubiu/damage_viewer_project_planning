@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "jayce-w",
+  "candidateKey": "hero_skill|hero_jayce|W|闪电领域 / 超能电荷",
+  "ownerId": "hero_jayce",
+  "wikiChampionTitle": "Jayce",
+  "skillKey": "W",
+  "requestTitle": "Template:Data Jayce/W",
+  "zhDisplayName": "闪电领域 / 超能电荷",
+  "resolvedTitle": "Template:Data Jayce/Lightning Field",
+  "wikiPageId": 1331685,
+  "revisionId": 3948933,
+  "revisionTimestamp": "2025-08-20T14:28:04Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Jayce/Lightning%20Field",
+  "contentSha256": "291798195515d3bfbb9656ce35f660c59ac54831ba74d14d5e4b1a9aedd9f0fa",
+  "rawByteSize": 1356,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Jayce's''' {{tip|basic attacks}} restore {{sti|{{as|mana}}}} {{tip|on-hit}}.\n",
+    "leveling": "{{st|Mana Restored|{{as|{{ap|15 to 25 6}}|Mana}}}}\n",
+    "description2": "{{sbc|Active:}} '''Jayce''' surrounds himself with an electric field for 4 seconds that deals {{as|magic damage}} every second to nearby enemies.\n",
+    "leveling2": "{{st|Magic Damage Per Tick|{{ap|35 to 110 6}} {{as|(+ 25% AP)}}|Total Magic Damage|{{ap|35*4 to 110*4 6}} {{as|(+ 100% AP)}}}}\n",
+    "cooldown": "10\n",
+    "cost": "40\n",
+    "costtype": "Mana\n",
+    "damagetype": "magic\n",
+    "notes": "* The {{as|{{sti|mana}}}} restore triggers on {{tip|structures}}.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

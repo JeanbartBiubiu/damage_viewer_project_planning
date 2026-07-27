@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kalista-p",
+  "candidateKey": "hero_skill|hero_kalista|P|武术姿态",
+  "ownerId": "hero_kalista",
+  "wikiChampionTitle": "Kalista",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Kalista/I",
+  "zhDisplayName": "武术姿态",
+  "resolvedTitle": "Template:Data Kalista/Martial Poise",
+  "wikiPageId": 1307664,
+  "revisionId": 4024157,
+  "revisionTimestamp": "2026-05-30T09:35:51Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kalista/Martial%20Poise",
+  "contentSha256": "7013120001320afc36df5ec9f3cf7b30958bde563c5b85f32dff704c1f5fcd38",
+  "rawByteSize": 7393,
+  "fields": {
+    "description": "{{sbc|Innate:}} When '''Kalista''' inputs a {{tt|movement command|Default MB2/right click}} during her {{tip|attack windup|basic attack windup}} or shortly after it completes, or while in cast time of ''{{ai|Pierce|Kalista}}'', she will {{tip|dash}} in that direction.<br/><br/>'''''Kalista''' {{tt|cannot dash|See notes}} while {{tip|immobilize|immobilized}} or {{tip|ground|grounded}}, and she will be {{tip|knockdown|knocked down}} by any {{tip|immobilize|immobilizing}} or {{tip|polymorph|polymorphing}} crowd control during the dash.''\n",
+    "description2": "''Martial Poise'''s dash range and speed details:\n* Dash range of basic attacks is modified by the tier of '''Kalista's''' [[Boots]] and the angle of the dash.\n** At a 0° angle towards the target, the minimum dash range is {{pp|140;153;166;175|None;Basic;Finished;Tier-3|type=Boots Tier}} units.\n** At a 90° angle, the maximum dash range is {{pp|240;263;280;300|None;Basic;Finished;Tier-3|type=Boots Tier}} units.\n* Dash range of ''{{ai|Pierce|Kalista}}'' is 300 units when dashing anywhere in the direction of the point of cast.\n** If the dash is inputted to a location that is ''away'' from ''{{ais|Pierce|Kalista}}'' point of cast, the dash range is reduced based on the angle, with a minimum distance of 150 units if the inputted location is {{tt|directly opposite|Backwards dash}}.\n* Dash speed is increased based on the {{tt|tier|+75 for Boots and +135 for finished Boots}} of '''Kalista's''' [[Boots]], and is affected by her {{sti|{{as|'''bonus''' attack speed}}}} as well as {{as|{{sti|movement speed}}}} modifiers she is under the effect of (including {{tip|slow|slows}}).\n",
+    "description3": "{{sbc|Innate - Oathsworn Bond:}} '''Kalista''' begins the game with an exclusive ''{{ii|Black Spear}}'' that she can activate on an allied champion to deem them ''Oathsworn'', forming a {{tip|tether}} together. While she and the ally bound as the ''Oathsworn'' are within tether range of each other, they can both interact with ''{{ai|Sentinel 3|Kalista|Soul-Mark}}'' and ''{{ai|Fate's Call|Kalista}}''.\n",
+    "description4": "'''''Kalista''' can purchase the {{ii|Black Spear}} from the [[shop]] at no cost to obtain it again and, before 3 minutes of game time, may activate the item again on a different target to designate a new Oathsworn. See {{ii|Black Spear}} for more details.''\n",
+    "damagetype": "",
+    "notes": "* Basic attacks and ''{{ai|Pierce|Kalista}}'' cannot be cast while dashing, unless animation cancelled with a movement command.\n* '''Kalista''' must wait for her auto attack windup or cast animation to finish, before she dashes. However, '''Kalista''' will dash immediately if the movement command to dash is input after her auto attack windup finishes.\n* {{ai|Martial Poise|Kalista}} also \"remembers\" your auto attack target after dashing, letting you dash repeatedly by only clicking the ground.\n* {{ai|Martial Poise|Kalista}} cannot keep up with attack speed values greater than {{fd|2.1}}, due to the combination of her auto attack windup taking too long, and her dashes being too slow. Movement speed bonuses make it less of an issue.\n** Sufficiently high attack speeds can also cause {{ai|Martial Poise|Kalista}} to interpret movement inputs as dash inputs, during the dash of a previous auto attack (such as jumping towards attack-move inputs).\n* Move commands inputted during an attack windup or the cast time of ''{{ai|Pierce|Kalista}}'' while '''Kalista''' is {{tip|immobilize|immobilized}} or {{tip|ground|grounded}} will fail to cast and thus prevent the dash from triggering.\n* If multiple move commands are inputted during the attack windup, the most recent one is used for the dash's targeting.\n** If the most recent input is not a move command, the dash will not trigger.\n*** In this case, the buffer for the previous move command was cancelled by a new non-move command such as an input for an attack or ability cast.\n** The move command will still be buffered to the end of the immobilization or the end of the attack windup or cast time of ''{{ai|Pierce|Kalista}}'' while grounded if it has not been overridden by other inputs.\n* '''Kalista's''' facing direction will change immediately on move command even among multiple inputs, but will not visually update until the dash.\n* The facing direction when dashing is considered to be in the direction of the dash, not her apparent facing direction based on her model's animation state.\n* Dash distance decreases as the dash direction becomes closer to the minimum direction. This defines a forward distance for basic attacks and a backwards distance for {{ai|Pierce|Kalista}}.<br/> Empirical testing has given the following values below.<!-- Determine exact calculation. Seems to at least be a steady decrease until the difference in angle from target to dash position is less than 15 degrees, at which point the distance drops off significantly. Nov 04 2024: Calculations were derived empirically and added to the notes for those who really want to know the derived values -->\n** Basic attack dash range given the angle θ:\n*** <math>\\begin{cases}(175 + (125 \\times \\sin(\\theta))) \\times T \\end{cases}</math>\n**** Where <math>T = 0.800, 0.875, 0.950, 1.000</math> depending on the tier of Boots (T0, T1, T2, T3)\n*** Minimum dash range of 225 units when dashing backwards\n** ''{{ai|Pierce|Kalista|Pierce's}}'' dash range given the angle θ:\n*** <math>\\begin{cases} 150 + (150 \\times \\sin(\\theta)) & \\mathrm{Backwards} \\\\ 300 & \\mathrm{Otherwise} \\end{cases}</math>\n* There is a very brief grace period after completing a basic attack windup wherein  '''Kalista''' can still input a movement command to trigger the dash.\n* The dash speed is unaffected by additive movement speed modifiers.\n* There are a total of 24 different dash ranges based on direction with {{ig|Boots}} and {{ai|Pierce|Kalista}} being cast.\n* '''Kalista''' will automatically be issued an attack command on her attack target at the end of the dash, as long as they remain in her attack range by then.\n* The attack move (default {{sbc|A + MB1}}) click feature checks for targets in brief intervals only if '''Kalista''' is not dashing.\n* {{tip|Sleep}} does not count for knocking the dash down.{{bug}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "description4": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

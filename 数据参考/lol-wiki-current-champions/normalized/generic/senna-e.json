@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "senna-e",
+  "candidateKey": "hero_skill|hero_senna|E|黑雾咒附",
+  "ownerId": "hero_senna",
+  "wikiChampionTitle": "Senna",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Senna/E",
+  "zhDisplayName": "黑雾咒附",
+  "resolvedTitle": "Template:Data Senna/Curse of the Black Mist",
+  "wikiPageId": 1409578,
+  "revisionId": 3994514,
+  "revisionTimestamp": "2026-02-28T09:56:32Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Senna/Curse%20of%20the%20Black%20Mist",
+  "contentSha256": "644c55c1e09333af03ffb84e7120dec5da6d7d0c93c872b83ea4b4d5ae48956f",
+  "rawByteSize": 6223,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Senna''' shrouds herself in an {{tip|aura}} of Black Mist and gains {{tip|camouflage}} for a duration. If '''Senna''' {{tip|breaks stealth|breaks the camouflage}}, she regains it after {{fd|1.75}} seconds without performing actions that break stealth.\n",
+    "description2": "Allied champions who enter the mist gain ''Wraith Form'' for a duration equal to the aura's remaining duration.\n",
+    "leveling": "{{st|Effect Duration|{{ap|6 to 8}} seconds}}\n",
+    "description3": "{{sbc|Wraith Form:}} Gain {{tip|camouflage}}. Enemies are granted {{tip|obscured vision}} of camouflaged ''Wraiths'' moving outside the mist within their line of {{tip|sight}}. ''Wraith Form'' can be regained if lost by breaking the camouflage after {{fd|1.75}} seconds without performing actions that break stealth. ''Wraith Form'' ends immediately upon '''Senna's''' {{tip|death}}.\n",
+    "description4": "'''Senna''' and allies camouflaged by ''Curse of the Black Mist'' also gain {{sti|ms|{{as|20%|ms}}}} {{as|(+ 5% per 100 AP)}} {{as|'''bonus''' movement speed}}.\n",
+    "description5": "'''''Senna''' can move during Curse of the Black Mist's cast time.''\n",
+    "cost": "70\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|26 to 20}}\n",
+    "damagetype": "",
+    "notes": "* Allies affected by the ''Curse of the Blast Mist'' aura receive a buff called ''Cloak of Mist''.\n* Obscured units appear as ''Wraiths'', hence the name. The wraith model does not distinguish which champion is obscured.\n** On the [[Map (League of Legends)|mini-map]], obscured champions will be displayed as wraith icons instead of champion icons to the enemy team.\n* In-game, the 'Cloak of Mist' buff grants camouflage and the 'Wraith Form' buff obscures the unit and grants movement speed. However, 'Cloak of Mist' has the unspecified effect of negating the obscuring effects of 'Wraith Form' (i.e. the unit is not a wraith while inside the mist); the unit has the bonus movement speed even when they are not a wraith (e.g. inside the mist or an enemy is nearby); and 'Wraith Form' also grants the functionality of camouflage (i.e. the unit is treated as a camouflaged unit with regards to {{tip|True Sight}}, {{ii|Control Ward|Control Wards}}, and enemy {{tip|champions}}).\n** Given this overly complex interaction between the two buffs granted as well as the overlapping effects, it is easier to describe the effects as a single buff that is modified in specific circumstances rather than trying to establish a new game mechanic.\n** '''Senna''' likewise has her aura buff and the 'Wraith Form' buff, but her 'Wraith Form' does not share gameplay functionality with other allies benefiting from Wraith Form. For '''Senna''', the appearance of being a wraith is a form-swap while camouflaged (similar to {{cai|Demon Shade|Evelynn}}). '''Senna''' will remain in her wraith form when she is detected so long as the camouflage effect isn't broken, and her wraith's appearance is very distinct from other wraiths.\n* Allied champions who enter the mist and have {{tip|stealth}} of their own will still gain the ''Wraith Form'' buff but they will not grant {{tip|obscured vision}} of themselves to the enemy while out of the mist nor will they appear as a ''Wraith''.\n** Allies who have their own {{tip|camouflage}} and also have ''Wraith Form'' will be revealed to enemies from their stealth's detection range, not ''Wraith Form's''.\n* If '''Senna''' gains {{tip|invisibility}} while {{tip|camouflage|camouflaged}} by ''Curse of the Black Mist'', the visual effects of her aura will be hidden while she is invisible.\n* ''Curse of the Black Mist'' will not activate if '''Senna''' enters {{tip|resurrection}} during the cast time.\n* ''Wraith Form'' will not be granted to allies that are in a {{tip|zombie state}} or are {{tip|channel|channeling}}. It will be granted to allies even if they are {{tip|untargetable}}.\n* Using a basic attack breaks the stealth at the start of the attack windup.\n** The stealth regain timer is refreshed from basic attacks at the start of their attack windup.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "leveling": true,
+    "description3": true,
+    "description4": true,
+    "description5": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

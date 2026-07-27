@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kaisa-q",
+  "candidateKey": "hero_skill|hero_kaisa|Q|艾卡西亚暴雨",
+  "ownerId": "hero_kaisa",
+  "wikiChampionTitle": "Kai'Sa",
+  "skillKey": "Q",
+  "requestTitle": "Template:Data Kai'Sa/Q",
+  "zhDisplayName": "艾卡西亚暴雨",
+  "resolvedTitle": "Template:Data Kai'Sa/Icathian Rain",
+  "wikiPageId": 1353551,
+  "revisionId": 4038389,
+  "revisionTimestamp": "2026-06-30T09:21:59Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kai'Sa/Icathian%20Rain",
+  "contentSha256": "49de9f47013759a95cad6b8e671efb61d3d8adac02901e70c902b59fc945f71b",
+  "rawByteSize": 3308,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Kai'Sa''' releases a swarm of 6 missiles that evenly distributes among nearby {{tip|sight|visible}} enemies, each one hitting their target after {{fd|0.4}} seconds to deal {{as|physical damage}}. {{tip|Minions}} below {{sti|health|{{as|35% health}}}} take double damage.\n",
+    "leveling": "{{st|Physical Damage Per Missile|{{ap|{{#var:b1}} to {{#var:b5}}}} {{as|(+ {{#var:ad}}% '''bonus''' AD)}} {{as|(+ {{#var:ap}}% AP)}}}}\n",
+    "description2": "Non-minions take {{ap|{{#var:mod}}*100}}% damage from missiles beyond their first.\n",
+    "leveling2": "{{st|Reduced Damage Per Missile|{{ap|{{#var:b1}}*{{#var:mod}} to {{#var:b5}}*{{#var:mod}}}} {{as|(+ {{ap|{{#var:ad}}*{{#var:mod}}}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*{{#var:mod}}}}% AP)}}|Total Single-Target Damage|{{ap|{{#var:b1}}*(1+{{#var:mod}}*5) to {{#var:b5}}*(1+{{#var:mod}}*5)}} {{as|(+ {{ap|{{#var:ad}}*(1+{{#var:mod}}*5)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*(1+{{#var:mod}}*5)}}% AP)}}}}\n",
+    "description3": "{{sbc|{{ai|Second Skin|Kai'Sa|Evolution}}:}} Requires{{ft|{{sti|{{as|{{pplevel|round=ceil|100-{{ccd|Kai'Sa|dam_lvl}}*(x-1)*(0.7025+0.0175*(x-1))}} attack damage}}}} from items|{{sti|{{as|100 attack damage}}}} from items and stat growth}}to upgrade – ''Icathian Rain'' instead fires 12 missiles.\n",
+    "leveling3": "{{st|Total Evolved Single-Target Damage|{{ap|{{#var:b1}}*(1+{{#var:mod}}*11) to {{#var:b5}}*(1+{{#var:mod}}*11)}} {{as|(+ {{ap|{{#var:ad}}*(1+{{#var:mod}}*11)}}% '''bonus''' AD)}} {{as|(+ {{ap|{{#var:ap}}*(1+{{#var:mod}}*11)}}% AP)}}}}\n",
+    "description4": "''A nearby enemy is required to cast this ability.''\n",
+    "cost": "55\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|10 to 6}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* The first missile on a target applies {{tip|area damage}}, while the rest on the same target apply {{tip|persistent area damage}}.\n* {{tip|Spell shield|Spell shields}} only block the damage from a single missile.\n* ''Icathian Rain'' acquires its targets upon cast. Moving will not change its targets.\n* Charging {{ai|Supercharge|Kai'Sa}} will not stop the missiles from firing.\n* It takes 1 second for all missiles to fire at a single target.\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "leveling3": true,
+    "description4": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

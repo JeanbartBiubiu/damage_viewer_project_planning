@@ -1,0 +1,30 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|End of the Line|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Graves
+|skill        = Q
+|icon         = End of the Line.png
+|blurbicon    = End of the Line.png
+|blurb        = {{sbc|Active:}} {{ci|Graves}} fires an explosive shell that deals {{as|physical damage}} to enemies it passes through.
+|blurb2       = The shell leaves a powder trail as it travels, and will detonate the trail after a short time, or immediately if it hits [[terrain]]. The explosion deals {{as|physical damage}} to enemies within.
+|description  = {{sbc|Active:}} '''Graves''' fires a round in the target direction that deals {{as|physical damage}} to enemies it passes through and leaves behind a powder trail.
+|leveling     = {{st|Physical Damage|{{ap|50 to 150}} {{as|(+ 65% '''bonus''' AD)}}}}
+|description2 = After 2 seconds, or {{rutngt|0.2}} upon colliding with terrain, the round detonates to deal {{as|physical damage}} to enemies within a wide perpendicular area and in a reverse wave along the powder trail.
+|leveling2    = {{st|Physical Damage|{{ap|80 to 260}} {{as|(+ {{ap|55 to 115}}% '''bonus''' AD)}}|Total Physical Damage|{{ap|50+80 to 150+260}} {{as|(+ {{ap|65+55 to 65+115}}% '''bonus''' AD)}}}}
+|description3 = ''Enemies can only be hit once per pass.''
+|cooldown     = {{ap|13 to 6}}
+|cast time    = {{fd|0.25}}
+|cost         = 80
+|costtype     = Mana
+|range        = {{dv|{{tip|cr|icononly = true}} {{tt|800|Initial shell missile range}}|{{tip|er|icononly = true}} {{tt|900|Total forward range including explosion}}}}
+|width        = {{dv|{{tip|er|icononly = true}} {{tt|80|Initial shell missile width}}|{{tt|500|Explosion rectangle width}}|{{tt|200|Powder trail return missile width}}}}
+|targeting    = Direction
+|affects      = Enemies
+|damagetype   = Physical
+|spelleffects = spellaoe
+|spellshield  = Special
+|projectile   = Special
+|notes        =
+* {{tip|Spell shield|Spell shields}} can only block one instance of the ability's damage.
+* {{ai|Wind Wall|Yasuo}} will destroy the projectile entirely and mitigate all effects, including the trail on the ground.
+* {{ai|Unbreakable|Braum}} is considered to be terrain for the purposes of the projectile, triggering its second effect.
+{{Effect at cast time end}}
+}}

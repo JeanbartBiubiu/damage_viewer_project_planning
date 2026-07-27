@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "kayle-e",
+  "candidateKey": "hero_skill|hero_kayle|E|星火符刃",
+  "ownerId": "hero_kayle",
+  "wikiChampionTitle": "Kayle",
+  "skillKey": "E",
+  "requestTitle": "Template:Data Kayle/E",
+  "zhDisplayName": "星火符刃",
+  "resolvedTitle": "Template:Data Kayle/Starfire Spellblade",
+  "wikiPageId": 1388328,
+  "revisionId": 3982990,
+  "revisionTimestamp": "2026-01-10T09:53:22Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Kayle/Starfire%20Spellblade",
+  "contentSha256": "2b0a053f7f651c1f822100256bc2126987de1ec4aa4003d7d4c761d132aca4b3",
+  "rawByteSize": 5869,
+  "fields": {
+    "description": "{{sbc|Passive:}} '''Kayle''' deals {{as|'''bonus''' magic damage}} {{tip|on-hit}}.\n",
+    "leveling": "{{st|Passive Damage|{{ap|15 to 35}} {{as|(+ 10% '''bonus''' AD)}} {{as|(+ 20% AP)}}}}\n",
+    "description2": "{{sbc|Active:}} '''Kayle''' kindles her blade, empowering her next [[basic attack]] within 6 seconds to have an {{tip|uncancellable windup}} and deal additional {{as|'''bonus''' magic damage}} {{tip|on-hit}} that is capped at 400 against {{tip|monsters}}. If '''Kayle''' is not yet ''{{ai|Divine Ascent|Kayle|Arisen}}'', this attack becomes {{tip|ranged}} with {{sti|range|525 range}}.\n",
+    "leveling2": "{{st|Bonus Magic Damage|{{as|{{ap|8 to 10}}% {{as|(+ {{fd|1.5}}% per 100 AP)}} of target's '''missing''' health}}}}\n",
+    "description3": "{{sbc|{{ai|Divine Ascent|Kayle|Aflame}} Bonus:}} The attack explodes upon the target, dealing its damage to surrounding enemies and applying {{tip|on-hit}} effects. This is affected by {{tip|critical strike}} modifiers.\n",
+    "description4": "''Starfire Spellblade {{tip|basic attack reset|resets}} '''Kayle's''' basic attack timer. Starfire Spellblade does not deal bonus damage against [[structure|structures]].''\n",
+    "cooldown": "{{ap|8 to 6}}\n",
+    "cost": "",
+    "costtype": "",
+    "damagetype": "Magic\n",
+    "notes": "'''Details'''\n* ''Starfire Spellblade'' deals:\n** The physical damage part of both the attack and the explosion deals {{tip|basic damage}} and {{tip|spell damage}}.\n** {{Tip|Proc damage}} for the passive's {{tip|on-hit}} effect.\n** {{Tip|Proc damage}} for the active's {{tip|on-hit}} effect.\n** All damage dealt to secondary targets by the explosion is additionally tagged as {{tip|area damage}}.\n* The active's effect shares the same {{tip|cast instance}} with the triggering attack (exception: {{ii|Muramana}}, see '''Interactions & Other''').\n* Parry interactions:\n** {{tip|Blind}}: The main target will never receive damage, but the secondary targets will receive the active's spell damage.\n** {{tip|Block}}: Blocking will always negate all damage. Keep in mind that if a secondary target is outside of {{ais|Spirit's Refuge|Shen}} zone, they won't block damage.\n** {{tip|Dodge}}: Dodging will always negate all damage.\n* {{pending for test}}: All parry interactions are marked for retesting because of patch [[V11.1]] changes.\n'''Interactions & Other'''\n* While the active's effect is up, a circle is visible to '''Kayle''', indicating her {{sti|range}}, however, this circle only takes into account {{ais|Divine Ascent|Kayle}} effect on her range, not other sources such as {{ii|Rapid Firecannon}}.\n** The increased range (with the item's effect included) will be {{sti|range|675}} prior to ascending to {{sbc|Transcendent}}, after which it's {{sti|range|725}}.\n* To clarify the description, ''Starfire Spellblade'' can behave both as a {{tip|ranged}} and {{tip|melee}} attack based on how far the target is prior to '''Kayle''' ascending to {{ai|Divine Ascent|Kayle|Arisen}}, after which the attack will be always using ranged standards.\n** If the target is 200 units away or closer, the attack will be considered melee. This also uses her melee animations, not utilizing projectiles even after ascending.\n** If the target is over 200 units, the attack will be considered ranged.\n* To further expand on this: Using the ranged empowered attack will change '''Kayle's''' range type to ranged while the projectile is alive. This means that if the target could outrun the projectile, '''Kayle''' would be stuck on being ranged, although the bonuses from the active are not kept. While it's unlikely to be on this temporary ranged state for longer than half a seconds during a normal playthrough, it is possible to achieve few seconds when specific conditions are met.\n* Keep in mind that while on-hit effects will be applied to all targets in the explosion, {{tip|on-attack}} effects are only applied once per basic attack, not per target hit.\n* Single-use on-hits, such as {{tip|Spellblade}}, will be applied to the main target.\n** If the main target died prior to the projectile reaching them, or if it was a [[Jungle plants|jungle plant]], the effects will be applied to the closest target from the explosion's center.\n* {{iis|Guinsoo's Rageblade}} {{nie|Phantom Hit}} can only be applied to the main target.\n* Despite being one cast instance, ''Starfire Spellblade'' triggers {{iis|Muramana}} {{nie|Shock}} twice on each target, dealing normal bonus damage after the basic attack and increased bonus damage after the spell, totalling at {{as|{{as|{{rd|{{fd|5.2}}%|{{fd|4.2}}%}} '''maximum''' mana}} '''bonus''' physical damage|physical damage}}.\n<!-- Blurb -->\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "leveling2": true,
+    "description3": true,
+    "description4": true,
+    "cooldown": true,
+    "cost": true,
+    "costtype": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

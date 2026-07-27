@@ -1,0 +1,32 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Vault|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Quinn
+|skill        = E
+|icon         = Vault.png
+|blurb        = {{sbc|Active:}} {{ci|Quinn}} {{tip|dashes}} to the target enemy, dealing {{as|physical damage}}, {{tip|airborne|knocking them back}}, marking them with {{ai|Harrier|Quinn}}, and briefly {{tip|slow|slowing}} them. She then {{tip|dash|leaps}} backward.
+|description  = {{sbc|Active:}} '''Quinn''' {{tip|dashes}} to the target enemy, marking them with ''{{ai|Harrier|Quinn}}'', dealing {{as|physical damage}}, {{tip|airborne|knocking them back}} a very short distance over {{fd|0.5}} seconds, and {{tip|slow|slowing}} them by 50% decaying over {{fd|1.5}} seconds. She then {{tip|dash|leaps back}} 525 units away from them.
+|description2 = ''Vault {{tip|basic attack reset|resets}} '''Quinn's''' basic attack timer {{tt|shortly after|See notes}} the initial dash. {{ai|Heightened Senses|Quinn}} can be cast during either of the dashes.''
+|leveling     = {{st|Physical damage|{{ap|40 to 140}} {{as|(+ 20% '''bonus''' AD)}}}}
+|cooldown     = {{ap|12 to 8}}
+|cast time = none
+|cost         = 50
+|costtype     = Mana
+|target range = {{tip|er|icononly = true}} 600
+|speed        = {{dv|{{tt|2500|Initial dash speed, estimated}}|{{tt|850|Return dash speed, estimated}}}}
+|targeting    = Unit
+|damagetype   = Physical
+|affects      = Enemies
+|spelleffects = Spell
+|spellshield  = True
+|callforhelp  = true
+|grounded     = True
+|knockdown    = True
+|notes   =
+* '''Quinn''' will track the target if they change locations.
+** She will dash to the target's previous location without applying ''Vault's'' effects if the target is too far away or moves beyond {{tt|1200|Estimated}} units.
+* ''Vault'' {{tip|basic attack reset|resets}} '''Quinn's''' remaining attack cooldown a short delay after the first dash ends (even if interrupted).
+** This delay is a fuzzy {{fd|0.25}} to {{fd|0.5}} seconds and this matches up with the moment the target of ''Vault'' is marked with {{ai|Harrier|Quinn}}.
+* '''Quinn''' will automatically attempt to attack the target once she completes ''Vault''.
+* The target will turn to face the opposite direction after being {{tip|airborne|knocked back}}.
+* Unlike its constant cast range ''Vault's'' bounce's can vary to allow '''Quinn''' to close or to make a gap between herself and the target (depending on casting position) or even to jump through a wall (if there is enough landing room on the other side).
+* ''Vault's'' {{tip|airborne|knock back}} also interrupts the windup of basic attacks with {{tip|uncancellable windup|uncancellable windups}}.{{bug|2}}
+}}

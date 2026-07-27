@@ -1,0 +1,28 @@
+{{{{{1<noinclude>|Ability data</noinclude>}}}|Living Artillery|{{{2|}}}|{{{3|}}}|{{{4|}}}|{{{5|}}}
+|champion     = Kog'Maw
+|skill        = R
+|icon         = Living Artillery.png
+|blurb        = {{sbc|Active:}} {{ci|Kog'Maw}} spits a globule of acid into the air that drops to the target location, dealing {{as|magic damage}} to enemies hit based on {{as|their '''missing''' health}}. The damage is further {{ccs|doubled|magic}} against enemies at {{as|low health}}.
+|blurb2      = '''Kog'Maw''' then gains a {{tip|stack}} of ''Living Artillery'', stacking up to a cap.
+|blurb4      = {{sbc|Living Artillery:}} For each stack, ''Living Artillery'' gains increased {{sti|{{as|mana cost}}}}.
+|description  = {{sbc|Active:}} '''Kog'Maw''' spits a globule of acid into the air that drops to the target location after {{fd|0.6}} seconds, granting {{tip|sight}} of the area before dealing {{as|magic damage}} to enemies hit and {{tip|standard sight|revealing}} them for 2 seconds. ''Living Artillery's'' damage is increased by {{as|{{pp|type=target's '''missing''' health|key=%|0 to 50 for 11|key1=%|0 to 60|formula=0.833% per 1% of target's '''missing''' health. ''This is capped at 50% increase at 60% '''missing''' health.''}}|health}}, or instead by {{ccs|100%|magic}} if the target is below {{as|40% '''maximum''' health}}.
+|leveling     = {{st|Minimum Magic Damage|{{ap|100 to 180}} {{as|(+ 75% '''bonus''' AD)}} {{as|(+ {{ap|35 to 45}}% AP)}}|Maximum Magic Damage|{{ap|100*2 to 180*2}} {{as|(+ {{ap|75*2}}% '''bonus''' AD)}} {{as|(+ {{ap|35*2 to 45*2}}% AP)}}}}
+|description2 =  '''Kog'Maw''' then generates a {{tip|stack}} of ''Living Artillery'' for 8 seconds, refreshing on subsequent casts and stacking up to 9 times.
+|description3 = {{sbc|Living Artillery:}} For each stack, ''Living Artillery's'' {{sti|{{as|mana cost}}}} is increased by {{as|40|mana}}.
+|target range = {{ap|1300 to 1800}}
+|effect radius= {{tip|cr|icononly = true}} 240
+|cooldown     = {{ap|2 to 1}}
+|cost         = {{pp|type=stacks|40 to 400 for 10|0 to 9}}
+|cast time    = {{fd|0.25}}
+|costtype     = Mana
+|targeting    = Location
+|affects      = Enemies
+|damagetype   = Magic
+|spellshield  = True
+|spelleffects = Area of effect
+|projectile   =
+|outofrange   = walk to location
+|notes        =
+* ''Living Artillery'' will not reveal {{tip|stealth|stealthed}} champions.
+* [[Ping]]ing ''Living Artillery'' will additionally display the remaining time duration of its stacks.
+}}

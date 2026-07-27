@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "lucian-r",
+  "candidateKey": "hero_skill|hero_lucian|R|圣枪洗礼",
+  "ownerId": "hero_lucian",
+  "wikiChampionTitle": "Lucian",
+  "skillKey": "R",
+  "requestTitle": "Template:Data Lucian/R",
+  "zhDisplayName": "圣枪洗礼",
+  "resolvedTitle": "Template:Data Lucian/The Culling",
+  "wikiPageId": 1308182,
+  "revisionId": 4007670,
+  "revisionTimestamp": "2026-04-12T10:40:21Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Lucian/The%20Culling",
+  "contentSha256": "7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7",
+  "rawByteSize": 4477,
+  "fields": {
+    "description": "{{sbc|Active:}} '''Lucian''' {{tip|channels}} for up to 3 seconds, rapidly firing up to 22 {{as|(+ {{critical damage|0 to 22.222|flat=true|round=floor|critScaling=true}})|crit chance}} shots in the target direction over the duration. Each shot deals {{as|physical damage}} to the first enemy hit, doubled against {{tip|minions}}. ''The Culling'' can be recast after {{fd|0.75}} seconds during the channel, and does so automatically when the channel ends.\n",
+    "leveling": "{{st|Physical Damage Per Shot|{{ap|{{#var:r_d1}} to {{#var:r_d3}}}} {{as|(+ {{#var:r_ad}}% AD)}} {{as|(+ {{#var:r_ap}}% AP)}}}}\n{{st|Minion Damage Per Shot|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_dm}}}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_dm}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_dm}}}}% AP)}}}}\n",
+    "description2": "While channeling, '''Lucian''' is {{tip|ghosted}} and may still move.\n",
+    "description3": "{{sbc|Recast:}} '''Lucian''' ends ''The Culling''.\n",
+    "cost": "100\n",
+    "costtype": "Mana\n",
+    "cooldown": "{{ap|110 to 90}}\n",
+    "damagetype": "Physical\n",
+    "notes": "* ''The Culling'' creates the shots at an offset of 35 units to the front plus 35 units towards each side of '''Lucian''' (sides alternating, first shot fired from '''Lucian's''' right gun), unlike the missiles of most abilities.\n<!--{{#vardefine:r_max|{{#expr: 100/{{#var:r_c}}+{{#var:r_ts}}}}}}<!-- (DO NOT MODIFY) -->\n<!--* At {{as|100% critical strike chance}}, ''The Culling'' fires up to {{ap|100/{{#var:r_c}}}} additional shots, for a total of {{#var:r_max}} shots.\n** The '''total''' damage at the maximum number of shots (at {{as|100% critical strike chance}}) is {{as|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_max}}}}|physical damage}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_max}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_max}}}}% AP)}} {{as|physical damage}}.\n** Against minions, this is increased to {{as|{{ap|({{#var:r_d1}} to {{#var:r_d3}})*{{#var:r_max}}*{{#var:r_dm}}}}|physical damage}} {{as|(+ {{ap|{{#var:r_ad}}*{{#var:r_max}}*{{#var:r_dm}}}}% AD)}} {{as|(+ {{ap|{{#var:r_ap}}*{{#var:r_max}}*{{#var:r_dm}}}}% AP)}}.-->\n* The fire rate increases with the number of shots.\n* During ''The Culling'', '''Lucian's''' facing direction is in the direction that he is firing.\n* '''Lucian''' can interact with {{ai|Dark Passage|Thresh}} or allied {{ai|Devour|Tahm Kench}} without {{tip|interrupt|interrupting}} ''The Culling''.\n* The damage dealt by each bullet of ''The Culling'' is calculated when the bullet reaches a target, just like single missile abilities.\n* {{tip|Spell shield}} only blocks one instance of damage.\n* The following table refers for interactions while '''Lucian''' is {{tip|channel|channeling}}:\n{{ct|channel|cast={{ai|Relentless Pursuit|Lucian}} is usable. {{ai|Piercing Light|Lucian}} and {{ai|Ardent Blaze|Lucian}} are disabled. This ability recasts to end channel.|move=true|items=true,true,interrupts,true,true|attack=false|spells=true,true,true,false,false}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "leveling": true,
+    "description2": true,
+    "description3": true,
+    "cost": true,
+    "costtype": true,
+    "cooldown": true,
+    "damagetype": true,
+    "notes": true
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

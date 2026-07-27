@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "tristana-p",
+  "candidateKey": "hero_skill|hero_tristana|P|瞄准",
+  "ownerId": "hero_tristana",
+  "wikiChampionTitle": "Tristana",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Tristana/I",
+  "zhDisplayName": "瞄准",
+  "resolvedTitle": "Template:Data Tristana/Draw a Bead",
+  "wikiPageId": 1308521,
+  "revisionId": 3986179,
+  "revisionTimestamp": "2026-01-22T03:20:34Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Tristana/Draw%20a%20Bead",
+  "contentSha256": "079ae9429bb49e84fc8ad0fecd70d7b328bdc6f9995440feeeef2167e218595d",
+  "rawByteSize": 909,
+  "fields": {
+    "description": "{{sbc|Innate:}} '''Tristana's''' {{tip|basic attacks}}, ''{{ai|Explosive Charge|Tristana}}'' and ''{{ai|Buster Shot|Tristana}}'' gain {{sti|attack range|{{pp|0 + (150-0)/17*(x-1) for 20}} '''bonus''' range}}, for a total of {{pp|{{ccd|Tristana|range}}+0 + ({{ccd|Tristana|range}}+150-{{ccd|Tristana|range}})/17*(x-1) for 20}}.\n",
+    "damagetype": "",
+    "notes": "* No additional details.\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "damagetype": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}

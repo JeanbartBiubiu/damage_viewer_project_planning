@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "lol-wiki-ability-generic-v1",
+  "pageId": "draven-p",
+  "candidateKey": "hero_skill|hero_draven|P|德莱文联盟",
+  "ownerId": "hero_draven",
+  "wikiChampionTitle": "Draven",
+  "skillKey": "P",
+  "requestTitle": "Template:Data Draven/I",
+  "zhDisplayName": "德莱文联盟",
+  "resolvedTitle": "Template:Data Draven/League of Draven",
+  "wikiPageId": 1307064,
+  "revisionId": 4040578,
+  "revisionTimestamp": "2026-07-06T14:40:30Z",
+  "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Draven/League%20of%20Draven",
+  "contentSha256": "a4e44f452a94a037da29672c279421bdf6a969b8f09d9897b5603e3e923051c9",
+  "rawByteSize": 2440,
+  "fields": {
+    "description": "{{sbc|Innate:}} When '''Draven''' catches a ''{{ai|Spinning Axe|Draven}}'', kills a non-champion, or destroys a {{tip|turret}}, he gains a {{tip|stack}} of ''Adoration''.\n",
+    "description2": "When '''Draven''' kills an enemy {{tip|champion}}, he consumes all of his ''Adoration'' stacks and gains {{g|25 + (2{{times}}stacks) '''bonus''' gold}}.\n",
+    "description3": "'''Draven''' loses 50% of his ''Adoration'' stacks upon {{tip|death}}.\n",
+    "notes": "* Upon reaching 150 ''Adoration'' stacks, and every 100 stacks thereafter, as well as when he cashes at least 150 stacks in, '''Draven''' automatically sends a chat message notifying all players.\n* A chat message will display to all players whenever:\n** ''League of Draven'' grants over {{g|300 gold}}.\n** ''League of Draven'' gets reduced.\n* None of the parts of ''League of Draven'' require actually using a {{ai|Spinning Axe|Draven}} for a kill to get ''Adoration'' stacks, as well as to cash ''Adoration'' stacks.\n* ''League of Draven'' will trigger upon receiving an assist on an enemy {{tip|execute|executed}} by {{cai|Death from Below|Pyke}}.<ref>[https://www.reddit.com/r/leagueoflegends/comments/8je2sr/comment/dyz51mx/ Reav3 confirming Death from Below synergy is intentional]</ref>\n* When receiving {{g|gold}} from an ally {{tip|execute|executing}} a minion through {{nie|Shared Riches}} ({{ii|World Atlas}}, {{ii|Runic Compass}}), '''Draven''' is also awarded a [[File:Strike.png|20px]] ''Strike'' stack.{{bug}}\n** A ''Strike'' stack lasts up to 10 seconds or until '''Draven''' fails to catch an ''{{ai|Spinning Axe|Draven|axe}}'' or a nearby {{tip|minion}} dies without him killing it. Upon reacing 6 stacks, '''Draven''' consumes the stacks to gain 2 stacks of ''Adoration''.\n** Other sources of gaining ''Strike'' stacks were removed in patch [[V25.06]].\n}}\n"
+  },
+  "fieldPresence": {
+    "description": true,
+    "description2": true,
+    "description3": true,
+    "notes": true,
+    "cooldown": false,
+    "cost": false,
+    "costtype": false,
+    "damagetype": false
+  },
+  "numericContractStatus": "generic_source_fields_only",
+  "dataPolicy": {
+    "numericTruthPrecedence": [
+      "current_league_wiki_template_revision"
+    ],
+    "ddragonProvenanceOnly": true,
+    "blockedDataPolicy": "DDragon is provenance at most, NEVER current numeric truth. A mechanism may remain blocked_data only when the checked League Wiki template itself lacks or marks unknown the required numeric contract."
+  }
+}
