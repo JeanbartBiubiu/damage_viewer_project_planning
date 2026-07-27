@@ -58,7 +58,9 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
     static void loadSeedSql() throws IOException {
         Path seedPath = resolveRelative(SEED_RELATIVE);
         assertTrue(Files.isRegularFile(seedPath), "seed sql missing: " + seedPath);
-        sql = Files.readString(seedPath, StandardCharsets.UTF_8);
+        sql = Files.readString(seedPath, StandardCharsets.UTF_8)
+            .replace("\r\n", "\n")
+            .replace('\r', '\n');
         sqlNoLineComments = stripLineComments(sql);
     }
 
