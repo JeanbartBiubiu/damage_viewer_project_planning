@@ -10,7 +10,9 @@ import (
 
 // hero_quinn W Heightened Senses / 敏锐感知 (generic ABI, rank-5 AS partial).
 //
-// Local Data Dragon 16.9.1 QuinnW (rank5 partial):
+// Local League Wiki quinn-w.json (revision 4024767,
+// sha256 d7ac8dad4099a83a2cd898fa4a913fd6700f6dcd459271d2fe93090778b323d3;
+// leveling {{ap|28 to 80}}%; rank-5 = 80%):
 //   - provider target-scoped state harrier_vulnerable (max1; tests preset=1;
 //     P/Q/E mark production is out of scope this batch)
 //   - real event/basic_attack_hit + event/source_owner listener
@@ -18,7 +20,7 @@ import (
 //   - on trigger: owner timed provider state heightened_senses_active=1
 //     (max1, durationMs=2000, refresh_on_write / refresh_duration)
 //   - owner-self attack_speed percent_add =
-//     0.40 * provider.state.heightened_senses_active
+//     0.80 * provider.state.heightened_senses_active
 //
 // Non-goals: W active vision / MS branches (non-damage OOS), vulnerable mark
 // produce/consume, Harrier bonus damage (P/Q/E), other ranks, live publish.
@@ -35,9 +37,9 @@ const (
 	quinnHSHitEvent      = "event/basic_attack_hit"
 	quinnHSAADamage      = 10.0
 	quinnHSASBuffDurMs   = 2000.0
-	quinnHSASBonus       = 0.40
+	quinnHSASBonus       = 0.80
 	quinnHSBaseAS        = 0.60
-	quinnHSResolvedAS    = 0.84 // 0.60 * (1 + 0.40)
+	quinnHSResolvedAS    = 1.08 // 0.60 * (1 + 0.80)
 )
 
 func quinnHSTimedSlot(defaultValue, maxValue, durationMs float64) map[string]interface{} {
@@ -342,14 +344,14 @@ func quinnHSTargetStateValue(t *testing.T, done model.DoneResult) (targetKey str
 	return targetKey, vulnerable
 }
 
-// TestGenericQuinnHeightenedSensesRank5ASCrossCheck: base AS 0.60 * (1 + 0.40) = 0.84.
+// TestGenericQuinnHeightenedSensesRank5ASCrossCheck: base AS 0.60 * (1 + 0.80) = 1.08.
 func TestGenericQuinnHeightenedSensesRank5ASCrossCheck(t *testing.T) {
 	want := quinnHSBaseAS * (1 + quinnHSASBonus)
 	if math.Abs(want-quinnHSResolvedAS) > 1e-12 {
 		t.Fatalf("formula=%v want %v", want, quinnHSResolvedAS)
 	}
-	if math.Abs(want-0.84) > 1e-12 {
-		t.Fatalf("resolved AS=%v want 0.84", want)
+	if math.Abs(want-1.08) > 1e-12 {
+		t.Fatalf("resolved AS=%v want 1.08", want)
 	}
 }
 
@@ -379,7 +381,7 @@ func TestGenericQuinnHeightenedSensesNoVulnerableNoTrigger(t *testing.T) {
 }
 
 // TestGenericQuinnHeightenedSensesVulnerableHitArmsAS: preset vulnerable=1 + real AA
-// → heightened_senses_active=1 and +40% AS for 2s; base AS unpolluted.
+// → heightened_senses_active=1 and +80% AS for 2s; base AS unpolluted.
 func TestGenericQuinnHeightenedSensesVulnerableHitArmsAS(t *testing.T) {
 	compileReq, runReq := loadQuinnHSFixture(t)
 	seedQuinnHarrierVulnerable(&runReq, model.SelectorTarget, 1)

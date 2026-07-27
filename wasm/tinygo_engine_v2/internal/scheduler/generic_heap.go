@@ -6,10 +6,12 @@ import "tinygo_engine_v2/internal/model"
 const MaxGenericEventHeap = 100000
 
 // GenericEventCategory 是 P0 固定 category 顺序（值越小越先执行）。
+// AnchoredTick 插入为最早 category，其后旧 category 相对顺序不变。
 type GenericEventCategory uint8
 
 const (
-	GenericCategoryExpireCleanup GenericEventCategory = iota
+	GenericCategoryAnchoredTick GenericEventCategory = iota
+	GenericCategoryExpireCleanup
 	GenericCategoryProviderTick
 	GenericCategoryAbilityAttempt
 	GenericCategoryTriggeredContinuation
@@ -23,7 +25,9 @@ const (
 	GenericEventExpireCleanup GenericEventKind = iota + 1
 	GenericEventProviderTick
 	GenericEventAbilityAttempt
+	GenericEventTriggeredContinuation
 	GenericEventSample
+	GenericEventAnchoredTick
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -42,6 +46,8 @@ type GenericEvent struct {
 	// DriverEntryIndex 指向 driver plan entry；-1 表示非 driver 事件。
 	DriverEntryIndex int
 	AttemptIndex     int
+	// ContinuationID 定位 run-local triggered continuation payload；0 表示无。
+	ContinuationID uint64
 	// ProviderInstanceRef 用于 provider_tick / expire_cleanup 定位 provider。
 	ProviderInstanceRef ProviderInstanceRef
 }

@@ -1,19 +1,16 @@
 -- =============================================================================
--- LoL generic Xayah W Deadly Plumage seed（逆羽 W 致死羽衣 Phase-A rank-5 1v1）
+-- LoL generic Xayah W Deadly Plumage seed（逆羽 W 致死羽衣 rank-5 攻速窗 partial）
 -- =============================================================================
 --
 -- 目标：幂等 ensure hero_xayah 最低必要基线，并挂载独立 W provider，表达
---       rank-5 Deadly Plumage Phase-A 1v1 可近似 ABI：40 mana、14000ms CD、
---       ability_started + source_owner + ability/xayah_deadly_plumage（62012）
---       ALL listener 武装 deadly_plumage_active=1（max1 / 4000ms /
---       refresh_duration）；listener.ability_id 必须为 NULL（Web 会把非空
---       ability_id 映射为 AbilityRef / castAbilityAt 子施法，不是事件过滤；
---       若绑定同一 ability 则 Q cast 的 ability_started 会误武装 W）。
---       AS percent_add = 0.55 * provider.state.deadly_plumage_active；
---       另加 source-owned basic_damage pipeline multiply
---       1 + 0.25 * provider.state.deadly_plumage_active（排除 on-hit / proc）。
---       这是合并后的普攻倍率（预期 crit 之后、抗性之前），不是第二发羽刃 /
---       独立 missile / 第二伤害实例。
+--       rank-5 Deadly Plumage 可近似 ABI：40 mana、14000ms CD、ability_started
+--       + source_owner + ability/xayah_deadly_plumage（62012）ALL listener
+--       武装 deadly_plumage_active=1（max1 / 4000ms / refresh_duration）；
+--       listener.ability_id 必须为 NULL（Web 会把非空 ability_id 映射为
+--       AbilityRef / castAbilityAt 子施法，不是事件过滤；若绑定同一 ability
+--       则 Q cast 的 ability_started 会误武装 W）。
+--       AS percent_add = 0.55 * provider.state.deadly_plumage_active。
+--       候选整体语义 = partial。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -31,21 +28,15 @@
 --    material-change-only revision。不得写入 ability_kind_type_id。
 -- 6. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 --
--- 明确排除（本脚本不建模）：
---   移速；Rakan / 洛联动；多目标 / Runaan；projectile / in-flight / ward /
---   blind / dodge / block 细节；独立次级羽刃 missile / 第二伤害操作；其它 rank；
---   live migration；自动 publish；完整技能保真。
+-- 明确排除（本脚本不建模；remaining gap）：
+--   次级羽刃（需按已结算真实普攻复制 20% original attack damage，排除
+--   on-hit / phantom）；移速；Rakan / 洛联动（OOS）；其它 rank；
+--   live migration；自动 publish；single_attacker_dps。
 --
--- 数值来源（League Wiki Template:Data Xayah/Deadly Plumage；注释引用，
--- 无运行时外部依赖；无 Meraki / DDragon 作为 W 机制数值真理）：
---   revision id 4010669
---   content SHA256 09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7
---   reviewed contract path：
---     数据参考/lol-wiki-current-champions/normalized/generic/xayah-w.json
+-- 数值来源（注释引用，无运行时外部依赖；Data Dragon / Meraki latest）：
+--   https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/Xayah.json
 --   rank-5 Deadly Plumage：AS +55%（percent_add 0.55 * deadly_plumage_active）；
---   持续 4s；cost 40 mana；CD 14s；额外羽刃 Wiki 25% of triggering attack damage
---   （Phase-A 1v1 近似为 source-owned basic_damage ×1.25 while active）。
---   英雄 level-1 面板（自包含 bootstrap；非 Wiki W 数值真理）：
+--   持续 4s；cost 40 mana；CD 14s。英雄 level-1 面板：
 --   hp630 mana340 ad60 AS0.658 armor25 MR30 hpregen3.25 manaregen8.25。
 --
 -- 前置：reserved_types_seed.sql；所需 attribute_definitions 已存在。
@@ -73,19 +64,13 @@ DECLARE
         20120, -- provider_kind/passive
         20130, -- ability_kind/active
         20160, -- operation/state_change
-        20171, -- value_policy/multiply
         20172, -- value_policy/override
         20173, -- value_policy/percent_add
         20181, -- match_mode/all
         20190, -- refresh_policy/refresh_duration
         20205, -- event/ability_started
         20212, -- event/source_owner
-        20250, -- state_scope/provider
-        20264, -- modifier_kind/pipeline
-        20265, -- command/damage
-        20266, -- channel/basic_damage
-        20267, -- stage/outgoing_pre_mitigation
-        20269  -- bucket/all_instances
+        20250  -- state_scope/provider
     ];
     v_required_attrs     text[] := ARRAY[
         'hp', 'mana', 'ad', 'attack_speed', 'armor', 'magic_resist',
@@ -182,114 +167,6 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- game-local matcher traits（reserved_type_id=NULL）
-    --   62006 damage_trait/on_hit
-    --   62009 damage_trait/proc
-    -- =========================================================================
-
-    -- 62006 damage_trait/on_hit
-    -- 要求精确绑定：type_key=damage_trait/on_hit 且 reserved_type_id=NULL；
-    -- 错 key 或 reserved_type_id 非空均 fail-closed；正确既有行不改写元数据。
-    SELECT t.type_key, t.name, t.reserved_type_id
-      INTO v_conflict_type_key, v_existing_name, v_existing_reserved
-      FROM public.types t
-     WHERE t.game_id = v_game_id
-       AND t.type_id = 62006
-       AND (
-           t.type_key IS DISTINCT FROM 'damage_trait/on_hit'
-           OR t.reserved_type_id IS NOT NULL
-       );
-
-    IF FOUND THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_deadly_plumage_seed: type_id=62006 already bound to type_key=% name=% reserved_type_id=% (expected damage_trait/on_hit, reserved_type_id=NULL)',
-            v_conflict_type_key, v_existing_name, v_existing_reserved;
-    END IF;
-
-    SELECT t.type_id
-      INTO v_conflict_type_id
-      FROM public.types t
-     WHERE t.game_id = v_game_id
-       AND t.type_key = 'damage_trait/on_hit'
-       AND t.type_id IS DISTINCT FROM 62006;
-
-    IF v_conflict_type_id IS NOT NULL THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_deadly_plumage_seed: type_key=damage_trait/on_hit already bound to type_id=% (expected 62006)',
-            v_conflict_type_id;
-    END IF;
-
-    INSERT INTO public.types (
-        game_id, type_id, type_key, name, description, reserved_type_id,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        62006,
-        'damage_trait/on_hit',
-        'On-hit damage trait',
-        'Game-local damage trait; Deadly Plumage basic-damage multiply excludes on-hit instances.',
-        NULL,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, type_id) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- 62009 damage_trait/proc
-    -- 要求精确绑定：type_key=damage_trait/proc 且 reserved_type_id=NULL；
-    -- 错 key 或 reserved_type_id 非空均 fail-closed；正确既有行不改写元数据。
-    SELECT t.type_key, t.name, t.reserved_type_id
-      INTO v_conflict_type_key, v_existing_name, v_existing_reserved
-      FROM public.types t
-     WHERE t.game_id = v_game_id
-       AND t.type_id = 62009
-       AND (
-           t.type_key IS DISTINCT FROM 'damage_trait/proc'
-           OR t.reserved_type_id IS NOT NULL
-       );
-
-    IF FOUND THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_deadly_plumage_seed: type_id=62009 already bound to type_key=% name=% reserved_type_id=% (expected damage_trait/proc, reserved_type_id=NULL)',
-            v_conflict_type_key, v_existing_name, v_existing_reserved;
-    END IF;
-
-    SELECT t.type_id
-      INTO v_conflict_type_id
-      FROM public.types t
-     WHERE t.game_id = v_game_id
-       AND t.type_key = 'damage_trait/proc'
-       AND t.type_id IS DISTINCT FROM 62009;
-
-    IF v_conflict_type_id IS NOT NULL THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_deadly_plumage_seed: type_key=damage_trait/proc already bound to type_id=% (expected 62009)',
-            v_conflict_type_id;
-    END IF;
-
-    INSERT INTO public.types (
-        game_id, type_id, type_key, name, description, reserved_type_id,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        62009,
-        'damage_trait/proc',
-        'Proc damage trait',
-        'Game-local damage trait; Deadly Plumage basic-damage multiply excludes proc instances.',
-        NULL,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, type_id) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- =========================================================================
     -- game-local ability-specific type（reserved_type_id=NULL；同 Hexplate 62010）
     --   62012 ability/xayah_deadly_plumage
     -- 仅作 type_relations ability tag + listener All-matcher；不得写入
@@ -377,7 +254,7 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- level-1 面板（自包含 bootstrap；非 Wiki W 数值真理；已存在且相同则无 material change）
+    -- level-1 面板（Data Dragon Xayah.json；已存在且相同则无 material change）
     INSERT INTO public.entity_attribute_values (
         game_id, entity_id, attr_key, base_value, change_revision, updated_at
     ) VALUES
@@ -452,7 +329,7 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- hero_xayah Deadly Plumage（W rank-5）：active + timed AS + basic_damage mul
+    -- hero_xayah Deadly Plumage（W rank-5）：active + timed AS window
     -- 独立 provider；不触碰未来 basic attack / feather providers
     -- =========================================================================
     INSERT INTO public.provider_definitions (
@@ -462,7 +339,7 @@ BEGIN
         v_game_id,
         'provider_hero_xayah_w_deadly_plumage',
         20120,
-        '逆羽 W 致死羽衣 Deadly Plumage（Phase-A rank5 1v1）',
+        '逆羽 W 致死羽衣 Deadly Plumage（rank5 攻速窗）',
         v_candidate,
         NOW()
     )
@@ -544,22 +421,6 @@ BEGIN
             '{"op":"mul","args":[{"op":"const","value":0.55},{"op":"read","path":"provider.state.deadly_plumage_active"}]}'::jsonb,
             v_candidate,
             NOW()
-        ),
-        (
-            v_game_id,
-            'provider_hero_xayah_w_deadly_plumage',
-            'deadly_plumage_basic_damage_mul',
-            '{"op":"add","args":[{"op":"const","value":1},{"op":"mul","args":[{"op":"const","value":0.25},{"op":"read","path":"provider.state.deadly_plumage_active"}]}]}'::jsonb,
-            v_candidate,
-            NOW()
-        ),
-        (
-            v_game_id,
-            'provider_hero_xayah_w_deadly_plumage',
-            'deadly_plumage_basic_damage_condition',
-            '{"op":"min","args":[{"op":"eq","args":[{"op":"read","path":"damage.trait.on_hit"},{"op":"const","value":0}]},{"op":"eq","args":[{"op":"read","path":"damage.trait.proc"},{"op":"const","value":0}]}]}'::jsonb,
-            v_candidate,
-            NOW()
         )
     ON CONFLICT (game_id, provider_id, formula_key) DO UPDATE SET
         expression = EXCLUDED.expression,
@@ -594,67 +455,6 @@ BEGIN
         20173,
         'deadly_plumage_attack_speed',
         NULL,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, modifier_id) DO UPDATE SET
-        provider_id = EXCLUDED.provider_id,
-        modifier_key = EXCLUDED.modifier_key,
-        modifier_type_id = EXCLUDED.modifier_type_id,
-        target_selector_type_id = EXCLUDED.target_selector_type_id,
-        target_attr_key = EXCLUDED.target_attr_key,
-        command_type_id = EXCLUDED.command_type_id,
-        channel_type_id = EXCLUDED.channel_type_id,
-        bucket_type_id = EXCLUDED.bucket_type_id,
-        stage_type_id = EXCLUDED.stage_type_id,
-        priority = EXCLUDED.priority,
-        value_policy_type_id = EXCLUDED.value_policy_type_id,
-        value_formula_key = EXCLUDED.value_formula_key,
-        condition_formula_key = EXCLUDED.condition_formula_key,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.provider_modifiers.provider_id IS DISTINCT FROM EXCLUDED.provider_id
-       OR public.provider_modifiers.modifier_key IS DISTINCT FROM EXCLUDED.modifier_key
-       OR public.provider_modifiers.modifier_type_id IS DISTINCT FROM EXCLUDED.modifier_type_id
-       OR public.provider_modifiers.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
-       OR public.provider_modifiers.target_attr_key IS DISTINCT FROM EXCLUDED.target_attr_key
-       OR public.provider_modifiers.command_type_id IS DISTINCT FROM EXCLUDED.command_type_id
-       OR public.provider_modifiers.channel_type_id IS DISTINCT FROM EXCLUDED.channel_type_id
-       OR public.provider_modifiers.bucket_type_id IS DISTINCT FROM EXCLUDED.bucket_type_id
-       OR public.provider_modifiers.stage_type_id IS DISTINCT FROM EXCLUDED.stage_type_id
-       OR public.provider_modifiers.priority IS DISTINCT FROM EXCLUDED.priority
-       OR public.provider_modifiers.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id
-       OR public.provider_modifiers.value_formula_key IS DISTINCT FROM EXCLUDED.value_formula_key
-       OR public.provider_modifiers.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- pipeline basic_damage multiply：合并普攻倍率（crit 后、抗性前）；非第二伤害实例
-    -- target_attr_key='hp' 仅为既有 Web 投影占位
-    INSERT INTO public.provider_modifiers (
-        game_id, modifier_id, provider_id, modifier_key,
-        modifier_type_id, target_selector_type_id, target_attr_key,
-        command_type_id, channel_type_id, bucket_type_id, stage_type_id,
-        priority, value_policy_type_id, value_formula_key, condition_formula_key,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'modifier_hero_xayah_w_deadly_plumage_basic_damage',
-        'provider_hero_xayah_w_deadly_plumage',
-        'deadly_plumage_basic_damage',
-        20264,
-        20110,
-        'hp',
-        20265,
-        20266,
-        20269,
-        20267,
-        0,
-        20171,
-        'deadly_plumage_basic_damage_mul',
-        'deadly_plumage_basic_damage_condition',
         v_candidate,
         NOW()
     )
