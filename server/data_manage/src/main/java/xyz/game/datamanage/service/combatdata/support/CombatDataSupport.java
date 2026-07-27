@@ -149,6 +149,94 @@ public class CombatDataSupport {
         return body;
     }
 
+    /**
+     * Reject any object field not in {@code allowedFields}. Path prefix is used in details.path
+     * (e.g. "" for top-level, "/attributes/0" for nested objects).
+     */
+    public void validateAllowedFields(ObjectNode node, Set<String> allowedFields, String pathPrefix) {
+        if (node == null || node.isNull()) {
+            return;
+        }
+        String prefix = pathPrefix == null ? "" : pathPrefix;
+        Iterator<Map.Entry<String, JsonNode>> fields = node.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> field = fields.next();
+            if (!allowedFields.contains(field.getKey())) {
+                throw badRequest(
+                    "Request body contains unsupported field",
+                    Map.of(
+                        "path", prefix + "/" + field.getKey(),
+                        "reason", "field not allowed: " + field.getKey()
+                    )
+                );
+            }
+        }
+    }
+
+    public ArrayNode requireArray(ObjectNode body, String field, String pathPrefix) {
+        String prefix = pathPrefix == null ? "" : pathPrefix;
+        JsonNode value = body.get(field);
+        if (value == null || value.isNull() || !value.isArray()) {
+            throw badRequest(
+                field + " must be a JSON array",
+                Map.of("path", prefix + "/" + field)
+            );
+        }
+        return (ArrayNode) value;
+    }
+
+    public ObjectNode requireObjectAt(JsonNode node, String path) {
+        if (node == null || node.isNull() || !node.isObject()) {
+            throw badRequest("Expected a JSON object", Map.of("path", path));
+        }
+        return (ObjectNode) node;
+    }
+
+    public String requireTextAt(ObjectNode body, String field, String pathPrefix) {
+        String prefix = pathPrefix == null ? "" : pathPrefix;
+        JsonNode value = body.get(field);
+        if (value == null || value.isNull() || !value.isTextual() || value.asText().isBlank()) {
+            throw badRequest(
+                field + " is required and must be a non-empty string",
+                Map.of("path", prefix + "/" + field)
+            );
+        }
+        return value.asText();
+    }
+
+    public BigDecimal requireDecimalAt(ObjectNode body, String field, String pathPrefix) {
+        String prefix = pathPrefix == null ? "" : pathPrefix;
+        JsonNode value = body.get(field);
+        if (value == null || value.isNull() || !value.isNumber()) {
+            throw badRequest(
+                field + " is required and must be a number",
+                Map.of("path", prefix + "/" + field)
+            );
+        }
+        return value.decimalValue();
+    }
+
+    public int requireIntAt(ObjectNode body, String field, String pathPrefix) {
+        String prefix = pathPrefix == null ? "" : pathPrefix;
+        JsonNode value = body.get(field);
+        if (value == null || value.isNull() || !value.isNumber() || !value.canConvertToInt()) {
+            throw badRequest(
+                field + " is required and must be an integer",
+                Map.of("path", prefix + "/" + field)
+            );
+        }
+        return value.intValue();
+    }
+
+    public void requireIdentityMatch(String expected, String actual, String path) {
+        if (actual != null && !actual.equals(expected)) {
+            throw badRequest(
+                "Identity field does not match path",
+                Map.of("path", path, "expected", expected, "actual", actual)
+            );
+        }
+    }
+
     public String requireText(ObjectNode body, String field) {
         JsonNode value = body.get(field);
         if (value == null || value.isNull() || !value.isTextual() || value.asText().isBlank()) {
