@@ -100,6 +100,8 @@ type CreateEntitySelectOptionParams = {
   primary: string;
   secondary?: string | null;
   meta?: string | null;
+  /** Optional URI shown as meta/search text when image association exists. */
+  imageUri?: string | null;
   imageSrc?: string | null;
   showImage?: boolean;
   imageAlt?: string;
@@ -112,21 +114,23 @@ export function createEntitySelectOption({
   primary,
   secondary,
   meta,
+  imageUri = null,
   imageSrc = null,
   showImage = false,
   imageAlt,
   imageSize = 22,
   disabled = false
 }: CreateEntitySelectOptionParams): EntitySelectOptionRecord {
+  const resolvedMeta = meta ?? imageUri;
   return {
     value,
     disabled,
-    searchText: buildSelectSearchText(value, primary, secondary, meta),
+    searchText: buildSelectSearchText(value, primary, secondary, resolvedMeta, imageUri),
     label: (
       <EntitySelectOptionLabel
         primary={primary}
         secondary={secondary}
-        meta={meta}
+        meta={resolvedMeta}
         imageSrc={imageSrc}
         showImage={showImage}
         imageAlt={imageAlt}

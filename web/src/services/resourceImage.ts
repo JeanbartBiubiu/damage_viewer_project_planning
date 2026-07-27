@@ -1,3 +1,36 @@
+/** Stable opaque image asset URI segment used for admin upload routing only. */
+const IMAGE_ASSET_URI_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+
+/**
+ * Normalize a standalone image asset URI for upload routing.
+ * Accepts a single opaque path segment; never a combat-data resource relation.
+ */
+export function normalizeImageAssetUri(candidate: string): string | null {
+  const trimmed = candidate.trim();
+  if (!trimmed || !IMAGE_ASSET_URI_PATTERN.test(trimmed)) {
+    return null;
+  }
+  return trimmed;
+}
+
+/** Chinese validation message for UI when normalizeImageAssetUri rejects the candidate. */
+export function imageAssetUriValidationMessage(candidate: string): string | null {
+  if (normalizeImageAssetUri(candidate) !== null) {
+    return null;
+  }
+
+  const trimmed = candidate.trim();
+  if (!trimmed) {
+    return '请输入图片 URI。';
+  }
+
+  if (trimmed.includes('/') || trimmed.includes('\\')) {
+    return '图片 URI 不能包含路径分隔符，请只填写稳定的单段资源标识。';
+  }
+
+  return '图片 URI 须为稳定单段标识：以字母或数字开头，仅含字母、数字、点、下划线或连字符，最长 128 个字符。';
+}
+
 export function buildHeroImageUri(heroId: string): string | null {
   const normalizedId = heroId.trim();
   return normalizedId ? `character_${normalizedId}` : null;
@@ -105,6 +138,24 @@ function toCanvasDataUrl(canvas: HTMLCanvasElement, mimeType: string, quality: n
       reject(error instanceof Error ? error : new Error('图片转换失败。'));
     }
   });
+}
+
+/**
+ * Validate an upload-route asset URI and center-crop/encode the file to a data URL.
+ * Strict route-URI rules are unchanged — binding editors must not use this for combat-data imageUri.
+ */
+export async function prepareResourceImageAssetUpload(
+  uriCandidate: string,
+  file: File,
+  options: ResourceImageTransformOptions = {}
+): Promise<{ uri: string; imageBase64: string }> {
+  const uri = normalizeImageAssetUri(uriCandidate);
+  if (!uri) {
+    const message = imageAssetUriValidationMessage(uriCandidate) ?? '请输入有效的图片 URI。';
+    throw new Error(message);
+  }
+  const imageBase64 = await readImageFileAsDataUrl(file, options);
+  return { uri, imageBase64 };
 }
 
 export async function readImageFileAsDataUrl(
