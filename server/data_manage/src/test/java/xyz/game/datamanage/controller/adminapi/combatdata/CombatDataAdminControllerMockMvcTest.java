@@ -39,7 +39,7 @@ import xyz.game.datamanage.support.auth.JwtVerifier;
     CombatDataProviderAdminController.class,
     CombatDataAbilityAdminController.class
 })
-@Import(AdminAuthFilter.class)
+@Import({AdminAuthFilter.class, xyz.game.datamanage.support.error.GlobalExceptionHandler.class})
 class CombatDataAdminControllerMockMvcTest {
 
     @Autowired
@@ -84,6 +84,83 @@ class CombatDataAdminControllerMockMvcTest {
             .andExpect(jsonPath("$.currentRevision").value(3));
 
         verify(adminEditLogHelper).log(any(), any(), any(), eq(200));
+    }
+
+    @Test
+    void putEntityBatchReturnsAggregateAndLogs() throws Exception {
+        ObjectNode response = JsonNodeFactory.instance.objectNode();
+        response.put("gameId", "lol");
+        response.put("entityId", "e1");
+        response.put("displayName", "Example");
+        response.put("currentRevision", 43);
+        response.putArray("attributes");
+        response.putArray("resources");
+        response.putArray("providerMounts");
+        when(entityService.putEntityBatch(eq("lol"), eq("e1"), any())).thenReturn(response);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/entities/e1:batch")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                        {
+                          "expectedCurrentRevision":42,
+                          "displayName":"Example",
+                          "attributes":[],
+                          "resources":[],
+                          "providerMounts":[]
+                        }
+                        """)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.gameId").value("lol"))
+            .andExpect(jsonPath("$.entityId").value("e1"))
+            .andExpect(jsonPath("$.currentRevision").value(43));
+
+        verify(entityService).putEntityBatch(eq("lol"), eq("e1"), any());
+        verify(adminEditLogHelper).log(any(), any(), any(), eq(200));
+    }
+
+    @Test
+    void putEntityBatchReturns409OnRevisionConflict() throws Exception {
+        when(entityService.putEntityBatch(eq("lol"), eq("e1"), any())).thenThrow(
+            new xyz.game.datamanage.support.error.ApiException(
+                org.springframework.http.HttpStatus.CONFLICT,
+                "409.REVISION_CONFLICT",
+                "expectedCurrentRevision does not match current revision",
+                java.util.Map.of("expectedCurrentRevision", 42L, "actualCurrentRevision", 99L)
+            )
+        );
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/entities/e1:batch")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                        {
+                          "expectedCurrentRevision":42,
+                          "displayName":"Example"
+                        }
+                        """)
+            )
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.error.code").value("409.REVISION_CONFLICT"))
+            .andExpect(jsonPath("$.error.details.expectedCurrentRevision").value(42))
+            .andExpect(jsonPath("$.error.details.actualCurrentRevision").value(99));
+
+        verify(adminEditLogHelper, never()).log(any(), any(), any(), eq(200));
+    }
+
+    @Test
+    void putEntityBatchRequiresAuthWhenJwtEnabled() throws Exception {
+        when(jwtVerifier.isDisabled()).thenReturn(false);
+
+        mockMvc.perform(
+                put("/api/admin/games/lol/combat-data/entities/e1:batch")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"expectedCurrentRevision\":1,\"displayName\":\"Example\"}")
+            )
+            .andExpect(status().isUnauthorized());
+
+        verify(entityService, never()).putEntityBatch(any(), any(), any());
     }
 
     @Test

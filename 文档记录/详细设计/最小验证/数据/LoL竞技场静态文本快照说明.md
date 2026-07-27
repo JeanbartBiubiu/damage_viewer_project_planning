@@ -1,123 +1,48 @@
 TASK_KEY: wasm-min-validation-data-spec
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
-STATUS: tracked
-EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-05-10
+STATUS: done
+EXECUTION_MODEL: cursor-agent
+LAST_TRACKED_AT: 2026-07-27
 
-# LoL竞技场静态文本快照说明
+# LoL 竞技场静态文本快照 — 退役墓碑说明
 
 ## 目的
 
-在 V2 战斗引擎实现前，先把用于机制覆盖评估的 LoL 静态文本和数值描述落到本地，避免每次分析都临时联网抓取。
+本文档是原 Data Dragon / CommunityDragon「竞技场静态文本快照」工作流的**退役 / tombstone** 记录。该快照树及其抓取 / 分类入口已删除，不得再作为机制数值真源或 Unified 当前输入。
 
-当前快照重点覆盖：
+## 已移除范围
 
-- 英雄文本
-- 装备文本
-- 符文文本
-- 竞技场海克斯强化文本
+已删除：
 
-## 数据来源
-
-- Riot Data Dragon
-  - `versions.json`
-  - `languages.json`
-  - `championFull.json`
-  - `item.json`
-  - `runesReforged.json`
-- CommunityDragon
-  - 远端路径：`latest/cdragon/arena/<locale>.json`
-  - 本地快照输出：`communitydragon/latest/<locale>/arena.json`
-
-说明：
-
-- 英雄、装备、符文来自 Riot 官方 Data Dragon。
-- 竞技场海克斯强化来自 CommunityDragon 的 Arena 数据目录。
-- CommunityDragon 不是 Riot 官方开发者文档站点，但其内容基于 Riot 游戏资源整理，对 Arena Augments 的静态文本抓取目前可用。
-
-## 抓取脚本
-
-脚本路径：
-
+- `文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照/`（整树，含 ddragon / communitydragon 原始快照与分类汇总索引）
 - `tools/lol-static-data/fetch-lol-static-data.mjs`
 - `tools/lol-static-data/classify-lol-static-data.mjs`
+- `tools/lol-static-data/generate-lol-coverage-audit.mjs`
+- 本地 Data Dragon item 文件：`数据参考/item.json`、`最小验证/数据/item.json`
+- full-item DPS 覆盖审计与 Batch-C JSON 种子：`最小验证/V2-full-item-dps-coverage-20260615.{json,csv}`、`最小验证/V2-full-item-dps-coverage-summary-20260615.json`、`最小验证/V2-Batch-C-adc-items.seed.json`
+- 相关重建入口：`最小验证/数据/build-v2-batch-c-adc-items-seed.mjs`、`最小验证/数据/repair-item-image-keys-from-ddragon.ps1`
 
-默认输出目录：
+不得再执行上述脚本，也不得把已删路径写回 `sources` / `currentInputHashes`。
 
-- `文档记录/详细设计/最小验证/数据/lol_竞技场静态文本快照`
+## Wiki 替代真源
 
-默认抓取语言：
+| 角色 | 路径 |
+| --- | --- |
+| 装备当前文档 | `数据参考/lol-wiki-current-items/current-items.normalized.json` |
+| 装备 manifest | `数据参考/lol-wiki-current-items/manifest.json`（revid `4030984`） |
+| 英雄技能 | `数据参考/lol-wiki-current-champions/**` |
+| 候选注册表 | `最小验证/wiki-only-mechanism-candidate-registry.json` |
 
-- `en_US` / `en_us`
-- `zh_CN` / `zh_cn`
+Unified 当前 item 溯源哈希仅包含上述 Wiki current-items 文档（`document_json`，`recordCount=0`），不再解析 full-item 容器或 Batch-C JSON。
 
-执行方式：
+## Opaque key 例外
 
-```powershell
-node tools/lol-static-data/fetch-lol-static-data.mjs
-node tools/lol-static-data/classify-lol-static-data.mjs
-```
+六条历史 collision `candidateKey` 字面量中含 `数据参考/item.json#…` 的片段必须**按字节保留**为身份键；它们不是活跃读取路径，也不是 Data Dragon 复原入口。
 
-可选参数：
+## 历史 / runtime 证据边界
 
-```powershell
-node tools/lol-static-data/fetch-lol-static-data.mjs --output-root C:\tmp\lol-data
-node tools/lol-static-data/fetch-lol-static-data.mjs --locales en_US:en_us,zh_CN:zh_cn
-```
-
-## 输出结构
-
-```text
-lol_竞技场静态文本快照/
-  manifest.json
-  summary.json
-  versions.json
-  languages.json
-  分类汇总/
-    summary.json
-    mechanism_taxonomy.json
-    entry_index.json
-    group_summary.json
-    tag_summary.json
-    LoL竞技场静态数据分类汇总.md
-  ddragon/
-    <version>/
-      en_US/
-        championFull.json
-        item.json
-        runesReforged.json
-      zh_CN/
-        championFull.json
-        item.json
-        runesReforged.json
-  communitydragon/
-    latest/
-      en_us/
-        arena.json
-      zh_cn/
-        arena.json
-```
-
-## 用途边界
-
-- 这些文件适合做“机制覆盖预评估”和文本抽样分析。
-- 不等价于完整运行时行为定义。
-- 召唤物、地形、位移、双人联动等超出当前 `1v1` 数值引擎边界的内容，后续仍要做过滤或转换。
-
-## 分类汇总说明
-
-`classify-lol-static-data.mjs` 会把原始快照进一步整理成“后续机制分析索引”：
-
-- 英雄会拆成“被动/技能”原子入口
-- 装备、符文、竞技场强化保持单条入口
-- 每条入口都会得到：
-  - 一级机制分组
-  - 机制标签
-  - `in_scope / needs_conversion / out_of_scope` 适配状态
-
-当前分组口径主要服务于：
-
-1. 先做数据分类汇总
-2. 再按机制簇挑选 5 个样本做逐组分析
-3. 尽量避免后续分组结论互相推翻
+- Backend SQL seed（含 `lol_batch_c_adc_items_seed.sql`）中的 `"source":"数据参考/item.json"` 等字段是**保留的历史 provenance 元数据**，不是活跃 Data Dragon 读取。
+- Batch-C JUnit 现为自包含静态 SQL 合同；不以已删 JSON 为 oracle。
+- 负向守卫文案（如 `ddragonProvenanceOnly`）与历史文档提及可保留；不得据此重建已删输入。
+- 本退役不改变 Backend/Web runtime 行为，不执行 live migration / Admin publish。

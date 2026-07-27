@@ -28,7 +28,8 @@ public interface CombatProviderListenersMapper {
         @Param("eventTypeId") Object eventTypeId,
         @Param("abilityId") Object abilityId,
         @Param("maxTriggersPerEvent") Object maxTriggersPerEvent,
-        @Param("chainLimitKey") Object chainLimitKey
+        @Param("chainLimitKey") Object chainLimitKey,
+        @Param("perCastThrottleMs") Object perCastThrottleMs
     );
 
     List<Map<String, Object>> listChangedSince(

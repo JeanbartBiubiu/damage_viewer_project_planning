@@ -56,7 +56,7 @@ class LolGenericQuinnHeightenedSensesSeedSqlTest {
             + "{\"op\":\"const\",\"value\":1}]}";
 
     private static final String AS_BONUS =
-        "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.40},"
+        "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.80},"
             + "{\"op\":\"read\",\"path\":\"provider.state.heightened_senses_active\"}]}";
 
     private static String sql;
@@ -287,7 +287,7 @@ class LolGenericQuinnHeightenedSensesSeedSqlTest {
                 .find(),
             "heightened_senses_active max1 / 2000ms / refresh_duration");
         assertContains(AS_BONUS);
-        assertContains("\"value\":0.40");
+        assertContains("\"value\":0.80");
         assertContains("20173");
         assertTrue(
             Pattern.compile(
@@ -389,9 +389,28 @@ class LolGenericQuinnHeightenedSensesSeedSqlTest {
     }
 
     @Test
-    void citesQuinnDataDragonAndValidatesStableIds() {
-        assertContains("Quinn.json");
-        assertContains("ddragon");
+    void citesWikiRevisionHashAndValidatesStableIds() {
+        assertContains("Template:Data Quinn/Heightened Senses");
+        assertContains("4024767");
+        assertContains("d7ac8dad4099a83a2cd898fa4a913fd6700f6dcd459271d2fe93090778b323d3");
+        assertContains("normalized/generic/quinn-w.json");
+        assertContains("28 to 80");
+        assertTrue(
+            Pattern.compile("(?i)无截图|无.*OCR|screenshot|OCR").matcher(sql).find()
+                && Pattern.compile(
+                        "(?i)无截图|不含截图|无.*OCR|不.*OCR|without.*screenshot|"
+                            + "no screenshot|截图 / OCR|不是数值溯源")
+                    .matcher(sql)
+                    .find(),
+            "seed comments must explicitly disclaim screenshot/OCR provenance");
+        assertFalse(
+            Pattern.compile("(?i)ddragon|data.?dragon").matcher(sql).find(),
+            "must not cite DDragon / Data Dragon as numeric provenance");
+        assertFalse(
+            Pattern.compile("(?i)screenshot|ocr|截图识别|光学字符")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "executable SQL must not cite screenshot/OCR provenance");
         assertContains("missing reserved_type");
         Set<String> seen = new HashSet<>();
         for (String id : STABLE_IDS) {
