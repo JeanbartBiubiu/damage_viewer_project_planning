@@ -3,8 +3,13 @@
 -- =============================================================================
 --
 -- 目标：幂等写入三个已由 current generic ABI compile/run 证明可表达的 Wiki 装备机制：
---   1) item_2501 Tyranny / 专横 — owner-self AD modifier
---      bonus AD = 0.025 * max(0, $owner.attr.hp.max - $owner.attr.hp.base)
+--   1) item_2501 Tyranny / 专横 + Retribution / 报复 — 同一 provider 上两个 owner-self AD modifier
+--      Tyranny：bonus AD = 0.025 * max(0, $owner.attr.hp.max - $owner.attr.hp.base)
+--               value_policy/add 20170，priority 0，stage NULL
+--      Retribution：AD multiply =
+--        1 + clamp((max(0, hp.max - hp.current) / max(1, hp.max)), 0, 0.70) * (0.12 / 0.70)
+--               仅读 $owner.attr.hp.max / $owner.attr.hp.current；
+--               value_policy/multiply 20171，priority 100，stage NULL
 --   2) item_3097 Bolt / 弩箭 — 仅预充能窗口（assumes_charge_at_threshold_before_dps_window）
 --      energized_charge max=100；basic_attack_hit + source_owner 且 charge>=100 时
 --      先 100 magic damage（copyable_on_hit=false），再 override/set charge=0。
@@ -13,6 +18,10 @@
 --      basic_attack_hit + source_opponent → owner-relative target（原攻击者）
 --      魔法伤害 20 + 0.10 * $owner.attr.bonus_armor.resolved；copyable_on_hit=false。
 --      重伤 / grievous 分支本批不实现。
+--
+-- 数值出处（Retribution）：本地 League Wiki
+--   数据参考/lol-wiki-current-items/manifest.json
+--   revid 4030984；contentSha256 e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
@@ -49,6 +58,7 @@ DECLARE
         20150, -- operation/damage
         20160, -- operation/state_change
         20170, -- value_policy/add
+        20171, -- value_policy/multiply（Retribution）
         20172, -- value_policy/override
         20181, -- match_mode/all
         20211, -- event/basic_attack_hit
@@ -193,7 +203,7 @@ BEGIN
             v_game_id,
             'item_2501',
             '霸王血铠',
-            'Overlord''s Bloodmail（source item id 2501；Tyranny / 专横）',
+            'Overlord''s Bloodmail（source item id 2501；Tyranny / Retribution）',
             v_candidate,
             NOW()
         ),
@@ -246,7 +256,10 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- 1) item_2501 Tyranny / 专横：owner-self AD attribute modifier
+    -- 1) item_2501 Tyranny / 专横 + Retribution / 报复
+    --    同一 provider_item_2501_tyranny：Tyranny add@0 + Retribution multiply@100
+    --    Retribution 数值：数据参考/lol-wiki-current-items/manifest.json
+    --      revid 4030984 / contentSha256 e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
     -- =========================================================================
     INSERT INTO public.provider_definitions (
         game_id, provider_id, provider_kind_type_id, display_name,
@@ -255,7 +268,7 @@ BEGIN
         v_game_id,
         'provider_item_2501_tyranny',
         20120,
-        '专横 Tyranny',
+        '专横/报复 Tyranny/Retribution',
         v_candidate,
         NOW()
     )
@@ -312,6 +325,87 @@ BEGIN
         0,
         20170,
         'tyranny_bonus_ad',
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, modifier_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        modifier_key = EXCLUDED.modifier_key,
+        modifier_type_id = EXCLUDED.modifier_type_id,
+        target_selector_type_id = EXCLUDED.target_selector_type_id,
+        target_attr_key = EXCLUDED.target_attr_key,
+        command_type_id = EXCLUDED.command_type_id,
+        channel_type_id = EXCLUDED.channel_type_id,
+        bucket_type_id = EXCLUDED.bucket_type_id,
+        stage_type_id = EXCLUDED.stage_type_id,
+        priority = EXCLUDED.priority,
+        value_policy_type_id = EXCLUDED.value_policy_type_id,
+        value_formula_key = EXCLUDED.value_formula_key,
+        condition_formula_key = EXCLUDED.condition_formula_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_modifiers.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.provider_modifiers.modifier_key IS DISTINCT FROM EXCLUDED.modifier_key
+       OR public.provider_modifiers.modifier_type_id IS DISTINCT FROM EXCLUDED.modifier_type_id
+       OR public.provider_modifiers.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
+       OR public.provider_modifiers.target_attr_key IS DISTINCT FROM EXCLUDED.target_attr_key
+       OR public.provider_modifiers.command_type_id IS DISTINCT FROM EXCLUDED.command_type_id
+       OR public.provider_modifiers.channel_type_id IS DISTINCT FROM EXCLUDED.channel_type_id
+       OR public.provider_modifiers.bucket_type_id IS DISTINCT FROM EXCLUDED.bucket_type_id
+       OR public.provider_modifiers.stage_type_id IS DISTINCT FROM EXCLUDED.stage_type_id
+       OR public.provider_modifiers.priority IS DISTINCT FROM EXCLUDED.priority
+       OR public.provider_modifiers.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id
+       OR public.provider_modifiers.value_formula_key IS DISTINCT FROM EXCLUDED.value_formula_key
+       OR public.provider_modifiers.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- Retribution / 报复：missing-HP → AD multiply（0–70% missing → 0–12%）
+    -- 公式仅读 $owner.attr.hp.max / $owner.attr.hp.current；不读 ad.resolved。
+    INSERT INTO public.provider_formulas (
+        game_id, provider_id, formula_key, expression, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_item_2501_tyranny',
+        'retribution_ad_multiplier',
+        '{"op":"add","args":[{"op":"const","value":1},{"op":"mul","args":[{"op":"clamp","expr":{"op":"div","args":[{"op":"max","args":[{"op":"const","value":0},{"op":"sub","args":[{"op":"read","path":"$owner.attr.hp.max"},{"op":"read","path":"$owner.attr.hp.current"}]}]},{"op":"max","args":[{"op":"const","value":1},{"op":"read","path":"$owner.attr.hp.max"}]}]},"min":{"op":"const","value":0},"max":{"op":"const","value":0.70}},{"op":"div","args":[{"op":"const","value":0.12},{"op":"const","value":0.70}]}]}]}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id, formula_key) DO UPDATE SET
+        expression = EXCLUDED.expression,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_formulas.expression IS DISTINCT FROM EXCLUDED.expression;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_modifiers (
+        game_id, modifier_id, provider_id, modifier_key,
+        modifier_type_id, target_selector_type_id, target_attr_key,
+        command_type_id, channel_type_id, bucket_type_id, stage_type_id,
+        priority, value_policy_type_id, value_formula_key, condition_formula_key,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'modifier_item_2501_retribution_ad',
+        'provider_item_2501_tyranny',
+        'retribution_ad_multiplier',
+        NULL,
+        20110,
+        'ad',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        100,
+        20171,
+        'retribution_ad_multiplier',
         NULL,
         v_candidate,
         NOW()

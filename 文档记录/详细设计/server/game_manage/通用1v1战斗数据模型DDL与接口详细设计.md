@@ -65,7 +65,7 @@ log 不保存 `updated_at`，不使用 start/end 区间，不反向 FK 当前子
 1. 不提供 DELETE API。
 2. 新表不增加 `deleted` tombstone。
 3. PUT 成功后立即被 Public GET 读取。
-4. 不提供 batch、draft、snapshot、双写或发布隔离。
+4. 不提供通用 batch、draft、snapshot、双写或发布隔离；具名聚合写例外见 §8.1（entity `:batch`）与 §8.2（ability `:direct-damage-setup`）。
 5. 一个 PUT 内涉及的公共行和 detail 行必须同事务写入。
 
 ### 2.5 校验边界
@@ -118,7 +118,7 @@ WHERE game_id = #{gameId}
 RETURNING current_revision;
 ```
 
-本次 PUT 写入的所有主表行共享返回 revision。无 batch 表示每个 HTTP PUT 独立 revision，而不是一个 PUT 内的每条 SQL 独立 revision。
+本次 PUT 写入的所有主表行共享返回 revision。无通用 batch：每个 HTTP PUT 独立 revision（含 entity `:batch` 聚合 PUT 内部多行共享同一次 revision），而不是一个 PUT 内的每条 SQL 独立 revision。
 
 ### 3.4 发布算法
 
@@ -382,12 +382,37 @@ PUT /api/admin/games/{gameId}/combat-data/effect-steps/{stepId}
 规则：
 
 1. 不提供 DELETE。
-2. 不提供 batch。
-3. 每个 PUT 独立事务和 revision。
+2. 不提供通用 batch；**仅允许两处具名聚合写例外**：entity-editor `PUT .../entities/{entityId}:batch`（§8.1）与 direct-damage ability `PUT .../providers/{providerId}/abilities/{abilityId}:direct-damage-setup`（§8.2）。
+3. 每个 PUT 独立事务和 revision（含上述聚合 PUT：整次请求共享一次 revision）。
 4. effect-step PUT body 包含公共字段和一种 detail，公共/detail 原子更新。
 5. 请求不得提交 `changeRevision/currentRevision/versionId/versionCode`。
 6. 成功响应返回写入对象和新的 `currentRevision`。
 7. 继续写 Admin edit log。
+
+#### 8.1 Entity aggregate write（具名例外之一）
+
+```text
+PUT /api/admin/games/{gameId}/combat-data/entities/{entityId}:batch
+```
+
+- **范围**：仅 entity 元数据 + 请求中提交的 attributes / resources / providerMounts；不加 provider 创建、不加 public 聚合 GET、不做 delete/tombstone。
+- **原子性**：同一 `@Transactional` 内 upsert，共享一次 `change_revision`；后期 FK/约束失败回滚全部写入与 revision 递增。
+- **乐观并发**：必填 `expectedCurrentRevision`；校验完整文档后再 `lock + compare + increment once`；不匹配 → `409.REVISION_CONFLICT`（details 含 expected / actual），无写入。
+- **加性**：省略的 attributes / resources / mounts 不动；无整表替换、无删除语义。
+- **LoL stages**：每个提交的 attribute/resource 的 `stages` 必须恰好为 `1..18`（编辑器合同，不写入 generic schema DDL）。
+- 细粒度 Admin PUT 路径与行为保持不变；通用 batch/delete API 仍缺席。
+
+#### 8.2 Direct-damage ability setup（具名例外之二）
+
+```text
+PUT /api/admin/games/{gameId}/combat-data/providers/{providerId}/abilities/{abilityId}:direct-damage-setup
+```
+
+- **范围**：恰好 Ability → AbilityPhase → provider 归属 EffectSequence → 一条仅 `damageDetail` 的 EffectStep → 一条 phase-effect-sequence binding；不加 costs/cooldowns/parameters/其他 detail family/多 phase 图。
+- **原子性**：专用 orchestration service 同一 `@Transactional` 内按 FK 顺序持久化，共享一次 revision；不调用细粒度 `put*`（避免各自分 revision）。
+- **乐观并发**：必填 `expectedCurrentRevision`；完整 body 校验（未知字段拒绝、身份交叉校验、仅允许 `damageDetail`）先于 revision 分配；不匹配 → `409.REVISION_CONFLICT`，无写入。
+- **合同**：顶层仅 `expectedCurrentRevision` / `ability` / `phase` / `effectSequence` / `effectStep` / `phaseEffectSequenceBinding`；`*TypeId` 为整数；成功返回权威五节点聚合 + `gameId`/`providerId`/`abilityId`/`currentRevision`；一条 Admin edit audit。
+- 通用 batch/delete 与泛化 graph API 仍缺席。
 
 ## 9. 旧接口删除与替换
 
@@ -528,7 +553,7 @@ Wiki 逐项录入与 Web 切换到新接口/IndexedDB revision 属于消费方�
 1. fresh schema 创建全部新 parent、log、分区和约束；已有 game backfill `game_data_state`。
 2. 一次 PUT 只增加一次 `current_revision`；Public GET 立即可见。
 3. publish 只记录 `(previous, current]` 变化行；无变化时不新增业务 log 行。
-4. 无 DELETE/batch 路由；effect-step PUT 原子写 common/detail；响应携带 `currentRevision`。
+4. 无 DELETE / 通用 batch 路由；具名例外仅为 entity `:batch`（§8.1）与 ability `:direct-damage-setup`（§8.2）；effect-step PUT 原子写 common/detail；响应携带 `currentRevision`。
 5. 旧 bundle/catalog/source 与旧专用资源路由为 404；DROP migration 无 CASCADE。
 
 命令与 live DB 证据见测试记录，不在本文展开。

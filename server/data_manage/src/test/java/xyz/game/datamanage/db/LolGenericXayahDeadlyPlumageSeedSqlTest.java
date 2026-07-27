@@ -37,19 +37,35 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
         "sequence_hero_xayah_w_deadly_plumage_arm",
         "step_hero_xayah_w_deadly_plumage_active_arm",
         "modifier_hero_xayah_w_deadly_plumage_attack_speed",
+        "modifier_hero_xayah_w_deadly_plumage_basic_damage",
         "deadly_plumage_active",
         "deadly_plumage_active_arm",
         "deadly_plumage_attack_speed",
+        "deadly_plumage_basic_damage",
+        "deadly_plumage_basic_damage_mul",
+        "deadly_plumage_basic_damage_condition",
         "w_mana_cost",
         "w_cooldown_ms");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20100, 20110, 20120, 20130, 20160, 20172, 20173, 20181, 20190, 20205,
-        20212, 20250);
+        20100, 20110, 20120, 20130, 20160, 20171, 20172, 20173, 20181, 20190,
+        20205, 20212, 20250, 20264, 20265, 20266, 20267, 20269);
 
     private static final String AS_BONUS =
         "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.55},"
             + "{\"op\":\"read\",\"path\":\"provider.state.deadly_plumage_active\"}]}";
+
+    private static final String BASIC_DAMAGE_MUL =
+        "{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":1},"
+            + "{\"op\":\"mul\",\"args\":[{\"op\":\"const\",\"value\":0.25},"
+            + "{\"op\":\"read\",\"path\":\"provider.state.deadly_plumage_active\"}]}]}";
+
+    private static final String BASIC_DAMAGE_CONDITION =
+        "{\"op\":\"min\",\"args\":["
+            + "{\"op\":\"eq\",\"args\":[{\"op\":\"read\",\"path\":\"damage.trait.on_hit\"},"
+            + "{\"op\":\"const\",\"value\":0}]},"
+            + "{\"op\":\"eq\",\"args\":[{\"op\":\"read\",\"path\":\"damage.trait.proc\"},"
+            + "{\"op\":\"const\",\"value\":0}]}]}";
 
     private static String sql;
     private static String sqlNoLineComments;
@@ -383,8 +399,9 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
         assertTrue(
             sql.contains("{\"op\":\"const\",\"value\":40}")
                 && sql.contains("{\"op\":\"const\",\"value\":14000}")
-                && sql.contains(AS_BONUS),
-            "W mana/CD/AS formulas must remain preserved");
+                && sql.contains(AS_BONUS)
+                && sql.contains(BASIC_DAMAGE_MUL),
+            "W mana/CD/AS/basic-damage formulas must remain preserved");
         assertTrue(
             Pattern.compile(
                     "(?s)'deadly_plumage_active'[\\s\\S]{0,40}20100[\\s\\S]{0,20}1"
@@ -399,7 +416,90 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
     }
 
     @Test
-    void excludesSecondaryFeatherTwentyPercentCopyMoveSpeedRakanAndOtherRanks() {
+    void ensuresOnHitAndProcBindingsAndBasicDamagePipelineMultiplier() {
+        assertContains("62006");
+        assertContains("62009");
+        assertContains("damage_trait/on_hit");
+        assertContains("damage_trait/proc");
+        assertTrue(
+            Pattern.compile("(?i)type_id=62006 already bound").matcher(sql).find(),
+            "must dual-unique fail-closed guard damage_trait/on_hit 62006");
+        assertTrue(
+            Pattern.compile("(?i)type_key=damage_trait/on_hit already bound")
+                .matcher(sql)
+                .find(),
+            "must dual-unique fail-closed guard damage_trait/on_hit type_key");
+        assertTrue(
+            Pattern.compile("(?i)type_id=62009 already bound").matcher(sql).find(),
+            "must dual-unique fail-closed guard damage_trait/proc 62009");
+        assertTrue(
+            Pattern.compile("(?i)type_key=damage_trait/proc already bound")
+                .matcher(sql)
+                .find(),
+            "must dual-unique fail-closed guard damage_trait/proc type_key");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)type_id\\s*=\\s*62006[\\s\\S]{0,400}"
+                        + "reserved_type_id\\s+IS\\s+NOT\\s+NULL")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62006 type-id fail-closed guard must treat non-null reserved_type_id as conflict");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)type_id\\s*=\\s*62009[\\s\\S]{0,400}"
+                        + "reserved_type_id\\s+IS\\s+NOT\\s+NULL")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62009 type-id fail-closed guard must treat non-null reserved_type_id as conflict");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62006\\s*,\\s*'damage_trait/on_hit'[\\s\\S]{0,400}NULL")
+                .matcher(sql)
+                .find(),
+            "62006 must bind with reserved_type_id=NULL");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62009\\s*,\\s*'damage_trait/proc'[\\s\\S]{0,400}NULL")
+                .matcher(sql)
+                .find(),
+            "62009 must bind with reserved_type_id=NULL");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)62006\\s*,\\s*'damage_trait/on_hit'[\\s\\S]{0,500}"
+                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*type_id\\s*\\)\\s*DO\\s+NOTHING")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62006 shared type insert must use conflict-do-nothing (no metadata rewrite)");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)62009\\s*,\\s*'damage_trait/proc'[\\s\\S]{0,500}"
+                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*type_id\\s*\\)\\s*DO\\s+NOTHING")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "62009 shared type insert must use conflict-do-nothing (no metadata rewrite)");
+        assertContains(BASIC_DAMAGE_MUL);
+        assertContains(BASIC_DAMAGE_CONDITION);
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'modifier_hero_xayah_w_deadly_plumage_basic_damage'\\s*,\\s*"
+                        + "'provider_hero_xayah_w_deadly_plumage'\\s*,\\s*"
+                        + "'deadly_plumage_basic_damage'\\s*,\\s*"
+                        + "20264\\s*,\\s*20110\\s*,\\s*'hp'\\s*,\\s*"
+                        + "20265\\s*,\\s*20266\\s*,\\s*20269\\s*,\\s*20267\\s*,\\s*"
+                        + "0\\s*,\\s*20171\\s*,\\s*"
+                        + "'deadly_plumage_basic_damage_mul'\\s*,\\s*"
+                        + "'deadly_plumage_basic_damage_condition'")
+                .matcher(sql)
+                .find(),
+            "basic_damage pipeline modifier columns/IDs must match Phase-A contract");
+        assertTrue(
+            sql.contains("合并") || sql.contains("merged") || sql.contains("非第二")
+                || sql.contains("不是第二"),
+            "seed must document merged basic-attack multiplier (not a second damage instance)");
+    }
+
+    @Test
+    void excludesSeparateMissileDamageAndOutOfScopeBranches() {
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_phases\\b")
                 .matcher(sqlNoLineComments)
@@ -409,28 +509,28 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.damage_effect_details\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not write damage_effect_details (no forged secondary feather 20% OAD)");
+            "must not write damage_effect_details (no second feather damage operation)");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.event_effect_details\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write event_effect_details");
+        assertEquals(
+            1,
+            countOccurrences(sqlNoLineComments, "INSERT INTO public.provider_listeners"),
+            "must not add a second feather damage listener");
         assertFalse(
             Pattern.compile(
-                    "(?i)0\\.20|\"value\"\\s*:\\s*20|bonusdamagepercent|"
-                        + "secondary.?feather|次级羽刃|original.?attack.?damage|"
-                        + "on.?hit|phantom|"
-                        + "move_speed|移速|rakan|洛|"
+                    "(?i)move_speed|移速|rakan|洛|runaan|multi.?target|"
                         + "ability_hero_xayah_[qer]")
                 .matcher(sqlNoLineComments)
                 .find(),
-            "must not forge secondary feather 20% OAD / MS / Rakan; remaining gap documented in comments only");
+            "must not model MS / Rakan / multi-target / QER in executable SQL");
         assertTrue(
-            Pattern.compile("(?i)remaining\\s+gap|次级羽刃").matcher(sql).find()
-                && Pattern.compile("(?i)20%|0\\.20|original\\s+attack\\s+damage")
-                    .matcher(sql)
-                    .find(),
-            "seed comments must document remaining gap: 20% settled BA copy excluding on-hit/phantom");
+            Pattern.compile("(?i)移速|Rakan|Runaan|projectile|ward|blind|dodge|block")
+                .matcher(sql)
+                .find(),
+            "seed comments must document out-of-scope exclusions");
         assertFalse(
             Pattern.compile("(?i)rank\\s*[1-4]\\b|ranks?\\s*=\\s*\\[|maxrank")
                 .matcher(sqlNoLineComments)
@@ -441,12 +541,38 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not include live migration");
+        assertFalse(
+            Pattern.compile("(?i)remaining\\s+gap|20%|0\\.20|original\\s+attack\\s+damage")
+                .matcher(sql)
+                .find(),
+            "must not retain old 20% remaining-gap language as active W truth");
     }
 
     @Test
-    void citesMerakiXayahJsonAndValidatesStableIds() {
-        assertContains("Xayah.json");
-        assertContains("merakianalytics");
+    void citesWikiRevisionHashAndValidatesStableIds() {
+        assertContains("Template:Data Xayah/Deadly Plumage");
+        assertContains("4010669");
+        assertContains("09d5476533722311e85c4ca79813cd0bec2cf35d105be894b80dac14478845a7");
+        assertContains(
+            "数据参考/lol-wiki-current-champions/normalized/generic/xayah-w.json");
+        assertTrue(
+            sql.contains("25%") || sql.contains("0.25"),
+            "seed must cite Wiki 25% / Phase-A 0.25 basic-damage contract");
+        assertFalse(
+            Pattern.compile("(?i)merakianalytics|Xayah\\.json|ddragon|Data Dragon")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not cite Meraki/DDragon as active W numeric provenance");
+        assertFalse(
+            Pattern.compile("(?i)merakianalytics|Xayah\\.json")
+                .matcher(sql)
+                .find(),
+            "seed comments must not retain Meraki/Xayah.json as W truth");
+        assertFalse(
+            Pattern.compile("(?i)Data Dragon")
+                .matcher(sql)
+                .find(),
+            "seed comments must not cite Data Dragon as W numeric truth");
         assertContains("missing reserved_type");
         Set<String> seen = new HashSet<>();
         for (String id : STABLE_IDS) {
@@ -455,7 +581,14 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
         }
         assertContains("ON CONFLICT");
         assertContains("IS DISTINCT FROM");
-        assertContains("partial");
+        assertFalse(
+            Pattern.compile("(?i)\\bpartial\\b")
+                .matcher(sql.replace("allow_partial", ""))
+                .find(),
+            "Phase-A completion must not retain AS-only partial candidate framing");
+        assertTrue(
+            Pattern.compile("(?i)Phase-A|phase-a").matcher(sql).find(),
+            "seed must document Phase-A rank5 1v1 boundary");
     }
 
     private static String stripLineComments(String raw) {

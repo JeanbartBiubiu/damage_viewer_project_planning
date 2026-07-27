@@ -103,6 +103,7 @@ CREATE TABLE public.attribute_definitions (
     rate_target_attr_key varchar(64),
     min_value numeric,
     max_value numeric,
+    image_uri varchar(255),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_attribute_definitions PRIMARY KEY (game_id, attr_key),
@@ -118,7 +119,9 @@ CREATE TABLE public.attribute_definitions (
             OR min_value <= max_value
         ),
     CONSTRAINT ck_attribute_definitions_sort_order
-        CHECK (sort_order >= 0)
+        CHECK (sort_order >= 0),
+    CONSTRAINT fk_attribute_definitions_image FOREIGN KEY (game_id, image_uri)
+        REFERENCES public.images (game_id, uri)
 ) PARTITION BY LIST (game_id);
 
 COMMENT ON TABLE public.attribute_definitions IS '属性定义（最新主表；按 change_revision 追踪变更）';
@@ -128,6 +131,7 @@ COMMENT ON COLUMN public.attribute_definitions.value_kind IS '属性值类别：
 COMMENT ON COLUMN public.attribute_definitions.rate_target_attr_key IS '仅 rate 生效：该速率作用到的目标属性 key（如 hp_regen -> hp）';
 COMMENT ON COLUMN public.attribute_definitions.min_value IS '可选数值下界；与 default_value / max_value 一起在应用层校验';
 COMMENT ON COLUMN public.attribute_definitions.max_value IS '可选数值上界；与 default_value / min_value 一起在应用层校验';
+COMMENT ON COLUMN public.attribute_definitions.image_uri IS '可选同游戏 images.uri 引用；随 change_revision 版本化；图片字节本身不纳入版本';
 COMMENT ON COLUMN public.attribute_definitions.change_revision IS '最近一次写入本行的 change_revision';
 
 CREATE TABLE public.attribute_definitions_log (
@@ -144,6 +148,7 @@ CREATE TABLE public.attribute_definitions_log (
     rate_target_attr_key varchar(64),
     min_value numeric,
     max_value numeric,
+    image_uri varchar(255),
     CONSTRAINT pk_attribute_definitions_log PRIMARY KEY (game_id, attr_key, version_id),
     CONSTRAINT ck_attribute_definitions_log_rate_target
         CHECK (
@@ -159,12 +164,15 @@ CREATE TABLE public.attribute_definitions_log (
     CONSTRAINT ck_attribute_definitions_log_sort_order
         CHECK (sort_order >= 0),
     CONSTRAINT fk_attribute_definitions_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_attribute_definitions_log_image FOREIGN KEY (game_id, image_uri)
+        REFERENCES public.images (game_id, uri)
 ) PARTITION BY LIST (game_id);
 
 COMMENT ON TABLE public.attribute_definitions_log IS '属性定义发布快照；按 version_id 记录发布时最新行';
 COMMENT ON COLUMN public.attribute_definitions_log.min_value IS '可选数值下界快照';
 COMMENT ON COLUMN public.attribute_definitions_log.max_value IS '可选数值上界快照';
+COMMENT ON COLUMN public.attribute_definitions_log.image_uri IS '可选同游戏 images.uri 引用快照；仅存 URI，不含图片字节';
 
 CREATE TABLE public.reserved_type (
     type_id int NOT NULL,
@@ -320,10 +328,12 @@ CREATE TABLE public.game_entities (
     entity_id varchar(256) NOT NULL,
     display_name varchar(100) NOT NULL,
     description text,
+    image_uri varchar(255),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_game_entities PRIMARY KEY (game_id, entity_id)
-
+    CONSTRAINT pk_game_entities PRIMARY KEY (game_id, entity_id),
+    CONSTRAINT fk_game_entities_image FOREIGN KEY (game_id, image_uri)
+        REFERENCES public.images (game_id, uri)
 ) PARTITION BY LIST (game_id);
 
 CREATE TABLE public.game_entities_log (
@@ -333,13 +343,17 @@ CREATE TABLE public.game_entities_log (
     entity_id varchar(256) NOT NULL,
     display_name varchar(100) NOT NULL,
     description text,
+    image_uri varchar(255),
     CONSTRAINT pk_game_entities_log PRIMARY KEY (game_id, entity_id, version_id),
     CONSTRAINT fk_game_entities_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
+        REFERENCES public.game_versions (game_id, version_id),
+    CONSTRAINT fk_game_entities_log_image FOREIGN KEY (game_id, image_uri)
+        REFERENCES public.images (game_id, uri)
 ) PARTITION BY LIST (game_id);
 
 COMMENT ON TABLE public.game_entities IS '战斗相关实体身份（角色/装备/符文等；类别走 type_relations）';
+COMMENT ON COLUMN public.game_entities.image_uri IS '可选同游戏 images.uri 引用；随 change_revision 版本化；图片字节本身不纳入版本';
+COMMENT ON COLUMN public.game_entities_log.image_uri IS '可选同游戏 images.uri 引用快照；仅存 URI，不含图片字节';
 
 CREATE TABLE public.entity_attribute_values (
     game_id varchar(64) NOT NULL,
@@ -663,6 +677,9 @@ CREATE TABLE public.ability_definitions (
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
     cast_condition_formula_key varchar(128),
+    cast_origin varchar(16) CHECK (
+        cast_origin IS NULL OR cast_origin IN ('champion', 'item', 'pet', 'innate')
+    ),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_ability_definitions PRIMARY KEY (game_id, ability_id),
@@ -682,6 +699,9 @@ CREATE TABLE public.ability_definitions_log (
     ability_kind_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
     display_name varchar(100) NOT NULL,
     cast_condition_formula_key varchar(128),
+    cast_origin varchar(16) CHECK (
+        cast_origin IS NULL OR cast_origin IN ('champion', 'item', 'pet', 'innate')
+    ),
     CONSTRAINT pk_ability_definitions_log PRIMARY KEY (game_id, ability_id, version_id),
     CONSTRAINT fk_ability_definitions_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)
@@ -900,6 +920,7 @@ CREATE TABLE public.provider_listeners (
     ability_id varchar(256),
     max_triggers_per_event int CHECK (max_triggers_per_event IS NULL OR max_triggers_per_event >= 0),
     chain_limit_key varchar(128),
+    per_cast_throttle_ms int CHECK (per_cast_throttle_ms IS NULL OR per_cast_throttle_ms >= 0),
     change_revision bigint NOT NULL CHECK (change_revision > 0),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_provider_listeners PRIMARY KEY (game_id, listener_id),
@@ -921,6 +942,7 @@ CREATE TABLE public.provider_listeners_log (
     ability_id varchar(256),
     max_triggers_per_event int CHECK (max_triggers_per_event IS NULL OR max_triggers_per_event >= 0),
     chain_limit_key varchar(128),
+    per_cast_throttle_ms int CHECK (per_cast_throttle_ms IS NULL OR per_cast_throttle_ms >= 0),
     CONSTRAINT pk_provider_listeners_log PRIMARY KEY (game_id, listener_id, version_id),
     CONSTRAINT fk_provider_listeners_log_version FOREIGN KEY (game_id, version_id)
         REFERENCES public.game_versions (game_id, version_id)

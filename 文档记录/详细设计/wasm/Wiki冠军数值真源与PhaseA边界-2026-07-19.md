@@ -29,6 +29,8 @@ LAST_TRACKED_AT: 2026-07-20
 
 **已删除（Phase A 边界，仍有效）**：`数据参考/ddragon-champions/**`、`数据参考/champion.json`、`数据参考/champion/**`、`tools/lol-static-data/convert-ddragon-champions.mjs`。注册表 / G8 / Unified 生成器不得再读取或引用上述路径；输出 JSON/CSV 不得含 `ddragon` 或已删 champion-static 路径子串（大小写不敏感）。六条 opaque collision key 字面量中的历史 `item.json#…` 片段是身份保留，**不是**活跃读取路径。
 
+**已删除 / 退役（2026-07-27，DDragon 静态数据退役）**：本地 Data Dragon item 文件 `数据参考/item.json`、`最小验证/数据/item.json`，以及装备图像 key 修复脚本 `最小验证/数据/repair-item-image-keys-from-ddragon.ps1`。同时退役竞技场静态文本快照树、full-item DPS coverage 产物、Batch-C JSON seed 及其重建入口。Unified 当前 item 溯源仅哈希 Wiki current-items 文档。
+
 ## 2. identity-manifest 与 routing-manifest 用法
 
 - 英雄键：`ownerId|skillKey` → `pageId`、`candidateKey`、Wiki 修订元数据（identity-manifest，165）
@@ -61,12 +63,12 @@ LAST_TRACKED_AT: 2026-07-20
 | Wiki-only routing + registry | 已落地；242 候选 |
 | Batch-G | 兼容投影 only；非 G8 canonical |
 | G8 | 直接读注册表；相对 `1c0b2c9` 零漂移（48/5/120/69） |
-| Unified | 8 active + 3 generator hashes = 11 `currentInputHashes`；242 G8 + 242 registry primary；0 Batch-G primary |
+| Unified | 9 active + 3 generator hashes = 12 `currentInputHashes`（九条 active 含三条 Wiki 文档输入；Batch-C / full-item 不再是 active input）；242 G8 + 242 registry primary；0 Batch-G primary |
 | live migrate / publish / merge / push | **未执行** |
 
 **仍不在本边界内**：全量 C1–C4 原语落地、下一机制闭环实现、Go/Backend/Web 改动（除非另有机制任务）、Planning worktree 写入。
 
-装备图像 key 修复脚本（`最小验证/数据/repair-item-image-keys-from-ddragon.ps1`）**不是** 机制数值真源。
+装备图像 key 修复脚本（`最小验证/数据/repair-item-image-keys-from-ddragon.ps1`）已删除退役；历史上也**不是**机制数值真源。
 
 ## 6. 相关产物
 

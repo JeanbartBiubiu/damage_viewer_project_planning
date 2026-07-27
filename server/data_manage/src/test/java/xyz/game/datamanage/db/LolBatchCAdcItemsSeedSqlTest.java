@@ -12,28 +12,28 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Static contract for {@code lol_batch_c_adc_items_seed.sql} against
- * {@code 最小验证/V2-Batch-C-adc-items.seed.json}. Does not connect to a live database.
+ * Self-contained static SQL contract for {@code lol_batch_c_adc_items_seed.sql}.
+ * Asserts SQL-internal consistency and retained historical provenance metadata; does not read
+ * deleted Data Dragon / Batch-C JSON oracles. Does not connect to a live database.
  */
 class LolBatchCAdcItemsSeedSqlTest {
 
     private static final String SEED_RELATIVE =
         "db/game_manage/seeds/lol_batch_c_adc_items_seed.sql";
-    private static final String SOURCE_RELATIVE =
-        "最小验证/V2-Batch-C-adc-items.seed.json";
 
     private static final int EXPECTED_ITEMS = 53;
     private static final int EXPECTED_MODIFIERS = 151;
@@ -68,60 +68,22 @@ class LolBatchCAdcItemsSeedSqlTest {
             "\\(v_game_id,\\s*62002,\\s*'entity',\\s*'(item_\\d+)',\\s*'(\\{.*?\\})'::jsonb,\\s*v_candidate,\\s*NOW\\(\\)\\)");
 
     private static String sql;
-    private static JsonNode sourceRoot;
-    private static JsonNode sourceItems;
 
     @BeforeAll
-    static void loadSeedAndSource() throws IOException {
+    static void loadSeedSql() throws IOException {
         Path seedPath = resolveRelative(SEED_RELATIVE);
-        Path sourcePath = resolveRelative(SOURCE_RELATIVE);
         assertTrue(Files.isRegularFile(seedPath), "seed sql missing: " + seedPath);
-        assertTrue(Files.isRegularFile(sourcePath), "source json missing: " + sourcePath);
         sql = Files.readString(seedPath, StandardCharsets.UTF_8);
-        sourceRoot = new ObjectMapper().readTree(sourcePath.toFile());
-        sourceItems = sourceRoot.get("items");
-        assertTrue(sourceItems != null && sourceItems.isArray(), "source items must be array");
     }
 
     @Test
-    void sourceCountsAndUniqueItemIds() {
-        assertEquals(EXPECTED_ITEMS, sourceItems.size(), "source must have 53 items");
-        assertEquals(
-            EXPECTED_ITEMS,
-            sourceRoot.path("source").path("selectedItemCount").asInt(),
-            "selectedItemCount must be 53");
-
-        Set<String> itemIds = new LinkedHashSet<>();
-        Set<String> usedAttrs = new HashSet<>();
-        int modifiers = 0;
-        for (JsonNode item : sourceItems) {
-            String itemId = item.path("itemId").asText();
-            assertTrue(itemIds.add(itemId), "duplicate source itemId: " + itemId);
-            for (JsonNode mod : item.path("statModifiers")) {
-                modifiers++;
-                usedAttrs.add(mod.path("attrKey").asText());
-                assertFalse(
-                    Double.compare(mod.path("value").asDouble(), 0.0) == 0,
-                    "source must not include zero modifier rows");
-            }
-        }
-        assertEquals(EXPECTED_MODIFIERS, modifiers, "source must have 151 statModifiers");
-        assertEquals(EXPECTED_ATTR_KEYS, usedAttrs.size(), "source must use 16 attr keys");
-        assertEquals(
-            EXPECTED_ATTR_KEYS,
-            sourceRoot.path("attributeDefinitions").size(),
-            "source attributeDefinitions must be 16");
-        assertEquals(new HashSet<>(REQUIRED_ATTRS), usedAttrs, "used attr keys must match required set");
-    }
-
-    @Test
-    void seedsExactlyOneEntityAndRelationPerSourceItem() {
+    void sqlEntityRelationAndAttributeSetsAreInternallyConsistent() {
         Set<String> entityIds = new LinkedHashSet<>();
         Matcher entityMatcher = ENTITY_ROW.matcher(sql);
         while (entityMatcher.find()) {
             assertTrue(entityIds.add(entityMatcher.group(1)), "duplicate entity row: " + entityMatcher.group(1));
         }
-        assertEquals(EXPECTED_ITEMS, entityIds.size(), "must seed 53 game_entities");
+        assertEquals(EXPECTED_ITEMS, entityIds.size(), "must seed 53 unique game_entities");
 
         Set<String> relationTargets = new LinkedHashSet<>();
         Matcher relationMatcher = RELATION_ROW.matcher(sql);
@@ -130,42 +92,27 @@ class LolBatchCAdcItemsSeedSqlTest {
                 relationTargets.add(relationMatcher.group(1)),
                 "duplicate type_relation: " + relationMatcher.group(1));
         }
-        assertEquals(EXPECTED_ITEMS, relationTargets.size(), "must seed 53 type_relations");
-        assertEquals(entityIds, relationTargets, "every entity must have exactly one type_relation");
+        assertEquals(EXPECTED_ITEMS, relationTargets.size(), "must seed 53 unique type_relations");
+        assertEquals(entityIds, relationTargets, "relation targets must equal entity set");
 
-        for (JsonNode item : sourceItems) {
-            String entityId = "item_" + item.path("itemId").asText();
-            String name = item.path("name").asText();
-            assertTrue(entityIds.contains(entityId), "missing entity for " + entityId);
-            assertContains("(v_game_id, '" + entityId + "', '" + name + "', NULL, v_candidate, NOW())");
-        }
-    }
-
-    @Test
-    void seedsExactAttributeTuplesFromSourceModifiers() {
         Set<String> sqlTuples = new HashSet<>();
+        Set<String> usedAttrs = new HashSet<>();
         Matcher attrMatcher = ATTR_ROW.matcher(sql);
         while (attrMatcher.find()) {
-            String tuple = attrMatcher.group(1) + "|" + attrMatcher.group(2) + "|" + normalizeNumber(attrMatcher.group(3));
+            String entityId = attrMatcher.group(1);
+            assertTrue(entityIds.contains(entityId), "attr tuple owned by unknown entity: " + entityId);
+            double attrValue = Double.parseDouble(attrMatcher.group(3));
+            assertTrue(
+                attrValue != 0.0d,
+                "attr value must be non-zero: " + entityId + "|" + attrMatcher.group(2) + "|" + attrMatcher.group(3));
+            String tuple =
+                entityId + "|" + attrMatcher.group(2) + "|" + normalizeNumber(attrMatcher.group(3));
             assertTrue(sqlTuples.add(tuple), "duplicate attr tuple: " + tuple);
+            usedAttrs.add(attrMatcher.group(2));
         }
-        assertEquals(EXPECTED_MODIFIERS, sqlTuples.size(), "must seed 151 entity_attribute_values");
-
-        Set<String> sourceTuples = new HashSet<>();
-        for (JsonNode item : sourceItems) {
-            String entityId = "item_" + item.path("itemId").asText();
-            for (JsonNode mod : item.path("statModifiers")) {
-                String tuple =
-                    entityId
-                        + "|"
-                        + mod.path("attrKey").asText()
-                        + "|"
-                        + normalizeNumber(mod.path("value").asText());
-                sourceTuples.add(tuple);
-                assertTrue(sqlTuples.contains(tuple), "SQL missing source modifier tuple: " + tuple);
-            }
-        }
-        assertEquals(sourceTuples, sqlTuples, "SQL attribute tuples must equal source modifiers exactly");
+        assertEquals(EXPECTED_MODIFIERS, sqlTuples.size(), "must seed 151 unique non-zero attribute tuples");
+        assertEquals(EXPECTED_ATTR_KEYS, usedAttrs.size(), "must use exactly 16 attr keys");
+        assertEquals(new HashSet<>(REQUIRED_ATTRS), usedAttrs, "used attr keys must equal REQUIRED_ATTRS");
     }
 
     @Test
@@ -223,6 +170,7 @@ class LolBatchCAdcItemsSeedSqlTest {
             "must not use type_key in entity/* domain");
         assertContains("\"batch\":\"V2-Batch-C\"");
         assertContains("\"role\":\"adc_completed_item\"");
+        // Retained historical provenance in SQL extend metadata (not an active Data Dragon read).
         assertContains("\"source\":\"数据参考/item.json\"");
         assertContains("\"sourceVersion\":\"16.9.1\"");
         assertContains("\"sourceItemId\"");
@@ -298,7 +246,7 @@ class LolBatchCAdcItemsSeedSqlTest {
     }
 
     @Test
-    void deletesOnlyExactFiftyThreeLegacyEquipmentRelations() {
+    void deletesOnlyExactFiftyThreeLegacyEquipmentRelationsMatchingParsedEntities() {
         Matcher deleteMatcher =
             Pattern.compile(
                     "(?is)DELETE\\s+FROM\\s+public\\.type_relations\\s+WHERE\\s+game_id\\s*=\\s*v_game_id\\s+AND\\s+type_id\\s*=\\s*62002\\s+AND\\s+target_category\\s*=\\s*'equipment'\\s+AND\\s+target_id\\s+IN\\s*\\(([^)]+)\\)")
@@ -312,13 +260,16 @@ class LolBatchCAdcItemsSeedSqlTest {
         while (idMatcher.find()) {
             assertTrue(deletedIds.add(idMatcher.group(1)), "duplicate delete target_id: " + idMatcher.group(1));
         }
-        assertEquals(EXPECTED_ITEMS, deletedIds.size(), "DELETE must list exactly 53 source item ids");
+        assertEquals(EXPECTED_ITEMS, deletedIds.size(), "DELETE must list exactly 53 numeric target ids");
 
-        Set<String> sourceIds = new LinkedHashSet<>();
-        for (JsonNode item : sourceItems) {
-            sourceIds.add(item.path("itemId").asText());
+        Set<String> entityNumericIds = new LinkedHashSet<>();
+        Matcher entityMatcher = ENTITY_ROW.matcher(sql);
+        while (entityMatcher.find()) {
+            String entityId = entityMatcher.group(1);
+            assertTrue(entityId.startsWith("item_"), "entity id must start with item_");
+            entityNumericIds.add(entityId.substring("item_".length()));
         }
-        assertEquals(sourceIds, deletedIds, "DELETE target_id set must equal source JSON item ids");
+        assertEquals(entityNumericIds, deletedIds, "DELETE target_id set must equal parsed entity ids without item_");
 
         int deleteBlockStart = sql.toLowerCase().indexOf("delete from public.type_relations");
         int insertRelationsStart = sql.toLowerCase().indexOf("insert into public.type_relations");
@@ -374,14 +325,24 @@ class LolBatchCAdcItemsSeedSqlTest {
     }
 
     @Test
-    void relationExtendRetainsSourceMetadataForEveryItem() throws IOException {
+    void relationExtendRetainsHistoricalProvenanceShapeForEveryParsedEntity() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        Map<String, Set<String>> attrsByEntity = new HashMap<>();
+        Matcher attrMatcher = ATTR_ROW.matcher(sql);
+        while (attrMatcher.find()) {
+            attrsByEntity
+                .computeIfAbsent(attrMatcher.group(1), ignored -> new LinkedHashSet<>())
+                .add(attrMatcher.group(2));
+        }
+
         Matcher relationMatcher = RELATION_ROW.matcher(sql);
         Set<String> seen = new HashSet<>();
+        int parsedExtends = 0;
         while (relationMatcher.find()) {
             String entityId = relationMatcher.group(1);
             JsonNode extend = mapper.readTree(relationMatcher.group(2));
             seen.add(entityId);
+            parsedExtends++;
             String sourceItemId = entityId.substring("item_".length());
             assertEquals("V2-Batch-C", extend.path("batch").asText());
             assertEquals("adc_completed_item", extend.path("role").asText());
@@ -395,34 +356,24 @@ class LolBatchCAdcItemsSeedSqlTest {
             assertEquals(
                 "sr_purchasable_completed_non_boot_normal_id_with_dps_relevant_direct_stats",
                 extend.path("selectionRule").asText());
-        }
-        assertEquals(EXPECTED_ITEMS, seen.size(), "must parse 53 relation extend objects");
 
-        for (JsonNode item : sourceItems) {
-            String entityId = "item_" + item.path("itemId").asText();
-            assertTrue(seen.contains(entityId), "missing relation for " + entityId);
             Set<String> expectedKeys =
-                StreamSupport.stream(item.path("statModifiers").spliterator(), false)
-                    .map(m -> m.path("attrKey").asText())
+                attrsByEntity.getOrDefault(entityId, Set.of()).stream()
                     .sorted()
                     .collect(Collectors.toCollection(LinkedHashSet::new));
-            Matcher one =
-                Pattern.compile(
-                        "\\(v_game_id,\\s*62002,\\s*'entity',\\s*'"
-                            + Pattern.quote(entityId)
-                            + "',\\s*'(\\{.*?\\})'::jsonb")
-                    .matcher(sql);
-            assertTrue(one.find(), "relation row missing for " + entityId);
-            JsonNode extend = mapper.readTree(one.group(1));
             Set<String> actualKeys = new LinkedHashSet<>();
             Iterator<JsonNode> it = extend.path("statKeys").elements();
             while (it.hasNext()) {
                 actualKeys.add(it.next().asText());
             }
-            assertEquals(expectedKeys, actualKeys, "statKeys mismatch for " + entityId);
-            assertEquals(item.path("goldCost").asInt(), extend.path("goldCost").asInt());
-            assertEquals(item.path("iconUrl").asText(), extend.path("iconUrl").asText());
+            assertEquals(expectedKeys, actualKeys, "statKeys must derive from SQL attrs for " + entityId);
+            assertEquals(
+                "item_" + extend.path("sourceItemId").asText(),
+                extend.path("iconUrl").asText(),
+                "iconUrl must stay consistent with sourceItemId for " + entityId);
         }
+        assertEquals(EXPECTED_ITEMS, seen.size(), "must parse 53 unique relation targets");
+        assertEquals(EXPECTED_ITEMS, parsedExtends, "must parse 53 relation extend objects");
     }
 
     private static String normalizeNumber(String raw) {

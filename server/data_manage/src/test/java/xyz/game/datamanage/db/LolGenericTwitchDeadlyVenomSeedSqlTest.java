@@ -76,10 +76,7 @@ class LolGenericTwitchDeadlyVenomSeedSqlTest {
     static void loadSeedSql() throws IOException {
         Path seedPath = resolveRelative(SEED_RELATIVE);
         assertTrue(Files.isRegularFile(seedPath), "seed sql missing: " + seedPath);
-        // Normalize CRLF / lone CR to LF so LF-literal contract checks are portable.
-        sql = Files.readString(seedPath, StandardCharsets.UTF_8)
-            .replace("\r\n", "\n")
-            .replace("\r", "\n");
+        sql = Files.readString(seedPath, StandardCharsets.UTF_8);
         sqlNoLineComments = stripLineComments(sql);
     }
 
