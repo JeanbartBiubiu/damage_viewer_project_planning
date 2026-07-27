@@ -1,27 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Button, Card, Grid, Space, Typography } from '@arco-design/web-react';
+import { Alert, Button, Card, Grid, Input, Space, Typography } from '@arco-design/web-react';
 import { DataTable } from '../components/DataTable';
 import { EmptyState } from '../components/EmptyState';
 import { MetricCard } from '../components/MetricCard';
 import { Panel } from '../components/Panel';
-import { getErrorMessage, getImages } from '../services/apiClient';
+import { ResourceImageUploadField } from '../components/ResourceImageUploadField';
+import { getErrorMessage, getImages, putImage } from '../services/apiClient';
 import {
   clearGameImageCache,
   listCachedImages,
   toRemoteUri,
+  upsertRemoteImage,
   upsertRemoteImages,
   type CachedImageRecord
 } from '../services/imageCache';
+import {
+  imageAssetUriValidationMessage,
+  normalizeImageAssetUri,
+  readImageFileAsDataUrl
+} from '../services/resourceImage';
 
 type ImagesPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   selectedGameName: string;
+  adminToken: string;
 };
 
 const { Row, Col } = Grid;
 
-type SyncAction = 'full' | 'incremental' | 'clear' | null;
+type SyncAction = 'full' | 'incremental' | 'clear' | 'upload' | null;
 
 type CacheSnapshot = {
   rows: CachedImageRecord[];
@@ -47,13 +55,27 @@ async function loadCacheSnapshot(gameId: string): Promise<CacheSnapshot> {
   };
 }
 
-export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: ImagesPageProps) {
+export function ImagesPage({
+  apiBaseUrl,
+  selectedGameId,
+  selectedGameName,
+  adminToken
+}: ImagesPageProps) {
   const autoPrimedGames = useRef<Record<string, boolean>>({});
   const [cacheRows, setCacheRows] = useState<CachedImageRecord[]>([]);
   const [latestUpdate, setLatestUpdate] = useState<string | null>(null);
   const [cacheError, setCacheError] = useState<string | null>(null);
   const [syncAction, setSyncAction] = useState<SyncAction>(null);
   const [syncMessage, setSyncMessage] = useState('首次进入当前游戏时，页面会自动尝试同步一次图片。');
+  const [uriDraft, setUriDraft] = useState('');
+  const [uriError, setUriError] = useState<string | null>(null);
+  const [uploadFeedback, setUploadFeedback] = useState<{ type: 'success' | 'error'; content: string } | null>(
+    null
+  );
+
+  const actionBusy = syncAction !== null;
+  const uploading = syncAction === 'upload';
+  const normalizedUri = normalizeImageAssetUri(uriDraft);
 
   async function refreshCache(gameId: string): Promise<CacheSnapshot> {
     const snapshot = await loadCacheSnapshot(gameId);
@@ -114,6 +136,53 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
     }
   }
 
+  async function handleUpload(file: File) {
+    if (!selectedGameId) {
+      setUploadFeedback({ type: 'error', content: '请先选择游戏后再上传图片。' });
+      return;
+    }
+
+    const token = adminToken.trim();
+    if (!token) {
+      setUploadFeedback({ type: 'error', content: '请先在侧栏配置非空的 Admin Token。' });
+      return;
+    }
+
+    const uri = normalizeImageAssetUri(uriDraft);
+    if (!uri) {
+      const message = imageAssetUriValidationMessage(uriDraft) ?? '图片 URI 无效。';
+      setUriError(message);
+      setUploadFeedback({ type: 'error', content: message });
+      return;
+    }
+
+    const gameId = selectedGameId;
+    setSyncAction('upload');
+    setUriError(null);
+    setUploadFeedback(null);
+
+    try {
+      const imageBase64 = await readImageFileAsDataUrl(file);
+      const result = await putImage(apiBaseUrl, gameId, uri, token, imageBase64);
+      await upsertRemoteImage(gameId, result.data);
+      await refreshCache(gameId);
+      setUploadFeedback({
+        type: 'success',
+        content: `已上传并写入本地缓存：${result.data.uri}`
+      });
+    } catch (error) {
+      setUploadFeedback({ type: 'error', content: getErrorMessage(error) });
+    } finally {
+      setSyncAction(null);
+    }
+  }
+
+  useEffect(() => {
+    setUriDraft('');
+    setUriError(null);
+    setUploadFeedback(null);
+  }, [selectedGameId]);
+
   useEffect(() => {
     if (!selectedGameId) {
       setCacheRows([]);
@@ -157,22 +226,35 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
   }, [apiBaseUrl, selectedGameId]);
 
   const previewRows = cacheRows.slice(0, 12);
+  const previewSrc =
+    selectedGameId && normalizedUri
+      ? (cacheRows.find((row) => toRemoteUri(selectedGameId, row.uri) === normalizedUri)?.image ?? null)
+      : null;
 
   return (
     <div className="page-images page-stack">
       <Panel title="同步动作" kicker="Sync Flow">
+        <Typography.Paragraph type="secondary" style={{ marginTop: 0 }}>
+          缓存同步只更新本地 IndexedDB 预览，不会改写实体 / 属性定义上的 <code>imageUri</code> 关联。绑定编辑：
+          <a href="#/entity-setup">实体创建</a>
+          {' · '}
+          <a href="#/combat-data/entities">通用实体</a>
+          {' · '}
+          <a href="#/combat-data/attribute-definitions">属性定义</a>
+          。
+        </Typography.Paragraph>
         {!selectedGameId ? (
           <EmptyState title="还没有选择 gameId" description="图片页会按当前 gameId 执行全量同步、增量同步和缓存清理。" />
         ) : (
           <Space direction="vertical" size={16} style={{ width: '100%' }}>
             <Space wrap>
-              <Button disabled={syncAction !== null} onClick={() => void runSync('full')} type="primary">
+              <Button disabled={actionBusy} onClick={() => void runSync('full')} type="primary">
                 全量同步
               </Button>
-              <Button disabled={syncAction !== null} onClick={() => void runSync('incremental')}>
+              <Button disabled={actionBusy} onClick={() => void runSync('incremental')}>
                 增量同步
               </Button>
-              <Button status="danger" disabled={syncAction !== null} onClick={() => void clearCache()}>
+              <Button status="danger" disabled={actionBusy} onClick={() => void clearCache()}>
                 清理当前缓存
               </Button>
             </Space>
@@ -186,6 +268,74 @@ export function ImagesPage({ apiBaseUrl, selectedGameId, selectedGameName }: Ima
             <Alert type={cacheError ? 'error' : 'info'} content={cacheError ?? syncMessage} />
           </Space>
         )}
+      </Panel>
+
+      <Panel title="独立图片上传" kicker="Asset Upload">
+        <Space direction="vertical" size={16} style={{ width: '100%' }}>
+          <Typography.Paragraph type="secondary" style={{ marginTop: 0, marginBottom: 0 }}>
+            本面板只管理独立图片资产（写入 Admin images 接口并回写本地缓存）。它不会保存战斗数据资源的{' '}
+            <code>imageUri</code> 关联。实体 / 属性定义上的关联请到{' '}
+            <a href="#/entity-setup">实体创建</a>、
+            <a href="#/combat-data/entities">通用实体</a> 或{' '}
+            <a href="#/combat-data/attribute-definitions">属性定义</a> 编辑并保存；此处上传成功后，仍需在那些页面选择 URI 并保存资源表单。
+          </Typography.Paragraph>
+
+          {!selectedGameId ? (
+            <EmptyState title="还没有选择 gameId" description="选中游戏并配置 Admin Token 后，才能上传独立图片资产。" />
+          ) : (
+            <>
+              {!adminToken.trim() ? (
+                <Alert type="warning" content="侧栏尚未配置非空 Admin Token，上传已禁用。" />
+              ) : null}
+
+              <div>
+                <Typography.Text bold>图片 URI</Typography.Text>
+                <Input
+                  style={{ marginTop: 8 }}
+                  value={uriDraft}
+                  placeholder="例如 character_vayne / item_2510"
+                  disabled={actionBusy}
+                  status={uriError ? 'error' : undefined}
+                  onChange={(value) => {
+                    setUriDraft(value);
+                    setUriError(imageAssetUriValidationMessage(value));
+                  }}
+                />
+                {uriError ? (
+                  <Typography.Text type="error" style={{ display: 'block', marginTop: 4 }}>
+                    {uriError}
+                  </Typography.Text>
+                ) : (
+                  <Typography.Text type="secondary" style={{ display: 'block', marginTop: 4 }}>
+                    仅接受稳定单段标识（字母/数字开头，可含点、下划线、连字符，最长 128）。
+                  </Typography.Text>
+                )}
+              </div>
+
+              <ResourceImageUploadField
+                src={previewSrc}
+                alt={normalizedUri ?? '独立图片资产'}
+                imageUri={normalizedUri}
+                uriPlaceholder="先填写有效的图片 URI"
+                uploading={actionBusy}
+                error={null}
+                emptyLabel="未上传"
+                buttonText={uploading ? '正在上传…' : '选择并上传图片'}
+                helperText="支持常见图片文件；上传前会居中裁切为 64x64 data URI，成功后立即写入本地缓存。"
+                onUpload={handleUpload}
+              />
+
+              {uploadFeedback ? (
+                <Alert type={uploadFeedback.type === 'success' ? 'success' : 'error'} content={uploadFeedback.content} />
+              ) : (
+                <Alert
+                  type="info"
+                  content="上传前需同时满足：已选游戏、非空 Admin Token、有效 URI，并选择本地图片文件。"
+                />
+              )}
+            </>
+          )}
+        </Space>
       </Panel>
 
       <Panel title="本地缓存概览" kicker="Cache Snapshot">

@@ -1134,6 +1134,10 @@ function mapAbility(
   if (ability.castConditionFormulaKey) {
     result.castCondition = formulaRef(slot, ability.castConditionFormulaKey);
   }
+  // Whitelist assembly: only project present non-null castOrigin (null/missing stay omitted).
+  if (ability.castOrigin != null) {
+    result.castOrigin = ability.castOrigin;
+  }
 
   return result;
 }
@@ -1207,7 +1211,7 @@ function mapListener(
     abilityRef = `${slot}.provider[${providerRef}].ability[${ability.abilityKey}]`;
   }
 
-  return {
+  const result: ListenerDefinition = {
     listenerKey: listener.listenerKey,
     eventMatcher,
     ...(abilityRef ? { abilityRef } : {}),
@@ -1217,6 +1221,13 @@ function mapListener(
       : {}),
     ...(listener.chainLimitKey ? { chainLimitKey: listener.chainLimitKey } : {})
   };
+
+  // Whitelist assembly: only project present non-null perCastThrottleMs (null/missing stay omitted).
+  if (listener.perCastThrottleMs != null) {
+    result.perCastThrottleMs = listener.perCastThrottleMs;
+  }
+
+  return result;
 }
 
 function mapLifecycle(
