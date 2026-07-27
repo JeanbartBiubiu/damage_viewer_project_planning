@@ -1,30 +1,45 @@
 -- =============================================================================
--- LoL generic Manamune Awe seed（魔宗 item_3004）
+-- LoL generic Manamune Awe + Manaflow direct-max-state Phase-A seed
+-- （魔宗 item_3004 / Awe + Manaflow 直达最大态 Phase-A）
 -- =============================================================================
 --
--- 目标：幂等写入 item_3004「敬畏 / Awe」专用 passive provider：
---       source-bound ad add = 0.02 * source.attr.mana.max。
+-- 目标：幂等写入 item_3004 两个隔离 mounted passive providers：
+--   1) Awe：source-bound ad add = 0.02 * source.attr.mana.resolved
+--   2) Manaflow direct-max-state：source-bound mana add = const 360
+--      （始终 on：mana.resolved += 360 的 DPS 近似）
+--
+-- 冻结边界（用户批准的直达最大态近似；本脚本不声称 live publish）：
+--   始终 on 的 mana.resolved += 360；Awe 读有效法力（resolved）。
+--   故意不改 Base/Current/Max、resource mana current/max、Batch-C 静态
+--   mana=500、实体身份。不建模 8s 充能、四充能队列、on-hit/ability 触发、
+--   +3/+6 增量、per-cast throttle、Muramana 变形/替换、资源花费或完整保真。
+--
+-- 运行时依赖（注释契约，非本 seed 实现）：
+--   two-pass：Manaflow 先贡献 mana.resolved，Awe 再读 resolved。
+--   本近似用 resolved 而非 mana.max / resource mana；不得把它写成
+--   max/resource 语义。
 --
 -- 契约要点：
 -- 1. 单事务；固定 game_id='lol'；先 ensure_game_partitions，再锁定 game_data_state。
 -- 2. 候选 revision = locked current_revision + 1；仅业务数据实际插入/变化时推进。
 -- 3. 必需 game / item_3004 / attribute_definitions(ad, mana) / reserved_type
---    缺失则 RAISE EXCEPTION 回滚。
--- 4. 仅 mount 到 item_3004；只写 provider / formula / provider_modifier / mount；
---    不写 game_entities / entity_attribute_values；不改 Batch-C 静态
---    ad=35 / mana=500 / ability_haste=15。
--- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
+--    缺失则 RAISE EXCEPTION 回滚。item_3004 与 ad/mana 定义仅 check-only。
+-- 4. 恰好两个 provider / 两个 formula / 两个 provider_modifier / 两个 mount；
+--    各 provider 隔离一公式+一 modifier；仅 mount 到 item_3004。
+-- 5. 不写 game_entities / attribute_definitions / entity_attribute_values /
+--    resource 表 / abilities / effects / sequences / operations / state /
+--    listeners / lifecycle；不改 Batch-C 静态 ad=35 / mana=500 / ability_haste=15。
+-- 6. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 --
--- 明确排除（本脚本不建模）：
---   Manaflow 充能；on-hit / ability 法力获取；最大充能上限；Muramana 变形；
---   资源修改；攻击事件；随机/RNG。
---
--- 数值来源（注释引用，无运行时外部依赖）：
---   Muramana / Manamune wiki 口径：Gain 2% max Mana as bonus Attack Damage。
+-- Wiki-only 数值真源（注释引用，无运行时外部依赖）：
+--   Module:ItemData/data revid 4030984
+--   timestamp 2026-06-17T23:47:20Z
+--   content SHA e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d
+--   item 静态 mana 500；Manaflow 上限 +360；Awe 2% maximum mana。
 --
 -- 前置：reserved_types_seed.sql；Batch-C item_3004（静态 ad/mana/ability_haste）。
 -- 建议发布版本（本脚本不负责 publish）：
---   lol-generic-manamune-awe-v1-20260714
+--   lol-generic-manamune-awe-manaflow-max-state-phase-a-v2-20260726
 
 BEGIN;
 
@@ -157,7 +172,7 @@ BEGIN
         v_game_id,
         'provider_item_3004_manamune_awe',
         20120,
-        '魔宗 敬畏 Awe',
+        '魔宗 敬畏 Awe（Manaflow direct-max-state Phase-A）',
         v_candidate,
         NOW()
     )
@@ -179,7 +194,7 @@ BEGIN
         v_game_id,
         'provider_item_3004_manamune_awe',
         'manamune_awe_bonus_ad',
-        '{"op":"mul","args":[{"op":"const","value":0.02},{"op":"read","path":"source.attr.mana.max"}]}'::jsonb,
+        '{"op":"mul","args":[{"op":"const","value":0.02},{"op":"read","path":"source.attr.mana.resolved"}]}'::jsonb,
         v_candidate,
         NOW()
     )
@@ -259,6 +274,131 @@ BEGIN
         v_game_id,
         'item_3004',
         'provider_item_3004_manamune_awe',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, entity_id, provider_id) DO UPDATE SET
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.entity_provider_mounts.change_revision > v_locked_current;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- =========================================================================
+    -- item_3004 Manaflow direct-max-state Phase-A：
+    --   passive provider / const360 formula / source-bound mana add / mount
+    -- =========================================================================
+    INSERT INTO public.provider_definitions (
+        game_id, provider_id, provider_kind_type_id, display_name,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_item_3004_manamune_manaflow_max_state',
+        20120,
+        '魔宗 法力流 Manaflow direct-max-state Phase-A',
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id) DO UPDATE SET
+        provider_kind_type_id = EXCLUDED.provider_kind_type_id,
+        display_name = EXCLUDED.display_name,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_definitions.provider_kind_type_id IS DISTINCT FROM EXCLUDED.provider_kind_type_id
+       OR public.provider_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.provider_formulas (
+        game_id, provider_id, formula_key, expression, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'provider_item_3004_manamune_manaflow_max_state',
+        'manamune_manaflow_max_state_mana',
+        '{"op":"const","value":360}'::jsonb,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, provider_id, formula_key) DO UPDATE SET
+        expression = EXCLUDED.expression,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_formulas.expression IS DISTINCT FROM EXCLUDED.expression;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    -- provider-bound mana add（分类字段保持 null）；selector/self = source
+    INSERT INTO public.provider_modifiers (
+        game_id, modifier_id, provider_id, modifier_key,
+        modifier_type_id, target_selector_type_id, target_attr_key,
+        command_type_id, channel_type_id, bucket_type_id, stage_type_id,
+        priority, value_policy_type_id, value_formula_key, condition_formula_key,
+        change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'modifier_item_3004_manamune_manaflow_max_state_mana',
+        'provider_item_3004_manamune_manaflow_max_state',
+        'manamune_manaflow_max_state_mana',
+        NULL,
+        20110,
+        'mana',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        20170,
+        'manamune_manaflow_max_state_mana',
+        NULL,
+        v_candidate,
+        NOW()
+    )
+    ON CONFLICT (game_id, modifier_id) DO UPDATE SET
+        provider_id = EXCLUDED.provider_id,
+        modifier_key = EXCLUDED.modifier_key,
+        modifier_type_id = EXCLUDED.modifier_type_id,
+        target_selector_type_id = EXCLUDED.target_selector_type_id,
+        target_attr_key = EXCLUDED.target_attr_key,
+        command_type_id = EXCLUDED.command_type_id,
+        channel_type_id = EXCLUDED.channel_type_id,
+        bucket_type_id = EXCLUDED.bucket_type_id,
+        stage_type_id = EXCLUDED.stage_type_id,
+        priority = EXCLUDED.priority,
+        value_policy_type_id = EXCLUDED.value_policy_type_id,
+        value_formula_key = EXCLUDED.value_formula_key,
+        condition_formula_key = EXCLUDED.condition_formula_key,
+        change_revision = EXCLUDED.change_revision,
+        updated_at = NOW()
+    WHERE public.provider_modifiers.provider_id IS DISTINCT FROM EXCLUDED.provider_id
+       OR public.provider_modifiers.modifier_key IS DISTINCT FROM EXCLUDED.modifier_key
+       OR public.provider_modifiers.modifier_type_id IS DISTINCT FROM EXCLUDED.modifier_type_id
+       OR public.provider_modifiers.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
+       OR public.provider_modifiers.target_attr_key IS DISTINCT FROM EXCLUDED.target_attr_key
+       OR public.provider_modifiers.command_type_id IS DISTINCT FROM EXCLUDED.command_type_id
+       OR public.provider_modifiers.channel_type_id IS DISTINCT FROM EXCLUDED.channel_type_id
+       OR public.provider_modifiers.bucket_type_id IS DISTINCT FROM EXCLUDED.bucket_type_id
+       OR public.provider_modifiers.stage_type_id IS DISTINCT FROM EXCLUDED.stage_type_id
+       OR public.provider_modifiers.priority IS DISTINCT FROM EXCLUDED.priority
+       OR public.provider_modifiers.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id
+       OR public.provider_modifiers.value_formula_key IS DISTINCT FROM EXCLUDED.value_formula_key
+       OR public.provider_modifiers.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
+    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
+    IF v_rowcount > 0 THEN
+        v_changed := true;
+    END IF;
+
+    INSERT INTO public.entity_provider_mounts (
+        game_id, entity_id, provider_id, change_revision, updated_at
+    ) VALUES (
+        v_game_id,
+        'item_3004',
+        'provider_item_3004_manamune_manaflow_max_state',
         v_candidate,
         NOW()
     )

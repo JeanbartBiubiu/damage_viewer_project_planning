@@ -58,18 +58,35 @@ const MALZAHAR_E_REQUIRED_TRACKED_FIELDS = [
   'notes',
 ];
 
+const WIKI_CURRENT_ITEMS_NORMALIZED_REL =
+  '数据参考/lol-wiki-current-items/current-items.normalized.json';
+const WIKI_CURRENT_ITEMS_MANIFEST_REL = '数据参考/lol-wiki-current-items/manifest.json';
+const WIKI_CURRENT_ITEMS_NORMALIZED_SHA256 =
+  '17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4';
+const WIKI_CURRENT_ITEMS_MANIFEST_SHA256 =
+  '79882fa97b6d79d627dc168444da4df51c1bbff8dfe561fb4cf10669838ae0d7';
+const WIKI_CURRENT_ITEMS_CONTENT_SHA256 =
+  'e7818effb888c6d2474496ee20378ecb57e335ccf9ace16630fda7d0daceac2d';
+const WIKI_CURRENT_ITEMS_REVID = 4030984;
+const WIKI_CURRENT_ITEMS_TIMESTAMP = '2026-06-17T23:47:20Z';
+const WIKI_CURRENT_ITEMS_TITLE = 'Module:ItemData/data';
+const WIKI_CURRENT_ITEMS_MODULE_URL =
+  'https://wiki.leagueoflegends.com/en-us/Module:ItemData/data';
+const WIKI_CURRENT_ITEMS_PAGEID = 1459270;
+const WIKI_CURRENT_ITEMS_COUNT = 333;
+
 const paths = {
   outputJson: path.join(repoRoot, OUTPUT_JSON_REL),
   outputCsv: path.join(repoRoot, OUTPUT_CSV_REL),
   registryJson: path.join(repoRoot, REGISTRY_REL),
   g8Json: path.join(repoRoot, G8_AUDIT_REL),
-  fullItemJson: path.join(verifyRoot, 'V2-full-item-dps-coverage-20260615.json'),
   coeffBucketsA: path.join(verifyRoot, 'V2-BatchV-A-coefficient-buckets.json'),
   coeffBucketsB: path.join(verifyRoot, 'V2-BatchV-B-3082-wardens-mail-coefficient-buckets.json'),
   katarinaLegacySeed: path.join(verifyRoot, '卡特琳娜-MVP种子数据.json'),
   batchASeed: path.join(verifyRoot, 'V2-Batch-A-target-dummies.seed.json'),
-  batchCSeed: path.join(verifyRoot, 'V2-Batch-C-adc-items.seed.json'),
   malzaharEWiki: path.join(repoRoot, MALZAHAR_E_WIKI_REL),
+  wikiCurrentItemsNormalized: path.join(repoRoot, WIKI_CURRENT_ITEMS_NORMALIZED_REL),
+  wikiCurrentItemsManifest: path.join(repoRoot, WIKI_CURRENT_ITEMS_MANIFEST_REL),
 };
 
 /**
@@ -79,11 +96,6 @@ const paths = {
 const ACTIVE_SOURCE_ALLOWLIST = [
   { rel: REGISTRY_REL, kind: 'coverage_json', abs: () => paths.registryJson },
   { rel: G8_AUDIT_REL, kind: 'coverage_json', abs: () => paths.g8Json },
-  {
-    rel: '最小验证/V2-full-item-dps-coverage-20260615.json',
-    kind: 'coverage_json',
-    abs: () => paths.fullItemJson,
-  },
   {
     rel: '最小验证/V2-BatchV-A-coefficient-buckets.json',
     kind: 'coefficient_buckets_json',
@@ -100,11 +112,6 @@ const ACTIVE_SOURCE_ALLOWLIST = [
     abs: () => paths.batchASeed,
   },
   {
-    rel: '最小验证/V2-Batch-C-adc-items.seed.json',
-    kind: 'seed_json',
-    abs: () => paths.batchCSeed,
-  },
-  {
     rel: KATARINA_LEGACY_SEED_REL,
     kind: 'seed_json',
     abs: () => paths.katarinaLegacySeed,
@@ -114,6 +121,17 @@ const ACTIVE_SOURCE_ALLOWLIST = [
     rel: MALZAHAR_E_WIKI_REL,
     kind: 'document_json',
     abs: () => paths.malzaharEWiki,
+  },
+  {
+    // Exact Wiki current-items provenance documents: hashed/parsed, zero coverage records.
+    rel: WIKI_CURRENT_ITEMS_NORMALIZED_REL,
+    kind: 'document_json',
+    abs: () => paths.wikiCurrentItemsNormalized,
+  },
+  {
+    rel: WIKI_CURRENT_ITEMS_MANIFEST_REL,
+    kind: 'document_json',
+    abs: () => paths.wikiCurrentItemsManifest,
   },
 ];
 
@@ -3624,11 +3642,6 @@ const ALIAS_TABLE = [
     sourcePath: '最小验证/V2-Batch-P-target-equipment-linked-effects-audit.json',
   },
   {
-    alias: 'fullitem_3094_energized_container',
-    mechanismKeys: ['item_passive|3094|item_passive|神射手'],
-    sourcePath: '最小验证/V2-full-item-dps-coverage-20260615.json',
-  },
-  {
     alias: 'batch_g_terminus_shadow_stale_ready',
     mechanismKeys: ['item_passive|3302|item_passive|晦影'],
     sourcePath: '最小验证/V2-Batch-G-adc-passive-audit.json',
@@ -4242,6 +4255,93 @@ function assertMalzaharEWikiDocument(parsed, rel) {
   }
 }
 
+function assertNoCoverageArrays(parsed, rel) {
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error(`${rel}: document_json must be a non-array object`);
+  }
+  if (Array.isArray(parsed.candidates) || Array.isArray(parsed.records) || Array.isArray(parsed.mechanisms)) {
+    throw new Error(`${rel}: document_json must not contribute coverage candidates/records/mechanisms`);
+  }
+}
+
+/** Fail-closed contract for Wiki current-items normalized provenance document. */
+function assertWikiCurrentItemsNormalizedDocument(parsed, rel) {
+  assertNoCoverageArrays(parsed, rel);
+  if (parsed.currentOnly !== true) {
+    throw new Error(`${rel}: currentOnly must be true`);
+  }
+  if (parsed.removedIncluded !== false) {
+    throw new Error(`${rel}: removedIncluded must be false`);
+  }
+  if (!Array.isArray(parsed.items) || parsed.items.length !== WIKI_CURRENT_ITEMS_COUNT) {
+    throw new Error(`${rel}: items.length must be ${WIKI_CURRENT_ITEMS_COUNT}`);
+  }
+  const revision = parsed.revision || {};
+  if (Number(revision.pageid) !== WIKI_CURRENT_ITEMS_PAGEID) {
+    throw new Error(`${rel}: revision.pageid must be ${WIKI_CURRENT_ITEMS_PAGEID}`);
+  }
+  if (Number(revision.revid) !== WIKI_CURRENT_ITEMS_REVID) {
+    throw new Error(`${rel}: revision.revid must be ${WIKI_CURRENT_ITEMS_REVID}`);
+  }
+  if (String(revision.timestamp || '') !== WIKI_CURRENT_ITEMS_TIMESTAMP) {
+    throw new Error(`${rel}: revision.timestamp must be ${WIKI_CURRENT_ITEMS_TIMESTAMP}`);
+  }
+  if (String(revision.title || '') !== WIKI_CURRENT_ITEMS_TITLE) {
+    throw new Error(`${rel}: revision.title must be ${WIKI_CURRENT_ITEMS_TITLE}`);
+  }
+  const source = parsed.source || {};
+  if (String(source.title || '') !== WIKI_CURRENT_ITEMS_TITLE) {
+    throw new Error(`${rel}: source.title must be ${WIKI_CURRENT_ITEMS_TITLE}`);
+  }
+  if (String(source.moduleUrl || '') !== WIKI_CURRENT_ITEMS_MODULE_URL) {
+    throw new Error(`${rel}: source.moduleUrl must be ${WIKI_CURRENT_ITEMS_MODULE_URL}`);
+  }
+}
+
+/** Fail-closed contract for Wiki current-items manifest provenance document. */
+function assertWikiCurrentItemsManifestDocument(parsed, rel) {
+  assertNoCoverageArrays(parsed, rel);
+  if (Number(parsed.revid) !== WIKI_CURRENT_ITEMS_REVID) {
+    throw new Error(`${rel}: revid must be ${WIKI_CURRENT_ITEMS_REVID}`);
+  }
+  if (String(parsed.contentSha256 || '') !== WIKI_CURRENT_ITEMS_CONTENT_SHA256) {
+    throw new Error(`${rel}: contentSha256 must be ${WIKI_CURRENT_ITEMS_CONTENT_SHA256}`);
+  }
+  if (parsed.currentOnly !== true) {
+    throw new Error(`${rel}: currentOnly must be true`);
+  }
+  if (parsed.removedIncluded !== false) {
+    throw new Error(`${rel}: removedIncluded must be false`);
+  }
+  if (String(parsed.timestamp || '') !== WIKI_CURRENT_ITEMS_TIMESTAMP) {
+    throw new Error(`${rel}: timestamp must be ${WIKI_CURRENT_ITEMS_TIMESTAMP}`);
+  }
+  if (String(parsed.apiTitle || '') !== WIKI_CURRENT_ITEMS_TITLE) {
+    throw new Error(`${rel}: apiTitle must be ${WIKI_CURRENT_ITEMS_TITLE}`);
+  }
+  if (String(parsed.sourceUrl || '') !== WIKI_CURRENT_ITEMS_MODULE_URL) {
+    throw new Error(`${rel}: sourceUrl must be ${WIKI_CURRENT_ITEMS_MODULE_URL}`);
+  }
+  const outputFiles = parsed.outputFiles || [];
+  if (!outputFiles.includes('current-items.normalized.json') || !outputFiles.includes('manifest.json')) {
+    throw new Error(`${rel}: outputFiles must include current-items.normalized.json and manifest.json`);
+  }
+}
+
+function assertWikiCurrentItemsCrossDocument(normalized, manifest) {
+  const revision = normalized.revision || {};
+  if (
+    Number(revision.revid) !== Number(manifest.revid) ||
+    String(revision.timestamp || '') !== String(manifest.timestamp || '') ||
+    String(revision.title || '') !== String(manifest.apiTitle || '')
+  ) {
+    throw new Error('Wiki current-items normalized/manifest revision revid/timestamp/title must match');
+  }
+  if (normalized.currentOnly !== manifest.currentOnly || normalized.removedIncluded !== manifest.removedIncluded) {
+    throw new Error('Wiki current-items normalized/manifest currentOnly/removedIncluded must match');
+  }
+}
+
 function pushParsedSource(sources, seen, abs, rel, kind) {
   if (seen.has(rel)) return;
   seen.add(rel);
@@ -4263,8 +4363,37 @@ function pushParsedSource(sources, seen, abs, rel, kind) {
     }
     assertMalzaharEWikiDocument(parsed, rel);
   }
+  if (rel === WIKI_CURRENT_ITEMS_NORMALIZED_REL) {
+    if (kind !== 'document_json') {
+      throw new Error(`${rel}: ACTIVE_SOURCE kind must be document_json`);
+    }
+    const sha = sha256Raw(buf);
+    if (sha !== WIKI_CURRENT_ITEMS_NORMALIZED_SHA256) {
+      throw new Error(
+        `${rel}: sha256 must be ${WIKI_CURRENT_ITEMS_NORMALIZED_SHA256}, got ${sha}`,
+      );
+    }
+    assertWikiCurrentItemsNormalizedDocument(parsed, rel);
+  }
+  if (rel === WIKI_CURRENT_ITEMS_MANIFEST_REL) {
+    if (kind !== 'document_json') {
+      throw new Error(`${rel}: ACTIVE_SOURCE kind must be document_json`);
+    }
+    const sha = sha256Raw(buf);
+    if (sha !== WIKI_CURRENT_ITEMS_MANIFEST_SHA256) {
+      throw new Error(
+        `${rel}: sha256 must be ${WIKI_CURRENT_ITEMS_MANIFEST_SHA256}, got ${sha}`,
+      );
+    }
+    assertWikiCurrentItemsManifestDocument(parsed, rel);
+  }
   const { recordCount, role } = countRecordsForSource(kind, abs, parsed);
-  if (rel === MALZAHAR_E_WIKI_REL && (recordCount !== 0 || role !== 'document')) {
+  if (
+    (rel === MALZAHAR_E_WIKI_REL ||
+      rel === WIKI_CURRENT_ITEMS_NORMALIZED_REL ||
+      rel === WIKI_CURRENT_ITEMS_MANIFEST_REL) &&
+    (recordCount !== 0 || role !== 'document')
+  ) {
     throw new Error(`${rel}: must hash as document with recordCount 0`);
   }
   sources.push({
@@ -4284,6 +4413,15 @@ function discoverSources() {
   for (const entry of ACTIVE_SOURCE_ALLOWLIST) {
     pushParsedSource(sources, seen, entry.abs(), entry.rel, entry.kind);
   }
+
+  const normalizedEntry = sources.find((s) => s.path === WIKI_CURRENT_ITEMS_NORMALIZED_REL);
+  const manifestEntry = sources.find((s) => s.path === WIKI_CURRENT_ITEMS_MANIFEST_REL);
+  if (!normalizedEntry || !manifestEntry) {
+    throw new Error('Wiki current-items normalized/manifest sources missing after ACTIVE_SOURCE parse');
+  }
+  const normalizedDoc = readJson(paths.wikiCurrentItemsNormalized);
+  const manifestDoc = readJson(paths.wikiCurrentItemsManifest);
+  assertWikiCurrentItemsCrossDocument(normalizedDoc, manifestDoc);
 
   for (const entry of GENERATOR_SOURCE_ALLOWLIST) {
     const abs = path.join(repoRoot, entry.rel);
@@ -4593,137 +4731,6 @@ function attachAliases(mechanismsByKey) {
   }
 }
 
-function dispositionFullItemContainer(row, relatedKeys) {
-  const status = row.coverageStatus;
-  const itemId = String(row.itemId);
-  if (status === 'live_dps_passive_present') {
-    return {
-      disposition: 'regression_only',
-      status: 'regression_only',
-      relatedMechanismKeys: relatedKeys,
-      reason: 'live DPS passive present; container is regression evidence for matching mechanism keys',
-    };
-  }
-  if (status === 'adc_pool_passive_gap' || status === 'adc_pool_stats_only') {
-    return {
-      disposition: 'stale_or_duplicate',
-      status: 'stale_or_duplicate',
-      relatedMechanismKeys: relatedKeys,
-      reason: 'ADC pool mechanism/data branches handled by canonical G8 keys',
-    };
-  }
-  if (status === 'map11_stats_present_non_adc_pool' || status === 'special_or_non_map11') {
-    return {
-      disposition: 'out_of_scope',
-      status: 'out_of_scope',
-      relatedMechanismKeys: [],
-      reason: 'non-ADC-pool or special/non-map11 container',
-    };
-  }
-  if (status === 'future_full_item_passive_review') {
-    // Deterministic rule: mode/large-id variants use itemId length > 4
-    if (itemId.length > 4) {
-      return {
-        disposition: 'stale_or_duplicate',
-        status: 'stale_or_duplicate',
-        relatedMechanismKeys: [],
-        reason: 'mode/large-id future variant of a base item; stale_or_duplicate by explicit rule',
-      };
-    }
-    return {
-      disposition: 'blocked_data',
-      status: 'blocked_data',
-      relatedMechanismKeys: [],
-      reason: 'ordinary future full-item tooltip/passive review; blocked_data',
-    };
-  }
-  throw new Error(`unknown full-item coverageStatus ${status} @ item ${itemId}`);
-}
-
-function buildFullItemCoverageRecords(fullItems, mechanismsByKey) {
-  const byOwner = new Map();
-  for (const m of mechanismsByKey.values()) {
-    if (!m.ownerId) continue;
-    if (!byOwner.has(m.ownerId)) byOwner.set(m.ownerId, []);
-    byOwner.get(m.ownerId).push(m.key);
-  }
-
-  const records = [];
-  const dispositionCounts = Object.create(null);
-
-  for (const row of fullItems) {
-    const ownerId = normalizeOwnerId(row.itemId);
-    const relatedKeys = (byOwner.get(ownerId) || []).slice().sort((a, b) => a.localeCompare(b, 'en'));
-    const disp = dispositionFullItemContainer(row, relatedKeys);
-    dispositionCounts[disp.disposition] = (dispositionCounts[disp.disposition] || 0) + 1;
-
-    records.push({
-      coverageKey: `full_item_container|${ownerId}`,
-      kind: 'full_item_container',
-      ownerId,
-      name: row.name || '',
-      legacyCoverageStatus: row.coverageStatus,
-      nextAction: row.nextAction || '',
-      status: disp.status,
-      disposition: disp.disposition,
-      relatedMechanismKeys: disp.relatedMechanismKeys,
-      reason: disp.reason,
-      sourceRefs: [
-        {
-          path: '最小验证/V2-full-item-dps-coverage-20260615.json',
-          legacyStatus: row.coverageStatus,
-          sourceRecordKey: String(row.itemId),
-        },
-      ],
-      skillRefs: row.skillRefs || [],
-      evidenceRefs: row.evidenceRefs || [],
-    });
-  }
-
-  // Assert disposition arithmetic from task
-  const expected = {
-    regression_only: 13, // live_dps_passive_present
-    stale_or_duplicate_adc: 23 + 19, // gap + stats_only
-    blocked_data_future: 35,
-    out_of_scope: 126 + 289,
-    stale_or_duplicate_large: 13,
-  };
-  const live = fullItems.filter((r) => r.coverageStatus === 'live_dps_passive_present').length;
-  const gap = fullItems.filter((r) => r.coverageStatus === 'adc_pool_passive_gap').length;
-  const stats = fullItems.filter((r) => r.coverageStatus === 'adc_pool_stats_only').length;
-  const map11 = fullItems.filter((r) => r.coverageStatus === 'map11_stats_present_non_adc_pool').length;
-  const special = fullItems.filter((r) => r.coverageStatus === 'special_or_non_map11').length;
-  const future = fullItems.filter((r) => r.coverageStatus === 'future_full_item_passive_review');
-  const futureLarge = future.filter((r) => String(r.itemId).length > 4).length;
-  const futureOrdinary = future.length - futureLarge;
-
-  if (fullItems.length !== 518) {
-    throw new Error(`full-item containers must be 518, got ${fullItems.length}`);
-  }
-  if (live !== expected.regression_only) {
-    throw new Error(`live_dps_passive_present expected 13, got ${live}`);
-  }
-  if (gap !== 23 || stats !== 19) {
-    throw new Error(`adc_pool gap/stats expected 23/19, got ${gap}/${stats}`);
-  }
-  if (map11 !== 126 || special !== 289) {
-    throw new Error(`map11/special expected 126/289, got ${map11}/${special}`);
-  }
-  if (futureOrdinary !== 35 || futureLarge !== 13) {
-    throw new Error(
-      `future ordinary/large expected 35/13, got ${futureOrdinary}/${futureLarge}`,
-    );
-  }
-  if (records.length !== 518) {
-    throw new Error(`coverage full-item records must be 518, got ${records.length}`);
-  }
-  for (const r of records) {
-    if (!r.disposition) throw new Error(`missing disposition @ ${r.coverageKey}`);
-  }
-
-  return { records: stableSortBy(records, (r) => r.coverageKey), dispositionCounts };
-}
-
 function buildCoefficientCoverageRecords() {
   const records = [];
   const files = [
@@ -4777,10 +4784,6 @@ function buildDataOnlyCoverageRecords() {
     {
       path: '最小验证/V2-Batch-A-target-dummies.seed.json',
       note: 'Batch A target dummies prove baselines; not passive mechanisms',
-    },
-    {
-      path: '最小验证/V2-Batch-C-adc-items.seed.json',
-      note: 'Batch C ADC item stats baselines; not passive mechanisms',
     },
   ];
   for (const s of dataOnlySeeds) {
@@ -5131,11 +5134,69 @@ function validateInventory(inv) {
   }
 
   const fullItems = (inv.coverageRecords || []).filter((r) => r.kind === 'full_item_container');
-  if (fullItems.length !== 518) {
-    errors.push(`full-item coverageRecords expected 518, got ${fullItems.length}`);
+  if (fullItems.length !== 0) {
+    errors.push(`full-item coverageRecords expected 0, got ${fullItems.length}`);
   }
-  for (const r of fullItems) {
-    if (!r.disposition) errors.push(`missing disposition @ ${r.coverageKey}`);
+  if ((inv.summary?.fullItemContainerCount || 0) !== 0) {
+    errors.push(`fullItemContainerCount=${inv.summary?.fullItemContainerCount}, expected 0`);
+  }
+  const coeffBuckets = (inv.coverageRecords || []).filter((r) => r.kind === 'coefficient_bucket');
+  const dataOnlySeeds = (inv.coverageRecords || []).filter((r) => r.kind === 'data_only_seed');
+  const legacyBundles = (inv.coverageRecords || []).filter((r) => r.kind === 'legacy_seed_bundle');
+  if (coeffBuckets.length !== 6) {
+    errors.push(`coefficient_bucket coverageRecords expected 6, got ${coeffBuckets.length}`);
+  }
+  if (dataOnlySeeds.length !== 1) {
+    errors.push(`data_only_seed coverageRecords expected 1 (Batch A), got ${dataOnlySeeds.length}`);
+  } else if (!String(dataOnlySeeds[0].coverageKey || '').includes('V2-Batch-A-target-dummies.seed.json')) {
+    errors.push('data_only_seed must be Batch A target dummies only');
+  }
+  if (legacyBundles.length !== 1) {
+    errors.push(`legacy_seed_bundle coverageRecords expected 1, got ${legacyBundles.length}`);
+  }
+  if ((inv.summary?.coverageRecordCount || 0) !== 8) {
+    errors.push(`coverageRecordCount=${inv.summary?.coverageRecordCount}, expected 8`);
+  }
+  const deletedPathNeedles = [
+    '最小验证/V2-full-item-dps-coverage-20260615.json',
+    '最小验证/V2-full-item-dps-coverage-20260615.csv',
+    '最小验证/V2-full-item-dps-coverage-summary-20260615.json',
+    '最小验证/V2-Batch-C-adc-items.seed.json',
+  ];
+  for (const s of inv.sources || []) {
+    for (const needle of deletedPathNeedles) {
+      if (String(s.path || '').includes(needle) || String(s.path || '') === needle) {
+        errors.push(`sources must not mention deleted path ${needle}`);
+      }
+    }
+  }
+  for (const key of Object.keys(inv.metadata?.currentInputHashes || {})) {
+    for (const needle of deletedPathNeedles) {
+      if (key.includes(needle) || key === needle) {
+        errors.push(`currentInputHashes must not mention deleted path ${needle}`);
+      }
+    }
+  }
+  for (const m of inv.mechanisms || []) {
+    if ((m.aliases || []).includes('fullitem_3094_energized_container')) {
+      errors.push('item 3094 must not retain fullitem_3094_energized_container alias');
+    }
+    for (const r of m.sourceRefs || []) {
+      for (const needle of deletedPathNeedles) {
+        if (String(r.path || '') === needle || String(r.path || '').includes(needle)) {
+          errors.push(`mechanism ${m.key} sourceRef must not cite deleted path ${needle}`);
+        }
+      }
+    }
+  }
+  for (const c of inv.coverageRecords || []) {
+    for (const r of c.sourceRefs || []) {
+      for (const needle of deletedPathNeedles) {
+        if (String(r.path || '') === needle || String(r.path || '').includes(needle)) {
+          errors.push(`coverage ${c.coverageKey} sourceRef must not cite deleted path ${needle}`);
+        }
+      }
+    }
   }
 
   // Required spot checks
@@ -5389,10 +5450,6 @@ function validateInventory(inv) {
       '2051 无畏 must be completed/full/generic_runtime with pipeline damage wasm+backend evidence (non-G8 EXTRA path)',
     );
   }
-  const c2051 = (inv.coverageRecords || []).find((r) => r.coverageKey === 'full_item_container|2051');
-  if (!c2051 || c2051.status !== 'out_of_scope' || c2051.disposition !== 'out_of_scope') {
-    errors.push('full_item_container|2051 must remain out_of_scope');
-  }
   if (
     !m3082 ||
     m3082.status !== 'completed' ||
@@ -5635,6 +5692,34 @@ function validateInventory(inv) {
   }
   if (!inv.metadata?.currentInputHashes?.[MALZAHAR_E_WIKI_REL]) {
     errors.push(`currentInputHashes missing ${MALZAHAR_E_WIKI_REL}`);
+  }
+  for (const wikiRel of [WIKI_CURRENT_ITEMS_NORMALIZED_REL, WIKI_CURRENT_ITEMS_MANIFEST_REL]) {
+    if (
+      !inv.sources.some(
+        (s) =>
+          s.path === wikiRel &&
+          s.kind === 'document_json' &&
+          s.recordCount === 0 &&
+          s.role === 'document',
+      )
+    ) {
+      errors.push(`sources missing document_json ${wikiRel} with recordCount 0 / role document`);
+    }
+    if (!inv.metadata?.currentInputHashes?.[wikiRel]) {
+      errors.push(`currentInputHashes missing ${wikiRel}`);
+    }
+  }
+  if (
+    inv.metadata?.currentInputHashes?.[WIKI_CURRENT_ITEMS_NORMALIZED_REL] !==
+    WIKI_CURRENT_ITEMS_NORMALIZED_SHA256
+  ) {
+    errors.push(`currentInputHashes ${WIKI_CURRENT_ITEMS_NORMALIZED_REL} sha mismatch`);
+  }
+  if (
+    inv.metadata?.currentInputHashes?.[WIKI_CURRENT_ITEMS_MANIFEST_REL] !==
+    WIKI_CURRENT_ITEMS_MANIFEST_SHA256
+  ) {
+    errors.push(`currentInputHashes ${WIKI_CURRENT_ITEMS_MANIFEST_REL} sha mismatch`);
   }
   if ((inv.summary?.sourceCount || 0) !== 12) {
     errors.push(`sourceCount=${inv.summary?.sourceCount}, expected 12`);
@@ -12741,9 +12826,6 @@ function buildInventory(generatedAt) {
   if (!fs.existsSync(paths.g8Json)) {
     throw new Error(`missing required input ${relFromRepo(paths.g8Json)}`);
   }
-  if (!fs.existsSync(paths.fullItemJson)) {
-    throw new Error(`missing required input ${relFromRepo(paths.fullItemJson)}`);
-  }
 
   const sources = discoverSources();
   const g8 = readJson(paths.g8Json);
@@ -12753,11 +12835,6 @@ function buildInventory(generatedAt) {
   const uniqueG8 = new Set(g8.candidates.map((c) => c.candidateKey));
   if (uniqueG8.size !== 242) {
     throw new Error(`G8 unique candidateKey must be 242, got ${uniqueG8.size}`);
-  }
-
-  const fullItems = readJson(paths.fullItemJson);
-  if (!Array.isArray(fullItems) || fullItems.length !== 518) {
-    throw new Error(`full-item coverage must be 518 rows, got ${fullItems?.length}`);
   }
 
   const mechanisms = buildMechanismsFromG8(g8);
@@ -12779,14 +12856,13 @@ function buildInventory(generatedAt) {
   const g8ByKey = new Map(g8.candidates.map((c) => [c.candidateKey, c]));
   ensureOutOfScopeEvidence(mechanisms, g8ByKey);
 
-  const { records: fullItemRecords } = buildFullItemCoverageRecords(fullItems, mechanismsByKey);
   const coeffRecords = buildCoefficientCoverageRecords();
   linkCoefficientDependencies(mechanismsByKey, coeffRecords);
   const dataOnlyRecords = buildDataOnlyCoverageRecords();
   const katarinaSeedRecord = buildKatarinaLegacySeedCoverageRecord();
 
   const coverageRecords = stableSortBy(
-    [...fullItemRecords, ...coeffRecords, ...dataOnlyRecords, katarinaSeedRecord],
+    [...coeffRecords, ...dataOnlyRecords, katarinaSeedRecord],
     (r) => r.coverageKey,
   );
 
@@ -12824,7 +12900,6 @@ function buildInventory(generatedAt) {
       dedupRules: [
         'g8_242_candidateKey_canonical_for_registry_g8_family',
         'registry_and_g8_sourceRecordKey_uses_candidateKey_for_uniqueness',
-        'full_item_518_containers_are_coverage_not_mechanisms',
         'seed_without_candidateKey_uses_exact_tuple_kind_owner_skill_tag',
         'normalize_item_N_and_N_to_owner_N',
         'composite_branches_annotated_via_coverageBoundary',
@@ -12833,7 +12908,8 @@ function buildInventory(generatedAt) {
         'keep_both_3302_keys',
         'L_and_M_share_3078_spellblade_M_supersedes_L',
         'specialized_KLMNPJ_attach_by_alias',
-        'batch_A_C_data_only_not_passive_mechanisms',
+        'batch_A_data_only_not_passive_mechanisms',
+        'wiki_current_items_documents_are_provenance_only',
         'nonstandard_katarina_mvp_seed_is_legacy_regression_bundle',
       ],
       aliasTableVersion: 'unified-inventory-alias-v1',

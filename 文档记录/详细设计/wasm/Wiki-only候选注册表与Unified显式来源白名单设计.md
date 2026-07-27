@@ -97,7 +97,12 @@ wiki-only-mechanism-candidate-registry  ◄── canonical for G8
 ### 5.3 Unified
 
 - Active 输入 9 + generator hashes 3 → `sources` / `currentInputHashes` 共 12；**无**目录发现。
-- 第九个 active：provenance-only EXTRA sidecar `数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json`（`kind=document_json`；hashed/parsed/validated；`recordCount=0`；零 coverage records）。
+- Active `document_json`（均为 hashed/parsed/validated；`recordCount=0`；零 coverage records）：
+  - EXTRA sidecar `数据参考/lol-wiki-extra-mechanisms/normalized/generic/malzahar-e.json`
+  - Wiki current-items `数据参考/lol-wiki-current-items/current-items.normalized.json`
+  - Wiki current-items `数据参考/lol-wiki-current-items/manifest.json`
+- **已退役**：full-item DPS coverage JSON 与 Batch-C ADC items seed JSON 不再进入 ACTIVE_SOURCE / coverage。
+- Coverage 角色计数：`coverageRecordCount=8` = `coefficient_bucket` 6 + `data_only_seed` 1（Batch A）+ `legacy_seed_bundle` 1；`fullItemContainerCount=0`。
 - Seed attachments 为静态表，**不**目录扫描 `*.seed.json`。
 - 键集相对 `1c0b2c9` 仍为 254；相对来源治理迁移后的 disposition 变化为有意机制闭环，不是 source-routing drift。
 - **当前计数**：completed 60 / blocked_runtime 113 / blocked_data 3 / OOS 72 / regression 5 / stale 1；full 60 / partial 3 / none 191；`actionableKeyCount=0`。
@@ -112,7 +117,7 @@ wiki-only-mechanism-candidate-registry  ◄── canonical for G8
 
 | Allowlist | 进入 `currentInputHashes`？ | 作用 |
 | --- | --- | --- |
-| `ACTIVE_SOURCE_ALLOWLIST`（9） | 是 | 当前解析/哈希输入：8 个 coverage/seed + 1 个 provenance-only `document_json` EXTRA sidecar（Malzahar E；`recordCount=0`） |
+| `ACTIVE_SOURCE_ALLOWLIST`（9） | 是 | 当前解析/哈希输入：6 个 coverage/seed + 3 个 provenance-only `document_json`（Malzahar E EXTRA sidecar + Wiki current-items normalized/manifest；均 `recordCount=0`） |
 | `GENERATOR_SOURCE_ALLOWLIST`（3） | 是 | registry / G8 / Unified 生成器自身哈希 |
 | `HISTORICAL_SOURCE_REF_ALLOWLIST` | 否 | sourceRefs/alias 允许的历史路径（含 Batch-G 文件作 `historical_reference`；Batch-J Malzahar 仅 regression） |
 | `SEED_REFERENCE_ATTACHMENTS` | 否（不读不哈希） | 按 mechanismKey 静态挂 seed 引用 |

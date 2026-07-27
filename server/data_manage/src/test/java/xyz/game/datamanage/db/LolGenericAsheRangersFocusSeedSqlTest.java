@@ -175,7 +175,7 @@ class LolGenericAsheRangersFocusSeedSqlTest {
         assertContains("INSERT INTO public.types");
         for (String attr : List.of(
             "hp", "mana", "ad", "attack_speed", "armor", "magic_resist",
-            "hp_regen", "mana_regen")) {
+            "hp_regen", "mana_regen", "crit_chance", "crit_damage")) {
             assertTrue(
                 Pattern.compile("(?is)attr_key\\s*=\\s*'" + attr + "'")
                     .matcher(sqlNoLineComments)
@@ -210,6 +210,16 @@ class LolGenericAsheRangersFocusSeedSqlTest {
                 && sql.contains("0.658") && sql.contains("26") && sql.contains("30")
                 && sql.contains("3.5") && sql.contains(", 7,"),
             "must seed Ashe level-1 panel numbers");
+        assertTrue(
+            Pattern.compile("(?s)'hero_ashe'\\s*,\\s*'crit_chance'\\s*,\\s*0\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "crit_chance EAV must be exactly 0");
+        assertTrue(
+            Pattern.compile("(?s)'hero_ashe'\\s*,\\s*'crit_damage'\\s*,\\s*2\\.0\\b")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "crit_damage EAV must be exactly 2.0");
         assertTrue(
             Pattern.compile(
                     "(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
@@ -393,6 +403,69 @@ class LolGenericAsheRangersFocusSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "flurry arrows must be physical copyable_on_hit=false");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'basic_attack_damage'[\\s\\S]{0,80}"
+                        + "\"\\$owner\\.attr\\.ad\"")
+                .matcher(sql)
+                .find()
+                || sql.contains("\"$owner.attr.ad\""),
+            "basic_attack_damage formula must remain $owner.attr.ad");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)'step_hero_ashe_ba_normal_damage'\\s*,\\s*"
+                        + "'basic_attack_damage'\\s*,\\s*20220\\s*,\\s*20170\\s*,\\s*"
+                        + "false\\s*,\\s*true")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "exactly one normal BA row must be crit_eligible=true");
+        assertEquals(
+            1,
+            countCritEligibleTrueDamageRows(),
+            "exactly one damage row must set crit_eligible true");
+        assertEquals(
+            11,
+            countCritEligibleFalseFlurryDamageRows(),
+            "all 6 first + 5 next Flurry arrows must set crit_eligible false");
+    }
+
+    @Test
+    void ensuresAbilityBasicAttackTypeAndRelationCollisionSafely() {
+        assertContains("62003");
+        assertContains("ability/basic_attack");
+        assertContains("type_id=62003 already bound");
+        assertContains("type_key=ability/basic_attack already bound");
+        assertTrue(
+            Pattern.compile(
+                    "(?is)62003[\\s\\S]{0,400}ability/basic_attack[\\s\\S]{0,400}NULL")
+                .matcher(sqlNoLineComments)
+                .find()
+                || Pattern.compile("(?is)'ability/basic_attack'[\\s\\S]{0,200}NULL")
+                    .matcher(sqlNoLineComments)
+                    .find(),
+            "type 62003 must set reserved_type_id NULL");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)62003\\s*,\\s*'ability'\\s*,\\s*'ability_hero_ashe_basic_attack'")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must relate 62003 to ability_hero_ashe_basic_attack");
+        assertTrue(
+            sql.contains("\"role\":\"basic_attack\"")
+                || sql.contains("'{\"role\":\"basic_attack\"}'"),
+            "type_relations extend must use stable basic_attack role");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)type_relations\\.extend\\s+IS\\s+DISTINCT\\s+FROM\\s+EXCLUDED\\.extend")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "type_relations upsert must compare extend for material-change-only");
+        assertTrue(
+            Pattern.compile(
+                    "(?s)crit_eligible\\s+IS\\s+DISTINCT\\s+FROM\\s+EXCLUDED\\.crit_eligible")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "damage_effect_details upsert must compare crit_eligible");
     }
 
     @Test
@@ -459,16 +532,24 @@ class LolGenericAsheRangersFocusSeedSqlTest {
     }
 
     @Test
-    void excludesTravelFrostLifeStealBuildingsRotationOtherRanksAndMigration() {
+    void excludesTravelFrostFidelityLifeStealBuildingsRotationOtherRanksAndMigration() {
         assertFalse(
             Pattern.compile(
                     "(?i)attack.?timer|attack.?reset|攻击计时|arrow.?travel|箭矢飞行|"
-                        + "frost.?shot|冰霜射击|life.?steal|生命偷取|omnivamp|"
+                        + "life.?steal|生命偷取|omnivamp|"
                         + "building|建筑物|multi.?target|多目标|"
                         + "ability.?rotation|技能轮转|cadence")
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not model excluded combat surfaces");
+        assertFalse(
+            Pattern.compile(
+                    "(?i)critical.?slow|frost.?slow|slow.?duration|duration.?decay|"
+                        + "rng.?crit|on.?crit|randuin|runaan|cheap.?shot|"
+                        + "full.?fidelity|full_fidelity")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not model Frost Shot slow/critical-slow/RNG/on-crit/full-fidelity");
         assertFalse(
             Pattern.compile("(?i)rank\\s*[1-4]\\b|ranks?\\s*=\\s*\\[|maxrank")
                 .matcher(sqlNoLineComments)
@@ -484,6 +565,40 @@ class LolGenericAsheRangersFocusSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not include live migration");
+        assertFalse(
+            Pattern.compile("(?i)INSERT\\s+INTO\\s+public\\.attribute_definitions")
+                .matcher(sqlNoLineComments)
+                .find(),
+            "must not create or alter attribute definitions");
+    }
+
+    @Test
+    void documentsFrostShotWikiIdentityExpectedOnlyBoundaryAndLocalRawCaveat() {
+        assertContains("Template:Data Ashe/I");
+        assertContains("Template:Data Ashe/Frost Shot");
+        assertContains("1306803");
+        assertContains("4038216");
+        assertContains("2026-06-30T07:27:41Z");
+        assertContains("def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da");
+        assertContains("575de3e4c99f9a92d3edd4076d33586d4f96b4e4a8511ff5925617e526ff2e2a");
+        assertContains("a8e2f81d77f85ad8d7a346ba9a3a3a354e675aa8cc9953765d5c6495f8bbd7ce");
+        assertContains("5da5112e02a1c3aed266df1a424a33e8c4806c15d94991ec14c3bbaed2ca8378");
+        assertTrue(
+            sql.contains("local raw") && sql.contains("canonical"),
+            "must document local raw vs canonical caveat");
+        assertTrue(
+            sql.contains("expectation-only")
+                || sql.contains("expected-only")
+                || sql.contains("expectation only"),
+            "must document expectation-only P boundary");
+        assertTrue(
+            sql.contains("2.0") && (sql.contains("26.1") || sql.contains("Patch 26.1")),
+            "must document current crit_damage=2.0 Patch 26.1 baseline");
+        assertContains("ashe-p-frost-shot-expected-basic-attack-phase-a-v3");
+        assertTrue(
+            sql.contains("不扩大 Q") || sql.contains("不扩大Q")
+                || sql.contains("sharing seed") || sql.contains("共享 seed"),
+            "must state sharing seed does not enlarge Q Frost Shot fidelity claim");
     }
 
     @Test
@@ -500,6 +615,31 @@ class LolGenericAsheRangersFocusSeedSqlTest {
         assertContains("IS DISTINCT FROM");
         assertEquals(6, countNamedFlurryFirstArrowSteps());
         assertEquals(5, countNamedFlurryNextArrowSteps());
+    }
+
+    private static int countCritEligibleTrueDamageRows() {
+        Matcher m = Pattern.compile(
+                "(?s)'(step_hero_ashe_ba_[^']+)'\\s*,\\s*'[^']+'\\s*,\\s*20220\\s*,\\s*"
+                    + "20170\\s*,\\s*false\\s*,\\s*true")
+            .matcher(sqlNoLineComments);
+        Set<String> ids = new HashSet<>();
+        while (m.find()) {
+            ids.add(m.group(1));
+        }
+        return ids.size();
+    }
+
+    private static int countCritEligibleFalseFlurryDamageRows() {
+        Matcher m = Pattern.compile(
+                "(?s)'(step_hero_ashe_ba_flurry_(?:first|next)_\\d+)'\\s*,\\s*"
+                    + "'flurry_arrow_damage'\\s*,\\s*20220\\s*,\\s*20170\\s*,\\s*"
+                    + "false\\s*,\\s*false")
+            .matcher(sqlNoLineComments);
+        Set<String> ids = new HashSet<>();
+        while (m.find()) {
+            ids.add(m.group(1));
+        }
+        return ids.size();
     }
 
     private static int countNamedFlurryFirstArrowSteps() {

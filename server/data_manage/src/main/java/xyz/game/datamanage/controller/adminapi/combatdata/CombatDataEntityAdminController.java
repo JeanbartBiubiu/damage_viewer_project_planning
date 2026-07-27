@@ -109,4 +109,21 @@ public class CombatDataEntityAdminController {
         logHelper.log(auth, request, body, 200);
         return response;
     }
+
+    /**
+     * Sole entity-editor aggregate write: atomic upsert of metadata + submitted attrs/resources/mounts
+     * under one optimistic-concurrency revision. Generic batch/delete remain absent.
+     */
+    @PutMapping("/entities/{entityId}:batch")
+    public ObjectNode putEntityBatch(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("entityId") String entityId,
+        @RequestBody ObjectNode body,
+        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        HttpServletRequest request
+    ) {
+        ObjectNode response = service.putEntityBatch(gameId, entityId, body);
+        logHelper.log(auth, request, body, 200);
+        return response;
+    }
 }
