@@ -7,12 +7,16 @@ import { fileURLToPath } from "node:url";
 import v8 from "node:v8";
 import {
   MODEL,
+  REAL_RUN_SETTING_SOURCES,
   appendJsonLine,
   collectAssistantText,
+  disposeAgent,
   ensureParentDir,
   formatPreflightReport,
   getApiKey,
+  parsePromptMode,
   performPreflight,
+  startAgentRunWithRetry,
   toErrorObject,
   writeJson,
   writeText,
@@ -30,6 +34,8 @@ import {
 } from "./cursor_local_agent_path_policy.mjs";
 
 const DEFAULT_MAX_OLD_SPACE_SIZE_MB = 6144;
+const DEFAULT_STARTUP_MAX_ATTEMPTS = 3;
+const DEFAULT_STARTUP_BACKOFF_MS = 1000;
 const HEAP_REEXEC_ENV = "CURSOR_LOCAL_AGENT_HEAP_REEXEC";
 
 function getV8HeapSizeLimitMiB() {
@@ -69,6 +75,8 @@ function parseArgs(argv) {
     outDir: "",
     timeoutMs: 0,
     maxOldSpaceSizeMb: DEFAULT_MAX_OLD_SPACE_SIZE_MB,
+    startupMaxAttempts: DEFAULT_STARTUP_MAX_ATTEMPTS,
+    startupBackoffMs: DEFAULT_STARTUP_BACKOFF_MS,
     allowedPaths: [],
     allowCliFallback: false,
     allowCliModelDrift: false,
@@ -84,6 +92,10 @@ function parseArgs(argv) {
     else if (arg === "--timeout-ms") args.timeoutMs = Number.parseInt(argv[++i], 10);
     else if (arg === "--max-old-space-size-mb") {
       args.maxOldSpaceSizeMb = Number.parseInt(argv[++i], 10);
+    } else if (arg === "--startup-max-attempts") {
+      args.startupMaxAttempts = Number.parseInt(argv[++i], 10);
+    } else if (arg === "--startup-backoff-ms") {
+      args.startupBackoffMs = Number.parseInt(argv[++i], 10);
     } else if (arg === "--allowed-path") args.allowedPaths.push(argv[++i]);
     else if (arg === "--allow-cli-fallback") args.allowCliFallback = true;
     else if (arg === "--allow-cli-model-drift") args.allowCliModelDrift = true;
@@ -98,12 +110,18 @@ Options:
   --prompt-file <path>        Read task prompt from a file.
   --name <name>               Agent name. Defaults to codex-cursor-task.
   --out-dir <path>            Artifact directory. Defaults under .agents/artifacts.
-  --timeout-ms <n>            Cancel the run after n milliseconds.
+  --timeout-ms <n>            Hard wall-clock cancellation after n milliseconds (0 = no hard cancel).
+                              Recommended: >=900000 for ordinary design review, >=3600000 for large
+                              implementation, or 0 with active monitoring. Positive values below
+                              600000 (design) / 1800000 (implementation) emit a preflight warning.
   --max-old-space-size-mb <n> V8 old-space size in MiB before SDK work. Defaults to ${DEFAULT_MAX_OLD_SPACE_SIZE_MB}.
                               Current process V8 heap limit: ${getV8HeapSizeLimitMiB()} MiB.
+  --startup-max-attempts <n>  Bounded Agent.create+send retries before a Run exists (1..3). Default ${DEFAULT_STARTUP_MAX_ATTEMPTS}.
+  --startup-backoff-ms <n>    Base backoff in ms for startup retries (non-negative). Default ${DEFAULT_STARTUP_BACKOFF_MS}.
+                              Delay = base * 2^(attempt-1) + jitter in [0, base]; retryable RateLimitError min 30000.
   --allowed-path <path>       Audited write allowlist entry (required, repeatable). Not an OS sandbox.
                               Paths resolve under --cwd; escapes outside the repository are rejected.
-  --allow-cli-fallback        Allow best-effort CLI fallback when SDK fails.
+  --allow-cli-fallback        Allow best-effort CLI fallback when SDK startup fails (no Run returned).
   --allow-cli-model-drift     Permit CLI fallback even though grok-4.5 fast=false cannot be proven.
 
 Artifacts (always under --out-dir): prompt.txt, summary.json, events.jsonl, diff.patch,
@@ -128,6 +146,16 @@ Artifacts (always under --out-dir): prompt.txt, summary.json, events.jsonl, diff
   if (!Number.isInteger(args.maxOldSpaceSizeMb) || args.maxOldSpaceSizeMb <= 0) {
     throw new Error("--max-old-space-size-mb must be a positive integer");
   }
+  if (
+    !Number.isInteger(args.startupMaxAttempts) ||
+    args.startupMaxAttempts < 1 ||
+    args.startupMaxAttempts > 3
+  ) {
+    throw new Error("--startup-max-attempts must be an integer in 1..3");
+  }
+  if (!Number.isInteger(args.startupBackoffMs) || args.startupBackoffMs < 0) {
+    throw new Error("--startup-backoff-ms must be a non-negative integer");
+  }
   if (args.allowedPaths.length === 0) {
     throw new Error("at least one --allowed-path is required for real runs (audited write allowlist)");
   }
@@ -143,6 +171,66 @@ function loadPrompt(args) {
     return readFileSync(args.promptFile, "utf8");
   }
   return args.prompt;
+}
+
+function applyPromptModeToPreflight(preflight, promptMode, timeoutMs) {
+  if (!promptMode) {
+    preflight.blocking.push(
+      "Prompt must declare exactly MODE: DESIGN_REVIEW_ONLY or MODE: IMPLEMENTATION on the first line.",
+    );
+    preflight.checks.push({
+      id: "prompt.mode",
+      status: "block",
+      message: "missing or invalid MODE on first prompt line",
+    });
+    return;
+  }
+
+  preflight.checks.push({
+    id: "prompt.mode",
+    status: "ok",
+    message: promptMode,
+  });
+
+  if (timeoutMs > 0) {
+    if (promptMode === "DESIGN_REVIEW_ONLY" && timeoutMs < 600000) {
+      preflight.warnings.push(
+        `--timeout-ms=${timeoutMs} is below the 600000 ms design-review hard-timeout warning threshold.`,
+      );
+    }
+    if (promptMode === "IMPLEMENTATION" && timeoutMs < 1800000) {
+      preflight.warnings.push(
+        `--timeout-ms=${timeoutMs} is below the 1800000 ms implementation hard-timeout warning threshold.`,
+      );
+    }
+  }
+}
+
+function rewritePreflightArtifacts(artifactPaths, summary) {
+  writeText(artifactPaths.preflight, formatPreflightReport(summary.preflight));
+  writeReviewTemplate(artifactPaths, summary);
+  writeJson(artifactPaths.summary, summary);
+}
+
+function printErrorEvidence(failure, summary) {
+  const safe = toErrorObject(failure) ?? {};
+  console.error(`ERROR_PHASE=${summary.failurePhase ?? "unknown"}`);
+  console.error(`ERROR_NAME=${safe.name ?? failure?.name ?? "Error"}`);
+  console.error(`ERROR_MESSAGE=${safe.message ?? failure?.message ?? String(failure)}`);
+  if (typeof safe.isRetryable === "boolean") {
+    console.error(`ERROR_RETRYABLE=${safe.isRetryable}`);
+  }
+  if (safe.code !== undefined && safe.code !== null) {
+    console.error(`ERROR_CODE=${safe.code}`);
+  }
+  if (safe.protoErrorCode !== undefined && safe.protoErrorCode !== null) {
+    console.error(`ERROR_PROTO=${safe.protoErrorCode}`);
+  }
+}
+
+function blockCliFallback(summary, reason) {
+  summary.cliFallback.status = "blocked";
+  summary.cliFallback.reason = reason;
 }
 
 function runGit(cwd, gitArgs, { encoding = "utf8" } = {}) {
@@ -385,8 +473,12 @@ function writeReviewTemplate(artifactPaths, summary) {
     `- cwd: ${summary.requestedCwd}`,
     `- agent: ${summary.agentId ?? "pending"}`,
     `- run: ${summary.runId ?? "pending"}`,
+    `- requestId: ${summary.requestId ?? "pending"}`,
+    `- promptMode: ${summary.promptMode ?? "null"}`,
     `- result: ${summary.resultStatus ?? "pending"}`,
+    `- failurePhase: ${summary.failurePhase ?? "none"}`,
     `- outDir: ${summary.outDir}`,
+    `- requested SDK setting sources: ${JSON.stringify(summary.settingSources ?? [])}`,
     `- write allowlist: audited (not OS sandbox)`,
     `- after-state outside-scope paths: ${outsideAfter.length}`,
     `- run-delta outside-scope paths: ${outsideDelta.length}`,
@@ -469,21 +561,49 @@ async function runWithSdk(args, summary, artifactPaths, promptText) {
   let run;
   let timeoutHandle;
   let timedOut = false;
+  let runReturned = false;
+
+  summary.failurePhase = "startup";
 
   try {
-    agent = await Agent.create({
-      apiKey,
-      name: args.name,
-      model: MODEL,
-      local: { cwd, store },
+    const started = await startAgentRunWithRetry({
+      maxAttempts: args.startupMaxAttempts,
+      baseDelayMs: args.startupBackoffMs,
+      createAgent: async () =>
+        Agent.create({
+          apiKey,
+          name: args.name,
+          model: MODEL,
+          local: {
+            cwd,
+            store,
+            settingSources: [...summary.settingSources],
+          },
+        }),
+      send: async (candidate) => candidate.send(promptText),
+      onAttempt: (attemptRecord) => {
+        summary.startup.attempts.push(attemptRecord);
+        summary.startup.attemptsUsed = summary.startup.attempts.length;
+      },
     });
+
+    agent = started.agent;
+    run = started.run;
+    runReturned = true;
+    summary.startup.attempts = started.attempts;
+    summary.startup.attemptsUsed = started.attemptsUsed;
     summary.runtimeUsed = "sdk";
     summary.agentId = agent.agentId;
-    console.log(`AGENT_ID=${agent.agentId}`);
-
-    run = await agent.send(promptText);
     summary.runId = run.id;
+    summary.requestId = run.requestId ?? null;
+    console.log(`AGENT_ID=${agent.agentId}`);
     console.log(`RUN_ID=${run.id}`);
+    if (summary.requestId) {
+      console.log(`REQUEST_ID=${summary.requestId}`);
+    }
+
+    // Run exists: never enter startup retry or CLI fallback for later failures.
+    summary.failurePhase = "run";
 
     if (args.timeoutMs > 0) {
       timeoutHandle = setTimeout(() => {
@@ -527,10 +647,38 @@ async function runWithSdk(args, summary, artifactPaths, promptText) {
     }
     console.log(`RESULT_STATUS=${result.status}`);
     console.log(`RESULT_MODEL=${JSON.stringify(result.model)}`);
+
+    // Only finished is success; other terminal statuses are run-phase failures.
+    if (result.status !== "finished") {
+      const err = new Error(`RunResult.status=${result.status} is not finished`);
+      err.name = "RunResultNotFinishedError";
+      throw err;
+    }
+
+    summary.failurePhase = null;
     return;
+  } catch (error) {
+    if (Array.isArray(error?.startupAttempts)) {
+      summary.startup.attempts = error.startupAttempts;
+      summary.startup.attemptsUsed =
+        error.startupAttemptsUsed ?? error.startupAttempts.length;
+    }
+    if (runReturned || summary.runId) {
+      summary.failurePhase = "run";
+    } else if (summary.failurePhase !== "preflight" && summary.failurePhase !== "audit") {
+      summary.failurePhase = "startup";
+    }
+    throw error;
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
-    if (agent) agent.close();
+    if (agent) {
+      try {
+        summary.disposal = await disposeAgent(agent);
+      } catch (disposalError) {
+        // Do not mask an already-active startup/run error.
+        summary.disposalError = toErrorObject(disposalError);
+      }
+    }
   }
 }
 
@@ -542,6 +690,7 @@ async function runWithCursorCli(args, summary, artifactPaths, promptText) {
 
   summary.runtimeUsed = "cursor-cli";
   summary.cliFallback = {
+    ...summary.cliFallback,
     status: "running",
     modelDriftAccepted: args.allowCliModelDrift,
     command: cliPath,
@@ -616,8 +765,11 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   ensureMaxOldSpaceSize(args.maxOldSpaceSizeMb);
   const promptText = loadPrompt(args);
+  const promptMode = parsePromptMode(promptText);
   const allowedPaths = normalizeAllowedPaths(args.cwd, args.allowedPaths);
   const preflight = performPreflight({ cwd: args.cwd, requireApiKey: true, requireSdk: true });
+  applyPromptModeToPreflight(preflight, promptMode, args.timeoutMs);
+
   const artifactPaths = {
     promptText: join(args.outDir, "prompt.txt"),
     summary: join(args.outDir, "summary.json"),
@@ -641,9 +793,11 @@ async function main() {
     requestedCwd: args.cwd,
     outDir: args.outDir,
     promptSource: args.promptFile ? basename(args.promptFile) : "inline",
+    promptMode,
     timeoutMs: args.timeoutMs,
     maxOldSpaceSizeMb: args.maxOldSpaceSizeMb,
     v8HeapSizeLimitMiB: getV8HeapSizeLimitMiB(),
+    settingSources: [...REAL_RUN_SETTING_SOURCES],
     allowedPaths,
     allowedPathSpecs: allowedPaths.map((item) => item.relative),
     writeAllowlistAudit: {
@@ -657,6 +811,14 @@ async function main() {
       runDeltaCount: 0,
       failClosed: false,
     },
+    startup: {
+      maxAttempts: args.startupMaxAttempts,
+      baseDelayMs: args.startupBackoffMs,
+      attemptsUsed: 0,
+      attempts: [],
+    },
+    failurePhase: null,
+    requestId: null,
     preflight,
     eventCountByType: {},
     assistantText: "",
@@ -669,37 +831,41 @@ async function main() {
     },
   };
 
+  // First artifact writes only after MODE/preflight/timeout checks + startup init.
   ensureParentDir(artifactPaths.summary);
   writeText(artifactPaths.promptText, promptText);
-  writeText(artifactPaths.preflight, formatPreflightReport(preflight));
-  writeReviewTemplate(artifactPaths, summary);
-  writeJson(artifactPaths.summary, summary);
+  rewritePreflightArtifacts(artifactPaths, summary);
 
   console.log(`OUT_DIR=${args.outDir}`);
+  console.log(`SETTING_SOURCES=${JSON.stringify(summary.settingSources)}`);
+  console.log(`PROMPT_MODE=${summary.promptMode ?? "null"}`);
   console.log(`PREFLIGHT_BLOCKING=${preflight.blocking.length}`);
   console.log(`PREFLIGHT_WARNINGS=${preflight.warnings.length}`);
   console.log(`ALLOWED_PATHS=${summary.allowedPathSpecs.join(";")}`);
+  console.log(`STARTUP_MAX_ATTEMPTS=${summary.startup.maxAttempts}`);
+  console.log(`STARTUP_BACKOFF_MS=${summary.startup.baseDelayMs}`);
 
   const beforeAuditOk = captureGitArtifacts(args, summary, artifactPaths);
-  writeReviewTemplate(artifactPaths, summary);
-  writeJson(artifactPaths.summary, summary);
+  // captureGitArtifacts may mutate preflight.warnings/blocking — rewrite artifacts.
+  rewritePreflightArtifacts(artifactPaths, summary);
 
   // Hard gate: unavailable before-state baseline/status/signatures must not start SDK
   // and must not attempt CLI fallback. Preserve review/summary/status artifacts.
   if (!beforeAuditOk) {
     summary.completedAt = new Date().toISOString();
     summary.runtimeUsed = "none";
-    summary.cliFallback.status = "blocked";
-    summary.cliFallback.reason =
-      "CLI fallback blocked because before-state git audit snapshot is unavailable.";
-    writeReviewTemplate(artifactPaths, summary);
-    writeJson(artifactPaths.summary, summary);
+    summary.failurePhase = "audit";
+    blockCliFallback(
+      summary,
+      "CLI fallback blocked because before-state git audit snapshot is unavailable (no-replay).",
+    );
+    rewritePreflightArtifacts(artifactPaths, summary);
     console.error(
       `WRITE_ALLOWLIST_AUDIT_UNAVAILABLE=${summary.writeAllowlistAudit?.auditError?.message ?? "before-state unavailable"}`,
     );
-    console.error(`ERROR_NAME=Error`);
-    console.error(
-      `ERROR_MESSAGE=${summary.git?.statusBeforeError?.message ?? "before-state git audit snapshot unavailable"}`,
+    printErrorEvidence(
+      new Error(summary.git?.statusBeforeError?.message ?? "before-state git audit snapshot unavailable"),
+      summary,
     );
     console.log(`REVIEW_FILE=${artifactPaths.review}`);
     console.log(`SUMMARY_FILE=${artifactPaths.summary}`);
@@ -710,25 +876,40 @@ async function main() {
 
   try {
     if (preflight.blocking.length > 0) {
+      summary.failurePhase = "preflight";
       throw new Error(`Preflight failed: ${preflight.blocking.join(" | ")}`);
     }
     await runWithSdk(args, summary, artifactPaths, promptText);
   } catch (sdkError) {
     summary.sdkError = toErrorObject(sdkError);
     failure = sdkError;
-    if (!args.allowCliFallback) {
+    if (!summary.failurePhase) {
+      summary.failurePhase = summary.runId ? "run" : "startup";
+    }
+
+    const canConsiderCliFallback =
+      summary.failurePhase === "startup" && !summary.runId;
+
+    if (!canConsiderCliFallback) {
+      blockCliFallback(
+        summary,
+        `CLI fallback blocked: failurePhase=${summary.failurePhase}` +
+          `${summary.runId ? ` runId=${summary.runId}` : ""} (no-replay after Run return / non-startup failure).`,
+      );
+    } else if (!args.allowCliFallback) {
       summary.cliFallback.status = "disabled";
     } else if (!args.allowCliModelDrift) {
-      summary.cliFallback.status = "blocked";
-      summary.cliFallback.reason =
-        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.5 with fast=false.";
+      blockCliFallback(
+        summary,
+        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.5 with fast=false.",
+      );
     } else if (!preflight.cliProbe.cursorAgentPath) {
-      summary.cliFallback.status = "blocked";
-      summary.cliFallback.reason = preflight.cliProbe.note;
+      blockCliFallback(summary, preflight.cliProbe.note);
     } else {
       try {
         await runWithCursorCli(args, summary, artifactPaths, promptText);
         failure = null;
+        summary.failurePhase = null;
       } catch (cliError) {
         summary.cliFallback.error = toErrorObject(cliError);
         failure = cliError;
@@ -737,8 +918,7 @@ async function main() {
   } finally {
     finalizeGitArtifacts(args, summary, artifactPaths);
     summary.completedAt = new Date().toISOString();
-    writeReviewTemplate(artifactPaths, summary);
-    writeJson(artifactPaths.summary, summary);
+    rewritePreflightArtifacts(artifactPaths, summary);
   }
 
   const audit = summary.writeAllowlistAudit ?? {};
@@ -759,21 +939,25 @@ async function main() {
   }
 
   if (failure) {
-    console.error(`ERROR_NAME=${failure?.name ?? "Error"}`);
-    console.error(`ERROR_MESSAGE=${failure?.message ?? String(failure)}`);
-    process.exit(1);
+    printErrorEvidence(failure, summary);
   }
 
   console.log(`REVIEW_FILE=${artifactPaths.review}`);
   console.log(`DIFF_FILE=${artifactPaths.diffPatch}`);
   console.log(`SUMMARY_FILE=${artifactPaths.summary}`);
+  console.log(`STARTUP_ATTEMPTS_USED=${summary.startup?.attemptsUsed ?? 0}`);
 
+  // audit.failClosed exit 2 takes precedence over ordinary runtime/task failure.
   if (audit.failClosed) {
     process.exit(2);
+  }
+  if (failure) {
+    process.exit(1);
   }
 }
 
 main().catch((error) => {
+  console.error(`ERROR_PHASE=unknown`);
   console.error(`ERROR_NAME=${error?.name ?? "Error"}`);
   console.error(`ERROR_MESSAGE=${error?.message ?? String(error)}`);
   process.exit(1);
