@@ -5,6 +5,13 @@ import {
   type CombatDataResourceConfig,
   type ResourceGroup
 } from './combat-data/resourceRegistry';
+import {
+  buildCanonicalCombatDataHref,
+  buildCombatDataFilterHref,
+  parseCombatDataFilterQuery,
+  splitCombatDataHash,
+  type FilterFieldPair
+} from './combat-data/resourceRelations';
 
 export type CombatDataNavItem = {
   /** Resource id, e.g. `effect-steps`. */
@@ -31,8 +38,10 @@ export function combatDataHashSegment(resourceId: string): string {
   return `${COMBAT_DATA_HASH_PREFIX}/${resourceId}`;
 }
 
-export function combatDataHref(resourceId: string): string {
-  return `#/${combatDataHashSegment(resourceId)}`;
+export function combatDataHref(resourceId: string, pairs: FilterFieldPair[] = []): string {
+  return pairs.length > 0
+    ? buildCombatDataFilterHref(resourceId, pairs)
+    : buildCanonicalCombatDataHref(resourceId);
 }
 
 export function toCombatDataNavItem(resource: CombatDataResourceConfig): CombatDataNavItem {
@@ -59,7 +68,7 @@ export function isKnownCombatDataResourceId(resourceId: string): boolean {
 }
 
 /**
- * Parse hash path segments after stripping `#/`.
+ * Parse hash path segments after stripping `#/` and any `?query`.
  * - `combat-data` / `admin` → default redirect target (null resource means bare index)
  * - `combat-data/effect-steps` → that resource
  * - unknown resource id → null (caller should redirect to default)
@@ -84,6 +93,48 @@ export function parseCombatDataRoute(segments: string[]): {
   }
 
   return { isCombatDataRoute: true, resourceId, needsDefaultRedirect: false };
+}
+
+/**
+ * Read combat-data resource + filter pairs from the current location hash.
+ * Invalid filters yield `filterOk: false` (caller should canonicalize).
+ */
+export function readCombatDataLocation(hash = typeof window !== 'undefined' ? window.location.hash : ''): {
+  isCombatDataRoute: boolean;
+  resourceId: string | null;
+  needsDefaultRedirect: boolean;
+  filterPairs: FilterFieldPair[];
+  filterOk: boolean;
+} {
+  const { segments, query } = splitCombatDataHash(hash);
+  const parsed = parseCombatDataRoute(segments);
+  if (!parsed.isCombatDataRoute || !parsed.resourceId) {
+    return {
+      ...parsed,
+      filterPairs: [],
+      filterOk: true
+    };
+  }
+  if (!query) {
+    return {
+      ...parsed,
+      filterPairs: [],
+      filterOk: true
+    };
+  }
+  const filter = parseCombatDataFilterQuery(query, parsed.resourceId);
+  if (!filter.ok) {
+    return {
+      ...parsed,
+      filterPairs: [],
+      filterOk: false
+    };
+  }
+  return {
+    ...parsed,
+    filterPairs: filter.pairs,
+    filterOk: true
+  };
 }
 
 /** Registry domain group id for a resource (`effects`, `entities`, …). */
@@ -116,3 +167,5 @@ export function getAdjacentCombatDataResources(resourceId: string): {
 
 /** @deprecated Prefer combatDataNavItems; kept for docs/checklist compatibility. */
 export const combatDataInternalResourceIds = COMBAT_DATA_RESOURCE_LIST.map((resource) => resource.id);
+
+export type { FilterFieldPair };
