@@ -40,6 +40,11 @@ type providerStateBag struct {
 	targetKey      string
 	targetValues   map[string]float64
 	targetExpireAt map[string]int64
+	// anchoredTickGeneration 按 anchorStateKey 记录当前调度世代；target 切换时清空。
+	anchoredTickGeneration map[string]uint64
+	// inclusiveAtExpiry*：仅在锚定 tick 帧内、now==expireAt 时抑制该 key 的惰性过期。
+	inclusiveAtExpiryKey    string
+	inclusiveAtExpiryTarget string
 }
 
 func (b *providerStateBag) ensure() {
@@ -58,6 +63,9 @@ func (b *providerStateBag) ensure() {
 	if b.targetExpireAt == nil {
 		b.targetExpireAt = map[string]int64{}
 	}
+	if b.anchoredTickGeneration == nil {
+		b.anchoredTickGeneration = map[string]uint64{}
+	}
 }
 
 func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*providerStateBag {
@@ -68,21 +76,25 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 	for k, bag := range src {
 		if bag == nil {
 			out[k] = &providerStateBag{
-				state:          map[string]float64{},
-				expireAt:       map[string]int64{},
-				fieldDefs:      map[string]providerStateFieldDef{},
-				targetValues:   map[string]float64{},
-				targetExpireAt: map[string]int64{},
+				state:                  map[string]float64{},
+				expireAt:               map[string]int64{},
+				fieldDefs:              map[string]providerStateFieldDef{},
+				targetValues:           map[string]float64{},
+				targetExpireAt:         map[string]int64{},
+				anchoredTickGeneration: map[string]uint64{},
 			}
 			continue
 		}
 		out[k] = &providerStateBag{
-			state:          cloneFloatMap(bag.state),
-			expireAt:       cloneInt64Map(bag.expireAt),
-			fieldDefs:      cloneFieldDefMap(bag.fieldDefs),
-			targetKey:      bag.targetKey,
-			targetValues:   cloneFloatMap(bag.targetValues),
-			targetExpireAt: cloneInt64Map(bag.targetExpireAt),
+			state:                   cloneFloatMap(bag.state),
+			expireAt:                cloneInt64Map(bag.expireAt),
+			fieldDefs:               cloneFieldDefMap(bag.fieldDefs),
+			targetKey:               bag.targetKey,
+			targetValues:            cloneFloatMap(bag.targetValues),
+			targetExpireAt:          cloneInt64Map(bag.targetExpireAt),
+			anchoredTickGeneration:  cloneUint64Map(bag.anchoredTickGeneration),
+			inclusiveAtExpiryKey:    bag.inclusiveAtExpiryKey,
+			inclusiveAtExpiryTarget: bag.inclusiveAtExpiryTarget,
 		}
 	}
 	return out
@@ -104,6 +116,17 @@ func cloneInt64Map(src map[string]int64) map[string]int64 {
 		return map[string]int64{}
 	}
 	out := make(map[string]int64, len(src))
+	for k, v := range src {
+		out[k] = v
+	}
+	return out
+}
+
+func cloneUint64Map(src map[string]uint64) map[string]uint64 {
+	if len(src) == 0 {
+		return map[string]uint64{}
+	}
+	out := make(map[string]uint64, len(src))
 	for k, v := range src {
 		out[k] = v
 	}
@@ -336,6 +359,8 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 }
 
 // lazyExpireProviderTargetState resets expired provider_target keys to defaultValue.
+// Global semantics remain nowMs >= expireAt. A bag-local inclusive-at-expiry hold may
+// suppress exactly one owner/provider/target/anchor key while nowMs == expireAt.
 func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 	if b == nil || len(b.fieldDefs) == 0 {
 		return
@@ -350,10 +375,60 @@ func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 			continue
 		}
 		if nowMs >= exp {
+			if b.holdsInclusiveAtExpiry(key, nowMs, exp) {
+				continue
+			}
 			b.targetValues[key] = def.defaultValue
 			b.targetExpireAt[key] = 0
 		}
 	}
+}
+
+func (b *providerStateBag) holdsInclusiveAtExpiry(key string, nowMs, exp int64) bool {
+	if b == nil || b.inclusiveAtExpiryKey == "" {
+		return false
+	}
+	if b.inclusiveAtExpiryKey != key {
+		return false
+	}
+	if b.inclusiveAtExpiryTarget == "" || b.targetKey != b.inclusiveAtExpiryTarget {
+		return false
+	}
+	return nowMs == exp
+}
+
+func (b *providerStateBag) setInclusiveAtExpiryHold(targetKey, anchorKey string) {
+	if b == nil {
+		return
+	}
+	b.ensure()
+	b.inclusiveAtExpiryTarget = targetKey
+	b.inclusiveAtExpiryKey = anchorKey
+}
+
+func (b *providerStateBag) clearInclusiveAtExpiryHold() {
+	if b == nil {
+		return
+	}
+	b.inclusiveAtExpiryKey = ""
+	b.inclusiveAtExpiryTarget = ""
+}
+
+// bumpAnchoredTickGeneration advances the generation token for one anchor key.
+func (b *providerStateBag) bumpAnchoredTickGeneration(anchorKey string) uint64 {
+	if b == nil || anchorKey == "" {
+		return 0
+	}
+	b.ensure()
+	b.anchoredTickGeneration[anchorKey]++
+	return b.anchoredTickGeneration[anchorKey]
+}
+
+func (b *providerStateBag) currentAnchoredTickGeneration(anchorKey string) uint64 {
+	if b == nil || anchorKey == "" || b.anchoredTickGeneration == nil {
+		return 0
+	}
+	return b.anchoredTickGeneration[anchorKey]
 }
 
 // clearProviderTargetState drops active target binding (values + timers) on target switch.
@@ -364,6 +439,8 @@ func (b *providerStateBag) clearProviderTargetState() {
 	b.targetKey = ""
 	b.targetValues = map[string]float64{}
 	b.targetExpireAt = map[string]int64{}
+	b.anchoredTickGeneration = map[string]uint64{}
+	b.clearInclusiveAtExpiryHold()
 }
 
 func (b *providerStateBag) clampProviderStateValue(key string, value float64) float64 {
@@ -412,4 +489,53 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 	exp := nowMs + def.durationMs
 	b.targetExpireAt[key] = exp
 	return exp
+}
+
+// subtractProviderExpireAt shortens a provider-scope timer without mutating state value or
+// refreshing durationMs. Inactive timers (missing/<=0) are a no-op. Returns:
+//
+//	applied — whether an active timer was adjusted
+//	expired — whether the new expiry reached nowMs (caller must restore defaultValue)
+//	newExp  — resulting expireAt (0 when expired or inactive)
+func (b *providerStateBag) subtractProviderExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
+	if b == nil || key == "" || deltaMs < 0 {
+		return false, false, 0
+	}
+	b.ensure()
+	old, ok := b.expireAt[key]
+	if !ok || old <= 0 {
+		return false, false, 0
+	}
+	next := old - deltaMs
+	if next < nowMs {
+		next = nowMs
+	}
+	if next <= nowMs {
+		b.expireAt[key] = 0
+		return true, true, 0
+	}
+	b.expireAt[key] = next
+	return true, false, next
+}
+
+// subtractTargetExpireAt is the provider_target counterpart of subtractProviderExpireAt.
+func (b *providerStateBag) subtractTargetExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
+	if b == nil || key == "" || deltaMs < 0 {
+		return false, false, 0
+	}
+	b.ensure()
+	old, ok := b.targetExpireAt[key]
+	if !ok || old <= 0 {
+		return false, false, 0
+	}
+	next := old - deltaMs
+	if next < nowMs {
+		next = nowMs
+	}
+	if next <= nowMs {
+		b.targetExpireAt[key] = 0
+		return true, true, 0
+	}
+	b.targetExpireAt[key] = next
+	return true, false, next
 }

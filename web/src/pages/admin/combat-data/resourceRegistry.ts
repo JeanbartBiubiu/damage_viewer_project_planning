@@ -5,13 +5,6 @@ import {
 } from '../../../types/combatData';
 import { ApiRequestError, type ApiResult } from '../../../services/apiClient';
 import {
-  createCopiedImageReference,
-  createUntouchedImageReference,
-  isImageReferenceEditState,
-  serializeImageUriPatch,
-  type ImageReferenceEditState
-} from '../../../services/combatDataImageReference';
-import {
   getAbilities,
   getAbilityCooldowns,
   getAbilityCosts,
@@ -74,7 +67,7 @@ import {
   putTypeRelation
 } from '../../../services/combatDataClient';
 
-export type FieldKind = 'text' | 'number' | 'boolean' | 'json' | 'select' | 'textarea' | 'image-reference';
+export type FieldKind = 'text' | 'number' | 'boolean' | 'json' | 'select' | 'textarea';
 
 export type FieldOption = {
   label: string;
@@ -94,35 +87,12 @@ export type FieldDef = {
   defaultValue?: string | number | boolean;
 };
 
-/**
- * Image-reference edit state is stored as a JSON string in ResourceFormValues
- * (keeps the form value union compatible with existing Select/effect-step helpers).
- */
-export const IMAGE_REFERENCE_FORM_PREFIX = '__imageRef__:';
-
-export function encodeImageReferenceFormValue(state: ImageReferenceEditState): string {
-  return `${IMAGE_REFERENCE_FORM_PREFIX}${JSON.stringify(state)}`;
-}
-
-export function decodeImageReferenceFormValue(value: unknown): ImageReferenceEditState {
-  if (isImageReferenceEditState(value)) {
-    return value;
-  }
-  if (typeof value === 'string' && value.startsWith(IMAGE_REFERENCE_FORM_PREFIX)) {
-    try {
-      const parsed = JSON.parse(value.slice(IMAGE_REFERENCE_FORM_PREFIX.length)) as unknown;
-      if (isImageReferenceEditState(parsed)) {
-        return parsed;
-      }
-    } catch {
-      // fall through
-    }
-  }
-  if (typeof value === 'string' && value.trim() !== '') {
-    return createUntouchedImageReference(value);
-  }
-  return createUntouchedImageReference(null);
-}
+export type ReferenceDef = {
+  field: string;
+  resourceId: string;
+  valueKey: string;
+  labelKey?: string;
+};
 
 export type ResourceListResult = {
   records: Record<string, unknown>[];
@@ -130,84 +100,6 @@ export type ResourceListResult = {
 };
 
 export type ResourceFormValues = Record<string, string | number | boolean>;
-
-/** Optional candidate predicate on ReferenceDef (GUX-1). `present` ⇒ record[field] != null. */
-export type ReferenceTargetPredicate = {
-  field: string;
-  operator: 'present';
-};
-
-export type ReferenceDef = {
-  field: string;
-  resourceId: string;
-  valueKey: string;
-  labelKey?: string;
-  /**
-   * When set, Select options are filtered to records matching a control on record[recordKey].
-   * Direct: control = form[dependsOn].
-   * ownerLookup: resolve form[dependsOn] via lookup resource matchKey → ownerKey, then filter on that owner.
-   */
-  scope?: {
-    dependsOn: string;
-    recordKey: string;
-    ownerLookup?: { resourceId: string; matchKey: string; ownerKey: string };
-  };
-  /** Narrow candidates after scope; failure must not broaden the list. */
-  targetPredicate?: ReferenceTargetPredicate;
-};
-
-export type ResourceWorkflowCompoundParent = {
-  kind: 'compound-parent';
-  targetResourceId: string;
-  /** Ordered source/target field pairs (AND navigation + create-child prefill). */
-  fieldPairs: Array<{ sourceField: string; targetField: string }>;
-};
-
-export type ResourceWorkflowSemanticContext = {
-  kind: 'semantic-context';
-  resourceId: string;
-  /** Operator-facing note; not a Select filter or RI claim. */
-  purpose: string;
-};
-
-export type ResourceWorkflowMultiHopAssistance = {
-  kind: 'multi-hop-assistance';
-  id: string;
-  assistanceField: string;
-  sourceField: string;
-  hops: Array<{ resourceId: string; matchField: string; valueField: string }>;
-  targetFilter: { resourceId: string; recordField: string };
-};
-
-export type ResourceWorkflowException =
-  | ResourceWorkflowCompoundParent
-  | ResourceWorkflowSemanticContext
-  | ResourceWorkflowMultiHopAssistance;
-
-/** Operator-facing workflow metadata required on every combat-data resource. */
-export type ResourceWorkflow = {
-  purpose: string;
-  /** Declared direct upstream resource ids (orientation; graph also derived from refs). */
-  upstream: string[];
-  /** Suggested downstream / next-step resource ids. */
-  downstream: string[];
-  /** Optional guided static route hash segment (e.g. entity-setup). */
-  guidedStaticRoute?: string;
-  exceptions?: ResourceWorkflowException[];
-};
-
-/** Registry-only dependent reference: target field resolved from a controlling field value. */
-export type DependentReferenceTarget = {
-  resourceId: string;
-  valueKey: string;
-  labelKey?: string;
-};
-
-export type DependentReferenceDef = {
-  field: string;
-  dependsOn: string;
-  byValue: Record<string, DependentReferenceTarget>;
-};
 
 export type ResourceKind = 'table' | 'singleton' | 'effect-step';
 
@@ -231,10 +123,7 @@ export type CombatDataResourceConfig = {
   fields: FieldDef[];
   pathKeys: string[];
   references?: ReferenceDef[];
-  dependentReferences?: DependentReferenceDef[];
   kind?: ResourceKind;
-  /** Mandatory GUX-1 workflow metadata. */
-  workflow: ResourceWorkflow;
 };
 
 export const RESOURCE_GROUPS: ResourceGroup[] = [
@@ -339,9 +228,6 @@ function str(form: ResourceFormValues, key: string): string {
   if (value === undefined || value === null) {
     return '';
   }
-  if (typeof value === 'string' && value.startsWith(IMAGE_REFERENCE_FORM_PREFIX)) {
-    return '';
-  }
   return String(value).trim();
 }
 
@@ -391,12 +277,6 @@ export function bodyFromFields(
     }
 
     const raw = form[field.name];
-    if (field.kind === 'image-reference') {
-      const state = decodeImageReferenceFormValue(raw);
-      Object.assign(body, serializeImageUriPatch(state));
-      continue;
-    }
-
     if (raw === undefined || raw === null || raw === '') {
       if (field.kind === 'boolean') {
         body[field.name] = false;
@@ -435,10 +315,6 @@ export function bodyFromFields(
 export function createEmptyForm(fields: FieldDef[]): ResourceFormValues {
   const form: ResourceFormValues = {};
   for (const field of fields) {
-    if (field.kind === 'image-reference') {
-      form[field.name] = encodeImageReferenceFormValue(createUntouchedImageReference(null));
-      continue;
-    }
     if (field.defaultValue !== undefined) {
       form[field.name] = field.defaultValue;
       continue;
@@ -458,17 +334,6 @@ export function recordToForm(record: Record<string, unknown>, fields: FieldDef[]
   const form = createEmptyForm(fields);
   for (const field of fields) {
     const value = record[field.name];
-    if (field.kind === 'image-reference') {
-      // Opening an existing record must not mark the field touched.
-      form[field.name] = encodeImageReferenceFormValue(
-        createUntouchedImageReference(
-          typeof value === 'string' || value === null || value === undefined
-            ? (value as string | null | undefined)
-            : null
-        )
-      );
-      continue;
-    }
     if (value === undefined || value === null) {
       continue;
     }
@@ -490,144 +355,13 @@ export function recordToForm(record: Record<string, unknown>, fields: FieldDef[]
   return form;
 }
 
-/**
- * Create-copy draft: path keys cleared; image-reference intentionally reuses binding when present.
- * Prefer this over resourceRelations.buildCopyForm for image-aware resources.
- */
-export function buildResourceCopyForm(
-  config: CombatDataResourceConfig,
-  record: Record<string, unknown>
-): ResourceFormValues {
-  const form: ResourceFormValues = {};
-  const pathKeySet = new Set(config.pathKeys);
-  for (const field of config.fields) {
-    if (pathKeySet.has(field.name) || field.lockedOnEdit) {
-      if (field.kind === 'image-reference') {
-        form[field.name] = encodeImageReferenceFormValue(createUntouchedImageReference(null));
-      } else {
-        form[field.name] = field.kind === 'boolean' ? false : '';
-      }
-      continue;
-    }
-    if (field.kind === 'image-reference') {
-      const value = record[field.name];
-      form[field.name] = encodeImageReferenceFormValue(
-        createCopiedImageReference(
-          typeof value === 'string' || value === null || value === undefined
-            ? (value as string | null | undefined)
-            : null
-        )
-      );
-      continue;
-    }
-    const value = record[field.name];
-    if (value === undefined || value === null) {
-      form[field.name] =
-        field.defaultValue !== undefined
-          ? field.defaultValue
-          : field.kind === 'boolean'
-            ? false
-            : field.kind === 'json'
-              ? '{}'
-              : '';
-      continue;
-    }
-    if (field.kind === 'boolean') {
-      form[field.name] = Boolean(value);
-    } else if (field.kind === 'number') {
-      form[field.name] = typeof value === 'number' ? value : Number(value);
-    } else if (field.kind === 'json') {
-      form[field.name] = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
-    } else {
-      form[field.name] = String(value);
-    }
-  }
-  return form;
-}
-
-/**
- * First field name that fails the same checks as `validateResourceForm` (registry order).
- * Used to focus the corresponding control in the generic modal on validation failure.
- */
-export function getFirstInvalidResourceFieldName(
-  config: CombatDataResourceConfig,
-  form: ResourceFormValues
-): string | null {
-  for (const field of config.fields) {
-    if (!field.required) {
-      continue;
-    }
-    const value = form[field.name];
-    if (field.kind === 'boolean' || field.kind === 'image-reference') {
-      continue;
-    }
-    if (value === undefined || value === null || String(value).trim() === '') {
-      return field.name;
-    }
-  }
-
-  for (const field of config.fields) {
-    if (field.kind !== 'number') {
-      continue;
-    }
-    const raw = form[field.name];
-    if (raw === undefined || raw === null || String(raw).trim() === '') {
-      continue;
-    }
-    const parsed = typeof raw === 'number' ? raw : Number(String(raw).trim());
-    if (!Number.isFinite(parsed)) {
-      return field.name;
-    }
-  }
-
-  if (config.id === 'types' || config.fields.some((field) => field.name === 'typeId' && field.required)) {
-    const typeIdField = config.fields.find((field) => field.name === 'typeId');
-    if (typeIdField) {
-      const raw = form.typeId;
-      if (raw !== undefined && String(raw).trim() !== '') {
-        const parsed = typeof raw === 'number' ? raw : Number(String(raw).trim());
-        if (!Number.isFinite(parsed)) {
-          return 'typeId';
-        }
-      }
-    }
-  }
-
-  if (config.id === 'type-relations') {
-    const category = str(form, 'targetCategory');
-    if (!COMBAT_TYPE_RELATION_TARGET_CATEGORIES.includes(category as (typeof COMBAT_TYPE_RELATION_TARGET_CATEGORIES)[number])) {
-      return 'targetCategory';
-    }
-  }
-
-  for (const field of config.fields) {
-    if (field.kind !== 'json') {
-      continue;
-    }
-    const raw = str(form, field.name);
-    if (!raw) {
-      continue;
-    }
-    try {
-      const parsed = JSON.parse(raw) as unknown;
-      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-        return field.name;
-      }
-    } catch {
-      return field.name;
-    }
-  }
-
-  return null;
-}
-
 export function validateResourceForm(config: CombatDataResourceConfig, form: ResourceFormValues): string | null {
   for (const field of config.fields) {
     if (!field.required) {
       continue;
     }
     const value = form[field.name];
-    if (field.kind === 'boolean' || field.kind === 'image-reference') {
+    if (field.kind === 'boolean') {
       continue;
     }
     if (value === undefined || value === null || String(value).trim() === '') {
@@ -690,11 +424,6 @@ export function validateResourceForm(config: CombatDataResourceConfig, form: Res
   return null;
 }
 
-/** Stable DOM id for generic combat-data modal fields (focus target). */
-export function combatDataFieldDomId(fieldName: string): string {
-  return `combat-data-field-${fieldName}`;
-}
-
 export function getRecordRowKey(record: Record<string, unknown>, pathKeys: string[], index: number): string {
   if (pathKeys.length === 0) {
     return `row-${index}`;
@@ -747,13 +476,7 @@ const attributeDefinitionFields: FieldDef[] = [
   { name: 'defaultValue', label: '默认值', kind: 'number' },
   { name: 'rateTargetAttrKey', label: '比率目标属性', kind: 'text' },
   { name: 'minValue', label: '最小值', kind: 'number' },
-  { name: 'maxValue', label: '最大值', kind: 'number' },
-  {
-    name: 'imageUri',
-    label: '图片关联',
-    kind: 'image-reference',
-    helper: '可选同游戏 images.uri；省略保留、null/空白清除。上传资产不会自动保存本关联。'
-  }
+  { name: 'maxValue', label: '最大值', kind: 'number' }
 ];
 
 const resourceDefinitionFields: FieldDef[] = [
@@ -788,13 +511,7 @@ const typeRelationFields: FieldDef[] = [
 const entityFields: FieldDef[] = [
   { name: 'entityId', label: '实体 ID', kind: 'text', required: true, lockedOnEdit: true },
   { name: 'displayName', label: '显示名', kind: 'text', required: true },
-  { name: 'description', label: '描述', kind: 'textarea' },
-  {
-    name: 'imageUri',
-    label: '图片关联',
-    kind: 'image-reference',
-    helper: '可选同游戏 images.uri；省略保留、null/空白清除。上传资产不会自动保存本关联。'
-  }
+  { name: 'description', label: '描述', kind: 'textarea' }
 ];
 
 const entityAttributeFields: FieldDef[] = [
@@ -992,262 +709,8 @@ const listenerEffectSequenceFields: FieldDef[] = [
   { name: 'sequenceId', label: '序列 ID', kind: 'text', required: true, lockedOnEdit: true }
 ];
 
-const stageSemanticContext = (purpose: string): ResourceWorkflowSemanticContext => ({
-  kind: 'semantic-context',
-  resourceId: 'progression-schema',
-  purpose
-});
-
-/** GUX-1 workflow metadata for all 30 combat-data resources. */
-export const RESOURCE_WORKFLOWS: Record<string, ResourceWorkflow> = {
-  'progression-schema': {
-    purpose: '定义成长阶段区间，供属性/资源阶段表对齐语义（非外键）。',
-    upstream: [],
-    downstream: ['entity-attribute-stages', 'entity-resource-stages'],
-    guidedStaticRoute: 'entity-growth'
-  },
-  'attribute-definitions': {
-    purpose: '登记战斗属性键与值种类，供实体属性与修饰器引用。',
-    upstream: [],
-    downstream: ['entity-attributes', 'provider-modifiers'],
-    guidedStaticRoute: 'entity-setup'
-  },
-  'resource-definitions': {
-    purpose: '登记 HP/能量等资源键，供实体资源与消耗引用。',
-    upstream: [],
-    downstream: ['entity-resources', 'ability-costs'],
-    guidedStaticRoute: 'entity-setup'
-  },
-  types: {
-    purpose: '维护类型目录（typeId/typeKey），供各处类型字段选择。',
-    upstream: [],
-    downstream: ['type-relations', 'providers', 'abilities']
-  },
-  'type-relations': {
-    purpose: '把类型挂接到实体/技能等目标，按 targetCategory 切换目标表。',
-    upstream: ['types'],
-    downstream: []
-  },
-  entities: {
-    purpose: '维护战斗实体主档。',
-    upstream: [],
-    downstream: ['entity-attributes', 'entity-resources', 'entity-provider-mounts'],
-    guidedStaticRoute: 'entity-setup'
-  },
-  'entity-attributes': {
-    purpose: '为实体写入基础属性值；是属性阶段行的复合父行。',
-    upstream: ['entities', 'attribute-definitions'],
-    downstream: ['entity-attribute-stages'],
-    guidedStaticRoute: 'entity-growth'
-  },
-  'entity-attribute-stages': {
-    purpose: '按成长阶段填写实体属性；依赖复合父行与成长 Schema 语义。',
-    upstream: ['entities', 'attribute-definitions', 'entity-attributes', 'progression-schema'],
-    downstream: [],
-    guidedStaticRoute: 'entity-growth',
-    exceptions: [
-      {
-        kind: 'compound-parent',
-        targetResourceId: 'entity-attributes',
-        fieldPairs: [
-          { sourceField: 'entityId', targetField: 'entityId' },
-          { sourceField: 'attrKey', targetField: 'attrKey' }
-        ]
-      },
-      stageSemanticContext('阶段上下限与标签来自成长 Schema，不作 Select 过滤。')
-    ]
-  },
-  'entity-resources': {
-    purpose: '为实体写入资源初值/上限；是资源阶段行的复合父行。',
-    upstream: ['entities', 'resource-definitions'],
-    downstream: ['entity-resource-stages'],
-    guidedStaticRoute: 'entity-growth'
-  },
-  'entity-resource-stages': {
-    purpose: '按成长阶段填写实体资源；依赖复合父行与成长 Schema 语义。',
-    upstream: ['entities', 'resource-definitions', 'entity-resources', 'progression-schema'],
-    downstream: [],
-    guidedStaticRoute: 'entity-growth',
-    exceptions: [
-      {
-        kind: 'compound-parent',
-        targetResourceId: 'entity-resources',
-        fieldPairs: [
-          { sourceField: 'entityId', targetField: 'entityId' },
-          { sourceField: 'resourceKey', targetField: 'resourceKey' }
-        ]
-      },
-      stageSemanticContext('阶段上下限与标签来自成长 Schema，不作 Select 过滤。')
-    ]
-  },
-  'entity-provider-mounts': {
-    purpose: '把 Provider 挂到实体上。',
-    upstream: ['entities', 'providers'],
-    downstream: [],
-    guidedStaticRoute: 'entity-provider-mount'
-  },
-  providers: {
-    purpose: '维护 Provider 主档。',
-    upstream: ['types'],
-    downstream: [
-      'provider-lifecycles',
-      'provider-state-fields',
-      'provider-formulas',
-      'provider-modifiers',
-      'provider-listeners',
-      'abilities',
-      'effect-sequences'
-    ],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-lifecycles': {
-    purpose: '配置 Provider 持续、层数与刷新策略。',
-    upstream: ['providers', 'types', 'provider-formulas'],
-    downstream: [],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-state-fields': {
-    purpose: '定义 Provider 运行时状态键。',
-    upstream: ['providers', 'types'],
-    downstream: [],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-formulas': {
-    purpose: '维护 Provider 作用域公式，供生命周期/修饰器/技能引用。',
-    upstream: ['providers'],
-    downstream: ['provider-lifecycles', 'provider-modifiers', 'abilities', 'ability-phases'],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-modifiers': {
-    purpose: '配置属性修饰通道与公式。',
-    upstream: ['providers', 'types', 'attribute-definitions', 'provider-formulas'],
-    downstream: [],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-listeners': {
-    purpose: '配置事件监听；abilityId 受本行 providerId 约束。',
-    upstream: ['providers', 'types', 'abilities'],
-    downstream: ['listener-match-types', 'listener-effect-sequences'],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'listener-match-types': {
-    purpose: '为监听器绑定匹配模式与类型。',
-    upstream: ['provider-listeners', 'types'],
-    downstream: [],
-    guidedStaticRoute: 'provider-setup'
-  },
-  'provider-tick-sequences': {
-    purpose: '把同 Provider 的效果序列挂到 Tick。',
-    upstream: ['providers', 'effect-sequences'],
-    downstream: [],
-    guidedStaticRoute: 'provider-setup'
-  },
-  abilities: {
-    purpose: '维护 Ability 主档及其所属 Provider。',
-    upstream: ['providers', 'types', 'provider-formulas'],
-    downstream: [
-      'ability-parameters',
-      'ability-state-fields',
-      'ability-phases',
-      'ability-costs',
-      'ability-cooldowns'
-    ],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'ability-parameters': {
-    purpose: '为 Ability 写入数值参数。',
-    upstream: ['abilities'],
-    downstream: [],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'ability-state-fields': {
-    purpose: '定义 Ability 运行时状态键。',
-    upstream: ['abilities', 'types'],
-    downstream: [],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'ability-phases': {
-    purpose: '配置施放阶段顺序与类型。',
-    upstream: ['abilities', 'types', 'provider-formulas'],
-    downstream: ['ability-costs', 'ability-cooldowns', 'ability-phase-effect-sequences'],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'ability-costs': {
-    purpose: '配置资源消耗；phaseId 受本行 abilityId 约束。',
-    upstream: ['abilities', 'ability-phases', 'resource-definitions', 'provider-formulas'],
-    downstream: [],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'ability-cooldowns': {
-    purpose: '配置冷却；startsOnPhaseId 受本行 abilityId 约束。',
-    upstream: ['abilities', 'ability-phases', 'provider-formulas'],
-    downstream: [],
-    guidedStaticRoute: 'ability-setup'
-  },
-  'effect-sequences': {
-    purpose: '维护效果步骤容器序列及其所属 Provider。',
-    upstream: ['providers'],
-    downstream: [
-      'effect-steps',
-      'provider-tick-sequences',
-      'ability-phase-effect-sequences',
-      'listener-effect-sequences'
-    ],
-    guidedStaticRoute: 'effect-sequence-setup'
-  },
-  'effect-steps': {
-    purpose: '编辑带判别 detail 的效果步骤（十一选一）。',
-    upstream: ['effect-sequences'],
-    downstream: ['execute-effect-details'],
-    guidedStaticRoute: 'effect-step-setup'
-  },
-  'execute-effect-details': {
-    purpose: '为处决步骤补充生命比例阈值；仅可选已含 executeDetail 的步骤。',
-    upstream: ['effect-steps'],
-    downstream: [],
-    guidedStaticRoute: 'effect-step-setup'
-  },
-  'ability-phase-effect-sequences': {
-    purpose: '把阶段触发挂到同 Provider 的效果序列（多跳辅助）。',
-    upstream: ['ability-phases', 'types', 'effect-sequences'],
-    downstream: [],
-    guidedStaticRoute: 'effect-sequence-setup',
-    exceptions: [
-      {
-        kind: 'multi-hop-assistance',
-        id: 'phase-binding',
-        assistanceField: 'sequenceId',
-        sourceField: 'phaseId',
-        hops: [
-          { resourceId: 'ability-phases', matchField: 'phaseId', valueField: 'abilityId' },
-          { resourceId: 'abilities', matchField: 'abilityId', valueField: 'providerId' }
-        ],
-        targetFilter: { resourceId: 'effect-sequences', recordField: 'providerId' }
-      }
-    ]
-  },
-  'listener-effect-sequences': {
-    purpose: '把监听器挂到同 Provider 的效果序列（多跳辅助）。',
-    upstream: ['provider-listeners', 'effect-sequences'],
-    downstream: [],
-    guidedStaticRoute: 'effect-sequence-setup',
-    exceptions: [
-      {
-        kind: 'multi-hop-assistance',
-        id: 'listener-binding',
-        assistanceField: 'sequenceId',
-        sourceField: 'listenerId',
-        hops: [
-          { resourceId: 'provider-listeners', matchField: 'listenerId', valueField: 'providerId' }
-        ],
-        targetFilter: { resourceId: 'effect-sequences', recordField: 'providerId' }
-      }
-    ]
-  }
-};
-
-export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
-  [  {
+export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = [
+  {
     id: 'progression-schema',
     label: '成长 Schema',
     summary: '配置等级/星级等成长阶段区间',
@@ -1309,25 +772,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'basics',
     pathKeys: ['typeId', 'targetCategory', 'targetId'],
     fields: typeRelationFields,
-    references: [{ field: 'typeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }],
-    dependentReferences: [
-      {
-        field: 'targetId',
-        dependsOn: 'targetCategory',
-        byValue: {
-          entity: { resourceId: 'entities', valueKey: 'entityId', labelKey: 'displayName' },
-          attribute: { resourceId: 'attribute-definitions', valueKey: 'attrKey', labelKey: 'attrName' },
-          resource: { resourceId: 'resource-definitions', valueKey: 'resourceKey', labelKey: 'displayName' },
-          provider: { resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-          ability: { resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' },
-          ability_phase: { resourceId: 'ability-phases', valueKey: 'phaseId' },
-          modifier: { resourceId: 'provider-modifiers', valueKey: 'modifierId', labelKey: 'modifierKey' },
-          listener: { resourceId: 'provider-listeners', valueKey: 'listenerId', labelKey: 'listenerKey' },
-          effect_step: { resourceId: 'effect-steps', valueKey: 'stepId' },
-          type: { resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }
-        }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getTypeRelations(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) => {
       const extend = parseJsonObject(form, 'extend');
@@ -1387,10 +831,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'entities',
     pathKeys: ['entityId', 'attrKey', 'stage'],
     fields: entityAttributeStageFields,
-    references: [
-      { field: 'entityId', resourceId: 'entities', valueKey: 'entityId', labelKey: 'displayName' },
-      { field: 'attrKey', resourceId: 'attribute-definitions', valueKey: 'attrKey', labelKey: 'attrName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEntityAttributeStages(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1412,10 +852,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'entities',
     pathKeys: ['entityId', 'resourceKey'],
     fields: entityResourceFields,
-    references: [
-      { field: 'entityId', resourceId: 'entities', valueKey: 'entityId', labelKey: 'displayName' },
-      { field: 'resourceKey', resourceId: 'resource-definitions', valueKey: 'resourceKey', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEntityResources(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1436,10 +872,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'entities',
     pathKeys: ['entityId', 'resourceKey', 'stage'],
     fields: entityResourceStageFields,
-    references: [
-      { field: 'entityId', resourceId: 'entities', valueKey: 'entityId', labelKey: 'displayName' },
-      { field: 'resourceKey', resourceId: 'resource-definitions', valueKey: 'resourceKey', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEntityResourceStages(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1461,10 +893,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'entities',
     pathKeys: ['entityId', 'providerId'],
     fields: entityProviderMountFields,
-    references: [
-      { field: 'entityId', resourceId: 'entities', valueKey: 'entityId', labelKey: 'displayName' },
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEntityProviderMounts(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putEntityProviderMount(apiBaseUrl, gameId, str(form, 'entityId'), str(form, 'providerId'), token, {}))
@@ -1476,7 +904,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['providerId'],
     fields: providerFields,
-    references: [{ field: 'providerKindTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviders(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putProvider(apiBaseUrl, gameId, str(form, 'providerId'), token, bodyFromFields(providerFields, ['providerId'], form)))
@@ -1489,15 +916,7 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     pathKeys: ['providerId'],
     fields: providerLifecycleFields,
     references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      { field: 'refreshPolicyTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'tickAnchorScopeTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      {
-        field: 'durationFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      }
+      { field: 'tickAnchorScopeTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }
     ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderLifecycles(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
@@ -1518,10 +937,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['providerId', 'stateKey'],
     fields: providerStateFieldFields,
-    references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      { field: 'valueTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderStateFields(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1542,7 +957,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['providerId', 'formulaKey'],
     fields: providerFormulaFields,
-    references: [{ field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' }],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderFormulas(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1563,29 +977,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['modifierId'],
     fields: providerModifierFields,
-    references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      { field: 'modifierTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'targetSelectorTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'targetAttrKey', resourceId: 'attribute-definitions', valueKey: 'attrKey', labelKey: 'attrName' },
-      { field: 'commandTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'channelTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'bucketTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'stageTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'valuePolicyTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      {
-        field: 'valueFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      },
-      {
-        field: 'conditionFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderModifiers(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1599,17 +990,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['listenerId'],
     fields: providerListenerFields,
-    references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      { field: 'eventTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      {
-        field: 'abilityId',
-        resourceId: 'abilities',
-        valueKey: 'abilityId',
-        labelKey: 'displayName',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderListeners(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1623,11 +1003,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['listenerId', 'matchModeTypeId', 'typeId'],
     fields: listenerMatchTypeFields,
-    references: [
-      { field: 'listenerId', resourceId: 'provider-listeners', valueKey: 'listenerId', labelKey: 'listenerKey' },
-      { field: 'matchModeTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'typeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getListenerMatchTypes(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1649,16 +1024,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'providers',
     pathKeys: ['providerId', 'sequenceId'],
     fields: providerTickSequenceFields,
-    references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      {
-        field: 'sequenceId',
-        resourceId: 'effect-sequences',
-        valueKey: 'sequenceId',
-        labelKey: 'displayName',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getProviderTickSequences(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putProviderTickSequence(apiBaseUrl, gameId, str(form, 'providerId'), str(form, 'sequenceId'), token, {}))
@@ -1670,16 +1035,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['abilityId'],
     fields: abilityFields,
-    references: [
-      { field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' },
-      { field: 'abilityKindTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      {
-        field: 'castConditionFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: { dependsOn: 'providerId', recordKey: 'providerId' }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilities(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putAbility(apiBaseUrl, gameId, str(form, 'abilityId'), token, bodyFromFields(abilityFields, ['abilityId'], form)))
@@ -1691,7 +1046,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['abilityId', 'paramKey'],
     fields: abilityParameterFields,
-    references: [{ field: 'abilityId', resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' }],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityParameters(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1712,10 +1066,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['abilityId', 'stateKey'],
     fields: abilityStateFieldFields,
-    references: [
-      { field: 'abilityId', resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' },
-      { field: 'valueTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityStateFields(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1736,20 +1086,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['phaseId'],
     fields: abilityPhaseFields,
-    references: [
-      { field: 'abilityId', resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' },
-      { field: 'phaseTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      {
-        field: 'durationFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: {
-          dependsOn: 'abilityId',
-          recordKey: 'providerId',
-          ownerLookup: { resourceId: 'abilities', matchKey: 'abilityId', ownerKey: 'providerId' }
-        }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityPhases(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putAbilityPhase(apiBaseUrl, gameId, str(form, 'phaseId'), token, bodyFromFields(abilityPhaseFields, ['phaseId'], form)))
@@ -1761,26 +1097,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['costId'],
     fields: abilityCostFields,
-    references: [
-      { field: 'abilityId', resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' },
-      {
-        field: 'phaseId',
-        resourceId: 'ability-phases',
-        valueKey: 'phaseId',
-        scope: { dependsOn: 'abilityId', recordKey: 'abilityId' }
-      },
-      { field: 'resourceKey', resourceId: 'resource-definitions', valueKey: 'resourceKey', labelKey: 'displayName' },
-      {
-        field: 'amountFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: {
-          dependsOn: 'abilityId',
-          recordKey: 'providerId',
-          ownerLookup: { resourceId: 'abilities', matchKey: 'abilityId', ownerKey: 'providerId' }
-        }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityCosts(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putAbilityCost(apiBaseUrl, gameId, str(form, 'costId'), token, bodyFromFields(abilityCostFields, ['costId'], form)))
@@ -1792,25 +1108,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'abilities',
     pathKeys: ['cooldownId'],
     fields: abilityCooldownFields,
-    references: [
-      { field: 'abilityId', resourceId: 'abilities', valueKey: 'abilityId', labelKey: 'displayName' },
-      {
-        field: 'startsOnPhaseId',
-        resourceId: 'ability-phases',
-        valueKey: 'phaseId',
-        scope: { dependsOn: 'abilityId', recordKey: 'abilityId' }
-      },
-      {
-        field: 'durationFormulaKey',
-        resourceId: 'provider-formulas',
-        valueKey: 'formulaKey',
-        scope: {
-          dependsOn: 'abilityId',
-          recordKey: 'providerId',
-          ownerLookup: { resourceId: 'abilities', matchKey: 'abilityId', ownerKey: 'providerId' }
-        }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityCooldowns(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1824,7 +1121,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'effects',
     pathKeys: ['sequenceId'],
     fields: effectSequenceFields,
-    references: [{ field: 'providerId', resourceId: 'providers', valueKey: 'providerId', labelKey: 'displayName' }],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEffectSequences(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1839,9 +1135,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     kind: 'effect-step',
     pathKeys: ['stepId'],
     fields: effectStepFields,
-    references: [
-      { field: 'sequenceId', resourceId: 'effect-sequences', valueKey: 'sequenceId', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getEffectSteps(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) => {
       // Generic put is unused for effect-steps; EffectStepEditor builds the body.
@@ -1856,14 +1149,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'effects',
     pathKeys: ['stepId'],
     fields: executeEffectDetailFields,
-    references: [
-      {
-        field: 'stepId',
-        resourceId: 'effect-steps',
-        valueKey: 'stepId',
-        targetPredicate: { field: 'executeDetail', operator: 'present' }
-      }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getExecuteEffectDetails(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1883,11 +1168,6 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'effects',
     pathKeys: ['phaseId', 'triggerTypeId', 'sequenceId'],
     fields: abilityPhaseEffectSequenceFields,
-    references: [
-      { field: 'phaseId', resourceId: 'ability-phases', valueKey: 'phaseId' },
-      { field: 'triggerTypeId', resourceId: 'types', valueKey: 'typeId', labelKey: 'name' },
-      { field: 'sequenceId', resourceId: 'effect-sequences', valueKey: 'sequenceId', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getAbilityPhaseEffectSequences(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(
@@ -1909,22 +1189,11 @@ export const COMBAT_DATA_RESOURCE_LIST: CombatDataResourceConfig[] = (
     groupId: 'effects',
     pathKeys: ['listenerId', 'sequenceId'],
     fields: listenerEffectSequenceFields,
-    references: [
-      { field: 'listenerId', resourceId: 'provider-listeners', valueKey: 'listenerId', labelKey: 'listenerKey' },
-      { field: 'sequenceId', resourceId: 'effect-sequences', valueKey: 'sequenceId', labelKey: 'displayName' }
-    ],
     list: (apiBaseUrl, gameId) => listFromEnvelope(() => getListenerEffectSequences(apiBaseUrl, gameId)),
     put: async (apiBaseUrl, gameId, token, form) =>
       revisionOf(await putListenerEffectSequence(apiBaseUrl, gameId, str(form, 'listenerId'), str(form, 'sequenceId'), token, {}))
   }
-  ] as Omit<CombatDataResourceConfig, 'workflow'>[]
-).map((config) => {
-  const workflow = RESOURCE_WORKFLOWS[config.id];
-  if (!workflow) {
-    throw new Error(`Missing GUX-1 workflow metadata for combat-data resource: ${config.id}`);
-  }
-  return { ...config, workflow };
-});
+];
 
 export const COMBAT_DATA_RESOURCES_BY_ID: Record<string, CombatDataResourceConfig> = Object.fromEntries(
   COMBAT_DATA_RESOURCE_LIST.map((resource) => [resource.id, resource])
@@ -1936,259 +1205,4 @@ export function getCombatDataResource(resourceId: string): CombatDataResourceCon
 
 export function getResourcesByGroup(groupId: string): CombatDataResourceConfig[] {
   return COMBAT_DATA_RESOURCE_LIST.filter((resource) => resource.groupId === groupId);
-}
-
-/** Client-side reference assistance outcome (not server referential enforcement). */
-export type ReferenceAssistanceStatus = 'available' | 'failed' | 'self-suppressed';
-
-function cellToOptionString(value: unknown): string {
-  if (value === undefined || value === null) {
-    return '';
-  }
-  return String(value).trim();
-}
-
-function controlValueKey(value: unknown): string {
-  if (value === undefined || value === null) {
-    return '';
-  }
-  return String(value).trim();
-}
-
-/**
- * Resolve static references plus only currently selected dependent references for a form.
- * Blank/unknown controlling values activate no dependent reference.
- * Pure registry helper — no page state or HTTP.
- */
-export function resolveActiveReferences(
-  config: Pick<CombatDataResourceConfig, 'references' | 'dependentReferences'>,
-  form: ResourceFormValues
-): ReferenceDef[] {
-  const active: ReferenceDef[] = [...(config.references ?? [])];
-  for (const dependent of config.dependentReferences ?? []) {
-    const control = controlValueKey(form[dependent.dependsOn]);
-    if (!control) {
-      continue;
-    }
-    const target = dependent.byValue[control];
-    if (!target) {
-      continue;
-    }
-    active.push({
-      field: dependent.field,
-      resourceId: target.resourceId,
-      valueKey: target.valueKey,
-      ...(target.labelKey !== undefined ? { labelKey: target.labelKey } : {})
-    });
-  }
-  return active;
-}
-
-/**
- * Dependent target fields that must be cleared when a controlling field transitions
- * between two different valid mapped values. Same value, blank, or unknown → none.
- * Pure registry helper — no page state or HTTP.
- */
-export function listDependentFieldsToClear(
-  dependentReferences: DependentReferenceDef[] | undefined,
-  controlField: string,
-  previousValue: unknown,
-  nextValue: unknown
-): string[] {
-  if (!dependentReferences?.length) {
-    return [];
-  }
-  const previous = controlValueKey(previousValue);
-  const next = controlValueKey(nextValue);
-  if (!previous || !next || previous === next) {
-    return [];
-  }
-
-  const toClear: string[] = [];
-  for (const dependent of dependentReferences) {
-    if (dependent.dependsOn !== controlField) {
-      continue;
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(dependent.byValue, previous) ||
-      !Object.prototype.hasOwnProperty.call(dependent.byValue, next)
-    ) {
-      continue;
-    }
-    toClear.push(dependent.field);
-  }
-  return toClear;
-}
-
-/**
- * Filter reference list records by optional ReferenceDef.scope then targetPredicate.
- * Unscoped → all records;
- * direct scope → blank control → []; otherwise match record[recordKey] to form[dependsOn];
- * ownerLookup → resolve form[dependsOn] via lookupRecordsByResource[resourceId][matchKey] → ownerKey,
- * then match record[recordKey] to that owner; blank/unavailable/unknown/blank-owner → [] (never unfiltered).
- * targetPredicate `present` ⇒ record[field] != null (narrows only; never broadens).
- * Pure registry helper — no page state or HTTP.
- */
-export function filterReferenceRecords(
-  records: Record<string, unknown>[],
-  reference: ReferenceDef,
-  form: ResourceFormValues,
-  lookupRecordsByResource?: Record<string, Record<string, unknown>[]>
-): Record<string, unknown>[] {
-  let filtered: Record<string, unknown>[];
-
-  if (!reference.scope) {
-    filtered = records;
-  } else {
-    const control = controlValueKey(form[reference.scope.dependsOn]);
-    if (!control) {
-      return [];
-    }
-
-    const { recordKey, ownerLookup } = reference.scope;
-    let filterControl = control;
-
-    if (ownerLookup) {
-      const lookupRecords = lookupRecordsByResource?.[ownerLookup.resourceId];
-      if (!lookupRecords) {
-        return [];
-      }
-      const ownerRecord = lookupRecords.find(
-        (record) => cellToOptionString(record[ownerLookup.matchKey]) === control
-      );
-      if (!ownerRecord) {
-        return [];
-      }
-      const owner = cellToOptionString(ownerRecord[ownerLookup.ownerKey]);
-      if (!owner) {
-        return [];
-      }
-      filterControl = owner;
-    }
-
-    filtered = records.filter((record) => cellToOptionString(record[recordKey]) === filterControl);
-  }
-
-  const predicate = reference.targetPredicate;
-  if (!predicate) {
-    return filtered;
-  }
-  if (predicate.operator === 'present') {
-    return filtered.filter((record) => record[predicate.field] != null);
-  }
-  return filtered;
-}
-
-/**
- * Scoped reference fields that must be cleared when their controlling field changes.
- * Clears only when prior trimmed control is nonblank and differs from next (including clear to blank).
- * Same value, blank-to-value, or unrelated control → none.
- * Pure registry helper — no page state or HTTP.
- */
-export function listScopedReferenceFieldsToClear(
-  references: ReferenceDef[] | undefined,
-  controlField: string,
-  previousValue: unknown,
-  nextValue: unknown
-): string[] {
-  if (!references?.length) {
-    return [];
-  }
-  const previous = controlValueKey(previousValue);
-  const next = controlValueKey(nextValue);
-  if (!previous || previous === next) {
-    return [];
-  }
-
-  const toClear: string[] = [];
-  for (const reference of references) {
-    if (reference.scope?.dependsOn === controlField) {
-      toClear.push(reference.field);
-    }
-  }
-  return toClear;
-}
-
-/**
- * Distinct referenced resource ids excluding self-references (same resource as the current page).
- * Includes each non-self ownerLookup.resourceId in addition to ordinary reference.resourceId values.
- * Order is stable (zh-CN sorted) for deterministic fetch scheduling.
- */
-export function listDistinctNonSelfReferenceResourceIds(
-  references: ReferenceDef[] | undefined,
-  currentResourceId: string
-): string[] {
-  if (!references?.length) {
-    return [];
-  }
-  const ids = new Set<string>();
-  for (const reference of references) {
-    if (reference.resourceId !== currentResourceId) {
-      ids.add(reference.resourceId);
-    }
-    const ownerResourceId = reference.scope?.ownerLookup?.resourceId;
-    if (ownerResourceId && ownerResourceId !== currentResourceId) {
-      ids.add(ownerResourceId);
-    }
-  }
-  return [...ids].sort((a, b) => a.localeCompare(b, 'zh-CN'));
-}
-
-/**
- * Classify registered reference assistance for a form field.
- * - self-suppressed: reference.resourceId === current page resource — skip fetch and Select
- * - failed: non-self load failed — keep original FieldDef input; warning only
- * - available: non-self load succeeded — searchable Select assistance
- */
-export function classifyReferenceAssistance(
-  reference: ReferenceDef,
-  currentResourceId: string,
-  loadFailed: boolean
-): ReferenceAssistanceStatus {
-  if (reference.resourceId === currentResourceId) {
-    return 'self-suppressed';
-  }
-  return loadFailed ? 'failed' : 'available';
-}
-
-/**
- * Build stable, deduplicated, sorted Select options from reference list records.
- * labelKey falls back to valueKey; blank labels fall back to the value string.
- * When currentValue is non-empty and absent from options, append an explicit missing option.
- */
-export function buildReferenceOptions(
-  records: Record<string, unknown>[],
-  valueKey: string,
-  labelKey: string | undefined,
-  currentValue?: string | number | boolean
-): FieldOption[] {
-  const resolvedLabelKey = labelKey ?? valueKey;
-  const byValue = new Map<string, FieldOption>();
-
-  for (const record of records) {
-    const value = cellToOptionString(record[valueKey]);
-    if (!value || byValue.has(value)) {
-      continue;
-    }
-    const labelRaw = cellToOptionString(record[resolvedLabelKey]);
-    const label =
-      labelRaw && labelRaw !== value ? `${value} / ${labelRaw}` : labelRaw || value;
-    byValue.set(value, { value, label });
-  }
-
-  const options = [...byValue.values()].sort((a, b) => a.value.localeCompare(b.value, 'zh-CN'));
-
-  const current =
-    currentValue === undefined || currentValue === null || currentValue === ''
-      ? ''
-      : String(currentValue).trim();
-
-  if (current && !byValue.has(current)) {
-    options.push({
-      value: current,
-      label: `${current}（缺失）`
-    });
-  }
-
-  return options;
 }
