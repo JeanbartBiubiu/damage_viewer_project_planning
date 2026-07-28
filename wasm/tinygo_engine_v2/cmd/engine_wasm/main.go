@@ -33,36 +33,6 @@ func dealloc(ptr uint32, size uint32) {
 	delete(allocations, ptr)
 }
 
-//export engine_init
-func engine_init(ptr uint32, size uint32) int32 {
-	return session.InitFrame(abi.Bytes(ptr, size))
-}
-
-//export engine_begin_run
-func engine_begin_run(ptr uint32, size uint32) int32 {
-	return session.BeginRunFrame(abi.Bytes(ptr, size))
-}
-
-//export engine_snapshot_initial
-func engine_snapshot_initial(ptr uint32, size uint32) int32 {
-	return session.SnapshotInitialFrame(abi.Bytes(ptr, size))
-}
-
-//export engine_snapshot_actions_initial
-func engine_snapshot_actions_initial(ptr uint32, size uint32) int32 {
-	return session.SnapshotActionsInitialFrame(abi.Bytes(ptr, size))
-}
-
-//export engine_step
-func engine_step(maxEvents uint32) int32 {
-	return session.Step(maxEvents)
-}
-
-//export engine_abort_run
-func engine_abort_run() int32 {
-	return session.AbortRun()
-}
-
 //export engine_outbox_ptr
 func engine_outbox_ptr() uint32 {
 	return abi.Ptr(session.OutboxBytes())

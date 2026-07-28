@@ -19,8 +19,8 @@ func TestOutboxKeepsGenericPriorityFrames(t *testing.T) {
 		t.Run(fmt.Sprintf("kind_%d", kind), func(t *testing.T) {
 			outbox := NewOutbox(64)
 			for i := 0; i < 8; i++ {
-				if code := outbox.WriteFrame(model.FrameKindLog, 0, []byte("drop")); code != model.ErrOK {
-					t.Fatalf("write log failed: %s", code)
+				if code := outbox.WriteFrame(nonPriorityTestKind, 0, []byte("drop")); code != model.ErrOK {
+					t.Fatalf("write filler failed: %s", code)
 				}
 			}
 			if code := outbox.WriteFrame(kind, 0, []byte("priority")); code != model.ErrOK {
