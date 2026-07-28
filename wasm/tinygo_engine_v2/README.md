@@ -24,15 +24,15 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 | 6. 公式 / 类型集 / pipeline | 只读编译结果的消费边界 | `internal/formula/generic*.go`、`internal/typeset/generic.go`、`internal/pipeline/**` |
 | 7. 验证契约 | canonical fixture + Node/Go bench | `internal/testkit/fixtures/generic_p0_basic_damage.json`、`scripts/smoke-node.mjs`、`cmd/bench` |
 
-兼容说明（一次即可）：legacy `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 单攻 DPS 仍在源码中供回归，**不是**新机制主路径。
+历史说明：旧 `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 单攻 DPS 曾作为 compat lane；现已从本模块源码与导出中移除。当前唯一业务 ABI 是 compile/run/release。
 
 ## 模块职责
 
 ```text
 cmd/engine_wasm/          TinyGo 导出：alloc/dealloc + engine_compile/run/release_session + outbox_*
-cmd/bench/                原生 Go benchmark（默认 generic-run；legacy 对照）
+cmd/bench/                原生 Go benchmark（generic|generic-run；legacy 非零退出）
 internal/abi/             frame header、outbox、内存桥接
-internal/model/           generic*.go 为 canonical DTO；types.go 含 legacy DTO
+internal/model/           generic*.go 为 canonical DTO；types.go 仅保留仍被引用的共享基础类型
 internal/compile/         CompileGeneric → CompiledSession
 internal/runtime/         Session registry + RunGeneric / generic execution
 internal/scheduler/       generic 稳定事件堆
@@ -174,7 +174,7 @@ Source-side 穿透（读 source `*.resolved`，first finite wins）：
 - magic percent：`magic_pen_percent` → `magic_pen_pct`
 - magic flat：`magic_pen_flat` → `magic_pen`
 
-顺序与钳制：percent clamp 到 `[0,1]`，忽略负 flat；先 percent 后 flat。正基础抗性穿透后 floor 到 `0`；非正基础抗性不应用穿透，沿用既有负抗性公式。`MitigateRawDamage` / `ResolveCommand` 仍为无 source 兼容包装；generic 真实伤害与 phantom replay 走 source-aware 路径（phantom 使用冻结的 event-entry source attrs + entry target 抗性）。Legacy `single_attacker_dps` 抗性/穿透路径不变。
+顺序与钳制：percent clamp 到 `[0,1]`，忽略负 flat；先 percent 后 flat。正基础抗性穿透后 floor 到 `0`；非正基础抗性不应用穿透，沿用既有负抗性公式。`MitigateRawDamage` / `ResolveCommand` 仍为无 source 兼容包装；generic 真实伤害与 phantom replay 走 source-aware 路径（phantom 使用冻结的 event-entry source attrs + entry target 抗性）。旧 `single_attacker_dps` 抗性路径已随 legacy lane 删除。
 
 公式：`R>=0: amount*100/(100+R)`；`R<0: amount*(2-100/(100-R))`（R 为穿透后有效抗性）。未知 damage type 在 compile collect-all 拒绝。`Result.Amount` / summary `damageDealt` 使用 mitigated（抗性后、护盾前）；HP clipping 不反向改 summary。成功 settlement 的 damage evidence 额外暴露 `resistanceBeforePenetration` / `penetrationPercent` / `penetrationFlat` / `effectiveResistance` / `resistanceFactor`（true/zero 为稳定 0 / factor 1）；fail-closed 与 phantom 省略。
 

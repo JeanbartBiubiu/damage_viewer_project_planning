@@ -1,4 +1,4 @@
-// 原生 Go benchmark smoke：默认测 generic runtime；可选 legacy battle 对照。
+// 原生 Go benchmark smoke：测 generic runtime。
 // 非 Wasm 路径；改 runtime 热路径后应与本命令结果一并核对。
 package main
 
@@ -24,9 +24,10 @@ func main() {
 	case "generic", "generic-run":
 		runGenericBench()
 	case "legacy":
-		runLegacyBench()
+		fmt.Fprintln(os.Stderr, "unsupported mode \"legacy\": legacy battle bench was removed; use generic|generic-run")
+		os.Exit(2)
 	default:
-		fmt.Fprintf(os.Stderr, "unknown mode %q (want generic|legacy)\n", mode)
+		fmt.Fprintf(os.Stderr, "unsupported mode %q (want generic|generic-run)\n", mode)
 		os.Exit(2)
 	}
 }
@@ -98,36 +99,6 @@ func runGenericBench() {
 		stats.p95Us,
 		stats.maxUs,
 	)
-}
-
-func runLegacyBench() {
-	const warmup = 10
-	const samples = 100
-	for i := 0; i < warmup; i++ {
-		validateLegacyDone(testkit.RunBenchmarkBattle())
-	}
-	elapsed := make([]time.Duration, 0, samples)
-	for i := 0; i < samples; i++ {
-		start := time.Now()
-		validateLegacyDone(testkit.RunBenchmarkBattle())
-		elapsed = append(elapsed, time.Since(start))
-	}
-	stats := summarizeDurations(elapsed)
-	fmt.Printf(
-		"mode=legacy-battle samples=%d min_us=%.2f mean_us=%.2f p50_us=%.2f p95_us=%.2f max_us=%.2f\n",
-		samples,
-		stats.minUs,
-		stats.meanUs,
-		stats.p50Us,
-		stats.p95Us,
-		stats.maxUs,
-	)
-}
-
-func validateLegacyDone(done model.DonePayload) {
-	if done.ProcessedEvents <= 0 || len(done.Actors) == 0 {
-		fatalf("legacy done payload looks empty: %+v", done)
-	}
 }
 
 func compileFixtureSession(session *runtime.Session, req model.CompileRequest) model.CompileResult {

@@ -120,5 +120,5 @@ graph TD
 
 1. 先看 `internal/model/generic*.go` 与 `ARCHITECTURE` 本图，确认 ABI 边界。
 2. 再看 `compile/generic.go` → `session.go` → `RunGeneric`，确认 call chain。
-3. 新机制落在 provider/ability/operation + gate/execution；不要把 legacy step-loop/DPS 当主路径。
+3. 新机制落在 provider/ability/operation + gate/execution；legacy step-loop/DPS 源码与导出已删除。
 4. 验证契约：`generic_p0_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。

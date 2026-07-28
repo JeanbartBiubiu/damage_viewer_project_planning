@@ -1,7 +1,8 @@
 // 固定容量 outbox：宿主经 engine_outbox_ptr/len 读取，WriteJSON 追加 frame。
 //
-// 不变量：done/error/snapshot/action_snapshot 为优先帧，与已有内容冲突时清空缓冲后重试；
-// 单帧超过 capacity 的优先帧返回 E_QUEUE_OVERFLOW；tick/log/sample 可丢弃（dropped 计数）。
+// 不变量：generic compile_result/done/error/snapshot/release_result（210..214）为优先帧，
+// 与已有内容冲突时清空缓冲后重试；单帧超过 capacity 的优先帧返回 E_QUEUE_OVERFLOW；
+// 非优先帧可丢弃（dropped 计数）。
 package abi
 
 import (
@@ -72,11 +73,7 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 }
 
 func isPriorityFrame(kind model.FrameKind) bool {
-	return kind == model.FrameKindDone ||
-		kind == model.FrameKindError ||
-		kind == model.FrameKindSnapshot ||
-		kind == model.FrameKindActionSnapshot ||
-		kind == model.FrameKindGenericCompileResult ||
+	return kind == model.FrameKindGenericCompileResult ||
 		kind == model.FrameKindGenericDone ||
 		kind == model.FrameKindGenericError ||
 		kind == model.FrameKindGenericSnapshot ||

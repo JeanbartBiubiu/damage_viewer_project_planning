@@ -12,7 +12,7 @@
 2. **当前 canonical 路径**是 generic ABI：`CompileRequest -> engine_compile -> CompiledSession`，再 `RunRequest + sessionId/expectedRulesHash -> engine_run -> DoneResult`，最后 `ReleaseSessionRequest -> engine_release_session`。
 3. 正式宿主目标是浏览器 Worker；Node 脚本只作为本地/CI 的 instantiate、generic ABI smoke 和 benchmark 工具。
 4. 首期优化目标是 1v1 单线程确定性计算，不提前为多单位战斗支付热路径复杂度。
-5. TinyGo 是当前 Wasm 主线；新机制默认落在 provider/ability/operation + compile/session/run/release，不再扩展 legacy 单攻 DPS 作为新能力入口。
+5. TinyGo 是当前 Wasm 主线；新机制默认落在 provider/ability/operation + compile/session/run/release。旧单攻 DPS / step-loop lane 与对应导出已从本模块源码移除。
 6. 允许用较大的 Wasm 初始内存换取稳定延迟；当前已验证可接受的基线是 `256 MiB`。
 7. 低配置设备不是当前 Wasm 计算引擎的兼容目标。
 8. 如需推翻 TinyGo 主线或 `256 MiB` 基线，必须附带同口径 benchmark、包体和宿主侧延迟证据，并同步更新本文件、`README.md` 和验证记录。
@@ -50,7 +50,7 @@
 ## 5. 关键入口地图
 
 1. `cmd/engine_wasm/main.go`：TinyGo Wasm 导出；canonical 业务入口为 `engine_compile` / `engine_run` / `engine_release_session`，外加 `alloc`/`dealloc`/outbox glue。
-2. `cmd/bench/main.go`：原生 Go benchmark（默认 generic runtime；`legacy` 为对照模式）。
+2. `cmd/bench/main.go`：原生 Go benchmark（`generic|generic-run`；`legacy` 与未知参数非零退出）。
 3. `internal/abi/**`：frame、outbox、内存拷贝。
 4. `internal/model/generic*.go`：`CompileRequest`、`RunRequest`、`DoneResult`、generic frame kind `200..214`、错误 DTO。
 5. `internal/compile/generic.go`：`CompileGeneric` → `CompiledSession`；`generic_validate.go` collect-all。
@@ -61,7 +61,7 @@
 10. `scripts/smoke-node.mjs`、`scripts/bench-node.mjs`、`scripts/generic-abi-host.mjs`：Node generic ABI 验证与 benchmark。
 11. `targets/wasm-256m.json`：256 MiB TinyGo wasm target。
 
-兼容/回归表面（非 canonical，不定义新机制）：legacy `engine_init` / `engine_begin_run` / `engine_step` 与 `internal/runtime/dps_*.go` 单攻 DPS 仍保留在源码与旧测试中。
+旧 `engine_init` / `engine_begin_run` / `engine_step` / `engine_abort_run` / snapshot 导出与 `dps_*.go` 单攻 DPS、legacy step-loop 运行时已删除；当前唯一业务 ABI 是 compile/run/release。
 
 ## 6. 常用命令
 
@@ -103,7 +103,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 4. listener/trigger 产出 operation，不直接写 runtime store。
 5. TypeList 使用确定性 flat bitset matcher，不使用可能误判的 Bloom filter。
 6. 公共 DTO 一旦进入 review gate，除修 bug 或用户确认外不要随意改字段语义。
-7. 新机制落点是 provider/ability/operation；不要把 legacy DPS/step-loop 当作新功能主路径。
+7. 新机制落点是 provider/ability/operation；不要重新引入已删除的 legacy DPS/step-loop 路径。
 
 ## 9. 完成定义
 
@@ -122,4 +122,4 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 4. 不要在 compile 校验里遇到第一个错误就提前返回；进入已知 schema 后 collect-all。
 5. 不要从输出日志倒推机制状态。
 6. 不要修改或复制 `generic_p0_basic_damage.json`；复用它做 smoke/bench 契约。
-7. 不要把 legacy ABI/DPS 描述成当前架构主路径。
+7. 不要把已删除的 legacy ABI/DPS 描述成当前仍存在的源码路径。

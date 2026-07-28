@@ -9,7 +9,7 @@ LAST_TRACKED_AT: 2026-07-15
 
 本文是 Wasm 通用计算引擎的**已落地**实现契约，面向后续编码 agent。需求边界见 [WASM通用计算引擎需求对齐记录.md](../../需求澄清/wasm/WASM通用计算引擎需求对齐记录.md)，系统分层见 [WASM概要设计.md](../../概要设计/wasm/WASM概要设计.md)。
 
-当前主线是 canonical `Combatant -> Provider -> Ability`，ABI 为 `engine_compile` / `engine_run` / `engine_release_session`。旧 step-loop 与专用 DPS lane 只作为兼容/回归表面，不作为新字段、新 ABI 或新机制扩展的命名来源。
+当前主线是 canonical `Combatant -> Provider -> Ability`，ABI 为 `engine_compile` / `engine_run` / `engine_release_session`。旧 step-loop 与专用 DPS lane 及其 Wasm 导出已从 TinyGo V2 移除；不要再以它们作为新字段、新 ABI 或新机制扩展的命名来源。
 
 ## 1. 写入范围与非目标
 
@@ -100,7 +100,6 @@ Cursor worker 如果发现现有代码仍使用这些旧词，处理规则如下
 | `internal/runtime/generic_execution.go` | operation 执行。 | 数值变化经 operation/pipeline。 |
 | `internal/runtime/generic_gate.go` | ability attempt gate。 | 不要分散绕过。 |
 | `internal/runtime/generic_provider.go` / `generic_provider_tick.go` | provider 生命周期与 tick。 | status 表现为 dynamic provider。 |
-| `internal/runtime/dps_*.go` / legacy `runtime.go` | compat DPS / step-loop。 | 只回归；禁止新增通用机制。 |
 | `internal/scheduler/generic_heap.go` | generic 稳定事件堆。 | 含 category order。 |
 | `internal/pipeline/**` | attribute/damage resolver。 | modifier 不另产 command。 |
 | `internal/testkit/fixtures/generic_p0_basic_damage.json` | canonical fixture。 | 复用；勿改、勿复制。 |
@@ -111,7 +110,7 @@ Cursor worker 如果发现现有代码仍使用这些旧词，处理规则如下
 
 1. 如果某个 slice 只需要新增 DTO，不要同时改 runtime。
 2. 如果某个 slice 只需要 runtime，不要顺手改 Web adapter。
-3. 不要删除 legacy 导出或旧测试，除非另开显式迁移任务。
+3. 不要重新引入已删除的 legacy 导出或 DPS lane，除非另开显式任务并同步 Web adapter。
 4. 如果必须跨表中多个区域，Cursor prompt 必须显式列出跨区原因。
 
 ## 2. ABI 契约（已实现）
@@ -148,7 +147,7 @@ engine_release_session(ptr, size) -> 0/-1
 
 ### 2.0 FrameKind / Outbox Kind（已实现）
 
-常量定义于 `internal/model/generic.go`。legacy kind（`types.go` 的 `1..17` / `100`）仍保留给兼容路径。
+常量定义于 `internal/model/generic.go`。旧 legacy frame kind（曾位于 `types.go` 的 `1..17` / `100`）已随 step-loop 路径删除；当前业务只使用 generic `200..214`。
 
 | 用途 | 常量名 | 编号 | 方向 | payload |
 | --- | --- | --- | --- | --- |
@@ -163,7 +162,7 @@ engine_release_session(ptr, size) -> 0/-1
 
 规则：
 
-1. legacy frame kind 仅 compat；generic ABI 不复用旧 kind，也不按 payload shape 分流。
+1. 旧 legacy frame kind 已删除；generic ABI 不复用旧 kind，也不按 payload shape 分流。
 2. compile collect-all 失败优先返回 `FrameKindGenericCompileResult{ok=false, errors[]}`；ABI/run fatal 写 `FrameKindGenericError`。
 3. `done` / `error` / `compile_result` / `release_result` 为 outbox priority frame。
 4. `engine_release_session` 成功必须写 `FrameKindGenericReleaseResult`，不得复用 generic done。
@@ -180,7 +179,7 @@ engine_release_session(ptr, size) -> 0/-1
 
 **当前 canonical 入口**：`engine_compile` / `engine_run` / `engine_release_session`（见 `cmd/engine_wasm/main.go`、`session.go`）。
 
-兼容说明（压缩）：legacy `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 仍保留供回归与旧页面，**不**定义新机制语义；generic run 对外是单次 deterministic `done`/`error`，不是 step-loop 契约。删除 legacy 导出必须另开任务，并同步 README/AGENTS/smoke/bench/Web adapter。
+历史说明：legacy `engine_init` / `engine_begin_run` / `engine_step` / snapshot / abort 与 `dps_*.go` 曾作 compat；LEGACY-DPS-REMOVAL 后已从 TinyGo V2 源码与导出移除。generic run 对外是单次 deterministic `done`/`error`，不是 step-loop 契约。Web/Worker 资产与仍依赖旧导出的宿主迁移是后续有序步骤。
 
 ### 2.2 Fixture / Smoke / Benchmark 验证（已实现）
 
@@ -190,7 +189,7 @@ engine_release_session(ptr, size) -> 0/-1
 | Go session 测试 | `internal/runtime/session_generic_test.go` 覆盖 compile/run/release 与 hash/session 错误。 |
 | Node smoke | `scripts/smoke-node.mjs`：instantiate + compile → run → release round-trip，校验 summary subset。 |
 | Node bench | `scripts/bench-node.mjs --mode generic-run`：compile 在测量外，warmup/run `engine_run`，校验每次结果后 release。 |
-| Go bench | `go run ./cmd/bench` 默认 generic-run；`go run ./cmd/bench legacy` 为对照。 |
+| Go bench | `go run ./cmd/bench` 默认 generic-run；`go run ./cmd/bench legacy` 非零退出（unsupported）。 |
 
 剩余缺口（仅在源码可证时记录）：浏览器 Worker 正式宿主完整切到 generic profile、以及仍依赖 legacy 页面的宿主迁移，不在本批文档/工具范围强行宣称完成。
 
@@ -1775,14 +1774,9 @@ warnings 是用户摘要，evidence 是机器可追踪事实；warning 可引用
 
 ## 17. Legacy Lane 边界
 
-当前 `internal/runtime/dps_*.go` 文件只作为 legacy/compat、fixture 或回归对照来源：
+历史：`internal/runtime/dps_*.go` 与 legacy step-loop 曾作为 compat/回归对照，且不得接收新机制或作为新 schema 命名来源。
 
-1. 不再接收新机制。
-2. 不再作为新通用 schema 的命名来源。
-3. 不再承担图表输出的唯一来源。
-4. 不再硬编码 first attack、attack speed cap、target dummy 等通用机制假设。
-
-新机制只能进入 provider、ability、listener、operation pipeline。旧页面在新通用引擎完成前可以继续调用 legacy lane，但必须在宿主/页面口径标记为 compat。
+当前状态：该 lane、旧 compile/formula/scheduler 专路径，以及对应 Wasm 导出已从 TinyGo V2 删除。新机制只能进入 provider、ability、listener、operation pipeline。通用 `dpsWindowMs` / windowDps / DPS series 输出指标保留。Web 页面/adapter 同步不在本模块删除任务内宣称完成。
 
 ## 18. 实施拆分
 
