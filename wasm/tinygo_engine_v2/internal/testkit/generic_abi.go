@@ -8,6 +8,20 @@ import (
 	"tinygo_engine_v2/internal/runtime"
 )
 
+func must(code int32) {
+	if code != 0 {
+		panic("unexpected non-zero code")
+	}
+}
+
+func mustJSON(value any) []byte {
+	encoded, err := json.Marshal(value)
+	if err != nil {
+		panic(err)
+	}
+	return encoded
+}
+
 func EncodeGenericFrame(kind model.FrameKind, payload any) []byte {
 	encoded := mustJSON(payload)
 	return abi.EncodeFrame(kind, 0, encoded)

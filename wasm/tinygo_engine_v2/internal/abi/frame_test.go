@@ -8,13 +8,15 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+const nonPriorityTestKind model.FrameKind = 0x7fff
+
 func TestFrameRoundTrip(t *testing.T) {
 	payload := []byte(`{"ok":true}`)
-	frame, err := DecodeFrame(EncodeFrame(model.FrameKindInit, 3, payload))
+	frame, err := DecodeFrame(EncodeFrame(model.FrameKindGenericCompile, 3, payload))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if frame.Kind != model.FrameKindInit || frame.Flags != 3 || !bytes.Equal(frame.Payload, payload) {
+	if frame.Kind != model.FrameKindGenericCompile || frame.Flags != 3 || !bytes.Equal(frame.Payload, payload) {
 		t.Fatalf("bad frame: %+v", frame)
 	}
 }
@@ -22,19 +24,19 @@ func TestFrameRoundTrip(t *testing.T) {
 func TestOutboxKeepsTerminalRecord(t *testing.T) {
 	outbox := NewOutbox(64)
 	for i := 0; i < 8; i++ {
-		if code := outbox.WriteFrame(model.FrameKindLog, 0, []byte("drop")); code != model.ErrOK {
-			t.Fatalf("write log failed: %s", code)
+		if code := outbox.WriteFrame(nonPriorityTestKind, 0, []byte("drop")); code != model.ErrOK {
+			t.Fatalf("write filler failed: %s", code)
 		}
 	}
-	if code := outbox.WriteFrame(model.FrameKindDone, 0, []byte("done")); code != model.ErrOK {
+	if code := outbox.WriteFrame(model.FrameKindGenericDone, 0, []byte("done")); code != model.ErrOK {
 		t.Fatalf("write done failed: %s", code)
 	}
 	frame, err := DecodeFrame(outbox.Bytes())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if frame.Kind != model.FrameKindDone {
-		t.Fatalf("got %v, want done", frame.Kind)
+	if frame.Kind != model.FrameKindGenericDone {
+		t.Fatalf("got %v, want generic done", frame.Kind)
 	}
 }
 
@@ -44,8 +46,8 @@ func TestOutboxDropsOversizedNonPriorityFrame(t *testing.T) {
 	for i := range payload {
 		payload[i] = 'x'
 	}
-	if code := outbox.WriteFrame(model.FrameKindLog, 0, payload); code != model.ErrOK {
-		t.Fatalf("write log code = %s, want OK", code)
+	if code := outbox.WriteFrame(nonPriorityTestKind, 0, payload); code != model.ErrOK {
+		t.Fatalf("write filler code = %s, want OK", code)
 	}
 	if outbox.Dropped() != 1 {
 		t.Fatalf("dropped = %d, want 1", outbox.Dropped())
@@ -58,15 +60,15 @@ func TestOutboxDropsOversizedNonPriorityFrame(t *testing.T) {
 func TestOutboxRejectsOversizedPriorityFrame(t *testing.T) {
 	outbox := NewOutbox(32)
 	for i := 0; i < 4; i++ {
-		if code := outbox.WriteFrame(model.FrameKindLog, 0, []byte("drop")); code != model.ErrOK {
-			t.Fatalf("write log failed: %s", code)
+		if code := outbox.WriteFrame(nonPriorityTestKind, 0, []byte("drop")); code != model.ErrOK {
+			t.Fatalf("write filler failed: %s", code)
 		}
 	}
 	payload := make([]byte, 48)
 	for i := range payload {
 		payload[i] = 'd'
 	}
-	if code := outbox.WriteFrame(model.FrameKindDone, 0, payload); code != model.ErrQueueOverflow {
+	if code := outbox.WriteFrame(model.FrameKindGenericDone, 0, payload); code != model.ErrQueueOverflow {
 		t.Fatalf("write done code = %s, want E_QUEUE_OVERFLOW", code)
 	}
 	if len(outbox.Bytes()) != 0 {
@@ -83,14 +85,14 @@ func TestDefaultOutboxCapacityFitsLargeDoneFrame(t *testing.T) {
 	for i := range payload {
 		payload[i] = byte('a' + (i % 26))
 	}
-	if code := outbox.WriteFrame(model.FrameKindDone, 0, payload); code != model.ErrOK {
+	if code := outbox.WriteFrame(model.FrameKindGenericDone, 0, payload); code != model.ErrOK {
 		t.Fatalf("write done code = %s, want OK", code)
 	}
 	frame, err := DecodeFrame(outbox.Bytes())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if frame.Kind != model.FrameKindDone || len(frame.Payload) != len(payload) {
+	if frame.Kind != model.FrameKindGenericDone || len(frame.Payload) != len(payload) {
 		t.Fatalf("bad done frame: kind=%v payloadLen=%d", frame.Kind, len(frame.Payload))
 	}
 }
@@ -98,18 +100,18 @@ func TestDefaultOutboxCapacityFitsLargeDoneFrame(t *testing.T) {
 func TestOutboxKeepsSnapshotRecord(t *testing.T) {
 	outbox := NewOutbox(64)
 	for i := 0; i < 8; i++ {
-		if code := outbox.WriteFrame(model.FrameKindLog, 0, []byte("drop")); code != model.ErrOK {
-			t.Fatalf("write log failed: %s", code)
+		if code := outbox.WriteFrame(nonPriorityTestKind, 0, []byte("drop")); code != model.ErrOK {
+			t.Fatalf("write filler failed: %s", code)
 		}
 	}
-	if code := outbox.WriteFrame(model.FrameKindSnapshot, 0, []byte("snapshot")); code != model.ErrOK {
+	if code := outbox.WriteFrame(model.FrameKindGenericSnapshot, 0, []byte("snapshot")); code != model.ErrOK {
 		t.Fatalf("write snapshot failed: %s", code)
 	}
 	frame, err := DecodeFrame(outbox.Bytes())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if frame.Kind != model.FrameKindSnapshot {
-		t.Fatalf("got %v, want snapshot", frame.Kind)
+	if frame.Kind != model.FrameKindGenericSnapshot {
+		t.Fatalf("got %v, want generic snapshot", frame.Kind)
 	}
 }

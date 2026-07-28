@@ -23,7 +23,7 @@ Wasm 是独立、确定性、数据驱动的计算引擎：
 
 P0 固定为 1v1、single-run、deterministic/expected 模拟。多单位战场、随机分布模拟、续跑、暂停恢复、批量 sweep ABI 都是后续能力，不进入 P0 runtime 语义。
 
-`single_attacker_dps` 只保留为 legacy/compat lane：它可以支撑旧页面和历史回归，但不再接收新机制。所有新机制进入通用 provider、ability、listener、operation pipeline。
+`single_attacker_dps` 与旧 step-loop 导出已从 TinyGo V2 移除（历史曾作 legacy/compat）。所有新机制进入通用 provider、ability、listener、operation pipeline；Worker/ABI 为 canonical compile/run/release。
 
 ## 2. 系统边界
 
@@ -262,7 +262,7 @@ P0 集成验收按代表性竖切收口，而不是按所有 operation 清单逐
 3. 临时 provider + 属性/护盾：ability apply provider，provider 提供 attribute modifier 或 shield，到期后清理。
 4. fixed interval tick provider：temporary/status provider 按固定 tick 间隔触发 DOT/HOT/资源变化，直到过期或移除。
 
-这些竖切是新通用引擎的首批垂直闭环。legacy DPS lane 不作为新机制验收入口。
+这些竖切是新通用引擎的首批垂直闭环。旧专用 DPS lane 已删除，不作为验收入口。
 
 ## 12. Cursor 协作边界
 
@@ -271,9 +271,9 @@ P0 集成验收按代表性竖切收口，而不是按所有 operation 清单逐
 概要层给 Cursor worker 的系统边界只有以下几条：
 
 1. 新通用引擎的主线是 canonical `Combatant -> Provider -> Ability`。
-2. 旧专用 DPS lane 是 legacy/compat，不是新机制入口。
+2. 旧专用 DPS lane / step-loop 已从 TinyGo V2 移除，不是新机制入口。
 3. Wasm core P0 只保证单次 deterministic run；对比类模拟由 Worker/前端编排多次 run。
-4. 目标 ABI 是 compile/run 分离；现有导出函数如仍需保留，只能作为迁移兼容包装，不得反向定义新语义。
+4. ABI 是 compile/run/release；不得重新引入旧 step 导出或以其反向定义新语义。
 5. 所有数值状态变更走 operation pipeline；不能因为实现方便绕过 pipeline 写 HP、资源、冷却或 provider state。
 6. 图表主数据来自 `summary` 与 `series[]`，不能要求前端从日志二次拼主时间线。
 

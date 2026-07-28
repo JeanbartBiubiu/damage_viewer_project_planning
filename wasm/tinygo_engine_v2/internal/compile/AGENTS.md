@@ -9,14 +9,13 @@
 1. 默认可写：generic compile、校验、索引构建与 compile 测试。
 2. Canonical 入口是 `CompileGeneric(CompileRequest) -> GenericCompileResult{Session CompiledSession}`，不写 runtime 状态。
 3. 新 DTO 字段先落在 `internal/model/generic*.go`，再在 compile 层消费。
-4. legacy `Bundle` / `CompiledBundle` 仅作兼容回归，不作为新机制落点。
+4. 旧 `Bundle` / `CompiledBundle` / `compile.go` 已删除；不要重新引入 legacy bundle compile。
 
 ## 关键入口
 
 1. `generic.go`：`CompileGeneric`、`CompiledSession`、ability/provider/operation IR。
 2. `generic_validate.go`：collect-all 语义校验。
 3. `generic_test.go`：compile 契约回归。
-4. legacy：`compile.go` / `CompiledBundle`（compat only）。
 
 ## 最小验证
 
@@ -28,5 +27,5 @@
 
 1. 进入已知 schema 后应 collect-all，不要遇第一个错误就返回。
 2. abilityRef / providerRef 必须在 compile 期 intern，供 run 查找。
-3. 不要把 legacy Bundle 字段扩成新 canonical 契约。
+3. 不要把已删除的 legacy Bundle 字段扩成新 canonical 契约。
 4. 不要在 compile 层引入 scheduler、outbox 或可变 runtime 状态。

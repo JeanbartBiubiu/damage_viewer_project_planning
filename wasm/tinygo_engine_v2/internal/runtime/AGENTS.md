@@ -9,7 +9,7 @@
 1. 默认可写：generic session、`RunGeneric`、gate/provider/execution 与 runtime 测试。
 2. `internal/model/generic*.go`、`internal/compile/generic.go`、`internal/abi`、`internal/scheduler`、`internal/formula`、`internal/pipeline` 为协作边界。
 3. DTO 字段语义变化先改 model，不要在 runtime 内隐式发明新契约。
-4. legacy `NewRunContext`/`Step` 与 `dps_*.go` 仅兼容/回归，不作为新机制主路径。
+4. 旧 `NewRunContext`/`Step` 与 `dps_*.go` 已从本目录移除；不要重新引入。
 
 ## 关键入口
 
@@ -18,7 +18,6 @@
 3. `generic_execution.go`：operation 执行。
 4. `generic_gate.go`：ability attempt gate。
 5. `generic_provider.go` / `generic_provider_tick.go`：provider 生命周期与 tick。
-6. legacy：`runtime.go` step-loop、`dps_*.go`（compat only）。
 
 ## 最小验证
 
@@ -31,4 +30,4 @@
 2. 不要绕过 gate 分散 ability attempt 条件。
 3. HP 变化必须经 operation/pipeline，禁止 raw set。
 4. 热路径不要引入 goroutine、channel、lock、反射或 panic/recover 控制流。
-5. 不要把 legacy step ABI 描述成当前新功能路径。
+5. 不要把已删除的 legacy step ABI 描述成当前仍存在的路径。
