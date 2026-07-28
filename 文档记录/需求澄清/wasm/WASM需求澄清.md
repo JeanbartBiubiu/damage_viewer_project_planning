@@ -32,16 +32,16 @@ LAST_TRACKED_AT: 2026-05-10
 
 ### 3.1 P0 范围
 
-1. ABI：`alloc/dealloc/engine_init/engine_snapshot_initial/engine_snapshot_actions_initial/engine_begin_run/engine_step/engine_abort_run/engine_outbox_*`。
-2. 协议：二进制 frame header + JSON payload。
-3. 输入：`EngineBundleV2`、`EngineRunInputV2`。
-4. 输出：ready、log、sample、done、error、snapshot、action snapshot；`value trace` 当前只作为 DTO 预留。
-5. 编译层：字符串 ID 到短 ID、索引表、公式 bytecode、trigger/modifier/pipeline binding 校验。
-6. runtime：`EngineSession -> CompiledBundle -> RunContext`。
-7. scheduler：`(time, priority, seq)` 稳定事件堆、取消边界、过期句柄 lazy drop。
-8. 属性/资源：属性 `base/current/max/resolved`，资源 `current/max`。
-9. 机制主干：action gate、execution、trigger command 回流、damage/heal/shield/resource/attribute 四通道。
-10. 验收样例：Thornmail、Sett W、Akali E、控制阈值给霸体、Counter Proc、Attack Speed Buff。
+1. ABI：`alloc` / `dealloc` / `engine_compile` / `engine_run` / `engine_release_session` / `engine_outbox_*`。旧 `engine_init` / `engine_begin_run` / `engine_step` / snapshot / abort 导出已从 TinyGo V2 移除。
+2. 协议：二进制 frame header + JSON payload；canonical frame kind `200..214`。
+3. 输入：`CompileRequest`、`RunRequest`、`ReleaseSessionRequest`。
+4. 输出：`compile_result`、generic `done`、`error`、`release_result`（以及可选 generic snapshot）；通用 DPS/window 指标保留在 `DoneResult` summary/series。
+5. 编译层：`CompileGeneric` → 只读 `CompiledSession`（collect-all）。
+6. runtime：`Session` registry → `RunGeneric`（provider/ability/operation）。
+7. scheduler：generic 稳定事件堆、取消边界、过期句柄 lazy drop。
+8. 属性/资源：属性 `base/current/max/resolved`，资源 `current/max`（generic runtime 槽位）。
+9. 机制主干：ability gate、execution、listener/operation、damage/heal/shield/resource/attribute 通道。
+10. 验收样例：以 `generic_p0_basic_damage.json` 与 generic mechanism 测试为准。
 
 ### 3.2 P1 范围
 
@@ -117,9 +117,9 @@ augment 应编译成 active policy，接入 attribute、crit、pipeline，不改
 ## 5. 浏览器宿主需求
 
 1. Worker 负责加载 TinyGo wasm 和匹配版本 `wasm_exec.js`。
-2. Worker 负责构造 frame、复制输入、循环 `engine_step`、读取 outbox、处理 cancel。
+2. Worker 负责构造 frame、复制输入、调用 `engine_compile` / `engine_run` / `engine_release_session`、读取 outbox、处理 cancel。旧 step-loop 宿主路径已退役。
 3. UI 主线程只收结构化进度、日志、结果和错误。
-4. cancel 在 step boundary 生效，不要求打断正在执行的单个事件。
+4. cancel 由宿主在 run 边界处理（generic run 为单次 deterministic 完成）；不要求打断正在执行的单个事件。
 5. same input + same seed + same wasm version 必须 replay 一致。
 
 ## 6. Review 入口

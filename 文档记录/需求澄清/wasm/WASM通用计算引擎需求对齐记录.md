@@ -49,7 +49,7 @@ Wasm compile 的错误策略分两层：协议/结构类错误可以 fast-fail�
 
 P0 target model 只支持固定 1v1 selector：`self`、`opponent`、`source`、`target`。范围选择、多目标、随机选敌、lowestHp/highestAttr/allEnemies 等 target query 不进入 P0 runtime；后续如果扩展多单位战斗，再设计 target query ABI。
 
-当前 TinyGo V2 还不是稳定 MVP，因此新通用引擎 schema 和核心模型可以直接替换现有实现，不要求兼容旧 DTO 或在旧 generic runtime 上渐进迁移。P0 canonical 实体模型直接切到 `Combatant -> Provider -> Ability`，不再以 `ActionTemplateV2` 作为新引擎核心模型。旧 `single_attacker_dps` 只保留为 legacy/compat lane。
+当前 TinyGo V2 还不是稳定 MVP，因此新通用引擎 schema 和核心模型可以直接替换现有实现，不要求兼容旧 DTO 或在旧 generic runtime 上渐进迁移。P0 canonical 实体模型直接切到 `Combatant -> Provider -> Ability`，不再以 `ActionTemplateV2` 作为新引擎核心模型。旧 `single_attacker_dps` / step-loop lane 与对应 Wasm 导出已从 TinyGo V2 源码移除；历史 rationale 见下文 §11。
 
 首期运行模式只支持 deterministic/expected single-run，不支持 seeded random。暴击等随机机制首期使用 expected 或 deterministic policy；随机分布模拟后续再扩展。
 
@@ -313,18 +313,20 @@ P0 集成验收样例固定为四条竖切：
 37. Wasm 使用 `maxSeriesPoints` 作为兜底上限，P0 默认值为 `5000`；如果点数超过上限，按时间均匀降采样。
 38. done/result 需要输出 `seriesSamplingEvidence`，说明原始采样间隔、是否降采样、最终点数。
 
-## 11. single_attacker_dps 的定位
+## 11. single_attacker_dps 的定位（历史决策 → 已移除）
 
-已确认：
+已确认（历史 rationale，保留）：
 
 1. 现有 `single_attacker_dps` 已经跑偏，不应继续作为新机制扩展主线。
-2. 它可以冻结为 legacy/compat lane，用于现有页面或历史验证。
+2. 它曾冻结为 legacy/compat lane，用于旧页面或历史验证。
 3. 新机制应进入通用 runtime、provider、ability、listener、operation pipeline。
 4. 后续 DPS driver 只负责按规则调度 ability 并产出曲线数据。
 5. 普攻 skill 化后，不应再在 DPS lane 里硬编码 first attack、attack speed cap、target dummy 等机制假设。
 6. 新通用引擎完成前，现有页面可以继续调用 `single_attacker_dps`，但必须标记为 legacy/compat，并且不再新增机制。
 7. 新通用引擎完成后，`single_attacker_dps` 不再作为对外入口；最多保留内部 fixture 或回归测试用于对照。
 8. 所有新能力只进入通用 provider/ability/operation pipeline。
+
+当前状态（LEGACY-DPS-REMOVAL）：TinyGo V2 已删除 `dps_*.go`、legacy step-loop 运行时/旧 compile-formula-scheduler 专路径，以及 `engine_init` / `engine_begin_run` / `engine_step` / snapshot / abort 导出。Worker/ABI 唯一业务入口为 `engine_compile` / `engine_run` / `engine_release_session`。通用 `sampling.dpsWindowMs` / windowDps / DPS series 指标保留。Web 侧资产与 adapter 同步是后续有序步骤。
 
 ## 12. 当前实现偏差摘要
 
@@ -336,7 +338,7 @@ P0 集成验收样例固定为四条竖切：
 4. `EffectTypeSpendResource`、`EffectTypeModifyAttribute` 已在 DTO 中出现，但 generic compile/runtime 没有完整映射执行。
 5. `command`、`pipeline` 包仍是骨架，数值变更尚未全部统一回流。
 6. TypeSet 当前是 flat bitset matcher，符合“不做父子闭包”的方向；偏差在于 compile/发布契约尚未明确校验两层树、父节点禁入 matcher 等规则。
-7. `single_attacker_dps` 是同步完成的专用 lane，包含 LoL/ADC/single-target 假设，不符合通用引擎目标。
+7. `single_attacker_dps` 曾是同步完成的专用 lane，包含 LoL/ADC/single-target 假设；该 lane 与导出已从 TinyGo V2 移除。
 
 ## 13. 下一轮应继续确认的问题
 
