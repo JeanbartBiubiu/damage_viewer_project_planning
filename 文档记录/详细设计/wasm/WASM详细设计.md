@@ -189,7 +189,7 @@ engine_release_session(ptr, size) -> 0/-1
 | Go session 测试 | `internal/runtime/session_generic_test.go` 覆盖 compile/run/release 与 hash/session 错误。 |
 | Node smoke | `scripts/smoke-node.mjs`：instantiate + compile → run → release round-trip，校验 summary subset。 |
 | Node bench | `scripts/bench-node.mjs --mode generic-run`：compile 在测量外，warmup/run `engine_run`，校验每次结果后 release。 |
-| Go bench | `go run ./cmd/bench` 默认 generic-run；`go run ./cmd/bench legacy` 非零退出（unsupported）。 |
+| Go bench | `go run ./cmd/bench` 默认 generic-run；不支持/未知参数统一非零退出。 |
 
 剩余缺口（仅在源码可证时记录）：浏览器 Worker 正式宿主完整切到 generic profile、以及仍依赖 legacy 页面的宿主迁移，不在本批文档/工具范围强行宣称完成。
 
