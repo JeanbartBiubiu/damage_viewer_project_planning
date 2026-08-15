@@ -20,6 +20,11 @@ const FORBIDDEN = [
     id: 'legacy-modules',
     pattern:
       /genericCatalogMaterializer|tinygoV2DpsAdapter|tinygoV2BundleAdapter|bundleCache|bundleSnapshot|wasmCatalogSnapshot/
+  },
+  {
+    id: 'legacy-dps-abi',
+    pattern:
+      /tinygoV2DpsAdapter|SingleAttackerDPS|single_attacker_dps|engine_init\b|engine_begin_run\b|engine_snapshot_initial\b|engine_snapshot_actions_initial\b|engine_step\b|engine_abort_run\b|legacyRequiredExports|TinyGoV2BridgeProfile|profile:\s*['"]legacy['"]/
   }
 ];
 
