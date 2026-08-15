@@ -3485,7 +3485,7 @@ describe('combatDataAssembler', () => {
         }
       });
 
-      // No attack-speed modifier; mana restore is out of single-attacker DPS scope.
+      // No attack-speed modifier; mana restore is out of generic runtime/mechanism scope.
       expect(sourceProvider.modifiers ?? []).toEqual([]);
       expect(
         (sourceProvider.modifiers ?? []).some(

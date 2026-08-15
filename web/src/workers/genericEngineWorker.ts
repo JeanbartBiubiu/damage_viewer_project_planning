@@ -52,7 +52,7 @@ async function ensureBridge(wasmUrl: string): Promise<TinyGoV2Bridge> {
   if (bridge) {
     return bridge;
   }
-  bridge = await TinyGoV2Bridge.create({ wasmUrl, profile: 'generic' });
+  bridge = await TinyGoV2Bridge.create({ wasmUrl });
   return bridge;
 }
 
