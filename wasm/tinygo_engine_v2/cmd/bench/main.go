@@ -23,9 +23,6 @@ func main() {
 	switch mode {
 	case "generic", "generic-run":
 		runGenericBench()
-	case "legacy":
-		fmt.Fprintln(os.Stderr, "unsupported mode \"legacy\": legacy battle bench was removed; use generic|generic-run")
-		os.Exit(2)
 	default:
 		fmt.Fprintf(os.Stderr, "unsupported mode %q (want generic|generic-run)\n", mode)
 		os.Exit(2)
