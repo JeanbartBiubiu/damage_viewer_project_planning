@@ -30,7 +30,7 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 ```text
 cmd/engine_wasm/          TinyGo 导出：alloc/dealloc + engine_compile/run/release_session + outbox_*
-cmd/bench/                原生 Go benchmark（generic|generic-run；legacy 非零退出）
+cmd/bench/                原生 Go benchmark（generic|generic-run；不支持/未知参数非零退出）
 internal/abi/             frame header、outbox、内存桥接
 internal/model/           generic*.go 为 canonical DTO；types.go 仅保留仍被引用的共享基础类型
 internal/compile/         CompileGeneric → CompiledSession
