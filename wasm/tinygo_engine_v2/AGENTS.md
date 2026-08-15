@@ -50,7 +50,7 @@
 ## 5. 关键入口地图
 
 1. `cmd/engine_wasm/main.go`：TinyGo Wasm 导出；canonical 业务入口为 `engine_compile` / `engine_run` / `engine_release_session`，外加 `alloc`/`dealloc`/outbox glue。
-2. `cmd/bench/main.go`：原生 Go benchmark（`generic|generic-run`；`legacy` 与未知参数非零退出）。
+2. `cmd/bench/main.go`：原生 Go benchmark（`generic|generic-run`；不支持/未知参数非零退出）。
 3. `internal/abi/**`：frame、outbox、内存拷贝。
 4. `internal/model/generic*.go`：`CompileRequest`、`RunRequest`、`DoneResult`、generic frame kind `200..214`、错误 DTO。
 5. `internal/compile/generic.go`：`CompileGeneric` → `CompiledSession`；`generic_validate.go` collect-all。
