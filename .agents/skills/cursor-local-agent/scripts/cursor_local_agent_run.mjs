@@ -122,7 +122,7 @@ Options:
   --allowed-path <path>       Audited write allowlist entry (required, repeatable). Not an OS sandbox.
                               Paths resolve under --cwd; escapes outside the repository are rejected.
   --allow-cli-fallback        Allow best-effort CLI fallback when SDK startup fails (no Run returned).
-  --allow-cli-model-drift     Permit CLI fallback even though grok-4.5 fast=false cannot be proven.
+  --allow-cli-model-drift     Permit CLI fallback even though grok-4.6 fast=false cannot be proven.
 
 Artifacts (always under --out-dir): prompt.txt, summary.json, events.jsonl, diff.patch,
   review.md, preflight.md, git-status-before/after (scoped + full worktree),
@@ -697,7 +697,7 @@ async function runWithCursorCli(args, summary, artifactPaths, promptText) {
   };
 
   await new Promise((resolvePromise, rejectPromise) => {
-    const commandArgs = ["-p", promptText, "--output-format", "stream-json", "--model", "grok-4.5"];
+    const commandArgs = ["-p", promptText, "--output-format", "stream-json", "--model", "grok-4.6"];
     const child = spawn(cliPath, commandArgs, {
       cwd: args.cwd,
       stdio: ["ignore", "pipe", "pipe"],
@@ -901,7 +901,7 @@ async function main() {
     } else if (!args.allowCliModelDrift) {
       blockCliFallback(
         summary,
-        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.5 with fast=false.",
+        "CLI fallback is disabled under the strict model rule because current CLI flags cannot prove grok-4.6 with fast=false.",
       );
     } else if (!preflight.cliProbe.cursorAgentPath) {
       blockCliFallback(summary, preflight.cliProbe.note);

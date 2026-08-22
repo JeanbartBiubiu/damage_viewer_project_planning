@@ -1,6 +1,6 @@
 ---
 name: cursor-local-agent
-description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm) for read-only design review, development automation, SDK smoke tests, local agent runs, or Grok 4.5 non-fast model selection.
+description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm) for read-only design review, development automation, SDK smoke tests, local agent runs, or Grok 4.6 non-fast model selection.
 ---
 
 # Cursor Local Agent
@@ -19,12 +19,12 @@ For design-review and development runs, treat the SDK event stream, `summary.jso
 
 ## Hard Rules
 
-- Use only `grok-4.5` with explicit non-fast params for the **top-level** agent.
-- Always disable Fast explicitly. `Cursor.models.list()` currently marks bare `grok-4.5` default as `effort=high` + `fast=true`, so a bare model id is not strict enough:
+- Use only `grok-4.6` with explicit non-fast params for the **top-level** agent.
+- Always disable Fast explicitly. `Cursor.models.list()` currently marks bare `grok-4.6` default as `effort=high` + `fast=true`, so a bare model id is not strict enough. The catalog also exposes `effort=xhigh`; this project contract stays fixed at `effort=high` (no version switch or effort picker):
 
 ```ts
 const model = {
-  id: "grok-4.5",
+  id: "grok-4.6",
   params: [
     { id: "effort", value: "high" },
     { id: "fast", value: "false" },
@@ -32,7 +32,7 @@ const model = {
 };
 ```
 
-- Never use `composer-latest`, `composer`, `composer-2.5`, `composer-2.5-fast`, or bare `{ id: "grok-4.5" }` for current top-level Cursor local agent development runs.
+- Never use `composer-latest`, `composer`, `composer-2.5`, `composer-2.5-fast`, or bare `{ id: "grok-4.6" }` for current top-level Cursor local agent development runs.
 - Only change Grok params after `Cursor.models.list()` proves the exact contract.
 - Pass `apiKey` explicitly to `Agent.create(...)`; do not rely only on `process.env.CURSOR_API_KEY`.
 - Do not print API keys. It is acceptable to print whether a key is present, its length, or a short prefix.
@@ -87,7 +87,7 @@ const agent = await Agent.create({
   apiKey,
   name: "codex-cursor-task",
   model: {
-    id: "grok-4.5",
+    id: "grok-4.6",
     params: [
       { id: "effort", value: "high" },
       { id: "fast", value: "false" },
@@ -181,8 +181,8 @@ The successful send result must include:
 
 ```text
 RESULT_STATUS=finished
-RESULT_MODEL={"id":"grok-4.5","params":[{"id":"effort","value":"high"},{"id":"fast","value":"false"}]}
-ASSISTANT_TEXT=GROK_45_NONFAST_SMOKE_OK
+RESULT_MODEL={"id":"grok-4.6","params":[{"id":"effort","value":"high"},{"id":"fast","value":"false"}]}
+ASSISTANT_TEXT=GROK_46_NONFAST_SMOKE_OK
 ```
 
 `cursor_local_agent_run.mjs` is the preferred path for real work (artifacts always land under `--out-dir`). It requests project setting sources so repo skills and future project file-defined agents can be visible. `cursor_local_agent_smoke.mjs` stays focused on model / SDK health checks and keeps `settingSources: []` for deterministic isolation (no MODE requirement; single startup attempt; dry-run remains network-free).
@@ -192,7 +192,7 @@ ASSISTANT_TEXT=GROK_45_NONFAST_SMOKE_OK
 CLI fallback is not assumed to exist.
 
 1. If the machine only exposes the desktop `cursor` wrapper, treat CLI fallback as blocked until you can prove there is a standalone programmable `cursor-agent` binary.
-2. Even when `cursor-agent` exists, current CLI flags do not prove `grok-4.5` with `fast=false`, so strict fallback remains blocked by default.
+2. Even when `cursor-agent` exists, current CLI flags do not prove `grok-4.6` with `fast=false`, so strict fallback remains blocked by default.
 3. Only relax the model rule for CLI fallback when the user explicitly accepts model drift for diagnostics or emergency recovery.
 4. Runner considers CLI fallback only for `failurePhase=startup` with no `runId`. Preflight / audit / run / stream / wait / timeout / terminal non-finished failures are explicitly blocked (no-replay).
 
@@ -200,7 +200,7 @@ CLI fallback is not assumed to exist.
 
 | Mistake | Fix |
 | --- | --- |
-| Usage shows `grok-4.5` with `fast=true`, bare `grok-4.5`, `composer-2.5`, `composer-2.5-fast`, or another Composer variant | Update the runner to request `grok-4.5` through the shared `MODEL` constant with `effort=high` and `fast=false`. |
+| Usage shows `grok-4.6` with `fast=true`, bare `grok-4.6`, `composer-2.5`, `composer-2.5-fast`, or another Composer variant | Update the runner to request `grok-4.6` through the shared `MODEL` constant with `effort=high` and `fast=false`. |
 | `Cursor.models.list()` works but `Agent.send()` is unauthenticated | Pass `apiKey` explicitly into `Agent.create(...)`. |
 | Cursor IDE does not show the SDK session | Read SDK artifacts/transcripts directly; do not depend on the IDE history dropdown. |
 | Session appears under the wrong project | Use the exact desired `cwd`; Cursor stores project state by path. |

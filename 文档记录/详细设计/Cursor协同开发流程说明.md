@@ -2,12 +2,12 @@ TASK_KEY: planning-cursor-agent-dev-workflow
 DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: tracked
-EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-18
+EXECUTION_MODEL: Cursor grok-4.5 + GPT-5
+LAST_TRACKED_AT: 2026-08-22
 
 # Cursor 协同开发流程说明
 
-> 角色定义见根 `AGENTS.md` §0。「驱动模型」是角色，可由 GPT / opus / glm 等担任；**顶层** Cursor local agent 固定 `grok-4.5` + `effort=high` + `fast=false`，但必须在每次 run 中显式选择 `DESIGN_REVIEW_ONLY` 或 `IMPLEMENTATION` 模式。Cursor 内部 task/subagent/explore 委派继承顶层 prompt 边界，由顶层 agent 对产出负责，不适用该固定 grok 合同。Codex-native subagent 默认探索/审查/分析，不得绕过本流程直接改代码/脚本/配置。
+> 角色定义见根 `AGENTS.md` §0。「驱动模型」是角色，可由 GPT / opus / glm 等担任；**顶层** Cursor local agent 固定 `grok-4.6` + `effort=high` + `fast=false`，但必须在每次 run 中显式选择 `DESIGN_REVIEW_ONLY` 或 `IMPLEMENTATION` 模式。裸 `grok-4.6` 默认仍是 `effort=high` + `fast=true`，因此必须显式传参；SDK 目录另有 `effort=xhigh`，本项目合同仍固定 `high`。Cursor 内部 task/subagent/explore 委派继承顶层 prompt 边界，由顶层 agent 对产出负责，不适用该固定 grok 合同。Codex-native subagent 默认探索/审查/分析，不得绕过本流程直接改代码/脚本/配置。
 
 ## 1. 适用范围
 

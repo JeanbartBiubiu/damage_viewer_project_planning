@@ -6,14 +6,14 @@
 |------|------|--------|
 | **驱动模型** | 主会话主控角色（可由 GPT / opus / glm 等担任）：收敛范围、写 Cursor prompt、review、最终验收 | 纯只读分析/小文档可直接改；代码/脚本/配置默认经 Cursor |
 | **Codex-native subagent** | 驱动模型在 Codex 内派发的探索/审查/分析代理 | 默认只读；仅当父任务显式给出**互不重叠**的写入集，且仓库流程允许该产物类型时才可写 |
-| **顶层 Cursor local agent** | 驱动模型通过 SDK/runner **显式创建**的受限方案评审或编码执行体 | 方案评审模式只读且要求 run delta 为零；编码执行模式仅在 prompt 允许写入范围内写；固定 `grok-4.5` + `effort=high` + `fast=false` |
+| **顶层 Cursor local agent** | 驱动模型通过 SDK/runner **显式创建**的受限方案评审或编码执行体 | 方案评审模式只读且要求 run delta 为零；编码执行模式仅在 prompt 允许写入范围内写；固定 `grok-4.6` + `effort=high` + `fast=false` |
 | **Cursor internal task/subagent/explore** | 顶层 Cursor agent 在其会话内的有界委派 | 继承顶层 prompt 边界；顶层 agent 对其产出负责；**不适用**上述固定 grok 合同（合同只约束显式创建的顶层 agent） |
 
 硬约束：
 
 1. Codex-native subagent **不得**绕过强制 Cursor 代码/脚本/配置流程去直接改业务实现。
 2. 仅把**独立、有界**的分支委派出去；不要把琐碎或必须串行的工作扇出。主线程保留集成与最终验证。
-3. `grok-4.5` + `effort=high` + `fast=false` **只**适用于显式创建的顶层 Cursor local agent。
+3. `grok-4.6` + `effort=high` + `fast=false` **只**适用于显式创建的顶层 Cursor local agent。
 4. **planning / master** 上的本文件、共享 `.agents/skills/**`、`tools/task-governance/**`、`tools/agent-governance/**`、`db/task_doc_governance/task_rules.json` 为跨 worktree 协作真源；长寿模块分支应 merge/cherry-pick，不要手抄分叉副本。
 
 ## 1. 全局协作底线
@@ -40,7 +40,7 @@
 4. 顶层 Cursor local agent 必须显式声明模式。`DESIGN_REVIEW_ONLY` 只检查实现可行性、遗漏影响面、矛盾和不明确点，不得创建、修改或删除文件，并按 `READY | REVISE | BLOCKED` 返回带仓库证据的问题清单；即使 allowlist 审计通过，只要本轮 `runDeltaCount != 0`，事件日志显示发生过文件写入/删除/重命名后又恢复，或事件日志缺失、不可解析、关键工具事件被截断，该次方案评审仍无效。`IMPLEMENTATION` 只执行已冻结方案，不负责自行扩写需求、扩大范围或替代最终验收。
 5. 驱动模型逐项将评审意见标记为 `ACCEPT | REJECT | NEED_USER`，给出证据或方案修改，并用完整最新方案复审；先自行补查仓库，只有本地无法决策时才向用户提一个问题。只有 Cursor 返回 `READY`、驱动模型无未关闭项、无待用户决策、方案版本已冻结，且目标、非目标、契约、写入范围、验证命令和停止条件齐全时，才允许进入编码。连续三轮仍未收敛，或同一阻塞点连续两轮没有新证据时，必须停止文字往返并报告阻塞。
 6. 编码执行必须新建 Cursor run，仅发送冻结后的最终方案、允许写入范围、非目标、验证命令和停止条件；不得把未决讨论或已废弃方案交给编码执行体。高风险任务可在冻结前增加一次新会话的只读冷评审。
-7. 通过 SDK / local agent **显式创建顶层 Cursor agent** 时，模型选择、接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`（固定 `grok-4.5` + `effort=high` + `fast=false`，不得用裸 `grok-4.5`、`composer-latest`/`composer`/`composer-2.5`/`composer-2.5-fast`）。顶层 agent 内部的 Cursor task/subagent/explore 委派允许在有界 prompt 内进行，由顶层 agent 对产出负责。
+7. 通过 SDK / local agent **显式创建顶层 Cursor agent** 时，模型选择、接线、runner 和 smoke 规则见 `.agents/skills/cursor-local-agent/SKILL.md`（固定 `grok-4.6` + `effort=high` + `fast=false`，不得用裸 `grok-4.6`、`composer-latest`/`composer`/`composer-2.5`/`composer-2.5-fast`）。顶层 agent 内部的 Cursor task/subagent/explore 委派允许在有界 prompt 内进行，由顶层 agent 对产出负责。
 8. 驱动模型每轮先检查 Cursor 产物、事件日志和 `git diff` 再 review；即使 `status=error` 也要先看 diff。编码执行的写入范围审计是 **fail-closed 的审计型 allowlist**（非 OS sandbox）：按运行前后路径签名计算 **run delta**，仅当本次运行导致的越界变更（或审计不可用）时 runner 非零退出且保留产物；未再改动的既有脏文件不单独导致失败。最终验证由驱动模型亲自完成，可自动化项不得交用户；若 Cursor 链路、权限、环境或验证异常，先报告阻塞，除非用户明确同意，否则不退回“驱动模型直接改代码”。验收细则见 `.\文档记录\详细设计\Cursor协同开发流程说明.md`。
 
 流程说明真源见 `.\文档记录\详细设计\Cursor协同开发流程说明.md`。
