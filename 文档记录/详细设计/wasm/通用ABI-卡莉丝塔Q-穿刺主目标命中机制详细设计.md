@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 卡莉丝塔 Q 穿刺（Pierce）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 卡莉丝塔 Q 穿刺主目标命中机制验证记录](../../测试记录/wasm/通用ABI-卡莉丝塔Q-穿刺主目标命中机制验证记录-2026-07-25.md)。本任务将精确候选 `hero_skill|hero_kalista|Q|穿刺` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序/Effect at cast time end、Martial Poise/dash cancel、方向/射程/宽度/线几何/多目标/首敌碰撞、弹道/拦截/法术护盾、击杀延续/Rend 叠层转移、其它 rank，或其他卡莉丝塔技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV kalista-q-pierce-primary-hit-phase-a-v1`（有效 DESIGN_READY `run-55166e3f-5b1f-4aee-b061-a1ebcae42236`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1024 parseable event lines / 45 complete read-only calls；无 truncation / user decision）。
+关联验证记录：[通用 ABI 卡莉丝塔 Q 穿刺主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_kalista|Q|穿刺` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序/Effect at cast time end、Martial Poise/dash cancel、方向/射程/宽度/线几何/多目标/首敌碰撞、弹道/拦截/法术护盾、击杀延续/Rend 叠层转移、其它 rank，或其他卡莉丝塔技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV kalista-q-pierce-primary-hit-phase-a-v1`（有效 DESIGN_READY `run-55166e3f-5b1f-4aee-b061-a1ebcae42236`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1024 parseable event lines / 45 complete read-only calls；无 truncation / user decision）。
 
 ## 1. Exact candidate completed 声明
 

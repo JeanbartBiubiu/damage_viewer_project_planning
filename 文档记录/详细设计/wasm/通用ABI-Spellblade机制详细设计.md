@@ -345,7 +345,7 @@ Damage evidence 须可审计：`operationRef`、`ad.base` 贡献、ready 消费�
 
 **完成定义：**
 
-2026-07-13 完成；验证记录：[通用ABI-Spellblade机制验证记录-2026-07-13](../../测试记录/wasm/通用ABI-Spellblade机制验证记录-2026-07-13.md)；最终版本 `lol-generic-spellblade-v1-20260713` / revision14；commits Wasm`12a4111` Backend`6fa89d3` Web`6e82c4b`。
+2026-07-13 完成；验证记录：[通用ABI-Spellblade机制验证记录-2026-07-13](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)；最终版本 `lol-generic-spellblade-v1-20260713` / revision14；commits Wasm`12a4111` Backend`6fa89d3` Web`6e82c4b`。
 
 - §10 矩阵全绿；
 - live 可读回与发布证据齐全；

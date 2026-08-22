@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-26
 
 # 莎弥拉 Q 交火（Flair）最大距离远程主目标命中 Phase-A-v1 详细设计
 
-关联验证记录：[莎弥拉 Q 交火最大距离远程主目标命中 Phase-A-v1 验证记录](../../测试记录/wasm/莎弥拉Q交火最大距离远程主目标命中Phase-A-v1-验证记录-2026-07-26.md)。本任务将精确候选 `hero_skill|hero_samira|Q|交火` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `distance_or_ratio_input`（raw provenance 仍可保留 `distance_based_damage_modifier`）。**最大距离仅是假定远程射击分支**；伤害公式本身**无**距离倍率/输入。**不**宣称实际距离/射程/弹道/几何/首个敌人搜索、近战挥砍/锥形、Wild Rush/E 爆炸物、暴击/期望暴击/RNG/150%/IE、吸血、Style、多目标、其他 rank、完整保真；本闭环**恰好是一次 Rank5 最大距离远程选定主目标物理命中量子**，**不是**完整 Q；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV samira-q-flair-max-distance-primary-hit-phase-a-v1`（DESIGN_READY `run-9d5340c8-cff7-4746-be38-de4f95a0cb3a`；model grok-4.5/high/false；1476 parseable events；zero truncated/mutation；runDelta0。Production Wasm / public ABI / Web 变更**不**需要——本切片为文档/治理；实现证据已由 Backend/Wasm/审计提交）。
+关联验证记录：[莎弥拉 Q 交火最大距离远程主目标命中 Phase-A-v1 验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_samira|Q|交火` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `distance_or_ratio_input`（raw provenance 仍可保留 `distance_based_damage_modifier`）。**最大距离仅是假定远程射击分支**；伤害公式本身**无**距离倍率/输入。**不**宣称实际距离/射程/弹道/几何/首个敌人搜索、近战挥砍/锥形、Wild Rush/E 爆炸物、暴击/期望暴击/RNG/150%/IE、吸血、Style、多目标、其他 rank、完整保真；本闭环**恰好是一次 Rank5 最大距离远程选定主目标物理命中量子**，**不是**完整 Q；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV samira-q-flair-max-distance-primary-hit-phase-a-v1`（DESIGN_READY `run-9d5340c8-cff7-4746-be38-de4f95a0cb3a`；model grok-4.5/high/false；1476 parseable events；zero truncated/mutation；runDelta0。Production Wasm / public ABI / Web 变更**不**需要——本切片为文档/治理；实现证据已由 Backend/Wasm/审计提交）。
 
 ## 1. 目的与非目标
 
