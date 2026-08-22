@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI - 贾修虚空天生目标装备投影机制详细设计
 
-关联验证记录：[通用 ABI 贾修虚空天生目标装备投影机制验证记录](../../测试记录/wasm/通用ABI-贾修虚空天生目标装备投影机制验证记录-2026-07-21.md)。本任务将精确候选 `item_passive|6665|item_passive|虚空天生` 标为 `completed/full/generic_runtime`；关闭此前 partial 的真实 target equipment/loadout 投影缺口。G8 不含 6665（EXTRA Unified），G8 计数不变。
+关联验证记录：[通用 ABI 贾修虚空天生目标装备投影机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `item_passive|6665|item_passive|虚空天生` 标为 `completed/full/generic_runtime`；关闭此前 partial 的真实 target equipment/loadout 投影缺口。G8 不含 6665（EXTRA Unified），G8 计数不变。
 
 ## 1. Exact candidate completed 声明
 

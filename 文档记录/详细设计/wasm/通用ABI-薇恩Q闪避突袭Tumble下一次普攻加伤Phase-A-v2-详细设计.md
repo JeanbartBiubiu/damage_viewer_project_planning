@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-26
 
 # 通用 ABI - 薇恩 Q 闪避突袭（Tumble）下一次普攻加伤 Phase-A-v2 详细设计
 
-关联验证记录：[通用 ABI 薇恩 Q 闪避突袭 Tumble 下一次普攻加伤 Phase-A-v2 验证记录](../../测试记录/wasm/通用ABI-薇恩Q闪避突袭Tumble下一次普攻加伤Phase-A-v2-验证记录-2026-07-26.md)。本任务将精确候选 `hero_skill|hero_vayne|Q|闪避突袭` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `distance_or_ratio_input`（raw provenance 仍可保留 `distance_based_damage_modifier`）。**不**宣称 dash/位移/距离/地形/几何、普攻重置/windup/节奏、隐身/R、吸血/治疗、暴击/RNG/miss/dodge/完整 on-hit、多目标/建筑、其他 rank/完整 Tumble、live migration/publish/E2E/完整保真。本闭环**恰好是 Rank5 施放武装后、下一次 source-owner 普攻命中的一笔非暴击/不可复制物理加伤**，**不是**完整 Q。冻结方案：`FROZEN_PLAN_REV vayne-q-tumble-next-basic-attack-bonus-phase-a-v2`。
+关联验证记录：[通用 ABI 薇恩 Q 闪避突袭 Tumble 下一次普攻加伤 Phase-A-v2 验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_vayne|Q|闪避突袭` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `distance_or_ratio_input`（raw provenance 仍可保留 `distance_based_damage_modifier`）。**不**宣称 dash/位移/距离/地形/几何、普攻重置/windup/节奏、隐身/R、吸血/治疗、暴击/RNG/miss/dodge/完整 on-hit、多目标/建筑、其他 rank/完整 Tumble、live migration/publish/E2E/完整保真。本闭环**恰好是 Rank5 施放武装后、下一次 source-owner 普攻命中的一笔非暴击/不可复制物理加伤**，**不是**完整 Q。冻结方案：`FROZEN_PLAN_REV vayne-q-tumble-next-basic-attack-bonus-phase-a-v2`。
 
 ## 0. 设计审查历史
 
