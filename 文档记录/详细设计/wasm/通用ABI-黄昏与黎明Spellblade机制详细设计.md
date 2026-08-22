@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI - 黄昏与黎明 Spellblade（item_2510）机制详细设计
 
-关联验证记录：[通用 ABI 黄昏与黎明 Spellblade 机制验证记录](../../测试记录/wasm/通用ABI-黄昏与黎明Spellblade机制验证记录-2026-07-14.md)。本任务将精确候选 `item_passive|2510|item_passive|咒刃` 标为 `completed/full/generic_runtime`（G8 `migrated`）；不再保留治疗或延迟 on-hit 的 `remainingGap`。
+关联验证记录：[通用 ABI 黄昏与黎明 Spellblade 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `item_passive|2510|item_passive|咒刃` 标为 `completed/full/generic_runtime`（G8 `migrated`）；不再保留治疗或延迟 on-hit 的 `remainingGap`。
 
 ## 1. Exact candidate completed 声明
 

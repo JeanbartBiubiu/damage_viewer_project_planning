@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 凯特琳 Q 和平使者（Piltover Peacemaker）首个敌人命中机制详细设计
 
-关联验证记录：[通用 ABI 凯特琳 Q 和平使者首个敌人命中机制验证记录](../../测试记录/wasm/通用ABI-凯特琳Q-和平使者首个敌人命中机制验证记录-2026-07-25.md)。本任务将精确候选 `hero_skill|hero_caitlyn|Q|和平使者` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序/精确 0.625 cast / `Effect at cast time start`、attack timer reset bug、方向/射程/宽度/线几何/多目标/首敌后 60% 减伤、陷阱/揭示例外、弹道/法术护盾、其它 rank，或其他凯特琳技能/被动（含既有 Caitlyn E）/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1`（有效 DESIGN_READY `run-34ad42ca-9761-4062-a1b3-6df69df157b0`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；967 parseable event lines / 43 complete tool groups；无 truncation / user decision；`NB-BOUNDARY-TOKEN` 接受为非阻塞笔记）。
+关联验证记录：[通用 ABI 凯特琳 Q 和平使者首个敌人命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_caitlyn|Q|和平使者` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序/精确 0.625 cast / `Effect at cast time start`、attack timer reset bug、方向/射程/宽度/线几何/多目标/首敌后 60% 减伤、陷阱/揭示例外、弹道/法术护盾、其它 rank，或其他凯特琳技能/被动（含既有 Caitlyn E）/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1`（有效 DESIGN_READY `run-34ad42ca-9761-4062-a1b3-6df69df157b0`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；967 parseable event lines / 43 complete tool groups；无 truncation / user decision；`NB-BOUNDARY-TOKEN` 接受为非阻塞笔记）。
 
 ## 1. Exact candidate completed 声明
 

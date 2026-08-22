@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-26
 
 # 通用 ABI - 霞 P 锐切（Clean Cuts）三次攻击预算 Phase-A 详细设计
 
-关联验证记录：[通用 ABI 霞 P 锐切 Clean Cuts 三次攻击预算 Phase-A 验证记录](../../测试记录/wasm/通用ABI-霞P锐切CleanCuts三次攻击预算Phase-A验证记录-2026-07-26.md)。本任务将精确候选 `hero_skill|hero_xayah|P|锐切` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime`（历史 feather/E 依赖族，仅溯源）。**用户已批准** attack-count-only 近似。**仅**直接施放后武装三次攻击预算 + 成功 source-owned 普攻伤害事件守卫递减；**不**宣称完整 Clean Cuts / 羽毛几何 / 次级伤害 / E 依赖 / 完整游戏保真。Wiki on-attack 由成功 `damage_instance` 近似；miss/dodge **排除**。Jhin P / Yunara P 仍为用户推迟的 `blocked_runtime`，**不是** `out_of_scope`。Aphelios **OOS**。**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV xayah-p-clean-cuts-three-attack-budget-phase-a-v2`（DESIGN_READY `run-383f969c-dee5-4152-987f-cf14c7dcf84d`；READY，只读有效）。Production Wasm / public ABI / Web 变更**不**需要——本切片为 seed + test-only 合同，**未**要求、亦**未**执行生产 Wasm 资产重建/同步。
+关联验证记录：[通用 ABI 霞 P 锐切 Clean Cuts 三次攻击预算 Phase-A 验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_xayah|P|锐切` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime`（历史 feather/E 依赖族，仅溯源）。**用户已批准** attack-count-only 近似。**仅**直接施放后武装三次攻击预算 + 成功 source-owned 普攻伤害事件守卫递减；**不**宣称完整 Clean Cuts / 羽毛几何 / 次级伤害 / E 依赖 / 完整游戏保真。Wiki on-attack 由成功 `damage_instance` 近似；miss/dodge **排除**。Jhin P / Yunara P 仍为用户推迟的 `blocked_runtime`，**不是** `out_of_scope`。Aphelios **OOS**。**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV xayah-p-clean-cuts-three-attack-budget-phase-a-v2`（DESIGN_READY `run-383f969c-dee5-4152-987f-cf14c7dcf84d`；READY，只读有效）。Production Wasm / public ABI / Web 变更**不**需要——本切片为 seed + test-only 合同，**未**要求、亦**未**执行生产 Wasm 资产重建/同步。
 
 ## 1. 目的与非目标
 

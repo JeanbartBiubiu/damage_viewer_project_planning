@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI - 韦鲁斯 W 枯萎箭袋（Blighted Quiver）机制详细设计
 
-关联验证记录：[通用 ABI 韦鲁斯 W 枯萎箭袋 Blighted Quiver 机制验证记录](../../测试记录/wasm/通用ABI-韦鲁斯W枯萎箭袋BlightedQuiver机制验证记录-2026-07-21.md)。本任务将精确候选 `hero_skill|hero_varus|W|枯萎箭袋` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `missing_blight_stack_consume_and_active_cast_runtime`。**不**宣称真实 Varus Q key 完成或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV varus-w-blighted-quiver-phase-a-v2`（DESIGN_REVIEW v1 REVISE `run-8f9a302a-2d3f-4c13-843b-c894fded476e`；v2 READY `run-c24dbdbc-19d3-41e3-9a26-34dd66d41ce2`）。
+关联验证记录：[通用 ABI 韦鲁斯 W 枯萎箭袋 Blighted Quiver 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_varus|W|枯萎箭袋` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `missing_blight_stack_consume_and_active_cast_runtime`。**不**宣称真实 Varus Q key 完成或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV varus-w-blighted-quiver-phase-a-v2`（DESIGN_REVIEW v1 REVISE `run-8f9a302a-2d3f-4c13-843b-c894fded476e`；v2 READY `run-c24dbdbc-19d3-41e3-9a26-34dd66d41ce2`）。
 
 ## 1. Exact candidate completed 声明
 
