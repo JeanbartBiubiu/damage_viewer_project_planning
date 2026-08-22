@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 斯塔缇克电刃 Energized（item_3087）机制详细设计
 
-关联验证记录：[通用 ABI 斯塔缇克电刃 Energized 机制验证记录](../../测试记录/wasm/通用ABI-斯塔缇克电刃Energized机制验证记录-2026-07-14.md)。本项只迁移 G8 精确候选 `item_passive|3087|item_passive|电疗`；`item_passive|3087|item_passive|电火花` 的次级弹射继续保持 `out_of_scope`。
+关联验证记录：[通用 ABI 斯塔缇克电刃 Energized 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本项只迁移 G8 精确候选 `item_passive|3087|item_passive|电疗`；`item_passive|3087|item_passive|电火花` 的次级弹射继续保持 `out_of_scope`。
 
 ## 1. 目标与数据边界
 

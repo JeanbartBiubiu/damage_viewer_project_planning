@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-15
 
 # 通用 ABI — Linked Effects（黑色切割者）机制详细设计
 
-验证记录：[通用 ABI Linked Effects 黑切机制验证记录](../../测试记录/wasm/通用ABI-LinkedEffects黑切机制验证记录-2026-07-13.md)
+验证记录：[通用 ABI Linked Effects 黑切机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)
 
 本文只描述当前 generic ABI 合同。2026-07-13 的 `-4 armor / basic-only / run 内永久` 是历史 partial，已被本设计取代；旧 live revision 17 不证明当前合同已 migrate/publish。
 

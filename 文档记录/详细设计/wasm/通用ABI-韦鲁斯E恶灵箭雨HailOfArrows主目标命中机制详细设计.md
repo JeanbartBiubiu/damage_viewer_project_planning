@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 韦鲁斯 E 恶灵箭雨（Hail of Arrows）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 韦鲁斯 E 恶灵箭雨 Hail of Arrows 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-韦鲁斯E恶灵箭雨HailOfArrows主目标命中机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_varus|E|恶灵箭雨` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称落地延迟/几何/多目标/箭雨场/减速/重伤/枯萎引爆或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV varus-e-hail-of-arrows-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-49be1bd0-cd86-4a36-a72e-c2d5de455338`；审查结论：bounded completed/full 接受；物理证据在披露后解析孤立 `damagetype=Magic` 字段；Wiki 0.5s landing delay 明确排除；Backend 恰好 8 attrs / 无 AP；与既有 W 独立共存）。
+关联验证记录：[通用 ABI 韦鲁斯 E 恶灵箭雨 Hail of Arrows 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_varus|E|恶灵箭雨` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称落地延迟/几何/多目标/箭雨场/减速/重伤/枯萎引爆或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV varus-e-hail-of-arrows-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-49be1bd0-cd86-4a36-a72e-c2d5de455338`；审查结论：bounded completed/full 接受；物理证据在披露后解析孤立 `damagetype=Magic` 字段；Wiki 0.5s landing delay 明确排除；Backend 恰好 8 attrs / 无 AP；与既有 W 独立共存）。
 
 ## 1. Exact candidate completed 声明
 

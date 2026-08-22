@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 夺萃之镰 Spellblade（item_3508）机制详细设计
 
-关联验证记录：[通用 ABI 夺萃之镰 Spellblade 机制验证记录](../../测试记录/wasm/通用ABI-夺萃之镰Spellblade机制验证记录-2026-07-14.md)。本项独立于已完成的 3078 与 3100 Spellblade 闭环；G8 只把精确候选 `item_passive|3508|item_passive|咒刃` 迁移为 `migrated`。
+关联验证记录：[通用 ABI 夺萃之镰 Spellblade 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本项独立于已完成的 3078 与 3100 Spellblade 闭环；G8 只把精确候选 `item_passive|3508|item_passive|咒刃` 迁移为 `migrated`。
 
 ## 1. 目标与数据边界
 

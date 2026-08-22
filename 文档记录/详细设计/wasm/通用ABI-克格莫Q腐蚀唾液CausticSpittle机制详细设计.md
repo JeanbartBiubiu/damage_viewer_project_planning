@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 克格莫 Q 腐蚀唾液（Caustic Spittle）rank5 被动攻速机制详细设计
 
-关联验证记录：[通用 ABI 克格莫 Q 腐蚀唾液 Caustic Spittle 机制验证记录](../../测试记录/wasm/通用ABI-克格莫Q腐蚀唾液CausticSpittle机制验证记录-2026-07-14.md)。本任务只迁移 G8 精确候选中的 Kog'Maw Q / Caustic Spittle **rank5 常驻被动攻速**子集；G8 分类为 `partial`，不得标为 fully migrated，亦不得误称完整 Q。
+关联验证记录：[通用 ABI 克格莫 Q 腐蚀唾液 Caustic Spittle 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务只迁移 G8 精确候选中的 Kog'Maw Q / Caustic Spittle **rank5 常驻被动攻速**子集；G8 分类为 `partial`，不得标为 fully migrated，亦不得误称完整 Q。
 
 ## 1. Exact candidate partial 声明
 

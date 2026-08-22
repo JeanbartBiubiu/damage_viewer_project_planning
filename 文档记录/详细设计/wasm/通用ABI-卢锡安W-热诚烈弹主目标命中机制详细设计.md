@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 卢锡安 W 热诚烈弹（Ardent Blaze）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 卢锡安 W 热诚烈弹主目标命中机制验证记录](../../测试记录/wasm/通用ABI-卢锡安W-热诚烈弹主目标命中机制验证记录-2026-07-25.md)。本任务将精确候选 `hero_skill|hero_lucian|W|热诚烈弹` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序与 Effect at cast time end、方向/射程/获取、导弹/飞行/碰撞、十字/爆炸几何、多目标/AOE、视野、6 秒标记、移速及其 rank 值、友方触发/Vigilance、闪避/格挡/致盲/持续伤害、法术护盾标记例外、其它 rank，或其他卢锡安技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV lucian-w-ardent-blaze-primary-hit-phase-a-v1`（有效 DESIGN_READY `run-d01cb420-6623-421e-9a39-b81e7322de9f`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1294 parseable event lines / 54 complete tool groups；无 truncation / blocker / nonblocking / user decision）。
+关联验证记录：[通用 ABI 卢锡安 W 热诚烈弹主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_lucian|W|热诚烈弹` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序与 Effect at cast time end、方向/射程/获取、导弹/飞行/碰撞、十字/爆炸几何、多目标/AOE、视野、6 秒标记、移速及其 rank 值、友方触发/Vigilance、闪避/格挡/致盲/持续伤害、法术护盾标记例外、其它 rank，或其他卢锡安技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV lucian-w-ardent-blaze-primary-hit-phase-a-v1`（有效 DESIGN_READY `run-d01cb420-6623-421e-9a39-b81e7322de9f`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1294 parseable event lines / 54 complete tool groups；无 truncation / blocker / nonblocking / user decision）。
 
 ## 1. Exact candidate completed 声明
 

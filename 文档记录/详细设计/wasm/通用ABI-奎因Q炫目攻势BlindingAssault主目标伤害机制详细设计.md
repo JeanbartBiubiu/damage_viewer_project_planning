@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-24
 
 # 通用 ABI - 奎因 Q 炫目攻势（Blinding Assault）主目标伤害机制详细设计
 
-关联验证记录：[通用 ABI 奎因 Q 炫目攻势 Blinding Assault 主目标伤害机制验证记录](../../测试记录/wasm/通用ABI-奎因Q炫目攻势BlindingAssault主目标伤害机制验证记录-2026-07-24.md)。本任务将精确候选 `hero_skill|hero_quinn|Q|炫目攻势` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称 Valor 实体/AI、弹道/几何/AOE、怪物双倍、Harrier/P/W 交互、nearsight/disarm，或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV quinn-q-blinding-assault-phase-a-v1`（DESIGN_REVIEW READY `run-ad05d978-c537-4681-9cd9-bc679f1a99e3`；strict `grok-4.5`；effort high；fast false；runDelta0/diff0；1872 JSONL events parseable；83 unique direct tool calls all completed；无 truncation / mutation / orphans；无 user decision。非阻塞笔记已接受：嵌套二元 `add`；事件范围意为无显式 Q emit / 无 `basic_attack_hit`；Xayah/Draven 延后；ambient AP 定义前置）。
+关联验证记录：[通用 ABI 奎因 Q 炫目攻势 Blinding Assault 主目标伤害机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_quinn|Q|炫目攻势` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称 Valor 实体/AI、弹道/几何/AOE、怪物双倍、Harrier/P/W 交互、nearsight/disarm，或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV quinn-q-blinding-assault-phase-a-v1`（DESIGN_REVIEW READY `run-ad05d978-c537-4681-9cd9-bc679f1a99e3`；strict `grok-4.5`；effort high；fast false；runDelta0/diff0；1872 JSONL events parseable；83 unique direct tool calls all completed；无 truncation / mutation / orphans；无 user decision。非阻塞笔记已接受：嵌套二元 `add`；事件范围意为无显式 Q emit / 无 `basic_attack_hit`；Xayah/Draven 延后；ambient AP 定义前置）。
 
 ## 1. Exact candidate completed 声明
 
