@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 艾希 Q 射手的专注（Ranger's Focus）rank5 机制详细设计
 
-关联验证记录：[通用 ABI 艾希 Q 射手的专注 Rangers Focus 机制验证记录](../../测试记录/wasm/通用ABI-艾希Q射手的专注RangersFocus机制验证记录-2026-07-14.md)。本任务只迁移 G8 精确候选中的 Ashe Q / Ranger's Focus **rank5** 可表达子集；G8 分类为 `partial`，不得标为 fully migrated。
+关联验证记录：[通用 ABI 艾希 Q 射手的专注 Rangers Focus 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务只迁移 G8 精确候选中的 Ashe Q / Ranger's Focus **rank5** 可表达子集；G8 分类为 `partial`，不得标为 fully migrated。
 
 ## 1. Partial 声明与数据合同
 

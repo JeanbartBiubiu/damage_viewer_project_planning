@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 扭曲命运打牌（Stacked Deck）rank5 机制详细设计
 
-关联验证记录：[通用 ABI 扭曲命运打牌 Stacked Deck 机制验证记录](../../测试记录/wasm/通用ABI-扭曲命运打牌StackedDeck机制验证记录-2026-07-14.md)。本任务只迁移 G8 精确候选中的 Twisted Fate E / Stacked Deck **rank5** 合同。
+关联验证记录：[通用 ABI 扭曲命运打牌 Stacked Deck 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务只迁移 G8 精确候选中的 Twisted Fate E / Stacked Deck **rank5** 合同。
 
 ## 1. 目标与边界
 

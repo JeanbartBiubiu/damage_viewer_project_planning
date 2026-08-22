@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 德莱文 E 开道利斧（Stand Aside）机制详细设计
 
-关联验证记录：[通用 ABI 德莱文 E 开道利斧 Stand Aside 机制验证记录](../../测试记录/wasm/通用ABI-德莱文E开道利斧StandAside机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_draven|E|开道利斧` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV draven-e-stand-aside-phase-a-v2`（DESIGN_REVIEW v1 因提出不存在的 canonical cast-delay/phases 合同而被 supersede，**不得**称 v1 READY；v2 READY `run-5317a2c2-4fbd-488e-b357-f4137248a6fd`）。
+关联验证记录：[通用 ABI 德莱文 E 开道利斧 Stand Aside 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_draven|E|开道利斧` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV draven-e-stand-aside-phase-a-v2`（DESIGN_REVIEW v1 因提出不存在的 canonical cast-delay/phases 合同而被 supersede，**不得**称 v1 READY；v2 READY `run-5317a2c2-4fbd-488e-b357-f4137248a6fd`）。
 
 ## 1. Exact candidate completed 声明
 

@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-23
 
 # 通用 ABI - 伊泽瑞尔 R 精准弹幕（Trueshot Barrage）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 伊泽瑞尔 R 精准弹幕 Trueshot Barrage 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-伊泽瑞尔R精准弹幕TrueshotBarrage主目标命中机制验证记录-2026-07-23.md)。本任务将精确候选 `hero_skill|hero_ezreal|R|精准弹幕` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/施法队列/弹道飞行/碰撞几何/方向/多目标/视野/小兵或野怪修正伤害，或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV ezreal-r-trueshot-barrage-primary-hit-phase-a-v2`（新鲜 DESIGN_REVIEW_ONLY READY `run-4324de07-a520-422b-a9bb-e0072955b3dc`；strict `grok-4.5`；effort high；fast false；结构化事件 `VERDICT=READY` / `REVIEWED_PLAN_REV=ezreal-r-trueshot-barrage-primary-hit-phase-a-v2`；runDeltaCount 0；1353/1353 JSONL 可解析；无 truncation/mutation。非阻塞笔记已吸收：文档需写明 README/外部既有数据 check-only 前置；live execution chain 仍属外部；**明确不调用 Batch-B**。较早 v1 REVISE 发现已并入 v2；**不得**把失败的初始化尝试当作审查证据）。
+关联验证记录：[通用 ABI 伊泽瑞尔 R 精准弹幕 Trueshot Barrage 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_ezreal|R|精准弹幕` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/施法队列/弹道飞行/碰撞几何/方向/多目标/视野/小兵或野怪修正伤害，或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV ezreal-r-trueshot-barrage-primary-hit-phase-a-v2`（新鲜 DESIGN_REVIEW_ONLY READY `run-4324de07-a520-422b-a9bb-e0072955b3dc`；strict `grok-4.5`；effort high；fast false；结构化事件 `VERDICT=READY` / `REVIEWED_PLAN_REV=ezreal-r-trueshot-barrage-primary-hit-phase-a-v2`；runDeltaCount 0；1353/1353 JSONL 可解析；无 truncation/mutation。非阻塞笔记已吸收：文档需写明 README/外部既有数据 check-only 前置；live execution chain 仍属外部；**明确不调用 Batch-B**。较早 v1 REVISE 发现已并入 v2；**不得**把失败的初始化尝试当作审查证据）。
 
 ## 1. Exact candidate completed 声明
 

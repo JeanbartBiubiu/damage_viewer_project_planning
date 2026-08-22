@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 格雷福斯 W 烟幕弹（Smoke Screen）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 格雷福斯 W 烟幕弹 Smoke Screen 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-格雷福斯W烟幕弹SmokeScreen主目标命中机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_graves|W|烟幕弹` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/弹道/几何/AOE/减速/烟幕云/致盲/视野削减或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV graves-w-smoke-screen-primary-hit-phase-a-v2`（DESIGN_REVIEW v2 READY `run-1fee8ffb-73ea-4cbe-bf60-967db51f6db9`；strict `grok-4.5`；effort high；fast false；READY；runDelta0；1856 parseable；无 truncation/mutation。v1 `run-4ab63cc3-f16c-46a8-a449-c9e854a25487`：审查输入；结论吸收进 v2）。
+关联验证记录：[通用 ABI 格雷福斯 W 烟幕弹 Smoke Screen 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_graves|W|烟幕弹` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/弹道/几何/AOE/减速/烟幕云/致盲/视野削减或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV graves-w-smoke-screen-primary-hit-phase-a-v2`（DESIGN_REVIEW v2 READY `run-1fee8ffb-73ea-4cbe-bf60-967db51f6db9`；strict `grok-4.5`；effort high；fast false；READY；runDelta0；1856 parseable；无 truncation/mutation。v1 `run-4ab63cc3-f16c-46a8-a449-c9e854a25487`：审查输入；结论吸收进 v2）。
 
 ## 1. Exact candidate completed 声明
 

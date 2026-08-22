@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-20
 
 # 通用 ABI - 凯尔 Q 耀焰冲击（Radiant Blast）Phase-A rank5 机制详细设计
 
-关联验证记录：[通用 ABI 凯尔 Q 耀焰冲击 Radiant Blast 机制验证记录](../../测试记录/wasm/通用ABI-凯尔Q耀焰冲击RadiantBlast机制验证记录-2026-07-20.md)。本任务在当前 **Phase-A rank5 主目标 1v1** 内将精确候选 `hero_skill|hero_kayle|Q|耀焰冲击` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
+关联验证记录：[通用 ABI 凯尔 Q 耀焰冲击 Radiant Blast 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务在当前 **Phase-A rank5 主目标 1v1** 内将精确候选 `hero_skill|hero_kayle|Q|耀焰冲击` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
 
 ## 1. Exact candidate completed 声明（Phase-A 边界）
 

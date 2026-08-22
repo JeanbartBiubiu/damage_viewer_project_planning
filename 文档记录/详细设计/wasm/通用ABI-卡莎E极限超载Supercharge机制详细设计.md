@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-20
 
 # 通用 ABI - 卡莎 E 极限超载（Supercharge）rank5 机制详细设计
 
-关联验证记录：[通用 ABI 卡莎 E 极限超载 Supercharge 机制验证记录](../../测试记录/wasm/通用ABI-卡莎E极限超载Supercharge机制验证记录-2026-07-15.md)。本任务在用户批准的 **Phase-A rank5 1v1 攻速分支** 内将精确候选 `hero_skill|hero_kaisa|E|极限超载` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
+关联验证记录：[通用 ABI 卡莎 E 极限超载 Supercharge 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务在用户批准的 **Phase-A rank5 1v1 攻速分支** 内将精确候选 `hero_skill|hero_kaisa|E|极限超载` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
 
 ## 1. Exact candidate completed 声明（Phase-A 边界）
 

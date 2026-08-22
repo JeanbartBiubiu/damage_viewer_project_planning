@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 卡牌大师 Q 万能牌（Wild Cards）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 卡牌大师 Q 万能牌 Wild Cards 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-卡牌大师Q万能牌WildCards主目标命中机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_twistedfate|Q|万能牌` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/扇形三牌锥形/弹道/几何/碰撞/pass/多目标或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV twisted-fate-q-wild-cards-primary-hit-phase-a-v2`（DESIGN_REVIEW v2 READY `run-16802cbb-4260-4c94-ae5d-558bc87f9f25`；agent `agent-2cb881b9-d728-408b-af3b-a2cafb514f0a`；strict model；runDelta0；582 parseable；无 truncation/mutation；无 issues。v1 `run-bbf86b5a-17cd-46bb-ab3c-aec082987b65` / agent `agent-1c8201b0-6a9a-4669-aa5e-f2b4b50581f2`：READY，strict model，runDelta0，715 parseable，无 truncation/mutation；三条非阻塞笔记已吸收进 v2）。
+关联验证记录：[通用 ABI 卡牌大师 Q 万能牌 Wild Cards 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_twistedfate|Q|万能牌` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放延迟/扇形三牌锥形/弹道/几何/碰撞/pass/多目标或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV twisted-fate-q-wild-cards-primary-hit-phase-a-v2`（DESIGN_REVIEW v2 READY `run-16802cbb-4260-4c94-ae5d-558bc87f9f25`；agent `agent-2cb881b9-d728-408b-af3b-a2cafb514f0a`；strict model；runDelta0；582 parseable；无 truncation/mutation；无 issues。v1 `run-bbf86b5a-17cd-46bb-ab3c-aec082987b65` / agent `agent-1c8201b0-6a9a-4669-aa5e-f2b4b50581f2`：READY，strict model，runDelta0，715 parseable，无 truncation/mutation；三条非阻塞笔记已吸收进 v2）。
 
 ## 1. Exact candidate completed 声明
 

@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 提莫 Q 致盲吹箭（Blinding Dart）机制详细设计
 
-关联验证记录：[通用 ABI 提莫 Q 致盲吹箭 Blinding Dart 机制验证记录](../../测试记录/wasm/通用ABI-提莫Q致盲吹箭BlindingDart机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_teemo|Q|致盲吹箭` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称致盲保真或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV teemo-q-blinding-dart-phase-a-v1`（DESIGN_REVIEW READY `run-b74658a7-e987-4a8e-809a-3d3feb8313cb`；审查修正已接受：控制排除先例改用 Draven E / Kayle Q，且 exact audit override 必须替换陈旧 governed generic classification/tag/gap）。
+关联验证记录：[通用 ABI 提莫 Q 致盲吹箭 Blinding Dart 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_teemo|Q|致盲吹箭` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称致盲保真或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV teemo-q-blinding-dart-phase-a-v1`（DESIGN_REVIEW READY `run-b74658a7-e987-4a8e-809a-3d3feb8313cb`；审查修正已接受：控制排除先例改用 Draven E / Kayle Q，且 exact audit override 必须替换陈旧 governed generic classification/tag/gap）。
 
 ## 1. Exact candidate completed 声明
 
