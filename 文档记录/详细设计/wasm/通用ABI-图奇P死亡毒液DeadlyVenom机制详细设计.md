@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI - 图奇 P 死亡毒液（Deadly Venom）机制详细设计
 
-关联验证记录：[通用 ABI 图奇 P 死亡毒液 Deadly Venom 机制验证记录](../../测试记录/wasm/通用ABI-图奇P死亡毒液DeadlyVenom机制验证记录-2026-07-21.md)。本任务将精确候选 `hero_skill|hero_twitch|P|死亡毒液` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `missing_poison_dot_stack_runtime`。**不**宣称完整游戏技能保真。冻结方案：`PLAN_REV twitch-deadly-venom-anchored-tick-v3`。
+关联验证记录：[通用 ABI 图奇 P 死亡毒液 Deadly Venom 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_twitch|P|死亡毒液` 标为 `completed/full/generic_runtime`（G8 `migrated`）；关闭此前 `blocked_runtime` / `missing_poison_dot_stack_runtime`。**不**宣称完整游戏技能保真。冻结方案：`PLAN_REV twitch-deadly-venom-anchored-tick-v3`。
 
 ## 1. Exact candidate completed 声明
 

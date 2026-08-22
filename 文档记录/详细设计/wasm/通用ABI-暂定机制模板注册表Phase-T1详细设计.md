@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-26
 
 # 通用 ABI - 暂定机制模板注册表 Phase-T1 详细设计
 
-关联验证记录：[通用 ABI 暂定机制模板注册表 Phase-T1 验证记录](../../测试记录/wasm/通用ABI-暂定机制模板注册表Phase-T1验证记录-2026-07-25.md)。本任务仅落地 **provisional template-registry 基础设施**（Phase-T1 scaffold → Phase-T2 连续刷新 → **Phase-T3/v4 批量机械草稿填充**）：独立派生生成器 + 当前过滤目标集上的暂定草稿卡片。**不**宣称任何机制已实现、已 completed/full/ready/migrated，**不**暗示 runtime / Backend 实现，**不**改变 Unified / G8 / Wiki-only registry / Batch-G 真源或计数。文件名保留 Phase-T1；正文当前描述 **Phase-T3/v4** 与 schema **v3**。冻结方案：`FROZEN_PLAN_REV provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4`（冻结 schema `provisional-mechanism-template-registry-v3`）。已接受实现 commit：`77c89e8b5a2f83e24655fbcc26cd69889254a075`（`feat(audit): prefill provisional mechanism drafts`）。
+关联验证记录：[通用 ABI 暂定机制模板注册表 Phase-T1 验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务仅落地 **provisional template-registry 基础设施**（Phase-T1 scaffold → Phase-T2 连续刷新 → **Phase-T3/v4 批量机械草稿填充**）：独立派生生成器 + 当前过滤目标集上的暂定草稿卡片。**不**宣称任何机制已实现、已 completed/full/ready/migrated，**不**暗示 runtime / Backend 实现，**不**改变 Unified / G8 / Wiki-only registry / Batch-G 真源或计数。文件名保留 Phase-T1；正文当前描述 **Phase-T3/v4** 与 schema **v3**。冻结方案：`FROZEN_PLAN_REV provisional-mechanism-template-registry-phase-t3-bulk-draft-fill-v4`（冻结 schema `provisional-mechanism-template-registry-v3`）。已接受实现 commit：`77c89e8b5a2f83e24655fbcc26cd69889254a075`（`feat(audit): prefill provisional mechanism drafts`）。
 
 历史承接：Phase-T1 scaffold（commit `59ddcc0e…`）与 Phase-T2 连续刷新（plan `…phase-t2-dynamic-refresh-v1` / schema v2 / commit `8965d18d…` / DESIGN_READY `run-9431ac75-f0dc-486e-9b9d-45fe092fea82`）仍有效；本切片在其之上做 **批量机械 draft fill**，不重新设计基础设施本身。
 

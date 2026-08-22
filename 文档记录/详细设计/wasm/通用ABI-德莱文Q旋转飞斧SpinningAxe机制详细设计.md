@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-14
 
 # 通用 ABI - 德莱文 Q 旋转飞斧（Spinning Axe）rank5 初斧机制详细设计
 
-关联验证记录：[通用 ABI 德莱文 Q 旋转飞斧 Spinning Axe 机制验证记录](../../测试记录/wasm/通用ABI-德莱文Q旋转飞斧SpinningAxe机制验证记录-2026-07-14.md)。本任务只迁移 G8 精确候选中的 Draven Q / Spinning Axe **rank5 初斧**合同；G8 分类为 `partial`，不得标为 fully migrated。
+关联验证记录：[通用 ABI 德莱文 Q 旋转飞斧 Spinning Axe 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务只迁移 G8 精确候选中的 Draven Q / Spinning Axe **rank5 初斧**合同；G8 分类为 `partial`，不得标为 fully migrated。
 
 ## 1. 数据合同
 

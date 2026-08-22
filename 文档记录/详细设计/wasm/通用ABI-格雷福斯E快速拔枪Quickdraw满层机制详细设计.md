@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-20
 
 # 通用 ABI - 格雷福斯 E 快速拔枪（Quickdraw）Phase-A 满层机制详细设计
 
-关联验证记录：[通用 ABI 格雷福斯 E 快速拔枪 Quickdraw 满层机制验证记录](../../测试记录/wasm/通用ABI-格雷福斯E快速拔枪Quickdraw满层机制验证记录-2026-07-20.md)。本任务在用户批准的 **Phase-A rank-5 满层 True Grit 近似** 内将精确候选 `hero_skill|hero_graves|E|快速拔枪` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
+关联验证记录：[通用 ABI 格雷福斯 E 快速拔枪 Quickdraw 满层机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务在用户批准的 **Phase-A rank-5 满层 True Grit 近似** 内将精确候选 `hero_skill|hero_graves|E|快速拔枪` 标为 `completed/full/generic_runtime`（G8 `migrated`）；**不**宣称完整游戏技能保真。
 
 ## 1. Exact candidate completed 声明（Phase-A 边界）
 

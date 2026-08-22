@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-21
 
 # 通用 ABI - 玛尔扎哈 E 恶咒降临（Malefic Visions）机制详细设计
 
-关联验证记录：[通用 ABI 玛尔扎哈 E 恶咒降临 Malefic Visions 机制验证记录](../../测试记录/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制验证记录-2026-07-21.md)。本任务将精确候选 `hero_skill|hero_malzahar|E|恶咒降临` 标为 `completed/full/generic_runtime`（Unified EXTRA，**非** G8）；关闭此前 `blocked_runtime` / `status_resource_dot_migration_runtime`（Batch-J 仅作 stale regression）。**不**宣称完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV malzahar-e-anchored-dot-phase-a-v2`（DESIGN_REVIEW READY：`run-2570cf99-908e-4d13-83c1-eb265282cd34`）。
+关联验证记录：[通用 ABI 玛尔扎哈 E 恶咒降临 Malefic Visions 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_malzahar|E|恶咒降临` 标为 `completed/full/generic_runtime`（Unified EXTRA，**非** G8）；关闭此前 `blocked_runtime` / `status_resource_dot_migration_runtime`（Batch-J 仅作 stale regression）。**不**宣称完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV malzahar-e-anchored-dot-phase-a-v2`（DESIGN_REVIEW READY：`run-2570cf99-908e-4d13-83c1-eb265282cd34`）。
 
 ## 1. Exact candidate completed 声明
 

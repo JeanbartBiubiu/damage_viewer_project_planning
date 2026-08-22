@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 克格莫 E 虚空淤泥（Void Ooze）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 克格莫 E 虚空淤泥 Void Ooze 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-克格莫E虚空淤泥VoidOoze主目标命中机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_kogmaw|E|虚空淤泥` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称弹道/几何/多目标/淤泥场/减速或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV kogmaw-e-void-ooze-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-9c0645bd-292c-4b86-8785-484e6acbee65`；审查结论：boundary 允许；immediate 措辞正确；raw newline caveat；Backend 恰好 9 attrs 含 AP0）。
+关联验证记录：[通用 ABI 克格莫 E 虚空淤泥 Void Ooze 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_kogmaw|E|虚空淤泥` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称弹道/几何/多目标/淤泥场/减速或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV kogmaw-e-void-ooze-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-9c0645bd-292c-4b86-8785-484e6acbee65`；审查结论：boundary 允许；immediate 措辞正确；raw newline caveat；Backend 恰好 9 attrs 含 AP0）。
 
 ## 1. Exact candidate completed 声明
 
