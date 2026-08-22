@@ -71,3 +71,4 @@
 2. Obsidian 是长期记忆和审计层，只在出现稳定决策、复杂排查结论、跨 worktree 上下文、任务页状态变化，或用户明确要求记录时回写；回写时优先写会话记录页或既有任务页，非汇总会话不要直接修改共享上下文页。
 3. `文档记录/**/*.md` 是实现文档真源；`db/task_doc_governance/task_rules.json` 是任务与文档映射及任务状态的**唯一**真源；`db/task_doc_governance/task_doc_governance.sqlite` 只是从规则重建得到的查询索引、不直接手改；Markdown 文档头用于标识文档，**不**替代映射。文档头契约见 `db/task_doc_governance/document_header.schema.json`。默认只读检查：`node tools/task-governance/cli.mjs check`；仅显式 `rebuild` 写 SQLite，仅显式 `rebuild --fix-headers` 可改 Markdown 头。
 4. 当 Codex Memory、Obsidian 与仓库内 `AGENTS.md`、`README.md`、`文档记录/**/*.md` 或 `task_rules.json` 冲突时，以仓库当前文件为准。
+5. 实质性跨模块设计默认采用「一份共享契约 + 每个实现模块一份详细设计」。触发条件：两个及以上实现模块/worktree 各自有实质性写入范围或独立验证。共享契约独占跨模块字段、接口、错误语义、实现顺序与跨端验收；子文档只拥有模块文件、内部实现、写入范围与测试，链接共享契约且不得复制或重定义。单文档例外仅当至多一个模块有实质性工作，其余模块只机械对接已冻结契约且不新增字段、错误语义或顺序，并须记录例外理由。
