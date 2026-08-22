@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 霞 Q 双刃（Double Daggers）主目标双击机制详细设计
 
-关联验证记录：[通用 ABI 霞 Q 双刃 Double Daggers 主目标双击机制验证记录](../../测试记录/wasm/通用ABI-霞Q双刃DoubleDaggers主目标双击机制验证记录-2026-07-25.md)。本任务将精确候选 `hero_skill|hero_xayah|Q|双刃` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放时间/攻速锁/方向射程宽度/弹道飞行拦截/法术护盾/后续目标减伤/羽毛生成与落地/E 耦合/其它 rank，或完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV xayah-q-double-daggers-primary-two-hit-phase-a-v3`（第三轮 fresh DESIGN_REVIEW_ONLY READY `run-136665fe-8126-4aa8-aa1d-fb65934d2a39`；strict `grok-4.5`；effort high；fast false；runDelta0/diff0；162 tool events / 81 unique calls all terminal；无 truncation / orphans / mutations；无 user decision。较早 v1/v2 **不是**接受门控）。
+关联验证记录：[通用 ABI 霞 Q 双刃 Double Daggers 主目标双击机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_xayah|Q|双刃` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施放时间/攻速锁/方向射程宽度/弹道飞行拦截/法术护盾/后续目标减伤/羽毛生成与落地/E 耦合/其它 rank，或完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV xayah-q-double-daggers-primary-two-hit-phase-a-v3`（第三轮 fresh DESIGN_REVIEW_ONLY READY `run-136665fe-8126-4aa8-aa1d-fb65934d2a39`；strict `grok-4.5`；effort high；fast false；runDelta0/diff0；162 tool events / 81 unique calls all terminal；无 truncation / orphans / mutations；无 user decision。较早 v1/v2 **不是**接受门控）。
 
 ## 1. Exact candidate completed 声明
 

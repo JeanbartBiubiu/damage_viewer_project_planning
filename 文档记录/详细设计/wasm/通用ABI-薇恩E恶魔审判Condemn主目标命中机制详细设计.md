@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-22
 
 # 通用 ABI - 薇恩 E 恶魔审判（Condemn）主目标命中机制详细设计
 
-关联验证记录：[通用 ABI 薇恩 E 恶魔审判 Condemn 主目标命中机制验证记录](../../测试记录/wasm/通用ABI-薇恩E恶魔审判Condemn主目标命中机制验证记录-2026-07-22.md)。本任务将精确候选 `hero_skill|hero_vayne|E|恶魔审判` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称击退/地形/墙体加成/眩晕/弹道或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV vayne-e-condemn-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-f03ab9ee-acd4-4a9b-b9ea-85a743822e0e`；审查修正已接受：使用 `single_hit`；说 `wall_bonus`；Backend AP preflight 不必要；清掉 governed generic 陈旧状态，raw upstream provenance 按既有 schema 保留）。
+关联验证记录：[通用 ABI 薇恩 E 恶魔审判 Condemn 主目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_vayne|E|恶魔审判` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称击退/地形/墙体加成/眩晕/弹道或完整游戏技能保真。冻结方案：`FROZEN_PLAN_REV vayne-e-condemn-primary-hit-phase-a-v1`（DESIGN_REVIEW READY `run-f03ab9ee-acd4-4a9b-b9ea-85a743822e0e`；审查修正已接受：使用 `single_hit`；说 `wall_bonus`；Backend AP preflight 不必要；清掉 governed generic 陈旧状态，raw upstream provenance 按既有 schema 保留）。
 
 ## 1. Exact candidate completed 声明
 

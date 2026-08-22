@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-25
 
 # 通用 ABI - 卢锡安 Q 透体圣光（Piercing Light）选定目标命中机制详细设计
 
-关联验证记录：[通用 ABI 卢锡安 Q 透体圣光选定目标命中机制验证记录](../../测试记录/wasm/通用ABI-卢锡安Q-透体圣光选定目标命中机制验证记录-2026-07-25.md)。本任务将精确候选 `hero_skill|hero_lucian|Q|透体圣光` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序、目标领先/闪避、方向、目标射程、射程/宽度/线几何、多目标/AOE、法术护盾、缓冲 W 或 R、E lockout、初始目标死亡提前结束、其它 rank，或其他卢锡安技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV lucian-q-piercing-light-selected-target-hit-phase-a-v1`（有效 DESIGN_READY `run-198e699d-c358-4417-91c5-014c9aa4fe5f`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1117 parseable event lines / 58 complete tool groups；无 truncation / blocker / nonblocking / user decision）。首次设计尝试 `run-2f6f3f3c-13eb-41d1-aa1c-e2564c6a0a07`（SDK ETIMEDOUT；仅 52 parseable event lines；runDelta0；无 verdict）**不是**有效门控。
+关联验证记录：[通用 ABI 卢锡安 Q 透体圣光选定目标命中机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务将精确候选 `hero_skill|hero_lucian|Q|透体圣光` 标为 `completed/full/generic_runtime`（G8 governed disposition `migrated`）；关闭此前 `blocked_runtime` / `implementation_gap_no_unresolved_data_fields`。**不**宣称施法时序、目标领先/闪避、方向、目标射程、射程/宽度/线几何、多目标/AOE、法术护盾、缓冲 W 或 R、E lockout、初始目标死亡提前结束、其它 rank，或其他卢锡安技能/被动/完整游戏技能保真；**未**声称总体 Goal 完成。冻结方案：`FROZEN_PLAN_REV lucian-q-piercing-light-selected-target-hit-phase-a-v1`（有效 DESIGN_READY `run-198e699d-c358-4417-91c5-014c9aa4fe5f`；strict `grok-4.5` / high / fast=false；runDelta0/diff0；1117 parseable event lines / 58 complete tool groups；无 truncation / blocker / nonblocking / user decision）。首次设计尝试 `run-2f6f3f3c-13eb-41d1-aa1c-e2564c6a0a07`（SDK ETIMEDOUT；仅 52 parseable event lines；runDelta0；无 verdict）**不是**有效门控。
 
 ## 1. Exact candidate completed 声明
 
