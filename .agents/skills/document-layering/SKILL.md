@@ -20,14 +20,14 @@ Do not hide different decisions in one document.
 - **测试记录** answers what was verified and what evidence remains.
 - **会话记录 / Obsidian memory** records traceable session outcomes, not full design content.
 
-When a document contains both high-level motivation and code-level implementation steps, split it. When the user says “sub agent 看到后直接就能编码”, the target is detailed design, not overview.
+When a document contains both high-level motivation and code-level implementation steps, split it. When the user says “sub agent 看到后直接就能编码”, the target is detailed design, not overview. A substantive cross-module feature uses one shared contract plus one implementation detailed design per module; shared definitions have one owner and are never copied into child documents.
 
 ## Workflow
 
-1. Identify the requested audience and layer before writing.
+1. Identify the requested audience and layer before writing. Detect substantive implementation audiences (modules/worktrees with material write scope or independent validation) and, when two or more exist, choose one shared contract plus one implementation detailed design per module.
 2. Classify existing draft paragraphs into layer buckets.
 3. If more than one bucket is substantial, create separate linked documents instead of one larger document.
-4. Put cross-links near the top of sibling documents so readers can move between clarification, overview, and implementation.
+4. Put cross-links near the top of sibling documents so readers can move between clarification, overview, and implementation, and, for cross-module work, between the shared contract and each module implementation document.
 5. Keep each document's body focused on its layer; move stray content to the correct sibling.
 6. For repo docs under `<repo-root>/文档记录/**`, preserve the header contract (`<repo-root>/db/task_doc_governance/document_header.schema.json`) and update `<repo-root>/db/task_doc_governance/task_rules.json` if mappings change; prefer `check` before any `rebuild`.
 7. If persistent memory is required, write a short session/task record; do not copy the whole design into Obsidian.
@@ -78,7 +78,7 @@ Typical path:
 
 Use for implementable engineering instructions.
 
-Include:
+For **module implementation** detailed designs, include:
 
 - Concrete write scope: files, packages, modules, schemas, APIs, DTOs, generated assets, and ownership boundaries.
 - Read-only references and existing patterns to follow.
@@ -87,13 +87,18 @@ Include:
 - Backward compatibility, migration, feature flag, fallback, or rollout notes.
 - Tests to add or update, validation commands, expected results, and residual risks.
 
+Shared-contract completeness is defined in **Cross-Module Implementation Split**, not by the list above.
+
 Avoid:
 
 - “为什么要做” paragraphs except one short trace to the requirement doc.
 - Vague verbs such as “完善”, “支持”, or “打通” without naming the target files, data shape, and observable behavior.
-- Architecture prose that does not tell the implementer what to edit.
+- In module implementation documents: architecture prose that does not tell the implementer what to edit. Shared-contract prose is allowed only for frozen cross-module fields, interfaces, error semantics, implementation ordering, cross-end acceptance, and ownership boundaries.
 
-Detailed design is ready only when another coding agent can start work without asking where to edit, what contract to preserve, or how to verify.
+Ready gates:
+
+- A **module implementation** detailed design is ready when another coding agent knows which files to edit, how the module uses the shared contract internally, the write scope, and how to test.
+- A **shared contract** is ready when cross-module fields, interfaces, error semantics, implementation ordering, cross-end acceptance, child owners, and links are complete, without duplicating module internals.
 
 Typical path:
 
@@ -140,12 +145,28 @@ Avoid:
 - Full copies of design docs.
 - Updating shared memory pages unless the current session is explicitly the summarizing/closing session.
 
+## Cross-Module Implementation Split
+
+Trigger: two or more implementation modules/worktrees each have material writes or independent validation.
+
+Default structure: one shared contract + one implementation detailed design per module.
+
+Exclusive ownership:
+
+- The **shared contract** exclusively owns cross-module fields, interfaces, error semantics, implementation ordering, and cross-end acceptance. It does not carry DDL/SQL, module paths, transactions, or module test commands.
+- **Child/module documents** own module files, internal implementation, write scope, and tests. They link to the shared contract and do not copy or redefine it. They may state that tests cover shared behavior, but must not redefine the shared field/API/error contract.
+
+Mechanical exception: at most one module has substantive work; all other modules only mechanically connect an already-frozen contract and add no new fields, error semantics, or ordering. The document must record why this exception applies. The exception cannot apply when two or more modules each have substantive writes or independent validation.
+
+Mapping: the planning/shared contract uses planning task ownership; each implementation child uses its module-specific `TASK_KEY` in `task_rules`. Do not introduce a new `DOC_TYPE`.
+
 ## Split Triggers
 
 Split the draft when any of these are true:
 
 - It explains why the feature matters and also lists concrete file edits.
 - It describes cross-module architecture and also assigns subagent write ownership.
+- Two or more substantive implementation audiences/worktrees are present.
 - It contains test evidence and future design decisions.
 - It has many “should/need to” statements but no concrete implementation contract.
 - A detailed design spends more space on justification than on edit instructions.
@@ -166,7 +187,7 @@ LAST_TRACKED_AT: <YYYY-MM-DD>
 
 `EXECUTION_MODEL` must be the actual route/value for the document, never a hardcoded stale default. Document `STATUS` does not replace task status in `<repo-root>/db/task_doc_governance/task_rules.json`.
 
-If splitting an existing document, copy the relevant `TASK_KEY` and update `DOC_TYPE` per file. Do not leave the old mixed document as a competing source unless it is explicitly marked superseded and linked to the new documents.
+If splitting an existing document for requirement/overview/detail layering, or for splits that stay on the same implementation task, copy the relevant `TASK_KEY` and update `DOC_TYPE` per file. A substantive cross-module split uses a planning/shared-contract task plus separate module implementation task keys according to `task_rules`; do not introduce a new `DOC_TYPE`. Do not leave the old mixed document as a competing source unless it is explicitly marked superseded and linked to the new documents.
 
 ## Governance Checklist
 
@@ -191,6 +212,18 @@ Before finishing, verify:
 
 - Each document has one primary layer.
 - Sibling documents cross-link to each other.
-- Detailed design contains enough concrete information for direct implementation.
+- Module implementation detailed designs contain enough concrete information for direct implementation; shared contracts satisfy the shared-contract ready gate without duplicating module internals.
+- The shared owner of any cross-module contract is unique; module docs link to it and do not copy it.
+- If a single document is retained across modules, mechanical-exception evidence is recorded.
 - Requirement and overview docs do not contain accidental coding task lists.
 - Governance mappings and persistent memory expectations are handled when applicable.
+
+## Verification
+
+Repeatable GREEN probe:
+
+- **Scenario:** a design has substantive backend storage/API writes and substantive frontend UI/client writes.
+- **Expected:** propose one shared contract + backend design + frontend design; name shared fields/interfaces/errors/ordering/acceptance as the unique shared owner; keep module files/tests in children.
+- **Failure:** one monolith, two independent copied API contracts, or a mechanical exception claimed while both sides have substantive work.
+
+Exception probe: only backend changes the contract and frontend mechanically wires the frozen contract with no new field, error, or order; one document is allowed only with a recorded reason.
