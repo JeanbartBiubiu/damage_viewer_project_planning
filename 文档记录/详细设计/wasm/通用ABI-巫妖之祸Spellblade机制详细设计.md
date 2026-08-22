@@ -7,7 +7,7 @@ LAST_TRACKED_AT: 2026-07-13
 
 # 通用 ABI — 巫妖之祸 Spellblade（item_3100）机制详细设计
 
-关联验证记录：[通用 ABI 巫妖之祸 Spellblade 机制验证记录](../../测试记录/wasm/通用ABI-巫妖之祸Spellblade机制验证记录-2026-07-13.md)。本任务独立于已完成的 `wasm-generic-spellblade`（仅 item_3078）。
+关联验证记录：[通用 ABI 巫妖之祸 Spellblade 机制验证记录](../../测试记录/wasm/最小验证剩余阻塞项汇总-2026-07-19.md)。本任务独立于已完成的 `wasm-generic-spellblade`（仅 item_3078）。
 
 ## 1. 目标与数据边界
 
