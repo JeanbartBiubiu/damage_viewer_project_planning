@@ -22,7 +22,6 @@ import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
 import xyz.game.datamanage.service.combatdata.effect.EffectCombatDataService;
@@ -89,7 +88,6 @@ public class DirectDamageAbilitySetupService {
     private static final List<String> DETAIL_KEYS = List.of(
         EffectCombatDataService.DETAIL_DAMAGE,
         EffectCombatDataService.DETAIL_HEAL,
-        EffectCombatDataService.DETAIL_RESOURCE,
         EffectCombatDataService.DETAIL_ATTRIBUTE,
         EffectCombatDataService.DETAIL_SHIELD,
         EffectCombatDataService.DETAIL_PROVIDER,
@@ -109,7 +107,6 @@ public class DirectDamageAbilitySetupService {
     private final CombatAbilityPhaseEffectSequencesMapper phaseSequencesMapper;
     private final CombatDamageEffectDetailsMapper damageDetailsMapper;
     private final CombatHealEffectDetailsMapper healDetailsMapper;
-    private final CombatResourceEffectDetailsMapper resourceDetailsMapper;
     private final CombatAttributeEffectDetailsMapper attributeDetailsMapper;
     private final CombatShieldEffectDetailsMapper shieldDetailsMapper;
     private final CombatProviderEffectDetailsMapper providerDetailsMapper;
@@ -129,7 +126,6 @@ public class DirectDamageAbilitySetupService {
         CombatAbilityPhaseEffectSequencesMapper phaseSequencesMapper,
         CombatDamageEffectDetailsMapper damageDetailsMapper,
         CombatHealEffectDetailsMapper healDetailsMapper,
-        CombatResourceEffectDetailsMapper resourceDetailsMapper,
         CombatAttributeEffectDetailsMapper attributeDetailsMapper,
         CombatShieldEffectDetailsMapper shieldDetailsMapper,
         CombatProviderEffectDetailsMapper providerDetailsMapper,
@@ -148,7 +144,6 @@ public class DirectDamageAbilitySetupService {
         this.phaseSequencesMapper = phaseSequencesMapper;
         this.damageDetailsMapper = damageDetailsMapper;
         this.healDetailsMapper = healDetailsMapper;
-        this.resourceDetailsMapper = resourceDetailsMapper;
         this.attributeDetailsMapper = attributeDetailsMapper;
         this.shieldDetailsMapper = shieldDetailsMapper;
         this.providerDetailsMapper = providerDetailsMapper;
@@ -455,7 +450,6 @@ public class DirectDamageAbilitySetupService {
     private void clearAllDetails(String gameId, String stepId) {
         damageDetailsMapper.deleteByStepId(gameId, stepId);
         healDetailsMapper.deleteByStepId(gameId, stepId);
-        resourceDetailsMapper.deleteByStepId(gameId, stepId);
         attributeDetailsMapper.deleteByStepId(gameId, stepId);
         shieldDetailsMapper.deleteByStepId(gameId, stepId);
         providerDetailsMapper.deleteByStepId(gameId, stepId);

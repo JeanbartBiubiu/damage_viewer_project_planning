@@ -43,8 +43,6 @@
 --      - game_entities(lol,hero_tristana)；
 --      - attribute_definitions(lol,ad) 与 (lol,ap)；
 --      - entity_attribute_values(lol,hero_tristana,ad) 与 (lol,hero_tristana,ap)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_tristana,mana)。
 --    hero_tristana / ad / ap / mana 是 external existing-data / check-only 依赖；
 --    当前仓库没有任何 seed / materializer 物化 Tristana 身份 / 面板 / ad/ap EAV /
 --    资源行；本脚本亦不物化身份/面板/资源值。勿用 Batch-B 前置依赖、sibling
@@ -53,8 +51,6 @@
 --    本 W seed 不要求 P/Q/E/basic/Explosive Charge/R publication，亦不合成那些
 --    行；与既有/未来 Tristana Q（Rapid Fire）/ R（Buster Shot）/ P/E/basic
 --    （含 Explosive Charge）并存且不突变、不依赖、不合成。
--- 4. 禁止写入：不对 attribute_definitions / resource_definitions / game_entities /
---    entity_attribute_values / entity_resource_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types。
 --    仓库真相：magic damage type `20221`；add policy `20170`；`20230=provider_action/apply`
 --    不得进入可执行图或 required reserved 列表（本 seed 亦不投影 20230）。
@@ -257,27 +253,6 @@ BEGIN
             'lol_generic_tristana_rocket_jump_primary_landing_hit_seed: missing entity_attribute_values hero_tristana/ap (external existing-data; check-only)';
     END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_tristana_rocket_jump_primary_landing_hit_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_tristana'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_tristana_rocket_jump_primary_landing_hit_seed: missing entity_resource_values hero_tristana/mana (external existing-data; check-only)';
-    END IF;
-
     -- reserved → game-local types（同 ID / 同 type_key / reserved_type_id=type_id）
     -- 本 seed 唯一允许 ensure 的共享行；不物化身份/面板/资源值
     INSERT INTO public.types (
@@ -400,38 +375,6 @@ BEGIN
        OR public.ability_definitions.ability_key IS DISTINCT FROM EXCLUDED.ability_key
        OR public.ability_definitions.ability_kind_type_id IS DISTINCT FROM EXCLUDED.ability_kind_type_id
        OR public.ability_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_tristana_w_rocket_jump_primary_landing_hit_mana',
-        'ability_hero_tristana_w_rocket_jump_primary_landing_hit',
-        NULL,
-        'mana',
-        'w_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;

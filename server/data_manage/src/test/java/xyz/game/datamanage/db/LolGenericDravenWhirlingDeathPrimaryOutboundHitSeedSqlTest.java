@@ -41,7 +41,6 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
         "phase_hero_draven_r_whirling_death_primary_outbound_hit_impact",
         "sequence_hero_draven_r_whirling_death_primary_outbound_hit_impact",
         "step_hero_draven_r_whirling_death_primary_outbound_hit_damage",
-        "cost_hero_draven_r_whirling_death_primary_outbound_hit_mana",
         "cooldown_hero_draven_r_whirling_death_primary_outbound_hit",
         "whirling_death_primary_outbound_hit_damage",
         "r_mana_cost",
@@ -273,7 +272,6 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         assertEquals(8, REQUIRED_ATTRS.size(), "contract expects exactly eight attrs");
         Matcher attrsArray = Pattern.compile(
                 "(?is)v_required_attrs\\s+text\\[\\]\\s*:=\\s*ARRAY\\[(.*?)]")
@@ -321,16 +319,6 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not write AP panel values");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_draven'\\s*,\\s*'mana'\\s*,\\s*361\\s*,\\s*361")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 361/361");
         assertTrue(
             sql.contains("provider_hero_draven_q_spinning_axe")
                 && sql.contains("provider_hero_draven_w_blood_rush")
@@ -421,18 +409,8 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key whirling_death_primary_outbound_hit");
-        assertContains("cost_hero_draven_r_whirling_death_primary_outbound_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_draven_r_whirling_death_primary_outbound_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_draven_r_whirling_death_primary_outbound_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_draven_r_whirling_death_primary_outbound_hit");
         assertContains("r_cooldown_ms");
@@ -449,10 +427,6 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
             1,
             countOccurrences(sqlNoLineComments, "INSERT INTO public.ability_definitions"),
             "must define exactly one ability");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoLineComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one cost");
         assertEquals(
             1,
             countOccurrences(sqlNoLineComments, "INSERT INTO public.ability_cooldowns"),
@@ -674,10 +648,7 @@ class LolGenericDravenWhirlingDeathPrimaryOutboundHitSeedSqlTest {
         assertTrue(
             section.contains("3079"),
             "README must document canonical/local raw byte size 3079");
-        assertTrue(
-            Pattern.compile("(?i)100.*mana|mana.?100|100 mana").matcher(section).find()
-                && section.contains("80000"),
-            "README must document mana100 and cooldown 80000ms");
+        assertTrue(section.contains("80000"), "README must document cooldown 80000ms");
         assertTrue(
             section.contains("400") && section.contains("1.50")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")

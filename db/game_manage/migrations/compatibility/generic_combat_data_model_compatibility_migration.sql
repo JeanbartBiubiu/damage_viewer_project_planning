@@ -550,96 +550,6 @@ CREATE TABLE IF NOT EXISTS public.entity_attribute_stage_values_log (
 COMMENT ON TABLE public.entity_attribute_stage_values IS '实体属性 stage 绝对值';
 
 
-CREATE TABLE IF NOT EXISTS public.resource_definitions (
-    game_id varchar(64) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    display_name varchar(100) NOT NULL,
-    default_initial_value numeric NOT NULL DEFAULT 0,
-    default_max_value numeric NOT NULL DEFAULT 0,
-    change_revision bigint NOT NULL CHECK (change_revision > 0),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_resource_definitions PRIMARY KEY (game_id, resource_key)
-
-) PARTITION BY LIST (game_id);
-
-CREATE TABLE IF NOT EXISTS public.resource_definitions_log (
-    game_id varchar(64) NOT NULL,
-    version_id bigint NOT NULL,
-    change_revision bigint NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    display_name varchar(100) NOT NULL,
-    default_initial_value numeric NOT NULL DEFAULT 0,
-    default_max_value numeric NOT NULL DEFAULT 0,
-    CONSTRAINT pk_resource_definitions_log PRIMARY KEY (game_id, resource_key, version_id),
-    CONSTRAINT fk_resource_definitions_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
-) PARTITION BY LIST (game_id);
-
-COMMENT ON TABLE public.resource_definitions IS '资源定义（生命/法力等）';
-
-
-CREATE TABLE IF NOT EXISTS public.entity_resource_values (
-    game_id varchar(64) NOT NULL,
-    entity_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    initial_value numeric NOT NULL,
-    max_value numeric NOT NULL,
-    change_revision bigint NOT NULL CHECK (change_revision > 0),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_entity_resource_values PRIMARY KEY (game_id, entity_id, resource_key),
-    CONSTRAINT fk_entity_resource_values_entity FOREIGN KEY (game_id, entity_id)
-        REFERENCES public.game_entities (game_id, entity_id),
-    CONSTRAINT fk_entity_resource_values_resource FOREIGN KEY (game_id, resource_key)
-        REFERENCES public.resource_definitions (game_id, resource_key)
-
-) PARTITION BY LIST (game_id);
-
-CREATE TABLE IF NOT EXISTS public.entity_resource_values_log (
-    game_id varchar(64) NOT NULL,
-    version_id bigint NOT NULL,
-    change_revision bigint NOT NULL,
-    entity_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    initial_value numeric NOT NULL,
-    max_value numeric NOT NULL,
-    CONSTRAINT pk_entity_resource_values_log PRIMARY KEY (game_id, entity_id, resource_key, version_id),
-    CONSTRAINT fk_entity_resource_values_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
-) PARTITION BY LIST (game_id);
-
-
-
-CREATE TABLE IF NOT EXISTS public.entity_resource_stage_values (
-    game_id varchar(64) NOT NULL,
-    entity_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    stage int NOT NULL CHECK (stage >= 1),
-    initial_value numeric NOT NULL,
-    max_value numeric NOT NULL,
-    change_revision bigint NOT NULL CHECK (change_revision > 0),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_entity_resource_stage_values PRIMARY KEY (game_id, entity_id, resource_key, stage),
-    CONSTRAINT fk_entity_resource_stage_values_base FOREIGN KEY (game_id, entity_id, resource_key)
-        REFERENCES public.entity_resource_values (game_id, entity_id, resource_key)
-
-) PARTITION BY LIST (game_id);
-
-CREATE TABLE IF NOT EXISTS public.entity_resource_stage_values_log (
-    game_id varchar(64) NOT NULL,
-    version_id bigint NOT NULL,
-    change_revision bigint NOT NULL,
-    entity_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    stage int NOT NULL CHECK (stage >= 1),
-    initial_value numeric NOT NULL,
-    max_value numeric NOT NULL,
-    CONSTRAINT pk_entity_resource_stage_values_log PRIMARY KEY (game_id, entity_id, resource_key, stage, version_id),
-    CONSTRAINT fk_entity_resource_stage_values_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
-) PARTITION BY LIST (game_id);
 
 
 
@@ -918,41 +828,6 @@ CREATE TABLE IF NOT EXISTS public.ability_phases_log (
 
 
 
-CREATE TABLE IF NOT EXISTS public.ability_costs (
-    game_id varchar(64) NOT NULL,
-    cost_id varchar(256) NOT NULL,
-    ability_id varchar(256) NOT NULL,
-    phase_id varchar(256),
-    resource_key varchar(64) NOT NULL,
-    amount_formula_key varchar(128) NOT NULL,
-    allow_partial boolean NOT NULL DEFAULT false,
-    change_revision bigint NOT NULL CHECK (change_revision > 0),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_ability_costs PRIMARY KEY (game_id, cost_id),
-    CONSTRAINT fk_ability_costs_ability FOREIGN KEY (game_id, ability_id)
-        REFERENCES public.ability_definitions (game_id, ability_id),
-    CONSTRAINT fk_ability_costs_phase FOREIGN KEY (game_id, phase_id)
-        REFERENCES public.ability_phases (game_id, phase_id),
-    CONSTRAINT fk_ability_costs_resource FOREIGN KEY (game_id, resource_key)
-        REFERENCES public.resource_definitions (game_id, resource_key)
-
-) PARTITION BY LIST (game_id);
-
-CREATE TABLE IF NOT EXISTS public.ability_costs_log (
-    game_id varchar(64) NOT NULL,
-    version_id bigint NOT NULL,
-    change_revision bigint NOT NULL,
-    cost_id varchar(256) NOT NULL,
-    ability_id varchar(256) NOT NULL,
-    phase_id varchar(256),
-    resource_key varchar(64) NOT NULL,
-    amount_formula_key varchar(128) NOT NULL,
-    allow_partial boolean NOT NULL DEFAULT false,
-    CONSTRAINT pk_ability_costs_log PRIMARY KEY (game_id, cost_id, version_id),
-    CONSTRAINT fk_ability_costs_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
-) PARTITION BY LIST (game_id);
 
 
 
@@ -1320,33 +1195,6 @@ CREATE TABLE IF NOT EXISTS public.heal_effect_details_log (
 
 
 
-CREATE TABLE IF NOT EXISTS public.resource_effect_details (
-    game_id varchar(64) NOT NULL,
-    step_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    amount_formula_key varchar(128) NOT NULL,
-    value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
-    change_revision bigint NOT NULL CHECK (change_revision > 0),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_resource_effect_details PRIMARY KEY (game_id, step_id),
-    CONSTRAINT fk_resource_effect_details_step FOREIGN KEY (game_id, step_id)
-        REFERENCES public.effect_steps (game_id, step_id)
-
-) PARTITION BY LIST (game_id);
-
-CREATE TABLE IF NOT EXISTS public.resource_effect_details_log (
-    game_id varchar(64) NOT NULL,
-    version_id bigint NOT NULL,
-    change_revision bigint NOT NULL,
-    step_id varchar(256) NOT NULL,
-    resource_key varchar(64) NOT NULL,
-    amount_formula_key varchar(128) NOT NULL,
-    value_policy_type_id int NOT NULL REFERENCES public.reserved_type(type_id),
-    CONSTRAINT pk_resource_effect_details_log PRIMARY KEY (game_id, step_id, version_id),
-    CONSTRAINT fk_resource_effect_details_log_version FOREIGN KEY (game_id, version_id)
-        REFERENCES public.game_versions (game_id, version_id)
-
-) PARTITION BY LIST (game_id);
 
 
 

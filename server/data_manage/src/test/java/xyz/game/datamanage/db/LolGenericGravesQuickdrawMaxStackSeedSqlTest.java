@@ -33,7 +33,6 @@ class LolGenericGravesQuickdrawMaxStackSeedSqlTest {
         "phase_hero_graves_quickdraw_impact",
         "sequence_hero_graves_quickdraw_max_stack",
         "step_hero_graves_quickdraw_true_grit_max",
-        "cost_hero_graves_quickdraw_mana",
         "cooldown_hero_graves_quickdraw",
         "modifier_hero_graves_quickdraw_armor",
         "modifier_hero_graves_quickdraw_bonus_armor",
@@ -257,12 +256,6 @@ class LolGenericGravesQuickdrawMaxStackSeedSqlTest {
                 .find(),
             "mana regen8");
         assertTrue(
-            Pattern.compile(
-                    "(?s)'hero_graves'\\s*,\\s*'mana'\\s*,\\s*325\\s*,\\s*325")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "mana resource 325/325");
-        assertTrue(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.attribute_definitions\\b")
                 .matcher(sqlNoLineComments)
                 .find(),
@@ -431,17 +424,7 @@ class LolGenericGravesQuickdrawMaxStackSeedSqlTest {
 
     @Test
     void seedsActiveAbilityManaCostFortyAndCooldownTwelveSeconds() {
-        assertContains("cost_hero_graves_quickdraw_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("{\"op\":\"const\",\"value\":40}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_graves_quickdraw_mana'\\s*,\\s*"
-                        + "'ability_hero_graves_quickdraw'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "E mana cost must be ability-level 40 via ability_costs");
         assertContains("cooldown_hero_graves_quickdraw");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("{\"op\":\"const\",\"value\":12000}");

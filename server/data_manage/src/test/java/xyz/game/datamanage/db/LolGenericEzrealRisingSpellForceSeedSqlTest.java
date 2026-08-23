@@ -310,11 +310,6 @@ class LolGenericEzrealRisingSpellForceSeedSqlTest {
                 .find(),
             "must not write ability_phases");
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write ability_costs");
-        assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_cooldowns\\b")
                 .matcher(sqlNoLineComments)
                 .find(),

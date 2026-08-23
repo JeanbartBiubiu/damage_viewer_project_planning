@@ -41,7 +41,6 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
         "phase_hero_tristana_r_buster_shot_primary_hit_impact",
         "sequence_hero_tristana_r_buster_shot_primary_hit_impact",
         "step_hero_tristana_r_buster_shot_primary_hit_damage",
-        "cost_hero_tristana_r_buster_shot_primary_hit_mana",
         "cooldown_hero_tristana_r_buster_shot_primary_hit",
         "buster_shot_primary_hit_damage",
         "r_mana_cost",
@@ -54,13 +53,10 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "active_magic_damage",
         "bonus_ad_ratio",
         "ap_ratio",
@@ -349,8 +345,6 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
         assertContains("missing game_entities hero_tristana");
         assertContains("missing entity_attribute_values hero_tristana/ad");
         assertContains("missing entity_attribute_values hero_tristana/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_tristana/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -409,20 +403,6 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_tristana/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_tristana/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_tristana with the Batch-B prerequisite phrase");
@@ -484,10 +464,6 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -524,14 +500,6 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
                 .find(),
             "R must be active ability with stable key buster_shot_primary_hit");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_tristana_r_buster_shot_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_tristana_r_buster_shot_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":100000}");
         assertTrue(
             Pattern.compile(
@@ -819,9 +787,8 @@ class LolGenericTristanaBusterShotPrimaryHitSeedSqlTest {
             section.contains("2385") && section.contains("2382"),
             "README must document canonical 2385 and local raw 2382 byte sizes");
         assertTrue(
-            Pattern.compile("(?i)100.*mana|mana.?100|100 mana").matcher(section).find()
-                && section.contains("100000"),
-            "README must document mana100 and cooldown 100000ms");
+            section.contains("100000"),
+            "README must document cooldown 100000ms");
         assertTrue(
             section.contains("325") && section.contains("0.70") && section.contains("1.00")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")

@@ -40,9 +40,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
         "missile_barrage_normal_primary_hit",
         "phase_hero_corki_r_missile_barrage_normal_primary_hit_impact",
         "sequence_hero_corki_r_missile_barrage_normal_primary_hit_impact",
-        "step_hero_corki_r_missile_barrage_normal_primary_hit_ammo",
         "step_hero_corki_r_missile_barrage_normal_primary_hit_damage",
-        "cost_hero_corki_r_missile_barrage_normal_primary_hit_mana",
         "cooldown_hero_corki_r_missile_barrage_normal_primary_hit",
         "missile_barrage_normal_primary_hit_damage",
         "missile_barrage_cast_condition",
@@ -53,7 +51,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
         "hero_corki_r_missile_barrage_normal_primary_hit");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
-        20111, 20112, 20120, 20130, 20142, 20150, 20152, 20170, 20220, 20260);
+        20111, 20112, 20120, 20130, 20142, 20150, 20170, 20220, 20260);
 
     private static final List<String> REQUIRED_ATTRS = List.of("ad");
 
@@ -63,8 +61,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
         "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
-        "ammo_gate_and_spend",
+        "ability_cooldown",
         "active_physical_damage",
         "bonus_ad_ratio",
         "immediate_impact_scaffold");
@@ -91,8 +88,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
     private static final String FROZEN_BOUNDARY =
         "rank3_normal_missile_selected_primary_champion_first_enemy_hit; "
             + "immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; "
-            + "mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; "
-            + "initial_ammo_two_max_four; cooldown2000ms; "
+            + "cooldown2000ms; "
             + "no_direction_projectile_travel_collision_explosion_aoe_multitarget_"
             + "big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_"
             + "recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_"
@@ -238,25 +234,6 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
                 && (sql.contains("both335") || sql.contains("both 335")),
             "seed must document bonusAD counterproof both335");
         assertTrue(
-            sql.contains("t0") && sql.contains("t1999") && sql.contains("t2000"),
-            "seed comments must document cooldown timeline t0/t1999/t2000");
-        assertTrue(
-            (sql.contains("Mana240") || sql.contains("mana240"))
-                && (sql.contains("Ammo2") || sql.contains("ammo2"))
-                && (sql.contains("readyAt2000") || sql.contains("readyAt 2000")),
-            "seed comments must document Mana240/Ammo2 / readyAt2000 fixture");
-        assertTrue(
-            sql.contains("two R hits") || (sql.contains("two R") && sql.contains("hits")),
-            "seed comments must document two R hits");
-        assertTrue(
-            sql.contains("automatic starts") || (sql.contains("automatic") && sql.contains("starts"))
-                || (sql.contains("two") && sql.contains("ability_started")),
-            "seed comments must document automatic starts / ability_started");
-        assertTrue(
-            (sql.contains("Mana34") || sql.contains("mana34") || sql.contains("Ammo0"))
-                && (sql.contains("skips") || sql.contains("unchanged") || sql.contains("cast_condition")),
-            "seed comments must document Mana34/Ammo0 skip");
-        assertTrue(
             sql.contains("ability_started")
                 && (sql.contains("自动") || sql.contains("automatic") || sql.contains("runtime")),
             "seed must document automatic ability_started (not an explicit seed event step)");
@@ -367,14 +344,12 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
     }
 
     @Test
-    void validatesCheckOnlyExternalHeroCorkiAdManaVersusOwnedAmmoRows() {
+    void validatesCheckOnlyExternalHeroCorkiAdBeforeGraphWrites() {
         assertContains("RAISE EXCEPTION");
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_corki");
         assertContains("missing entity_attribute_values hero_corki/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_corki/mana");
         assertFalse(
             sql.contains("missing entity_attribute_values hero_corki/ap")
                 || Pattern.compile("(?is)attr_key\\s*=\\s*'ap'").matcher(sqlNoComments).find(),
@@ -430,64 +405,13 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_corki/ad");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_corki/mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,400}"
-                        + "'missile_barrage_ammo'[\\s\\S]{0,200}2[\\s\\S]{0,40}4")
-                .matcher(sqlNoComments)
-                .find(),
-            "seed must own resource_definitions missile_barrage_ammo default 2/4");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,400}"
-                        + "'hero_corki'[\\s\\S]{0,80}'missile_barrage_ammo'[\\s\\S]{0,80}2"
-                        + "[\\s\\S]{0,40}4")
-                .matcher(sqlNoComments)
-                .find(),
-            "seed must own entity_resource_values hero_corki/missile_barrage_ammo 2/4");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.resource_definitions"),
-            "must write exactly one resource_definitions INSERT (ammo only)");
-        assertEquals(
-            1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.entity_resource_values"),
-            "must write exactly one entity_resource_values INSERT (ammo only)");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,300}"
-                        + "'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not INSERT/overwrite mana resource_definitions");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,300}"
-                        + "'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not INSERT/overwrite mana entity_resource_values");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_corki with the Batch-B prerequisite phrase");
     }
 
     @Test
-    void forbidsIdentityPanelAndUnownedResourceTableWrites() {
+    void forbidsIdentityAndPanelWrites() {
         for (String table : FORBIDDEN_IDENTITY_PANEL_TABLES) {
             assertFalse(
                 Pattern.compile(
@@ -506,7 +430,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
     }
 
     @Test
-    void mountsIsolatedProviderAbilityCostCooldownCastConditionPhaseSequenceStepsAndMount() {
+    void mountsIsolatedProviderCooldownCastConditionPhaseSequenceStepAndMount() {
         assertContains("provider_hero_corki_r_missile_barrage_normal_primary_hit");
         assertContains("hero_corki_r_missile_barrage_normal_primary_hit");
         assertTrue(
@@ -537,10 +461,6 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost (mana only; never a second ammo cost row)");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -552,13 +472,9 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
             countOccurrences(sqlNoComments, "INSERT INTO public.effect_sequences"),
             "must define exactly one effect sequence");
         assertEquals(
-            2,
-            countOccurrences(sqlNoComments, "INSERT INTO public.effect_steps"),
-            "must define exactly two effect steps (ammo then damage)");
-        assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.resource_effect_details"),
-            "must define exactly one resource_effect_details (first LoL seed using it)");
+            countOccurrences(sqlNoComments, "INSERT INTO public.effect_steps"),
+            "must define exactly one damage effect step");
         assertEquals(
             1,
             countOccurrences(sqlNoComments, "INSERT INTO public.damage_effect_details"),
@@ -592,21 +508,6 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
             "ability must set cast_condition_formula_key and cast_origin champion");
         assertContains(CAST_CONDITION);
         assertContains("{\"op\":\"const\",\"value\":35}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_corki_r_missile_barrage_normal_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_corki_r_missile_barrage_normal_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 35 via ability_costs only");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b[\\s\\S]{0,400}"
-                        + "missile_barrage_ammo")
-                .matcher(sqlNoComments)
-                .find(),
-            "must never add a second ability_costs row for ammo");
         assertContains("{\"op\":\"const\",\"value\":2000}");
         assertTrue(
             Pattern.compile(
@@ -648,24 +549,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
     }
 
     @Test
-    void assertsResourceEffectStep0AndDamageStep1DetailContract() {
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'step_hero_corki_r_missile_barrage_normal_primary_hit_ammo'\\s*,\\s*"
-                        + "'sequence_hero_corki_r_missile_barrage_normal_primary_hit_impact'\\s*,\\s*"
-                        + "0\\s*,\\s*20152\\s*,\\s*20112\\s*,\\s*NULL")
-                .matcher(sql)
-                .find(),
-            "step0 must be resource_change 20152 to source 20112");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'step_hero_corki_r_missile_barrage_normal_primary_hit_ammo'\\s*,\\s*"
-                        + "'missile_barrage_ammo'\\s*,\\s*"
-                        + "'missile_barrage_ammo_delta'\\s*,\\s*20170")
-                .matcher(sql)
-                .find(),
-            "resource_effect_details must bind missile_barrage_ammo / delta / add 20170");
-        assertContains(AMMO_DELTA);
+    void assertsDamageStepAndDetailContract() {
         assertTrue(
             Pattern.compile(
                     "(?s)'step_hero_corki_r_missile_barrage_normal_primary_hit_damage'\\s*,\\s*"
@@ -684,17 +568,8 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
             "damage must be physical 20220 add policy copyable_on_hit=false");
         assertEquals(
             2,
-            countOccurrences(sql, "'step_hero_corki_r_missile_barrage_normal_primary_hit_ammo'"),
-            "ammo step must appear in effect_steps and resource_effect_details only");
-        assertEquals(
-            2,
             countOccurrences(sql, "'step_hero_corki_r_missile_barrage_normal_primary_hit_damage'"),
             "damage step must appear in effect_steps and damage_effect_details only");
-        assertTrue(
-            sql.contains("resource_effect_details")
-                && (sql.contains("step0") || sql.contains("step 0") || sql.contains("Step0")
-                    || sql.contains("step0：") || sql.contains("step0:")),
-            "seed must document resource_effect step0 pairing");
     }
 
     @Test
@@ -889,7 +764,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
     }
 
     @Test
-    void readmeEntryDocumentsPrerequisitesAmmoOwnershipExclusionsAndSiblingQ() {
+    void readmeEntryDocumentsPrerequisitesExclusionsAndSiblingQ() {
         assertTrue(
             readme.contains("lol_generic_corki_missile_barrage_normal_primary_hit_seed.sql"),
             "README must list the Corki R Missile Barrage normal primary-hit seed");
@@ -939,19 +814,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
         assertTrue(
             section.contains("3065") && section.contains("3063"),
             "README must document canonical 3065 and local raw 3063 byte sizes");
-        assertTrue(
-            Pattern.compile("(?i)35.*mana|mana.?35|35 mana").matcher(section).find()
-                && section.contains("2000"),
-            "README must document mana35 and cooldown 2000ms");
-        assertTrue(
-            section.contains("missile_barrage_ammo")
-                && (section.contains("initial") || section.contains("2"))
-                && section.contains("4"),
-            "README must document owned ammo resource 2/4");
-        assertTrue(
-            section.contains("resource_effect_details")
-                && (section.contains("20152") || section.contains("resource_change")),
-            "README must document first-use resource_effect_details / resource_change");
+        assertTrue(section.contains("2000"), "README must document cooldown 2000ms");
         assertTrue(
             section.contains("250") && section.contains("0.85")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")
@@ -961,11 +824,7 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
             Pattern.compile("(?i)check-only|check only|外部既有|external existing")
                 .matcher(section)
                 .find(),
-            "README entry must say external existing-data / check-only for identity/ad/mana");
-        assertTrue(
-            section.contains("仅") && section.contains("missile_barrage_ammo")
-                || section.contains("owns only") || section.contains("仅拥有"),
-            "README must state R owns only missile_barrage_ammo rows");
+            "README entry must say external existing-data / check-only for identity/ad");
         assertTrue(
             section.contains("phosphorus") || section.contains("Phosphorus")
                 || section.contains("Corki Q") || section.contains("磷光炸弹"),
@@ -1065,11 +924,14 @@ class LolGenericCorkiMissileBarrageNormalPrimaryHitSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         int lastTagIdx = block.indexOf(ORDERED_TAGS.get(ORDERED_TAGS.size() - 1));

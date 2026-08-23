@@ -50,19 +50,6 @@ public class CombatDataTypeAdminController {
         return response;
     }
 
-    @PutMapping("/resource-definitions/{resourceKey}")
-    public ObjectNode putResourceDefinition(
-        @PathVariable("gameId") String gameId,
-        @PathVariable("resourceKey") String resourceKey,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = service.putResourceDefinition(gameId, resourceKey, body);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
     @PutMapping("/types/{typeId}")
     public ObjectNode putType(
         @PathVariable("gameId") String gameId,

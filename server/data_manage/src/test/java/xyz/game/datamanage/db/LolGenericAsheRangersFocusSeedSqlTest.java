@@ -46,7 +46,6 @@ class LolGenericAsheRangersFocusSeedSqlTest {
         "event_ref_hero_ashe_basic_attack_hit",
         "listener_hero_ashe_q_ability_started",
         "modifier_hero_ashe_rangers_focus_attack_speed",
-        "cost_hero_ashe_q_rangers_focus_mana",
         "focus_1",
         "focus_2",
         "focus_3",
@@ -196,8 +195,6 @@ class LolGenericAsheRangersFocusSeedSqlTest {
         assertContains("provider_hero_ashe_rangers_focus");
         assertContains("INSERT INTO public.game_entities");
         assertContains("INSERT INTO public.entity_attribute_values");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
         assertTrue(
             Pattern.compile(
                     "(?s)'hero_ashe'\\s*,\\s*'hp'\\s*,\\s*610")
@@ -220,18 +217,6 @@ class LolGenericAsheRangersFocusSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "crit_damage EAV must be exactly 2.0");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'hero_ashe'\\s*,\\s*'mana'\\s*,\\s*280\\s*,\\s*280")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 280/280");
         assertTrue(
             Pattern.compile(
                     "(?s)'hero_ashe'\\s*,\\s*'provider_hero_ashe_rangers_focus'")
@@ -263,18 +248,8 @@ class LolGenericAsheRangersFocusSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Q must be active with cast_condition_formula_key");
-        assertContains("cost_hero_ashe_q_rangers_focus_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("q_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":30}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_ashe_q_rangers_focus_mana'\\s*,\\s*"
-                        + "'ability_hero_ashe_q_rangers_focus'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 30 via ability_costs");
         assertFalse(
             Pattern.compile("(?i)cooldown|冷却|\\bcd\\b").matcher(sqlNoLineComments).find(),
             "must not model ordinary Q cooldown");

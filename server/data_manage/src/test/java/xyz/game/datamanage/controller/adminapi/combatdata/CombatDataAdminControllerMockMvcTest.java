@@ -94,7 +94,6 @@ class CombatDataAdminControllerMockMvcTest {
         response.put("displayName", "Example");
         response.put("currentRevision", 43);
         response.putArray("attributes");
-        response.putArray("resources");
         response.putArray("providerMounts");
         when(entityService.putEntityBatch(eq("lol"), eq("e1"), any())).thenReturn(response);
 
@@ -106,7 +105,6 @@ class CombatDataAdminControllerMockMvcTest {
                           "expectedCurrentRevision":42,
                           "displayName":"Example",
                           "attributes":[],
-                          "resources":[],
                           "providerMounts":[]
                         }
                         """)

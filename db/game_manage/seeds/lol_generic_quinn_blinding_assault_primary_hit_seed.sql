@@ -38,8 +38,6 @@
 --    ad/mana EAV、basic provider、W provider）。
 -- 4. 最小中性写入（仅缺席时插入；永不 UPDATE 既有行）：
 --      - entity_attribute_values(lol,hero_quinn,ap) base0，ON CONFLICT DO NOTHING；
---      - resource_definitions(lol,mana) 中性默认（法力 / 0/0），ON CONFLICT DO NOTHING；
---      - entity_resource_values(lol,hero_quinn,mana) 仅缺席时插入，initial/max 均从
 --        同事务内既有 Quinn mana 属性 base_value 派生；ON CONFLICT DO NOTHING；
 --        永不硬编码面板 mana 字面量。
 --    允许 ensure 的共享行：reserved → game-local types 投影。
@@ -280,24 +278,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'mana',
-        '法力',
-        0,
-        0,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     SELECT eav.base_value
       INTO v_mana_attr
@@ -311,23 +291,6 @@ BEGIN
             'lol_generic_quinn_blinding_assault_primary_hit_seed: hero_quinn/mana base_value unavailable for resource derivation';
     END IF;
 
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_quinn',
-        'mana',
-        v_mana_attr,
-        v_mana_attr,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     -- =========================================================================
     -- hero_quinn Blinding Assault primary-hit（Q rank-5）：独立 provider + active
@@ -423,37 +386,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_quinn_q_blinding_assault_primary_hit_mana',
-        'ability_hero_quinn_q_blinding_assault_primary_hit',
-        NULL,
-        'mana',
-        'q_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,

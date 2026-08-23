@@ -33,10 +33,9 @@ class GenericGuinsooHkDbContractSqlTest {
     private static final String MIGRATION_RELATIVE =
         "db/game_manage/migrations/compatibility/generic_guinsoo_hk_compatibility_migration.sql";
 
-    private static final List<String> NINE_OTHER_DETAILS = List.of(
+    private static final List<String> EIGHT_OTHER_DETAILS = List.of(
         "damage_effect_details",
         "heal_effect_details",
-        "resource_effect_details",
         "attribute_effect_details",
         "shield_effect_details",
         "provider_effect_details",
@@ -153,7 +152,7 @@ class GenericGuinsooHkDbContractSqlTest {
         String parentsArray = extractArrayLiteral(triggersSql, "v_parents text\\[\\]");
         assertTrue(parentsArray.contains("'repeat_effect_details'"));
         assertTrue(parentsArray.contains("'repeat_effect_details_log'"));
-        for (String detail : NINE_OTHER_DETAILS) {
+        for (String detail : EIGHT_OTHER_DETAILS) {
             assertTrue(parentsArray.contains("'" + detail + "'"), "partition list missing " + detail);
             assertTrue(parentsArray.contains("'" + detail + "_log'"), "partition list missing " + detail + "_log");
         }
@@ -162,7 +161,7 @@ class GenericGuinsooHkDbContractSqlTest {
             triggersSql.contains(
                 "(SELECT COUNT(*) FROM public.repeat_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)"),
             "count_effect_step_details must include repeat");
-        for (String detail : NINE_OTHER_DETAILS) {
+        for (String detail : EIGHT_OTHER_DETAILS) {
             assertTrue(
                 triggersSql.contains(
                     "(SELECT COUNT(*) FROM public." + detail + " d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)"),
@@ -171,13 +170,13 @@ class GenericGuinsooHkDbContractSqlTest {
 
         String detailsArray = extractArrayLiteral(triggersSql, "v_details text\\[\\]");
         assertTrue(detailsArray.contains("'repeat_effect_details'"));
-        for (String detail : NINE_OTHER_DETAILS) {
+        for (String detail : EIGHT_OTHER_DETAILS) {
             assertTrue(detailsArray.contains("'" + detail + "'"), "detail trigger list missing " + detail);
         }
         assertEquals(
-            11,
+            10,
             countOccurrences(detailsArray, "_effect_details'"),
-            "exactly-one detail trigger list must cover eleven families");
+            "exactly-one detail trigger list must cover ten families");
     }
 
     @Test

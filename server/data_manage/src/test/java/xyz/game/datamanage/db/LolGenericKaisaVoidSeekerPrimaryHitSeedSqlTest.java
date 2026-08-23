@@ -35,7 +35,6 @@ class LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest {
         "phase_hero_kaisa_w_void_seeker_primary_hit_impact",
         "sequence_hero_kaisa_w_void_seeker_primary_hit_impact",
         "step_hero_kaisa_w_void_seeker_primary_hit_damage",
-        "cost_hero_kaisa_w_void_seeker_primary_hit_mana",
         "cooldown_hero_kaisa_w_void_seeker_primary_hit",
         "void_seeker_damage",
         "w_mana_cost",
@@ -192,7 +191,6 @@ class LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         assertEquals(9, REQUIRED_ATTRS.size(), "contract expects exactly nine attrs");
         Matcher attrsArray = Pattern.compile(
                 "(?is)v_required_attrs\\s+text\\[\\]\\s*:=\\s*ARRAY\\[(.*?)]")
@@ -237,16 +235,6 @@ class LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "must seed ap base 0");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_kaisa'\\s*,\\s*'mana'\\s*,\\s*345\\s*,\\s*345")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 345/345");
         assertFalse(
             Pattern.compile("(?is)'attack_range'|'move_speed'|'crit_chance'|'crit_damage'")
                 .matcher(sqlNoLineComments)
@@ -335,18 +323,8 @@ class LolGenericKaisaVoidSeekerPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "W must be active ability with stable key void_seeker");
-        assertContains("cost_hero_kaisa_w_void_seeker_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("w_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":75}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_kaisa_w_void_seeker_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_kaisa_w_void_seeker_primary_hit'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'w_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "W mana cost must be ability-level 75 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_kaisa_w_void_seeker_primary_hit");
         assertContains("w_cooldown_ms");

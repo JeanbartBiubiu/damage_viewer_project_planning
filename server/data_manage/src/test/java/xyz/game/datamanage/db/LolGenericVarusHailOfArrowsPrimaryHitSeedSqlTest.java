@@ -35,7 +35,6 @@ class LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest {
         "phase_hero_varus_e_hail_of_arrows_primary_hit_impact",
         "sequence_hero_varus_e_hail_of_arrows_primary_hit_impact",
         "step_hero_varus_e_hail_of_arrows_primary_hit_damage",
-        "cost_hero_varus_e_hail_of_arrows_primary_hit_mana",
         "cooldown_hero_varus_e_hail_of_arrows_primary_hit",
         "hail_of_arrows_damage",
         "e_mana_cost",
@@ -225,7 +224,6 @@ class LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         assertEquals(8, REQUIRED_ATTRS.size(), "contract expects exactly eight attrs");
         Matcher attrsArray = Pattern.compile(
                 "(?is)v_required_attrs\\s+text\\[\\]\\s*:=\\s*ARRAY\\[(.*?)]")
@@ -266,16 +264,6 @@ class LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest {
                 && sql.contains("0.658") && sql.contains("24") && sql.contains("30")
                 && sql.contains("0.7") && sql.contains("1.6"),
             "must seed Varus level-1 panel numbers aligned with Batch-B");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_varus'\\s*,\\s*'mana'\\s*,\\s*320\\s*,\\s*320")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 320/320");
         assertTrue(
             sql.contains("provider_hero_varus_basic_attack")
                 && sql.contains("provider_hero_varus_w_blighted_quiver_phase_a"),
@@ -357,18 +345,8 @@ class LolGenericVarusHailOfArrowsPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "E must be active ability with stable key hail_of_arrows");
-        assertContains("cost_hero_varus_e_hail_of_arrows_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("e_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":90}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_varus_e_hail_of_arrows_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_varus_e_hail_of_arrows_primary_hit'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 90 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_varus_e_hail_of_arrows_primary_hit");
         assertContains("e_cooldown_ms");

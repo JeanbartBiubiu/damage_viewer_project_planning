@@ -27,7 +27,6 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameProgressionSchemaMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypeRelationsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypesMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
@@ -45,7 +44,6 @@ class CombatTypeServiceTest {
     @Mock private GameDataRevisionService revisionService;
     @Mock private CombatGameProgressionSchemaMapper progressionSchemaMapper;
     @Mock private CombatAttributeDefinitionsMapper attributeDefinitionsMapper;
-    @Mock private CombatResourceDefinitionsMapper resourceDefinitionsMapper;
     @Mock private CombatTypesMapper typesMapper;
     @Mock private CombatTypeRelationsMapper typeRelationsMapper;
 
@@ -60,7 +58,6 @@ class CombatTypeServiceTest {
             imagesMapper,
             progressionSchemaMapper,
             attributeDefinitionsMapper,
-            resourceDefinitionsMapper,
             typesMapper,
             typeRelationsMapper
         );
