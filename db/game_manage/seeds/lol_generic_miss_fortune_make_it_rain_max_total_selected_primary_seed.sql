@@ -44,16 +44,12 @@
 --      - game_entities(lol,hero_missfortune)；
 --      - attribute_definitions(lol,ap)；
 --      - entity_attribute_values(lol,hero_missfortune,ap)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_missfortune,mana)。
 --    hero_missfortune / ap / mana 是 external existing-data / check-only 依赖；
 --    当前仓库没有任何 seed / materializer 物化 Miss Fortune 身份 / 面板 / 资源行；
 --    本脚本亦不物化身份/面板/资源值。勿用 Batch-B 前置依赖、sibling provider 或
 --    “本 seed 创建这些行”一类措辞描述该实体。勿暗示 Miss Fortune materializer
 --    存在。本 E seed 与既有独立 R Bullet Time 并存且不突变/不复制；不创建/突变/
 --    合成/复制 P/Q/W/R/basic。
--- 4. 禁止写入：不对 attribute_definitions / resource_definitions / game_entities /
---    entity_attribute_values / entity_resource_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types。
 --    仓库真相：magic damage type `20221`；add policy `20170`；`20230=provider_action/apply`
 --    不得进入可执行图或 required reserved 列表（本 seed 亦不投影 20230）。
@@ -232,26 +228,7 @@ BEGIN
             'lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed: missing entity_attribute_values hero_missfortune/ap (external existing-data; check-only)';
     END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_missfortune'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_miss_fortune_make_it_rain_max_total_selected_primary_seed: missing entity_resource_values hero_missfortune/mana (external existing-data; check-only)';
-    END IF;
 
     -- reserved → game-local types（同 ID / 同 type_key / reserved_type_id=type_id）
     -- 本 seed 唯一允许 ensure 的共享行；不物化身份/面板/资源值
@@ -380,37 +357,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_missfortune_e_make_it_rain_max_total_selected_primary_mana',
-        'ability_hero_missfortune_e_make_it_rain_max_total_selected_primary',
-        NULL,
-        'mana',
-        'e_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,

@@ -24,13 +24,9 @@
 --      - game_entities(lol,hero_ezreal)；
 --      - attribute_definitions(lol,ad) 与 (lol,ap)；
 --      - entity_attribute_values(lol,hero_ezreal,ad) 与 (lol,hero_ezreal,ap)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_ezreal,mana)。
 --    hero_ezreal 是与较旧 Rising Spell Force seed 共享的外部既有数据依赖；
 --    当前仓库没有任何 seed 物化 Ezreal ad/ap/mana 行；本脚本亦不物化身份/
 --    面板/资源值。勿用 Batch-B 前置依赖一类措辞描述该实体。
--- 4. 禁止写入：不对 attribute_definitions / resource_definitions / game_entities /
---    entity_attribute_values / entity_resource_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types。
 -- 5. 仅创建/挂载 provider_hero_ezreal_r_trueshot_barrage_primary_hit 及其隔离 R 图：
 --    一个 provider、一个 active ability、一个 cost、一个 cooldown、一个 null-duration
@@ -202,26 +198,7 @@ BEGIN
             'lol_generic_ezreal_trueshot_barrage_primary_hit_seed: missing entity_attribute_values hero_ezreal/ap (external existing-data; check-only)';
     END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_ezreal_trueshot_barrage_primary_hit_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_ezreal'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_ezreal_trueshot_barrage_primary_hit_seed: missing entity_resource_values hero_ezreal/mana (external existing-data; check-only)';
-    END IF;
 
     -- reserved → game-local types（同 ID / 同 type_key / reserved_type_id=type_id）
     -- 本 seed 唯一允许 ensure 的共享行；不物化身份/面板/资源值
@@ -349,37 +326,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_ezreal_r_trueshot_barrage_primary_hit_mana',
-        'ability_hero_ezreal_r_trueshot_barrage_primary_hit',
-        NULL,
-        'mana',
-        'r_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,

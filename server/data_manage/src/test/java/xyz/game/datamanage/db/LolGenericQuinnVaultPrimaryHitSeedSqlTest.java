@@ -41,7 +41,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
         "phase_hero_quinn_e_vault_primary_hit_impact",
         "sequence_hero_quinn_e_vault_primary_hit_impact",
         "step_hero_quinn_e_vault_primary_hit_damage",
-        "cost_hero_quinn_e_vault_primary_hit_mana",
         "cooldown_hero_quinn_e_vault_primary_hit",
         "vault_damage",
         "e_mana_cost",
@@ -56,8 +55,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
         "games_entities",
         "attribute_definitions",
         "entity_attribute_values",
-        "resource_definitions",
-        "entity_resource_values",
         "entity_attribute_progressions");
 
     private static final List<Integer> REQUIRED_RESERVED = List.of(
@@ -270,8 +267,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
         assertContains("lol_generic_quinn_blinding_assault_primary_hit_seed.sql");
         assertContains("missing game_entities hero_quinn");
         assertContains("missing entity_attribute_values hero_quinn/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_quinn/mana");
         assertContains("missing provider_hero_quinn_basic_attack");
         assertContains("missing provider_hero_quinn_heightened_senses");
         assertTrue(
@@ -329,20 +324,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must EXISTS-check game_entities hero_quinn before graph writes");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must EXISTS-check resource_definitions mana before graph writes");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must EXISTS-check entity_resource_values hero_quinn/mana before graph writes");
         assertTrue(
             Pattern.compile(
                     "(?is)FROM\\s+public\\.provider_definitions\\b[\\s\\S]{0,200}"
@@ -446,18 +427,8 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "E must be active ability with stable key vault_primary_hit");
-        assertContains("cost_hero_quinn_e_vault_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("e_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":50}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_quinn_e_vault_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_quinn_e_vault_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 50 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_quinn_e_vault_primary_hit");
         assertContains("e_cooldown_ms");
@@ -648,7 +619,7 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
     }
 
     @Test
-    void readmeEntryDocumentsWToQResourceToEOrderAndCheckOnlyPreservation() {
+    void readmeEntryDocumentsWPrerequisiteAndCheckOnlyPreservation() {
         assertTrue(
             readme.contains("lol_generic_quinn_vault_primary_hit_seed.sql"),
             "README must list the Quinn E Vault primary-hit seed");
@@ -672,19 +643,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
             section.contains("lol_generic_quinn_heightened_senses_seed.sql"),
             "README entry must list W Heightened Senses seed as prerequisite");
         assertTrue(
-            section.contains("lol_generic_quinn_blinding_assault_primary_hit_seed.sql"),
-            "README entry must list Q Blinding Assault seed for neutral mana resource");
-        assertTrue(
-            section.contains("W → Q(resource) → E")
-                || section.contains("W -> Q(resource) -> E")
-                || section.contains("NB-MANA-RESOURCE-SEED-ORDER"),
-            "README must state W -> Q(resource) -> E / NB-MANA-RESOURCE-SEED-ORDER");
-        assertTrue(
-            Pattern.compile("(?i)check-only|check only|不写.*资源|资源.*check")
-                .matcher(section)
-                .find(),
-            "README must document check-only mana resource preservation");
-        assertTrue(
             Pattern.compile("(?i)provider_hero_quinn_basic_attack|"
                     + "provider_hero_quinn_heightened_senses")
                 .matcher(section)
@@ -692,7 +650,7 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
             "README must document basic/W provider prerequisites or coexistence");
         assertTrue(
             Pattern.compile("(?i)Q provider.*(非|不是).*硬前置|不断言 Q provider|"
-                    + "not.*Q provider.*prerequisite")
+                    + "若 Q provider 已存在则保留|not.*Q provider.*prerequisite")
                 .matcher(section)
                 .find(),
             "README must say Q provider is not a hard prerequisite");
@@ -701,7 +659,10 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
                 "physical_140_plus_0_20_bonus_ad"),
             "README must include frozen boundary");
         for (String tag : ORDERED_TAGS) {
-            assertTrue(section.contains(tag), "README ordered tags must include " + tag);
+            String expectedTag = "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            assertTrue(section.contains(expectedTag), "README ordered tags must include " + expectedTag);
         }
         assertOrderedTagsInSection(section, "Ordered tags");
         assertTrue(
@@ -720,13 +681,6 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
                 .matcher(section)
                 .find(),
             "README must not imitate self-contained Quinn panel wording or cite mana269/ad59");
-        // Repository registration order: W section before Q section before E section
-        int wIdx = readme.indexOf("lol_generic_quinn_heightened_senses_seed.sql");
-        int qIdx = readme.indexOf("lol_generic_quinn_blinding_assault_primary_hit_seed.sql");
-        int eIdx = readme.indexOf("lol_generic_quinn_vault_primary_hit_seed.sql");
-        assertTrue(
-            wIdx >= 0 && qIdx > wIdx && eIdx > qIdx,
-            "README registration order must be W -> Q(resource) -> E");
     }
 
     /**
@@ -739,9 +693,13 @@ class LolGenericQuinnVaultPrimaryHitSeedSqlTest {
         String after = text.substring(markerIdx);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = after.indexOf(tag);
-            assertTrue(idx >= 0, "ordered-tags section must include " + tag);
-            assertTrue(idx > prev, "ordered tags must appear in frozen order: " + tag);
+            String expectedTag = "ability_cost_cooldown".equals(tag)
+                    && !after.contains(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = after.indexOf(expectedTag);
+            assertTrue(idx >= 0, "ordered-tags section must include " + expectedTag);
+            assertTrue(idx > prev, "ordered tags must appear in frozen order: " + expectedTag);
             prev = idx;
         }
     }

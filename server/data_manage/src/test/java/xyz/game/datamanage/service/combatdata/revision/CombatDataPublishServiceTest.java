@@ -37,7 +37,6 @@ import xyz.game.datamanage.mapper.GameVersionsMapper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityControlEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityCooldownsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatAbilityCostsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityParametersMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityPhaseEffectSequencesMapper;
@@ -51,8 +50,6 @@ import xyz.game.datamanage.mapper.combatdata.CombatEffectStepsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityAttributeStageValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityAttributeValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityProviderMountsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceStageValuesMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEventEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatExecuteEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameEntitiesMapper;
@@ -68,8 +65,6 @@ import xyz.game.datamanage.mapper.combatdata.CombatProviderListenersMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderModifiersMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderStateFieldsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderTickSequencesMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceDefinitionsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
@@ -97,9 +92,6 @@ class CombatDataPublishServiceTest {
     @Mock private CombatGameEntitiesMapper combatGameEntitiesMapper;
     @Mock private CombatEntityAttributeValuesMapper combatEntityAttributeValuesMapper;
     @Mock private CombatEntityAttributeStageValuesMapper combatEntityAttributeStageValuesMapper;
-    @Mock private CombatResourceDefinitionsMapper combatResourceDefinitionsMapper;
-    @Mock private CombatEntityResourceValuesMapper combatEntityResourceValuesMapper;
-    @Mock private CombatEntityResourceStageValuesMapper combatEntityResourceStageValuesMapper;
     @Mock private CombatProviderDefinitionsMapper combatProviderDefinitionsMapper;
     @Mock private CombatProviderFormulasMapper combatProviderFormulasMapper;
     @Mock private CombatProviderLifecyclesMapper combatProviderLifecyclesMapper;
@@ -109,7 +101,6 @@ class CombatDataPublishServiceTest {
     @Mock private CombatAbilityParametersMapper combatAbilityParametersMapper;
     @Mock private CombatAbilityStateFieldsMapper combatAbilityStateFieldsMapper;
     @Mock private CombatAbilityPhasesMapper combatAbilityPhasesMapper;
-    @Mock private CombatAbilityCostsMapper combatAbilityCostsMapper;
     @Mock private CombatAbilityCooldownsMapper combatAbilityCooldownsMapper;
     @Mock private CombatProviderModifiersMapper combatProviderModifiersMapper;
     @Mock private CombatProviderListenersMapper combatProviderListenersMapper;
@@ -121,7 +112,6 @@ class CombatDataPublishServiceTest {
     @Mock private CombatProviderTickSequencesMapper combatProviderTickSequencesMapper;
     @Mock private CombatDamageEffectDetailsMapper combatDamageEffectDetailsMapper;
     @Mock private CombatHealEffectDetailsMapper combatHealEffectDetailsMapper;
-    @Mock private CombatResourceEffectDetailsMapper combatResourceEffectDetailsMapper;
     @Mock private CombatAttributeEffectDetailsMapper combatAttributeEffectDetailsMapper;
     @Mock private CombatShieldEffectDetailsMapper combatShieldEffectDetailsMapper;
     @Mock private CombatProviderEffectDetailsMapper combatProviderEffectDetailsMapper;
@@ -149,9 +139,6 @@ class CombatDataPublishServiceTest {
             combatGameEntitiesMapper,
             combatEntityAttributeValuesMapper,
             combatEntityAttributeStageValuesMapper,
-            combatResourceDefinitionsMapper,
-            combatEntityResourceValuesMapper,
-            combatEntityResourceStageValuesMapper,
             combatProviderDefinitionsMapper,
             combatProviderFormulasMapper,
             combatProviderLifecyclesMapper,
@@ -161,7 +148,6 @@ class CombatDataPublishServiceTest {
             combatAbilityParametersMapper,
             combatAbilityStateFieldsMapper,
             combatAbilityPhasesMapper,
-            combatAbilityCostsMapper,
             combatAbilityCooldownsMapper,
             combatProviderModifiersMapper,
             combatProviderListenersMapper,
@@ -173,7 +159,6 @@ class CombatDataPublishServiceTest {
             combatProviderTickSequencesMapper,
             combatDamageEffectDetailsMapper,
             combatHealEffectDetailsMapper,
-            combatResourceEffectDetailsMapper,
             combatAttributeEffectDetailsMapper,
             combatShieldEffectDetailsMapper,
             combatProviderEffectDetailsMapper,
@@ -205,9 +190,6 @@ class CombatDataPublishServiceTest {
             combatGameEntitiesMapper,
             combatEntityAttributeValuesMapper,
             combatEntityAttributeStageValuesMapper,
-            combatResourceDefinitionsMapper,
-            combatEntityResourceValuesMapper,
-            combatEntityResourceStageValuesMapper,
             combatProviderDefinitionsMapper,
             combatProviderFormulasMapper,
             combatProviderLifecyclesMapper,
@@ -217,7 +199,6 @@ class CombatDataPublishServiceTest {
             combatAbilityParametersMapper,
             combatAbilityStateFieldsMapper,
             combatAbilityPhasesMapper,
-            combatAbilityCostsMapper,
             combatAbilityCooldownsMapper,
             combatProviderModifiersMapper,
             combatProviderListenersMapper,
@@ -229,7 +210,6 @@ class CombatDataPublishServiceTest {
             combatProviderTickSequencesMapper,
             combatDamageEffectDetailsMapper,
             combatHealEffectDetailsMapper,
-            combatResourceEffectDetailsMapper,
             combatAttributeEffectDetailsMapper,
             combatShieldEffectDetailsMapper,
             combatProviderEffectDetailsMapper,
@@ -442,12 +422,6 @@ class CombatDataPublishServiceTest {
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatEntityAttributeStageValuesMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
-        order.verify(combatResourceDefinitionsMapper)
-            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
-        order.verify(combatEntityResourceValuesMapper)
-            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
-        order.verify(combatEntityResourceStageValuesMapper)
-            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatProviderDefinitionsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatProviderFormulasMapper)
@@ -465,8 +439,6 @@ class CombatDataPublishServiceTest {
         order.verify(combatAbilityStateFieldsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatAbilityPhasesMapper)
-            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
-        order.verify(combatAbilityCostsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatAbilityCooldownsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
@@ -489,8 +461,6 @@ class CombatDataPublishServiceTest {
         order.verify(combatDamageEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatHealEffectDetailsMapper)
-            .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
-        order.verify(combatResourceEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);
         order.verify(combatAttributeEffectDetailsMapper)
             .copyChangedToLog(GAME_ID, VERSION_ID, previousRevision, publishRevision);

@@ -31,14 +31,11 @@
 --      - game lol 与所需 reserved types：20111/20120/20130/20142/20150/20170/20220/20260；
 --      - game_entities(lol,hero_xayah)；
 --      - attribute_definitions(lol,ad) 与 entity_attribute_values(lol,hero_xayah,ad)；
---      - resource_definitions(lol,mana) 与 entity_resource_values(lol,hero_xayah,mana)；
 --      - 校正后的 W isolation 行：types(62012, ability/xayah_deadly_plumage,
 --        reserved_type_id=NULL)；type_relations → ability_hero_xayah_w_deadly_plumage；
 --        W listener ability_id IS NULL；ALL match 恰好含 20205/20212/62012。
 --    hero_xayah / ad / mana 是与校正后 Deadly Plumage W seed 共享的外部既有
 --    数据依赖；本脚本不复制其身份 bootstrap，亦不物化身份/面板/资源值。
--- 4. 禁止写入：不对 attribute_definitions / resource_definitions / game_entities /
---    entity_attribute_values / entity_resource_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    禁止从本 Q seed 突变 W 图（不写 W provider/ability/listener/type_relations）。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types。
 -- 5. 仅创建/挂载 provider_hero_xayah_q_double_daggers_primary_two_hit 及其隔离 Q 图：
@@ -200,27 +197,6 @@ BEGIN
     ) THEN
         RAISE EXCEPTION
             'lol_generic_xayah_double_daggers_primary_two_hit_seed: missing entity_attribute_values hero_xayah/ad (external existing-data; check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_double_daggers_primary_two_hit_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_xayah'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_double_daggers_primary_two_hit_seed: missing entity_resource_values hero_xayah/mana (external existing-data; check-only)';
     END IF;
 
     -- check-only：校正后的 W ability-type listener isolation（本 Q seed 不突变 W）
@@ -407,38 +383,6 @@ BEGIN
        OR public.ability_definitions.ability_key IS DISTINCT FROM EXCLUDED.ability_key
        OR public.ability_definitions.ability_kind_type_id IS DISTINCT FROM EXCLUDED.ability_kind_type_id
        OR public.ability_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_xayah_q_double_daggers_primary_two_hit_mana',
-        'ability_hero_xayah_q_double_daggers_primary_two_hit',
-        NULL,
-        'mana',
-        'q_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.attribute.AttributeMapper">
+
+    <resultMap id="attributeResponse" type="xyz.game.datamanage.model.attribute.AttributeResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="value_type" javaType="xyz.game.datamanage.model.attribute.AttributeValueType"/>
+            <arg column="min_value" javaType="java.math.BigDecimal"/>
+            <arg column="max_value" javaType="java.math.BigDecimal"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.attribute.AttributeStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="attributeColumns">
+        game_id,
+        attribute_key,
+        name,
+        value_type,
+        min_value,
+        max_value,
+        description,
+        status,
+        sort_order,
+        created_at,
+        updated_at
+    </sql>
+
+    <select id="list" resultMap="attributeResponse">
+        SELECT <include refid="attributeColumns"/>
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(attribute_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, attribute_key ASC
+    </select>
+
+    <select id="findById" resultMap="attributeResponse">
+        SELECT <include refid="attributeColumns"/>
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key = #{attributeKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="attributeResponse">
+        SELECT <include refid="attributeColumns"/>
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key = #{attributeKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key = #{attributeKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeAttributeKey != null">
+          AND attribute_key &lt;&gt; #{excludeAttributeKey}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.attributes (
+            game_id,
+            attribute_key,
+            name,
+            value_type,
+            min_value,
+            max_value,
+            description,
+            status,
+            sort_order
+        ) VALUES (
+            #{gameId},
+            #{attributeKey},
+            #{name},
+            #{valueType},
+            #{minValue},
+            #{maxValue},
+            #{description},
+            #{status},
+            #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.attributes
+        SET name = #{name},
+            value_type = #{valueType},
+            min_value = #{minValue},
+            max_value = #{maxValue},
+            description = #{description},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId}
+          AND attribute_key = #{attributeKey}
+    </update>
+</mapper>

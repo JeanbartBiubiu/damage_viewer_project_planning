@@ -416,16 +416,6 @@ class LolGenericManamuneAweSeedSqlTest {
                 .find(),
             "must not write ability_definitions");
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write resource_definitions");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write entity_resource_values");
-        assertFalse(
             Pattern.compile("(?i)\\bmuramana\\b").matcher(sqlNoLineComments).find(),
             "must not implement Muramana identity / transform writes");
         assertFalse(

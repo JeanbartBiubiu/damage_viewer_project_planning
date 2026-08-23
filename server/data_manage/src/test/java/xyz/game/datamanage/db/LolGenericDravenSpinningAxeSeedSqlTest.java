@@ -37,7 +37,6 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
         "provider_hero_draven_q_spinning_axe",
         "provider_hero_draven_q_spinning_axe_flight",
         "ability_hero_draven_q_spinning_axe",
-        "cost_hero_draven_q_spinning_axe_mana",
         "cooldown_hero_draven_q_spinning_axe",
         "listener_hero_draven_q_spinning_axe_ability_started",
         "listener_hero_draven_q_spinning_axe_basic_attack_hit",
@@ -275,15 +274,6 @@ class LolGenericDravenSpinningAxeSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "basic attack must not emit event/ability_started");
-        assertContains("INSERT INTO public.ability_costs");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_draven_q_spinning_axe_mana'\\s*,\\s*"
-                        + "'ability_hero_draven_q_spinning_axe'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'q_mana_cost'")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 45 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertTrue(
             Pattern.compile(

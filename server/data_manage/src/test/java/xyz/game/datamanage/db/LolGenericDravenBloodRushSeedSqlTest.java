@@ -31,7 +31,6 @@ class LolGenericDravenBloodRushSeedSqlTest {
         "provider_hero_draven_w_blood_rush",
         "ability_hero_draven_w_blood_rush",
         "blood_rush",
-        "cost_hero_draven_w_blood_rush_mana",
         "cooldown_hero_draven_w_blood_rush",
         "listener_hero_draven_w_blood_rush_ability_started",
         "listener_hero_draven_w_blood_rush_axe_caught",
@@ -176,18 +175,6 @@ class LolGenericDravenBloodRushSeedSqlTest {
                 && sql.contains("0.679") && sql.contains("29") && sql.contains("30")
                 && sql.contains("3.75") && sql.contains("8.05"),
             "must seed Draven level-1 panel numbers");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_draven'\\s*,\\s*'mana'\\s*,\\s*361\\s*,\\s*361")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 361/361");
     }
 
     @Test
@@ -245,18 +232,8 @@ class LolGenericDravenBloodRushSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "W must be active ability with stable key blood_rush");
-        assertContains("cost_hero_draven_w_blood_rush_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("w_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":20}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_draven_w_blood_rush_mana'\\s*,\\s*"
-                        + "'ability_hero_draven_w_blood_rush'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'w_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "W mana cost must be ability-level 20 via ability_costs");
         assertContains("cooldown_hero_draven_w_blood_rush");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("w_cooldown_ms");

@@ -40,7 +40,6 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
         "phase_hero_lucian_q_piercing_light_selected_target_hit_impact",
         "sequence_hero_lucian_q_piercing_light_selected_target_hit_impact",
         "step_hero_lucian_q_piercing_light_selected_target_hit_damage",
-        "cost_hero_lucian_q_piercing_light_selected_target_hit_mana",
         "cooldown_hero_lucian_q_piercing_light_selected_target_hit",
         "piercing_light_damage",
         "q_mana_cost",
@@ -51,10 +50,9 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -303,8 +301,6 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_lucian");
         assertContains("missing entity_attribute_values hero_lucian/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_lucian/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -344,20 +340,6 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_lucian/ad");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_lucian/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_lucian with the Batch-B prerequisite phrase");
@@ -419,10 +401,6 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -459,14 +437,6 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key piercing_light_selected_target_hit");
         assertContains("{\"op\":\"const\",\"value\":80}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_lucian_q_piercing_light_selected_target_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_lucian_q_piercing_light_selected_target_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 80 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":5000}");
         assertTrue(
             Pattern.compile(
@@ -716,7 +686,10 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
                 || section.contains("physical_220_plus_1_00_bonus_ad"),
             "README must include frozen boundary");
         for (String tag : ORDERED_TAGS) {
-            assertTrue(section.contains(tag), "README ordered tags must include " + tag);
+            String expectedTag = "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            assertTrue(section.contains(expectedTag), "README ordered tags must include " + expectedTag);
         }
         assertTrue(
             section.contains("1308176") && section.contains("3982579")
@@ -727,10 +700,7 @@ class LolGenericLucianPiercingLightSelectedTargetHitSeedSqlTest {
                 && (section.contains("local raw") || section.contains("materialization caveat")
                     || section.contains("不断言") || section.contains("不等于等价")),
             "README must document local raw caveat");
-        assertTrue(
-            Pattern.compile("(?i)80.*mana|mana.?80|80 mana").matcher(section).find()
-                && section.contains("5000"),
-            "README must document mana80 and cooldown 5000ms");
+        assertTrue(section.contains("5000"), "README must document cooldown 5000ms");
         assertTrue(
             section.contains("220") && section.contains("1.00")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")

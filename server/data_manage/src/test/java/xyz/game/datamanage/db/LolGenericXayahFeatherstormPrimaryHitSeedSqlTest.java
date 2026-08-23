@@ -40,7 +40,6 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
         "phase_hero_xayah_r_featherstorm_primary_hit_impact",
         "sequence_hero_xayah_r_featherstorm_primary_hit_impact",
         "step_hero_xayah_r_featherstorm_primary_hit_damage",
-        "cost_hero_xayah_r_featherstorm_primary_hit_mana",
         "cooldown_hero_xayah_r_featherstorm_primary_hit",
         "featherstorm_primary_hit_damage",
         "r_mana_cost",
@@ -51,13 +50,10 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "active_physical_damage",
         "bonus_ad_ratio",
         "immediate_impact_scaffold");
@@ -268,8 +264,6 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_xayah");
         assertContains("missing entity_attribute_values hero_xayah/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_xayah/mana");
         assertContains("62012");
         assertContains("ability/xayah_deadly_plumage");
         assertContains("listener_hero_xayah_w_deadly_plumage_ability_started");
@@ -442,10 +436,6 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -482,14 +472,6 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
                 .find(),
             "R must be active ability with stable key featherstorm_primary_hit");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_xayah_r_featherstorm_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_xayah_r_featherstorm_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":100000}");
         assertTrue(
             Pattern.compile(
@@ -749,9 +731,8 @@ class LolGenericXayahFeatherstormPrimaryHitSeedSqlTest {
                 || section.contains("whole-R") || section.contains("whole R"),
             "README must not claim Wiki-proven whole-R once-only");
         assertTrue(
-            Pattern.compile("(?i)100.*mana|mana.?100|100 mana").matcher(section).find()
-                && section.contains("100000"),
-            "README must document mana100 and cooldown 100000ms");
+            section.contains("100000"),
+            "README must document cooldown 100000ms");
         assertTrue(
             section.contains("400") && section.contains("1.00"),
             "README must document damage formula constants/ratios");

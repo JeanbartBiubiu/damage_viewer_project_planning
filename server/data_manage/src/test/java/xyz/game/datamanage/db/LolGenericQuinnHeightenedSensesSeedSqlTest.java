@@ -353,11 +353,6 @@ class LolGenericQuinnHeightenedSensesSeedSqlTest {
     @Test
     void excludesVisionMoveSpeedHarrierDamageMarkConsumeAndOtherRanks() {
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write ability_costs (W active OOS)");
-        assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_cooldowns\\b")
                 .matcher(sqlNoLineComments)
                 .find(),

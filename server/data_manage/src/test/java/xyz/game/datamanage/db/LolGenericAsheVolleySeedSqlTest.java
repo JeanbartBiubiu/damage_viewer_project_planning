@@ -34,7 +34,6 @@ class LolGenericAsheVolleySeedSqlTest {
         "phase_hero_ashe_w_volley_impact",
         "sequence_hero_ashe_w_volley_impact",
         "step_hero_ashe_w_volley_damage",
-        "cost_hero_ashe_w_volley_mana",
         "cooldown_hero_ashe_w_volley",
         "volley_damage",
         "w_mana_cost",
@@ -143,7 +142,6 @@ class LolGenericAsheVolleySeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         for (String attr : List.of(
             "hp", "mana", "ad", "attack_speed", "armor", "magic_resist",
             "hp_regen", "mana_regen")) {
@@ -175,16 +173,6 @@ class LolGenericAsheVolleySeedSqlTest {
                 && sql.contains("0.658") && sql.contains("26") && sql.contains("30")
                 && sql.contains("3.5") && sql.contains(", 7,"),
             "must seed Ashe level-1 panel numbers");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_ashe'\\s*,\\s*'mana'\\s*,\\s*280\\s*,\\s*280")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 280/280");
         assertFalse(
             Pattern.compile("(?is)'provider_hero_ashe_rangers_focus'")
                 .matcher(sqlNoLineComments)
@@ -239,18 +227,8 @@ class LolGenericAsheVolleySeedSqlTest {
                 .matcher(sql)
                 .find(),
             "W must be active ability with stable key volley");
-        assertContains("cost_hero_ashe_w_volley_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("w_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":55}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_ashe_w_volley_mana'\\s*,\\s*"
-                        + "'ability_hero_ashe_w_volley'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'w_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "W mana cost must be ability-level 55 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_ashe_w_volley");
         assertContains("w_cooldown_ms");

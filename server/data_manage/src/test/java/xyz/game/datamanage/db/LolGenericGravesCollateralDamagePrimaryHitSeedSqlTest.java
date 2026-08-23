@@ -35,7 +35,6 @@ class LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest {
         "phase_hero_graves_r_collateral_damage_primary_hit_impact",
         "sequence_hero_graves_r_collateral_damage_primary_hit_impact",
         "step_hero_graves_r_collateral_damage_primary_hit_damage",
-        "cost_hero_graves_r_collateral_damage_primary_hit_mana",
         "cooldown_hero_graves_r_collateral_damage_primary_hit",
         "collateral_damage_damage",
         "r_mana_cost",
@@ -184,7 +183,6 @@ class LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         assertEquals(9, REQUIRED_ATTRS.size(), "contract expects exactly nine attrs");
         Matcher attrsArray = Pattern.compile(
                 "(?is)v_required_attrs\\s+text\\[\\]\\s*:=\\s*ARRAY\\[(.*?)]")
@@ -269,16 +267,6 @@ class LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "must preserve Graves P/E/W mana_regen=8");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_graves'\\s*,\\s*'mana'\\s*,\\s*325\\s*,\\s*325")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 325/325");
         assertFalse(
             Pattern.compile("(?is)'attack_range'|'move_speed'|'crit_chance'|'crit_damage'")
                 .matcher(sqlNoLineComments)
@@ -385,18 +373,8 @@ class LolGenericGravesCollateralDamagePrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key collateral_damage");
-        assertContains("cost_hero_graves_r_collateral_damage_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_graves_r_collateral_damage_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_graves_r_collateral_damage_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_graves_r_collateral_damage_primary_hit");
         assertContains("r_cooldown_ms");

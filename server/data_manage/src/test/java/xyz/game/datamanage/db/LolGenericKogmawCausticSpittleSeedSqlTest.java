@@ -39,7 +39,6 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
         "q_mana_cost",
         "q_cooldown_ms",
         "ability_hero_kogmaw_q_caustic_spittle",
-        "cost_hero_kogmaw_q_caustic_spittle_mana",
         "cooldown_hero_kogmaw_q_caustic_spittle",
         "phase_hero_kogmaw_q_caustic_spittle_impact",
         "sequence_hero_kogmaw_q_caustic_spittle_impact",
@@ -188,12 +187,6 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must not recreate KogMaw basic attack");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertTrue(
-            Pattern.compile("(?s)'hero_kogmaw'\\s*,\\s*'mana'\\s*,\\s*325\\s*,\\s*325")
-                .matcher(sql)
-                .find(),
-            "must project entity_resource_values mana 325/325 for ability_costs FK");
     }
 
     @Test
@@ -299,16 +292,7 @@ class LolGenericKogmawCausticSpittleSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Q must be active ability with stable key caustic_spittle");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("{\"op\":\"const\",\"value\":40}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_kogmaw_q_caustic_spittle_mana'\\s*,\\s*"
-                        + "'ability_hero_kogmaw_q_caustic_spittle'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 40 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("{\"op\":\"const\",\"value\":7000}");
         assertTrue(

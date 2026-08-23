@@ -42,7 +42,6 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
         "phase_hero_missfortune_e_make_it_rain_max_total_selected_primary_impact",
         "sequence_hero_missfortune_e_make_it_rain_max_total_selected_primary_impact",
         "step_hero_missfortune_e_make_it_rain_max_total_selected_primary_damage",
-        "cost_hero_missfortune_e_make_it_rain_max_total_selected_primary_mana",
         "cooldown_hero_missfortune_e_make_it_rain_max_total_selected_primary",
         "make_it_rain_max_total_selected_primary_damage",
         "e_mana_cost",
@@ -54,10 +53,9 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -307,8 +305,6 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_missfortune");
         assertContains("missing entity_attribute_values hero_missfortune/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_missfortune/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -353,30 +349,13 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_missfortune/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_missfortune/mana");
         int heroCheck = sqlNoComments.indexOf("missing game_entities hero_missfortune");
         int apCheck = sqlNoComments.indexOf("hero_missfortune/ap");
-        int manaCheck = sqlNoComments.indexOf("hero_missfortune/mana");
         int graphWrite = sqlNoComments.indexOf("INSERT INTO public.provider_definitions");
         assertTrue(heroCheck >= 0 && graphWrite > heroCheck,
             "fail-closed hero_missfortune check must precede provider graph writes");
         assertTrue(apCheck >= 0 && graphWrite > apCheck,
             "fail-closed ap checks must precede provider graph writes");
-        assertTrue(manaCheck >= 0 && graphWrite > manaCheck,
-            "fail-closed mana checks must precede provider graph writes");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_missfortune with the Batch-B prerequisite phrase");
@@ -438,10 +417,6 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -478,14 +453,6 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
                 .find(),
             "E must be active ability with stable key make_it_rain_max_total_selected_primary");
         assertContains("{\"op\":\"const\",\"value\":80}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_missfortune_e_make_it_rain_max_total_selected_primary_mana'\\s*,\\s*"
-                        + "'ability_hero_missfortune_e_make_it_rain_max_total_selected_primary'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 80 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":14000}");
         assertTrue(
             Pattern.compile(
@@ -830,10 +797,7 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
                 && (section.contains("local raw") || section.contains("materialization caveat")
                     || section.contains("不断言")),
             "README must document local raw caveat");
-        assertTrue(
-            Pattern.compile("(?i)80.*mana|mana.?80|80 mana").matcher(section).find()
-                && section.contains("14000"),
-            "README must document mana80 and cooldown 14000ms");
+        assertTrue(section.contains("14000"), "README must document cooldown 14000ms");
         assertTrue(
             section.contains("190") && section.contains("1.20")
                 && section.contains("ap.resolved"),
@@ -929,11 +893,14 @@ class LolGenericMissFortuneMakeItRainMaxTotalSelectedPrimarySeedSqlTest {
         String block = orderedTagsBlock(text);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         assertFalse(

@@ -40,7 +40,6 @@ class LolGenericKayleRadiantBlastSeedSqlTest {
         "q_cooldown_ms",
         "ability_hero_kayle_q_radiant_blast",
         "radiant_blast",
-        "cost_hero_kayle_q_radiant_blast_mana",
         "cooldown_hero_kayle_q_radiant_blast",
         "phase_hero_kayle_q_radiant_blast_impact",
         "sequence_hero_kayle_q_radiant_blast_impact",
@@ -249,18 +248,6 @@ class LolGenericKayleRadiantBlastSeedSqlTest {
                 && sql.contains(", 0,") && sql.contains("0.625") && sql.contains("26")
                 && sql.contains("22") && sql.contains(", 5,") && sql.contains(", 8,"),
             "must seed Kayle level-1 panel numbers");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_kayle'\\s*,\\s*'mana'\\s*,\\s*330\\s*,\\s*330")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 330/330");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
     }
 
     @Test
@@ -348,16 +335,7 @@ class LolGenericKayleRadiantBlastSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Q must be active ability with stable key radiant_blast");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_kayle_q_radiant_blast_mana'\\s*,\\s*"
-                        + "'ability_hero_kayle_q_radiant_blast'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 100 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("{\"op\":\"const\",\"value\":8000}");
         assertTrue(

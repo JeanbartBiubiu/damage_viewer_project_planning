@@ -36,10 +36,10 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
 
     private static final String README_RELATIVE = "server/data_manage/README.md";
 
-    private static final int EXPECTED_SEED_BYTES = 33539;
+    private static final int EXPECTED_SEED_BYTES = 31115;
 
     private static final String EXPECTED_SEED_SHA256 =
-        "0cc6ff2a7ac26df3bdc9c3ca692176a37c170fb1c15446c29b53508cb18c2641";
+        "4f04671dcf1741cca1aab350a29ba3fd703ea58bf3d94efa1822159d37dddc74";
 
     private static final List<String> STABLE_IDS = List.of(
         "hero_missfortune",
@@ -49,7 +49,6 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
         "phase_hero_missfortune_r_bullet_time_max_channel_expected_impact",
         "sequence_hero_missfortune_r_bullet_time_max_channel_expected_impact",
         "step_hero_missfortune_r_bullet_time_max_channel_expected_damage",
-        "cost_hero_missfortune_r_bullet_time_max_channel_expected_mana",
         "cooldown_hero_missfortune_r_bullet_time_max_channel_expected",
         "bullet_time_max_channel_expected_damage",
         "r_mana_cost",
@@ -63,10 +62,9 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -424,8 +422,6 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
         assertContains("missing entity_attribute_values hero_missfortune/ad");
         assertContains("missing entity_attribute_values hero_missfortune/ap");
         assertContains("missing entity_attribute_values hero_missfortune/crit_chance");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_missfortune/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -501,20 +497,6 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_missfortune/crit_chance");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_missfortune/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_missfortune with the Batch-B prerequisite phrase");
@@ -576,10 +558,6 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -616,14 +594,6 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
                 .find(),
             "R must be active ability with stable key bullet_time_max_channel_expected");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_missfortune_r_bullet_time_max_channel_expected_mana'\\s*,\\s*"
-                        + "'ability_hero_missfortune_r_bullet_time_max_channel_expected'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":100000}");
         assertTrue(
             Pattern.compile(
@@ -979,10 +949,7 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
         assertTrue(
             section.contains("3021"),
             "README must document canonical/local raw 3021 byte size");
-        assertTrue(
-            Pattern.compile("(?i)100.*mana|mana.?100|100 mana").matcher(section).find()
-                && section.contains("100000"),
-            "README must document mana100 and cooldown 100000ms");
+        assertTrue(section.contains("100000"), "README must document cooldown 100000ms");
         assertTrue(
             section.contains("40") && section.contains("0.60") && section.contains("0.25")
                 && section.contains("0.30")
@@ -1121,11 +1088,14 @@ class LolGenericMissFortuneBulletTimeMaxChannelExpectedSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         assertFalse(

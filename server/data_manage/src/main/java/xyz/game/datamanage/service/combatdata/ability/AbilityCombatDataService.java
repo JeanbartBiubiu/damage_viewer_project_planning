@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityCooldownsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatAbilityCostsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityParametersMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityPhasesMapper;
@@ -23,7 +22,6 @@ public class AbilityCombatDataService {
     private final CombatAbilityParametersMapper parametersMapper;
     private final CombatAbilityStateFieldsMapper stateFieldsMapper;
     private final CombatAbilityPhasesMapper phasesMapper;
-    private final CombatAbilityCostsMapper costsMapper;
     private final CombatAbilityCooldownsMapper cooldownsMapper;
 
     public AbilityCombatDataService(
@@ -33,7 +31,6 @@ public class AbilityCombatDataService {
         CombatAbilityParametersMapper parametersMapper,
         CombatAbilityStateFieldsMapper stateFieldsMapper,
         CombatAbilityPhasesMapper phasesMapper,
-        CombatAbilityCostsMapper costsMapper,
         CombatAbilityCooldownsMapper cooldownsMapper
     ) {
         this.support = support;
@@ -42,7 +39,6 @@ public class AbilityCombatDataService {
         this.parametersMapper = parametersMapper;
         this.stateFieldsMapper = stateFieldsMapper;
         this.phasesMapper = phasesMapper;
-        this.costsMapper = costsMapper;
         this.cooldownsMapper = cooldownsMapper;
     }
 
@@ -68,12 +64,6 @@ public class AbilityCombatDataService {
     public ObjectNode listPhases(String gameId, String abilityId) {
         support.requireGame(gameId);
         return support.publicList(gameId, phasesMapper.list(gameId, abilityId));
-    }
-
-    @Transactional(readOnly = true)
-    public ObjectNode listCosts(String gameId, String abilityId, String phaseId) {
-        support.requireGame(gameId);
-        return support.publicList(gameId, costsMapper.list(gameId, abilityId, phaseId));
     }
 
     @Transactional(readOnly = true)
@@ -154,31 +144,6 @@ public class AbilityCombatDataService {
             interruptible
         ));
         return support.adminWriteResponse(phasesMapper.findById(gameId, phaseId), revision);
-    }
-
-    @Transactional
-    public ObjectNode putCost(String gameId, String costId, ObjectNode body) {
-        support.requireGame(gameId);
-        ObjectNode req = support.requireBody(body);
-        String abilityId = support.requireText(req, "abilityId");
-        String phaseId = support.optionalText(req, "phaseId");
-        String resourceKey = support.requireText(req, "resourceKey");
-        String amountFormulaKey = support.requireText(req, "amountFormulaKey");
-        boolean allowPartial = req.has("allowPartial")
-            ? support.requireBoolean(req, "allowPartial")
-            : false;
-        long revision = revisionService.nextRevision(gameId);
-        support.withConstraintMapping(() -> costsMapper.upsert(
-            gameId,
-            revision,
-            costId,
-            abilityId,
-            phaseId,
-            resourceKey,
-            amountFormulaKey,
-            allowPartial
-        ));
-        return support.adminWriteResponse(costsMapper.findById(gameId, costId), revision);
     }
 
     @Transactional

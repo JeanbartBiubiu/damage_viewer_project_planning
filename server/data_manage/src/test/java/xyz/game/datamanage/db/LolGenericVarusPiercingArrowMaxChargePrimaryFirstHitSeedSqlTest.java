@@ -41,7 +41,6 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
         "phase_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_impact",
         "sequence_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_impact",
         "step_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_damage",
-        "cost_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_mana",
         "cooldown_hero_varus_q_piercing_arrow_max_charge_primary_first_hit",
         "piercing_arrow_max_charge_primary_first_hit_damage",
         "piercing_arrow_max_charge_primary_first_hit_impact",
@@ -64,13 +63,10 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "active_physical_damage",
         "bonus_ad_ratio",
         "immediate_impact_scaffold");
@@ -337,8 +333,6 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_varus");
         assertContains("missing entity_attribute_values hero_varus/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_varus/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -385,20 +379,6 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_varus/ad");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_varus/mana");
         assertFalse(
             Pattern.compile("(?i)attr_key\\s*=\\s*'ad\\.(base|resolved)'")
                 .matcher(sqlNoComments)
@@ -465,10 +445,6 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -505,14 +481,6 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key piercing_arrow_max_charge_primary_first_hit");
         assertContains("{\"op\":\"const\",\"value\":70}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 70 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":12000}");
         assertTrue(
             Pattern.compile(
@@ -848,9 +816,8 @@ class LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest {
                     || section.contains("不断言") || section.contains("不等于等价")),
             "README must document local raw caveat");
         assertTrue(
-            Pattern.compile("(?i)70.*mana|mana.?70|70 mana").matcher(section).find()
-                && section.contains("12000"),
-            "README must document mana70 and cooldown 12000ms");
+            section.contains("12000"),
+            "README must document cooldown 12000ms");
         assertTrue(
             section.contains("360") && section.contains("1.20")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")

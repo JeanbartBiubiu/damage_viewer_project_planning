@@ -79,19 +79,6 @@ public class CombatDataAbilityAdminController {
         return response;
     }
 
-    @PutMapping("/ability-costs/{costId}")
-    public ObjectNode putCost(
-        @PathVariable("gameId") String gameId,
-        @PathVariable("costId") String costId,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = service.putCost(gameId, costId, body);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
     @PutMapping("/ability-cooldowns/{cooldownId}")
     public ObjectNode putCooldown(
         @PathVariable("gameId") String gameId,
