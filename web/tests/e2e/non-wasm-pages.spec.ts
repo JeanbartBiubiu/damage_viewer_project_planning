@@ -44,6 +44,15 @@ type CharacterRow = {
   updatedAt: string;
 };
 
+type EquipmentRow = {
+  gameId: string;
+  equipmentKey: string;
+  name: string;
+  description: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
 
 type CapturedWrite = {
@@ -80,6 +89,8 @@ class MockApi {
   attributes: AttributeRow[] = [];
   characters: CharacterRow[] = [];
   characterAttributes: Record<string, Record<string, Record<string, number>>> = {};
+  equipment: EquipmentRow[] = [];
+  equipmentAttributes: Record<string, Record<string, number>> = {};
   minLevel = 1;
   maxLevel = 2;
   writeFailure: WriteFailure = null;
@@ -277,6 +288,95 @@ class MockApi {
       }
     }
 
+    if (path === `/api/admin/games/${GAME_ID}/equipment`) {
+      if (method === 'GET') {
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const items = this.equipment.filter((item) =>
+          !keyword
+          || item.equipmentKey.toLocaleLowerCase().includes(keyword)
+          || item.name.toLocaleLowerCase().includes(keyword)
+        );
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: EquipmentRow = {
+          gameId: GAME_ID,
+          equipmentKey: String(body.equipmentKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.equipment.push(row);
+        this.equipmentAttributes[row.equipmentKey] = {};
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const equipmentAttributes = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/equipment/([^/]+)/attributes$`)
+    );
+    if (equipmentAttributes) {
+      const equipmentKey = equipmentAttributes[1]!;
+      if (method === 'GET') {
+        await this.json(route, 200, {
+          equipmentKey,
+          attributeValues: this.equipmentAttributes[equipmentKey] ?? {}
+        });
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        this.equipmentAttributes[equipmentKey] = body.attributeValues as Record<string, number>;
+        await this.json(route, 200, {
+          equipmentKey,
+          attributeValues: this.equipmentAttributes[equipmentKey]
+        });
+        return;
+      }
+    }
+
+    const equipmentDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/equipment/([^/]+)$`)
+    );
+    if (equipmentDetail) {
+      const equipmentKey = equipmentDetail[1]!;
+      const existing = this.equipment.find((item) => item.equipmentKey === equipmentKey);
+      if (!existing) {
+        await this.error(route, 404, '404.EQUIPMENT_NOT_FOUND', '装备不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: EquipmentRow = {
+          ...existing,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          updatedAt: '2026-08-23T11:00:00Z'
+        };
+        this.equipment = this.equipment.map((item) => item.equipmentKey === equipmentKey ? next : item);
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.equipment = this.equipment.filter((item) => item.equipmentKey !== equipmentKey);
+        delete this.equipmentAttributes[equipmentKey];
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
     if (path === `/api/admin/games/${GAME_ID}/attributes`) {
       if (method === 'GET') {
         const keyword = url.searchParams.get('keyword');
@@ -463,6 +563,12 @@ async function openCharacters(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('角色管理', { exact: true }).first()).toBeVisible();
 }
 
+async function openEquipment(page: Page): Promise<void> {
+  await page.goto('/#/equipment');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('装备管理', { exact: true }).first()).toBeVisible();
+}
+
 async function openGameSettings(page: Page): Promise<void> {
   await page.goto('/#/game-settings');
   await waitForGame(page);
@@ -478,6 +584,12 @@ function attributeRow(page: Page, attributeKey: string): Locator {
 function characterRow(page: Page, characterKey: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: characterKey, exact: true })
+  });
+}
+
+function equipmentRow(page: Page, equipmentKey: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: equipmentKey, exact: true })
   });
 }
 
@@ -594,6 +706,59 @@ test.describe('character management without Wasm', () => {
     await expect(characterRow(page, 'ashe')).toHaveCount(0);
     expect(mock.characterAttributes.ashe).toBeUndefined();
     diagnostics.assertClean('character CRUD and level map');
+  });
+});
+
+test.describe('equipment management without Wasm', () => {
+  test('creates, edits, replaces direct attributes and hard deletes equipment', async ({ page }) => {
+    const mock = new MockApi();
+    mock.attributes = [
+      attribute('armor_pen_percent', '百分比护甲穿透'),
+      attribute('hp', '生命值')
+    ];
+    const diagnostics = await prepare(page, mock);
+
+    await openEquipment(page);
+    await expect(page.getByText('暂无装备', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增装备', exact: true }).click();
+    const createModal = visibleModal(page, '新增装备');
+    await createModal.getByLabel('装备标识', { exact: true }).fill('long_sword');
+    await createModal.getByLabel('装备名称', { exact: true }).fill('长剑');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(equipmentRow(page, 'long_sword')).toContainText('长剑');
+
+    await equipmentRow(page, 'long_sword').getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑装备');
+    await expect(editModal.getByLabel('装备标识', { exact: true })).toBeDisabled();
+    await editModal.getByLabel('装备名称', { exact: true }).fill('长剑改');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(equipmentRow(page, 'long_sword')).toContainText('长剑改');
+
+    await equipmentRow(page, 'long_sword').getByRole('button', { name: '装备属性', exact: true }).click();
+    const attributesModal = visibleModal(page, '装备属性 - 长剑改');
+    await expect(attributesModal.getByText('0 个属性已配置 / 2 个属性未配置')).toBeVisible();
+    await attributesModal.getByRole('row').filter({ hasText: 'armor_pen_percent' })
+      .getByRole('button', { name: '设置', exact: true }).click();
+    const valueEditor = visibleModal(page, '设置属性 - 百分比护甲穿透');
+    await valueEditor.getByLabel('属性数值', { exact: true }).fill('30');
+    await valueEditor.getByRole('button', { name: '应用', exact: true }).click();
+    await expect(attributesModal.getByRole('cell', { name: '30', exact: true })).toBeVisible();
+    await attributesModal.getByText('只显示已配置', { exact: true }).click();
+    await expect(attributesModal.getByText('生命值', { exact: true })).toHaveCount(0);
+    await attributesModal.getByText('只显示已配置', { exact: true }).click();
+    await attributesModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(page.getByText('装备「长剑改」的属性已保存。')).toBeVisible();
+    await expect(attributesModal).toBeHidden();
+    expect(mock.equipmentAttributes.long_sword).toEqual({ armor_pen_percent: 30 });
+
+    await equipmentRow(page, 'long_sword').getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除装备');
+    await expect(deleteModal.getByText('确定删除装备「长剑改」吗？')).toBeVisible();
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(equipmentRow(page, 'long_sword')).toHaveCount(0);
+    expect(mock.equipmentAttributes.long_sword).toBeUndefined();
+    diagnostics.assertClean('equipment CRUD and direct attributes');
   });
 });
 
@@ -830,6 +995,7 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/entity-provider-mount"]').count()).toBe(0);
     expect(await page.locator('a[href="#/attributes"]').count()).toBe(1);
     expect(await page.locator('a[href="#/characters"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/equipment"]').count()).toBe(1);
     diagnostics.assertClean('legacy hash fallback');
   });
 });
