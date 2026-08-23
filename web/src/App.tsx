@@ -9,11 +9,11 @@ import {
 } from './config/navigation';
 import { AbilitySetupPage } from './pages/admin/ability-setup/AbilitySetupPage';
 import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
+import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
+import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
 import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
 import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
 import { EffectStepSetupPage } from './pages/admin/effect-step-setup/EffectStepSetupPage';
-import { EntityProviderMountPage } from './pages/admin/entity-provider-mount/EntityProviderMountPage';
-import { EntitySetupPage } from './pages/admin/entity-setup/EntitySetupPage';
 import { ProviderSetupPage } from './pages/admin/provider-setup/ProviderSetupPage';
 import { ImagesPage } from './pages/ImagesPage';
 import { OverviewPage } from './pages/OverviewPage';
@@ -34,9 +34,9 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'wasm-validation-generic',
   'images',
   'attributes',
-  'entity-setup',
+  'characters',
+  'game-settings',
   'provider-setup',
-  'entity-provider-mount',
   'ability-setup',
   'effect-sequence-setup',
   'effect-step-setup',
@@ -306,6 +306,23 @@ export default function App() {
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
+  } else if (route === 'characters') {
+    pageContent = (
+      <CharacterManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'game-settings') {
+    pageContent = (
+      <GameSettingsPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+      />
+    );
   } else if (route === 'workspace') {
     pageContent = (
       <VersionPublishPage
@@ -317,27 +334,9 @@ export default function App() {
         onDataPublished={() => setCombatDataRefreshSeed((value) => value + 1)}
       />
     );
-  } else if (route === 'entity-setup') {
-    pageContent = (
-      <EntitySetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
   } else if (route === 'provider-setup') {
     pageContent = (
       <ProviderSetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'entity-provider-mount') {
-    pageContent = (
-      <EntityProviderMountPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}

@@ -1,5 +1,5 @@
 /**
- * Deterministic browser acceptance for the non-calculation attribute management flow.
+ * Deterministic browser acceptance for non-calculation attribute and character management.
  * All Backend responses are route mocks; this file does not claim live database evidence.
  */
 import {
@@ -31,6 +31,15 @@ type AttributeRow = {
   description: string | null;
   status: 'ENABLED' | 'DISABLED';
   sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type CharacterRow = {
+  gameId: string;
+  characterKey: string;
+  name: string;
+  description: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -69,6 +78,10 @@ function attribute(
 
 class MockApi {
   attributes: AttributeRow[] = [];
+  characters: CharacterRow[] = [];
+  characterAttributes: Record<string, Record<string, Record<string, number>>> = {};
+  minLevel = 1;
+  maxLevel = 2;
   writeFailure: WriteFailure = null;
   listQueries: Array<{ keyword: string | null; status: string | null }> = [];
   writes: CapturedWrite[] = [];
@@ -130,6 +143,138 @@ class MockApi {
         }
       });
       return;
+    }
+
+    if (path === `/api/admin/games/${GAME_ID}/level-config`) {
+      if (method === 'GET') {
+        await this.json(route, 200, {
+          gameId: GAME_ID,
+          minLevel: this.minLevel,
+          maxLevel: this.maxLevel
+        });
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        this.minLevel = Number(body.minLevel);
+        this.maxLevel = Number(body.maxLevel);
+        for (const characterKey of Object.keys(this.characterAttributes)) {
+          const current = this.characterAttributes[characterKey] ?? {};
+          const next: Record<string, Record<string, number>> = {};
+          for (let level = this.minLevel; level <= this.maxLevel; level += 1) {
+            next[String(level)] = Object.fromEntries(
+              this.attributes.map((item) => [
+                item.attributeKey,
+                current[String(level)]?.[item.attributeKey] ?? 0
+              ])
+            );
+          }
+          this.characterAttributes[characterKey] = next;
+        }
+        await this.json(route, 200, {
+          gameId: GAME_ID,
+          minLevel: this.minLevel,
+          maxLevel: this.maxLevel
+        });
+        return;
+      }
+    }
+
+    if (path === `/api/admin/games/${GAME_ID}/characters`) {
+      if (method === 'GET') {
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const items = this.characters.filter((item) =>
+          !keyword
+          || item.characterKey.toLocaleLowerCase().includes(keyword)
+          || item.name.toLocaleLowerCase().includes(keyword)
+        );
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: CharacterRow = {
+          gameId: GAME_ID,
+          characterKey: String(body.characterKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.characters.push(row);
+        this.characterAttributes[row.characterKey] = {};
+        for (let level = this.minLevel; level <= this.maxLevel; level += 1) {
+          this.characterAttributes[row.characterKey]![String(level)] = {};
+        }
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const characterAttributes = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/characters/([^/]+)/attributes$`)
+    );
+    if (characterAttributes) {
+      const characterKey = characterAttributes[1]!;
+      if (method === 'GET') {
+        await this.json(route, 200, {
+          characterKey,
+          minLevel: this.minLevel,
+          maxLevel: this.maxLevel,
+          levelValues: this.characterAttributes[characterKey] ?? {}
+        });
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        this.characterAttributes[characterKey] = body.levelValues as Record<string, Record<string, number>>;
+        await this.json(route, 200, {
+          characterKey,
+          minLevel: this.minLevel,
+          maxLevel: this.maxLevel,
+          levelValues: this.characterAttributes[characterKey]
+        });
+        return;
+      }
+    }
+
+    const characterDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/characters/([^/]+)$`)
+    );
+    if (characterDetail) {
+      const characterKey = characterDetail[1]!;
+      const existing = this.characters.find((item) => item.characterKey === characterKey);
+      if (!existing) {
+        await this.error(route, 404, '404.CHARACTER_NOT_FOUND', '角色不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: CharacterRow = {
+          ...existing,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          updatedAt: '2026-08-23T11:00:00Z'
+        };
+        this.characters = this.characters.map((item) => item.characterKey === characterKey ? next : item);
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.characters = this.characters.filter((item) => item.characterKey !== characterKey);
+        delete this.characterAttributes[characterKey];
+        await route.fulfill({ status: 204 });
+        return;
+      }
     }
 
     if (path === `/api/admin/games/${GAME_ID}/attributes`) {
@@ -312,9 +457,27 @@ async function openAttributes(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
 }
 
+async function openCharacters(page: Page): Promise<void> {
+  await page.goto('/#/characters');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('角色管理', { exact: true }).first()).toBeVisible();
+}
+
+async function openGameSettings(page: Page): Promise<void> {
+  await page.goto('/#/game-settings');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('游戏配置', { exact: true }).first()).toBeVisible();
+}
+
 function attributeRow(page: Page, attributeKey: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: attributeKey, exact: true })
+  });
+}
+
+function characterRow(page: Page, characterKey: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: characterKey, exact: true })
   });
 }
 
@@ -347,6 +510,92 @@ async function fillCreateDraft(
   }
   return modal;
 }
+
+test.describe('character management without Wasm', () => {
+  test('updates the level range on the standalone game settings page', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+
+    await openGameSettings(page);
+    await expect(page.getByLabel('最小等级', { exact: true })).toHaveValue('1');
+    await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
+    await page.getByLabel('最大等级', { exact: true }).fill('3');
+    await page.getByRole('button', { name: '保存等级范围', exact: true }).click();
+    await expect(page.getByText('等级范围已保存。', { exact: true })).toBeVisible();
+    expect(mock.minLevel).toBe(1);
+    expect(mock.maxLevel).toBe(3);
+    diagnostics.assertClean('standalone game settings');
+  });
+
+  test('creates, edits, replaces the level map and hard deletes a character', async ({ page }) => {
+    const mock = new MockApi();
+    mock.attributes = [
+      attribute('move_speed', '移动速度'),
+      attribute('hp', '生命值')
+    ];
+    const diagnostics = await prepare(page, mock);
+
+    await openCharacters(page);
+    await expect(page.getByText('暂无角色', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增角色', exact: true }).click();
+    const createModal = visibleModal(page, '新增角色');
+    await createModal.getByLabel('角色标识', { exact: true }).fill('ashe');
+    await createModal.getByLabel('角色名称', { exact: true }).fill('艾希');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(characterRow(page, 'ashe')).toContainText('艾希');
+
+    await characterRow(page, 'ashe').getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑角色');
+    await expect(editModal.getByLabel('角色标识', { exact: true })).toBeDisabled();
+    await editModal.getByLabel('角色名称', { exact: true }).fill('寒冰射手');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(characterRow(page, 'ashe')).toContainText('寒冰射手');
+
+    await characterRow(page, 'ashe').getByRole('button', { name: '等级属性', exact: true }).click();
+    const attributesModal = visibleModal(page, '等级属性 - 寒冰射手');
+    await expect(attributesModal.getByText('0 个属性已配置 / 2 个属性未配置')).toBeVisible();
+    await expect(attributesModal.getByRole('cell', { name: '—', exact: true }).first()).toBeVisible();
+    await attributesModal.getByRole('row').filter({ hasText: 'move_speed' })
+      .getByRole('button', { name: '设置', exact: true }).click();
+    const rowEditor = visibleModal(page, '设置属性 - 移动速度');
+    await rowEditor.getByText('每级递增', { exact: true }).click();
+    await rowEditor.getByLabel('Lv1 数值', { exact: true }).fill('300');
+    await rowEditor.getByLabel('每级增量', { exact: true }).fill('25');
+    await rowEditor.getByRole('button', { name: '应用', exact: true }).click();
+    await expect(attributesModal.getByText('+25 / level', { exact: true })).toBeVisible();
+    await expect(attributesModal.getByRole('cell', { name: '300', exact: true })).toBeVisible();
+    await expect(attributesModal.getByRole('cell', { name: '325', exact: true })).toBeVisible();
+
+    await attributesModal.getByText('只显示已配置', { exact: true }).click();
+    await expect(attributesModal.getByText('生命值', { exact: true })).toHaveCount(0);
+    await attributesModal.getByText('只显示已配置', { exact: true }).click();
+    await attributesModal.getByLabel('搜索属性', { exact: true }).fill('生命值');
+    await expect(attributesModal.getByText('生命值', { exact: true })).toBeVisible();
+    await expect(attributesModal.getByText('移动速度', { exact: true })).toHaveCount(0);
+    await attributesModal.getByLabel('搜索属性', { exact: true }).fill('');
+
+    await attributesModal.getByRole('button', { name: '+ 添加属性', exact: true }).click();
+    const addEditor = visibleModal(page, '设置属性 - 生命值');
+    await addEditor.getByLabel('Lv1 数值', { exact: true }).fill('500');
+    await addEditor.getByRole('button', { name: '应用', exact: true }).click();
+    await expect(attributesModal.getByText('2 个属性已配置 / 0 个属性未配置')).toBeVisible();
+    await attributesModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(page.getByText('角色「寒冰射手」的等级属性已保存。')).toBeVisible();
+    await expect(attributesModal).toBeHidden();
+    expect(mock.characterAttributes.ashe).toEqual({
+      '1': { move_speed: 300, hp: 500 },
+      '2': { move_speed: 325, hp: 500 }
+    });
+    await characterRow(page, 'ashe').getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除角色');
+    await expect(deleteModal.getByText('确定删除角色「寒冰射手」吗？')).toBeVisible();
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(characterRow(page, 'ashe')).toHaveCount(0);
+    expect(mock.characterAttributes.ashe).toBeUndefined();
+    diagnostics.assertClean('character CRUD and level map');
+  });
+});
 
 test.describe('attribute management without Wasm', () => {
   test('empty state, normalized query filtering and reset', async ({ page }) => {
@@ -563,7 +812,9 @@ test.describe('attribute management without Wasm', () => {
     const legacyHashes = [
       '#/combat-data/effect-steps',
       '#/admin/attribute-definitions',
-      '#/entity-growth'
+      '#/entity-growth',
+      '#/entity-setup',
+      '#/entity-provider-mount'
     ];
 
     for (const hash of legacyHashes) {
@@ -575,7 +826,10 @@ test.describe('attribute management without Wasm', () => {
 
     expect(await page.locator('a[href^="#/combat-data"]').count()).toBe(0);
     expect(await page.locator('a[href="#/entity-growth"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/entity-setup"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/entity-provider-mount"]').count()).toBe(0);
     expect(await page.locator('a[href="#/attributes"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/characters"]').count()).toBe(1);
     diagnostics.assertClean('legacy hash fallback');
   });
 });
