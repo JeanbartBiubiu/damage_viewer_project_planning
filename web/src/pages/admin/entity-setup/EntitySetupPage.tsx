@@ -484,11 +484,9 @@ export function EntitySetupPage({
                 </Typography.Paragraph>
                 <Typography.Paragraph type="secondary">
                   下一步：
-                  <a href="#/entity-growth">实体成长</a>
-                  {' · '}
-                  <a href="#/combat-data/entities">通用实体表</a>
-                  {' · '}
                   <a href="#/images">图片管理</a>
+                  {' · '}
+                  <a href="#/provider-setup">Provider 创建</a>
                 </Typography.Paragraph>
               </section>
             ) : null}
@@ -497,15 +495,11 @@ export function EntitySetupPage({
               type="info"
               content={
                 <span>
-                  下一步：在 <a href="#/entity-growth">#/entity-growth</a> 配置 LEVEL 成长曲线，或到{' '}
-                  <a href="#/provider-setup">#/provider-setup</a> →{' '}
+                  下一步：到 <a href="#/provider-setup">#/provider-setup</a> →{' '}
                   <a href="#/entity-provider-mount">#/entity-provider-mount</a> →{' '}
                   <a href="#/ability-setup">#/ability-setup</a> /{' '}
                   <a href="#/direct-damage-ability">#/direct-damage-ability</a>
-                  。高级/诊断分表仍可用 <a href="#/combat-data/entities">#/combat-data/entities</a>
-                  ；属性定义图片见{' '}
-                  <a href="#/combat-data/attribute-definitions">#/combat-data/attribute-definitions</a>
-                  。
+                  ；实体图片可到 <a href="#/images">#/images</a> 上传后回到本页绑定。
                 </span>
               }
             />
