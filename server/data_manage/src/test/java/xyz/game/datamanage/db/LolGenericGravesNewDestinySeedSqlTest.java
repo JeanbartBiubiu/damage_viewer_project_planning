@@ -221,7 +221,7 @@ class LolGenericGravesNewDestinySeedSqlTest {
     }
 
     @Test
-    void seedsSelfContainedHeroPanelChampionLevelCritEavAndMana() {
+    void seedsSelfContainedHeroPanelChampionLevelAndCritEav() {
         assertContains("hero_graves");
         assertTrue(
             Pattern.compile("(?is)ON CONFLICT\\s*\\(game_id,\\s*entity_id\\)\\s*DO NOTHING")
@@ -294,12 +294,6 @@ class LolGenericGravesNewDestinySeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "crit_damage EAV default 2.0");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'hero_graves'\\s*,\\s*'mana'\\s*,\\s*325\\s*,\\s*325")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "mana resource 325/325");
         assertTrue(
             sql.contains("not Graves P numeric truth")
                 || sql.contains("非 Graves P")

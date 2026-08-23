@@ -22,7 +22,6 @@ import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatListenerEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
@@ -33,7 +32,6 @@ public class EffectCombatDataService {
 
     public static final String DETAIL_DAMAGE = "damageDetail";
     public static final String DETAIL_HEAL = "healDetail";
-    public static final String DETAIL_RESOURCE = "resourceDetail";
     public static final String DETAIL_ATTRIBUTE = "attributeDetail";
     public static final String DETAIL_SHIELD = "shieldDetail";
     public static final String DETAIL_PROVIDER = "providerDetail";
@@ -46,7 +44,6 @@ public class EffectCombatDataService {
     private static final List<String> DETAIL_KEYS = List.of(
         DETAIL_DAMAGE,
         DETAIL_HEAL,
-        DETAIL_RESOURCE,
         DETAIL_ATTRIBUTE,
         DETAIL_SHIELD,
         DETAIL_PROVIDER,
@@ -65,7 +62,6 @@ public class EffectCombatDataService {
     private final CombatListenerEffectSequencesMapper listenerSequencesMapper;
     private final CombatDamageEffectDetailsMapper damageDetailsMapper;
     private final CombatHealEffectDetailsMapper healDetailsMapper;
-    private final CombatResourceEffectDetailsMapper resourceDetailsMapper;
     private final CombatAttributeEffectDetailsMapper attributeDetailsMapper;
     private final CombatShieldEffectDetailsMapper shieldDetailsMapper;
     private final CombatProviderEffectDetailsMapper providerDetailsMapper;
@@ -84,7 +80,6 @@ public class EffectCombatDataService {
         CombatListenerEffectSequencesMapper listenerSequencesMapper,
         CombatDamageEffectDetailsMapper damageDetailsMapper,
         CombatHealEffectDetailsMapper healDetailsMapper,
-        CombatResourceEffectDetailsMapper resourceDetailsMapper,
         CombatAttributeEffectDetailsMapper attributeDetailsMapper,
         CombatShieldEffectDetailsMapper shieldDetailsMapper,
         CombatProviderEffectDetailsMapper providerDetailsMapper,
@@ -102,7 +97,6 @@ public class EffectCombatDataService {
         this.listenerSequencesMapper = listenerSequencesMapper;
         this.damageDetailsMapper = damageDetailsMapper;
         this.healDetailsMapper = healDetailsMapper;
-        this.resourceDetailsMapper = resourceDetailsMapper;
         this.attributeDetailsMapper = attributeDetailsMapper;
         this.shieldDetailsMapper = shieldDetailsMapper;
         this.providerDetailsMapper = providerDetailsMapper;
@@ -280,7 +274,6 @@ public class EffectCombatDataService {
     private void clearAllDetails(String gameId, String stepId) {
         damageDetailsMapper.deleteByStepId(gameId, stepId);
         healDetailsMapper.deleteByStepId(gameId, stepId);
-        resourceDetailsMapper.deleteByStepId(gameId, stepId);
         attributeDetailsMapper.deleteByStepId(gameId, stepId);
         shieldDetailsMapper.deleteByStepId(gameId, stepId);
         providerDetailsMapper.deleteByStepId(gameId, stepId);
@@ -308,14 +301,6 @@ public class EffectCombatDataService {
                 gameId,
                 revision,
                 stepId,
-                support.requireText(d, "amountFormulaKey"),
-                support.requireInt(d, "valuePolicyTypeId")
-            );
-            case DETAIL_RESOURCE -> resourceDetailsMapper.upsert(
-                gameId,
-                revision,
-                stepId,
-                support.requireText(d, "resourceKey"),
                 support.requireText(d, "amountFormulaKey"),
                 support.requireInt(d, "valuePolicyTypeId")
             );
@@ -405,7 +390,6 @@ public class EffectCombatDataService {
         String stepId = String.valueOf(step.get("stepId"));
         attachDetail(dto, DETAIL_DAMAGE, damageDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_HEAL, healDetailsMapper.findById(gameId, stepId));
-        attachDetail(dto, DETAIL_RESOURCE, resourceDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_ATTRIBUTE, attributeDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_SHIELD, shieldDetailsMapper.findById(gameId, stepId));
         attachDetail(dto, DETAIL_PROVIDER, providerDetailsMapper.findById(gameId, stepId));

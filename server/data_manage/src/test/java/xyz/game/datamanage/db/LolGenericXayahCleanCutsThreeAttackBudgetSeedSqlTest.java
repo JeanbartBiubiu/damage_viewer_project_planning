@@ -58,10 +58,8 @@ class LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
         "attack_count_budget",
@@ -221,8 +219,6 @@ class LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_xayah");
         assertContains("missing entity_attribute_values hero_xayah/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_xayah/mana");
         assertContains("62012");
         assertContains("ability/xayah_deadly_plumage");
         assertContains("listener_hero_xayah_w_deadly_plumage_ability_started");
@@ -302,11 +298,6 @@ class LolGenericXayahCleanCutsThreeAttackBudgetSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must not write entity_attribute_progressions");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "P arm/BA must have no ability_costs rows");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_cooldowns\\b")
                 .matcher(sqlNoComments)

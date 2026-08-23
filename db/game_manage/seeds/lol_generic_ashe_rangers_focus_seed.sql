@@ -38,7 +38,6 @@
 --    armor,magic_resist,hp_regen,mana_regen,crit_chance,crit_damage) 缺失则
 --    RAISE EXCEPTION 回滚。不创建/新建 attribute_definitions。
 -- 4. 本 seed 自包含 hero_ashe 基线 + 共享 provider 普攻/Q；幂等投影
---    resource_definitions.mana 与 entity_resource_values（280/280）；不依赖 Batch-B。
 -- 5. 不自动 publish；不做 DELETE/DROP/CASCADE/DDL；不写 legacy Bundle/Catalog。
 -- 6. 不新建 P provider/ability；Q/Focus/Flurry/resource/sibling 共存语义不变。
 --
@@ -307,56 +306,7 @@ BEGIN
     END IF;
 
     -- 幂等投影 mana 资源定义（其它 seed 仅写 attribute mana；Q cost 走 resource gate）
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'mana',
-        '法力',
-        0,
-        0,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO UPDATE SET
-        display_name = EXCLUDED.display_name,
-        default_initial_value = EXCLUDED.default_initial_value,
-        default_max_value = EXCLUDED.default_max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.resource_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
-       OR public.resource_definitions.default_initial_value IS DISTINCT FROM EXCLUDED.default_initial_value
-       OR public.resource_definitions.default_max_value IS DISTINCT FROM EXCLUDED.default_max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_ashe',
-        'mana',
-        280,
-        280,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO UPDATE SET
-        initial_value = EXCLUDED.initial_value,
-        max_value = EXCLUDED.max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.entity_resource_values.initial_value IS DISTINCT FROM EXCLUDED.initial_value
-       OR public.entity_resource_values.max_value IS DISTINCT FROM EXCLUDED.max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     -- =========================================================================
     -- 共享 provider：Q + 普攻共用 Focus/Flurry 状态
@@ -1518,37 +1468,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_ashe_q_rangers_focus_mana',
-        'ability_hero_ashe_q_rangers_focus',
-        NULL,
-        'mana',
-        'q_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.effect_sequences (
         game_id, sequence_id, provider_id, sequence_key, display_name,

@@ -124,11 +124,6 @@ class LolGenericDuskAndDawnSpellbladeSeedSqlTest {
                 .find(),
             "must not implement mana restore");
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.resource_effect_details\\b")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must not write resource_effect_details");
-        assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_modifiers\\b")
                 .matcher(sqlNoLineComments)
                 .find(),

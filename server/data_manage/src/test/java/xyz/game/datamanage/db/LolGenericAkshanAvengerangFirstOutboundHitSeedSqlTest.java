@@ -41,7 +41,6 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
         "phase_hero_akshan_q_avengerang_first_outbound_hit_impact",
         "sequence_hero_akshan_q_avengerang_first_outbound_hit_impact",
         "step_hero_akshan_q_avengerang_first_outbound_hit_damage",
-        "cost_hero_akshan_q_avengerang_first_outbound_hit_mana",
         "cooldown_hero_akshan_q_avengerang_first_outbound_hit",
         "avengerang_first_outbound_hit_damage",
         "q_mana_cost",
@@ -371,10 +370,6 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
             sql.contains("mana panel") || sql.contains("面板 EAV") || sql.contains("mana 面板"),
             "seed must document mana panel EAV as hard prerequisite");
         assertTrue(
-            sql.contains("无") && (sql.contains("resource_definitions")
-                    || sql.contains("entity_resource_values") || sql.contains("资源表")),
-            "seed must document that Dirty Fighting seed owns no mana resource table rows");
-        assertTrue(
             sql.contains("Frozen option A") || sql.contains("option A")
                 || sql.contains("仅缺席时"),
             "seed must document Frozen option A absent-only mana ensure");
@@ -425,94 +420,12 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_akshan/mana panel EAV");
         assertFalse(
-            Pattern.compile(
-                    "(?is)RAISE\\s+EXCEPTION[\\s\\S]{0,200}missing resource_definitions mana")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not fail-closed require pre-existing resource_definitions mana "
-                + "(absent-only ensure instead)");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)RAISE\\s+EXCEPTION[\\s\\S]{0,240}"
-                        + "missing entity_resource_values hero_akshan/mana")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not fail-closed require pre-existing entity_resource_values "
-                + "(absent-only ensure instead)");
-        assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_akshan with the Batch-B prerequisite phrase");
     }
 
     @Test
     void insertsAbsentOnlyManaResourceWithoutOverwritePaths() {
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must ensure resource_definitions.mana with neutral defaults");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,320}"
-                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*resource_key\\s*\\)"
-                        + "\\s*DO\\s+NOTHING")
-                .matcher(sqlNoComments)
-                .find(),
-            "resource_definitions.mana must DO NOTHING on conflict");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,400}"
-                        + "ON\\s+CONFLICT[\\s\\S]{0,120}DO\\s+UPDATE")
-                .matcher(sqlNoComments)
-                .find(),
-            "resource_definitions insert must have no DO UPDATE path");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)SELECT\\s+eav\\.base_value\\s+INTO\\s+v_mana_attr[\\s\\S]{0,240}"
-                        + "attr_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values must derive initial/max from existing Akshan mana attr");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,280}"
-                        + "'hero_akshan'\\s*,\\s*'mana'\\s*,\\s*v_mana_attr\\s*,\\s*"
-                        + "v_mana_attr[\\s\\S]{0,160}"
-                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*entity_id\\s*,\\s*"
-                        + "resource_key\\s*\\)\\s*DO\\s+NOTHING")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values must insert derived mana via DO NOTHING");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,400}"
-                        + "ON\\s+CONFLICT[\\s\\S]{0,120}DO\\s+UPDATE")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values insert must have no DO UPDATE path");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)'hero_akshan'\\s*,\\s*'mana'\\s*,\\s*350\\s*,\\s*350")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not hard-code mana350 into entity_resource_values");
-        assertFalse(
-            Pattern.compile("(?is)\\bUPDATE\\s+public\\.resource_definitions\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must never UPDATE resource_definitions");
-        assertFalse(
-            Pattern.compile("(?is)\\bUPDATE\\s+public\\.entity_resource_values\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must never UPDATE entity_resource_values");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)\\bDELETE\\s+FROM\\s+public\\.(resource_definitions|"
-                        + "entity_resource_values)\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must never DELETE resource definition/value rows");
     }
 
     @Test
@@ -566,10 +479,6 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -606,14 +515,6 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key avengerang_first_outbound_hit");
         assertContains("{\"op\":\"const\",\"value\":80}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_akshan_q_avengerang_first_outbound_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_akshan_q_avengerang_first_outbound_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 80 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":5000}");
         assertTrue(
             Pattern.compile(
@@ -955,10 +856,7 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
         assertTrue(
             section.contains("2570") && section.contains("2948") && section.contains("688"),
             "README must document canonical/normalized/pages byte sizes");
-        assertTrue(
-            Pattern.compile("(?i)80.*mana|mana.?80|80 mana").matcher(section).find()
-                && section.contains("5000"),
-            "README must document mana80 and cooldown 5000ms");
+        assertTrue(section.contains("5000"), "README must document cooldown 5000ms");
         assertTrue(
             section.contains("165") && section.contains("0.70")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")
@@ -990,13 +888,6 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
                 || section.contains("Dirty Fighting")
                 || section.contains("provider_hero_akshan_basic_attack"),
             "README must document Dirty Fighting / basic preservation prerequisite");
-        assertTrue(
-            (section.contains("absent") || section.contains("仅缺席") || section.contains("DO NOTHING")
-                    || section.contains("option A"))
-                && (section.contains("resource_definitions")
-                    || section.contains("entity_resource_values")
-                    || section.contains("mana 资源")),
-            "README must document absent-only mana resource ensure");
         assertTrue(
             Pattern.compile("(?i)不连 live|不执行.*live|no.?live|不连 live DB")
                 .matcher(section)
@@ -1087,11 +978,14 @@ class LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
     }

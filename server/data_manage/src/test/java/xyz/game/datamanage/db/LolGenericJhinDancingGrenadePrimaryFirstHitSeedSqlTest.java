@@ -40,7 +40,6 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
         "phase_hero_jhin_q_dancing_grenade_primary_first_hit_impact",
         "sequence_hero_jhin_q_dancing_grenade_primary_first_hit_impact",
         "step_hero_jhin_q_dancing_grenade_primary_first_hit_damage",
-        "cost_hero_jhin_q_dancing_grenade_primary_first_hit_mana",
         "cooldown_hero_jhin_q_dancing_grenade_primary_first_hit",
         "dancing_grenade_primary_first_hit_damage",
         "q_mana_cost",
@@ -51,10 +50,9 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -381,8 +379,6 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
         assertContains("missing game_entities hero_jhin");
         assertContains("missing entity_attribute_values hero_jhin/ad");
         assertContains("missing entity_attribute_values hero_jhin/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_jhin/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -436,20 +432,6 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_jhin/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_jhin/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_jhin with the Batch-B prerequisite phrase");
@@ -511,10 +493,6 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -551,14 +529,6 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key dancing_grenade_primary_first_hit");
         assertContains("{\"op\":\"const\",\"value\":60}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_jhin_q_dancing_grenade_primary_first_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_jhin_q_dancing_grenade_primary_first_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 60 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":5000}");
         assertTrue(
             Pattern.compile(
@@ -893,10 +863,7 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
         assertTrue(
             section.contains("1913") && section.contains("1911"),
             "README must document canonical 1913 and local raw 1911 byte sizes");
-        assertTrue(
-            Pattern.compile("(?i)60.*mana|mana.?60|60 mana").matcher(section).find()
-                && section.contains("5000"),
-            "README must document mana60 and cooldown 5000ms");
+        assertTrue(section.contains("5000"), "README must document cooldown 5000ms");
         assertTrue(
             section.contains("144") && section.contains("0.74") && section.contains("0.60")
                 && (section.contains("total AD") || section.contains("ad.resolved"))
@@ -999,11 +966,14 @@ class LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         assertFalse(

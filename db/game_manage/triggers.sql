@@ -25,12 +25,6 @@ DECLARE
         'entity_attribute_values_log',
         'entity_attribute_stage_values',
         'entity_attribute_stage_values_log',
-        'resource_definitions',
-        'resource_definitions_log',
-        'entity_resource_values',
-        'entity_resource_values_log',
-        'entity_resource_stage_values',
-        'entity_resource_stage_values_log',
         'provider_definitions',
         'provider_definitions_log',
         'provider_formulas',
@@ -49,8 +43,6 @@ DECLARE
         'ability_state_fields_log',
         'ability_phases',
         'ability_phases_log',
-        'ability_costs',
-        'ability_costs_log',
         'ability_cooldowns',
         'ability_cooldowns_log',
         'provider_modifiers',
@@ -73,8 +65,6 @@ DECLARE
         'damage_effect_details_log',
         'heal_effect_details',
         'heal_effect_details_log',
-        'resource_effect_details',
-        'resource_effect_details_log',
         'attribute_effect_details',
         'attribute_effect_details_log',
         'shield_effect_details',
@@ -158,7 +148,6 @@ AS $$
     SELECT (
         (SELECT COUNT(*) FROM public.damage_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.heal_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
-      + (SELECT COUNT(*) FROM public.resource_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.attribute_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.shield_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
       + (SELECT COUNT(*) FROM public.provider_effect_details d WHERE d.game_id = p_game_id AND d.step_id = p_step_id)
@@ -230,7 +219,6 @@ DECLARE
     v_details text[] := ARRAY[
         'damage_effect_details',
         'heal_effect_details',
-        'resource_effect_details',
         'attribute_effect_details',
         'shield_effect_details',
         'provider_effect_details',

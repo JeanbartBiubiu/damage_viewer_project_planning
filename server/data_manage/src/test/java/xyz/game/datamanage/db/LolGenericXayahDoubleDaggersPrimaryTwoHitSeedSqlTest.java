@@ -41,7 +41,6 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
         "sequence_hero_xayah_q_double_daggers_primary_two_hit_impact",
         "step_hero_xayah_q_double_daggers_primary_two_hit_feather_left",
         "step_hero_xayah_q_double_daggers_primary_two_hit_feather_right",
-        "cost_hero_xayah_q_double_daggers_primary_two_hit_mana",
         "cooldown_hero_xayah_q_double_daggers_primary_two_hit",
         "double_daggers_damage",
         "q_mana_cost",
@@ -52,13 +51,10 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "active_physical_damage",
         "bonus_ad_ratio",
         "immediate_impact_scaffold");
@@ -234,8 +230,6 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_xayah");
         assertContains("missing entity_attribute_values hero_xayah/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_xayah/mana");
         assertContains("62012");
         assertContains("ability/xayah_deadly_plumage");
         assertContains("listener_hero_xayah_w_deadly_plumage_ability_started");
@@ -376,10 +370,6 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -416,14 +406,6 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key double_daggers_primary_two_hit");
         assertContains("{\"op\":\"const\",\"value\":35}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_xayah_q_double_daggers_primary_two_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_xayah_q_double_daggers_primary_two_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 35 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":8000}");
         assertTrue(
             Pattern.compile(
@@ -675,9 +657,8 @@ class LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest {
                     || section.contains("不断言")),
             "README must document local raw caveat");
         assertTrue(
-            Pattern.compile("(?i)35.*mana|mana.?35|35 mana").matcher(section).find()
-                && section.contains("8000"),
-            "README must document mana35 and cooldown 8000ms");
+            section.contains("8000"),
+            "README must document cooldown 8000ms");
         assertTrue(
             section.contains("105") && section.contains("0.50"),
             "README must document damage formula constants/ratios");

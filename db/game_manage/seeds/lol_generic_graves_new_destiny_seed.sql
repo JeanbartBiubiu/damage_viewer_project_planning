@@ -389,56 +389,7 @@ BEGIN
     END IF;
 
     -- mana resource 325/325
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'mana',
-        '法力',
-        0,
-        0,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO UPDATE SET
-        display_name = EXCLUDED.display_name,
-        default_initial_value = EXCLUDED.default_initial_value,
-        default_max_value = EXCLUDED.default_max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.resource_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
-       OR public.resource_definitions.default_initial_value IS DISTINCT FROM EXCLUDED.default_initial_value
-       OR public.resource_definitions.default_max_value IS DISTINCT FROM EXCLUDED.default_max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_graves',
-        'mana',
-        325,
-        325,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO UPDATE SET
-        initial_value = EXCLUDED.initial_value,
-        max_value = EXCLUDED.max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.entity_resource_values.initial_value IS DISTINCT FROM EXCLUDED.initial_value
-       OR public.entity_resource_values.max_value IS DISTINCT FROM EXCLUDED.max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     -- champion_level：scalar min1/max18（ensure material fields only）
     INSERT INTO public.attribute_definitions (

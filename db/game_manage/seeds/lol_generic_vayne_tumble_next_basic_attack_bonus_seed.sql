@@ -38,8 +38,6 @@
 --      - game_entities(lol,hero_vayne)；
 --      - attribute_definitions(lol,ad|ap|mana)；
 --      - entity_attribute_values(lol,hero_vayne,ad|ap|mana)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_vayne,mana)；
 --      - Batch-B 普攻图：provider_hero_vayne_basic_attack /
 --        ability_hero_vayne_basic_attack；
 --      - hit-event 基线：step_hero_vayne_basic_attack_emit_hit +
@@ -49,7 +47,6 @@
 --        provider=provider_hero_vayne_tumble）、
 --        entity_provider_mounts(hero_vayne, provider_hero_vayne_tumble)。
 -- 4. 禁止写入：不对 games / game_entities / attribute_definitions /
---    entity_attribute_values / resource_definitions / entity_resource_values /
 --    普攻 provider·ability·emit 行做 INSERT/UPDATE/DELETE。允许：
 --      - reserved → game-local types 投影；
 --      - 对既有 tumble provider/ability 做 display_name 散文 enrich
@@ -256,27 +253,6 @@ BEGIN
     ) THEN
         RAISE EXCEPTION
             'lol_generic_vayne_tumble_next_basic_attack_bonus_seed: missing entity_attribute_values hero_vayne/mana (check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_vayne_tumble_next_basic_attack_bonus_seed: missing resource_definitions mana (check-only; never write resource rows)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_vayne'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_vayne_tumble_next_basic_attack_bonus_seed: missing entity_resource_values hero_vayne/mana (check-only; never write resource rows)';
     END IF;
 
     -- check-only：Batch-B 普攻 provider/ability（不写 basic 行）
@@ -537,38 +513,6 @@ BEGIN
         change_revision = EXCLUDED.change_revision,
         updated_at = NOW()
     WHERE public.provider_formulas.expression IS DISTINCT FROM EXCLUDED.expression;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_vayne_tumble_mana',
-        'ability_hero_vayne_tumble',
-        NULL,
-        'mana',
-        'q_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;

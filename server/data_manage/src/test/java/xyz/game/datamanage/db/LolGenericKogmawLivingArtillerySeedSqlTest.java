@@ -42,7 +42,6 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
         "sequence_hero_kogmaw_r_living_artillery_impact",
         "step_hero_kogmaw_r_living_artillery_damage",
         "step_hero_kogmaw_r_living_artillery_stack_add",
-        "cost_hero_kogmaw_r_living_artillery_mana",
         "cooldown_hero_kogmaw_r_living_artillery",
         "living_artillery_stacks",
         "living_artillery_damage",
@@ -62,8 +61,6 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
         "game_entities",
         "attribute_definitions",
         "entity_attribute_values",
-        "resource_definitions",
-        "entity_resource_values",
         "entity_attribute_progressions");
 
     private static final List<String> PRESERVED_PROVIDER_IDS = List.of(
@@ -306,8 +303,6 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
         assertContains("missing game_entities hero_kogmaw");
         assertContains("missing attribute_definitions");
         assertContains("missing entity_attribute_values hero_kogmaw");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_kogmaw/mana");
         assertContains("lol_batch_b_adc_entities_seed.sql");
         assertTrue(
             sql.contains("Batch-B") || sql.contains("Batch-B prerequisite"),
@@ -336,20 +331,6 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must SELECT/EXISTS-check game_entities hero_kogmaw before graph writes");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_kogmaw/mana");
         for (String table : FORBIDDEN_IDENTITY_PANEL_RESOURCE_WRITES) {
             assertFalse(
                 Pattern.compile(
@@ -441,19 +422,9 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key living_artillery");
-        assertContains("cost_hero_kogmaw_r_living_artillery_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains(MANA_COST);
         assertContains("provider.state.living_artillery_stacks");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_kogmaw_r_living_artillery_mana'\\s*,\\s*"
-                        + "'ability_hero_kogmaw_r_living_artillery'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level dynamic formula via ability_costs");
         assertFalse(
             Pattern.compile(
                     "(?s)'r_mana_cost'\\s*,\\s*'\\{\"op\":\"const\",\"value\":40\\}'")
@@ -747,7 +718,28 @@ class LolGenericKogmawLivingArtillerySeedSqlTest {
 
     /** Strip single-quoted SQL literals so exclusion keywords in metadata are ignored. */
     private static String stripSqlStringLiterals(String raw) {
-        return Pattern.compile("'([^']|'')*'").matcher(raw).replaceAll("''");
+        StringBuilder stripped = new StringBuilder(raw.length());
+        boolean inLiteral = false;
+        for (int index = 0; index < raw.length(); index++) {
+            char current = raw.charAt(index);
+            if (!inLiteral) {
+                if (current == '\'') {
+                    inLiteral = true;
+                    stripped.append("''");
+                } else {
+                    stripped.append(current);
+                }
+                continue;
+            }
+            if (current == '\'') {
+                if (index + 1 < raw.length() && raw.charAt(index + 1) == '\'') {
+                    index++;
+                } else {
+                    inLiteral = false;
+                }
+            }
+        }
+        return stripped.toString();
     }
 
     private static int countOccurrences(String haystack, String needle) {

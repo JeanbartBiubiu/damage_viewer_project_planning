@@ -42,7 +42,6 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
         "phase_hero_azir_q_conquering_sands_one_soldier_primary_hit_impact",
         "sequence_hero_azir_q_conquering_sands_one_soldier_primary_hit_impact",
         "step_hero_azir_q_conquering_sands_one_soldier_primary_hit_damage",
-        "cost_hero_azir_q_conquering_sands_one_soldier_primary_hit_mana",
         "cooldown_hero_azir_q_conquering_sands_one_soldier_primary_hit",
         "conquering_sands_one_soldier_primary_hit_damage",
         "q_mana_cost",
@@ -54,10 +53,9 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -378,8 +376,6 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_azir");
         assertContains("missing entity_attribute_values hero_azir/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_azir/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -429,30 +425,13 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_azir/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_azir/mana");
         int heroCheck = sqlNoComments.indexOf("missing game_entities hero_azir");
         int apCheck = sqlNoComments.indexOf("hero_azir/ap");
-        int manaCheck = sqlNoComments.indexOf("hero_azir/mana");
         int graphWrite = sqlNoComments.indexOf("INSERT INTO public.provider_definitions");
         assertTrue(heroCheck >= 0 && graphWrite > heroCheck,
             "fail-closed hero_azir check must precede provider graph writes");
         assertTrue(apCheck >= 0 && graphWrite > apCheck,
             "fail-closed ap checks must precede provider graph writes");
-        assertTrue(manaCheck >= 0 && graphWrite > manaCheck,
-            "fail-closed mana checks must precede provider graph writes");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_azir with the Batch-B prerequisite phrase");
@@ -514,10 +493,6 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -554,14 +529,6 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key conquering_sands_one_soldier_primary_hit");
         assertContains("{\"op\":\"const\",\"value\":110}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_azir_q_conquering_sands_one_soldier_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_azir_q_conquering_sands_one_soldier_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 110 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":6000}");
         assertTrue(
             Pattern.compile(
@@ -831,10 +798,7 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
                 && (section.contains("local raw") || section.contains("materialization caveat")
                     || section.contains("不断言") || section.contains("不等于等价")),
             "README must document local raw caveat");
-        assertTrue(
-            Pattern.compile("(?i)110.*mana|mana.?110|110 mana").matcher(section).find()
-                && section.contains("6000"),
-            "README must document mana110 and cooldown 6000ms");
+        assertTrue(section.contains("6000"), "README must document cooldown 6000ms");
         assertTrue(
             section.contains("140") && section.contains("0.55")
                 && (section.contains("AP") || section.contains("ap.resolved")),
@@ -940,11 +904,14 @@ class LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         assertFalse(

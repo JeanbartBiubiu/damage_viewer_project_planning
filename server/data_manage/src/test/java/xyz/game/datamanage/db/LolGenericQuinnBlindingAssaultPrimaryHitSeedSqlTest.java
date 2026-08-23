@@ -41,7 +41,6 @@ class LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest {
         "phase_hero_quinn_q_blinding_assault_primary_hit_impact",
         "sequence_hero_quinn_q_blinding_assault_primary_hit_impact",
         "step_hero_quinn_q_blinding_assault_primary_hit_damage",
-        "cost_hero_quinn_q_blinding_assault_primary_hit_mana",
         "cooldown_hero_quinn_q_blinding_assault_primary_hit",
         "blinding_assault_damage",
         "q_mana_cost",
@@ -339,56 +338,6 @@ class LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "AP insert must have no upsert-update / DO UPDATE path");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must ensure resource_definitions.mana with neutral defaults");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,320}"
-                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*resource_key\\s*\\)"
-                        + "\\s*DO\\s+NOTHING")
-                .matcher(sqlNoComments)
-                .find(),
-            "resource_definitions.mana must DO NOTHING on conflict");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b[\\s\\S]{0,400}"
-                        + "ON\\s+CONFLICT[\\s\\S]{0,120}DO\\s+UPDATE")
-                .matcher(sqlNoComments)
-                .find(),
-            "resource_definitions insert must have no DO UPDATE path");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)SELECT\\s+eav\\.base_value\\s+INTO\\s+v_mana_attr[\\s\\S]{0,240}"
-                        + "attr_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values must derive initial/max from existing Quinn mana attr");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,280}"
-                        + "'hero_quinn'\\s*,\\s*'mana'\\s*,\\s*v_mana_attr\\s*,\\s*"
-                        + "v_mana_attr[\\s\\S]{0,160}"
-                        + "ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*entity_id\\s*,\\s*"
-                        + "resource_key\\s*\\)\\s*DO\\s+NOTHING")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values must insert derived mana via DO NOTHING");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b[\\s\\S]{0,400}"
-                        + "ON\\s+CONFLICT[\\s\\S]{0,120}DO\\s+UPDATE")
-                .matcher(sqlNoComments)
-                .find(),
-            "entity_resource_values insert must have no DO UPDATE path");
-        assertFalse(
-            Pattern.compile(
-                    "(?is)'hero_quinn'\\s*,\\s*'mana'\\s*,\\s*269\\s*,\\s*269")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not hard-code mana269 into entity_resource_values");
     }
 
     @Test
@@ -462,18 +411,8 @@ class LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Q must be active ability with stable key blinding_assault_primary_hit");
-        assertContains("cost_hero_quinn_q_blinding_assault_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("q_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":70}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_quinn_q_blinding_assault_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_quinn_q_blinding_assault_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 70 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_quinn_q_blinding_assault_primary_hit");
         assertContains("q_cooldown_ms");
@@ -708,7 +647,10 @@ class LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest {
                 "physical_205_plus_1_00_bonus_ad_plus_0_50_ap"),
             "README must include frozen boundary");
         for (String tag : ORDERED_TAGS) {
-            assertTrue(section.contains(tag), "README ordered tags must include " + tag);
+            String expectedTag = "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            assertTrue(section.contains(expectedTag), "README ordered tags must include " + expectedTag);
         }
         assertTrue(
             Pattern.compile("(?i)排除|exclusion|Valor|nearsight|Harrier|projectile")

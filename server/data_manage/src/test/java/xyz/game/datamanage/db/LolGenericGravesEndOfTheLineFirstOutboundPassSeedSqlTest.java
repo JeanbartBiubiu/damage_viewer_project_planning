@@ -41,7 +41,6 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
         "phase_hero_graves_q_end_of_the_line_first_outbound_pass_impact",
         "sequence_hero_graves_q_end_of_the_line_first_outbound_pass_impact",
         "step_hero_graves_q_end_of_the_line_first_outbound_pass_damage",
-        "cost_hero_graves_q_end_of_the_line_first_outbound_pass_mana",
         "cooldown_hero_graves_q_end_of_the_line_first_outbound_pass",
         "end_of_the_line_first_outbound_pass_damage",
         "q_mana_cost",
@@ -55,10 +54,9 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -358,8 +356,6 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_graves");
         assertContains("missing entity_attribute_values hero_graves/ad");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_graves/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -414,20 +410,6 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_graves/ad");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_graves/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_graves with the Batch-B prerequisite phrase");
@@ -489,10 +471,6 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -529,14 +507,6 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key end_of_the_line_first_outbound_pass");
         assertContains("{\"op\":\"const\",\"value\":80}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_graves_q_end_of_the_line_first_outbound_pass_mana'\\s*,\\s*"
-                        + "'ability_hero_graves_q_end_of_the_line_first_outbound_pass'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 80 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":6000}");
         assertTrue(
             Pattern.compile(
@@ -893,10 +863,7 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
         assertTrue(
             section.contains("2266") && section.contains("2265"),
             "README must document canonical 2266 and local raw 2265 byte sizes");
-        assertTrue(
-            Pattern.compile("(?i)80.*mana|mana.?80|80 mana").matcher(section).find()
-                && section.contains("6000"),
-            "README must document mana80 and cooldown 6000ms");
+        assertTrue(section.contains("6000"), "README must document cooldown 6000ms");
         assertTrue(
             section.contains("150") && section.contains("0.65")
                 && (section.contains("bonus AD") || section.contains("ad.resolved-ad.base")
@@ -1006,11 +973,14 @@ class LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
     }

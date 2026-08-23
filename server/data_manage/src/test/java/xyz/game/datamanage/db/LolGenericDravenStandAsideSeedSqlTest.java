@@ -34,7 +34,6 @@ class LolGenericDravenStandAsideSeedSqlTest {
         "phase_hero_draven_e_stand_aside_impact",
         "sequence_hero_draven_e_stand_aside_impact",
         "step_hero_draven_e_stand_aside_damage",
-        "cost_hero_draven_e_stand_aside_mana",
         "cooldown_hero_draven_e_stand_aside",
         "stand_aside_damage",
         "e_mana_cost",
@@ -176,7 +175,6 @@ class LolGenericDravenStandAsideSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         for (String attr : List.of(
             "hp", "mana", "ad", "attack_speed", "armor", "magic_resist",
             "hp_regen", "mana_regen")) {
@@ -208,16 +206,6 @@ class LolGenericDravenStandAsideSeedSqlTest {
                 && sql.contains("0.679") && sql.contains("29") && sql.contains("30")
                 && sql.contains("3.75") && sql.contains("8.05"),
             "must seed Draven level-1 panel numbers");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_draven'\\s*,\\s*'mana'\\s*,\\s*361\\s*,\\s*361")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 361/361");
         assertTrue(
             sql.contains("provider_hero_draven_q_spinning_axe")
                 && sql.contains("provider_hero_draven_w_blood_rush")
@@ -283,18 +271,8 @@ class LolGenericDravenStandAsideSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "E must be active ability with stable key stand_aside");
-        assertContains("cost_hero_draven_e_stand_aside_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("e_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":70}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_draven_e_stand_aside_mana'\\s*,\\s*"
-                        + "'ability_hero_draven_e_stand_aside'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 70 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_draven_e_stand_aside");
         assertContains("e_cooldown_ms");

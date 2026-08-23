@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAttributeDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameProgressionSchemaMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypeRelationsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatTypesMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
@@ -22,7 +21,6 @@ public class CombatTypeService {
     private static final Set<String> TARGET_CATEGORIES = Set.of(
         "entity",
         "attribute",
-        "resource",
         "provider",
         "ability",
         "ability_phase",
@@ -40,7 +38,6 @@ public class CombatTypeService {
     private final ImagesMapper imagesMapper;
     private final CombatGameProgressionSchemaMapper progressionSchemaMapper;
     private final CombatAttributeDefinitionsMapper attributeDefinitionsMapper;
-    private final CombatResourceDefinitionsMapper resourceDefinitionsMapper;
     private final CombatTypesMapper typesMapper;
     private final CombatTypeRelationsMapper typeRelationsMapper;
 
@@ -50,7 +47,6 @@ public class CombatTypeService {
         ImagesMapper imagesMapper,
         CombatGameProgressionSchemaMapper progressionSchemaMapper,
         CombatAttributeDefinitionsMapper attributeDefinitionsMapper,
-        CombatResourceDefinitionsMapper resourceDefinitionsMapper,
         CombatTypesMapper typesMapper,
         CombatTypeRelationsMapper typeRelationsMapper
     ) {
@@ -59,7 +55,6 @@ public class CombatTypeService {
         this.imagesMapper = imagesMapper;
         this.progressionSchemaMapper = progressionSchemaMapper;
         this.attributeDefinitionsMapper = attributeDefinitionsMapper;
-        this.resourceDefinitionsMapper = resourceDefinitionsMapper;
         this.typesMapper = typesMapper;
         this.typeRelationsMapper = typeRelationsMapper;
     }
@@ -90,12 +85,6 @@ public class CombatTypeService {
     public ObjectNode listAttributeDefinitions(String gameId) {
         support.requireGame(gameId);
         return support.publicList(gameId, attributeDefinitionsMapper.list(gameId));
-    }
-
-    @Transactional(readOnly = true)
-    public ObjectNode listResourceDefinitions(String gameId) {
-        support.requireGame(gameId);
-        return support.publicList(gameId, resourceDefinitionsMapper.list(gameId));
     }
 
     @Transactional(readOnly = true)
@@ -170,29 +159,6 @@ public class CombatTypeService {
             imageUri
         ));
         return support.adminWriteResponse(attributeDefinitionsMapper.findById(gameId, attrKey), revision);
-    }
-
-    @Transactional
-    public ObjectNode putResourceDefinition(String gameId, String resourceKey, ObjectNode body) {
-        support.requireGame(gameId);
-        ObjectNode req = support.requireBody(body);
-        String displayName = support.requireText(req, "displayName");
-        BigDecimal defaultInitialValue = req.has("defaultInitialValue")
-            ? support.requireDecimal(req, "defaultInitialValue")
-            : BigDecimal.ZERO;
-        BigDecimal defaultMaxValue = req.has("defaultMaxValue")
-            ? support.requireDecimal(req, "defaultMaxValue")
-            : BigDecimal.ZERO;
-        long revision = revisionService.nextRevision(gameId);
-        support.withConstraintMapping(() -> resourceDefinitionsMapper.upsert(
-            gameId,
-            revision,
-            resourceKey,
-            displayName,
-            defaultInitialValue,
-            defaultMaxValue
-        ));
-        return support.adminWriteResponse(resourceDefinitionsMapper.findById(gameId, resourceKey), revision);
     }
 
     @Transactional
