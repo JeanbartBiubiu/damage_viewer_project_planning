@@ -1,5 +1,5 @@
 import type { JsonObject } from '../types/api';
-import { combatDataNavGroups, type CombatDataNavGroup } from '../pages/admin/combatDataNav';
+import { combatDataNavGroups } from '../pages/admin/combatDataNav';
 
 /** Top-level static pages (not combat-data resources). */
 export type StaticRouteId =
@@ -7,10 +7,10 @@ export type StaticRouteId =
   | 'workspace'
   | 'wasm-validation-generic'
   | 'images'
+  | 'attributes'
   | 'entity-setup'
   | 'provider-setup'
   | 'entity-provider-mount'
-  | 'entity-growth'
   | 'ability-setup'
   | 'effect-sequence-setup'
   | 'effect-step-setup'
@@ -70,19 +70,6 @@ const COMBAT_DATA_GROUP_ID_MAP: Record<string, NavigationGroupId> = {
   effects: 'combat-data-effects'
 };
 
-function combatDataGroupToNavigationGroup(group: CombatDataNavGroup): NavigationGroup {
-  return {
-    id: COMBAT_DATA_GROUP_ID_MAP[group.id] ?? `combat-data-${group.id}` as NavigationGroupId,
-    label: group.label,
-    items: group.items.map((item) => ({
-      id: item.hashSegment as RouteId,
-      hashSegment: item.hashSegment,
-      label: item.label,
-      summary: item.summary
-    }))
-  };
-}
-
 const dataManagementNavigationItems: NavigationItem[] = [
   {
     id: 'overview',
@@ -91,16 +78,16 @@ const dataManagementNavigationItems: NavigationItem[] = [
     summary: '查看当前版本、combat-data 修订与接口面。'
   },
   {
+    id: 'attributes',
+    hashSegment: 'attributes',
+    label: '属性管理',
+    summary: '维护游戏内属性、范围、状态和排序。'
+  },
+  {
     id: 'entity-setup',
     hashSegment: 'entity-setup',
     label: '实体创建',
     summary: '创建或有意更新实体主行（单行 PUT：displayName + description）。'
-  },
-  {
-    id: 'entity-growth',
-    hashSegment: 'entity-growth',
-    label: '实体等级成长',
-    summary: '按实体编辑 LEVEL 1..18 属性/资源曲线（单次 :batch 保存）。'
   },
   {
     id: 'provider-setup',
@@ -167,7 +154,6 @@ export const navigationGroups: NavigationGroup[] = [
     label: '数据管理',
     items: dataManagementNavigationItems
   },
-  ...combatDataNavGroups.map(combatDataGroupToNavigationGroup),
   {
     id: 'wasm-validation',
     label: 'Wasm 验证',
@@ -211,6 +197,10 @@ export function navigationGroupIdForRoute(route: RouteId): NavigationGroupId | u
       return group.id;
     }
   }
+  const resourceId = combatDataResourceIdFromRoute(route);
+  if (resourceId) {
+    return navigationGroupIdForCombatDataResource(resourceId);
+  }
   return undefined;
 }
 
@@ -221,7 +211,10 @@ export function navigationGroupIdForRoute(route: RouteId): NavigationGroupId | u
 export function navigationGroupIdForCombatDataResource(
   resourceId: string
 ): NavigationGroupId | undefined {
-  return navigationGroupIdForRoute(`combat-data/${resourceId}` as RouteId);
+  const registryGroup = combatDataNavGroups.find((group) =>
+    group.items.some((item) => item.id === resourceId)
+  );
+  return registryGroup ? COMBAT_DATA_GROUP_ID_MAP[registryGroup.id] : undefined;
 }
 
 /**
