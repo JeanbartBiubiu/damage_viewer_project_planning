@@ -362,16 +362,6 @@ class LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest {
                 .find(),
             "must not write entity_attribute_progressions");
         assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.resource_definitions\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not write resource_definitions");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.entity_resource_values\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not write entity_resource_values");
-        assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.provider_state_fields\\b")
                 .matcher(sqlNoComments)
                 .find(),
@@ -386,11 +376,6 @@ class LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must not write ability_definitions");
-        assertFalse(
-            Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_costs\\b")
-                .matcher(sqlNoComments)
-                .find(),
-            "must not write ability_costs");
         assertFalse(
             Pattern.compile("(?is)INSERT\\s+INTO\\s+public\\.ability_cooldowns\\b")
                 .matcher(sqlNoComments)

@@ -40,7 +40,6 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
         "phase_hero_caitlyn_e_90_caliber_net_primary_hit_impact",
         "sequence_hero_caitlyn_e_90_caliber_net_primary_hit_impact",
         "step_hero_caitlyn_e_90_caliber_net_primary_hit_damage",
-        "cost_hero_caitlyn_e_90_caliber_net_primary_hit_mana",
         "cooldown_hero_caitlyn_e_90_caliber_net_primary_hit",
         "caliber_net_primary_hit_damage",
         "e_mana_cost",
@@ -51,10 +50,9 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -294,8 +292,6 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
         assertContains("missing attribute_definitions");
         assertContains("missing game_entities hero_caitlyn");
         assertContains("missing entity_attribute_values hero_caitlyn/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_caitlyn/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -335,20 +331,6 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_caitlyn/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_caitlyn/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_caitlyn with the Batch-B prerequisite phrase");
@@ -410,10 +392,6 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -450,14 +428,6 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
                 .find(),
             "E must be active ability with stable key caliber_net_primary_hit");
         assertContains("{\"op\":\"const\",\"value\":75}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_caitlyn_e_90_caliber_net_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_caitlyn_e_90_caliber_net_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 75 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":8000}");
         assertTrue(
             Pattern.compile(
@@ -710,7 +680,10 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
                 || section.contains("magic_280_plus_0_80_ap"),
             "README must include frozen boundary");
         for (String tag : ORDERED_TAGS) {
-            assertTrue(section.contains(tag), "README ordered tags must include " + tag);
+            String expectedTag = "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            assertTrue(section.contains(expectedTag), "README ordered tags must include " + expectedTag);
         }
         assertTrue(
             section.contains("1306916") && section.contains("4007584")
@@ -721,10 +694,7 @@ class LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest {
                 && (section.contains("local raw") || section.contains("materialization caveat")
                     || section.contains("不断言")),
             "README must document local raw caveat");
-        assertTrue(
-            Pattern.compile("(?i)75.*mana|mana.?75|75 mana").matcher(section).find()
-                && section.contains("8000"),
-            "README must document mana75 and cooldown 8000ms");
+        assertTrue(section.contains("8000"), "README must document cooldown 8000ms");
         assertTrue(
             section.contains("280") && section.contains("0.80")
                 && (section.contains("AP") || section.contains("ap.resolved")),

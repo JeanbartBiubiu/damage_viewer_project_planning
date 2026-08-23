@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityCooldownsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatAbilityCostsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityDefinitionsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityParametersMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatAbilityPhasesMapper;
@@ -39,7 +38,6 @@ class AbilityCombatDataServiceTest {
     @Mock private CombatAbilityParametersMapper parametersMapper;
     @Mock private CombatAbilityStateFieldsMapper stateFieldsMapper;
     @Mock private CombatAbilityPhasesMapper phasesMapper;
-    @Mock private CombatAbilityCostsMapper costsMapper;
     @Mock private CombatAbilityCooldownsMapper cooldownsMapper;
 
     private AbilityCombatDataService service;
@@ -54,7 +52,6 @@ class AbilityCombatDataServiceTest {
             parametersMapper,
             stateFieldsMapper,
             phasesMapper,
-            costsMapper,
             cooldownsMapper
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);

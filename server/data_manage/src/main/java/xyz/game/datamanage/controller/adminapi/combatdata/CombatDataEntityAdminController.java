@@ -67,35 +67,6 @@ public class CombatDataEntityAdminController {
         return response;
     }
 
-    @PutMapping("/entities/{entityId}/resources/{resourceKey}")
-    public ObjectNode putEntityResource(
-        @PathVariable("gameId") String gameId,
-        @PathVariable("entityId") String entityId,
-        @PathVariable("resourceKey") String resourceKey,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = service.putEntityResource(gameId, entityId, resourceKey, body);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
-    @PutMapping("/entities/{entityId}/resources/{resourceKey}/stages/{stage}")
-    public ObjectNode putEntityResourceStage(
-        @PathVariable("gameId") String gameId,
-        @PathVariable("entityId") String entityId,
-        @PathVariable("resourceKey") String resourceKey,
-        @PathVariable("stage") int stage,
-        @RequestBody ObjectNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
-        HttpServletRequest request
-    ) {
-        ObjectNode response = service.putEntityResourceStage(gameId, entityId, resourceKey, stage, body);
-        logHelper.log(auth, request, body, 200);
-        return response;
-    }
-
     @PutMapping("/entities/{entityId}/provider-mounts/{providerId}")
     public ObjectNode putEntityProviderMount(
         @PathVariable("gameId") String gameId,
@@ -111,7 +82,7 @@ public class CombatDataEntityAdminController {
     }
 
     /**
-     * Sole entity-editor aggregate write: atomic upsert of metadata + submitted attrs/resources/mounts
+     * Sole entity-editor aggregate write: atomic upsert of metadata + submitted attributes/mounts
      * under one optimistic-concurrency revision. Generic batch/delete remain absent.
      */
     @PutMapping("/entities/{entityId}:batch")

@@ -37,7 +37,6 @@ class LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest {
         "phase_hero_ezreal_r_trueshot_barrage_primary_hit_impact",
         "sequence_hero_ezreal_r_trueshot_barrage_primary_hit_impact",
         "step_hero_ezreal_r_trueshot_barrage_primary_hit_damage",
-        "cost_hero_ezreal_r_trueshot_barrage_primary_hit_mana",
         "cooldown_hero_ezreal_r_trueshot_barrage_primary_hit",
         "trueshot_barrage_damage",
         "r_mana_cost",
@@ -50,10 +49,9 @@ class LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final String TRUESHOT_BARRAGE_DAMAGE =
         "{\"op\":\"add\",\"args\":[{\"op\":\"const\",\"value\":750},"
@@ -261,8 +259,6 @@ class LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest {
         assertContains("missing game_entities hero_ezreal");
         assertContains("missing entity_attribute_values hero_ezreal/ad");
         assertContains("missing entity_attribute_values hero_ezreal/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_ezreal/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -314,20 +310,6 @@ class LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest {
                 .matcher(sqlNoLineComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_ezreal/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_ezreal/mana");
         for (String table : FORBIDDEN_WRITE_TABLES) {
             assertFalse(
                 Pattern.compile(
@@ -411,18 +393,8 @@ class LolGenericEzrealTrueshotBarragePrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key trueshot_barrage");
-        assertContains("cost_hero_ezreal_r_trueshot_barrage_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_ezreal_r_trueshot_barrage_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_ezreal_r_trueshot_barrage_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_ezreal_r_trueshot_barrage_primary_hit");
         assertContains("r_cooldown_ms");

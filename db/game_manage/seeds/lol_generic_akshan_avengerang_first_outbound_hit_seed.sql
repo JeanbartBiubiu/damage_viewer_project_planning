@@ -49,12 +49,9 @@
 --      - entity_attribute_values(lol,hero_akshan,{ad,mana})——mana 为面板 EAV。
 --    显式前置 seed：lol_generic_akshan_dirty_fighting_seed.sql（owns hero/
 --    panel/provider_hero_akshan_basic_attack Dirty Fighting 普攻图；**无**
---    resource_definitions / entity_resource_values 行）。
 -- 4. Frozen option A — 最小中性 mana 资源写入（仅缺席时插入；永不 UPDATE/
 --    overwrite/delete 既有行）：
---      - resource_definitions(lol,mana) 中性默认（法力 / 0/0），ON CONFLICT
 --        DO NOTHING；
---      - entity_resource_values(lol,hero_akshan,mana) 仅缺席时插入，initial/max
 --        均从同事务内既有 Akshan mana 面板属性 base_value 派生；ON CONFLICT
 --        DO NOTHING；永不硬编码面板 mana 字面量（如 350）。
 --    允许 ensure 的其它共享行：仅从既有 reserved 投影 game-local types。
@@ -306,24 +303,6 @@ BEGIN
     -- mana 面板 EAV）。ON CONFLICT DO NOTHING；永不 UPDATE/overwrite/delete
     -- 既有 resource definition/value。Dirty Fighting seed 无资源表行。
     -- =========================================================================
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'mana',
-        '法力',
-        0,
-        0,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     SELECT eav.base_value
       INTO v_mana_attr
@@ -337,23 +316,6 @@ BEGIN
             'lol_generic_akshan_avengerang_first_outbound_hit_seed: hero_akshan/mana base_value unavailable for resource derivation';
     END IF;
 
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_akshan',
-        'mana',
-        v_mana_attr,
-        v_mana_attr,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO NOTHING;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     -- =========================================================================
     -- hero_akshan Avengerang first outbound-hit（Q rank-5）：独立 provider +
@@ -449,37 +411,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_akshan_q_avengerang_first_outbound_hit_mana',
-        'ability_hero_akshan_q_avengerang_first_outbound_hit',
-        NULL,
-        'mana',
-        'q_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,

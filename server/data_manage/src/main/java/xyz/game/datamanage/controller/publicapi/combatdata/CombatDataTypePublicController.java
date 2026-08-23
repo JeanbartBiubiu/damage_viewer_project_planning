@@ -33,11 +33,6 @@ public class CombatDataTypePublicController {
         return service.listAttributeDefinitions(gameId);
     }
 
-    @GetMapping("/resource-definitions")
-    public ObjectNode listResourceDefinitions(@PathVariable("gameId") String gameId) {
-        return service.listResourceDefinitions(gameId);
-    }
-
     @GetMapping("/types")
     public ObjectNode listTypes(@PathVariable("gameId") String gameId) {
         return service.listTypes(gameId);

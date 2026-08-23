@@ -50,15 +50,6 @@ public class CombatDataAbilityPublicController {
         return service.listPhases(gameId, abilityId);
     }
 
-    @GetMapping("/ability-costs")
-    public ObjectNode listCosts(
-        @PathVariable("gameId") String gameId,
-        @RequestParam(name = "abilityId", required = false) String abilityId,
-        @RequestParam(name = "phaseId", required = false) String phaseId
-    ) {
-        return service.listCosts(gameId, abilityId, phaseId);
-    }
-
     @GetMapping("/ability-cooldowns")
     public ObjectNode listCooldowns(
         @PathVariable("gameId") String gameId,

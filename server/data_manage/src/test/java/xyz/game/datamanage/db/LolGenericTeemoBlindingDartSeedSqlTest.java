@@ -34,7 +34,6 @@ class LolGenericTeemoBlindingDartSeedSqlTest {
         "phase_hero_teemo_q_blinding_dart_impact",
         "sequence_hero_teemo_q_blinding_dart_impact",
         "step_hero_teemo_q_blinding_dart_damage",
-        "cost_hero_teemo_q_blinding_dart_mana",
         "cooldown_hero_teemo_q_blinding_dart",
         "blinding_dart_damage",
         "q_mana_cost",
@@ -175,7 +174,6 @@ class LolGenericTeemoBlindingDartSeedSqlTest {
         assertContains("missing reserved_type");
         assertContains("missing attribute_definitions");
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
         for (String attr : List.of(
             "hp", "mana", "ad", "ap", "attack_speed", "armor", "magic_resist",
             "hp_regen", "mana_regen")) {
@@ -212,16 +210,6 @@ class LolGenericTeemoBlindingDartSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "must seed ap base 0 (baseline resolved 0)");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_teemo'\\s*,\\s*'mana'\\s*,\\s*334\\s*,\\s*334")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 334/334");
         assertFalse(
             Pattern.compile("(?is)'attack_range'|'move_speed'|'crit_chance'|'crit_damage'")
                 .matcher(sqlNoLineComments)
@@ -287,18 +275,8 @@ class LolGenericTeemoBlindingDartSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "Q must be active ability with stable key blinding_dart");
-        assertContains("cost_hero_teemo_q_blinding_dart_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("q_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":90}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_teemo_q_blinding_dart_mana'\\s*,\\s*"
-                        + "'ability_hero_teemo_q_blinding_dart'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 90 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_teemo_q_blinding_dart");
         assertContains("q_cooldown_ms");

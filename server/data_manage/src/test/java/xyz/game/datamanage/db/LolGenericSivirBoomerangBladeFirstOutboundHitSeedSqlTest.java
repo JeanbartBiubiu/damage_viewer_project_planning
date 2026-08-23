@@ -36,10 +36,10 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
 
     private static final String README_RELATIVE = "server/data_manage/README.md";
 
-    private static final int EXPECTED_SEED_BYTES = 32326;
+    private static final int EXPECTED_SEED_BYTES = 29935;
 
     private static final String EXPECTED_SEED_SHA256 =
-        "4ba04a00c1d67a67fd581eaa1cd4edfbb08eeb9699d9e3c8da8eed3f03dbf189";
+        "740417f4a54a29213867737ac77d7043b454f4827025a87cc2f5b9e6b97cbf54";
 
     private static final List<String> STABLE_IDS = List.of(
         "hero_sivir",
@@ -49,7 +49,6 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
         "phase_hero_sivir_q_boomerang_blade_first_outbound_hit_impact",
         "sequence_hero_sivir_q_boomerang_blade_first_outbound_hit_impact",
         "step_hero_sivir_q_boomerang_blade_first_outbound_hit_damage",
-        "cost_hero_sivir_q_boomerang_blade_first_outbound_hit_mana",
         "cooldown_hero_sivir_q_boomerang_blade_first_outbound_hit",
         "boomerang_blade_first_outbound_hit_damage",
         "q_mana_cost",
@@ -63,13 +62,10 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "active_physical_damage",
         "bonus_ad_ratio",
         "ap_ratio",
@@ -419,8 +415,6 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
         assertContains("missing entity_attribute_values hero_sivir/ad");
         assertContains("missing entity_attribute_values hero_sivir/ap");
         assertContains("missing entity_attribute_values hero_sivir/crit_chance");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_sivir/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -496,20 +490,6 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_sivir/crit_chance");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_sivir/mana");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_sivir with the Batch-B prerequisite phrase");
@@ -571,10 +551,6 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -611,14 +587,6 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
                 .find(),
             "Q must be active ability with stable key boomerang_blade_first_outbound_hit");
         assertContains("{\"op\":\"const\",\"value\":75}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_sivir_q_boomerang_blade_first_outbound_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_sivir_q_boomerang_blade_first_outbound_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'q_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "Q mana cost must be ability-level 75 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":8000}");
         assertTrue(
             Pattern.compile(
@@ -969,9 +937,8 @@ class LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest {
             section.contains("2745"),
             "README must document canonical/local raw 2745 byte size");
         assertTrue(
-            Pattern.compile("(?i)75.*mana|mana.?75|75 mana").matcher(section).find()
-                && section.contains("8000"),
-            "README must document mana75 and cooldown 8000ms");
+            section.contains("8000"),
+            "README must document cooldown 8000ms");
         assertTrue(
             section.contains("160") && section.contains("0.70") && section.contains("0.60")
                 && section.contains("0.40")

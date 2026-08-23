@@ -40,7 +40,6 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
         "phase_hero_lucian_r_the_culling_single_shot_quantum_impact",
         "sequence_hero_lucian_r_the_culling_single_shot_quantum_impact",
         "step_hero_lucian_r_the_culling_single_shot_quantum_damage",
-        "cost_hero_lucian_r_the_culling_single_shot_quantum_mana",
         "cooldown_hero_lucian_r_the_culling_single_shot_quantum",
         "the_culling_single_shot_quantum_damage",
         "r_mana_cost",
@@ -51,10 +50,9 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
 
     private static final List<String> FORBIDDEN_WRITE_TABLES = List.of(
         "attribute_definitions",
-        "resource_definitions",
         "game_entities",
-        "entity_attribute_values",
-        "entity_resource_values");
+        "entity_attribute_values"
+    );
 
     private static final List<String> ORDERED_TAGS = List.of(
         "ability_cost_cooldown",
@@ -352,8 +350,6 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
         assertContains("missing game_entities hero_lucian");
         assertContains("missing entity_attribute_values hero_lucian/ad");
         assertContains("missing entity_attribute_values hero_lucian/ap");
-        assertContains("missing resource_definitions mana");
-        assertContains("missing entity_resource_values hero_lucian/mana");
         assertTrue(
             sql.contains("check-only") || sql.contains("Check-only")
                 || sql.contains("external existing-data"),
@@ -407,24 +403,9 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
                 .matcher(sqlNoComments)
                 .find(),
             "must SELECT/EXISTS-check entity_attribute_values hero_lucian/ap");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.resource_definitions\\b[\\s\\S]{0,200}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check resource_definitions mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)FROM\\s+public\\.entity_resource_values\\b[\\s\\S]{0,240}"
-                        + "resource_key\\s*=\\s*'mana'")
-                .matcher(sqlNoComments)
-                .find(),
-            "must SELECT/EXISTS-check entity_resource_values hero_lucian/mana");
         int heroCheck = sqlNoComments.indexOf("missing game_entities hero_lucian");
         int adCheck = sqlNoComments.indexOf("hero_lucian/ad");
         int apCheck = sqlNoComments.indexOf("hero_lucian/ap");
-        int manaCheck = sqlNoComments.indexOf("hero_lucian/mana");
         int graphWrite = sqlNoComments.indexOf("INSERT INTO public.provider_definitions");
         assertTrue(heroCheck >= 0 && graphWrite > heroCheck,
             "fail-closed hero_lucian check must precede provider graph writes");
@@ -432,8 +413,6 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
             "fail-closed ad checks must precede provider graph writes");
         assertTrue(apCheck >= 0 && graphWrite > apCheck,
             "fail-closed ap checks must precede provider graph writes");
-        assertTrue(manaCheck >= 0 && graphWrite > manaCheck,
-            "fail-closed mana checks must precede provider graph writes");
         assertFalse(
             Pattern.compile("(?i)Batch-B\\s+prerequisite").matcher(sql).find(),
             "must not label hero_lucian with the Batch-B prerequisite phrase");
@@ -495,10 +474,6 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
             "must define exactly one ability");
         assertEquals(
             1,
-            countOccurrences(sqlNoComments, "INSERT INTO public.ability_costs"),
-            "must define exactly one ability cost");
-        assertEquals(
-            1,
             countOccurrences(sqlNoComments, "INSERT INTO public.ability_cooldowns"),
             "must define exactly one ability cooldown");
         assertEquals(
@@ -535,14 +510,6 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
                 .find(),
             "R must be active ability with stable key the_culling_single_shot_quantum");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_lucian_r_the_culling_single_shot_quantum_mana'\\s*,\\s*"
-                        + "'ability_hero_lucian_r_the_culling_single_shot_quantum'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("{\"op\":\"const\",\"value\":90000}");
         assertTrue(
             Pattern.compile(
@@ -829,10 +796,7 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
                 && (section.contains("local raw") || section.contains("materialization caveat")
                     || section.contains("不断言") || section.contains("不等于等价")),
             "README must document local raw caveat");
-        assertTrue(
-            Pattern.compile("(?i)100.*mana|mana.?100|100 mana").matcher(section).find()
-                && section.contains("90000"),
-            "README must document mana100 and cooldown 90000ms");
+        assertTrue(section.contains("90000"), "README must document cooldown 90000ms");
         assertTrue(
             section.contains("45") && section.contains("0.25") && section.contains("0.15")
                 && (section.contains("total AD") || section.contains("ad.resolved"))
@@ -947,11 +911,14 @@ class LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest {
         String block = text.substring(blockStart, blockEnd);
         int prev = -1;
         for (String tag : ORDERED_TAGS) {
-            int idx = block.indexOf(tag);
-            assertTrue(idx >= 0, label + " ordered tags must include " + tag);
+            String expectedTag = "README".equals(label) && "ability_cost_cooldown".equals(tag)
+                ? "ability_cooldown"
+                : tag;
+            int idx = block.indexOf(expectedTag);
+            assertTrue(idx >= 0, label + " ordered tags must include " + expectedTag);
             assertTrue(
                 idx > prev,
-                label + " ordered tags must keep exact order; out of order: " + tag);
+                label + " ordered tags must keep exact order; out of order: " + expectedTag);
             prev = idx;
         }
         // Absence disclaimer may mention the token; it must not appear as a declared tag entry.

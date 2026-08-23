@@ -36,7 +36,6 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
         "phase_hero_vayne_r_final_hour_timed_bonus_ad_impact",
         "sequence_hero_vayne_r_final_hour_timed_bonus_ad_impact",
         "step_hero_vayne_r_final_hour_timed_bonus_ad_active_arm",
-        "cost_hero_vayne_r_final_hour_timed_bonus_ad_mana",
         "cooldown_hero_vayne_r_final_hour_timed_bonus_ad",
         "modifier_hero_vayne_r_final_hour_timed_bonus_ad",
         "final_hour_active",
@@ -63,7 +62,6 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
         "provider_hero_vayne_e_condemn_primary_hit");
 
     private static final List<String> ORDERED_TAGS = List.of(
-        "ability_cost_cooldown",
         "cast_triggered_timed_bonus_ad",
         "flat_ad_add",
         "timed_provider_state");
@@ -135,8 +133,7 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
         }
         assertTrue(
             sql.indexOf(ORDERED_TAGS.get(0)) < sql.indexOf(ORDERED_TAGS.get(1))
-                && sql.indexOf(ORDERED_TAGS.get(1)) < sql.indexOf(ORDERED_TAGS.get(2))
-                && sql.indexOf(ORDERED_TAGS.get(2)) < sql.indexOf(ORDERED_TAGS.get(3)),
+                && sql.indexOf(ORDERED_TAGS.get(1)) < sql.indexOf(ORDERED_TAGS.get(2)),
             "ordered tags must appear in frozen order");
         assertTrue(
             Pattern.compile("(?i)无截图|无.*OCR|screenshot|OCR").matcher(sql).find()
@@ -308,34 +305,6 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
                     + " (SELECT/EXISTS checks are allowed)");
         }
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must ensure resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_vayne'\\s*,\\s*'mana'\\s*,\\s*232\\s*,\\s*232")
-                .matcher(sql)
-                .find(),
-            "must ensure entity_resource_values mana 232/232");
-        assertTrue(
-            Pattern.compile("(?i)fail-closed|fail closed|冲突").matcher(sql).find()
-                && sqlNoLineComments.contains("conflicting entity_resource_values"),
-            "mana ensure must fail-closed on conflicting existing values");
-        assertTrue(
-            Pattern.compile(
-                    "(?is)ON\\s+CONFLICT\\s*\\(\\s*game_id\\s*,\\s*entity_id\\s*,\\s*"
-                        + "resource_key\\s*\\)\\s*DO\\s+NOTHING")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "entity_resource_values ensure must DO NOTHING after fail-closed conflict check");
-        assertFalse(
-            Pattern.compile("(?is)'hero_vayne'\\s*,\\s*'mana'\\s*,\\s*300\\s*,\\s*300")
-                .matcher(sqlNoLineComments)
-                .find(),
-            "Backend seed must not write fixture mana300");
         for (int typeId : REQUIRED_RESERVED) {
             assertContains(Integer.toString(typeId));
         }
@@ -419,18 +388,8 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key final_hour");
-        assertContains("cost_hero_vayne_r_final_hour_timed_bonus_ad_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":80}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_vayne_r_final_hour_timed_bonus_ad_mana'\\s*,\\s*"
-                        + "'ability_hero_vayne_r_final_hour_timed_bonus_ad'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 80 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_vayne_r_final_hour_timed_bonus_ad");
         assertContains("r_cooldown_ms");
@@ -680,9 +639,6 @@ class LolGenericVayneFinalHourTimedBonusAdSeedSqlTest {
         assertTrue(
             Pattern.compile("(?i)reserved_types_seed").matcher(section).find(),
             "README entry must list reserved types prerequisite");
-        assertTrue(
-            Pattern.compile("(?i)232\\s*/\\s*232|mana.*232").matcher(section).find(),
-            "README entry must document mana resource ensure 232/232");
         assertTrue(
             Pattern.compile("(?i)direct|直写|state_change|timed.?bonus|bonus.?AD|65|12000")
                 .matcher(section)

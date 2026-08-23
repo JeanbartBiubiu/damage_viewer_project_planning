@@ -31,7 +31,6 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
         "provider_hero_xayah_w_deadly_plumage",
         "ability_hero_xayah_w_deadly_plumage",
         "deadly_plumage",
-        "cost_hero_xayah_w_deadly_plumage_mana",
         "cooldown_hero_xayah_w_deadly_plumage",
         "listener_hero_xayah_w_deadly_plumage_ability_started",
         "sequence_hero_xayah_w_deadly_plumage_arm",
@@ -174,18 +173,6 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
                 && sql.contains("0.658") && sql.contains("25") && sql.contains("30")
                 && sql.contains("3.25") && sql.contains("8.25"),
             "must seed Xayah level-1 panel numbers");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_xayah'\\s*,\\s*'mana'\\s*,\\s*340\\s*,\\s*340")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 340/340");
     }
 
     @Test
@@ -238,18 +225,8 @@ class LolGenericXayahDeadlyPlumageSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "W must be active ability with stable key deadly_plumage");
-        assertContains("cost_hero_xayah_w_deadly_plumage_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("w_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":40}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_xayah_w_deadly_plumage_mana'\\s*,\\s*"
-                        + "'ability_hero_xayah_w_deadly_plumage'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'w_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "W mana cost must be ability-level 40 via ability_costs");
         assertContains("cooldown_hero_xayah_w_deadly_plumage");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("w_cooldown_ms");

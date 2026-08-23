@@ -30,8 +30,6 @@ import xyz.game.datamanage.mapper.ImagesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityAttributeStageValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityAttributeValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatEntityProviderMountsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceStageValuesMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatEntityResourceValuesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatGameEntitiesMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
 import xyz.game.datamanage.service.combatdata.support.CombatDataSupport;
@@ -50,8 +48,6 @@ class EntityCombatDataServiceTest {
     @Mock private CombatGameEntitiesMapper entitiesMapper;
     @Mock private CombatEntityAttributeValuesMapper attributeValuesMapper;
     @Mock private CombatEntityAttributeStageValuesMapper attributeStageValuesMapper;
-    @Mock private CombatEntityResourceValuesMapper resourceValuesMapper;
-    @Mock private CombatEntityResourceStageValuesMapper resourceStageValuesMapper;
     @Mock private CombatEntityProviderMountsMapper providerMountsMapper;
 
     private EntityCombatDataService service;
@@ -66,8 +62,6 @@ class EntityCombatDataServiceTest {
             entitiesMapper,
             attributeValuesMapper,
             attributeStageValuesMapper,
-            resourceValuesMapper,
-            resourceStageValuesMapper,
             providerMountsMapper
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
@@ -243,10 +237,6 @@ class EntityCombatDataServiceTest {
             .thenReturn(attrRow("hp", new BigDecimal("600"), 43L));
         when(attributeStageValuesMapper.list(GAME_ID, ENTITY_ID, "hp"))
             .thenReturn(List.of(attrStageRow("hp", 1, new BigDecimal("600"), 43L)));
-        when(resourceValuesMapper.findById(GAME_ID, ENTITY_ID, "mana"))
-            .thenReturn(resourceRow("mana", new BigDecimal("300"), new BigDecimal("300"), 43L));
-        when(resourceStageValuesMapper.list(GAME_ID, ENTITY_ID, "mana"))
-            .thenReturn(List.of(resourceStageRow("mana", 1, new BigDecimal("300"), new BigDecimal("300"), 43L)));
         when(providerMountsMapper.findById(GAME_ID, ENTITY_ID, "provider_example"))
             .thenReturn(mountRow("provider_example", 43L));
 
@@ -256,7 +246,6 @@ class EntityCombatDataServiceTest {
         assertEquals(ENTITY_ID, response.get("entityId").asText());
         assertEquals(43L, response.get("currentRevision").asLong());
         assertEquals(1, response.get("attributes").size());
-        assertEquals(1, response.get("resources").size());
         assertEquals(1, response.get("providerMounts").size());
 
         verify(revisionService, times(1)).nextRevisionIfExpected(GAME_ID, 42L);
@@ -269,17 +258,6 @@ class EntityCombatDataServiceTest {
         );
         verify(attributeStageValuesMapper, times(18)).upsert(
             eq(GAME_ID), eq(43L), eq(ENTITY_ID), eq("hp"), any(), any()
-        );
-        verify(resourceValuesMapper).upsert(
-            eq(GAME_ID),
-            eq(43L),
-            eq(ENTITY_ID),
-            eq("mana"),
-            eq(new BigDecimal("300")),
-            eq(new BigDecimal("300"))
-        );
-        verify(resourceStageValuesMapper, times(18)).upsert(
-            eq(GAME_ID), eq(43L), eq(ENTITY_ID), eq("mana"), any(), any(), any()
         );
         verify(providerMountsMapper).upsert(eq(GAME_ID), eq(43L), eq(ENTITY_ID), eq("provider_example"));
     }
@@ -407,12 +385,6 @@ class EntityCombatDataServiceTest {
         attr.put("baseValue", 600);
         attr.set("stages", exactAttributeStages(600));
 
-        ObjectNode resource = body.putArray("resources").addObject();
-        resource.put("resourceKey", "mana");
-        resource.put("initialValue", 300);
-        resource.put("maxValue", 300);
-        resource.set("stages", exactResourceStages(300, 300));
-
         body.putArray("providerMounts").addObject().put("providerId", "provider_example");
         return body;
     }
@@ -421,14 +393,6 @@ class EntityCombatDataServiceTest {
         ArrayNode stages = JsonNodeFactory.instance.arrayNode();
         for (int stage = 1; stage <= 18; stage++) {
             stages.addObject().put("stage", stage).put("value", value);
-        }
-        return stages;
-    }
-
-    private static ArrayNode exactResourceStages(int initial, int max) {
-        ArrayNode stages = JsonNodeFactory.instance.arrayNode();
-        for (int stage = 1; stage <= 18; stage++) {
-            stages.addObject().put("stage", stage).put("initialValue", initial).put("maxValue", max);
         }
         return stages;
     }
@@ -470,40 +434,6 @@ class EntityCombatDataServiceTest {
         row.put("attrKey", attrKey);
         row.put("stage", stage);
         row.put("value", value);
-        row.put("changeRevision", revision);
-        return row;
-    }
-
-    private static Map<String, Object> resourceRow(
-        String resourceKey,
-        BigDecimal initial,
-        BigDecimal max,
-        long revision
-    ) {
-        Map<String, Object> row = new LinkedHashMap<>();
-        row.put("gameId", GAME_ID);
-        row.put("entityId", ENTITY_ID);
-        row.put("resourceKey", resourceKey);
-        row.put("initialValue", initial);
-        row.put("maxValue", max);
-        row.put("changeRevision", revision);
-        return row;
-    }
-
-    private static Map<String, Object> resourceStageRow(
-        String resourceKey,
-        int stage,
-        BigDecimal initial,
-        BigDecimal max,
-        long revision
-    ) {
-        Map<String, Object> row = new LinkedHashMap<>();
-        row.put("gameId", GAME_ID);
-        row.put("entityId", ENTITY_ID);
-        row.put("resourceKey", resourceKey);
-        row.put("stage", stage);
-        row.put("initialValue", initial);
-        row.put("maxValue", max);
         row.put("changeRevision", revision);
         return row;
     }

@@ -41,7 +41,6 @@ class LolGenericMalzaharMaleficVisionsSeedSqlTest {
         "malefic_visions_active",
         "ability_hero_malzahar_e_malefic_visions",
         "malefic_visions",
-        "cost_hero_malzahar_e_malefic_visions_mana",
         "cooldown_hero_malzahar_e_malefic_visions",
         "phase_hero_malzahar_e_malefic_visions_impact",
         "sequence_hero_malzahar_e_malefic_visions_impact",

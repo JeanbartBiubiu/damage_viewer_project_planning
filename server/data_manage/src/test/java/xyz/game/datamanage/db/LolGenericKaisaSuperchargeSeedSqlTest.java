@@ -31,7 +31,6 @@ class LolGenericKaisaSuperchargeSeedSqlTest {
         "provider_hero_kaisa_supercharge",
         "ability_hero_kaisa_e_supercharge",
         "supercharge",
-        "cost_hero_kaisa_e_supercharge_mana",
         "cooldown_hero_kaisa_e_supercharge",
         "listener_hero_kaisa_e_supercharge_ability_started",
         "sequence_hero_kaisa_e_supercharge_arm",
@@ -175,20 +174,6 @@ class LolGenericKaisaSuperchargeSeedSqlTest {
 
     @Test
     void projectsManaResourceAndMountsIndependentSuperchargeProvider() {
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must project resource_definitions.mana");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'hero_kaisa'\\s*,\\s*'mana'\\s*,\\s*345\\s*,\\s*345")
-                .matcher(sql)
-                .find(),
-            "must seed entity_resource_values mana 345/345");
         assertContains("provider_hero_kaisa_supercharge");
         assertTrue(
             Pattern.compile(
@@ -223,18 +208,8 @@ class LolGenericKaisaSuperchargeSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "E must be active ability with stable key supercharge");
-        assertContains("cost_hero_kaisa_e_supercharge_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("e_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":30}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_kaisa_e_supercharge_mana'\\s*,\\s*"
-                        + "'ability_hero_kaisa_e_supercharge'\\s*,\\s*NULL\\s*,\\s*"
-                        + "'mana'\\s*,\\s*'e_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "E mana cost must be ability-level 30 via ability_costs");
         assertContains("cooldown_hero_kaisa_e_supercharge");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("e_cooldown_ms");

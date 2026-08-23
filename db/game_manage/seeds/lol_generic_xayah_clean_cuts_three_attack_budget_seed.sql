@@ -30,14 +30,11 @@
 --        20212/20217/20220/20250/20260；
 --      - game_entities(lol,hero_xayah)；
 --      - attribute_definitions(lol,ad) 与 entity_attribute_values(lol,hero_xayah,ad)；
---      - resource_definitions(lol,mana) 与 entity_resource_values(lol,hero_xayah,mana)；
 --      - 校正后的 W isolation 行：types(62012, ability/xayah_deadly_plumage,
 --        reserved_type_id=NULL)；type_relations → ability_hero_xayah_w_deadly_plumage；
 --        W listener ability_id IS NULL；ALL match 恰好含 20205/20212/62012。
 --    hero_xayah / ad / mana 是与校正后 Deadly Plumage W seed 共享的外部既有
 --    数据依赖；本脚本不复制其身份 bootstrap，亦不物化身份/面板/资源值。
--- 4. 禁止写入：不对 attribute_definitions / resource_definitions / game_entities /
---    entity_attribute_values / entity_resource_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    禁止从本 P seed 突变 W/Q/R 图（不写 W/Q/R provider/ability/listener/type_relations）。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types，以及
 --    Graves 式 fail-closed ensure game-local 62003 ability/basic_attack
@@ -193,27 +190,6 @@ BEGIN
     ) THEN
         RAISE EXCEPTION
             'lol_generic_xayah_clean_cuts_three_attack_budget_seed: missing entity_attribute_values hero_xayah/ad (external existing-data; check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_clean_cuts_three_attack_budget_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_xayah'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_xayah_clean_cuts_three_attack_budget_seed: missing entity_resource_values hero_xayah/mana (external existing-data; check-only)';
     END IF;
 
     -- check-only：校正后的 W ability-type listener isolation（本 P seed 不突变 W）

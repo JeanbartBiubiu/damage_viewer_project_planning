@@ -39,7 +39,6 @@ import xyz.game.datamanage.mapper.combatdata.CombatHealEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatListenerEffectSequencesMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatProviderEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatRepeatEffectDetailsMapper;
-import xyz.game.datamanage.mapper.combatdata.CombatResourceEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatShieldEffectDetailsMapper;
 import xyz.game.datamanage.mapper.combatdata.CombatStateEffectDetailsMapper;
 import xyz.game.datamanage.service.combatdata.revision.GameDataRevisionService;
@@ -60,7 +59,6 @@ class EffectCombatDataServiceTest {
     @Mock private CombatListenerEffectSequencesMapper listenerSequencesMapper;
     @Mock private CombatDamageEffectDetailsMapper damageDetailsMapper;
     @Mock private CombatHealEffectDetailsMapper healDetailsMapper;
-    @Mock private CombatResourceEffectDetailsMapper resourceDetailsMapper;
     @Mock private CombatAttributeEffectDetailsMapper attributeDetailsMapper;
     @Mock private CombatShieldEffectDetailsMapper shieldDetailsMapper;
     @Mock private CombatProviderEffectDetailsMapper providerDetailsMapper;
@@ -84,7 +82,6 @@ class EffectCombatDataServiceTest {
             listenerSequencesMapper,
             damageDetailsMapper,
             healDetailsMapper,
-            resourceDetailsMapper,
             attributeDetailsMapper,
             shieldDetailsMapper,
             providerDetailsMapper,

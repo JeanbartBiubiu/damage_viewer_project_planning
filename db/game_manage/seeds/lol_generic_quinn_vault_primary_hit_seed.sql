@@ -5,8 +5,6 @@
 -- 目标：在仓库既有 lol_generic_quinn_heightened_senses_seed.sql 已提供
 --       hero_quinn / ad 面板 / 通用普攻 provider / W Heightened Senses
 --       provider，且 lol_generic_quinn_blinding_assault_primary_hit_seed.sql
---       已提供中性 mana 资源行（resource_definitions.mana +
---       entity_resource_values(hero_quinn,mana)）的前提下，挂载独立 E
 --       provider/active ability Vault primary champion hit：50 mana、8000ms CD、
 --       impact 对 opponent 恰好一次 physical damage =
 --         140 + 0.20 * (source.attr.ad.resolved - source.attr.ad.base)。
@@ -39,8 +37,6 @@
 --      - attribute_definitions(lol,ad)；
 --      - game_entities(lol,hero_quinn)；
 --      - entity_attribute_values(lol,hero_quinn,ad)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_quinn,mana)；
 --      - provider_definitions provider_hero_quinn_basic_attack；
 --      - provider_definitions provider_hero_quinn_heightened_senses。
 --    显式前置 seed 顺序（W → Q(resource) → E）：
@@ -49,7 +45,6 @@
 --      lol_generic_quinn_blinding_assault_primary_hit_seed.sql（中性 mana 资源；
 --      Q provider 本身非硬前置）。
 -- 4. 禁止写入：不对 games / game_entities / attribute_definitions /
---    entity_attribute_values / resource_definitions / entity_resource_values /
 --    entity_attribute_progressions 做 INSERT/UPDATE/DELETE；不改写 Quinn 身份/
 --    面板/AP/资源/成长/普攻·W·Q 图。若已存在则保留：
 --    provider_hero_quinn_basic_attack、provider_hero_quinn_heightened_senses、
@@ -208,26 +203,7 @@ BEGIN
     END IF;
 
     -- NB-MANA-RESOURCE-SEED-ORDER：mana 资源行由 Q seed 中性写入提供；本 seed check-only
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_quinn_vault_primary_hit_seed: missing resource_definitions mana (prerequisite lol_generic_quinn_blinding_assault_primary_hit_seed.sql neutral mana resource; W -> Q(resource) -> E; check-only)';
-    END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_quinn'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_quinn_vault_primary_hit_seed: missing entity_resource_values hero_quinn/mana (prerequisite lol_generic_quinn_blinding_assault_primary_hit_seed.sql neutral mana resource; W -> Q(resource) -> E; check-only)';
-    END IF;
 
     IF NOT EXISTS (
         SELECT 1
@@ -376,37 +352,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_quinn_e_vault_primary_hit_mana',
-        'ability_hero_quinn_e_vault_primary_hit',
-        NULL,
-        'mana',
-        'e_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,

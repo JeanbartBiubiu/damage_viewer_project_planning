@@ -3,16 +3,14 @@
 -- （飞机 R 火箭轰击 Phase-A v1 普通导弹选定主冠军第一敌人物理命中）
 -- =============================================================================
 --
--- 目标：在外部既有 hero_corki / ad / mana 数据已存在的前提下，挂载独立 R
---       provider/active ability Missile Barrage normal primary hit：35 mana、
---       2000ms CD、cast_condition 要求 missile_barrage_ammo.current >= 1、
---       impact 两步：step0 对 source 以 add policy 花费 ammo const -1；
---       step1 对 opponent（champion）恰好一次 physical damage =
+-- 目标：在外部既有 hero_corki / ad 数据已存在的前提下，挂载独立 R
+--       provider/active ability Missile Barrage normal primary hit：2000ms CD，
+--       impact 对 opponent（champion）恰好执行一条 damage step/detail =
 --       250 + 0.85 * (source.attr.ad.resolved - source.attr.ad.base)。
 --       AD 为 bonus AD：运行时 sub(resolved, base)；不得直接读 total AD 作为
 --       bonus 比率，亦不得省略 ad.base 减法。不要求 AP。
 --       规范投影为立即主目标 impact scaffold（null-duration phase + on_enter
---       sequence → ammo spend + damage）。Immediate selected-primary-champion
+--       sequence → damage）。Immediate selected-primary-champion
 --       first-enemy normal-missile physical hit 为 Phase-A scaffold，不是实际
 --       direction / projectile travel / collision / explosion AOE /
 --       multitarget / Big One / third-shot cycle / double damage / range /
@@ -27,21 +25,17 @@
 --         gte(read source.resource.missile_barrage_ammo.current, const 1)。
 --       成功 cast 由既有 runtime 自动发出 ability_started；本脚本不写显式
 --       event step；无 R-specific type。
---       mana35 + 1 ammo 以「唯一 ability_costs(mana) + cast_condition gate +
---       resource_effect_details spend」原子投影；绝不写入第二行 ability_costs
---       （Web 仅投影第一行 cost）。
 --
 -- 候选：hero_skill|hero_corki|R|火箭轰击
 -- task key：wasm-generic-corki-missile-barrage-normal-primary-hit
 -- FROZEN_PLAN_REV=corki-r-missile-barrage-normal-primary-hit-phase-a-v1
 -- 已完成边界（completed / full boundary）：
---   rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; initial_ammo_two_max_four; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity
+--   rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; physical_250_plus_0_85_bonus_ad; cooldown2000ms; no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity
 -- Ordered tags：
---   1. ability_cost_cooldown
---   2. ammo_gate_and_spend
---   3. active_physical_damage
---   4. bonus_ad_ratio
---   5. immediate_impact_scaffold
+--   1. ability_cooldown
+--   2. active_physical_damage
+--   3. bonus_ad_ratio
+--   4. immediate_impact_scaffold
 --   （显式不含 salvage tags；亦不含 meta_or_non_target_dps）
 --
 -- 契约要点：
@@ -49,42 +43,33 @@
 -- 2. 候选 revision = locked current_revision + 1；仅业务数据实际插入/变化时推进。
 -- 3. Check-only、fail-closed 前置（每一项在图写入前均有显式 EXISTS/missing 检查）：
 --      - game lol 与所需 reserved types：
---        20111/20112/20120/20130/20142/20150/20152/20170/20220/20260；
+--        20111/20112/20120/20130/20142/20150/20170/20220/20260；
 --      - game_entities(lol,hero_corki)；
 --      - attribute_definitions(lol,ad)；
 --      - entity_attribute_values(lol,hero_corki,ad)；
---      - resource_definitions(lol,mana)；
---      - entity_resource_values(lol,hero_corki,mana)。
---    hero_corki / ad / mana 是 external existing-data / check-only 依赖；
---    当前仓库没有任何 seed / materializer 物化 Corki 身份 / 面板 / ad EAV /
---    mana 资源行；本脚本亦不物化身份/面板/ad/mana。勿用 Batch-B 前置依赖、
+--    hero_corki / ad 是 external existing-data / check-only 依赖；
+--    当前仓库没有任何 seed / materializer 物化 Corki 身份 / 面板 / ad EAV；
+--    本脚本亦不物化身份/面板/ad。勿用 Batch-B 前置依赖、
 --    sibling provider、ensure-entity legacy seeds 或“本 seed 创建这些行”一类
 --    措辞描述该实体；勿以 ensure-entity legacy seeds 为理由物化前置。
 --    本 R seed 不要求/突变/合成/复制 P/Q/W/E/basic；仅挂载独立 R，与既有/
 --    未来 Corki Q Phosphorus Bomb 并存且不突变。
--- 4. 本 seed **仅**拥有机制专用资源行：
---      resource_definitions(lol,missile_barrage_ammo) default_initial=2 /
---      default_max=4；
---      entity_resource_values(lol,hero_corki,missile_barrage_ammo)
---      initial=2 / max=4。
---    禁止写入：不对 attribute_definitions / game_entities /
---    entity_attribute_values 做 INSERT/UPDATE/MERGE/DELETE；不对 mana
---    resource_definitions / entity_resource_values 做写入或覆盖。
+-- 4. 禁止写入：不对 attribute_definitions / game_entities /
+--    entity_attribute_values 做 INSERT/UPDATE/MERGE/DELETE。
 --    允许 ensure 的共享行：仅从既有 reserved 投影 game-local types。
 --    仓库真相：physical damage type `20220`；add policy `20170`；
 --    `20230=provider_action/apply` 不得进入可执行图或 required reserved
 --    列表（本 seed 亦不投影 20230）。
 --    reserved type comments/checks include
---    `20111/20112/20120/20130/20142/20150/20152/20170/20220/20260`；
+--    `20111/20112/20120/20130/20142/20150/20170/20220/20260`；
 --    explicitly forbid true-damage / apply `20230`（本仓库 20230 为
 --    provider_action/apply，不得误用作 true damage）。
 -- 5. 仅创建/挂载 provider_hero_corki_r_missile_barrage_normal_primary_hit
 --    （stable ID 族 hero_corki_r_missile_barrage_normal_primary_hit）及其隔离 R 图：
 --    一个 provider、一个 active ability（ability_key=missile_barrage_normal_primary_hit；
---    cast_condition_formula_key；cast_origin='champion'）、恰好一个 mana cost、
---    一个 cooldown、一个 null-duration impact phase + on_enter link、一个
---    sequence、两个 effect steps（step0 resource_change / step1 damage）、
---    一个 resource_effect_details、一个 damage_effect_details、一个
+--    cast_condition_formula_key；cast_origin='champion'）、一个 cooldown、一个
+--    null-duration impact phase + on_enter link、一个 sequence、恰好一条
+--    damage effect step 和一条 damage detail，另有
 --    entity_provider_mounts。
 --    零 Corki R provider state / modifiers / listeners / matchers / repeats /
 --    control / secondary / projectile / movement / geometry / AOE /
@@ -108,7 +93,7 @@
 --   basic-attack on-hit recharge reduction；
 --   crit scaling / Malignance / Eclipse interaction；
 --   ranks 1–2；P / Q / W / E / basic / siblings / loadout / bootstrap；
---   identity / panel / ad / mana resource bootstrap（ammo 除外，见上）；
+--   identity / panel / ad bootstrap；
 --   listener / state / event / modifier / repeat / control / secondary /
 --   projectile / movement / geometry / AOE / sibling detail；
 --   live migration；自动 publish；E2E；live / full fidelity。
@@ -140,9 +125,8 @@
 --     local raw 与 canonical 字节等价，亦不主张源矛盾（仅 materialization /
 --     serialization caveat）。
 --   rank-3 normal missile selected primary-champion first-enemy hit：
---     physical 250 + 85% bonus AD；mana 35 + 1 ammo；cooldown 2000ms；
---     initial ammo 2 / max 4。
---     源 wording：physical damage / (+ 85% bonus AD) / mana + 1 Ammo。
+--     physical 250 + 85% bonus AD；cooldown 2000ms。
+--     源 wording：physical damage / (+ 85% bonus AD)。
 --
 -- 确定性 runtime 校验夹具（注释记录；本脚本不连 live / 不执行；本 SQL 测试亦不
 -- 执行 runtime）：
@@ -151,20 +135,12 @@
 --   base60/resolved160/armor100 raw335/final167.5；
 --   bonusAD counterproof base0/resolved100 vs base60/resolved160/armor0
 --     both335（bonus-AD proof：equal bonus AD yields equal raw）；
---   Mana240/Ammo2/base60/resolved160/HP1000/armor100 t0/t1999/t2000 ->
---     success/skip/success, two R hits/automatic starts, readyAt2000,
---     final mana170/ammo0/HP665；
---   Mana34 or Ammo0 skips unchanged/no damage/start；
---   Ammo1 alone + Mana35 → success then ammo0；Ammo0 + Mana35 → cast_condition
---     skip。
 --   standalone provider：preserve existing P/Q/W/E/basic without requiring,
 --     mutating, synthesizing or copying them；coexist with Corki Q
 --     Phosphorus Bomb primary-impact。
 --
--- 前置：reserved_types_seed.sql；外部既有 hero_corki + ad 属性定义与实体值 +
---       mana 资源定义与实体资源值（check-only / external existing-data；当前仓库
---       无 materializer）。本 seed 自行幂等写入 missile_barrage_ammo 定义与
---       实体资源值。
+-- 前置：reserved_types_seed.sql；外部既有 hero_corki + ad 属性定义与实体值
+--       （check-only / external existing-data；当前仓库无 materializer）。
 -- 建议发布版本（本脚本不负责 publish）：
 --   lol-generic-corki-missile-barrage-normal-primary-hit-phase-a-v1-20260726
 
@@ -186,7 +162,6 @@ DECLARE
         20130, -- ability_kind/active
         20142, -- ability_phase/impact
         20150, -- operation/damage
-        20152, -- operation/resource_change
         20170, -- value_policy/add
         20220, -- damage/physical
         20260  -- phase_trigger/on_enter
@@ -274,29 +249,10 @@ BEGIN
             'lol_generic_corki_missile_barrage_normal_primary_hit_seed: missing entity_attribute_values hero_corki/ad (external existing-data; check-only)';
     END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.resource_definitions rd
-         WHERE rd.game_id = v_game_id
-           AND rd.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_corki_missile_barrage_normal_primary_hit_seed: missing resource_definitions mana (external existing-data; check-only)';
-    END IF;
 
-    IF NOT EXISTS (
-        SELECT 1
-          FROM public.entity_resource_values erv
-         WHERE erv.game_id = v_game_id
-           AND erv.entity_id = 'hero_corki'
-           AND erv.resource_key = 'mana'
-    ) THEN
-        RAISE EXCEPTION
-            'lol_generic_corki_missile_barrage_normal_primary_hit_seed: missing entity_resource_values hero_corki/mana (external existing-data; check-only)';
-    END IF;
 
     -- reserved → game-local types（同 ID / 同 type_key / reserved_type_id=type_id）
-    -- 本 seed 允许 ensure 的共享行；不物化身份/面板/ad/mana
+    -- 本 seed 允许 ensure 的共享行；不物化身份/面板/ad
     INSERT INTO public.types (
         game_id, type_id, type_key, name, description, reserved_type_id,
         change_revision, updated_at
@@ -329,63 +285,8 @@ BEGIN
     END IF;
 
     -- =========================================================================
-    -- 本 seed 拥有的机制专用资源：missile_barrage_ammo（initial2 / max4）
-    -- 不写入/覆盖 mana 或其它资源
-    -- =========================================================================
-    INSERT INTO public.resource_definitions (
-        game_id, resource_key, display_name,
-        default_initial_value, default_max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'missile_barrage_ammo',
-        '火箭轰击弹药 Missile Barrage Ammo',
-        2,
-        4,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, resource_key) DO UPDATE SET
-        display_name = EXCLUDED.display_name,
-        default_initial_value = EXCLUDED.default_initial_value,
-        default_max_value = EXCLUDED.default_max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.resource_definitions.display_name IS DISTINCT FROM EXCLUDED.display_name
-       OR public.resource_definitions.default_initial_value IS DISTINCT FROM EXCLUDED.default_initial_value
-       OR public.resource_definitions.default_max_value IS DISTINCT FROM EXCLUDED.default_max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.entity_resource_values (
-        game_id, entity_id, resource_key, initial_value, max_value,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'hero_corki',
-        'missile_barrage_ammo',
-        2,
-        4,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, entity_id, resource_key) DO UPDATE SET
-        initial_value = EXCLUDED.initial_value,
-        max_value = EXCLUDED.max_value,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.entity_resource_values.initial_value IS DISTINCT FROM EXCLUDED.initial_value
-       OR public.entity_resource_values.max_value IS DISTINCT FROM EXCLUDED.max_value;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- =========================================================================
     -- hero_corki Missile Barrage normal primary-hit（R rank-3）：独立 provider +
-    -- active impact ammo spend + 单次物理伤害（bonus AD）；standalone；不触碰
+    -- active impact 单次物理伤害（bonus AD）；standalone；不触碰
     -- P/Q/W/E/basic
     -- =========================================================================
     INSERT INTO public.provider_definitions (
@@ -500,38 +401,6 @@ BEGIN
         v_changed := true;
     END IF;
 
-    -- 恰好一个 ability_costs：仅 mana35；ammo 不走 ability_costs（Web 仅投影第一行）
-    INSERT INTO public.ability_costs (
-        game_id, cost_id, ability_id, phase_id, resource_key,
-        amount_formula_key, allow_partial, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'cost_hero_corki_r_missile_barrage_normal_primary_hit_mana',
-        'ability_hero_corki_r_missile_barrage_normal_primary_hit',
-        NULL,
-        'mana',
-        'r_mana_cost',
-        false,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, cost_id) DO UPDATE SET
-        ability_id = EXCLUDED.ability_id,
-        phase_id = EXCLUDED.phase_id,
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        allow_partial = EXCLUDED.allow_partial,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.ability_costs.ability_id IS DISTINCT FROM EXCLUDED.ability_id
-       OR public.ability_costs.phase_id IS DISTINCT FROM EXCLUDED.phase_id
-       OR public.ability_costs.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.ability_costs.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.ability_costs.allow_partial IS DISTINCT FROM EXCLUDED.allow_partial;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
 
     INSERT INTO public.ability_cooldowns (
         game_id, cooldown_id, ability_id, duration_formula_key,
@@ -616,65 +485,6 @@ BEGIN
     WHERE public.effect_sequences.provider_id IS DISTINCT FROM EXCLUDED.provider_id
        OR public.effect_sequences.sequence_key IS DISTINCT FROM EXCLUDED.sequence_key
        OR public.effect_sequences.display_name IS DISTINCT FROM EXCLUDED.display_name;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    -- step0：operation/resource_change → source missile_barrage_ammo amount -1 / add
-    INSERT INTO public.effect_steps (
-        game_id, step_id, sequence_id, step_order, operation_type_id,
-        target_selector_type_id, condition_formula_key, change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'step_hero_corki_r_missile_barrage_normal_primary_hit_ammo',
-        'sequence_hero_corki_r_missile_barrage_normal_primary_hit_impact',
-        0,
-        20152,
-        20112,
-        NULL,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, step_id) DO UPDATE SET
-        sequence_id = EXCLUDED.sequence_id,
-        step_order = EXCLUDED.step_order,
-        operation_type_id = EXCLUDED.operation_type_id,
-        target_selector_type_id = EXCLUDED.target_selector_type_id,
-        condition_formula_key = EXCLUDED.condition_formula_key,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.effect_steps.sequence_id IS DISTINCT FROM EXCLUDED.sequence_id
-       OR public.effect_steps.step_order IS DISTINCT FROM EXCLUDED.step_order
-       OR public.effect_steps.operation_type_id IS DISTINCT FROM EXCLUDED.operation_type_id
-       OR public.effect_steps.target_selector_type_id IS DISTINCT FROM EXCLUDED.target_selector_type_id
-       OR public.effect_steps.condition_formula_key IS DISTINCT FROM EXCLUDED.condition_formula_key;
-    GET DIAGNOSTICS v_rowcount = ROW_COUNT;
-    IF v_rowcount > 0 THEN
-        v_changed := true;
-    END IF;
-
-    INSERT INTO public.resource_effect_details (
-        game_id, step_id, resource_key, amount_formula_key, value_policy_type_id,
-        change_revision, updated_at
-    ) VALUES (
-        v_game_id,
-        'step_hero_corki_r_missile_barrage_normal_primary_hit_ammo',
-        'missile_barrage_ammo',
-        'missile_barrage_ammo_delta',
-        20170,
-        v_candidate,
-        NOW()
-    )
-    ON CONFLICT (game_id, step_id) DO UPDATE SET
-        resource_key = EXCLUDED.resource_key,
-        amount_formula_key = EXCLUDED.amount_formula_key,
-        value_policy_type_id = EXCLUDED.value_policy_type_id,
-        change_revision = EXCLUDED.change_revision,
-        updated_at = NOW()
-    WHERE public.resource_effect_details.resource_key IS DISTINCT FROM EXCLUDED.resource_key
-       OR public.resource_effect_details.amount_formula_key IS DISTINCT FROM EXCLUDED.amount_formula_key
-       OR public.resource_effect_details.value_policy_type_id IS DISTINCT FROM EXCLUDED.value_policy_type_id;
     GET DIAGNOSTICS v_rowcount = ROW_COUNT;
     IF v_rowcount > 0 THEN
         v_changed := true;

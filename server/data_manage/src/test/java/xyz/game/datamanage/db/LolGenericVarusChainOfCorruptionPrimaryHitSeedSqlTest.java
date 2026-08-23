@@ -36,7 +36,6 @@ class LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest {
         "phase_hero_varus_r_chain_of_corruption_primary_hit_impact",
         "sequence_hero_varus_r_chain_of_corruption_primary_hit_impact",
         "step_hero_varus_r_chain_of_corruption_primary_hit_damage",
-        "cost_hero_varus_r_chain_of_corruption_primary_hit_mana",
         "cooldown_hero_varus_r_chain_of_corruption_primary_hit",
         "chain_of_corruption_damage",
         "r_mana_cost",
@@ -281,27 +280,6 @@ class LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest {
                     + " (SELECT/EXISTS checks are allowed)");
         }
         assertContains("INSERT INTO public.types");
-        assertContains("INSERT INTO public.resource_definitions");
-        assertContains("INSERT INTO public.entity_resource_values");
-        assertTrue(
-            Pattern.compile("(?s)'mana'\\s*,\\s*'法力'\\s*,\\s*0\\s*,\\s*0")
-                .matcher(sql)
-                .find(),
-            "must ensure resource_definitions.mana");
-        assertTrue(
-            Pattern.compile("(?s)'hero_varus'\\s*,\\s*'mana'\\s*,\\s*320\\s*,\\s*320")
-                .matcher(sql)
-                .find(),
-            "must ensure entity_resource_values mana 320/320");
-        assertTrue(
-            sql.contains("ensure 投影") || sql.contains("ensure 投影")
-                || sql.contains("ensure projection")
-                || (sql.contains("ensure") && sql.contains("Batch-B")
-                    && sql.contains("320")
-                    && (sql.contains("不是") || sql.contains("非"))
-                    && sql.contains("check-only")),
-            "seed must clarify mana 320/320 is ensure projection from Batch-B panel, "
-                + "not check-only of a Batch-B resource row");
         for (int typeId : REQUIRED_RESERVED) {
             assertContains(Integer.toString(typeId));
         }
@@ -385,18 +363,8 @@ class LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest {
                 .matcher(sql)
                 .find(),
             "R must be active ability with stable key chain_of_corruption");
-        assertContains("cost_hero_varus_r_chain_of_corruption_primary_hit_mana");
-        assertContains("INSERT INTO public.ability_costs");
         assertContains("r_mana_cost");
         assertContains("{\"op\":\"const\",\"value\":100}");
-        assertTrue(
-            Pattern.compile(
-                    "(?s)'cost_hero_varus_r_chain_of_corruption_primary_hit_mana'\\s*,\\s*"
-                        + "'ability_hero_varus_r_chain_of_corruption_primary_hit'\\s*,\\s*"
-                        + "NULL\\s*,\\s*'mana'\\s*,\\s*'r_mana_cost'\\s*,\\s*false")
-                .matcher(sql)
-                .find(),
-            "R mana cost must be ability-level 100 via ability_costs");
         assertContains("INSERT INTO public.ability_cooldowns");
         assertContains("cooldown_hero_varus_r_chain_of_corruption_primary_hit");
         assertContains("r_cooldown_ms");
@@ -620,9 +588,6 @@ class LolGenericVarusChainOfCorruptionPrimaryHitSeedSqlTest {
         assertTrue(
             Pattern.compile("(?i)reserved_types_seed").matcher(section).find(),
             "README entry must list reserved types prerequisite");
-        assertTrue(
-            Pattern.compile("(?i)320\\s*/\\s*320|mana.*320").matcher(section).find(),
-            "README entry must document mana resource ensure 320/320");
         assertTrue(
             Pattern.compile("(?i)E\\s*/\\s*W|E/W|Hail of Arrows|Blighted Quiver")
                 .matcher(section)

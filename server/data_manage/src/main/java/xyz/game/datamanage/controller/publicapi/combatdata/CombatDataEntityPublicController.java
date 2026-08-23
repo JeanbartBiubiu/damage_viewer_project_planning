@@ -48,23 +48,6 @@ public class CombatDataEntityPublicController {
         return service.listEntityAttributeStages(gameId, entityId, attrKey);
     }
 
-    @GetMapping("/entity-resources")
-    public ObjectNode listEntityResources(
-        @PathVariable("gameId") String gameId,
-        @RequestParam(name = "entityId", required = false) String entityId
-    ) {
-        return service.listEntityResources(gameId, entityId);
-    }
-
-    @GetMapping("/entity-resource-stages")
-    public ObjectNode listEntityResourceStages(
-        @PathVariable("gameId") String gameId,
-        @RequestParam(name = "entityId", required = false) String entityId,
-        @RequestParam(name = "resourceKey", required = false) String resourceKey
-    ) {
-        return service.listEntityResourceStages(gameId, entityId, resourceKey);
-    }
-
     @GetMapping("/entity-provider-mounts")
     public ObjectNode listEntityProviderMounts(
         @PathVariable("gameId") String gameId,
