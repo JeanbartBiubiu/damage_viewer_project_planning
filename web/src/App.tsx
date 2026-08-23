@@ -10,6 +10,7 @@ import {
 import { AbilitySetupPage } from './pages/admin/ability-setup/AbilitySetupPage';
 import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
 import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
+import { EquipmentManagementPage } from './pages/admin/equipment/EquipmentManagementPage';
 import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
 import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
 import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
@@ -35,6 +36,7 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'images',
   'attributes',
   'characters',
+  'equipment',
   'game-settings',
   'provider-setup',
   'ability-setup',
@@ -309,6 +311,15 @@ export default function App() {
   } else if (route === 'characters') {
     pageContent = (
       <CharacterManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'equipment') {
+    pageContent = (
+      <EquipmentManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
