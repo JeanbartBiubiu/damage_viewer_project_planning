@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.equipment.EquipmentMapper">
+
+    <resultMap id="equipmentResponse" type="xyz.game.datamanage.model.equipment.EquipmentResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="equipment_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeDefinition" type="xyz.game.datamanage.model.equipment.EquipmentAttributeDefinition">
+        <constructor>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="value_type" javaType="xyz.game.datamanage.model.attribute.AttributeValueType"/>
+            <arg column="min_value" javaType="java.math.BigDecimal"/>
+            <arg column="max_value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <select id="list" resultMap="equipmentResponse">
+        SELECT game_id, equipment_key, name, description, created_at, updated_at
+        FROM public.equipment
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(equipment_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        ORDER BY name ASC, equipment_key ASC
+    </select>
+
+    <select id="findById" resultMap="equipmentResponse">
+        SELECT game_id, equipment_key, name, description, created_at, updated_at
+        FROM public.equipment
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="equipmentResponse">
+        SELECT game_id, equipment_key, name, description, created_at, updated_at
+        FROM public.equipment
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1) FROM public.equipment
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1) FROM public.equipment
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeEquipmentKey != null">
+            AND equipment_key &lt;&gt; #{excludeEquipmentKey}
+        </if>
+    </select>
+
+    <insert id="insertEquipment">
+        INSERT INTO public.equipment (game_id, equipment_key, name, description)
+        VALUES (#{gameId}, #{equipmentKey}, #{name}, #{description})
+    </insert>
+
+    <update id="updateEquipment">
+        UPDATE public.equipment
+        SET name = #{name}, description = #{description}, updated_at = now()
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </update>
+
+    <delete id="deleteEquipment">
+        DELETE FROM public.equipment
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </delete>
+
+    <select id="listAttributeDefinitions" resultMap="attributeDefinition">
+        SELECT attribute_key, value_type, min_value, max_value
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+        ORDER BY sort_order ASC, name ASC, attribute_key ASC
+    </select>
+
+    <select id="findAttributeValuesJson" resultType="string">
+        SELECT attribute_values::text
+        FROM public.equipment_attributes
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </select>
+
+    <insert id="insertAttributeValues">
+        INSERT INTO public.equipment_attributes (game_id, equipment_key, attribute_values)
+        VALUES (#{gameId}, #{equipmentKey}, CAST(#{attributeValuesJson} AS jsonb))
+    </insert>
+
+    <update id="updateAttributeValues">
+        UPDATE public.equipment_attributes
+        SET attribute_values = CAST(#{attributeValuesJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey}
+    </update>
+</mapper>
