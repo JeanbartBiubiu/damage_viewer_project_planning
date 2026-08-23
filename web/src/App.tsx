@@ -1,29 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Alert, Button, Input, Layout, Select, Tag, Typography } from '@arco-design/web-react';
 import { IconDown, IconMenu } from '@arco-design/web-react/icon';
 import {
-  combatDataResourceIdFromRoute,
   createDefaultCollapsedNavigationGroups,
-  ensureActiveCombatDataNavigationGroupExpanded,
-  isCombatDataRouteId,
   navigationGroups,
   type RouteId,
   type StaticRouteId
 } from './config/navigation';
-import { CombatDataPage } from './pages/admin/combat-data';
-import {
-  COMBAT_DATA_HASH_PREFIX,
-  DEFAULT_COMBAT_DATA_RESOURCE_ID,
-  combatDataHashSegment,
-  readCombatDataLocation,
-  type FilterFieldPair
-} from './pages/admin/combatDataNav';
-import { planInvalidCombatDataFilterSync, splitCombatDataHash } from './pages/admin/combat-data/resourceRelations';
 import { AbilitySetupPage } from './pages/admin/ability-setup/AbilitySetupPage';
+import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
 import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
 import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
 import { EffectStepSetupPage } from './pages/admin/effect-step-setup/EffectStepSetupPage';
-import { EntityGrowthPage } from './pages/admin/entity-growth/EntityGrowthPage';
 import { EntityProviderMountPage } from './pages/admin/entity-provider-mount/EntityProviderMountPage';
 import { EntitySetupPage } from './pages/admin/entity-setup/EntitySetupPage';
 import { ProviderSetupPage } from './pages/admin/provider-setup/ProviderSetupPage';
@@ -45,10 +33,10 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'workspace',
   'wasm-validation-generic',
   'images',
+  'attributes',
   'entity-setup',
   'provider-setup',
   'entity-provider-mount',
-  'entity-growth',
   'ability-setup',
   'effect-sequence-setup',
   'effect-step-setup',
@@ -83,16 +71,8 @@ function readRouteFromHash(): RouteId {
     return 'overview';
   }
 
-  const combat = readCombatDataLocation(window.location.hash);
-  if (combat.isCombatDataRoute) {
-    if (combat.resourceId) {
-      return combatDataHashSegment(combat.resourceId) as RouteId;
-    }
-    return 'combat-data';
-  }
-
-  const { segments } = splitCombatDataHash(window.location.hash);
-  const [routeSegment] = segments;
+  const hashPath = window.location.hash.replace(/^#\/?/, '').split('?')[0] ?? '';
+  const [routeSegment] = hashPath.split('/').filter(Boolean);
 
   if (routeSegment === 'versions' || routeSegment === 'version-publish') {
     return 'workspace';
@@ -103,20 +83,6 @@ function readRouteFromHash(): RouteId {
   }
 
   return 'overview';
-}
-
-function readFilterPairsFromHash(): FilterFieldPair[] {
-  if (typeof window === 'undefined') {
-    return [];
-  }
-  const location = readCombatDataLocation(window.location.hash);
-  if (!location.isCombatDataRoute || !location.resourceId) {
-    return [];
-  }
-  if (!location.filterOk) {
-    return [];
-  }
-  return location.filterPairs;
 }
 
 function getGamesStatusLabel(status: LoadState): string {
@@ -152,7 +118,6 @@ function isNavItemActive(itemHashSegment: string, route: RouteId): boolean {
 export default function App() {
   const initialApiBaseUrl = readStoredValue(API_BASE_STORAGE_KEY, resolveApiBaseUrl());
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
-  const [filterPairs, setFilterPairs] = useState<FilterFieldPair[]>(() => readFilterPairsFromHash());
   const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
   const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
   const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, ''));
@@ -167,24 +132,35 @@ export default function App() {
     createDefaultCollapsedNavigationGroups(readRouteFromHash())
   );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [attributeEditorDirty, setAttributeEditorDirty] = useState(false);
+  const attributeEditorDirtyRef = useRef(false);
+  const acceptedHashRef = useRef(
+    typeof window === 'undefined' ? '' : window.location.hash
+  );
+
+  const handleAttributeDirtyChange = useCallback((dirty: boolean) => {
+    attributeEditorDirtyRef.current = dirty;
+    setAttributeEditorDirty(dirty);
+  }, []);
 
   useEffect(() => {
     const syncFromHash = () => {
-      const location = readCombatDataLocation(window.location.hash);
-      if (location.isCombatDataRoute && location.resourceId && !location.filterOk) {
-        const plan = planInvalidCombatDataFilterSync(window.location.hash, location.resourceId);
-        if (plan.replace) {
-          const { pathname, search } = window.location;
-          window.history.replaceState(null, '', `${pathname}${search}${plan.nextHash}`);
-        }
-        // Update React route/filter state immediately (replaceState does not fire hashchange).
-        setRoute(combatDataHashSegment(location.resourceId) as RouteId);
-        setFilterPairs(plan.filterPairs);
-        setMobileNavOpen(false);
+      const nextHash = window.location.hash;
+      if (
+        attributeEditorDirtyRef.current &&
+        nextHash !== acceptedHashRef.current &&
+        !window.confirm('当前修改尚未保存，确定要离开吗？')
+      ) {
+        const { pathname, search } = window.location;
+        window.history.replaceState(null, '', `${pathname}${search}${acceptedHashRef.current}`);
         return;
       }
+
+      if (attributeEditorDirtyRef.current && nextHash !== acceptedHashRef.current) {
+        handleAttributeDirtyChange(false);
+      }
+      acceptedHashRef.current = nextHash;
       setRoute(readRouteFromHash());
-      setFilterPairs(readFilterPairsFromHash());
       setMobileNavOpen(false);
     };
 
@@ -193,6 +169,18 @@ export default function App() {
     return () => {
       window.removeEventListener('hashchange', syncFromHash);
     };
+  }, [handleAttributeDirtyChange]);
+
+  useEffect(() => {
+    const warnBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!attributeEditorDirtyRef.current) {
+        return;
+      }
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', warnBeforeUnload);
+    return () => window.removeEventListener('beforeunload', warnBeforeUnload);
   }, []);
 
   // Narrow-screen media query: close mobile navigation when returning to desktop.
@@ -215,27 +203,9 @@ export default function App() {
     };
   }, []);
 
-  // Deep-link / in-app route changes: expand the owning combat-data group; keep others as-is.
-  useEffect(() => {
-    setCollapsedNavigationGroups((current) =>
-      ensureActiveCombatDataNavigationGroupExpanded(current, route)
-    );
-  }, [route]);
-
   // Route selection (including replaceState paths that skip hashchange) closes mobile nav.
   useEffect(() => {
     setMobileNavOpen(false);
-  }, [route]);
-
-  // `#/combat-data` (and unknown resource ids) → first registry resource page.
-  useEffect(() => {
-    if (route !== 'combat-data') {
-      return;
-    }
-    const target = `#/${COMBAT_DATA_HASH_PREFIX}/${DEFAULT_COMBAT_DATA_RESOURCE_ID}`;
-    if (window.location.hash !== target) {
-      window.location.hash = target;
-    }
   }, [route]);
 
   useEffect(() => {
@@ -286,12 +256,36 @@ export default function App() {
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
   const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
   const gamesReachable = gamesStatus === 'success';
-  const combatDataResourceId = combatDataResourceIdFromRoute(route);
 
   const applyApiBase = () => {
     const nextValue = resolveApiBaseUrl(apiBaseDraft);
     setApiBaseDraft(nextValue);
     setApiBaseUrl(nextValue);
+  };
+
+  const handleNavigationClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    targetHash: string
+  ) => {
+    setMobileNavOpen(false);
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      !attributeEditorDirty ||
+      window.location.hash === targetHash
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (!window.confirm('当前修改尚未保存，确定要离开吗？')) {
+      return;
+    }
+    handleAttributeDirtyChange(false);
+    window.location.hash = targetHash;
   };
 
   let pageContent = (
@@ -303,7 +297,16 @@ export default function App() {
     />
   );
 
-  if (route === 'workspace') {
+  if (route === 'attributes') {
+    pageContent = (
+      <AttributeManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'workspace') {
     pageContent = (
       <VersionPublishPage
         apiBaseUrl={apiBaseUrl}
@@ -335,15 +338,6 @@ export default function App() {
   } else if (route === 'entity-provider-mount') {
     pageContent = (
       <EntityProviderMountPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'entity-growth') {
-    pageContent = (
-      <EntityGrowthPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
@@ -404,21 +398,6 @@ export default function App() {
         adminToken={adminToken}
       />
     );
-  } else if (isCombatDataRouteId(route) && combatDataResourceId) {
-    pageContent = (
-      <CombatDataPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        resourceId={combatDataResourceId}
-        gamesReachable={gamesReachable}
-        filterPairs={filterPairs}
-      />
-    );
-  } else if (route === 'combat-data') {
-    pageContent = (
-      <Alert type="info" content={`正在进入 ${DEFAULT_COMBAT_DATA_RESOURCE_ID}…`} className="workspace-alert" />
-    );
   }
 
   return (
@@ -436,7 +415,7 @@ export default function App() {
               Web 控制台
             </Typography.Title>
             <Typography.Text className="brand-copy">
-              combat-data 分表编辑、版本发布、图片同步与 Wasm 验证。
+              属性管理、配置维护、版本发布与图片同步。
             </Typography.Text>
           </div>
           <button
@@ -490,7 +469,9 @@ export default function App() {
                             className={`nav-item nav-item-secondary${active ? ' is-active' : ''}`}
                             href={`#/${item.hashSegment}`}
                             aria-current={active ? 'page' : undefined}
-                            onClick={() => setMobileNavOpen(false)}
+                            onClick={(event) =>
+                              handleNavigationClick(event, `#/${item.hashSegment}`)
+                            }
                           >
                             <span className="nav-item-label">{item.label}</span>
                             <span className="nav-item-summary">{item.summary}</span>
