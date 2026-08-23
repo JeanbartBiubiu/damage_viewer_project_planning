@@ -9,6 +9,7 @@ export type StaticRouteId =
   | 'images'
   | 'attributes'
   | 'characters'
+  | 'equipment'
   | 'game-settings'
   | 'provider-setup'
   | 'ability-setup'
@@ -88,6 +89,12 @@ const dataManagementNavigationItems: NavigationItem[] = [
     hashSegment: 'characters',
     label: '角色管理',
     summary: '维护角色基本资料和各等级属性。'
+  },
+  {
+    id: 'equipment',
+    hashSegment: 'equipment',
+    label: '装备管理',
+    summary: '维护装备基本资料和直接属性。'
   },
   {
     id: 'game-settings',
