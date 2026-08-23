@@ -235,13 +235,8 @@ export function ImagesPage({
     <div className="page-images page-stack">
       <Panel title="同步动作" kicker="Sync Flow">
         <Typography.Paragraph type="secondary" style={{ marginTop: 0 }}>
-          缓存同步只更新本地 IndexedDB 预览，不会改写实体 / 属性定义上的 <code>imageUri</code> 关联。绑定编辑：
-          <a href="#/entity-setup">实体创建</a>
-          {' · '}
-          <a href="#/combat-data/entities">通用实体</a>
-          {' · '}
-          <a href="#/combat-data/attribute-definitions">属性定义</a>
-          。
+          缓存同步只更新本地 IndexedDB 预览，不会改写业务数据中的图片关联。实体图片请到{' '}
+          <a href="#/entity-setup">实体创建</a>维护。
         </Typography.Paragraph>
         {!selectedGameId ? (
           <EmptyState title="还没有选择 gameId" description="图片页会按当前 gameId 执行全量同步、增量同步和缓存清理。" />
@@ -274,10 +269,8 @@ export function ImagesPage({
         <Space direction="vertical" size={16} style={{ width: '100%' }}>
           <Typography.Paragraph type="secondary" style={{ marginTop: 0, marginBottom: 0 }}>
             本面板只管理独立图片资产（写入 Admin images 接口并回写本地缓存）。它不会保存战斗数据资源的{' '}
-            <code>imageUri</code> 关联。实体 / 属性定义上的关联请到{' '}
-            <a href="#/entity-setup">实体创建</a>、
-            <a href="#/combat-data/entities">通用实体</a> 或{' '}
-            <a href="#/combat-data/attribute-definitions">属性定义</a> 编辑并保存；此处上传成功后，仍需在那些页面选择 URI 并保存资源表单。
+            <code>imageUri</code> 关联。实体上的关联请到{' '}
+            <a href="#/entity-setup">实体创建</a>编辑并保存；此处上传成功后，仍需在实体页面选择 URI 并保存。
           </Typography.Paragraph>
 
           {!selectedGameId ? (
