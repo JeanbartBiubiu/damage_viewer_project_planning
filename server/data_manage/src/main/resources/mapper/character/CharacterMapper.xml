@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.character.CharacterMapper">
+
+    <resultMap id="characterResponse" type="xyz.game.datamanage.model.character.CharacterResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="character_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="levelConfig" type="xyz.game.datamanage.model.character.LevelConfigResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="min_level" javaType="java.lang.Integer"/>
+            <arg column="max_level" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeDefinition" type="xyz.game.datamanage.model.character.CharacterAttributeDefinition">
+        <constructor>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="value_type" javaType="xyz.game.datamanage.model.attribute.AttributeValueType"/>
+            <arg column="min_value" javaType="java.math.BigDecimal"/>
+            <arg column="max_value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findLevelConfig" resultMap="levelConfig">
+        SELECT game_id, min_level, max_level
+        FROM public.game_level_configs
+        WHERE game_id = #{gameId}
+    </select>
+
+    <insert id="upsertLevelConfig">
+        INSERT INTO public.game_level_configs (game_id, min_level, max_level)
+        VALUES (#{gameId}, #{minLevel}, #{maxLevel})
+        ON CONFLICT (game_id) DO UPDATE
+        SET min_level = EXCLUDED.min_level,
+            max_level = EXCLUDED.max_level,
+            updated_at = now()
+    </insert>
+
+    <select id="list" resultMap="characterResponse">
+        SELECT game_id, character_key, name, description, created_at, updated_at
+        FROM public.characters
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(character_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        ORDER BY name ASC, character_key ASC
+    </select>
+
+    <select id="listCharacterKeys" resultType="string">
+        SELECT character_key
+        FROM public.characters
+        WHERE game_id = #{gameId}
+        ORDER BY character_key ASC
+    </select>
+
+    <select id="findById" resultMap="characterResponse">
+        SELECT game_id, character_key, name, description, created_at, updated_at
+        FROM public.characters
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="characterResponse">
+        SELECT game_id, character_key, name, description, created_at, updated_at
+        FROM public.characters
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1) FROM public.characters
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1) FROM public.characters
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeCharacterKey != null">
+            AND character_key &lt;&gt; #{excludeCharacterKey}
+        </if>
+    </select>
+
+    <insert id="insertCharacter">
+        INSERT INTO public.characters (game_id, character_key, name, description)
+        VALUES (#{gameId}, #{characterKey}, #{name}, #{description})
+    </insert>
+
+    <update id="updateCharacter">
+        UPDATE public.characters
+        SET name = #{name}, description = #{description}, updated_at = now()
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </update>
+
+    <delete id="deleteCharacter">
+        DELETE FROM public.characters
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </delete>
+
+    <select id="listAttributeDefinitions" resultMap="attributeDefinition">
+        SELECT attribute_key, value_type, min_value, max_value
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+        ORDER BY sort_order ASC, name ASC, attribute_key ASC
+    </select>
+
+    <select id="findLevelValuesJson" resultType="string">
+        SELECT level_values::text
+        FROM public.character_attributes
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </select>
+
+    <insert id="insertLevelValues">
+        INSERT INTO public.character_attributes (game_id, character_key, level_values)
+        VALUES (#{gameId}, #{characterKey}, CAST(#{levelValuesJson} AS jsonb))
+    </insert>
+
+    <update id="updateLevelValues">
+        UPDATE public.character_attributes
+        SET level_values = CAST(#{levelValuesJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </update>
+</mapper>

@@ -52,6 +52,59 @@ CREATE UNIQUE INDEX uq_attributes_name
 
 COMMENT ON TABLE public.attributes IS '属性';
 
+CREATE TABLE public.game_level_configs (
+    game_id varchar(64) NOT NULL,
+    min_level integer NOT NULL,
+    max_level integer NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_game_level_configs PRIMARY KEY (game_id),
+    CONSTRAINT fk_game_level_configs_game
+        FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_game_level_configs_range
+        CHECK (min_level >= 1 AND max_level >= min_level AND max_level <= 100)
+);
+
+COMMENT ON TABLE public.game_level_configs IS '游戏等级范围配置';
+
+CREATE TABLE public.characters (
+    game_id varchar(64) NOT NULL,
+    character_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description text,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_characters PRIMARY KEY (game_id, character_key),
+    CONSTRAINT fk_characters_game
+        FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_characters_key
+        CHECK (character_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_characters_name
+        CHECK (btrim(name) <> '')
+);
+
+CREATE UNIQUE INDEX uq_characters_name
+    ON public.characters (game_id, lower(btrim(name)));
+
+COMMENT ON TABLE public.characters IS '角色';
+
+CREATE TABLE public.character_attributes (
+    game_id varchar(64) NOT NULL,
+    character_key varchar(64) NOT NULL,
+    level_values jsonb NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_character_attributes PRIMARY KEY (game_id, character_key),
+    CONSTRAINT fk_character_attributes_character
+        FOREIGN KEY (game_id, character_key)
+        REFERENCES public.characters (game_id, character_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_character_attributes_level_values
+        CHECK (jsonb_typeof(level_values) = 'object')
+);
+
+COMMENT ON TABLE public.character_attributes IS '角色各等级属性';
+
 CREATE TABLE public.game_data_state (
     game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
     current_revision bigint NOT NULL DEFAULT 0 CHECK (current_revision >= 0),
