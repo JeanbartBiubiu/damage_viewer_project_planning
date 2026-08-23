@@ -8,9 +8,9 @@ export type StaticRouteId =
   | 'wasm-validation-generic'
   | 'images'
   | 'attributes'
-  | 'entity-setup'
+  | 'characters'
+  | 'game-settings'
   | 'provider-setup'
-  | 'entity-provider-mount'
   | 'ability-setup'
   | 'effect-sequence-setup'
   | 'effect-step-setup'
@@ -84,22 +84,22 @@ const dataManagementNavigationItems: NavigationItem[] = [
     summary: '维护游戏内属性、范围、状态和排序。'
   },
   {
-    id: 'entity-setup',
-    hashSegment: 'entity-setup',
-    label: '实体创建',
-    summary: '创建或有意更新实体主行（单行 PUT：displayName + description）。'
+    id: 'characters',
+    hashSegment: 'characters',
+    label: '角色管理',
+    summary: '维护角色基本资料和各等级属性。'
+  },
+  {
+    id: 'game-settings',
+    hashSegment: 'game-settings',
+    label: '游戏配置',
+    summary: '维护当前游戏的等级范围。'
   },
   {
     id: 'provider-setup',
     hashSegment: 'provider-setup',
     label: 'Provider 创建',
     summary: '按语义类型创建或更新 Provider 主档（单行 PUT）。'
-  },
-  {
-    id: 'entity-provider-mount',
-    hashSegment: 'entity-provider-mount',
-    label: '实体 Provider 挂载',
-    summary: '选择已有实体与 Provider，仅创建挂载关系（单行 PUT，body={}）。'
   },
   {
     id: 'ability-setup',
