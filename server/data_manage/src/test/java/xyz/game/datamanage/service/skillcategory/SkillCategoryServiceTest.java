@@ -12,6 +12,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -90,11 +92,12 @@ class SkillCategoryServiceTest {
         );
     }
 
-    @Test
-    void mapsForeignKeyDeleteConflictToStableInUseError() {
+    @ParameterizedTest
+    @ValueSource(strings = {"23503", "23001"})
+    void mapsForeignKeyDeleteConflictToStableInUseError(String sqlState) {
         when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(category());
         when(mapper.delete(GAME_ID, KEY)).thenThrow(
-            new DataIntegrityViolationException("referenced", new SQLException("fk", "23503"))
+            new DataIntegrityViolationException("referenced", new SQLException("fk", sqlState))
         );
 
         assertCode("409.SKILL_CATEGORY_IN_USE", () -> service.delete(GAME_ID, KEY));
