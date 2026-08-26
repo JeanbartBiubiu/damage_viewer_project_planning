@@ -94,6 +94,21 @@
 
 管理接口分别位于 `/api/admin/games/{gameId}/skill-categories` 和 `/api/admin/games/{gameId}/damage-types`，均提供列表、详情、新建、全量修改和删除。已有开发库执行 `db/game_manage/migrations/compatibility/skill_category_damage_type_management_compatibility_migration.sql`；脚本可重复执行且不写默认记录。
 
+### 技能基本管理
+
+`public.skills` 保存技能基本信息，`public.skill_category_relations` 保存技能与既有 `skill_categories` 的多对多关系。分类关系不写入数组、JSONB 或单列；本阶段不存储伤害类型、每级参数或战斗数据。
+
+管理接口位于 `/api/admin/games/{gameId}/skills`：GET 列表或详情，POST 新建，PUT 全量修改（含启用/停用），DELETE 删除。请求与响应使用 `skillCategoryKeys: string[]`，空数组表示未分类。`skillKey` 在同一游戏内唯一且不可改；显示名称允许重复。`maxLevel` 为 >= 1 的整数，定义完整等级范围 `1..maxLevel`。
+
+已有开发库执行 `db/game_manage/migrations/compatibility/skill_management_compatibility_migration.sql`。脚本用 `information_schema` / `pg_constraint` 预检同名表：缺失则创建，完全兼容则保持幂等，结构不兼容则报错停止；不写默认记录、不迁移旧战斗数据。不要把该 migration 当作新库必跑步骤。
+
+静态契约校验（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=SkillManagementDbContractSqlTest,SkillServiceTest,SkillAdminControllerTest test
+```
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skill.SkillMapper">
+
+    <resultMap id="skillRow" type="xyz.game.datamanage.model.skill.SkillRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="max_level" javaType="java.lang.Integer"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.skill.SkillStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="relationRow" type="xyz.game.datamanage.model.skill.SkillCategoryRelationRow">
+        <constructor>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="skill_category_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="lockRow" type="xyz.game.datamanage.model.skill.SkillCategoryLockRow">
+        <constructor>
+            <arg column="skill_category_key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="list" resultMap="skillRow">
+        SELECT game_id, skill_key, name, description, max_level, status, sort_order, created_at, updated_at
+        FROM public.skills
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(skill_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, skill_key ASC
+    </select>
+
+    <select id="findById" resultMap="skillRow">
+        SELECT game_id, skill_key, name, description, max_level, status, sort_order, created_at, updated_at
+        FROM public.skills
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="skillRow">
+        SELECT game_id, skill_key, name, description, max_level, status, sort_order, created_at, updated_at
+        FROM public.skills
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skills
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.skills (
+            game_id, skill_key, name, description, max_level, status, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{name}, #{description}, #{maxLevel}, #{status}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.skills
+        SET name = #{name},
+            description = #{description},
+            max_level = #{maxLevel},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.skills
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="listRelations" resultMap="relationRow">
+        SELECT r.skill_key, r.skill_category_key
+        FROM public.skill_category_relations r
+        INNER JOIN public.skill_categories c
+            ON c.game_id = r.game_id AND c.skill_category_key = r.skill_category_key
+        WHERE r.game_id = #{gameId}
+          AND r.skill_key IN
+        <foreach collection="skillKeys" item="skillKey" open="(" separator="," close=")">
+            #{skillKey}
+        </foreach>
+        ORDER BY r.skill_key ASC, c.sort_order ASC, c.name ASC, r.skill_category_key ASC
+    </select>
+
+    <select id="listRelationKeys" resultType="string">
+        SELECT skill_category_key
+        FROM public.skill_category_relations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </select>
+
+    <select id="lockCategories" resultMap="lockRow">
+        SELECT skill_category_key, status
+        FROM public.skill_categories
+        WHERE game_id = #{gameId}
+          AND skill_category_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY skill_category_key ASC
+        FOR UPDATE
+    </select>
+
+    <insert id="insertRelation">
+        INSERT INTO public.skill_category_relations (
+            game_id, skill_key, skill_category_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{skillCategoryKey}
+        )
+    </insert>
+
+    <delete id="deleteAllRelations">
+        DELETE FROM public.skill_category_relations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <delete id="deleteRelations">
+        DELETE FROM public.skill_category_relations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND skill_category_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </delete>
+</mapper>
