@@ -75,6 +75,19 @@ type DamageTypeRow = {
   updatedAt: string;
 };
 
+type SkillRow = {
+  gameId: string;
+  skillKey: string;
+  name: string;
+  description: string | null;
+  maxLevel: number;
+  status: 'ENABLED' | 'DISABLED';
+  sortOrder: number;
+  skillCategoryKeys: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
 
 type CapturedWrite = {
@@ -115,6 +128,8 @@ class MockApi {
   equipmentAttributes: Record<string, Record<string, number>> = {};
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
+  skills: SkillRow[] = [];
+  skillCategoryListFailure = false;
   minLevel = 1;
   maxLevel = 2;
   writeFailure: WriteFailure = null;
@@ -403,6 +418,10 @@ class MockApi {
 
     if (path === `/api/admin/games/${GAME_ID}/skill-categories`) {
       if (method === 'GET') {
+        if (this.skillCategoryListFailure) {
+          await this.error(route, 503, '503.SKILL_CATEGORY_LIST_UNAVAILABLE', '技能分类读取失败');
+          return;
+        }
         const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
         const status = url.searchParams.get('status');
         const items = this.skillCategories.filter((item) => {
@@ -467,6 +486,83 @@ class MockApi {
       if (method === 'DELETE') {
         this.writes.push({ method, path, body: {} });
         this.skillCategories = this.skillCategories.filter((item) => item.skillCategoryKey !== key);
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    if (path === `/api/admin/games/${GAME_ID}/skills`) {
+      if (method === 'GET') {
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const status = url.searchParams.get('status');
+        const items = this.skills.filter((item) => {
+          const keywordMatches = !keyword
+            || item.skillKey.toLocaleLowerCase().includes(keyword)
+            || item.name.toLocaleLowerCase().includes(keyword);
+          return keywordMatches && (!status || item.status === status);
+        });
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: SkillRow = {
+          gameId: GAME_ID,
+          skillKey: String(body.skillKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          maxLevel: Number(body.maxLevel),
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          skillCategoryKeys: Array.isArray(body.skillCategoryKeys)
+            ? body.skillCategoryKeys.map(String)
+            : [],
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.skills.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const skillDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)$`)
+    );
+    if (skillDetail) {
+      const key = skillDetail[1]!;
+      const existing = this.skills.find((item) => item.skillKey === key);
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: SkillRow = {
+          ...existing,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          maxLevel: Number(body.maxLevel),
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          skillCategoryKeys: Array.isArray(body.skillCategoryKeys)
+            ? body.skillCategoryKeys.map(String)
+            : [],
+          updatedAt: '2026-08-23T11:00:00Z'
+        };
+        this.skills = this.skills.map((item) => item.skillKey === key ? next : item);
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.skills = this.skills.filter((item) => item.skillKey !== key);
         await route.fulfill({ status: 204 });
         return;
       }
@@ -747,6 +843,12 @@ async function openDamageTypes(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('伤害类型管理', { exact: true }).first()).toBeVisible();
 }
 
+async function openSkills(page: Page): Promise<void> {
+  await page.goto('/#/skills');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('技能管理', { exact: true }).first()).toBeVisible();
+}
+
 async function openGameSettings(page: Page): Promise<void> {
   await page.goto('/#/game-settings');
   await waitForGame(page);
@@ -778,6 +880,12 @@ function skillCategoryRow(page: Page, key: string): Locator {
 }
 
 function damageTypeRow(page: Page, key: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: key, exact: true })
+  });
+}
+
+function skillRow(page: Page, key: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: key, exact: true })
   });
@@ -1044,6 +1152,160 @@ test.describe('skill category and damage type management without Wasm', () => {
   });
 });
 
+test.describe('skill management without Wasm', () => {
+  test('manages skill basics, multiple categories and stable status filtering', async ({ page }, testInfo) => {
+    const mock = new MockApi();
+    mock.skillCategories = [
+      {
+        gameId: GAME_ID,
+        skillCategoryKey: 'active',
+        name: '主动技能',
+        description: null,
+        status: 'ENABLED',
+        sortOrder: 10,
+        createdAt: CREATED_AT,
+        updatedAt: UPDATED_AT
+      },
+      {
+        gameId: GAME_ID,
+        skillCategoryKey: 'single_target',
+        name: '单体技能',
+        description: null,
+        status: 'ENABLED',
+        sortOrder: 20,
+        createdAt: CREATED_AT,
+        updatedAt: UPDATED_AT
+      }
+    ];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    await expect(page.getByText('暂无技能', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增技能', exact: true }).click();
+    const createModal = visibleModal(page, '新增技能');
+    await createModal.getByLabel('技能标识', { exact: true }).fill('ezreal_q');
+    await createModal.getByLabel('技能名称', { exact: true }).fill('秘术射击');
+    await createModal.getByLabel('最高等级', { exact: true }).fill('5');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(skillRow(page, 'ezreal_q')).toContainText('秘术射击');
+    expect(mock.skills[0]?.skillCategoryKeys).toEqual([]);
+
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '查看', exact: true }).click();
+    const viewModal = visibleModal(page, '查看技能');
+    await expect(viewModal).toBeVisible();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(viewModal).toBeHidden();
+
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑技能');
+    await expect(editModal.getByLabel('技能标识', { exact: true })).toBeDisabled();
+    await editModal.getByLabel('技能分类', { exact: true }).click();
+    await page.locator('.arco-select-option:visible').filter({ hasText: '主动技能' }).click();
+    await page.locator('.arco-select-option:visible').filter({ hasText: '单体技能' }).click();
+    await page.keyboard.press('Escape');
+    await editModal.getByLabel('说明', { exact: true }).fill('命中第一个目标');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    await expect(skillRow(page, 'ezreal_q')).toContainText('主动技能');
+    await expect(skillRow(page, 'ezreal_q')).toContainText('单体技能');
+    expect(mock.skills[0]?.skillCategoryKeys).toEqual(['active', 'single_target']);
+
+    mock.skillCategories[0]!.status = 'DISABLED';
+    await page.getByRole('button', { name: '刷新', exact: true }).last().click();
+    await expect(skillRow(page, 'ezreal_q')).toContainText('主动技能（已停用）');
+
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '编辑', exact: true }).click();
+    const disabledCategoryModal = visibleModal(page, '编辑技能');
+    await expect(disabledCategoryModal.getByText('主动技能（已停用）', { exact: true })).toBeVisible();
+    await disabledCategoryModal.getByLabel('技能名称', { exact: true }).fill('秘术射击改');
+    await disabledCategoryModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(disabledCategoryModal).toBeHidden();
+    expect(mock.skills[0]?.skillCategoryKeys).toEqual(['active', 'single_target']);
+    await expect(skillRow(page, 'ezreal_q')).toContainText('秘术射击改');
+
+    await page.getByRole('button', { name: '新增技能', exact: true }).click();
+    const outsideCloseModal = visibleModal(page, '新增技能');
+    await outsideCloseModal.getByLabel('技能名称', { exact: true }).fill('未保存技能');
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(outsideCloseModal).toBeHidden();
+    expect(mock.skills).toHaveLength(1);
+
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '停用', exact: true }).click();
+    const disableModal = visibleModal(page, '停用技能');
+    await disableModal.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(disableModal).toBeHidden();
+    await expect(skillRow(page, 'ezreal_q')).toContainText('停用');
+    expect(mock.skills[0]?.skillCategoryKeys).toEqual(['active', 'single_target']);
+
+    const statusFilter = page.getByLabel('技能状态筛选');
+    await statusFilter.getByText('停用', { exact: true }).click();
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    await expect(statusFilter.getByRole('radio', { name: '停用' })).toBeChecked();
+    await expect(skillRow(page, 'ezreal_q')).toBeVisible();
+
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '启用', exact: true }).click();
+    const enableModal = visibleModal(page, '启用技能');
+    await enableModal.getByRole('button', { name: '启用', exact: true }).click();
+    await expect(enableModal).toBeHidden();
+    await expect(skillRow(page, 'ezreal_q')).toHaveCount(0);
+
+    await page.getByRole('button', { name: '重置', exact: true }).click();
+    await expect(skillRow(page, 'ezreal_q')).toBeVisible();
+    await skillRow(page, 'ezreal_q').getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除技能');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(skillRow(page, 'ezreal_q')).toHaveCount(0);
+    expect(mock.skillCategories).toHaveLength(2);
+    diagnostics.assertClean('skill basic management');
+  });
+
+  test('keeps safe operations available while the category directory is unavailable', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skillCategories = [{
+      gameId: GAME_ID,
+      skillCategoryKey: 'active',
+      name: '主动技能',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    mock.skills = [{
+      gameId: GAME_ID,
+      skillKey: 'safe_skill',
+      name: '安全操作测试',
+      description: null,
+      maxLevel: 1,
+      status: 'ENABLED',
+      sortOrder: 0,
+      skillCategoryKeys: ['active'],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    mock.skillCategoryListFailure = true;
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const row = skillRow(page, 'safe_skill');
+    await expect(row).toContainText('active');
+    await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeDisabled();
+    await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeDisabled();
+    await expect(row.getByRole('button', { name: '查看', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '停用', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '删除', exact: true })).toBeEnabled();
+
+    mock.skillCategoryListFailure = false;
+    await page.getByRole('button', { name: '重试', exact: true }).click();
+    await expect(row).toContainText('主动技能');
+    await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeEnabled();
+    diagnostics.assertClean('skill category directory failure protection');
+  });
+});
+
 test.describe('attribute management without Wasm', () => {
   test('empty state, normalized query filtering and reset', async ({ page }) => {
     const mock = new MockApi();
@@ -1280,6 +1542,7 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/equipment"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skill-categories"]').count()).toBe(1);
     expect(await page.locator('a[href="#/damage-types"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/skills"]').count()).toBe(1);
     diagnostics.assertClean('legacy hash fallback');
   });
 });
