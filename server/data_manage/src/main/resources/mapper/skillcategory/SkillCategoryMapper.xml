@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillcategory.SkillCategoryMapper">
+
+    <resultMap id="response" type="xyz.game.datamanage.model.skillcategory.SkillCategoryResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_category_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.skillcategory.SkillCategoryStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="list" resultMap="response">
+        SELECT game_id, skill_category_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.skill_categories
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(skill_category_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, skill_category_key ASC
+    </select>
+
+    <select id="findById" resultMap="response">
+        SELECT game_id, skill_category_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.skill_categories
+        WHERE game_id = #{gameId} AND skill_category_key = #{skillCategoryKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="response">
+        SELECT game_id, skill_category_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.skill_categories
+        WHERE game_id = #{gameId} AND skill_category_key = #{skillCategoryKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_categories
+        WHERE game_id = #{gameId} AND skill_category_key = #{skillCategoryKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_categories
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeSkillCategoryKey != null">
+            AND skill_category_key &lt;&gt; #{excludeSkillCategoryKey}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.skill_categories (
+            game_id, skill_category_key, name, description, status, sort_order
+        ) VALUES (
+            #{gameId}, #{skillCategoryKey}, #{name}, #{description}, #{status}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.skill_categories
+        SET name = #{name},
+            description = #{description},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_category_key = #{skillCategoryKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.skill_categories
+        WHERE game_id = #{gameId} AND skill_category_key = #{skillCategoryKey}
+    </delete>
+</mapper>
