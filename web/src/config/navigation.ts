@@ -12,6 +12,7 @@ export type StaticRouteId =
   | 'equipment'
   | 'skill-categories'
   | 'damage-types'
+  | 'skills'
   | 'game-settings'
   | 'provider-setup'
   | 'ability-setup'
@@ -108,6 +109,12 @@ const dataManagementNavigationItems: NavigationItem[] = [
     id: 'damage-types',
     hashSegment: 'damage-types',
     label: '伤害类型管理',
+    summary: ''
+  },
+  {
+    id: 'skills',
+    hashSegment: 'skills',
+    label: '技能管理',
     summary: ''
   },
   {
