@@ -128,7 +128,7 @@ public class SkillCategoryService {
                 throw notFound(skillCategoryKey);
             }
         } catch (DataIntegrityViolationException ex) {
-            if (hasSqlState(ex, "23503")) {
+            if (hasSqlState(ex, "23503") || hasSqlState(ex, "23001")) {
                 throw inUse();
             }
             throw ex;
