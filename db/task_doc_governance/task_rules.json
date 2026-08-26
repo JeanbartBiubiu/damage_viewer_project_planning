@@ -106,6 +106,21 @@
       ]
     },
     {
+      "task_key": "planning-skill-basic-management",
+      "title": "技能基本管理共享契约",
+      "module": "planning",
+      "feature": "skill_basic_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "docs": [
+        "文档记录/详细设计/项目/技能基本管理详细设计.md",
+        "文档记录/测试记录/项目/技能基本管理验收记录-2026-08-26.md"
+      ],
+      "completion_note": "技能独立表、分类关联表、前后端增删改查、真实数据库迁移和浏览器闭环均已通过。",
+      "completed_at": "2026-08-26"
+    },
+    {
       "task_key": "planning-validation-milestones",
       "title": "跨端验证里程碑",
       "module": "planning",
@@ -333,6 +348,20 @@
       ]
     },
     {
+      "task_key": "web-skill-basic-management",
+      "title": "前端技能基本管理",
+      "module": "web",
+      "feature": "skill_basic_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "docs": [
+        "文档记录/详细设计/web/技能基本管理前端详细设计.md"
+      ],
+      "completion_note": "技能管理页面、分类多选、直接启停、路由导航和非 Wasm 浏览器验收已完成。",
+      "completed_at": "2026-08-26"
+    },
+    {
       "task_key": "server-backend-review",
       "title": "Server 后端评审与改进项",
       "module": "server",
@@ -507,6 +536,20 @@
       "docs": [
         "文档记录/详细设计/server/game_manage/技能分类与伤害类型管理后端详细设计.md"
       ]
+    },
+    {
+      "task_key": "server-skill-basic-management",
+      "title": "后端技能基本管理",
+      "module": "server",
+      "feature": "skill_basic_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/技能基本管理后端详细设计.md"
+      ],
+      "completion_note": "技能主表、分类关联表、完整接口、迁移和真实数据库验证已完成。",
+      "completed_at": "2026-08-26"
     },
     {
       "task_key": "wasm-gap-closure",
