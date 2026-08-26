@@ -170,6 +170,56 @@ CREATE UNIQUE INDEX uq_skill_categories_name
 
 COMMENT ON TABLE public.skill_categories IS '技能分类';
 
+CREATE TABLE public.skills (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(2000),
+    max_level integer NOT NULL,
+    status varchar(16) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_key),
+    CONSTRAINT fk_skills_game
+        FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_skills_key
+        CHECK (skill_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skills_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skills_max_level
+        CHECK (max_level >= 1),
+    CONSTRAINT ck_skills_status
+        CHECK (status IN ('ENABLED', 'DISABLED')),
+    CONSTRAINT ck_skills_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skills_list
+    ON public.skills (game_id, status, sort_order, name, skill_key);
+
+COMMENT ON TABLE public.skills IS '技能';
+
+CREATE TABLE public.skill_category_relations (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    skill_category_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_category_relations PRIMARY KEY (game_id, skill_key, skill_category_key),
+    CONSTRAINT fk_skill_category_relations_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_category_relations_category
+        FOREIGN KEY (game_id, skill_category_key)
+        REFERENCES public.skill_categories (game_id, skill_category_key)
+        ON DELETE RESTRICT
+);
+
+CREATE INDEX ix_skill_category_relations_category
+    ON public.skill_category_relations (game_id, skill_category_key, skill_key);
+
+COMMENT ON TABLE public.skill_category_relations IS '技能与技能分类多对多关系';
+
 CREATE TABLE public.damage_types (
     game_id varchar(64) NOT NULL,
     damage_type_key varchar(64) NOT NULL,
