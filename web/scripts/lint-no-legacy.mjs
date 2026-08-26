@@ -7,6 +7,18 @@ import { join, relative } from 'node:path';
 
 const ROOT = join(process.cwd(), 'src');
 
+/** Exact approved independent skill-management lines; `/skills` stays forbidden elsewhere. */
+const APPROVED_INDEPENDENT_SKILL_LINES = [
+  {
+    file: 'src/services/skillClient.ts',
+    text: 'const base = `/api/admin/games/${encodePathSegment(gameId)}/skills`;'
+  },
+  {
+    file: 'src/App.tsx',
+    text: "import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';"
+  }
+];
+
 const FORBIDDEN = [
   { id: 'bundle-path', pattern: /\/versions\/[^'"\s]+\/bundle\b|getBundle\b|loadPublishedBundleSnapshot\b/ },
   { id: 'wasm-catalog-path', pattern: /wasm-catalog|getWasmCatalog\b|loadPublishedWasmCatalogSnapshot\b|WasmCatalogV1\b/ },
@@ -59,6 +71,14 @@ for (const file of files) {
       continue;
     }
     for (const rule of FORBIDDEN) {
+      if (
+        rule.id === 'legacy-admin-resources' &&
+        APPROVED_INDEPENDENT_SKILL_LINES.some(
+          (approved) => rel === approved.file && text.trim() === approved.text
+        )
+      ) {
+        continue;
+      }
       if (rule.pattern.test(text)) {
         violations.push({ file: rel, id: rule.id, line: i + 1, text: text.trim() });
       }
