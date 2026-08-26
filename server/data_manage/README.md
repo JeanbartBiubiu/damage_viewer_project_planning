@@ -88,6 +88,12 @@
 
 管理接口统一位于 `/api/admin/games/{gameId}/attributes`：GET 查询列表或详情，POST 新建，PUT 全量修改或停用；当前不提供 DELETE。请求与响应均不包含显示单位、发布 revision 或旧战斗资源字段。
 
+### 技能分类与伤害类型管理
+
+`public.skill_categories` 保存单层技能分类，`public.damage_types` 保存伤害类型。两者不共用旧 `types` 表，也不读取或修改战斗数据接口。
+
+管理接口分别位于 `/api/admin/games/{gameId}/skill-categories` 和 `/api/admin/games/{gameId}/damage-types`，均提供列表、详情、新建、全量修改和删除。已有开发库执行 `db/game_manage/migrations/compatibility/skill_category_damage_type_management_compatibility_migration.sql`；脚本可重复执行且不写默认记录。
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.damagetype.DamageTypeMapper">
+
+    <resultMap id="response" type="xyz.game.datamanage.model.damagetype.DamageTypeResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.damagetype.DamageTypeStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="list" resultMap="response">
+        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.damage_types
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(damage_type_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, damage_type_key ASC
+    </select>
+
+    <select id="findById" resultMap="response">
+        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="response">
+        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeDamageTypeKey != null">
+            AND damage_type_key &lt;&gt; #{excludeDamageTypeKey}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.damage_types (
+            game_id, damage_type_key, name, description, status, sort_order
+        ) VALUES (
+            #{gameId}, #{damageTypeKey}, #{name}, #{description}, #{status}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.damage_types
+        SET name = #{name},
+            description = #{description},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </delete>
+</mapper>
