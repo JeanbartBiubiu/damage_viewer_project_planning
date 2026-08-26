@@ -10,6 +10,8 @@ describe('product navigation', () => {
       'attributes',
       'characters',
       'equipment',
+      'skill-categories',
+      'damage-types',
       'game-settings',
       'provider-setup',
       'ability-setup',
@@ -30,6 +32,14 @@ describe('product navigation', () => {
     expect(dataGroup?.items.find((item) => item.id === 'game-settings')).toMatchObject({
       hashSegment: 'game-settings',
       label: '游戏配置'
+    });
+    expect(dataGroup?.items.find((item) => item.id === 'skill-categories')).toMatchObject({
+      hashSegment: 'skill-categories',
+      label: '技能分类管理'
+    });
+    expect(dataGroup?.items.find((item) => item.id === 'damage-types')).toMatchObject({
+      hashSegment: 'damage-types',
+      label: '伤害类型管理'
     });
   });
 
@@ -60,6 +70,8 @@ describe('product navigation', () => {
       'attributes',
       'characters',
       'equipment',
+      'skill-categories',
+      'damage-types',
       'game-settings',
       'provider-setup',
       'ability-setup',

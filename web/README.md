@@ -15,6 +15,8 @@
 - `src/pages/OverviewPage.tsx`：系统总览、当前版本与 combat-data revision
 - `src/pages/VersionPublishPage.tsx`：版本发布（`versions:publish`，记录 changeRevision）
 - `src/pages/admin/combat-data/`：按资源表拆分的 combat-data 编辑页（`#/combat-data/<resource-id>`）
+- `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
+- `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
 - `src/pages/WasmValidationGenericPage.tsx`：combat-data → 组装 → compile / run / release
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 

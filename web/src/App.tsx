@@ -10,8 +10,10 @@ import {
 import { AbilitySetupPage } from './pages/admin/ability-setup/AbilitySetupPage';
 import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
 import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
+import { DamageTypeManagementPage } from './pages/admin/damage-types/DamageTypeManagementPage';
 import { EquipmentManagementPage } from './pages/admin/equipment/EquipmentManagementPage';
 import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
+import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
 import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
 import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
 import { EffectStepSetupPage } from './pages/admin/effect-step-setup/EffectStepSetupPage';
@@ -37,6 +39,8 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'attributes',
   'characters',
   'equipment',
+  'skill-categories',
+  'damage-types',
   'game-settings',
   'provider-setup',
   'ability-setup',
@@ -326,6 +330,24 @@ export default function App() {
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
+  } else if (route === 'skill-categories') {
+    pageContent = (
+      <SkillCategoryManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'damage-types') {
+    pageContent = (
+      <DamageTypeManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
   } else if (route === 'game-settings') {
     pageContent = (
       <GameSettingsPage
@@ -484,7 +506,7 @@ export default function App() {
                             }
                           >
                             <span className="nav-item-label">{item.label}</span>
-                            <span className="nav-item-summary">{item.summary}</span>
+                            {item.summary ? <span className="nav-item-summary">{item.summary}</span> : null}
                           </a>
                         );
                       })}
