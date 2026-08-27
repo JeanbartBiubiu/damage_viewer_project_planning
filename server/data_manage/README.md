@@ -109,6 +109,32 @@ cd server/data_manage
 mvn -Dtest=SkillManagementDbContractSqlTest,SkillServiceTest,SkillAdminControllerTest test
 ```
 
+### 技能参数与公式管理
+
+`public.skill_parameters` 保存技能参数，`public.skill_formulas` 保存公式资料，`public.skill_formula_nodes` 保存表达式节点。参数与公式均绑定同一技能；节点通过复合外键引用同技能参数与同游戏属性。参数外键不级联；删除公式时级联删除节点；删除技能前须先清公式与参数。
+
+管理接口：
+
+1. `/api/admin/games/{gameId}/skills/{skillKey}/parameters`：参数列表、详情、新建、全量修改、删除。
+2. `/api/admin/games/{gameId}/skills/{skillKey}/formulas`：公式列表、详情（还原表达式）、新建、全量修改、删除。
+
+参数取值方式：`FIXED`、`SKILL_LEVEL`、`CHARACTER_LEVEL`、`RUNTIME_INPUT`。公式节点类型：`OPERATION`、`PARAMETER`、`ATTRIBUTE`。本阶段不创建计算变量表，不读取或修改 `provider_formulas`，不执行公式。
+
+已有开发库执行 `db/game_manage/migrations/compatibility/skill_parameter_formula_management_migration.sql`。脚本预检同名结构后幂等创建缺失对象；不写种子、不 `DELETE`/`DROP`/`CASCADE` 改写已有数据。不要把该 migration 当作新库必跑步骤。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=SkillParameterFormulaManagementDbContractSqlTest,SkillParameterServiceTest,SkillFormulaServiceTest,SkillServiceTest,CharacterServiceTest,SkillParameterAdminControllerTest,SkillFormulaAdminControllerTest test
+```
+
+随后：
+
+```bash
+mvn test
+```
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。

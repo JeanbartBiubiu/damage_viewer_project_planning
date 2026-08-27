@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.character.CharacterMapper;
+import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.character.CharacterAttributeDefinition;
 import xyz.game.datamanage.model.character.CharacterAttributesRequest;
@@ -32,6 +33,8 @@ import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.CharacterUpdateRequest;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
 import xyz.game.datamanage.model.character.LevelConfigUpdateRequest;
+import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
+import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -45,15 +48,21 @@ public class CharacterService {
 
     private final GamesMapper gamesMapper;
     private final CharacterMapper characterMapper;
+    private final SkillParameterMapper parameterMapper;
+    private final SkillParameterLevelService levelService;
     private final ObjectMapper objectMapper;
 
     public CharacterService(
         GamesMapper gamesMapper,
         CharacterMapper characterMapper,
+        SkillParameterMapper parameterMapper,
+        SkillParameterLevelService levelService,
         ObjectMapper objectMapper
     ) {
         this.gamesMapper = gamesMapper;
         this.characterMapper = characterMapper;
+        this.parameterMapper = parameterMapper;
+        this.levelService = levelService;
         this.objectMapper = objectMapper;
     }
 
@@ -70,30 +79,74 @@ public class CharacterService {
     ) {
         requireGame(gameId);
         validateLevelConfig(request);
-        LevelConfigResponse previousConfig = characterMapper.findLevelConfig(gameId);
-        characterMapper.upsertLevelConfig(gameId, request.minLevel(), request.maxLevel());
-
-        LevelConfigResponse config = new LevelConfigResponse(
+        if (characterMapper.lockGame(gameId) == null) {
+            throw gameNotFound(gameId);
+        }
+        LevelConfigResponse previousConfig = characterMapper.findLevelConfigForUpdate(gameId);
+        LevelConfigResponse nextConfig = new LevelConfigResponse(
             gameId,
             request.minLevel(),
             request.maxLevel()
         );
+        if (previousConfig == null) {
+            rejectInconsistentFirstLevelConfig(gameId);
+            characterMapper.upsertLevelConfig(gameId, request.minLevel(), request.maxLevel());
+            return requireLevelConfig(gameId);
+        }
+        if (levelService.isSameRange(
+            previousConfig.minLevel(),
+            previousConfig.maxLevel(),
+            nextConfig.minLevel(),
+            nextConfig.maxLevel()
+        )) {
+            characterMapper.upsertLevelConfig(gameId, request.minLevel(), request.maxLevel());
+            return requireLevelConfig(gameId);
+        }
+
+        parameterMapper.lockSkillsForGame(gameId);
+        List<SkillParameterRow> characterLevelParams =
+            parameterMapper.lockCharacterLevelParamsForGame(gameId);
+        characterMapper.lockCharactersForGame(gameId);
+        List<String> attributeKeys = characterMapper.lockCharacterAttributesForGame(gameId);
         List<CharacterAttributeDefinition> definitions = attributeDefinitions(gameId);
-        List<String> characterKeys = characterMapper.listCharacterKeys(gameId);
-        if (characterKeys != null) {
-            for (String characterKey : characterKeys) {
+
+        if (attributeKeys != null) {
+            for (String characterKey : attributeKeys) {
                 JsonNode stored = parseStored(characterMapper.findLevelValuesJson(gameId, characterKey));
                 String normalizedJson = toJson(remapForLevelConfig(
                     stored,
                     previousConfig,
-                    config,
+                    nextConfig,
                     definitions
                 ));
-                if (characterMapper.updateLevelValues(gameId, characterKey, normalizedJson) == 0) {
-                    characterMapper.insertLevelValues(gameId, characterKey, normalizedJson);
+                if (characterMapper.updateLevelValues(gameId, characterKey, normalizedJson) != 1) {
+                    throw new IllegalStateException(
+                        "Failed to update character attributes for " + characterKey
+                    );
                 }
             }
         }
+        if (characterLevelParams != null) {
+            for (SkillParameterRow row : characterLevelParams) {
+                Map<String, BigDecimal> previous = levelService.parseLevelValuesJson(row.levelValuesJson());
+                Map<String, BigDecimal> remapped = levelService.remap(
+                    previous,
+                    nextConfig.minLevel(),
+                    nextConfig.maxLevel()
+                );
+                if (parameterMapper.updateLevelValuesJson(
+                    gameId,
+                    row.skillKey(),
+                    row.parameterKey(),
+                    levelService.toLevelValuesJson(remapped)
+                ) != 1) {
+                    throw new IllegalStateException(
+                        "Failed to update CHARACTER_LEVEL parameter for " + row.parameterKey()
+                    );
+                }
+            }
+        }
+        characterMapper.upsertLevelConfig(gameId, request.minLevel(), request.maxLevel());
         return requireLevelConfig(gameId);
     }
 
@@ -115,7 +168,8 @@ public class CharacterService {
     @Transactional
     public CharacterResponse create(String gameId, @Valid CharacterCreateRequest request) {
         requireGame(gameId);
-        LevelConfigResponse levelConfig = requireLevelConfig(gameId);
+        lockGameAndLevelConfig(gameId);
+        LevelConfigResponse levelConfig = requireLevelConfigLocked(gameId);
         validateCreateRequest(request);
         if (characterMapper.countByKey(gameId, request.characterKey()) > 0) {
             throw characterKeyExists();
@@ -205,10 +259,11 @@ public class CharacterService {
         @Valid CharacterAttributesRequest request
     ) {
         requireGame(gameId);
+        lockGameAndLevelConfig(gameId);
+        LevelConfigResponse config = requireLevelConfigLocked(gameId);
         if (characterMapper.findByIdForUpdate(gameId, characterKey) == null) {
             throw characterNotFound(characterKey);
         }
-        LevelConfigResponse config = requireLevelConfig(gameId);
         List<CharacterAttributeDefinition> definitions = attributeDefinitions(gameId);
         JsonNode raw = request == null ? null : request.levelValues();
         ObjectNode normalized = normalizeForWrite(raw, config, definitions);
@@ -223,6 +278,33 @@ public class CharacterService {
             config.maxLevel(),
             normalized
         );
+    }
+
+    private void rejectInconsistentFirstLevelConfig(String gameId) {
+        if (characterMapper.countCharacterAttributes(gameId) > 0) {
+            throw inconsistentFirstLevelConfig(gameId);
+        }
+        List<SkillParameterRow> params = parameterMapper.listCharacterLevelParamsForGame(gameId);
+        if (params != null && !params.isEmpty()) {
+            throw inconsistentFirstLevelConfig(gameId);
+        }
+    }
+
+    private void lockGameAndLevelConfig(String gameId) {
+        if (characterMapper.lockGame(gameId) == null) {
+            throw gameNotFound(gameId);
+        }
+        if (characterMapper.findLevelConfigForUpdate(gameId) == null) {
+            throw levelConfigRequired(gameId);
+        }
+    }
+
+    private LevelConfigResponse requireLevelConfigLocked(String gameId) {
+        LevelConfigResponse response = characterMapper.findLevelConfig(gameId);
+        if (response == null) {
+            throw levelConfigRequired(gameId);
+        }
+        return response;
     }
 
     private ObjectNode normalizeForWrite(
@@ -474,24 +556,14 @@ public class CharacterService {
     private void requireGame(String gameId) {
         Long count = gamesMapper.countGames(gameId);
         if (count == null || count <= 0) {
-            throw new ApiException(
-                HttpStatus.NOT_FOUND,
-                "404.GAME_NOT_FOUND",
-                "游戏不存在",
-                Map.of("gameId", gameId == null ? "" : gameId)
-            );
+            throw gameNotFound(gameId);
         }
     }
 
     private LevelConfigResponse requireLevelConfig(String gameId) {
         LevelConfigResponse response = characterMapper.findLevelConfig(gameId);
         if (response == null) {
-            throw new ApiException(
-                HttpStatus.CONFLICT,
-                "409.LEVEL_CONFIG_REQUIRED",
-                "请先配置游戏等级范围",
-                Map.of("gameId", gameId)
-            );
+            throw levelConfigRequired(gameId);
         }
         return response;
     }
@@ -613,6 +685,33 @@ public class CharacterService {
             "404.CHARACTER_NOT_FOUND",
             "角色不存在",
             Map.of("characterKey", characterKey == null ? "" : characterKey)
+        );
+    }
+
+    private static ApiException gameNotFound(String gameId) {
+        return new ApiException(
+            HttpStatus.NOT_FOUND,
+            "404.GAME_NOT_FOUND",
+            "游戏不存在",
+            Map.of("gameId", gameId == null ? "" : gameId)
+        );
+    }
+
+    private static ApiException levelConfigRequired(String gameId) {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.LEVEL_CONFIG_REQUIRED",
+            "请先配置游戏等级范围",
+            Map.of("gameId", gameId)
+        );
+    }
+
+    private static ApiException inconsistentFirstLevelConfig(String gameId) {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.LEVEL_CONFIG_REQUIRED",
+            "首次配置等级范围前不能已有角色等级属性或角色等级参数",
+            Map.of("gameId", gameId)
         );
     }
 

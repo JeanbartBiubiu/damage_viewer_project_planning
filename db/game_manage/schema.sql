@@ -220,6 +220,179 @@ CREATE INDEX ix_skill_category_relations_category
 
 COMMENT ON TABLE public.skill_category_relations IS '技能与技能分类多对多关系';
 
+CREATE TABLE public.skill_parameters (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    parameter_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    value_type varchar(16) NOT NULL,
+    value_mode varchar(24) NOT NULL,
+    fixed_value numeric,
+    level_values jsonb,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_parameters
+        PRIMARY KEY (game_id, skill_key, parameter_key),
+    CONSTRAINT fk_skill_parameters_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_parameters_key
+        CHECK (parameter_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_parameters_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_parameters_value_type
+        CHECK (value_type IN ('DECIMAL', 'INTEGER')),
+    CONSTRAINT ck_skill_parameters_value_mode
+        CHECK (value_mode IN (
+            'FIXED', 'SKILL_LEVEL', 'CHARACTER_LEVEL', 'RUNTIME_INPUT'
+        )),
+    CONSTRAINT ck_skill_parameters_value_shape
+        CHECK (
+            (value_mode = 'FIXED'
+                AND fixed_value IS NOT NULL
+                AND level_values IS NULL)
+            OR
+            (value_mode IN ('SKILL_LEVEL', 'CHARACTER_LEVEL')
+                AND fixed_value IS NULL
+                AND level_values IS NOT NULL
+                AND jsonb_typeof(level_values) = 'object')
+            OR
+            (value_mode = 'RUNTIME_INPUT'
+                AND fixed_value IS NULL
+                AND level_values IS NULL)
+        ),
+    CONSTRAINT ck_skill_parameters_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_parameters_list
+    ON public.skill_parameters
+    (game_id, skill_key, sort_order, name, parameter_key);
+
+CREATE INDEX ix_skill_parameters_character_level
+    ON public.skill_parameters
+    (game_id, skill_key, parameter_key)
+    WHERE value_mode = 'CHARACTER_LEVEL';
+
+COMMENT ON TABLE public.skill_parameters IS '技能参数';
+
+CREATE TABLE public.skill_formulas (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    formula_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_formulas
+        PRIMARY KEY (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_formulas_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_formulas_key
+        CHECK (formula_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_formulas_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_formulas_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_formulas_list
+    ON public.skill_formulas
+    (game_id, skill_key, sort_order, name, formula_key);
+
+COMMENT ON TABLE public.skill_formulas IS '技能公式';
+
+CREATE TABLE public.skill_formula_nodes (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    formula_key varchar(64) NOT NULL,
+    node_id uuid NOT NULL,
+    parent_node_id uuid,
+    child_order smallint NOT NULL,
+    node_type varchar(16) NOT NULL,
+    operation varchar(16),
+    parameter_key varchar(64),
+    attribute_owner varchar(16),
+    attribute_key varchar(64),
+    attribute_value_kind varchar(24),
+    CONSTRAINT pk_skill_formula_nodes
+        PRIMARY KEY (game_id, skill_key, formula_key, node_id),
+    CONSTRAINT fk_skill_formula_nodes_formula
+        FOREIGN KEY (game_id, skill_key, formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_formula_nodes_parent
+        FOREIGN KEY (game_id, skill_key, formula_key, parent_node_id)
+        REFERENCES public.skill_formula_nodes
+            (game_id, skill_key, formula_key, node_id)
+        ON DELETE CASCADE
+        DEFERRABLE INITIALLY DEFERRED,
+    CONSTRAINT fk_skill_formula_nodes_parameter
+        FOREIGN KEY (game_id, skill_key, parameter_key)
+        REFERENCES public.skill_parameters
+            (game_id, skill_key, parameter_key),
+    CONSTRAINT fk_skill_formula_nodes_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT uq_skill_formula_nodes_child
+        UNIQUE (game_id, skill_key, formula_key, parent_node_id, child_order),
+    CONSTRAINT ck_skill_formula_nodes_child_order
+        CHECK (
+            (parent_node_id IS NULL AND child_order = 0)
+            OR
+            (parent_node_id IS NOT NULL AND child_order IN (0, 1))
+        ),
+    CONSTRAINT ck_skill_formula_nodes_payload
+        CHECK (
+            (node_type = 'OPERATION'
+                AND operation IS NOT NULL
+                AND operation IN (
+                    'ADD', 'SUBTRACT', 'MULTIPLY', 'DIVIDE', 'MIN', 'MAX'
+                )
+                AND parameter_key IS NULL
+                AND attribute_owner IS NULL
+                AND attribute_key IS NULL
+                AND attribute_value_kind IS NULL)
+            OR
+            (node_type = 'PARAMETER'
+                AND operation IS NULL
+                AND parameter_key IS NOT NULL
+                AND attribute_owner IS NULL
+                AND attribute_key IS NULL
+                AND attribute_value_kind IS NULL)
+            OR
+            (node_type = 'ATTRIBUTE'
+                AND operation IS NULL
+                AND parameter_key IS NULL
+                AND attribute_owner IS NOT NULL
+                AND attribute_owner IN ('SOURCE', 'TARGET')
+                AND attribute_key IS NOT NULL
+                AND attribute_value_kind IS NOT NULL
+                AND attribute_value_kind IN (
+                    'BASE', 'BONUS', 'TOTAL', 'CURRENT', 'MISSING',
+                    'CURRENT_RATIO', 'MISSING_RATIO'
+                ))
+        )
+);
+
+CREATE UNIQUE INDEX uq_skill_formula_nodes_root
+    ON public.skill_formula_nodes (game_id, skill_key, formula_key)
+    WHERE parent_node_id IS NULL;
+
+CREATE INDEX ix_skill_formula_nodes_parameter_ref
+    ON public.skill_formula_nodes (game_id, skill_key, parameter_key)
+    WHERE parameter_key IS NOT NULL;
+
+CREATE INDEX ix_skill_formula_nodes_attribute_ref
+    ON public.skill_formula_nodes (game_id, attribute_key)
+    WHERE attribute_key IS NOT NULL;
+
+COMMENT ON TABLE public.skill_formula_nodes IS '技能公式节点';
+
 CREATE TABLE public.damage_types (
     game_id varchar(64) NOT NULL,
     damage_type_key varchar(64) NOT NULL,
