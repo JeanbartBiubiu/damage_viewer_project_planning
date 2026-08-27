@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skill;
 
 import jakarta.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
+import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
+import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
 import xyz.game.datamanage.model.skill.SkillCategoryRelationRow;
 import xyz.game.datamanage.model.skill.SkillCreateRequest;
@@ -26,6 +30,8 @@ import xyz.game.datamanage.model.skill.SkillResponse;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skill.SkillUpdateRequest;
+import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
+import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -38,10 +44,22 @@ public class SkillService {
 
     private final GamesMapper gamesMapper;
     private final SkillMapper mapper;
+    private final SkillParameterMapper parameterMapper;
+    private final SkillFormulaMapper formulaMapper;
+    private final SkillParameterLevelService levelService;
 
-    public SkillService(GamesMapper gamesMapper, SkillMapper mapper) {
+    public SkillService(
+        GamesMapper gamesMapper,
+        SkillMapper mapper,
+        SkillParameterMapper parameterMapper,
+        SkillFormulaMapper formulaMapper,
+        SkillParameterLevelService levelService
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+        this.parameterMapper = parameterMapper;
+        this.formulaMapper = formulaMapper;
+        this.levelService = levelService;
     }
 
     @Transactional(readOnly = true)
@@ -102,12 +120,14 @@ public class SkillService {
     @Transactional
     public SkillResponse update(String gameId, String skillKey, @Valid SkillUpdateRequest request) {
         requireGame(gameId);
-        if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
+        SkillRow locked = mapper.findByIdForUpdate(gameId, skillKey);
+        if (locked == null) {
             throw notFound(skillKey);
         }
         List<String> currentKeys = mapper.listRelationKeys(gameId, skillKey);
         Set<String> current = new HashSet<>(currentKeys == null ? List.of() : currentKeys);
         List<String> requestedKeys = validateUpdate(request);
+        rearrangeSkillLevelParametersIfNeeded(gameId, skillKey, locked.maxLevel(), request.maxLevel());
         lockAndRequireCategories(gameId, requestedKeys, current);
         try {
             if (mapper.update(
@@ -134,8 +154,40 @@ public class SkillService {
         if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw notFound(skillKey);
         }
+        formulaMapper.deleteAllForSkill(gameId, skillKey);
+        parameterMapper.deleteAllForSkill(gameId, skillKey);
         if (mapper.delete(gameId, skillKey) == 0) {
             throw notFound(skillKey);
+        }
+    }
+
+    private void rearrangeSkillLevelParametersIfNeeded(
+        String gameId,
+        String skillKey,
+        Integer oldMaxLevel,
+        Integer newMaxLevel
+    ) {
+        if (Objects.equals(oldMaxLevel, newMaxLevel)) {
+            return;
+        }
+        List<SkillParameterRow> rows = parameterMapper.lockSkillLevelParamsForSkill(gameId, skillKey);
+        if (rows == null || rows.isEmpty()) {
+            return;
+        }
+        for (SkillParameterRow row : rows) {
+            Map<String, BigDecimal> previous = levelService.parseLevelValuesJson(row.levelValuesJson());
+            Map<String, BigDecimal> remapped = levelService.remap(previous, 1, newMaxLevel);
+            String json = levelService.toLevelValuesJson(remapped);
+            if (parameterMapper.updateLevelValuesJson(
+                gameId,
+                skillKey,
+                row.parameterKey(),
+                json
+            ) != 1) {
+                throw new IllegalStateException(
+                    "Failed to update SKILL_LEVEL parameter map for " + row.parameterKey()
+                );
+            }
         }
     }
 

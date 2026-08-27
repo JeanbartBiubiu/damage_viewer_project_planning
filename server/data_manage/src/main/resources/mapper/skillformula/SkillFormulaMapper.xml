@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper">
+
+    <resultMap id="formulaRow" type="xyz.game.datamanage.model.skillformula.SkillFormulaRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="formula_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="nodeRow" type="xyz.game.datamanage.model.skillformula.SkillFormulaNodeRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="formula_key" javaType="java.lang.String"/>
+            <arg column="node_id" javaType="java.util.UUID" typeHandler="org.apache.ibatis.type.ObjectTypeHandler"/>
+            <arg column="parent_node_id" javaType="java.util.UUID" typeHandler="org.apache.ibatis.type.ObjectTypeHandler"/>
+            <arg column="child_order" javaType="java.lang.Short"/>
+            <arg column="node_type" javaType="xyz.game.datamanage.model.skillformula.SkillFormulaNodeType"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skillformula.SkillFormulaOperation"/>
+            <arg column="parameter_key" javaType="java.lang.String"/>
+            <arg column="attribute_owner" javaType="xyz.game.datamanage.model.skillformula.AttributeOwner"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="attribute_value_kind" javaType="xyz.game.datamanage.model.skillformula.AttributeValueKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeRef" type="xyz.game.datamanage.model.skillformula.SkillFormulaAttributeRef">
+        <constructor>
+            <arg column="attribute_owner" javaType="xyz.game.datamanage.model.skillformula.AttributeOwner"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="attribute_value_kind" javaType="xyz.game.datamanage.model.skillformula.AttributeValueKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeStatus" type="xyz.game.datamanage.model.skillformula.SkillFormulaAttributeStatusRow">
+        <constructor>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="listSummaries" resultMap="formulaRow">
+        SELECT game_id, skill_key, formula_key, name, description, sort_order, created_at, updated_at
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY sort_order ASC, name ASC, formula_key ASC
+    </select>
+
+    <select id="findById" resultMap="formulaRow">
+        SELECT game_id, skill_key, formula_key, name, description, sort_order, created_at, updated_at
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="formulaRow">
+        SELECT game_id, skill_key, formula_key, name, description, sort_order, created_at, updated_at
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.skill_formulas (
+            game_id, skill_key, formula_key, name, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{formulaKey}, #{name}, #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.skill_formulas
+        SET name = #{name},
+            description = #{description},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+    </delete>
+
+    <delete id="deleteAllForSkill">
+        DELETE FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="listNodes" resultMap="nodeRow">
+        SELECT game_id, skill_key, formula_key, node_id, parent_node_id, child_order,
+               node_type, operation, parameter_key, attribute_owner, attribute_key, attribute_value_kind
+        FROM public.skill_formula_nodes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+        ORDER BY node_id ASC
+    </select>
+
+    <delete id="deleteNodes">
+        DELETE FROM public.skill_formula_nodes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
+    </delete>
+
+    <insert id="batchInsertNodes">
+        INSERT INTO public.skill_formula_nodes (
+            game_id, skill_key, formula_key, node_id, parent_node_id, child_order,
+            node_type, operation, parameter_key, attribute_owner, attribute_key, attribute_value_kind
+        ) VALUES
+        <foreach collection="nodes" item="node" separator=",">
+            (
+                #{node.gameId}, #{node.skillKey}, #{node.formulaKey},
+                #{node.nodeId, typeHandler=org.apache.ibatis.type.ObjectTypeHandler},
+                #{node.parentNodeId, typeHandler=org.apache.ibatis.type.ObjectTypeHandler},
+                #{node.childOrder}, #{node.nodeType}, #{node.operation},
+                #{node.parameterKey}, #{node.attributeOwner}, #{node.attributeKey}, #{node.attributeValueKind}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listAttributeRefs" resultMap="attributeRef">
+        SELECT DISTINCT attribute_owner, attribute_key, attribute_value_kind
+        FROM public.skill_formula_nodes
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND formula_key = #{formulaKey}
+          AND node_type = 'ATTRIBUTE'
+    </select>
+
+    <select id="findAttributesByKeys" resultMap="attributeStatus">
+        SELECT attribute_key, status
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </select>
+
+    <select id="findExistingParameterKeys" resultType="string">
+        SELECT parameter_key
+        FROM public.skill_parameters
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND parameter_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </select>
+</mapper>
