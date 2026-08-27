@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.status.StatusMapper">
+
+    <resultMap id="response" type="xyz.game.datamanage.model.status.StatusResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.status.StatusRecordStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="list" resultMap="response">
+        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.statuses
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(status_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, status_key ASC
+    </select>
+
+    <select id="findById" resultMap="response">
+        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.statuses
+        WHERE game_id = #{gameId} AND status_key = #{statusKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="response">
+        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        FROM public.statuses
+        WHERE game_id = #{gameId} AND status_key = #{statusKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.statuses
+        WHERE game_id = #{gameId} AND status_key = #{statusKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.statuses
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeStatusKey != null">
+            AND status_key &lt;&gt; #{excludeStatusKey}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.statuses (
+            game_id, status_key, name, description, status, sort_order
+        ) VALUES (
+            #{gameId}, #{statusKey}, #{name}, #{description}, #{status}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.statuses
+        SET name = #{name},
+            description = #{description},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND status_key = #{statusKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.statuses
+        WHERE game_id = #{gameId} AND status_key = #{statusKey}
+    </delete>
+</mapper>
