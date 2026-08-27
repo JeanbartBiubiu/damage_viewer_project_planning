@@ -7,21 +7,28 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
+import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
+import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
 import xyz.game.datamanage.model.skill.SkillCategoryRelationRow;
 import xyz.game.datamanage.model.skill.SkillCreateRequest;
@@ -30,6 +37,10 @@ import xyz.game.datamanage.model.skill.SkillResponse;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skill.SkillUpdateRequest;
+import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
+import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
+import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,12 +51,15 @@ class SkillServiceTest {
 
     @Mock private GamesMapper gamesMapper;
     @Mock private SkillMapper mapper;
+    @Mock private SkillParameterMapper parameterMapper;
+    @Mock private SkillFormulaMapper formulaMapper;
 
     private SkillService service;
 
     @BeforeEach
     void setUp() {
-        service = new SkillService(gamesMapper, mapper);
+        SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
+        service = new SkillService(gamesMapper, mapper, parameterMapper, formulaMapper, levelService);
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -298,6 +312,124 @@ class SkillServiceTest {
         assertEquals("400.VALIDATION_FAILED", blank.getCode());
         assertEquals("/skillCategoryKeys/1", firstField(blank));
         verify(mapper, never()).lockCategories(anyString(), anyList());
+    }
+
+    @Test
+    void maxLevelExpandFillsZeroShrinkDeletesAndUnchangedSkipsRewrite() throws Exception {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(mapper.listRelationKeys(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+        when(parameterMapper.lockSkillLevelParamsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            parameterRow(
+                "base_damage",
+                SkillParameterValueMode.SKILL_LEVEL,
+                "{\"1\":20,\"2\":45,\"3\":70,\"4\":95,\"5\":120}"
+            )
+        ));
+        when(parameterMapper.updateLevelValuesJson(eq(GAME_ID), eq(SKILL_KEY), eq("base_damage"), anyString()))
+            .thenReturn(1);
+        when(mapper.update(GAME_ID, SKILL_KEY, "秘术射击", null, 6, "ENABLED", 10)).thenReturn(1);
+        when(mapper.findById(GAME_ID, SKILL_KEY)).thenReturn(new SkillRow(
+            GAME_ID, SKILL_KEY, "秘术射击", null, 6, SkillStatus.ENABLED, 10,
+            OffsetDateTime.parse("2026-08-26T08:00:00Z"),
+            OffsetDateTime.parse("2026-08-26T08:00:00Z")
+        ));
+        when(mapper.listRelations(GAME_ID, List.of(SKILL_KEY))).thenReturn(List.of());
+
+        service.update(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillUpdateRequest(null, "秘术射击", null, 6, SkillStatus.ENABLED, 10, List.of())
+        );
+
+        ArgumentCaptor<String> expanded = ArgumentCaptor.forClass(String.class);
+        verify(parameterMapper).updateLevelValuesJson(
+            eq(GAME_ID), eq(SKILL_KEY), eq("base_damage"), expanded.capture()
+        );
+        assertEquals("{\"1\":20,\"2\":45,\"3\":70,\"4\":95,\"5\":120,\"6\":0}", expanded.getValue());
+
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(new SkillRow(
+            GAME_ID, SKILL_KEY, "秘术射击", null, 6, SkillStatus.ENABLED, 10,
+            OffsetDateTime.parse("2026-08-26T08:00:00Z"),
+            OffsetDateTime.parse("2026-08-26T08:00:00Z")
+        ));
+        when(parameterMapper.lockSkillLevelParamsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            parameterRow(
+                "base_damage",
+                SkillParameterValueMode.SKILL_LEVEL,
+                "{\"1\":20,\"2\":45,\"3\":70,\"4\":95,\"5\":120,\"6\":0}"
+            )
+        ));
+        when(mapper.update(GAME_ID, SKILL_KEY, "秘术射击", null, 4, "ENABLED", 10)).thenReturn(1);
+        when(mapper.findById(GAME_ID, SKILL_KEY)).thenReturn(new SkillRow(
+            GAME_ID, SKILL_KEY, "秘术射击", null, 4, SkillStatus.ENABLED, 10,
+            OffsetDateTime.parse("2026-08-26T08:00:00Z"),
+            OffsetDateTime.parse("2026-08-26T08:00:00Z")
+        ));
+
+        service.update(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillUpdateRequest(null, "秘术射击", null, 4, SkillStatus.ENABLED, 10, List.of())
+        );
+        ArgumentCaptor<String> remapped = ArgumentCaptor.forClass(String.class);
+        verify(parameterMapper, org.mockito.Mockito.times(2)).updateLevelValuesJson(
+            eq(GAME_ID), eq(SKILL_KEY), eq("base_damage"), remapped.capture()
+        );
+        assertEquals("{\"1\":20,\"2\":45,\"3\":70,\"4\":95}", remapped.getAllValues().get(1));
+
+        org.mockito.Mockito.clearInvocations(parameterMapper);
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(mapper.update(GAME_ID, SKILL_KEY, "秘术射击", null, 5, "ENABLED", 11)).thenReturn(1);
+        when(mapper.findById(GAME_ID, SKILL_KEY)).thenReturn(new SkillRow(
+            GAME_ID, SKILL_KEY, "秘术射击", null, 5, SkillStatus.ENABLED, 11,
+            OffsetDateTime.parse("2026-08-26T08:00:00Z"),
+            OffsetDateTime.parse("2026-08-26T08:00:00Z")
+        ));
+        service.update(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillUpdateRequest(null, "秘术射击", null, 5, SkillStatus.ENABLED, 11, List.of())
+        );
+        verify(parameterMapper, never()).lockSkillLevelParamsForSkill(GAME_ID, SKILL_KEY);
+        verify(parameterMapper, never()).updateLevelValuesJson(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void deleteSkillRemovesFormulasThenParametersThenSkill() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(formulaMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(2);
+        when(parameterMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(3);
+        when(mapper.delete(GAME_ID, SKILL_KEY)).thenReturn(1);
+
+        service.delete(GAME_ID, SKILL_KEY);
+
+        InOrder order = inOrder(mapper, formulaMapper, parameterMapper);
+        order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
+        order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(mapper).delete(GAME_ID, SKILL_KEY);
+    }
+
+    private static SkillParameterRow parameterRow(
+        String parameterKey,
+        SkillParameterValueMode mode,
+        String levelValuesJson
+    ) {
+        OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-26T08:00:00Z");
+        return new SkillParameterRow(
+            GAME_ID,
+            SKILL_KEY,
+            parameterKey,
+            parameterKey,
+            SkillParameterValueType.DECIMAL,
+            mode,
+            null,
+            levelValuesJson,
+            null,
+            10,
+            timestamp,
+            timestamp
+        );
     }
 
     private static SkillCreateRequest createRequest(List<String> categoryKeys) {

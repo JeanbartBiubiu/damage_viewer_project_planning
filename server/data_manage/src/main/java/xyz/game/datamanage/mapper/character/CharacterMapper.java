@@ -12,6 +12,16 @@ public interface CharacterMapper {
 
     LevelConfigResponse findLevelConfig(@Param("gameId") String gameId);
 
+    LevelConfigResponse findLevelConfigForUpdate(@Param("gameId") String gameId);
+
+    Integer lockGame(@Param("gameId") String gameId);
+
+    List<String> lockCharactersForGame(@Param("gameId") String gameId);
+
+    List<String> lockCharacterAttributesForGame(@Param("gameId") String gameId);
+
+    long countCharacterAttributes(@Param("gameId") String gameId);
+
     int upsertLevelConfig(
         @Param("gameId") String gameId,
         @Param("minLevel") int minLevel,
