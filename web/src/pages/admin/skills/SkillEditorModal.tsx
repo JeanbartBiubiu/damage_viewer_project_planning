@@ -39,7 +39,7 @@ type SkillEditorModalProps = {
   selectedGameId: string | null;
   adminToken: string;
   onClose: () => void;
-  onSaved: (skill: Skill) => void | Promise<void>;
+  onSaved: (skill: Skill, options?: { maxLevelExpanded?: boolean }) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -92,6 +92,7 @@ export function SkillEditorModal({
   const [categoryIndexErrors, setCategoryIndexErrors] = useState<SkillCategoryIndexError[]>([]);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [openedMaxLevel, setOpenedMaxLevel] = useState<number | null>(null);
   const readOnly = mode === 'view';
   const categoryOptions = useMemo(() => {
     const originalKeys = new Set(skill?.skillCategoryKeys ?? []);
@@ -115,8 +116,9 @@ export function SkillEditorModal({
     setCategoryIndexErrors([]);
     setSaveError(null);
     setSaving(false);
+    setOpenedMaxLevel(skill?.maxLevel ?? null);
     onDirtyChange(false);
-  }, [initial, mode, onDirtyChange, visible]);
+  }, [initial, mode, onDirtyChange, skill?.maxLevel, visible]);
 
   const patchDraft = <K extends keyof SkillDraft>(field: K, value: SkillDraft[K]) => {
     const next = { ...draft, [field]: value };
@@ -152,6 +154,26 @@ export function SkillEditorModal({
       return;
     }
 
+    const nextMaxLevel = validation.normalized.maxLevel;
+    const previousMaxLevel = openedMaxLevel;
+    if (
+      mode === 'edit'
+      && previousMaxLevel !== null
+      && nextMaxLevel < previousMaxLevel
+    ) {
+      const confirmed = await new Promise<boolean>((resolve) => {
+        Modal.confirm({
+          title: '确认缩小最高等级',
+          content: `高于 Lv${nextMaxLevel} 的技能等级参数值将被删除`,
+          okText: '确认保存',
+          cancelText: '取消',
+          onOk: () => resolve(true),
+          onCancel: () => resolve(false)
+        });
+      });
+      if (!confirmed) return;
+    }
+
     setSaving(true);
     setSaveError(null);
     try {
@@ -170,7 +192,11 @@ export function SkillEditorModal({
             buildUpdateSkillRequest(validation.normalized)
           );
       onDirtyChange(false);
-      await onSaved(result.data);
+      await onSaved(result.data, {
+        maxLevelExpanded: mode === 'edit'
+          && previousMaxLevel !== null
+          && nextMaxLevel > previousMaxLevel
+      });
     } catch (error) {
       const mapped = mapSkillFieldIssues(error);
       setErrors(mapped.fieldErrors);

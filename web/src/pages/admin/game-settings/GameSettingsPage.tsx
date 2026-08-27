@@ -1,4 +1,4 @@
-import { Alert, Button, Form, InputNumber, Space } from '@arco-design/web-react';
+import { Alert, Button, Form, InputNumber, Modal, Space } from '@arco-design/web-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
@@ -17,6 +17,8 @@ export function GameSettingsPage({
 }: GameSettingsPageProps) {
   const [minLevel, setMinLevel] = useState<number | undefined>();
   const [maxLevel, setMaxLevel] = useState<number | undefined>();
+  const [loadedMinLevel, setLoadedMinLevel] = useState<number | undefined>();
+  const [loadedMaxLevel, setLoadedMaxLevel] = useState<number | undefined>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,6 +29,8 @@ export function GameSettingsPage({
     if (!selectedGameId || !token) {
       setMinLevel(undefined);
       setMaxLevel(undefined);
+      setLoadedMinLevel(undefined);
+      setLoadedMaxLevel(undefined);
       setError(null);
       return;
     }
@@ -37,10 +41,14 @@ export function GameSettingsPage({
       const result = await getLevelConfig(apiBaseUrl, selectedGameId, token);
       setMinLevel(result.data.minLevel);
       setMaxLevel(result.data.maxLevel);
+      setLoadedMinLevel(result.data.minLevel);
+      setLoadedMaxLevel(result.data.maxLevel);
     } catch (loadError) {
       if (loadError instanceof ApiRequestError && loadError.code === '409.LEVEL_CONFIG_REQUIRED') {
         setMinLevel(1);
         setMaxLevel(1);
+        setLoadedMinLevel(undefined);
+        setLoadedMaxLevel(undefined);
       } else {
         setError(getErrorMessage(loadError));
       }
@@ -51,7 +59,7 @@ export function GameSettingsPage({
 
   useEffect(() => { void load(); }, [load]);
 
-  const save = async () => {
+  const persist = async (nextMin: number, nextMax: number) => {
     if (!selectedGameId) {
       setError('请先选择游戏。');
       return;
@@ -61,6 +69,27 @@ export function GameSettingsPage({
       setError('请先配置 Admin Token。');
       return;
     }
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const result = await updateLevelConfig(apiBaseUrl, selectedGameId, token, {
+        minLevel: nextMin,
+        maxLevel: nextMax
+      });
+      setMinLevel(result.data.minLevel);
+      setMaxLevel(result.data.maxLevel);
+      setLoadedMinLevel(result.data.minLevel);
+      setLoadedMaxLevel(result.data.maxLevel);
+      setNotice('等级范围已保存。');
+    } catch (saveError) {
+      setError(getErrorMessage(saveError));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const save = async () => {
     if (minLevel === undefined || maxLevel === undefined) {
       setError('等级范围不能为空。');
       return;
@@ -70,22 +99,43 @@ export function GameSettingsPage({
       return;
     }
 
-    setSaving(true);
-    setError(null);
-    setNotice(null);
-    try {
-      const result = await updateLevelConfig(apiBaseUrl, selectedGameId, token, {
-        minLevel,
-        maxLevel
-      });
-      setMinLevel(result.data.minLevel);
-      setMaxLevel(result.data.maxLevel);
-      setNotice('等级范围已保存。');
-    } catch (saveError) {
-      setError(getErrorMessage(saveError));
-    } finally {
-      setSaving(false);
+    const unchanged = loadedMinLevel === minLevel && loadedMaxLevel === maxLevel;
+    if (unchanged) {
+      await persist(minLevel, maxLevel);
+      return;
     }
+
+    const shrinking = (
+      loadedMinLevel !== undefined
+      && loadedMaxLevel !== undefined
+      && (minLevel > loadedMinLevel || maxLevel < loadedMaxLevel)
+    );
+    const expanding = (
+      loadedMinLevel !== undefined
+      && loadedMaxLevel !== undefined
+      && (minLevel < loadedMinLevel || maxLevel > loadedMaxLevel)
+    );
+
+    if (shrinking || expanding) {
+      const confirmContent = shrinking && expanding
+        ? '超出新范围的角色属性和角色等级参数将被删除，新增等级的角色属性和角色等级参数将补 0。'
+        : shrinking
+          ? '超出新范围的角色属性和角色等级参数将被删除。'
+          : '新增等级的角色属性和角色等级参数将补 0。';
+      const confirmed = await new Promise<boolean>((resolve) => {
+        Modal.confirm({
+          title: '确认调整等级范围',
+          content: confirmContent,
+          okText: '确认保存',
+          cancelText: '取消',
+          onOk: () => resolve(true),
+          onCancel: () => resolve(false)
+        });
+      });
+      if (!confirmed) return;
+    }
+
+    await persist(minLevel, maxLevel);
   };
 
   return (

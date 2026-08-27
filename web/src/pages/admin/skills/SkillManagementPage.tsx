@@ -24,6 +24,7 @@ import type {
 } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
 import { SkillEditorModal, type SkillEditorMode } from './SkillEditorModal';
+import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
@@ -35,6 +36,7 @@ export type SkillManagementPageProps = {
 type StatusFilter = SkillStatus | '';
 type EditorState = { mode: SkillEditorMode; skill: Skill | null };
 type StatusTarget = { skill: Skill; nextStatus: SkillStatus };
+type ParameterFormulaTarget = Skill;
 
 const EMPTY_QUERY: SkillListQuery = {};
 
@@ -85,6 +87,7 @@ export function SkillManagementPage({
   const [deleteTarget, setDeleteTarget] = useState<Skill | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [parameterFormulaTarget, setParameterFormulaTarget] = useState<ParameterFormulaTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
   const [pageGameId, setPageGameId] = useState(selectedGameId);
@@ -111,6 +114,7 @@ export function SkillManagementPage({
     setDeleteTarget(null);
     setDeleteError(null);
     setDeleting(false);
+    setParameterFormulaTarget(null);
     setNotice(null);
   }
 
@@ -192,11 +196,15 @@ export function SkillManagementPage({
     setAppliedQuery(EMPTY_QUERY);
   };
 
-  const handleSaved = async (saved: Skill) => {
+  const handleSaved = async (saved: Skill, options?: { maxLevelExpanded?: boolean }) => {
     setEditor(null);
-    setNotice(`技能「${saved.name}」已保存。`);
+    const suffix = options?.maxLevelExpanded ? '新增等级参数已补 0。' : '';
+    setNotice(`技能「${saved.name}」已保存。${suffix}`);
     onDirtyChange(false);
     await loadSkills(appliedQuery);
+    setParameterFormulaTarget((current) => (
+      current && current.skillKey === saved.skillKey ? saved : current
+    ));
   };
 
   const confirmStatusChange = async () => {
@@ -241,6 +249,9 @@ export function SkillManagementPage({
       const deletedName = deleteTarget.name;
       await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey, token);
       setDeleteTarget(null);
+      setParameterFormulaTarget((current) => (
+        current && current.skillKey === deleteTarget.skillKey ? null : current
+      ));
       setNotice(`技能「${deletedName}」已删除。`);
       await loadSkills(appliedQuery);
     } catch (error) {
@@ -291,7 +302,7 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 280,
+      width: 380,
       fixed: 'right',
       render: (_value, record: Skill) => (
         <Space size="mini">
@@ -301,6 +312,7 @@ export function SkillManagementPage({
             disabled={!categoryDirectoryReady}
             onClick={() => setEditor({ mode: 'edit', skill: record })}
           >编辑</Button>
+          <Button size="mini" onClick={() => setParameterFormulaTarget(record)}>参数与公式</Button>
           <Button
             size="mini"
             status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -424,6 +436,19 @@ export function SkillManagementPage({
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}
+      />
+
+      <SkillParameterFormulaModal
+        visible={parameterFormulaTarget !== null}
+        skill={parameterFormulaTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onClose={() => setParameterFormulaTarget(null)}
+        onSkillMissing={() => {
+          setParameterFormulaTarget(null);
+          void loadSkills(appliedQuery);
+        }}
       />
 
       <Modal
