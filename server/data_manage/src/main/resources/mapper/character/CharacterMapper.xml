@@ -38,6 +38,42 @@
         WHERE game_id = #{gameId}
     </select>
 
+    <select id="findLevelConfigForUpdate" resultMap="levelConfig">
+        SELECT game_id, min_level, max_level
+        FROM public.game_level_configs
+        WHERE game_id = #{gameId}
+        FOR UPDATE
+    </select>
+
+    <select id="lockGame" resultType="java.lang.Integer">
+        SELECT 1
+        FROM public.games
+        WHERE game_id = #{gameId}
+        FOR UPDATE
+    </select>
+
+    <select id="lockCharactersForGame" resultType="string">
+        SELECT character_key
+        FROM public.characters
+        WHERE game_id = #{gameId}
+        ORDER BY character_key ASC
+        FOR UPDATE
+    </select>
+
+    <select id="lockCharacterAttributesForGame" resultType="string">
+        SELECT character_key
+        FROM public.character_attributes
+        WHERE game_id = #{gameId}
+        ORDER BY character_key ASC
+        FOR UPDATE
+    </select>
+
+    <select id="countCharacterAttributes" resultType="long">
+        SELECT COUNT(1)
+        FROM public.character_attributes
+        WHERE game_id = #{gameId}
+    </select>
+
     <insert id="upsertLevelConfig">
         INSERT INTO public.game_level_configs (game_id, min_level, max_level)
         VALUES (#{gameId}, #{minLevel}, #{maxLevel})
