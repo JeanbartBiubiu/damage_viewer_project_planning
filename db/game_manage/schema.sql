@@ -420,6 +420,28 @@ CREATE UNIQUE INDEX uq_damage_types_name
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
 
+CREATE TABLE public.statuses (
+    game_id varchar(64) NOT NULL,
+    status_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(2000),
+    status varchar(16) NOT NULL DEFAULT 'ENABLED',
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_statuses PRIMARY KEY (game_id, status_key),
+    CONSTRAINT fk_statuses_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_statuses_key CHECK (status_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_statuses_name CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_statuses_status CHECK (status IN ('ENABLED', 'DISABLED')),
+    CONSTRAINT ck_statuses_sort_order CHECK (sort_order >= 0)
+);
+
+CREATE UNIQUE INDEX uq_statuses_name
+    ON public.statuses (game_id, lower(btrim(name)));
+
+COMMENT ON TABLE public.statuses IS '状态';
+
 CREATE TABLE public.game_data_state (
     game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
     current_revision bigint NOT NULL DEFAULT 0 CHECK (current_revision >= 0),
