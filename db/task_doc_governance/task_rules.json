@@ -121,6 +121,36 @@
       "completed_at": "2026-08-26"
     },
     {
+      "task_key": "planning-skill-parameter-formula-effect-boundary",
+      "title": "技能参数、公式与效果引用边界",
+      "module": "planning",
+      "feature": "skill_parameter_formula_effect_boundary",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "docs": [
+        "文档记录/需求澄清/项目/技能参数本地Wiki盘点.md",
+        "文档记录/概要设计/项目/技能参数公式与效果引用边界.md"
+      ],
+      "completion_note": "本地 Wiki 参数范围盘点和参数、属性派生值、公式、效果之间的边界已修订确认：属性派生值直接读取，其他动态值由本技能的计算时传入参数承载，不建立游戏级计算变量。",
+      "completed_at": "2026-08-26"
+    },
+    {
+      "task_key": "planning-skill-parameter-formula-management",
+      "title": "技能参数与公式管理共享契约",
+      "module": "planning",
+      "feature": "skill_parameter_formula_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.5",
+      "docs": [
+        "文档记录/详细设计/项目/技能参数与公式管理详细设计.md",
+        "文档记录/测试记录/项目/技能参数与公式管理验收记录-2026-08-27.md"
+      ],
+      "completion_note": "技能参数与结构化公式的前后端实现、真实数据库迁移、等级联动、重启回读和浏览器闭环均已通过。",
+      "completed_at": "2026-08-27"
+    },
+    {
       "task_key": "planning-validation-milestones",
       "title": "跨端验证里程碑",
       "module": "planning",
@@ -362,6 +392,20 @@
       "completed_at": "2026-08-26"
     },
     {
+      "task_key": "web-skill-parameter-formula-management",
+      "title": "前端技能参数与公式管理",
+      "module": "web",
+      "feature": "skill_parameter_formula_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.5",
+      "docs": [
+        "文档记录/详细设计/web/技能参数与公式管理前端详细设计.md"
+      ],
+      "completion_note": "技能页参数与公式弹窗、等级表、结构化公式编辑、错误定位和非 Wasm 浏览器验收已完成。",
+      "completed_at": "2026-08-27"
+    },
+    {
       "task_key": "server-backend-review",
       "title": "Server 后端评审与改进项",
       "module": "server",
@@ -550,6 +594,20 @@
       ],
       "completion_note": "技能主表、分类关联表、完整接口、迁移和真实数据库验证已完成。",
       "completed_at": "2026-08-26"
+    },
+    {
+      "task_key": "server-skill-parameter-formula-management",
+      "title": "后端技能参数与公式管理",
+      "module": "server",
+      "feature": "skill_parameter_formula_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5 + Cursor grok-4.5",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/技能参数与公式管理后端详细设计.md"
+      ],
+      "completion_note": "参数、公式和公式节点表、完整接口、等级联动事务、迁移及真实 PostgreSQL 验证已完成。",
+      "completed_at": "2026-08-27"
     },
     {
       "task_key": "wasm-gap-closure",
