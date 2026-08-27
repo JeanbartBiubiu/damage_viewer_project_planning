@@ -75,6 +75,17 @@ type DamageTypeRow = {
   updatedAt: string;
 };
 
+type StatusRow = {
+  gameId: string;
+  statusKey: string;
+  name: string;
+  description: string | null;
+  status: 'ENABLED' | 'DISABLED';
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type SkillRow = {
   gameId: string;
   skillKey: string;
@@ -155,10 +166,12 @@ class MockApi {
   equipmentAttributes: Record<string, Record<string, number>> = {};
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
+  statuses: StatusRow[] = [];
   skills: SkillRow[] = [];
   skillParameters: SkillParameterRow[] = [];
   skillFormulas: SkillFormulaRow[] = [];
   skillCategoryListFailure = false;
+  statusWriteFailure: WriteFailure = null;
   parameterDeleteConflictKeys = new Set<string>();
   minLevel = 1;
   maxLevel = 2;
@@ -851,6 +864,89 @@ class MockApi {
       }
     }
 
+    if (path === `/api/admin/games/${GAME_ID}/statuses`) {
+      if (method === 'GET') {
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const status = url.searchParams.get('status');
+        this.listQueries.push({ keyword: url.searchParams.get('keyword'), status });
+        const items = this.statuses.filter((item) => {
+          const keywordMatches = !keyword
+            || item.statusKey.toLocaleLowerCase().includes(keyword)
+            || item.name.toLocaleLowerCase().includes(keyword);
+          return keywordMatches && (!status || item.status === status);
+        });
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyStatusWriteFailure(route)) {
+          return;
+        }
+        const row: StatusRow = {
+          gameId: GAME_ID,
+          statusKey: String(body.statusKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.statuses.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const statusDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/statuses/([^/]+)$`)
+    );
+    if (statusDetail) {
+      const key = statusDetail[1]!;
+      const existing = this.statuses.find((item) => item.statusKey === key);
+      if (method === 'GET') {
+        if (!existing) {
+          await this.error(route, 404, '404.STATUS_NOT_FOUND', '状态不存在');
+          return;
+        }
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (!existing) {
+        await this.error(route, 404, '404.STATUS_NOT_FOUND', '状态不存在');
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyStatusWriteFailure(route)) {
+          return;
+        }
+        const next: StatusRow = {
+          ...existing,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          updatedAt: '2026-08-27T11:00:00Z'
+        };
+        this.statuses = this.statuses.map((item) => item.statusKey === key ? next : item);
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        if (await this.applyStatusWriteFailure(route)) {
+          return;
+        }
+        this.statuses = this.statuses.filter((item) => item.statusKey !== key);
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
     if (path === `/api/admin/games/${GAME_ID}/attributes`) {
       if (method === 'GET') {
         const keyword = url.searchParams.get('keyword');
@@ -934,6 +1030,34 @@ class MockApi {
 
     this.unmockedRequests.push(`${method} ${path}`);
     await this.error(route, 404, '404.UNMOCKED', `unmocked API ${method} ${path}`);
+  }
+
+  private async applyStatusWriteFailure(route: Route): Promise<boolean> {
+    if (this.statusWriteFailure === null) {
+      return false;
+    }
+    if (this.statusWriteFailure === 'network') {
+      await route.abort('connectionrefused');
+      return true;
+    }
+    if (this.statusWriteFailure === 'validation') {
+      await this.error(route, 400, '400.VALIDATION_FAILED', '状态信息不合法', {
+        fieldIssues: [
+          {
+            field: 'name',
+            code: 'FORMAT_INVALID',
+            message: '服务端状态名称校验失败'
+          }
+        ]
+      });
+      return true;
+    }
+    if (this.statusWriteFailure === 'duplicate') {
+      await this.error(route, 409, '409.STATUS_KEY_EXISTS', '状态标识已存在');
+      return true;
+    }
+    await this.error(route, 404, '404.STATUS_NOT_FOUND', '状态不存在');
+    return true;
   }
 
   private async applyWriteFailure(route: Route): Promise<boolean> {
@@ -1061,6 +1185,12 @@ async function openSkills(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('技能管理', { exact: true }).first()).toBeVisible();
 }
 
+async function openStatuses(page: Page): Promise<void> {
+  await page.goto('/#/statuses');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('状态管理', { exact: true }).first()).toBeVisible();
+}
+
 async function openGameSettings(page: Page): Promise<void> {
   await page.goto('/#/game-settings');
   await waitForGame(page);
@@ -1098,6 +1228,12 @@ function damageTypeRow(page: Page, key: string): Locator {
 }
 
 function skillRow(page: Page, key: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: key, exact: true })
+  });
+}
+
+function statusRow(page: Page, key: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: key, exact: true })
   });
@@ -1363,6 +1499,110 @@ test.describe('skill category and damage type management without Wasm', () => {
     await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
     await expect(damageTypeRow(page, 'physical')).toHaveCount(0);
     diagnostics.assertClean('damage type management');
+  });
+});
+
+test.describe('status management without Wasm', () => {
+  test('manages flat statuses with stable filtering, refresh and retained drafts', async ({ page }, testInfo) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+
+    await openStatuses(page);
+    await expect(page.getByText('暂无状态', { exact: true })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: '启停状态', exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增状态', exact: true }).click();
+    const createModal = visibleModal(page, '新增状态');
+    await createModal.getByLabel('状态标识', { exact: true }).fill('stun');
+    await createModal.getByLabel('状态名称', { exact: true }).fill('眩晕');
+    await createModal.getByLabel('说明', { exact: true }).fill('控制类状态');
+    await createModal.getByLabel('排序', { exact: true }).fill('10');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(statusRow(page, 'stun')).toContainText('眩晕');
+    expect(mock.statuses[0]?.status).toBe('ENABLED');
+    expect(mock.writes[0]?.body).not.toHaveProperty('category');
+
+    await page.getByRole('button', { name: '刷新', exact: true }).last().click();
+    await expect(statusRow(page, 'stun')).toContainText('眩晕');
+    await expect(statusRow(page, 'stun')).toContainText('控制类状态');
+
+    await statusRow(page, 'stun').getByRole('button', { name: '查看', exact: true }).click();
+    const viewModal = visibleModal(page, '查看状态');
+    await expect(viewModal).toBeVisible();
+    await expect(viewModal.getByLabel('状态标识', { exact: true })).toBeDisabled();
+    await expect(viewModal.getByText(/启停状态：启用/)).toBeVisible();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(viewModal).toBeHidden();
+
+    await statusRow(page, 'stun').getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑状态');
+    await expect(editModal.getByLabel('状态标识', { exact: true })).toBeDisabled();
+    await expect(editModal.getByText('启停状态')).toHaveCount(0);
+    await editModal.getByLabel('状态名称', { exact: true }).fill('眩晕改');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    await expect(statusRow(page, 'stun')).toContainText('眩晕改');
+    const editWrite = mock.writes.find((item) => item.method === 'PUT');
+    expect(editWrite?.body).not.toHaveProperty('statusKey');
+    expect(editWrite?.body.status).toBe('ENABLED');
+
+    await page.getByRole('button', { name: '新增状态', exact: true }).click();
+    const outsideCloseModal = visibleModal(page, '新增状态');
+    await outsideCloseModal.getByLabel('状态名称', { exact: true }).fill('未保存状态');
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(outsideCloseModal).toBeHidden();
+    expect(mock.statuses).toHaveLength(1);
+
+    mock.statusWriteFailure = 'validation';
+    await page.getByRole('button', { name: '新增状态', exact: true }).click();
+    const failedModal = visibleModal(page, '新增状态');
+    await failedModal.getByLabel('状态标识', { exact: true }).fill('slow');
+    await failedModal.getByLabel('状态名称', { exact: true }).fill('减速草稿');
+    await failedModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(failedModal.getByText('服务端状态名称校验失败')).toBeVisible();
+    await expect(failedModal.getByLabel('状态标识', { exact: true })).toHaveValue('slow');
+    await expect(failedModal.getByLabel('状态名称', { exact: true })).toHaveValue('减速草稿');
+    mock.statusWriteFailure = 'duplicate';
+    await failedModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(failedModal.getByText(/409\.STATUS_KEY_EXISTS/)).toBeVisible();
+    await expect(failedModal.getByLabel('状态名称', { exact: true })).toHaveValue('减速草稿');
+    await failedModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(failedModal).toBeHidden();
+    mock.statusWriteFailure = null;
+    expect(mock.statuses).toHaveLength(1);
+
+    await statusRow(page, 'stun').getByRole('button', { name: '停用', exact: true }).click();
+    const disableModal = visibleModal(page, '停用状态');
+    await disableModal.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(disableModal).toBeHidden();
+    await expect(statusRow(page, 'stun')).toContainText('停用');
+
+    const statusFilter = page.getByLabel('状态筛选', { exact: true });
+    await statusFilter.getByText('停用', { exact: true }).click();
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    await expect(statusFilter.getByRole('radio', { name: '停用' })).toBeChecked();
+    await expect(statusRow(page, 'stun')).toBeVisible();
+    await expect.poll(() => mock.listQueries.at(-1)?.status).toBe('DISABLED');
+
+    await page.getByRole('button', { name: '刷新', exact: true }).last().click();
+    await expect(statusFilter.getByRole('radio', { name: '停用' })).toBeChecked();
+
+    await statusRow(page, 'stun').getByRole('button', { name: '启用', exact: true }).click();
+    const enableModal = visibleModal(page, '启用状态');
+    await enableModal.getByRole('button', { name: '启用', exact: true }).click();
+    await expect(enableModal).toBeHidden();
+    await expect(statusRow(page, 'stun')).toHaveCount(0);
+
+    await page.getByRole('button', { name: '重置', exact: true }).click();
+    await expect(statusFilter.getByRole('radio', { name: '全部' })).toBeChecked();
+    await expect(statusRow(page, 'stun')).toBeVisible();
+    await statusRow(page, 'stun').getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除状态');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(statusRow(page, 'stun')).toHaveCount(0);
+    await expect(page.getByText('暂无状态', { exact: true })).toBeVisible();
+    diagnostics.assertClean('flat status management');
   });
 });
 
@@ -1897,6 +2137,7 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/skill-categories"]').count()).toBe(1);
     expect(await page.locator('a[href="#/damage-types"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skills"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/statuses"]').count()).toBe(1);
     diagnostics.assertClean('legacy hash fallback');
   });
 });
