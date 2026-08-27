@@ -13,6 +13,7 @@ describe('product navigation', () => {
       'skill-categories',
       'damage-types',
       'skills',
+      'statuses',
       'game-settings',
       'provider-setup',
       'ability-setup',
@@ -46,6 +47,11 @@ describe('product navigation', () => {
       hashSegment: 'skills',
       label: '技能管理'
     });
+    expect(dataGroup?.items.find((item) => item.id === 'statuses')).toMatchObject({
+      hashSegment: 'statuses',
+      label: '状态管理',
+      summary: ''
+    });
   });
 
   it('does not expose old entity navigation, legacy combat-data groups or entity growth', () => {
@@ -78,6 +84,7 @@ describe('product navigation', () => {
       'skill-categories',
       'damage-types',
       'skills',
+      'statuses',
       'game-settings',
       'provider-setup',
       'ability-setup',
