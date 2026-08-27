@@ -18,6 +18,7 @@
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
 - `src/pages/admin/skills/`：技能管理（`#/skills`，含参数与公式）
+- `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/WasmValidationGenericPage.tsx`：combat-data → 组装 → compile / run / release
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
 

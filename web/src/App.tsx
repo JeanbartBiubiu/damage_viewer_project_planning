@@ -15,6 +15,7 @@ import { EquipmentManagementPage } from './pages/admin/equipment/EquipmentManage
 import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
 import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
 import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
+import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
 import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
 import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
 import { EffectStepSetupPage } from './pages/admin/effect-step-setup/EffectStepSetupPage';
@@ -43,6 +44,7 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'skill-categories',
   'damage-types',
   'skills',
+  'statuses',
   'game-settings',
   'provider-setup',
   'ability-setup',
@@ -353,6 +355,15 @@ export default function App() {
   } else if (route === 'skills') {
     pageContent = (
       <SkillManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'statuses') {
+    pageContent = (
+      <StatusManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
