@@ -88,6 +88,33 @@ type SkillRow = {
   updatedAt: string;
 };
 
+type SkillParameterRow = {
+  gameId: string;
+  skillKey: string;
+  parameterKey: string;
+  name: string;
+  valueType: 'INTEGER' | 'DECIMAL';
+  valueMode: 'FIXED' | 'SKILL_LEVEL' | 'CHARACTER_LEVEL' | 'RUNTIME_INPUT';
+  fixedValue: number | null;
+  levelValues: Record<string, number> | null;
+  description: string | null;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SkillFormulaRow = {
+  gameId: string;
+  skillKey: string;
+  formulaKey: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  expression: Json;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
 
 type CapturedWrite = {
@@ -129,7 +156,10 @@ class MockApi {
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
   skills: SkillRow[] = [];
+  skillParameters: SkillParameterRow[] = [];
+  skillFormulas: SkillFormulaRow[] = [];
   skillCategoryListFailure = false;
+  parameterDeleteConflictKeys = new Set<string>();
   minLevel = 1;
   maxLevel = 2;
   writeFailure: WriteFailure = null;
@@ -563,6 +593,188 @@ class MockApi {
       if (method === 'DELETE') {
         this.writes.push({ method, path, body: {} });
         this.skills = this.skills.filter((item) => item.skillKey !== key);
+        this.skillParameters = this.skillParameters.filter((item) => item.skillKey !== key);
+        this.skillFormulas = this.skillFormulas.filter((item) => item.skillKey !== key);
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    const skillParametersList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/parameters$`)
+    );
+    if (skillParametersList) {
+      const skillKey = skillParametersList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        const items = this.skillParameters.filter((item) => item.skillKey === skillKey);
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: SkillParameterRow = {
+          gameId: GAME_ID,
+          skillKey,
+          parameterKey: String(body.parameterKey),
+          name: String(body.name),
+          valueType: body.valueType === 'INTEGER' ? 'INTEGER' : 'DECIMAL',
+          valueMode: body.valueMode as SkillParameterRow['valueMode'],
+          fixedValue: typeof body.fixedValue === 'number' ? body.fixedValue : null,
+          levelValues: body.levelValues && typeof body.levelValues === 'object'
+            ? body.levelValues as Record<string, number>
+            : null,
+          description: typeof body.description === 'string' ? body.description : null,
+          sortOrder: Number(body.sortOrder),
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.skillParameters.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const skillParameterDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/parameters/([^/]+)$`)
+    );
+    if (skillParameterDetail) {
+      const skillKey = skillParameterDetail[1]!;
+      const parameterKey = skillParameterDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillParameters.find((item) => (
+        item.skillKey === skillKey && item.parameterKey === parameterKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_PARAMETER_NOT_FOUND', '技能参数不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: SkillParameterRow = {
+          ...existing,
+          name: String(body.name),
+          valueType: body.valueType === 'INTEGER' ? 'INTEGER' : 'DECIMAL',
+          valueMode: body.valueMode as SkillParameterRow['valueMode'],
+          fixedValue: typeof body.fixedValue === 'number' ? body.fixedValue : null,
+          levelValues: body.levelValues && typeof body.levelValues === 'object'
+            ? body.levelValues as Record<string, number>
+            : null,
+          description: typeof body.description === 'string' ? body.description : null,
+          sortOrder: Number(body.sortOrder),
+          updatedAt: '2026-08-23T11:00:00Z'
+        };
+        this.skillParameters = this.skillParameters.map((item) => (
+          item.skillKey === skillKey && item.parameterKey === parameterKey ? next : item
+        ));
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        if (this.parameterDeleteConflictKeys.has(parameterKey)) {
+          await this.error(route, 409, '409.SKILL_PARAMETER_IN_USE', 'parameter in use');
+          return;
+        }
+        this.skillParameters = this.skillParameters.filter((item) => !(
+          item.skillKey === skillKey && item.parameterKey === parameterKey
+        ));
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    const skillFormulasList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/formulas$`)
+    );
+    if (skillFormulasList) {
+      const skillKey = skillFormulasList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        const items = this.skillFormulas
+          .filter((item) => item.skillKey === skillKey)
+          .map(({ expression: _expression, ...summary }) => summary);
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: SkillFormulaRow = {
+          gameId: GAME_ID,
+          skillKey,
+          formulaKey: String(body.formulaKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          sortOrder: Number(body.sortOrder),
+          expression: body.expression as Json,
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.skillFormulas.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const skillFormulaDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/formulas/([^/]+)$`)
+    );
+    if (skillFormulaDetail) {
+      const skillKey = skillFormulaDetail[1]!;
+      const formulaKey = skillFormulaDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillFormulas.find((item) => (
+        item.skillKey === skillKey && item.formulaKey === formulaKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_FORMULA_NOT_FOUND', '技能公式不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: SkillFormulaRow = {
+          ...existing,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          sortOrder: Number(body.sortOrder),
+          expression: body.expression as Json,
+          updatedAt: '2026-08-23T11:00:00Z'
+        };
+        this.skillFormulas = this.skillFormulas.map((item) => (
+          item.skillKey === skillKey && item.formulaKey === formulaKey ? next : item
+        ));
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.skillFormulas = this.skillFormulas.filter((item) => !(
+          item.skillKey === skillKey && item.formulaKey === formulaKey
+        ));
         await route.fulfill({ status: 204 });
         return;
       }
@@ -892,7 +1104,7 @@ function skillRow(page: Page, key: string): Locator {
 }
 
 function visibleModal(page: Page, title: string): Locator {
-  return page.locator('.arco-modal:visible').filter({ hasText: title });
+  return page.getByRole('dialog', { name: title });
 }
 
 async function closeEditorByOutsideOrEscape(page: Page, testInfo: TestInfo): Promise<void> {
@@ -931,6 +1143,8 @@ test.describe('character management without Wasm', () => {
     await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
     await page.getByLabel('最大等级', { exact: true }).fill('3');
     await page.getByRole('button', { name: '保存等级范围', exact: true }).click();
+    const confirmModal = visibleModal(page, '确认调整等级范围');
+    await confirmModal.getByRole('button', { name: '确认保存', exact: true }).click();
     await expect(page.getByText('等级范围已保存。', { exact: true })).toBeVisible();
     expect(mock.minLevel).toBe(1);
     expect(mock.maxLevel).toBe(3);
@@ -1294,6 +1508,7 @@ test.describe('skill management without Wasm', () => {
     await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeDisabled();
     await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeDisabled();
     await expect(row.getByRole('button', { name: '查看', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '参数与公式', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '停用', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '删除', exact: true })).toBeEnabled();
 
@@ -1303,6 +1518,142 @@ test.describe('skill management without Wasm', () => {
     await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeEnabled();
     diagnostics.assertClean('skill category directory failure protection');
+  });
+
+  test('manages skill parameters and formulas from the skills page entry', async ({ page }, testInfo) => {
+    testInfo.setTimeout(90_000);
+    const mock = new MockApi();
+    mock.attributes = [
+      attribute('hp', '生命值', { status: 'ENABLED' }),
+      attribute('attack_damage', '攻击力', { status: 'ENABLED' })
+    ];
+    mock.skillCategories = [{
+      gameId: GAME_ID,
+      skillCategoryKey: 'active',
+      name: '主动技能',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    mock.skills = [{
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      name: '枯萎箭袋',
+      description: null,
+      maxLevel: 5,
+      status: 'ENABLED',
+      sortOrder: 0,
+      skillCategoryKeys: ['active'],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    mock.parameterDeleteConflictKeys.add('missing_health_ratio');
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    await skillRow(page, 'varus_w').getByRole('button', { name: '参数与公式', exact: true }).click();
+    const shell = visibleModal(page, '参数与公式 - 枯萎箭袋');
+    await expect(shell).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增参数', exact: true }).click();
+    const runtimeModal = visibleModal(page, '新增参数');
+    await runtimeModal.getByLabel('稳定标识').fill('current_stacks');
+    await runtimeModal.getByLabel('参数名称').fill('当前层数');
+    await runtimeModal.getByLabel('数值类型').getByText('整数', { exact: true }).click();
+    await runtimeModal.getByLabel('取值方式').getByText('计算时传入', { exact: true }).click();
+    await expect(runtimeModal.getByRole('spinbutton', { name: '固定值' })).toHaveCount(0);
+    await expect(runtimeModal.getByRole('spinbutton', { name: '等级1数值' })).toHaveCount(0);
+    await runtimeModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(runtimeModal).toBeHidden();
+    await expect(shell).toBeVisible();
+    expect(mock.skillParameters.some((item) => (
+      item.parameterKey === 'current_stacks'
+      && item.valueMode === 'RUNTIME_INPUT'
+      && item.fixedValue === null
+      && item.levelValues === null
+    ))).toBe(true);
+
+    await shell.getByRole('button', { name: '新增参数', exact: true }).click();
+    const levelModal = visibleModal(page, '新增参数');
+    await levelModal.getByLabel('稳定标识').fill('base_damage');
+    await levelModal.getByLabel('参数名称').fill('基础伤害');
+    await levelModal.getByLabel('取值方式').getByText('按技能等级', { exact: true }).click();
+    await levelModal.getByLabel('等差起始值').fill('20');
+    await levelModal.getByLabel('每级增加值').fill('25');
+    await levelModal.getByRole('button', { name: '等差递增', exact: true }).click();
+    await levelModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(levelModal).toBeHidden();
+    const baseDamage = mock.skillParameters.find((item) => item.parameterKey === 'base_damage');
+    expect(baseDamage?.valueMode).toBe('SKILL_LEVEL');
+    expect(baseDamage?.levelValues).toEqual({
+      '1': 20,
+      '2': 45,
+      '3': 70,
+      '4': 95,
+      '5': 120
+    });
+
+    await shell.getByRole('button', { name: '新增参数', exact: true }).click();
+    const ratioModal = visibleModal(page, '新增参数');
+    await ratioModal.getByLabel('稳定标识').fill('missing_health_ratio');
+    await ratioModal.getByLabel('参数名称').fill('已损失生命值系数');
+    await ratioModal.getByRole('spinbutton', { name: '固定值' }).fill('0.15');
+    await ratioModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(ratioModal).toBeHidden();
+
+    await shell.getByRole('tab', { name: '技能公式' }).click();
+    await shell.getByRole('button', { name: '新增公式', exact: true }).click();
+    const formulaModal = visibleModal(page, '新增公式');
+    await expect(formulaModal.getByText('加载中…')).toBeHidden({ timeout: 15_000 });
+    await formulaModal.getByLabel('稳定标识').fill('missing_health_damage');
+    await formulaModal.getByLabel('公式名称').fill('已损失生命值伤害');
+    await formulaModal.getByLabel('expression节点类型').getByText('运算', { exact: true }).click();
+    await formulaModal.getByLabel('expression运算').click();
+    await page.getByRole('option', { name: '乘', exact: true }).click();
+    await formulaModal.getByLabel('expression.operands[0]节点类型').getByText('属性', { exact: true }).click();
+    await formulaModal.getByLabel('expression.operands[0]属性对象').getByText('目标', { exact: true }).click();
+    await formulaModal.getByRole('combobox', { name: 'expression.operands[0]属性', exact: true }).click();
+    await page.getByRole('option', { name: '生命值（hp）', exact: true }).click();
+    await formulaModal.getByRole('combobox', { name: 'expression.operands[0]属性取值方式', exact: true }).click();
+    await page.getByRole('option', { name: '已损失值', exact: true }).click();
+    await formulaModal.getByLabel('expression.operands[1]节点类型').getByText('技能参数', { exact: true }).click();
+    await formulaModal.getByRole('combobox', { name: 'expression.operands[1]技能参数', exact: true }).click();
+    await page.getByRole('option', { name: '已损失生命值系数（missing_health_ratio）', exact: true }).click();
+    await expect(formulaModal.getByText('目标.生命值.已损失值 × 已损失生命值系数')).toBeVisible();
+    await formulaModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(formulaModal).toBeHidden();
+    await expect(shell).toBeVisible();
+    expect(mock.skillFormulas[0]?.expression).toEqual({
+      nodeType: 'OPERATION',
+      operation: 'MULTIPLY',
+      operands: [
+        {
+          nodeType: 'ATTRIBUTE',
+          attributeOwner: 'TARGET',
+          attributeKey: 'hp',
+          attributeValueKind: 'MISSING'
+        },
+        {
+          nodeType: 'PARAMETER',
+          parameterKey: 'missing_health_ratio'
+        }
+      ]
+    });
+
+    await shell.getByRole('tab', { name: '技能参数' }).click();
+    const ratioRow = shell.locator('tr', { hasText: 'missing_health_ratio' });
+    await ratioRow.getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除参数');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(deleteModal.getByText('该参数正在被技能公式使用，不能删除')).toBeVisible();
+    expect(mock.skillParameters.some((item) => item.parameterKey === 'missing_health_ratio')).toBe(true);
+
+    await deleteModal.getByRole('button', { name: '取消', exact: true }).click();
+    await shell.getByRole('button', { name: '关闭', exact: true }).click();
+    await expect(shell).toBeHidden();
+    diagnostics.assertClean('skill parameter and formula management');
   });
 });
 
@@ -1405,7 +1756,10 @@ test.describe('attribute management without Wasm', () => {
     await expect(row.getByText('基础移动速度')).toHaveCount(0);
 
     await row.getByRole('button', { name: '编辑' }).click();
-    await editModal.getByLabel('属性名称').fill('基础移动速度');
+    await expect(editModal).toBeVisible();
+    await editModal.getByLabel('属性名称').click();
+    await editModal.getByLabel('属性名称').fill('');
+    await editModal.getByLabel('属性名称').pressSequentially('基础移动速度');
     await editModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(attributeRow(page, 'move_speed')).toContainText('基础移动速度');
 

@@ -8,7 +8,7 @@ import type {
   UpdateSkillRequest
 } from '../types/skill';
 
-function skillsPath(gameId: string, skillKey?: string): string {
+export function skillsPath(gameId: string, skillKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/skills`;
   return skillKey === undefined ? base : `${base}/${encodePathSegment(skillKey)}`;
 }
