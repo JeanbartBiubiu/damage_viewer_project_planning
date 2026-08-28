@@ -673,6 +673,656 @@ CREATE INDEX ix_skill_effect_status_operation_details_status
 
 COMMENT ON TABLE public.skill_effect_status_operation_details IS '状态操作结果明细';
 
+CREATE TABLE public.skill_internal_states (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    state_type varchar(24) NOT NULL,
+    scope varchar(16) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_internal_states
+        PRIMARY KEY (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_internal_states_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_internal_states_key
+        CHECK (state_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_internal_states_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_internal_states_type
+        CHECK (state_type IN (
+            'COUNTER', 'AMMO', 'MODE', 'FLAG', 'INTERNAL_COOLDOWN'
+        )),
+    CONSTRAINT ck_skill_internal_states_scope
+        CHECK (scope IN ('SKILL', 'TARGET')),
+    CONSTRAINT ck_skill_internal_states_scope_type
+        CHECK (state_type = 'COUNTER' OR scope = 'SKILL'),
+    CONSTRAINT ck_skill_internal_states_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_internal_states_list
+    ON public.skill_internal_states (game_id, skill_key, sort_order, state_key);
+
+COMMENT ON TABLE public.skill_internal_states IS '技能内部状态';
+
+CREATE TABLE public.skill_internal_state_counter_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    initial_value_formula_key varchar(64) NOT NULL,
+    max_value_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_internal_state_counter_details
+        PRIMARY KEY (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_internal_state_counter_details_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_internal_counter_initial_formula
+        FOREIGN KEY (game_id, skill_key, initial_value_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_internal_counter_max_formula
+        FOREIGN KEY (game_id, skill_key, max_value_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_internal_counter_initial_formula
+    ON public.skill_internal_state_counter_details
+    (game_id, skill_key, initial_value_formula_key, state_key);
+
+CREATE INDEX ix_skill_internal_counter_max_formula
+    ON public.skill_internal_state_counter_details
+    (game_id, skill_key, max_value_formula_key, state_key);
+
+COMMENT ON TABLE public.skill_internal_state_counter_details IS '技能内部计数状态明细';
+
+CREATE TABLE public.skill_internal_state_ammo_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    initial_value_formula_key varchar(64) NOT NULL,
+    max_value_formula_key varchar(64) NOT NULL,
+    recovery_interval_formula_key varchar(64) NOT NULL,
+    recovery_mode varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_internal_state_ammo_details
+        PRIMARY KEY (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_internal_state_ammo_details_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_internal_ammo_initial_formula
+        FOREIGN KEY (game_id, skill_key, initial_value_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_internal_ammo_max_formula
+        FOREIGN KEY (game_id, skill_key, max_value_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_internal_ammo_recovery_formula
+        FOREIGN KEY (game_id, skill_key, recovery_interval_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_internal_state_ammo_recovery_mode
+        CHECK (recovery_mode IN ('ONE_BY_ONE', 'ALL_AT_ONCE'))
+);
+
+CREATE INDEX ix_skill_internal_ammo_initial_formula
+    ON public.skill_internal_state_ammo_details
+    (game_id, skill_key, initial_value_formula_key, state_key);
+
+CREATE INDEX ix_skill_internal_ammo_max_formula
+    ON public.skill_internal_state_ammo_details
+    (game_id, skill_key, max_value_formula_key, state_key);
+
+CREATE INDEX ix_skill_internal_ammo_recovery_formula
+    ON public.skill_internal_state_ammo_details
+    (game_id, skill_key, recovery_interval_formula_key, state_key);
+
+COMMENT ON TABLE public.skill_internal_state_ammo_details IS '技能内部弹药状态明细';
+
+CREATE TABLE public.skill_internal_state_flag_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    initial_enabled boolean NOT NULL,
+    CONSTRAINT pk_skill_internal_state_flag_details
+        PRIMARY KEY (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_internal_state_flag_details_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key)
+        ON DELETE CASCADE
+);
+
+COMMENT ON TABLE public.skill_internal_state_flag_details IS '技能内部准备标记明细';
+
+CREATE TABLE public.skill_internal_state_cooldown_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    duration_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_internal_state_cooldown_details
+        PRIMARY KEY (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_internal_state_cooldown_details_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_internal_cooldown_duration_formula
+        FOREIGN KEY (game_id, skill_key, duration_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_internal_cooldown_duration_formula
+    ON public.skill_internal_state_cooldown_details
+    (game_id, skill_key, duration_formula_key, state_key);
+
+COMMENT ON TABLE public.skill_internal_state_cooldown_details IS '技能内部冷却明细';
+
+CREATE TABLE public.skill_internal_state_mode_options (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    option_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    initial boolean NOT NULL,
+    CONSTRAINT pk_skill_internal_state_mode_options
+        PRIMARY KEY (game_id, skill_key, state_key, option_key),
+    CONSTRAINT fk_skill_internal_state_mode_options_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_internal_state_mode_options_key
+        CHECK (option_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_internal_state_mode_options_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_internal_state_mode_options_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_internal_state_mode_options_list
+    ON public.skill_internal_state_mode_options
+    (game_id, skill_key, state_key, sort_order, option_key);
+
+COMMENT ON TABLE public.skill_internal_state_mode_options IS '技能内部模式选项';
+
+CREATE TABLE public.skill_processes (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    activation_type varchar(16) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_processes
+        PRIMARY KEY (game_id, skill_key, process_key),
+    CONSTRAINT fk_skill_processes_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_processes_key
+        CHECK (process_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_processes_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_processes_activation
+        CHECK (activation_type IN ('ACTIVE', 'PASSIVE', 'CONSUMABLE')),
+    CONSTRAINT ck_skill_processes_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_processes_list
+    ON public.skill_processes (game_id, skill_key, sort_order, process_key);
+
+COMMENT ON TABLE public.skill_processes IS '技能过程';
+
+CREATE TABLE public.skill_process_steps (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    step_type varchar(32) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_process_steps
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_steps_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_process_steps_key
+        CHECK (step_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_process_steps_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_process_steps_type
+        CHECK (step_type IN (
+            'IMMEDIATE', 'DELAY', 'MULTI_HIT', 'PERIODIC',
+            'CHANNEL', 'CHARGE', 'RECAST', 'EMPOWERED_BASIC_ATTACK'
+        )),
+    CONSTRAINT ck_skill_process_steps_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_process_steps_list
+    ON public.skill_process_steps
+    (game_id, skill_key, process_key, sort_order, step_key);
+
+COMMENT ON TABLE public.skill_process_steps IS '技能过程步骤';
+
+CREATE TABLE public.skill_process_delay_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    delay_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_process_delay_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_delay_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_delay_formula
+        FOREIGN KEY (game_id, skill_key, delay_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_process_delay_formula
+    ON public.skill_process_delay_step_details
+    (game_id, skill_key, delay_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_delay_step_details IS '延迟步骤明细';
+
+CREATE TABLE public.skill_process_multi_hit_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    repeat_count_formula_key varchar(64) NOT NULL,
+    interval_formula_key varchar(64),
+    CONSTRAINT pk_skill_process_multi_hit_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_multi_hit_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_multi_count_formula
+        FOREIGN KEY (game_id, skill_key, repeat_count_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_multi_interval_formula
+        FOREIGN KEY (game_id, skill_key, interval_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        MATCH SIMPLE
+);
+
+CREATE INDEX ix_skill_process_multi_count_formula
+    ON public.skill_process_multi_hit_step_details
+    (game_id, skill_key, repeat_count_formula_key, process_key, step_key);
+
+CREATE INDEX ix_skill_process_multi_interval_formula
+    ON public.skill_process_multi_hit_step_details
+    (game_id, skill_key, interval_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_multi_hit_step_details IS '多段步骤明细';
+
+CREATE TABLE public.skill_process_periodic_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    repeat_count_formula_key varchar(64) NOT NULL,
+    interval_formula_key varchar(64) NOT NULL,
+    first_execution varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_process_periodic_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_periodic_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_periodic_count_formula
+        FOREIGN KEY (game_id, skill_key, repeat_count_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_periodic_interval_formula
+        FOREIGN KEY (game_id, skill_key, interval_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_process_periodic_first_execution
+        CHECK (first_execution IN ('IMMEDIATE', 'AFTER_INTERVAL'))
+);
+
+CREATE INDEX ix_skill_process_periodic_count_formula
+    ON public.skill_process_periodic_step_details
+    (game_id, skill_key, repeat_count_formula_key, process_key, step_key);
+
+CREATE INDEX ix_skill_process_periodic_interval_formula
+    ON public.skill_process_periodic_step_details
+    (game_id, skill_key, interval_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_periodic_step_details IS '周期步骤明细';
+
+CREATE TABLE public.skill_process_channel_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    duration_formula_key varchar(64) NOT NULL,
+    execution_count_formula_key varchar(64) NOT NULL,
+    first_execution varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_process_channel_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_channel_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_channel_duration_formula
+        FOREIGN KEY (game_id, skill_key, duration_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_channel_count_formula
+        FOREIGN KEY (game_id, skill_key, execution_count_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_process_channel_first_execution
+        CHECK (first_execution IN ('IMMEDIATE', 'AFTER_INTERVAL'))
+);
+
+CREATE INDEX ix_skill_process_channel_duration_formula
+    ON public.skill_process_channel_step_details
+    (game_id, skill_key, duration_formula_key, process_key, step_key);
+
+CREATE INDEX ix_skill_process_channel_count_formula
+    ON public.skill_process_channel_step_details
+    (game_id, skill_key, execution_count_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_channel_step_details IS '引导步骤明细';
+
+CREATE TABLE public.skill_process_charge_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    minimum_charge_formula_key varchar(64) NOT NULL,
+    maximum_charge_formula_key varchar(64) NOT NULL,
+    release_at_maximum boolean NOT NULL,
+    CONSTRAINT pk_skill_process_charge_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_charge_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_charge_min_formula
+        FOREIGN KEY (game_id, skill_key, minimum_charge_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_charge_max_formula
+        FOREIGN KEY (game_id, skill_key, maximum_charge_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_process_charge_min_formula
+    ON public.skill_process_charge_step_details
+    (game_id, skill_key, minimum_charge_formula_key, process_key, step_key);
+
+CREATE INDEX ix_skill_process_charge_max_formula
+    ON public.skill_process_charge_step_details
+    (game_id, skill_key, maximum_charge_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_charge_step_details IS '蓄力步骤明细';
+
+CREATE TABLE public.skill_process_recast_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    window_formula_key varchar(64) NOT NULL,
+    maximum_recast_count_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_process_recast_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_recast_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_recast_window_formula
+        FOREIGN KEY (game_id, skill_key, window_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_recast_count_formula
+        FOREIGN KEY (game_id, skill_key, maximum_recast_count_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_process_recast_window_formula
+    ON public.skill_process_recast_step_details
+    (game_id, skill_key, window_formula_key, process_key, step_key);
+
+CREATE INDEX ix_skill_process_recast_count_formula
+    ON public.skill_process_recast_step_details
+    (game_id, skill_key, maximum_recast_count_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_recast_step_details IS '重施步骤明细';
+
+CREATE TABLE public.skill_process_empowered_attack_step_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    step_key varchar(64) NOT NULL,
+    window_formula_key varchar(64) NOT NULL,
+    consume_moment varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_process_empowered_attack_step_details
+        PRIMARY KEY (game_id, skill_key, process_key, step_key),
+    CONSTRAINT fk_skill_process_empowered_attack_step_details_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_empowered_window_formula
+        FOREIGN KEY (game_id, skill_key, window_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_process_empowered_consume_moment
+        CHECK (consume_moment IN ('ATTACK_START', 'ATTACK_HIT'))
+);
+
+CREATE INDEX ix_skill_process_empowered_window_formula
+    ON public.skill_process_empowered_attack_step_details
+    (game_id, skill_key, window_formula_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_empowered_attack_step_details IS '强化下一次普通攻击步骤明细';
+
+CREATE TABLE public.skill_process_cooldowns (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    duration_formula_key varchar(64) NOT NULL,
+    moment_type varchar(24) NOT NULL,
+    step_key varchar(64),
+    CONSTRAINT pk_skill_process_cooldowns
+        PRIMARY KEY (game_id, skill_key, process_key),
+    CONSTRAINT fk_skill_process_cooldowns_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_cooldown_duration_formula
+        FOREIGN KEY (game_id, skill_key, duration_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_process_cooldowns_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_process_cooldowns_moment
+        CHECK (
+            (
+                moment_type IN ('PROCESS_START', 'PROCESS_COMPLETE', 'PROCESS_FAILURE')
+                AND step_key IS NULL
+            )
+            OR (
+                moment_type IN (
+                    'STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE', 'STEP_TIMEOUT'
+                )
+                AND step_key IS NOT NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_process_cooldown_duration_formula
+    ON public.skill_process_cooldowns
+    (game_id, skill_key, duration_formula_key, process_key);
+
+CREATE INDEX ix_skill_process_cooldown_step
+    ON public.skill_process_cooldowns
+    (game_id, skill_key, process_key, step_key);
+
+COMMENT ON TABLE public.skill_process_cooldowns IS '技能过程普通冷却';
+
+CREATE TABLE public.skill_process_effect_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    moment_type varchar(24) NOT NULL,
+    step_key varchar(64),
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_process_effect_bindings
+        PRIMARY KEY (game_id, skill_key, process_key, binding_key),
+    CONSTRAINT fk_skill_process_effect_bindings_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_effect_bindings_effect
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key),
+    CONSTRAINT fk_skill_process_effect_bindings_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_process_effect_bindings_key
+        CHECK (binding_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_process_effect_bindings_moment
+        CHECK (
+            (
+                moment_type IN ('PROCESS_START', 'PROCESS_COMPLETE', 'PROCESS_FAILURE')
+                AND step_key IS NULL
+            )
+            OR (
+                moment_type IN (
+                    'STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE', 'STEP_TIMEOUT'
+                )
+                AND step_key IS NOT NULL
+            )
+        ),
+    CONSTRAINT ck_skill_process_effect_bindings_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_process_effect_bindings_list
+    ON public.skill_process_effect_bindings
+    (game_id, skill_key, process_key, sort_order, binding_key);
+
+CREATE INDEX ix_skill_process_effect_bindings_effect
+    ON public.skill_process_effect_bindings
+    (game_id, skill_key, effect_key, process_key, binding_key);
+
+CREATE INDEX ix_skill_process_effect_bindings_step
+    ON public.skill_process_effect_bindings
+    (game_id, skill_key, process_key, step_key, binding_key);
+
+CREATE INDEX ix_skill_process_effect_bindings_moment
+    ON public.skill_process_effect_bindings
+    (game_id, skill_key, process_key, moment_type, step_key, binding_key);
+
+COMMENT ON TABLE public.skill_process_effect_bindings IS '技能过程效果挂接';
+
+CREATE TABLE public.skill_process_state_operations (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    operation_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    value_formula_key varchar(64),
+    option_key varchar(64),
+    moment_type varchar(24) NOT NULL,
+    step_key varchar(64),
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_process_state_operations
+        PRIMARY KEY (game_id, skill_key, process_key, operation_key),
+    CONSTRAINT fk_skill_process_state_operations_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_process_state_operations_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_process_state_operation_value_formula
+        FOREIGN KEY (game_id, skill_key, value_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        MATCH SIMPLE,
+    CONSTRAINT fk_skill_process_state_operations_option
+        FOREIGN KEY (game_id, skill_key, state_key, option_key)
+        REFERENCES public.skill_internal_state_mode_options
+            (game_id, skill_key, state_key, option_key)
+        MATCH SIMPLE,
+    CONSTRAINT fk_skill_process_state_operations_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_process_state_operations_key
+        CHECK (operation_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_process_state_operations_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_process_state_operations_operation
+        CHECK (operation IN (
+            'INCREASE', 'DECREASE', 'CONSUME', 'SET', 'RESET',
+            'SELECT', 'ENABLE', 'DISABLE', 'TOGGLE', 'START'
+        )),
+    CONSTRAINT ck_skill_process_state_operations_moment
+        CHECK (
+            (
+                moment_type IN ('PROCESS_START', 'PROCESS_COMPLETE', 'PROCESS_FAILURE')
+                AND step_key IS NULL
+            )
+            OR (
+                moment_type IN (
+                    'STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE', 'STEP_TIMEOUT'
+                )
+                AND step_key IS NOT NULL
+            )
+        ),
+    CONSTRAINT ck_skill_process_state_operations_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_process_state_operations_list
+    ON public.skill_process_state_operations
+    (game_id, skill_key, process_key, sort_order, operation_key);
+
+CREATE INDEX ix_skill_process_state_operations_state
+    ON public.skill_process_state_operations
+    (game_id, skill_key, state_key, process_key, operation_key);
+
+CREATE INDEX ix_skill_process_state_operations_option
+    ON public.skill_process_state_operations
+    (game_id, skill_key, state_key, option_key, process_key, operation_key);
+
+CREATE INDEX ix_skill_process_state_operation_value_formula
+    ON public.skill_process_state_operations
+    (game_id, skill_key, value_formula_key, process_key, operation_key);
+
+CREATE INDEX ix_skill_process_state_operations_step
+    ON public.skill_process_state_operations
+    (game_id, skill_key, process_key, step_key, operation_key);
+
+CREATE INDEX ix_skill_process_state_operations_moment
+    ON public.skill_process_state_operations
+    (game_id, skill_key, process_key, moment_type, step_key, operation_key);
+
+COMMENT ON TABLE public.skill_process_state_operations IS '技能过程内部状态操作';
+
 CREATE TABLE public.game_data_state (
     game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
     current_revision bigint NOT NULL DEFAULT 0 CHECK (current_revision >= 0),
