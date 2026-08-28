@@ -249,6 +249,245 @@ END;
 $$;
 
 -- -----------------------------------------------------------------------------
+-- skill_effect_results：事务提交时必须满足七种结果完整形状
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_effect_result_complete_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_effect_key varchar(64);
+    v_result_key varchar(64);
+    v_result_type varchar(24);
+    v_cooldown_operation varchar(16);
+    v_value_count int;
+    v_damage_count int;
+    v_attribute_count int;
+    v_resource_count int;
+    v_cooldown_count int;
+    v_status_count int;
+BEGIN
+    IF TG_TABLE_NAME = 'skill_effect_results' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_effect_key := NEW.effect_key;
+        v_result_key := NEW.result_key;
+        v_result_type := NEW.result_type;
+    ELSE
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_effect_key := OLD.effect_key;
+            v_result_key := OLD.result_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_effect_key := NEW.effect_key;
+            v_result_key := NEW.result_key;
+        END IF;
+        SELECT r.result_type
+          INTO v_result_type
+          FROM public.skill_effect_results r
+         WHERE r.game_id = v_game_id
+           AND r.skill_key = v_skill_key
+           AND r.effect_key = v_effect_key
+           AND r.result_key = v_result_key;
+        IF NOT FOUND THEN
+            RETURN COALESCE(NEW, OLD);
+        END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO v_value_count
+      FROM public.skill_effect_result_values v
+     WHERE v.game_id = v_game_id
+       AND v.skill_key = v_skill_key
+       AND v.effect_key = v_effect_key
+       AND v.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_damage_count
+      FROM public.skill_effect_damage_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_attribute_count
+      FROM public.skill_effect_attribute_change_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_resource_count
+      FROM public.skill_effect_resource_change_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_cooldown_count
+      FROM public.skill_effect_cooldown_change_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_status_count
+      FROM public.skill_effect_status_operation_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+
+    IF v_result_type = 'DAMAGE' THEN
+        IF v_value_count <> 1
+            OR v_damage_count <> 1
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) DAMAGE shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type IN ('DIRECT_HEAL', 'NORMAL_SHIELD') THEN
+        IF v_value_count <> 1
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) % shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'ATTRIBUTE_CHANGE' THEN
+        IF v_value_count <> 1
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 1
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) ATTRIBUTE_CHANGE shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'RESOURCE_CHANGE' THEN
+        IF v_value_count <> 1
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 1
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) RESOURCE_CHANGE shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'COOLDOWN_CHANGE' THEN
+        IF v_cooldown_count <> 1
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT d.operation
+          INTO v_cooldown_operation
+          FROM public.skill_effect_cooldown_change_details d
+         WHERE d.game_id = v_game_id
+           AND d.skill_key = v_skill_key
+           AND d.effect_key = v_effect_key
+           AND d.result_key = v_result_key;
+        IF v_cooldown_operation IN ('REDUCE', 'INCREASE') AND v_value_count <> 1 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE % requires value rule at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key, v_cooldown_operation
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_cooldown_operation = 'RESET' AND v_value_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE RESET must not have value rule at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'STATUS_OPERATION' THEN
+        IF v_value_count <> 0
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 1 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) STATUS_OPERATION shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSE
+        RAISE EXCEPTION
+            'skill_effect_results(%, %, %, %) has unsupported result_type %',
+            v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_effect_result_complete_shape() IS
+    'deferred：保证每个技能效果结果在提交时具有完整且互斥的数值规则与类型明细';
+
+DROP TRIGGER IF EXISTS trg_skill_effect_results_complete_shape
+    ON public.skill_effect_results;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_results_complete_shape
+AFTER INSERT OR UPDATE ON public.skill_effect_results
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_result_complete_shape();
+
+DO $$
+DECLARE
+    v_detail text;
+    v_details text[] := ARRAY[
+        'skill_effect_result_values',
+        'skill_effect_damage_details',
+        'skill_effect_attribute_change_details',
+        'skill_effect_resource_change_details',
+        'skill_effect_cooldown_change_details',
+        'skill_effect_status_operation_details'
+    ];
+BEGIN
+    FOREACH v_detail IN ARRAY v_details
+    LOOP
+        IF to_regclass('public.' || v_detail) IS NULL THEN
+            CONTINUE;
+        END IF;
+        EXECUTE format(
+            'DROP TRIGGER IF EXISTS trg_%I_complete_shape ON public.%I',
+            v_detail,
+            v_detail
+        );
+        EXECUTE format(
+            'CREATE CONSTRAINT TRIGGER trg_%I_complete_shape
+             AFTER INSERT OR UPDATE OR DELETE ON public.%I
+             DEFERRABLE INITIALLY DEFERRED
+             FOR EACH ROW
+             EXECUTE FUNCTION public.trg_skill_effect_result_complete_shape()',
+            v_detail,
+            v_detail
+        );
+    END LOOP;
+END;
+$$;
+
+-- -----------------------------------------------------------------------------
 -- Backfill partitions and game_data_state for existing games
 -- -----------------------------------------------------------------------------
 

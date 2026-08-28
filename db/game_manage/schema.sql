@@ -442,6 +442,237 @@ CREATE UNIQUE INDEX uq_statuses_name
 
 COMMENT ON TABLE public.statuses IS '状态';
 
+CREATE TABLE public.skill_effects (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_effects
+        PRIMARY KEY (game_id, skill_key, effect_key),
+    CONSTRAINT fk_skill_effects_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_effects_key
+        CHECK (effect_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_effects_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_effects_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_effects_list
+    ON public.skill_effects (game_id, skill_key, sort_order, effect_key);
+
+COMMENT ON TABLE public.skill_effects IS '技能效果';
+
+CREATE TABLE public.skill_effect_results (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    result_type varchar(24) NOT NULL,
+    target varchar(16) NOT NULL,
+    description varchar(2000),
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_effect_results
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_results_effect
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_effect_results_key
+        CHECK (result_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_effect_results_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_effect_results_type
+        CHECK (result_type IN (
+            'DAMAGE', 'DIRECT_HEAL', 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE',
+            'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION'
+        )),
+    CONSTRAINT ck_skill_effect_results_target
+        CHECK (target IN ('SOURCE', 'TARGET')),
+    CONSTRAINT ck_skill_effect_results_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE INDEX ix_skill_effect_results_list
+    ON public.skill_effect_results
+    (game_id, skill_key, effect_key, sort_order, result_key);
+
+COMMENT ON TABLE public.skill_effect_results IS '技能效果结果';
+
+CREATE TABLE public.skill_effect_result_values (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    formula_key varchar(64) NOT NULL,
+    fixed_multiplier numeric NOT NULL DEFAULT 1,
+    fixed_min_value numeric,
+    fixed_max_value numeric,
+    CONSTRAINT pk_skill_effect_result_values
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_result_values_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_result_values_formula
+        FOREIGN KEY (game_id, skill_key, formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_effect_result_values_multiplier
+        CHECK (fixed_multiplier >= 0),
+    CONSTRAINT ck_skill_effect_result_values_bounds
+        CHECK (
+            fixed_min_value IS NULL
+            OR fixed_max_value IS NULL
+            OR fixed_min_value <= fixed_max_value
+        )
+);
+
+CREATE INDEX ix_skill_effect_result_values_formula
+    ON public.skill_effect_result_values
+    (game_id, skill_key, formula_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_result_values IS '技能效果结果数值规则';
+
+CREATE TABLE public.skill_effect_damage_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    damage_type_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_damage_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_damage_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_damage_details_damage_type
+        FOREIGN KEY (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+);
+
+CREATE INDEX ix_skill_effect_damage_details_type
+    ON public.skill_effect_damage_details
+    (game_id, damage_type_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_damage_details IS '伤害结果明细';
+
+CREATE TABLE public.skill_effect_attribute_change_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_attribute_change_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_attribute_change_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_attribute_change_details_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT ck_skill_effect_attribute_change_details_operation
+        CHECK (operation IN ('INCREASE', 'DECREASE', 'SET'))
+);
+
+CREATE INDEX ix_skill_effect_attribute_change_details_attribute
+    ON public.skill_effect_attribute_change_details
+    (game_id, attribute_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_attribute_change_details IS '属性变化结果明细';
+
+CREATE TABLE public.skill_effect_resource_change_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_resource_change_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_resource_change_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_resource_change_details_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT ck_skill_effect_resource_change_details_operation
+        CHECK (operation IN ('RESTORE', 'CONSUME', 'REFUND'))
+);
+
+CREATE INDEX ix_skill_effect_resource_change_details_attribute
+    ON public.skill_effect_resource_change_details
+    (game_id, attribute_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_resource_change_details IS '资源变化结果明细';
+
+CREATE TABLE public.skill_effect_cooldown_change_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    affected_skill_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_cooldown_change_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_cooldown_change_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_cooldown_change_details_skill
+        FOREIGN KEY (game_id, affected_skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_effect_cooldown_change_details_operation
+        CHECK (operation IN ('REDUCE', 'INCREASE', 'RESET'))
+);
+
+CREATE INDEX ix_skill_effect_cooldown_change_details_skill
+    ON public.skill_effect_cooldown_change_details
+    (game_id, affected_skill_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_cooldown_change_details IS '冷却变化结果明细';
+
+CREATE TABLE public.skill_effect_status_operation_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    status_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_status_operation_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_status_operation_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_status_operation_details_status
+        FOREIGN KEY (game_id, status_key)
+        REFERENCES public.statuses (game_id, status_key),
+    CONSTRAINT ck_skill_effect_status_operation_details_operation
+        CHECK (operation IN ('APPLY', 'REMOVE'))
+);
+
+CREATE INDEX ix_skill_effect_status_operation_details_status
+    ON public.skill_effect_status_operation_details
+    (game_id, status_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_status_operation_details IS '状态操作结果明细';
+
 CREATE TABLE public.game_data_state (
     game_id varchar(64) PRIMARY KEY REFERENCES public.games(game_id),
     current_revision bigint NOT NULL DEFAULT 0 CHECK (current_revision >= 0),
