@@ -49,7 +49,29 @@ public class SkillFormulaService {
     private static final int MAX_DEPTH = 32;
     private static final int MAX_NODES = 256;
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_formulas";
-    private static final String EFFECT_VALUE_FORMULA_CONSTRAINT = "fk_skill_effect_result_values_formula";
+    private static final Set<String> FORMULA_IN_USE_CONSTRAINTS = Set.of(
+        "fk_skill_effect_result_values_formula",
+        "fk_skill_internal_counter_initial_formula",
+        "fk_skill_internal_counter_max_formula",
+        "fk_skill_internal_ammo_initial_formula",
+        "fk_skill_internal_ammo_max_formula",
+        "fk_skill_internal_ammo_recovery_formula",
+        "fk_skill_internal_cooldown_duration_formula",
+        "fk_skill_process_delay_formula",
+        "fk_skill_process_multi_count_formula",
+        "fk_skill_process_multi_interval_formula",
+        "fk_skill_process_periodic_count_formula",
+        "fk_skill_process_periodic_interval_formula",
+        "fk_skill_process_channel_duration_formula",
+        "fk_skill_process_channel_count_formula",
+        "fk_skill_process_charge_min_formula",
+        "fk_skill_process_charge_max_formula",
+        "fk_skill_process_recast_window_formula",
+        "fk_skill_process_recast_count_formula",
+        "fk_skill_process_empowered_window_formula",
+        "fk_skill_process_cooldown_duration_formula",
+        "fk_skill_process_state_operation_value_formula"
+    );
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
@@ -774,7 +796,7 @@ public class SkillFormulaService {
     }
 
     private static ApiException formulaInUse() {
-        return conflict("409.SKILL_FORMULA_IN_USE", "技能公式已被效果结果引用，不能删除", "formulaKey");
+        return conflict("409.SKILL_FORMULA_IN_USE", "技能公式已被引用，不能删除", "formulaKey");
     }
 
     private static ApiException conflict(String code, String message, String field) {
@@ -817,8 +839,10 @@ public class SkillFormulaService {
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
         }
-        if (text.contains(EFFECT_VALUE_FORMULA_CONSTRAINT)) {
-            return formulaInUse();
+        for (String constraint : FORMULA_IN_USE_CONSTRAINTS) {
+            if (text.contains(constraint)) {
+                return formulaInUse();
+            }
         }
         return ex;
     }

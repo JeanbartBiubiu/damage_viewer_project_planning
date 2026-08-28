@@ -391,6 +391,14 @@
           AND skill_key &lt;&gt; #{skillKey}
     </select>
 
+    <select id="countProcessBindings" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_process_effect_bindings
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+    </select>
+
     <select id="lockFormulas" resultType="string">
         SELECT formula_key
         FROM public.skill_formulas

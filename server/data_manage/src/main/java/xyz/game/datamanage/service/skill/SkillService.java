@@ -21,7 +21,9 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
+import xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
+import xyz.game.datamanage.mapper.skillprocess.SkillProcessMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
 import xyz.game.datamanage.model.skill.SkillCategoryRelationRow;
 import xyz.game.datamanage.model.skill.SkillCreateRequest;
@@ -48,6 +50,8 @@ public class SkillService {
     private final SkillParameterMapper parameterMapper;
     private final SkillFormulaMapper formulaMapper;
     private final SkillEffectMapper effectMapper;
+    private final SkillProcessMapper processMapper;
+    private final SkillInternalStateMapper internalStateMapper;
     private final SkillParameterLevelService levelService;
 
     public SkillService(
@@ -56,6 +60,8 @@ public class SkillService {
         SkillParameterMapper parameterMapper,
         SkillFormulaMapper formulaMapper,
         SkillEffectMapper effectMapper,
+        SkillProcessMapper processMapper,
+        SkillInternalStateMapper internalStateMapper,
         SkillParameterLevelService levelService
     ) {
         this.gamesMapper = gamesMapper;
@@ -63,6 +69,8 @@ public class SkillService {
         this.parameterMapper = parameterMapper;
         this.formulaMapper = formulaMapper;
         this.effectMapper = effectMapper;
+        this.processMapper = processMapper;
+        this.internalStateMapper = internalStateMapper;
         this.levelService = levelService;
     }
 
@@ -161,7 +169,9 @@ public class SkillService {
         if (effectMapper.countExternalCooldownReferences(gameId, skillKey) > 0) {
             throw inUse();
         }
+        processMapper.deleteAllForSkill(gameId, skillKey);
         effectMapper.deleteAllForSkill(gameId, skillKey);
+        internalStateMapper.deleteAllForSkill(gameId, skillKey);
         formulaMapper.deleteAllForSkill(gameId, skillKey);
         parameterMapper.deleteAllForSkill(gameId, skillKey);
         if (mapper.delete(gameId, skillKey) == 0) {

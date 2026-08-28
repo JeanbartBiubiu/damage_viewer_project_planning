@@ -488,6 +488,628 @@ END;
 $$;
 
 -- -----------------------------------------------------------------------------
+-- skill_internal_states：事务提交时必须满足五种内部状态完整形状
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_internal_state_complete_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_state_key varchar(64);
+    v_state_type varchar(24);
+    v_scope varchar(16);
+    v_counter_count int;
+    v_ammo_count int;
+    v_flag_count int;
+    v_cooldown_count int;
+    v_option_count int;
+    v_initial_count int;
+BEGIN
+    IF TG_TABLE_NAME = 'skill_internal_states' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_state_key := NEW.state_key;
+        v_state_type := NEW.state_type;
+        v_scope := NEW.scope;
+    ELSE
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_state_key := OLD.state_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_state_key := NEW.state_key;
+        END IF;
+        SELECT s.state_type, s.scope
+          INTO v_state_type, v_scope
+          FROM public.skill_internal_states s
+         WHERE s.game_id = v_game_id
+           AND s.skill_key = v_skill_key
+           AND s.state_key = v_state_key;
+        IF NOT FOUND THEN
+            RETURN COALESCE(NEW, OLD);
+        END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO v_counter_count
+      FROM public.skill_internal_state_counter_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key;
+    SELECT COUNT(*) INTO v_ammo_count
+      FROM public.skill_internal_state_ammo_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key;
+    SELECT COUNT(*) INTO v_flag_count
+      FROM public.skill_internal_state_flag_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key;
+    SELECT COUNT(*) INTO v_cooldown_count
+      FROM public.skill_internal_state_cooldown_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key;
+    SELECT COUNT(*) INTO v_option_count
+      FROM public.skill_internal_state_mode_options d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key;
+    SELECT COUNT(*) INTO v_initial_count
+      FROM public.skill_internal_state_mode_options d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key AND d.state_key = v_state_key
+       AND d.initial IS TRUE;
+
+    IF v_state_type = 'COUNTER' THEN
+        IF v_counter_count <> 1
+            OR v_ammo_count <> 0
+            OR v_flag_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_option_count <> 0
+            OR v_scope NOT IN ('SKILL', 'TARGET') THEN
+            RAISE EXCEPTION
+                'skill_internal_states(%, %, %) COUNTER shape invalid at commit',
+                v_game_id, v_skill_key, v_state_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_state_type = 'AMMO' THEN
+        IF v_counter_count <> 0
+            OR v_ammo_count <> 1
+            OR v_flag_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_option_count <> 0
+            OR v_scope <> 'SKILL' THEN
+            RAISE EXCEPTION
+                'skill_internal_states(%, %, %) AMMO shape invalid at commit',
+                v_game_id, v_skill_key, v_state_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_state_type = 'MODE' THEN
+        IF v_counter_count <> 0
+            OR v_ammo_count <> 0
+            OR v_flag_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_option_count < 2
+            OR v_initial_count <> 1
+            OR v_scope <> 'SKILL' THEN
+            RAISE EXCEPTION
+                'skill_internal_states(%, %, %) MODE shape invalid at commit',
+                v_game_id, v_skill_key, v_state_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_state_type = 'FLAG' THEN
+        IF v_counter_count <> 0
+            OR v_ammo_count <> 0
+            OR v_flag_count <> 1
+            OR v_cooldown_count <> 0
+            OR v_option_count <> 0
+            OR v_scope <> 'SKILL' THEN
+            RAISE EXCEPTION
+                'skill_internal_states(%, %, %) FLAG shape invalid at commit',
+                v_game_id, v_skill_key, v_state_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_state_type = 'INTERNAL_COOLDOWN' THEN
+        IF v_counter_count <> 0
+            OR v_ammo_count <> 0
+            OR v_flag_count <> 0
+            OR v_cooldown_count <> 1
+            OR v_option_count <> 0
+            OR v_scope <> 'SKILL' THEN
+            RAISE EXCEPTION
+                'skill_internal_states(%, %, %) INTERNAL_COOLDOWN shape invalid at commit',
+                v_game_id, v_skill_key, v_state_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSE
+        RAISE EXCEPTION
+            'skill_internal_states(%, %, %) has unsupported state_type %',
+            v_game_id, v_skill_key, v_state_key, v_state_type
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_internal_state_complete_shape() IS
+    'deferred：保证每个技能内部状态在提交时具有完整且互斥的类型明细或模式选项';
+
+DROP TRIGGER IF EXISTS trg_skill_internal_states_complete_shape
+    ON public.skill_internal_states;
+CREATE CONSTRAINT TRIGGER trg_skill_internal_states_complete_shape
+AFTER INSERT OR UPDATE ON public.skill_internal_states
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_internal_state_complete_shape();
+
+DO $$
+DECLARE
+    v_detail text;
+    v_details text[] := ARRAY[
+        'skill_internal_state_counter_details',
+        'skill_internal_state_ammo_details',
+        'skill_internal_state_flag_details',
+        'skill_internal_state_cooldown_details',
+        'skill_internal_state_mode_options'
+    ];
+BEGIN
+    FOREACH v_detail IN ARRAY v_details
+    LOOP
+        IF to_regclass('public.' || v_detail) IS NULL THEN
+            CONTINUE;
+        END IF;
+        EXECUTE format(
+            'DROP TRIGGER IF EXISTS trg_%I_complete_shape ON public.%I',
+            v_detail,
+            v_detail
+        );
+        EXECUTE format(
+            'CREATE CONSTRAINT TRIGGER trg_%I_complete_shape
+             AFTER INSERT OR UPDATE OR DELETE ON public.%I
+             DEFERRABLE INITIALLY DEFERRED
+             FOR EACH ROW
+             EXECUTE FUNCTION public.trg_skill_internal_state_complete_shape()',
+            v_detail,
+            v_detail
+        );
+    END LOOP;
+END;
+$$;
+
+-- -----------------------------------------------------------------------------
+-- skill_process_steps：事务提交时必须满足八种步骤完整形状
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_process_step_complete_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_process_key varchar(64);
+    v_step_key varchar(64);
+    v_step_type varchar(32);
+    v_delay_count int;
+    v_multi_count int;
+    v_periodic_count int;
+    v_channel_count int;
+    v_charge_count int;
+    v_recast_count int;
+    v_empowered_count int;
+BEGIN
+    IF TG_TABLE_NAME = 'skill_process_steps' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_process_key := NEW.process_key;
+        v_step_key := NEW.step_key;
+        v_step_type := NEW.step_type;
+    ELSE
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_process_key := OLD.process_key;
+            v_step_key := OLD.step_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_process_key := NEW.process_key;
+            v_step_key := NEW.step_key;
+        END IF;
+        SELECT s.step_type
+          INTO v_step_type
+          FROM public.skill_process_steps s
+         WHERE s.game_id = v_game_id
+           AND s.skill_key = v_skill_key
+           AND s.process_key = v_process_key
+           AND s.step_key = v_step_key;
+        IF NOT FOUND THEN
+            RETURN COALESCE(NEW, OLD);
+        END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO v_delay_count
+      FROM public.skill_process_delay_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_multi_count
+      FROM public.skill_process_multi_hit_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_periodic_count
+      FROM public.skill_process_periodic_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_channel_count
+      FROM public.skill_process_channel_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_charge_count
+      FROM public.skill_process_charge_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_recast_count
+      FROM public.skill_process_recast_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+    SELECT COUNT(*) INTO v_empowered_count
+      FROM public.skill_process_empowered_attack_step_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.process_key = v_process_key AND d.step_key = v_step_key;
+
+    IF v_step_type = 'IMMEDIATE' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) IMMEDIATE shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'DELAY' THEN
+        IF v_delay_count <> 1 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) DELAY shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'MULTI_HIT' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 1 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) MULTI_HIT shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'PERIODIC' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 1
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) PERIODIC shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'CHANNEL' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 1 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) CHANNEL shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'CHARGE' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 1
+            OR v_recast_count <> 0 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) CHARGE shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'RECAST' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 1 OR v_empowered_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) RECAST shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_step_type = 'EMPOWERED_BASIC_ATTACK' THEN
+        IF v_delay_count <> 0 OR v_multi_count <> 0 OR v_periodic_count <> 0
+            OR v_channel_count <> 0 OR v_charge_count <> 0
+            OR v_recast_count <> 0 OR v_empowered_count <> 1 THEN
+            RAISE EXCEPTION
+                'skill_process_steps(%, %, %, %) EMPOWERED_BASIC_ATTACK shape invalid at commit',
+                v_game_id, v_skill_key, v_process_key, v_step_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSE
+        RAISE EXCEPTION
+            'skill_process_steps(%, %, %, %) has unsupported step_type %',
+            v_game_id, v_skill_key, v_process_key, v_step_key, v_step_type
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_process_step_complete_shape() IS
+    'deferred：保证每个技能过程步骤在提交时具有完整且互斥的类型明细';
+
+DROP TRIGGER IF EXISTS trg_skill_process_steps_complete_shape
+    ON public.skill_process_steps;
+CREATE CONSTRAINT TRIGGER trg_skill_process_steps_complete_shape
+AFTER INSERT OR UPDATE ON public.skill_process_steps
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_process_step_complete_shape();
+
+DO $$
+DECLARE
+    v_detail text;
+    v_details text[] := ARRAY[
+        'skill_process_delay_step_details',
+        'skill_process_multi_hit_step_details',
+        'skill_process_periodic_step_details',
+        'skill_process_channel_step_details',
+        'skill_process_charge_step_details',
+        'skill_process_recast_step_details',
+        'skill_process_empowered_attack_step_details'
+    ];
+BEGIN
+    FOREACH v_detail IN ARRAY v_details
+    LOOP
+        IF to_regclass('public.' || v_detail) IS NULL THEN
+            CONTINUE;
+        END IF;
+        EXECUTE format(
+            'DROP TRIGGER IF EXISTS trg_%I_complete_shape ON public.%I',
+            v_detail,
+            v_detail
+        );
+        EXECUTE format(
+            'CREATE CONSTRAINT TRIGGER trg_%I_complete_shape
+             AFTER INSERT OR UPDATE OR DELETE ON public.%I
+             DEFERRABLE INITIALLY DEFERRED
+             FOR EACH ROW
+             EXECUTE FUNCTION public.trg_skill_process_step_complete_shape()',
+            v_detail,
+            v_detail
+        );
+    END LOOP;
+END;
+$$;
+
+-- -----------------------------------------------------------------------------
+-- skill_processes：事务提交时必须满足步骤、行为、时点与状态操作形状
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_process_complete_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_process_key varchar(64);
+    v_step_count int;
+    v_binding_count int;
+    v_operation_count int;
+    v_timeout record;
+    v_operation record;
+    v_state_type varchar(24);
+    v_option_state_key varchar(64);
+BEGIN
+    IF TG_OP = 'DELETE' THEN
+        v_game_id := OLD.game_id;
+        v_skill_key := OLD.skill_key;
+        v_process_key := OLD.process_key;
+    ELSE
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_process_key := NEW.process_key;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1
+          FROM public.skill_processes p
+         WHERE p.game_id = v_game_id
+           AND p.skill_key = v_skill_key
+           AND p.process_key = v_process_key
+    ) THEN
+        RETURN COALESCE(NEW, OLD);
+    END IF;
+
+    SELECT COUNT(*) INTO v_step_count
+      FROM public.skill_process_steps s
+     WHERE s.game_id = v_game_id AND s.skill_key = v_skill_key AND s.process_key = v_process_key;
+    SELECT COUNT(*) INTO v_binding_count
+      FROM public.skill_process_effect_bindings b
+     WHERE b.game_id = v_game_id AND b.skill_key = v_skill_key AND b.process_key = v_process_key;
+    SELECT COUNT(*) INTO v_operation_count
+      FROM public.skill_process_state_operations o
+     WHERE o.game_id = v_game_id AND o.skill_key = v_skill_key AND o.process_key = v_process_key;
+
+    IF v_step_count < 1 THEN
+        RAISE EXCEPTION
+            'skill_processes(%, %, %) requires at least one step at commit',
+            v_game_id, v_skill_key, v_process_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+    IF v_binding_count < 1 AND v_operation_count < 1 THEN
+        RAISE EXCEPTION
+            'skill_processes(%, %, %) requires at least one effect binding or state operation at commit',
+            v_game_id, v_skill_key, v_process_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    FOR v_timeout IN
+        SELECT 'cooldown' AS source, c.step_key
+          FROM public.skill_process_cooldowns c
+         WHERE c.game_id = v_game_id AND c.skill_key = v_skill_key
+           AND c.process_key = v_process_key AND c.moment_type = 'STEP_TIMEOUT'
+        UNION ALL
+        SELECT 'binding' AS source, b.step_key
+          FROM public.skill_process_effect_bindings b
+         WHERE b.game_id = v_game_id AND b.skill_key = v_skill_key
+           AND b.process_key = v_process_key AND b.moment_type = 'STEP_TIMEOUT'
+        UNION ALL
+        SELECT 'operation' AS source, o.step_key
+          FROM public.skill_process_state_operations o
+         WHERE o.game_id = v_game_id AND o.skill_key = v_skill_key
+           AND o.process_key = v_process_key AND o.moment_type = 'STEP_TIMEOUT'
+    LOOP
+        IF NOT EXISTS (
+            SELECT 1
+              FROM public.skill_process_steps s
+             WHERE s.game_id = v_game_id
+               AND s.skill_key = v_skill_key
+               AND s.process_key = v_process_key
+               AND s.step_key = v_timeout.step_key
+               AND s.step_type IN ('CHARGE', 'RECAST', 'EMPOWERED_BASIC_ATTACK')
+        ) THEN
+            RAISE EXCEPTION
+                'skill_processes(%, %, %) STEP_TIMEOUT must reference CHARGE, RECAST or EMPOWERED_BASIC_ATTACK at commit',
+                v_game_id, v_skill_key, v_process_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END LOOP;
+
+    FOR v_operation IN
+        SELECT o.operation_key, o.state_key, o.operation, o.value_formula_key, o.option_key
+          FROM public.skill_process_state_operations o
+         WHERE o.game_id = v_game_id AND o.skill_key = v_skill_key AND o.process_key = v_process_key
+    LOOP
+        SELECT s.state_type
+          INTO v_state_type
+          FROM public.skill_internal_states s
+         WHERE s.game_id = v_game_id
+           AND s.skill_key = v_skill_key
+           AND s.state_key = v_operation.state_key;
+        IF NOT FOUND THEN
+            RAISE EXCEPTION
+                'skill_process_state_operations(%, %, %, %) references missing internal state at commit',
+                v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+
+        IF v_state_type IN ('COUNTER', 'AMMO')
+            AND v_operation.operation IN ('INCREASE', 'DECREASE', 'CONSUME', 'SET') THEN
+            IF v_operation.value_formula_key IS NULL OR v_operation.option_key IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) COUNTER/AMMO value operation shape invalid at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_state_type IN ('COUNTER', 'AMMO') AND v_operation.operation = 'RESET' THEN
+            IF v_operation.value_formula_key IS NOT NULL OR v_operation.option_key IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) COUNTER/AMMO RESET shape invalid at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_state_type = 'MODE' AND v_operation.operation = 'SELECT' THEN
+            IF v_operation.value_formula_key IS NOT NULL OR v_operation.option_key IS NULL THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) MODE SELECT shape invalid at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            SELECT o.state_key
+              INTO v_option_state_key
+              FROM public.skill_internal_state_mode_options o
+             WHERE o.game_id = v_game_id
+               AND o.skill_key = v_skill_key
+               AND o.state_key = v_operation.state_key
+               AND o.option_key = v_operation.option_key;
+            IF NOT FOUND THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) MODE option does not belong to the same state at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_state_type = 'FLAG'
+            AND v_operation.operation IN ('ENABLE', 'DISABLE', 'TOGGLE') THEN
+            IF v_operation.value_formula_key IS NOT NULL OR v_operation.option_key IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) FLAG operation shape invalid at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_state_type = 'INTERNAL_COOLDOWN'
+            AND v_operation.operation IN ('START', 'RESET') THEN
+            IF v_operation.value_formula_key IS NOT NULL OR v_operation.option_key IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'skill_process_state_operations(%, %, %, %) INTERNAL_COOLDOWN operation shape invalid at commit',
+                    v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSE
+            RAISE EXCEPTION
+                'skill_process_state_operations(%, %, %, %) operation does not match internal state type at commit',
+                v_game_id, v_skill_key, v_process_key, v_operation.operation_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END LOOP;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_process_complete_shape() IS
+    'deferred：保证每个技能过程在提交时至少有步骤和行为，并且时点与状态操作形状合法';
+
+DROP TRIGGER IF EXISTS trg_skill_processes_complete_shape
+    ON public.skill_processes;
+CREATE CONSTRAINT TRIGGER trg_skill_processes_complete_shape
+AFTER INSERT OR UPDATE ON public.skill_processes
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_process_complete_shape();
+
+DO $$
+DECLARE
+    v_detail text;
+    v_details text[] := ARRAY[
+        'skill_process_steps',
+        'skill_process_cooldowns',
+        'skill_process_effect_bindings',
+        'skill_process_state_operations'
+    ];
+BEGIN
+    FOREACH v_detail IN ARRAY v_details
+    LOOP
+        IF to_regclass('public.' || v_detail) IS NULL THEN
+            CONTINUE;
+        END IF;
+        EXECUTE format(
+            'DROP TRIGGER IF EXISTS trg_%I_process_complete_shape ON public.%I',
+            v_detail,
+            v_detail
+        );
+        EXECUTE format(
+            'CREATE CONSTRAINT TRIGGER trg_%I_process_complete_shape
+             AFTER INSERT OR UPDATE OR DELETE ON public.%I
+             DEFERRABLE INITIALLY DEFERRED
+             FOR EACH ROW
+             EXECUTE FUNCTION public.trg_skill_process_complete_shape()',
+            v_detail,
+            v_detail
+        );
+    END LOOP;
+END;
+$$;
+
+-- -----------------------------------------------------------------------------
 -- Backfill partitions and game_data_state for existing games
 -- -----------------------------------------------------------------------------
 
