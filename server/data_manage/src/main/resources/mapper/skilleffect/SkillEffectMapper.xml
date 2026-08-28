@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper">
+
+    <resultMap id="summary" type="xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="result_count" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="effectRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="resultRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="result_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResultType"/>
+            <arg column="target" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectTarget"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="valueRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="formula_key" javaType="java.lang.String"/>
+            <arg column="fixed_multiplier" javaType="java.math.BigDecimal"/>
+            <arg column="fixed_min_value" javaType="java.math.BigDecimal"/>
+            <arg column="fixed_max_value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="damageRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="resourceChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="cooldownChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="affected_skill_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="statusOperationRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="catalogLock" type="xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow">
+        <constructor>
+            <arg column="ref_key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="listSummaries" resultMap="summary">
+        SELECT e.game_id, e.skill_key, e.effect_key, e.name, e.description, e.sort_order,
+               CAST(COUNT(r.result_key) AS integer) AS result_count,
+               e.created_at, e.updated_at
+        FROM public.skill_effects e
+        LEFT JOIN public.skill_effect_results r
+          ON r.game_id = e.game_id
+         AND r.skill_key = e.skill_key
+         AND r.effect_key = e.effect_key
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+        GROUP BY e.game_id, e.skill_key, e.effect_key, e.name, e.description,
+                 e.sort_order, e.created_at, e.updated_at
+        ORDER BY e.sort_order ASC, e.effect_key ASC
+    </select>
+
+    <select id="findEffect" resultMap="effectRow">
+        SELECT game_id, skill_key, effect_key, name, description, sort_order, created_at, updated_at
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <select id="findEffectForUpdate" resultMap="effectRow">
+        SELECT game_id, skill_key, effect_key, name, description, sort_order, created_at, updated_at
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertEffect">
+        INSERT INTO public.skill_effects (
+            game_id, skill_key, effect_key, name, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{name}, #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="updateEffect">
+        UPDATE public.skill_effects
+        SET name = #{name},
+            description = #{description},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </update>
+
+    <delete id="deleteEffect">
+        DELETE FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </delete>
+
+    <delete id="deleteAllForSkill">
+        DELETE FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="listResults" resultMap="resultRow">
+        SELECT game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
+        FROM public.skill_effect_results
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        ORDER BY sort_order ASC, result_key ASC
+    </select>
+
+    <select id="listResultsForUpdate" resultMap="resultRow">
+        SELECT game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
+        FROM public.skill_effect_results
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        ORDER BY result_key ASC
+        FOR UPDATE
+    </select>
+
+    <insert id="insertResult">
+        INSERT INTO public.skill_effect_results (
+            game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{name},
+            #{resultType}, #{target}, #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="updateResult">
+        UPDATE public.skill_effect_results
+        SET name = #{name},
+            target = #{target},
+            description = #{description},
+            sort_order = #{sortOrder}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <delete id="deleteResults">
+        DELETE FROM public.skill_effect_results
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key IN
+        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+            #{resultKey}
+        </foreach>
+    </delete>
+
+    <select id="listValues" resultMap="valueRow">
+        SELECT game_id, skill_key, effect_key, result_key, formula_key,
+               fixed_multiplier, fixed_min_value, fixed_max_value
+        FROM public.skill_effect_result_values
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertValue">
+        INSERT INTO public.skill_effect_result_values (
+            game_id, skill_key, effect_key, result_key, formula_key,
+            fixed_multiplier, fixed_min_value, fixed_max_value
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{formulaKey},
+            #{fixedMultiplier}, #{fixedMinValue}, #{fixedMaxValue}
+        )
+    </insert>
+
+    <update id="updateValue">
+        UPDATE public.skill_effect_result_values
+        SET formula_key = #{formulaKey},
+            fixed_multiplier = #{fixedMultiplier},
+            fixed_min_value = #{fixedMinValue},
+            fixed_max_value = #{fixedMaxValue}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <delete id="deleteValue">
+        DELETE FROM public.skill_effect_result_values
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </delete>
+
+    <select id="listDamageDetails" resultMap="damageRow">
+        SELECT game_id, skill_key, effect_key, result_key, damage_type_key
+        FROM public.skill_effect_damage_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertDamageDetail">
+        INSERT INTO public.skill_effect_damage_details (
+            game_id, skill_key, effect_key, result_key, damage_type_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey}
+        )
+    </insert>
+
+    <update id="updateDamageDetail">
+        UPDATE public.skill_effect_damage_details
+        SET damage_type_key = #{damageTypeKey}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listAttributeChangeDetails" resultMap="attributeChangeRow">
+        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation
+        FROM public.skill_effect_attribute_change_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertAttributeChangeDetail">
+        INSERT INTO public.skill_effect_attribute_change_details (
+            game_id, skill_key, effect_key, result_key, attribute_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateAttributeChangeDetail">
+        UPDATE public.skill_effect_attribute_change_details
+        SET attribute_key = #{attributeKey},
+            operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listResourceChangeDetails" resultMap="resourceChangeRow">
+        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation
+        FROM public.skill_effect_resource_change_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertResourceChangeDetail">
+        INSERT INTO public.skill_effect_resource_change_details (
+            game_id, skill_key, effect_key, result_key, attribute_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateResourceChangeDetail">
+        UPDATE public.skill_effect_resource_change_details
+        SET attribute_key = #{attributeKey},
+            operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listCooldownChangeDetails" resultMap="cooldownChangeRow">
+        SELECT game_id, skill_key, effect_key, result_key, affected_skill_key, operation
+        FROM public.skill_effect_cooldown_change_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertCooldownChangeDetail">
+        INSERT INTO public.skill_effect_cooldown_change_details (
+            game_id, skill_key, effect_key, result_key, affected_skill_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{affectedSkillKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateCooldownChangeDetail">
+        UPDATE public.skill_effect_cooldown_change_details
+        SET affected_skill_key = #{affectedSkillKey},
+            operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listStatusOperationDetails" resultMap="statusOperationRow">
+        SELECT game_id, skill_key, effect_key, result_key, status_key, operation
+        FROM public.skill_effect_status_operation_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertStatusOperationDetail">
+        INSERT INTO public.skill_effect_status_operation_details (
+            game_id, skill_key, effect_key, result_key, status_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{statusKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateStatusOperationDetail">
+        UPDATE public.skill_effect_status_operation_details
+        SET status_key = #{statusKey},
+            operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="countExternalCooldownReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_cooldown_change_details
+        WHERE game_id = #{gameId}
+          AND affected_skill_key = #{skillKey}
+          AND skill_key &lt;&gt; #{skillKey}
+    </select>
+
+    <select id="lockFormulas" resultType="string">
+        SELECT formula_key
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND formula_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY formula_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockDamageTypes" resultMap="catalogLock">
+        SELECT damage_type_key AS ref_key, status
+        FROM public.damage_types
+        WHERE game_id = #{gameId}
+          AND damage_type_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY damage_type_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockAttributes" resultMap="catalogLock">
+        SELECT attribute_key AS ref_key, status
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY attribute_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockSkills" resultMap="catalogLock">
+        SELECT skill_key AS ref_key, status
+        FROM public.skills
+        WHERE game_id = #{gameId}
+          AND skill_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY skill_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockStatuses" resultMap="catalogLock">
+        SELECT status_key AS ref_key, status
+        FROM public.statuses
+        WHERE game_id = #{gameId}
+          AND status_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY status_key
+        FOR UPDATE
+    </select>
+</mapper>

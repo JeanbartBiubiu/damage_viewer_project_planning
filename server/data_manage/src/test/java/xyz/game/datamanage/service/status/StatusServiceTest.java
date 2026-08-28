@@ -201,6 +201,19 @@ class StatusServiceTest {
     }
 
     @Test
+    void mapsSkillEffectStatusOperationForeignKeyToStableInUseError() {
+        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
+        when(mapper.delete(GAME_ID, KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "fk_skill_effect_status_operation_details_status",
+                new SQLException("fk_skill_effect_status_operation_details_status", "23503")
+            )
+        );
+
+        assertCode("409.STATUS_IN_USE", () -> service.delete(GAME_ID, KEY));
+    }
+
+    @Test
     void otherDeleteIntegrityViolationsAreNotMappedToInUse() {
         when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
         DataIntegrityViolationException other = new DataIntegrityViolationException(

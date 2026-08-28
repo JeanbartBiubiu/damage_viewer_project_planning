@@ -27,6 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
+import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
@@ -53,13 +54,16 @@ class SkillServiceTest {
     @Mock private SkillMapper mapper;
     @Mock private SkillParameterMapper parameterMapper;
     @Mock private SkillFormulaMapper formulaMapper;
+    @Mock private SkillEffectMapper effectMapper;
 
     private SkillService service;
 
     @BeforeEach
     void setUp() {
         SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
-        service = new SkillService(gamesMapper, mapper, parameterMapper, formulaMapper, levelService);
+        service = new SkillService(
+            gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, levelService
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -408,6 +412,39 @@ class SkillServiceTest {
         order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(mapper).delete(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void deleteSkillRemovesOwnEffectsThenFormulasThenParametersThenSkill() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
+        when(effectMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(formulaMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(2);
+        when(parameterMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(3);
+        when(mapper.delete(GAME_ID, SKILL_KEY)).thenReturn(1);
+
+        service.delete(GAME_ID, SKILL_KEY);
+
+        InOrder order = inOrder(mapper, effectMapper, formulaMapper, parameterMapper);
+        order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(mapper).delete(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void deleteSkillRejectsExternalCooldownReferencesWithStableConflict() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(1L);
+
+        ApiException exception = assertThrows(ApiException.class, () -> service.delete(GAME_ID, SKILL_KEY));
+        assertEquals("409.SKILL_IN_USE", exception.getCode());
+        verify(effectMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(formulaMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(parameterMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
     }
 
     private static SkillParameterRow parameterRow(
