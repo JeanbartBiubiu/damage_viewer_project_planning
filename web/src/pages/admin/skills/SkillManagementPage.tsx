@@ -24,6 +24,7 @@ import type {
 } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
 import { SkillEditorModal, type SkillEditorMode } from './SkillEditorModal';
+import { SkillEffectManagementModal } from './effects/SkillEffectManagementModal';
 import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 
 export type SkillManagementPageProps = {
@@ -37,6 +38,7 @@ type StatusFilter = SkillStatus | '';
 type EditorState = { mode: SkillEditorMode; skill: Skill | null };
 type StatusTarget = { skill: Skill; nextStatus: SkillStatus };
 type ParameterFormulaTarget = Skill;
+type EffectTarget = Skill;
 
 const EMPTY_QUERY: SkillListQuery = {};
 
@@ -88,6 +90,7 @@ export function SkillManagementPage({
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [parameterFormulaTarget, setParameterFormulaTarget] = useState<ParameterFormulaTarget | null>(null);
+  const [effectTarget, setEffectTarget] = useState<EffectTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
   const [pageGameId, setPageGameId] = useState(selectedGameId);
@@ -115,6 +118,7 @@ export function SkillManagementPage({
     setDeleteError(null);
     setDeleting(false);
     setParameterFormulaTarget(null);
+    setEffectTarget(null);
     setNotice(null);
   }
 
@@ -174,6 +178,11 @@ export function SkillManagementPage({
     }
   }, [adminToken, apiBaseUrl, selectedGameId]);
 
+  const handleEffectSkillMissing = useCallback(() => {
+    setEffectTarget(null);
+    void loadSkills(appliedQuery);
+  }, [appliedQuery, loadSkills]);
+
   useEffect(() => {
     onDirtyChange(false);
   }, [onDirtyChange, selectedGameId]);
@@ -203,6 +212,9 @@ export function SkillManagementPage({
     onDirtyChange(false);
     await loadSkills(appliedQuery);
     setParameterFormulaTarget((current) => (
+      current && current.skillKey === saved.skillKey ? saved : current
+    ));
+    setEffectTarget((current) => (
       current && current.skillKey === saved.skillKey ? saved : current
     ));
   };
@@ -250,6 +262,9 @@ export function SkillManagementPage({
       await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey, token);
       setDeleteTarget(null);
       setParameterFormulaTarget((current) => (
+        current && current.skillKey === deleteTarget.skillKey ? null : current
+      ));
+      setEffectTarget((current) => (
         current && current.skillKey === deleteTarget.skillKey ? null : current
       ));
       setNotice(`技能「${deletedName}」已删除。`);
@@ -302,7 +317,7 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 380,
+      width: 470,
       fixed: 'right',
       render: (_value, record: Skill) => (
         <Space size="mini">
@@ -313,6 +328,7 @@ export function SkillManagementPage({
             onClick={() => setEditor({ mode: 'edit', skill: record })}
           >编辑</Button>
           <Button size="mini" onClick={() => setParameterFormulaTarget(record)}>参数与公式</Button>
+          <Button size="mini" onClick={() => setEffectTarget(record)}>效果与结果</Button>
           <Button
             size="mini"
             status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -420,7 +436,7 @@ export function SkillManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1360 }}
+          scroll={{ x: 1450 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>
@@ -449,6 +465,17 @@ export function SkillManagementPage({
           setParameterFormulaTarget(null);
           void loadSkills(appliedQuery);
         }}
+      />
+
+      <SkillEffectManagementModal
+        visible={effectTarget !== null}
+        skill={effectTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onClose={() => setEffectTarget(null)}
+        onSkillMissing={handleEffectSkillMissing}
+        onDirtyChange={onDirtyChange}
       />
 
       <Modal
