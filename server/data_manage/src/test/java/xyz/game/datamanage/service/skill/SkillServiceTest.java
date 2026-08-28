@@ -29,7 +29,9 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
+import xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
+import xyz.game.datamanage.mapper.skillprocess.SkillProcessMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
 import xyz.game.datamanage.model.skill.SkillCategoryRelationRow;
 import xyz.game.datamanage.model.skill.SkillCreateRequest;
@@ -55,6 +57,8 @@ class SkillServiceTest {
     @Mock private SkillParameterMapper parameterMapper;
     @Mock private SkillFormulaMapper formulaMapper;
     @Mock private SkillEffectMapper effectMapper;
+    @Mock private SkillProcessMapper processMapper;
+    @Mock private SkillInternalStateMapper internalStateMapper;
 
     private SkillService service;
 
@@ -62,7 +66,14 @@ class SkillServiceTest {
     void setUp() {
         SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
         service = new SkillService(
-            gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, levelService
+            gamesMapper,
+            mapper,
+            parameterMapper,
+            formulaMapper,
+            effectMapper,
+            processMapper,
+            internalStateMapper,
+            levelService
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
@@ -407,8 +418,11 @@ class SkillServiceTest {
 
         service.delete(GAME_ID, SKILL_KEY);
 
-        InOrder order = inOrder(mapper, formulaMapper, parameterMapper);
+        InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
+        order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(mapper).delete(GAME_ID, SKILL_KEY);
@@ -418,17 +432,21 @@ class SkillServiceTest {
     void deleteSkillRemovesOwnEffectsThenFormulasThenParametersThenSkill() {
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
         when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
+        when(processMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(effectMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(internalStateMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(formulaMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(2);
         when(parameterMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(3);
         when(mapper.delete(GAME_ID, SKILL_KEY)).thenReturn(1);
 
         service.delete(GAME_ID, SKILL_KEY);
 
-        InOrder order = inOrder(mapper, effectMapper, formulaMapper, parameterMapper);
+        InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(mapper).delete(GAME_ID, SKILL_KEY);
@@ -441,7 +459,9 @@ class SkillServiceTest {
 
         ApiException exception = assertThrows(ApiException.class, () -> service.delete(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", exception.getCode());
+        verify(processMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(effectMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(internalStateMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(formulaMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(parameterMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(mapper, never()).delete(GAME_ID, SKILL_KEY);

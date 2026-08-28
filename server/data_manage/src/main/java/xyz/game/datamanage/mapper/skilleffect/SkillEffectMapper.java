@@ -277,6 +277,12 @@ public interface SkillEffectMapper {
         @Param("skillKey") String skillKey
     );
 
+    long countProcessBindings(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
     List<String> lockFormulas(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
