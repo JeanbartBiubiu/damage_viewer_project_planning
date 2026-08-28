@@ -32,15 +32,6 @@ export default defineConfig({
     {
       name: 'Desktop Chrome',
       use: { ...devices['Desktop Chrome'] }
-    },
-    {
-      name: 'Mobile 390',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 390, height: 844 },
-        isMobile: true,
-        hasTouch: true
-      }
     }
   ],
   ...(optionalWebBaseUrl
