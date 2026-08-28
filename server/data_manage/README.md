@@ -176,6 +176,35 @@ mvn -Dtest=SkillEffectBasicResultManagementDbContractSqlTest,SkillEffectServiceT
 mvn test
 ```
 
+### 技能过程内部状态与效果录入
+
+`public.skill_internal_states` 保存五种内部状态（COUNTER / AMMO / MODE / FLAG / INTERNAL_COOLDOWN），`public.skill_processes` 保存技能过程，步骤、普通冷却、效果挂接和内部状态操作使用专用关系表。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。过程挂接到同一技能下已有的 `skill_effects` 聚合，不复制效果结果。本阶段不执行过程、不写入 Wasm 或发布字段。
+
+管理接口：
+
+1. `/api/admin/games/{gameId}/skills/{skillKey}/internal-states`：GET 列表摘要或详情，POST 新建完整内部状态，PUT 全量更新（种类与范围不可改），DELETE 删除。
+2. `/api/admin/games/{gameId}/skills/{skillKey}/processes`：GET 列表摘要或详情，POST / PUT 完整过程聚合（步骤、可选普通冷却、效果挂接、内部状态操作）。没有步骤、挂接、操作或模式选项的独立写接口。`effectBindings` 与 `stateOperations` 同时为空时，写库前返回 `400.VALIDATION_FAILED`，两字段均为 `PROCESS_BEHAVIOR_REQUIRED`。
+
+已有开发库按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/skill_process_internal_state_authoring_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新内部状态、步骤与过程延迟形状约束触发器）
+
+脚本先核对 `skills`、`skill_formulas`、`skill_effects` 前置结构；十八张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。不写默认记录、不读取旧过程或内部状态、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=SkillProcessInternalStateAuthoringDbContractSqlTest,SkillInternalStateServiceTest,SkillInternalStateAdminControllerTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillEffectServiceTest,SkillFormulaServiceTest,SkillServiceTest test
+```
+
+随后：
+
+```bash
+mvn test
+```
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。
