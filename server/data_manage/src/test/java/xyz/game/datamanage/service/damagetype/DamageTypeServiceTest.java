@@ -101,6 +101,19 @@ class DamageTypeServiceTest {
     }
 
     @Test
+    void mapsSkillEffectDamageDetailForeignKeyToStableInUseError() {
+        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(damageType());
+        when(mapper.delete(GAME_ID, KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "fk_skill_effect_damage_details_damage_type",
+                new SQLException("fk_skill_effect_damage_details_damage_type", "23503")
+            )
+        );
+
+        assertCode("409.DAMAGE_TYPE_IN_USE", () -> service.delete(GAME_ID, KEY));
+    }
+
+    @Test
     void duplicateAndMissingErrorsAreStable() {
         when(mapper.countByKey(GAME_ID, KEY)).thenReturn(1L);
         assertCode(
