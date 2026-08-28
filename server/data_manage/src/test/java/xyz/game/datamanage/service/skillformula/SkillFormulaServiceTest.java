@@ -613,6 +613,61 @@ class SkillFormulaServiceTest {
     }
 
     @Test
+    void mapsProcessDelayFormulaFkToStableInUseError() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "insert or update on table violates foreign key constraint "
+                    + "fk_skill_process_delay_formula"
+            )
+        );
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+    }
+
+    @Test
+    void mapsInternalCounterFormulaFkToStableInUseError() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "insert or update on table violates foreign key constraint "
+                    + "fk_skill_internal_counter_initial_formula"
+            )
+        );
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+    }
+
+    @Test
+    void mapsStateOperationValueFormulaFkToStableInUseError() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "insert or update on table violates foreign key constraint "
+                    + "fk_skill_process_state_operation_value_formula"
+            )
+        );
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+    }
+
+    @Test
+    void doesNotMapUnrelatedForeignKeyOrGenericSqlstateToFormulaInUse() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        DataIntegrityViolationException unrelated = new DataIntegrityViolationException(
+            "ERROR: update or delete on table violates foreign key constraint "
+                + "fk_unrelated_table SQLSTATE 23503"
+        );
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(unrelated);
+        DataIntegrityViolationException thrown = assertThrows(
+            DataIntegrityViolationException.class,
+            () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)
+        );
+        assertEquals(unrelated, thrown);
+    }
+
+    @Test
     void rejectsImmutableFormulaKeyDuplicateKeyAndMissingParents() {
         assertCode(
             "400.VALIDATION_FAILED",

@@ -59,6 +59,7 @@ public class SkillEffectService {
     private static final Logger log = LoggerFactory.getLogger(SkillEffectService.class);
 
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_effects";
+    private static final String PROCESS_BINDING_CONSTRAINT = "fk_skill_process_effect_bindings_effect";
     private static final String DISABLED = "DISABLED";
 
     private final GamesMapper gamesMapper;
@@ -205,8 +206,15 @@ public class SkillEffectService {
         if (mapper.findEffectForUpdate(gameId, skillKey, effectKey) == null) {
             throw effectNotFound(effectKey);
         }
-        if (mapper.deleteEffect(gameId, skillKey, effectKey) == 0) {
-            throw effectNotFound(effectKey);
+        if (mapper.countProcessBindings(gameId, skillKey, effectKey) > 0) {
+            throw effectInUse();
+        }
+        try {
+            if (mapper.deleteEffect(gameId, skillKey, effectKey) == 0) {
+                throw effectNotFound(effectKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
         }
     }
 
@@ -1337,6 +1345,10 @@ public class SkillEffectService {
         return conflict("409.SKILL_EFFECT_KEY_EXISTS", "技能效果标识已存在", "effectKey");
     }
 
+    private static ApiException effectInUse() {
+        return conflict("409.SKILL_EFFECT_IN_USE", "技能效果已被过程挂接引用，不能删除", "effectKey");
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -1379,6 +1391,9 @@ public class SkillEffectService {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
+        }
+        if (text.contains(PROCESS_BINDING_CONSTRAINT)) {
+            return effectInUse();
         }
         return ex;
     }
