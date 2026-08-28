@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper">
+
+    <resultMap id="summary" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
+            <arg column="scope" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="stateRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
+            <arg column="scope" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="counterRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="initial_value_formula_key" javaType="java.lang.String"/>
+            <arg column="max_value_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="ammoRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="initial_value_formula_key" javaType="java.lang.String"/>
+            <arg column="max_value_formula_key" javaType="java.lang.String"/>
+            <arg column="recovery_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="recovery_mode" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoRecoveryMode"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="flagRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="initial_enabled" javaType="java.lang.Boolean"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="cooldownRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="optionRow" type="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeOptionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="initial" javaType="java.lang.Boolean"/>
+        </constructor>
+    </resultMap>
+
+    <select id="listSummaries" resultMap="summary">
+        SELECT game_id, skill_key, state_key, name, state_type, scope, description,
+               sort_order, created_at, updated_at
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY sort_order ASC, state_key ASC
+    </select>
+
+    <select id="findState" resultMap="stateRow">
+        SELECT game_id, skill_key, state_key, name, state_type, scope, description,
+               sort_order, created_at, updated_at
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <select id="findStateForUpdate" resultMap="stateRow">
+        SELECT game_id, skill_key, state_key, name, state_type, scope, description,
+               sort_order, created_at, updated_at
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <insert id="insertState">
+        INSERT INTO public.skill_internal_states (
+            game_id, skill_key, state_key, name, state_type, scope, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{name}, #{stateType}, #{scope},
+            #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="updateState">
+        UPDATE public.skill_internal_states
+        SET name = #{name},
+            description = #{description},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </update>
+
+    <delete id="deleteState">
+        DELETE FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </delete>
+
+    <delete id="deleteAllForSkill">
+        DELETE FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="findCounterDetail" resultMap="counterRow">
+        SELECT game_id, skill_key, state_key, initial_value_formula_key, max_value_formula_key
+        FROM public.skill_internal_state_counter_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <insert id="insertCounterDetail">
+        INSERT INTO public.skill_internal_state_counter_details (
+            game_id, skill_key, state_key, initial_value_formula_key, max_value_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{initialValueFormulaKey}, #{maxValueFormulaKey}
+        )
+    </insert>
+
+    <update id="updateCounterDetail">
+        UPDATE public.skill_internal_state_counter_details
+        SET initial_value_formula_key = #{initialValueFormulaKey},
+            max_value_formula_key = #{maxValueFormulaKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </update>
+
+    <select id="findAmmoDetail" resultMap="ammoRow">
+        SELECT game_id, skill_key, state_key, initial_value_formula_key, max_value_formula_key,
+               recovery_interval_formula_key, recovery_mode
+        FROM public.skill_internal_state_ammo_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <insert id="insertAmmoDetail">
+        INSERT INTO public.skill_internal_state_ammo_details (
+            game_id, skill_key, state_key, initial_value_formula_key, max_value_formula_key,
+            recovery_interval_formula_key, recovery_mode
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{initialValueFormulaKey}, #{maxValueFormulaKey},
+            #{recoveryIntervalFormulaKey}, #{recoveryMode}
+        )
+    </insert>
+
+    <update id="updateAmmoDetail">
+        UPDATE public.skill_internal_state_ammo_details
+        SET initial_value_formula_key = #{initialValueFormulaKey},
+            max_value_formula_key = #{maxValueFormulaKey},
+            recovery_interval_formula_key = #{recoveryIntervalFormulaKey},
+            recovery_mode = #{recoveryMode}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </update>
+
+    <select id="findFlagDetail" resultMap="flagRow">
+        SELECT game_id, skill_key, state_key, initial_enabled
+        FROM public.skill_internal_state_flag_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <insert id="insertFlagDetail">
+        INSERT INTO public.skill_internal_state_flag_details (
+            game_id, skill_key, state_key, initial_enabled
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{initialEnabled}
+        )
+    </insert>
+
+    <update id="updateFlagDetail">
+        UPDATE public.skill_internal_state_flag_details
+        SET initial_enabled = #{initialEnabled}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </update>
+
+    <select id="findCooldownDetail" resultMap="cooldownRow">
+        SELECT game_id, skill_key, state_key, duration_formula_key
+        FROM public.skill_internal_state_cooldown_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <insert id="insertCooldownDetail">
+        INSERT INTO public.skill_internal_state_cooldown_details (
+            game_id, skill_key, state_key, duration_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{durationFormulaKey}
+        )
+    </insert>
+
+    <update id="updateCooldownDetail">
+        UPDATE public.skill_internal_state_cooldown_details
+        SET duration_formula_key = #{durationFormulaKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </update>
+
+    <select id="listModeOptions" resultMap="optionRow">
+        SELECT game_id, skill_key, state_key, option_key, name, sort_order, initial
+        FROM public.skill_internal_state_mode_options
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        ORDER BY sort_order ASC, option_key ASC
+    </select>
+
+    <select id="listModeOptionsForUpdate" resultMap="optionRow">
+        SELECT game_id, skill_key, state_key, option_key, name, sort_order, initial
+        FROM public.skill_internal_state_mode_options
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        ORDER BY option_key ASC
+        FOR UPDATE
+    </select>
+
+    <insert id="insertModeOption">
+        INSERT INTO public.skill_internal_state_mode_options (
+            game_id, skill_key, state_key, option_key, name, sort_order, initial
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{stateKey}, #{optionKey}, #{name}, #{sortOrder}, #{initial}
+        )
+    </insert>
+
+    <update id="updateModeOption">
+        UPDATE public.skill_internal_state_mode_options
+        SET name = #{name},
+            sort_order = #{sortOrder},
+            initial = #{initial}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND state_key = #{stateKey}
+          AND option_key = #{optionKey}
+    </update>
+
+    <delete id="deleteModeOptions">
+        DELETE FROM public.skill_internal_state_mode_options
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND state_key = #{stateKey}
+          AND option_key IN
+        <foreach collection="optionKeys" item="optionKey" open="(" separator="," close=")">
+            #{optionKey}
+        </foreach>
+    </delete>
+
+    <select id="countStateOperations" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <select id="countOptionOperations" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND state_key = #{stateKey}
+          AND option_key IN
+        <foreach collection="optionKeys" item="optionKey" open="(" separator="," close=")">
+            #{optionKey}
+        </foreach>
+    </select>
+
+    <select id="lockFormulas" resultType="string">
+        SELECT formula_key
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND formula_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY formula_key
+        FOR UPDATE
+    </select>
+</mapper>

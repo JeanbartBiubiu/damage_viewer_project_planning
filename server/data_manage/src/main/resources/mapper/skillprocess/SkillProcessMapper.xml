@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillprocess.SkillProcessMapper">
+
+    <resultMap id="summary" type="xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="activation_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessActivationType"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="step_count" javaType="java.lang.Integer"/>
+            <arg column="effect_binding_count" javaType="java.lang.Integer"/>
+            <arg column="state_operation_count" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="processRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="activation_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessActivationType"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="stepRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessStepRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="step_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStepType"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="cooldownRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessCooldownRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="moment_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessMomentType"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="bindingRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="moment_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessMomentType"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="operationRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="operation_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind"/>
+            <arg column="value_formula_key" javaType="java.lang.String"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+            <arg column="moment_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessMomentType"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="delayRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessDelayStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="delay_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="multiHitRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessMultiHitStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="repeat_count_formula_key" javaType="java.lang.String"/>
+            <arg column="interval_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="periodicRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessPeriodicStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="repeat_count_formula_key" javaType="java.lang.String"/>
+            <arg column="interval_formula_key" javaType="java.lang.String"/>
+            <arg column="first_execution" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessFirstExecution"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="channelRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessChannelStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="execution_count_formula_key" javaType="java.lang.String"/>
+            <arg column="first_execution" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessFirstExecution"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="chargeRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessChargeStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="minimum_charge_formula_key" javaType="java.lang.String"/>
+            <arg column="maximum_charge_formula_key" javaType="java.lang.String"/>
+            <arg column="release_at_maximum" javaType="java.lang.Boolean"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="recastRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessRecastStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="window_formula_key" javaType="java.lang.String"/>
+            <arg column="maximum_recast_count_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="empoweredRow" type="xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredAttackStepDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="window_formula_key" javaType="java.lang.String"/>
+            <arg column="consume_moment" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredConsumeMoment"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="stateLock" type="xyz.game.datamanage.model.skillprocess.SkillProcessInternalStateLockRow">
+        <constructor>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="optionLock" type="xyz.game.datamanage.model.skillprocess.SkillProcessModeOptionLockRow">
+        <constructor>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="listSummaries" resultMap="summary">
+        SELECT p.game_id, p.skill_key, p.process_key, p.name, p.activation_type, p.description, p.sort_order,
+               CAST(COUNT(DISTINCT s.step_key) AS integer) AS step_count,
+               CAST(COUNT(DISTINCT b.binding_key) AS integer) AS effect_binding_count,
+               CAST(COUNT(DISTINCT o.operation_key) AS integer) AS state_operation_count,
+               p.created_at, p.updated_at
+        FROM public.skill_processes p
+        LEFT JOIN public.skill_process_steps s
+          ON s.game_id = p.game_id AND s.skill_key = p.skill_key AND s.process_key = p.process_key
+        LEFT JOIN public.skill_process_effect_bindings b
+          ON b.game_id = p.game_id AND b.skill_key = p.skill_key AND b.process_key = p.process_key
+        LEFT JOIN public.skill_process_state_operations o
+          ON o.game_id = p.game_id AND o.skill_key = p.skill_key AND o.process_key = p.process_key
+        WHERE p.game_id = #{gameId} AND p.skill_key = #{skillKey}
+        GROUP BY p.game_id, p.skill_key, p.process_key, p.name, p.activation_type, p.description,
+                 p.sort_order, p.created_at, p.updated_at
+        ORDER BY p.sort_order ASC, p.process_key ASC
+    </select>
+
+    <select id="findProcess" resultMap="processRow">
+        SELECT game_id, skill_key, process_key, name, activation_type, description, sort_order, created_at, updated_at
+        FROM public.skill_processes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+
+    <select id="findProcessForUpdate" resultMap="processRow">
+        SELECT game_id, skill_key, process_key, name, activation_type, description, sort_order, created_at, updated_at
+        FROM public.skill_processes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_processes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+
+    <insert id="insertProcess">
+        INSERT INTO public.skill_processes (
+            game_id, skill_key, process_key, name, activation_type, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{processKey}, #{name}, #{activationType}, #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="updateProcess">
+        UPDATE public.skill_processes
+        SET name = #{name},
+            activation_type = #{activationType},
+            description = #{description},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </update>
+
+    <delete id="deleteProcess">
+        DELETE FROM public.skill_processes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </delete>
+
+    <delete id="deleteAllForSkill">
+        DELETE FROM public.skill_processes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="listSteps" resultMap="stepRow">
+        SELECT game_id, skill_key, process_key, step_key, name, step_type, description, sort_order
+        FROM public.skill_process_steps
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY sort_order ASC, step_key ASC
+    </select>
+
+    <select id="listStepsForUpdate" resultMap="stepRow">
+        SELECT game_id, skill_key, process_key, step_key, name, step_type, description, sort_order
+        FROM public.skill_process_steps
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY step_key ASC
+        FOR UPDATE
+    </select>
+
+    <insert id="insertStep">
+        INSERT INTO public.skill_process_steps (
+            game_id, skill_key, process_key, step_key, name, step_type, description, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{name}, #{stepType}, #{description}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="updateStep">
+        UPDATE public.skill_process_steps
+        SET name = #{name}, description = #{description}, sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <delete id="deleteSteps">
+        DELETE FROM public.skill_process_steps
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+          AND step_key IN
+        <foreach collection="stepKeys" item="stepKey" open="(" separator="," close=")">#{stepKey}</foreach>
+    </delete>
+
+    <select id="listDelayDetails" resultMap="delayRow">
+        SELECT game_id, skill_key, process_key, step_key, delay_formula_key
+        FROM public.skill_process_delay_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertDelayDetail">
+        INSERT INTO public.skill_process_delay_step_details (
+            game_id, skill_key, process_key, step_key, delay_formula_key
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{delayFormulaKey})
+    </insert>
+    <update id="updateDelayDetail">
+        UPDATE public.skill_process_delay_step_details
+        SET delay_formula_key = #{delayFormulaKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listMultiHitDetails" resultMap="multiHitRow">
+        SELECT game_id, skill_key, process_key, step_key, repeat_count_formula_key, interval_formula_key
+        FROM public.skill_process_multi_hit_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertMultiHitDetail">
+        INSERT INTO public.skill_process_multi_hit_step_details (
+            game_id, skill_key, process_key, step_key, repeat_count_formula_key, interval_formula_key
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{repeatCountFormulaKey}, #{intervalFormulaKey})
+    </insert>
+    <update id="updateMultiHitDetail">
+        UPDATE public.skill_process_multi_hit_step_details
+        SET repeat_count_formula_key = #{repeatCountFormulaKey}, interval_formula_key = #{intervalFormulaKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listPeriodicDetails" resultMap="periodicRow">
+        SELECT game_id, skill_key, process_key, step_key, repeat_count_formula_key, interval_formula_key, first_execution
+        FROM public.skill_process_periodic_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertPeriodicDetail">
+        INSERT INTO public.skill_process_periodic_step_details (
+            game_id, skill_key, process_key, step_key, repeat_count_formula_key, interval_formula_key, first_execution
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{repeatCountFormulaKey}, #{intervalFormulaKey}, #{firstExecution})
+    </insert>
+    <update id="updatePeriodicDetail">
+        UPDATE public.skill_process_periodic_step_details
+        SET repeat_count_formula_key = #{repeatCountFormulaKey},
+            interval_formula_key = #{intervalFormulaKey},
+            first_execution = #{firstExecution}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listChannelDetails" resultMap="channelRow">
+        SELECT game_id, skill_key, process_key, step_key, duration_formula_key, execution_count_formula_key, first_execution
+        FROM public.skill_process_channel_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertChannelDetail">
+        INSERT INTO public.skill_process_channel_step_details (
+            game_id, skill_key, process_key, step_key, duration_formula_key, execution_count_formula_key, first_execution
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{durationFormulaKey}, #{executionCountFormulaKey}, #{firstExecution})
+    </insert>
+    <update id="updateChannelDetail">
+        UPDATE public.skill_process_channel_step_details
+        SET duration_formula_key = #{durationFormulaKey},
+            execution_count_formula_key = #{executionCountFormulaKey},
+            first_execution = #{firstExecution}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listChargeDetails" resultMap="chargeRow">
+        SELECT game_id, skill_key, process_key, step_key, minimum_charge_formula_key, maximum_charge_formula_key, release_at_maximum
+        FROM public.skill_process_charge_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertChargeDetail">
+        INSERT INTO public.skill_process_charge_step_details (
+            game_id, skill_key, process_key, step_key, minimum_charge_formula_key, maximum_charge_formula_key, release_at_maximum
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{minimumChargeFormulaKey}, #{maximumChargeFormulaKey}, #{releaseAtMaximum})
+    </insert>
+    <update id="updateChargeDetail">
+        UPDATE public.skill_process_charge_step_details
+        SET minimum_charge_formula_key = #{minimumChargeFormulaKey},
+            maximum_charge_formula_key = #{maximumChargeFormulaKey},
+            release_at_maximum = #{releaseAtMaximum}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listRecastDetails" resultMap="recastRow">
+        SELECT game_id, skill_key, process_key, step_key, window_formula_key, maximum_recast_count_formula_key
+        FROM public.skill_process_recast_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertRecastDetail">
+        INSERT INTO public.skill_process_recast_step_details (
+            game_id, skill_key, process_key, step_key, window_formula_key, maximum_recast_count_formula_key
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{windowFormulaKey}, #{maximumRecastCountFormulaKey})
+    </insert>
+    <update id="updateRecastDetail">
+        UPDATE public.skill_process_recast_step_details
+        SET window_formula_key = #{windowFormulaKey},
+            maximum_recast_count_formula_key = #{maximumRecastCountFormulaKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="listEmpoweredDetails" resultMap="empoweredRow">
+        SELECT game_id, skill_key, process_key, step_key, window_formula_key, consume_moment
+        FROM public.skill_process_empowered_attack_step_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertEmpoweredDetail">
+        INSERT INTO public.skill_process_empowered_attack_step_details (
+            game_id, skill_key, process_key, step_key, window_formula_key, consume_moment
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{stepKey}, #{windowFormulaKey}, #{consumeMoment})
+    </insert>
+    <update id="updateEmpoweredDetail">
+        UPDATE public.skill_process_empowered_attack_step_details
+        SET window_formula_key = #{windowFormulaKey}, consume_moment = #{consumeMoment}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND step_key = #{stepKey}
+    </update>
+
+    <select id="findCooldown" resultMap="cooldownRow">
+        SELECT game_id, skill_key, process_key, duration_formula_key, moment_type, step_key
+        FROM public.skill_process_cooldowns
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </select>
+    <insert id="insertCooldown">
+        INSERT INTO public.skill_process_cooldowns (
+            game_id, skill_key, process_key, duration_formula_key, moment_type, step_key
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{durationFormulaKey}, #{momentType}, #{stepKey})
+    </insert>
+    <delete id="deleteCooldown">
+        DELETE FROM public.skill_process_cooldowns
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </delete>
+
+    <select id="listBindings" resultMap="bindingRow">
+        SELECT game_id, skill_key, process_key, binding_key, effect_key, moment_type, step_key, sort_order
+        FROM public.skill_process_effect_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY sort_order ASC, binding_key ASC
+    </select>
+    <select id="listBindingsForUpdate" resultMap="bindingRow">
+        SELECT game_id, skill_key, process_key, binding_key, effect_key, moment_type, step_key, sort_order
+        FROM public.skill_process_effect_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY binding_key ASC
+        FOR UPDATE
+    </select>
+    <insert id="insertBinding">
+        INSERT INTO public.skill_process_effect_bindings (
+            game_id, skill_key, process_key, binding_key, effect_key, moment_type, step_key, sort_order
+        ) VALUES (#{gameId}, #{skillKey}, #{processKey}, #{bindingKey}, #{effectKey}, #{momentType}, #{stepKey}, #{sortOrder})
+    </insert>
+    <update id="updateBinding">
+        UPDATE public.skill_process_effect_bindings
+        SET effect_key = #{effectKey}, moment_type = #{momentType}, step_key = #{stepKey}, sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND binding_key = #{bindingKey}
+    </update>
+    <delete id="deleteBindings">
+        DELETE FROM public.skill_process_effect_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+          AND binding_key IN
+        <foreach collection="bindingKeys" item="bindingKey" open="(" separator="," close=")">#{bindingKey}</foreach>
+    </delete>
+    <delete id="deleteAllBindings">
+        DELETE FROM public.skill_process_effect_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </delete>
+
+    <select id="listOperations" resultMap="operationRow">
+        SELECT game_id, skill_key, process_key, operation_key, name, state_key, operation,
+               value_formula_key, option_key, moment_type, step_key, sort_order
+        FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY sort_order ASC, operation_key ASC
+    </select>
+    <select id="listOperationsForUpdate" resultMap="operationRow">
+        SELECT game_id, skill_key, process_key, operation_key, name, state_key, operation,
+               value_formula_key, option_key, moment_type, step_key, sort_order
+        FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+        ORDER BY operation_key ASC
+        FOR UPDATE
+    </select>
+    <insert id="insertOperation">
+        INSERT INTO public.skill_process_state_operations (
+            game_id, skill_key, process_key, operation_key, name, state_key, operation,
+            value_formula_key, option_key, moment_type, step_key, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{processKey}, #{operationKey}, #{name}, #{stateKey}, #{operation},
+            #{valueFormulaKey}, #{optionKey}, #{momentType}, #{stepKey}, #{sortOrder}
+        )
+    </insert>
+    <update id="updateOperation">
+        UPDATE public.skill_process_state_operations
+        SET name = #{name},
+            state_key = #{stateKey},
+            value_formula_key = #{valueFormulaKey},
+            option_key = #{optionKey},
+            moment_type = #{momentType},
+            step_key = #{stepKey},
+            sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND process_key = #{processKey} AND operation_key = #{operationKey}
+    </update>
+    <delete id="deleteOperations">
+        DELETE FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+          AND operation_key IN
+        <foreach collection="operationKeys" item="operationKey" open="(" separator="," close=")">#{operationKey}</foreach>
+    </delete>
+    <delete id="deleteAllOperations">
+        DELETE FROM public.skill_process_state_operations
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey}
+    </delete>
+
+    <select id="lockFormulas" resultType="string">
+        SELECT formula_key FROM public.skill_formulas
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">#{key}</foreach>
+        ORDER BY formula_key
+        FOR UPDATE
+    </select>
+    <select id="lockEffects" resultType="string">
+        SELECT effect_key FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">#{key}</foreach>
+        ORDER BY effect_key
+        FOR UPDATE
+    </select>
+    <select id="lockInternalStates" resultMap="stateLock">
+        SELECT state_key, state_type FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">#{key}</foreach>
+        ORDER BY state_key
+        FOR UPDATE
+    </select>
+    <select id="lockModeOptions" resultMap="optionLock">
+        SELECT state_key, option_key FROM public.skill_internal_state_mode_options
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND (state_key, option_key) IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            (#{key.stateKey}, #{key.optionKey})
+        </foreach>
+        ORDER BY state_key, option_key
+        FOR UPDATE
+    </select>
+</mapper>

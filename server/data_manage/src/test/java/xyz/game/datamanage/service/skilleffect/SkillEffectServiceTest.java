@@ -671,6 +671,24 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void deleteEffectProtectsProcessBindingsWithStableConflict() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        verify(mapper, never()).deleteEffect(any(), any(), any());
+
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.deleteEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "violates foreign key constraint fk_skill_process_effect_bindings_effect"
+            )
+        );
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+    }
+
+    @Test
     void assembleReturnsInternalErrorWhenShapeIsCorrupt() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
