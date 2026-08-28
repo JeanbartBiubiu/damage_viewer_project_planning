@@ -156,6 +156,68 @@ type SkillEffectRow = {
   updatedAt: string;
 };
 
+type SkillInternalStateRow = {
+  gameId: string;
+  skillKey: string;
+  stateKey: string;
+  name: string;
+  stateType: string;
+  scope: 'SKILL' | 'TARGET';
+  description: string | null;
+  sortOrder: number;
+  detail: Json;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SkillProcessMomentRow = {
+  momentType: string;
+  stepKey: string | null;
+};
+
+type SkillProcessStepRow = {
+  stepKey: string;
+  name: string;
+  stepType: string;
+  description: string | null;
+  sortOrder: number;
+  detail: Json;
+};
+
+type SkillProcessEffectBindingRow = {
+  bindingKey: string;
+  effectKey: string;
+  moment: SkillProcessMomentRow;
+  sortOrder: number;
+};
+
+type SkillProcessStateOperationRow = {
+  operationKey: string;
+  name: string;
+  stateKey: string;
+  operation: string;
+  valueFormulaKey: string | null;
+  optionKey: string | null;
+  moment: SkillProcessMomentRow;
+  sortOrder: number;
+};
+
+type SkillProcessRow = {
+  gameId: string;
+  skillKey: string;
+  processKey: string;
+  name: string;
+  activationType: string;
+  description: string | null;
+  sortOrder: number;
+  cooldown: { durationFormulaKey: string; startMoment: SkillProcessMomentRow } | null;
+  steps: SkillProcessStepRow[];
+  effectBindings: SkillProcessEffectBindingRow[];
+  stateOperations: SkillProcessStateOperationRow[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
 
 type CapturedWrite = {
@@ -201,15 +263,23 @@ class MockApi {
   skillParameters: SkillParameterRow[] = [];
   skillFormulas: SkillFormulaRow[] = [];
   skillEffects: SkillEffectRow[] = [];
+  skillInternalStates: SkillInternalStateRow[] = [];
+  skillProcesses: SkillProcessRow[] = [];
   skillCategoryListFailure = false;
   skillListFailure = false;
   skillFormulaListFailure = false;
+  skillInternalStateListFailure = false;
+  skillProcessListFailure = false;
+  skillEffectListFailure = false;
   damageTypeListFailure = false;
   attributeListFailure = false;
   statusListFailure = false;
   statusWriteFailure: WriteFailure = null;
   effectWriteFailure: WriteFailure = null;
+  internalStateWriteFailure: WriteFailure = null;
+  processWriteFailure: WriteFailure = null;
   parameterDeleteConflictKeys = new Set<string>();
+  internalStateDeleteConflictKeys = new Set<string>();
   minLevel = 1;
   maxLevel = 2;
   writeFailure: WriteFailure = null;
@@ -849,6 +919,10 @@ class MockApi {
         return;
       }
       if (method === 'GET') {
+        if (this.skillEffectListFailure) {
+          await this.error(route, 503, '503.SKILL_EFFECT_LIST_UNAVAILABLE', '效果读取失败');
+          return;
+        }
         const items = this.skillEffects
           .filter((item) => item.skillKey === skillKey)
           .map((item) => this.toSkillEffectSummary(item));
@@ -906,6 +980,164 @@ class MockApi {
         this.writes.push({ method, path, body: {} });
         this.skillEffects = this.skillEffects.filter((item) => !(
           item.skillKey === skillKey && item.effectKey === effectKey
+        ));
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    const skillInternalStatesList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/internal-states$`)
+    );
+    if (skillInternalStatesList) {
+      const skillKey = skillInternalStatesList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        if (this.skillInternalStateListFailure) {
+          await this.error(route, 503, '503.SKILL_INTERNAL_STATE_LIST_UNAVAILABLE', '内部状态读取失败');
+          return;
+        }
+        const items = this.skillInternalStates
+          .filter((item) => item.skillKey === skillKey)
+          .map((item) => this.toSkillInternalStateSummary(item));
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyInternalStateWriteFailure(route)) {
+          return;
+        }
+        const row = this.buildSkillInternalStateRow(skillKey, String(body.stateKey), body);
+        this.skillInternalStates.push(row);
+        await this.json(route, 201, this.cloneJson(row));
+        return;
+      }
+    }
+
+    const skillInternalStateDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/internal-states/([^/]+)$`)
+    );
+    if (skillInternalStateDetail) {
+      const skillKey = skillInternalStateDetail[1]!;
+      const stateKey = skillInternalStateDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillInternalStates.find((item) => (
+        item.skillKey === skillKey && item.stateKey === stateKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_INTERNAL_STATE_NOT_FOUND', '技能内部状态不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, this.cloneJson(existing));
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyInternalStateWriteFailure(route)) {
+          return;
+        }
+        const next = this.buildSkillInternalStateRow(skillKey, existing.stateKey, body, existing);
+        this.skillInternalStates = this.skillInternalStates.map((item) => (
+          item.skillKey === skillKey && item.stateKey === stateKey ? next : item
+        ));
+        await this.json(route, 200, this.cloneJson(next));
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        if (this.internalStateDeleteConflictKeys.has(stateKey)) {
+          await this.error(route, 409, '409.SKILL_INTERNAL_STATE_IN_USE', 'internal state in use');
+          return;
+        }
+        this.skillInternalStates = this.skillInternalStates.filter((item) => !(
+          item.skillKey === skillKey && item.stateKey === stateKey
+        ));
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    const skillProcessesList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/processes$`)
+    );
+    if (skillProcessesList) {
+      const skillKey = skillProcessesList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        if (this.skillProcessListFailure) {
+          await this.error(route, 503, '503.SKILL_PROCESS_LIST_UNAVAILABLE', '技能过程读取失败');
+          return;
+        }
+        const items = this.skillProcesses
+          .filter((item) => item.skillKey === skillKey)
+          .map((item) => this.toSkillProcessSummary(item));
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyProcessWriteFailure(route)) {
+          return;
+        }
+        const row = this.buildSkillProcessRow(skillKey, String(body.processKey), body);
+        this.skillProcesses.push(row);
+        await this.json(route, 201, this.cloneJson(row));
+        return;
+      }
+    }
+
+    const skillProcessDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/processes/([^/]+)$`)
+    );
+    if (skillProcessDetail) {
+      const skillKey = skillProcessDetail[1]!;
+      const processKey = skillProcessDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillProcesses.find((item) => (
+        item.skillKey === skillKey && item.processKey === processKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_PROCESS_NOT_FOUND', '技能过程不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, this.cloneJson(existing));
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyProcessWriteFailure(route)) {
+          return;
+        }
+        const next = this.buildSkillProcessRow(skillKey, existing.processKey, body, existing);
+        this.skillProcesses = this.skillProcesses.map((item) => (
+          item.skillKey === skillKey && item.processKey === processKey ? next : item
+        ));
+        await this.json(route, 200, this.cloneJson(next));
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.skillProcesses = this.skillProcesses.filter((item) => !(
+          item.skillKey === skillKey && item.processKey === processKey
         ));
         await route.fulfill({ status: 204 });
         return;
@@ -1175,6 +1407,182 @@ class MockApi {
       createdAt: row.createdAt,
       updatedAt: row.updatedAt
     };
+  }
+
+  private cloneJson<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value)) as T;
+  }
+
+  private toSkillInternalStateSummary(row: SkillInternalStateRow): Json {
+    return {
+      gameId: row.gameId,
+      skillKey: row.skillKey,
+      stateKey: row.stateKey,
+      name: row.name,
+      stateType: row.stateType,
+      scope: row.scope,
+      description: row.description,
+      sortOrder: row.sortOrder,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt
+    };
+  }
+
+  private buildSkillInternalStateRow(
+    skillKey: string,
+    stateKey: string,
+    body: Json,
+    existing?: SkillInternalStateRow
+  ): SkillInternalStateRow {
+    return {
+      gameId: GAME_ID,
+      skillKey,
+      stateKey,
+      name: String(body.name),
+      stateType: String(body.stateType),
+      scope: body.scope === 'TARGET' ? 'TARGET' : 'SKILL',
+      description: typeof body.description === 'string' ? body.description : null,
+      sortOrder: Number(body.sortOrder),
+      detail: body.detail && typeof body.detail === 'object' ? body.detail as Json : {},
+      createdAt: existing?.createdAt ?? CREATED_AT,
+      updatedAt: existing ? '2026-08-23T11:00:00Z' : UPDATED_AT
+    };
+  }
+
+  private toSkillProcessSummary(row: SkillProcessRow): Json {
+    return {
+      gameId: row.gameId,
+      skillKey: row.skillKey,
+      processKey: row.processKey,
+      name: row.name,
+      activationType: row.activationType,
+      description: row.description,
+      sortOrder: row.sortOrder,
+      stepCount: row.steps.length,
+      effectBindingCount: row.effectBindings.length,
+      stateOperationCount: row.stateOperations.length,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt
+    };
+  }
+
+  private parseProcessMoment(raw: unknown): SkillProcessMomentRow {
+    const moment = raw && typeof raw === 'object' ? raw as Json : {};
+    return {
+      momentType: String(moment.momentType ?? 'PROCESS_START'),
+      stepKey: typeof moment.stepKey === 'string' ? moment.stepKey : null
+    };
+  }
+
+  private buildSkillProcessRow(
+    skillKey: string,
+    processKey: string,
+    body: Json,
+    existing?: SkillProcessRow
+  ): SkillProcessRow {
+    const cooldownRaw = body.cooldown && typeof body.cooldown === 'object' ? body.cooldown as Json : null;
+    return {
+      gameId: GAME_ID,
+      skillKey,
+      processKey,
+      name: String(body.name),
+      activationType: String(body.activationType),
+      description: typeof body.description === 'string' ? body.description : null,
+      sortOrder: Number(body.sortOrder),
+      cooldown: cooldownRaw
+        ? {
+            durationFormulaKey: String(cooldownRaw.durationFormulaKey),
+            startMoment: this.parseProcessMoment(cooldownRaw.startMoment)
+          }
+        : null,
+      steps: Array.isArray(body.steps)
+        ? body.steps.map((raw) => {
+            const item = raw as Json;
+            return {
+              stepKey: String(item.stepKey),
+              name: String(item.name),
+              stepType: String(item.stepType),
+              description: typeof item.description === 'string' ? item.description : null,
+              sortOrder: Number(item.sortOrder),
+              detail: item.detail && typeof item.detail === 'object' ? item.detail as Json : {}
+            };
+          })
+        : [],
+      effectBindings: Array.isArray(body.effectBindings)
+        ? body.effectBindings.map((raw) => {
+            const item = raw as Json;
+            return {
+              bindingKey: String(item.bindingKey),
+              effectKey: String(item.effectKey),
+              moment: this.parseProcessMoment(item.moment),
+              sortOrder: Number(item.sortOrder)
+            };
+          })
+        : [],
+      stateOperations: Array.isArray(body.stateOperations)
+        ? body.stateOperations.map((raw) => {
+            const item = raw as Json;
+            return {
+              operationKey: String(item.operationKey),
+              name: String(item.name),
+              stateKey: String(item.stateKey),
+              operation: String(item.operation),
+              valueFormulaKey: typeof item.valueFormulaKey === 'string' ? item.valueFormulaKey : null,
+              optionKey: typeof item.optionKey === 'string' ? item.optionKey : null,
+              moment: this.parseProcessMoment(item.moment),
+              sortOrder: Number(item.sortOrder)
+            };
+          })
+        : [],
+      createdAt: existing?.createdAt ?? CREATED_AT,
+      updatedAt: existing ? '2026-08-23T11:00:00Z' : UPDATED_AT
+    };
+  }
+
+  private async applyInternalStateWriteFailure(route: Route): Promise<boolean> {
+    if (this.internalStateWriteFailure === null) return false;
+    if (this.internalStateWriteFailure === 'network') {
+      await route.abort('connectionrefused');
+      return true;
+    }
+    if (this.internalStateWriteFailure === 'validation') {
+      await this.error(route, 400, '400.VALIDATION_FAILED', '内部状态信息不合法', {
+        fieldIssues: [
+          { field: 'name', code: 'FORMAT_INVALID', message: '服务端内部状态名称校验失败' },
+          { field: 'detail.options[1].initial', code: 'FORMAT_INVALID', message: '必须且只能选择一个初始选项。' }
+        ]
+      });
+      return true;
+    }
+    if (this.internalStateWriteFailure === 'duplicate') {
+      await this.error(route, 409, '409.SKILL_INTERNAL_STATE_KEY_EXISTS', '内部状态标识已存在');
+      return true;
+    }
+    await this.error(route, 404, '404.SKILL_INTERNAL_STATE_NOT_FOUND', '技能内部状态不存在');
+    return true;
+  }
+
+  private async applyProcessWriteFailure(route: Route): Promise<boolean> {
+    if (this.processWriteFailure === null) return false;
+    if (this.processWriteFailure === 'network') {
+      await route.abort('connectionrefused');
+      return true;
+    }
+    if (this.processWriteFailure === 'validation') {
+      await this.error(route, 400, '400.VALIDATION_FAILED', '技能过程信息不合法', {
+        fieldIssues: [
+          { field: 'name', code: 'FORMAT_INVALID', message: '服务端过程名称校验失败' },
+          { field: 'effectBindings[0].moment.stepKey', code: 'UNKNOWN_STEP', message: '未知步骤。' }
+        ]
+      });
+      return true;
+    }
+    if (this.processWriteFailure === 'duplicate') {
+      await this.error(route, 409, '409.SKILL_PROCESS_KEY_EXISTS', '过程标识已存在');
+      return true;
+    }
+    await this.error(route, 404, '404.SKILL_PROCESS_NOT_FOUND', '技能过程不存在');
+    return true;
   }
 
   private cloneSkillEffect(row: SkillEffectRow): SkillEffectRow {
@@ -1655,6 +2063,121 @@ async function openSkillEffects(page: Page, skillKey: string, skillName: string)
   return shell;
 }
 
+const SKILL_PROCESS_FORBIDDEN_TERMS = [
+  '生命周期',
+  '外部事件',
+  '动态输入',
+  '暴击',
+  '吸血',
+  '前序结果',
+  '计算预览',
+  'Wasm'
+] as const;
+
+async function assertNoForbiddenSkillProcessTerms(scope: Locator): Promise<void> {
+  for (const text of SKILL_PROCESS_FORBIDDEN_TERMS) {
+    await expect(scope.getByText(text, { exact: true })).toHaveCount(0);
+  }
+}
+
+function formulaRow(
+  skillKey: string,
+  formulaKey: string,
+  name: string,
+  sortOrder: number
+): SkillFormulaRow {
+  return {
+    gameId: GAME_ID,
+    skillKey,
+    formulaKey,
+    name,
+    description: null,
+    sortOrder,
+    expression: { nodeType: 'PARAMETER', parameterKey: formulaKey },
+    createdAt: CREATED_AT,
+    updatedAt: UPDATED_AT
+  };
+}
+
+function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName = '枯萎箭袋'): void {
+  seedSkillEffectCatalog(mock, skillKey, skillName);
+  mock.skillFormulas = [
+    ...mock.skillFormulas,
+    formulaRow(skillKey, 'zero', '零', 10),
+    formulaRow(skillKey, 'focus_max_stacks', '专注上限', 11),
+    formulaRow(skillKey, 'max_ammo', '最大弹药', 12),
+    formulaRow(skillKey, 'ammo_recovery_ms', '弹药恢复', 13),
+    formulaRow(skillKey, 'internal_cooldown_ms', '内部冷却时长', 14),
+    formulaRow(skillKey, 'cooldown_ms', '冷却时长', 15),
+    formulaRow(skillKey, 'impact_delay_ms', '延迟', 16),
+    formulaRow(skillKey, 'hit_count', '段数', 17),
+    formulaRow(skillKey, 'tick_count', '周期次数', 18),
+    formulaRow(skillKey, 'tick_interval_ms', '周期间隔', 19),
+    formulaRow(skillKey, 'channel_duration_ms', '引导时长', 20),
+    formulaRow(skillKey, 'channel_hit_count', '引导次数', 21),
+    formulaRow(skillKey, 'minimum_charge_ms', '最短蓄力', 22),
+    formulaRow(skillKey, 'maximum_charge_ms', '最长蓄力', 23),
+    formulaRow(skillKey, 'recast_window_ms', '重施窗口', 24),
+    formulaRow(skillKey, 'maximum_recasts', '最大重施', 25),
+    formulaRow(skillKey, 'empowered_attack_window_ms', '强化窗口', 26),
+    formulaRow(skillKey, 'focus_cost', '专注消耗', 27)
+  ];
+  mock.skillEffects = [
+    {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey: 'on_hit_results',
+      name: '命中结果',
+      description: null,
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [{
+        resultKey: 'damage',
+        name: '造成物理伤害',
+        resultType: 'DAMAGE',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 10,
+        valueRule: valueRule('damage'),
+        detail: { damageTypeKey: 'physical' }
+      }]
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey: 'mana_cost',
+      name: '法力消耗',
+      description: null,
+      sortOrder: 20,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [{
+        resultKey: 'consume_mana',
+        name: '扣除法力',
+        resultType: 'RESOURCE_CHANGE',
+        target: 'SOURCE',
+        description: null,
+        sortOrder: 10,
+        valueRule: valueRule('heal'),
+        detail: { attributeKey: 'mana', operation: 'CONSUME' }
+      }]
+    }
+  ];
+}
+
+async function openSkillProcesses(page: Page, skillKey: string, skillName: string): Promise<Locator> {
+  await skillRow(page, skillKey).getByRole('button', { name: '过程与内部状态', exact: true }).click();
+  const shell = visibleModal(page, `过程与内部状态 - ${skillName}`);
+  await expect(shell).toBeVisible();
+  return shell;
+}
+
+async function closeVisibleDialog(dialog: Locator): Promise<void> {
+  await dialog.getByRole('button', { name: '关闭', exact: true }).click();
+  await expect(dialog).toBeHidden();
+}
+
 async function fillValueRule(
   page: Page,
   modal: Locator,
@@ -2071,12 +2594,11 @@ test.describe('skill management without Wasm', () => {
     await expect(createModal).toBeHidden();
     await expect(skillRow(page, 'ezreal_q')).toContainText('秘术射击');
     await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '过程与内部状态', exact: true })).toHaveCount(1);
     expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
     expect(await page.locator('a[href="#/effects"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/skill-processes"]').count()).toBe(0);
     expect(mock.skills[0]?.skillCategoryKeys).toEqual([]);
-    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
-    expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
-    expect(await page.locator('a[href="#/effects"]').count()).toBe(0);
 
     await skillRow(page, 'ezreal_q').getByRole('button', { name: '查看', exact: true }).click();
     const viewModal = visibleModal(page, '查看技能');
@@ -2182,6 +2704,7 @@ test.describe('skill management without Wasm', () => {
     await expect(row.getByRole('button', { name: '查看', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '参数与公式', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '效果与结果', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '过程与内部状态', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '停用', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '删除', exact: true })).toBeEnabled();
 
@@ -2753,6 +3276,611 @@ test.describe('skill management without Wasm', () => {
     await expect(reopened.getByText('暂无结果', { exact: true })).toBeVisible();
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('effect save failure retains draft and mask/escape discards');
+  });
+
+  test('adds a process entry on the skills page without a new route', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '过程与内部状态', exact: true })).toHaveCount(1);
+    expect(await page.locator('a[href="#/skill-processes"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/internal-states"]').count()).toBe(0);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await expect(shell.getByRole('tab', { name: '技能过程' })).toBeVisible();
+    await expect(shell.getByRole('tab', { name: '内部状态' })).toBeVisible();
+    await expect(shell.getByText('暂无技能过程', { exact: true })).toBeVisible();
+    await assertNoForbiddenSkillProcessTerms(page.locator('.app-main'));
+    await assertNoForbiddenSkillProcessTerms(shell);
+    diagnostics.assertClean('process entry without new route');
+  });
+
+  test('manages five internal state kinds from the skills page entry', async ({ page }, testInfo) => {
+    testInfo.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    mock.internalStateDeleteConflictKeys.add('focus_stacks');
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('tab', { name: '内部状态' }).click();
+    await expect(shell.getByText('暂无内部状态', { exact: true })).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const counterModal = visibleModal(page, '新增内部状态');
+    await counterModal.getByLabel('内部状态标识', { exact: true }).fill('focus_stacks');
+    await counterModal.getByLabel('内部状态名称', { exact: true }).fill('专注层数');
+    await expect(counterModal.getByLabel('状态种类', { exact: true })).toContainText('计数');
+    await clickArcoRadioByVisibleLabel(counterModal, '按当前目标分别保存');
+    await chooseSelectOption(page, counterModal, '初始值公式', '零');
+    await chooseSelectOption(page, counterModal, '上限公式', '专注上限');
+    await saveOpenModal(counterModal);
+    await expect(shell.getByText('内部状态「专注层数」已保存。', { exact: true })).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const ammoModal = visibleModal(page, '新增内部状态');
+    await ammoModal.getByLabel('内部状态标识', { exact: true }).fill('ammo');
+    await ammoModal.getByLabel('内部状态名称', { exact: true }).fill('弹药');
+    await chooseSelectOption(page, ammoModal, '状态种类', '弹药');
+    await expect(ammoModal.getByLabel('保存范围', { exact: true }).getByText('按当前目标分别保存')).toHaveCount(0);
+    await chooseSelectOption(page, ammoModal, '初始值公式', '最大弹药');
+    await chooseSelectOption(page, ammoModal, '上限公式', '最大弹药');
+    await chooseSelectOption(page, ammoModal, '恢复间隔公式', '弹药恢复');
+    await clickArcoRadioByVisibleLabel(ammoModal, '一次全部恢复');
+    await expect(ammoModal.getByText('结果按毫秒解释')).toBeVisible();
+    await saveOpenModal(ammoModal);
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const modeModal = visibleModal(page, '新增内部状态');
+    await modeModal.getByLabel('内部状态标识', { exact: true }).fill('weapon_mode');
+    await modeModal.getByLabel('内部状态名称', { exact: true }).fill('武器模式');
+    await chooseSelectOption(page, modeModal, '状态种类', '模式');
+    await expect(modeModal.getByLabel('初始值公式', { exact: true })).toHaveCount(0);
+    await modeModal.getByLabel('选项标识 1', { exact: true }).fill('minigun');
+    await modeModal.getByLabel('选项名称 1', { exact: true }).fill('机枪');
+    await modeModal.getByLabel('选项标识 2', { exact: true }).fill('rocket');
+    await modeModal.getByLabel('选项名称 2', { exact: true }).fill('火箭');
+    await modeModal.getByLabel('初始选项 1', { exact: true }).click();
+    await saveOpenModal(modeModal);
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const flagModal = visibleModal(page, '新增内部状态');
+    await flagModal.getByLabel('内部状态标识', { exact: true }).fill('ready');
+    await flagModal.getByLabel('内部状态名称', { exact: true }).fill('已准备');
+    await chooseSelectOption(page, flagModal, '状态种类', '准备标记');
+    await expect(flagModal.getByLabel('时长公式', { exact: true })).toHaveCount(0);
+    await flagModal.getByLabel('初始是否启用', { exact: true }).click();
+    await saveOpenModal(flagModal);
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const cooldownModal = visibleModal(page, '新增内部状态');
+    await cooldownModal.getByLabel('内部状态标识', { exact: true }).fill('internal_cd');
+    await cooldownModal.getByLabel('内部状态名称', { exact: true }).fill('内部冷却');
+    await chooseSelectOption(page, cooldownModal, '状态种类', '内部冷却');
+    await chooseSelectOption(page, cooldownModal, '时长公式', '内部冷却时长');
+    await expect(cooldownModal.getByText('结果按毫秒解释')).toBeVisible();
+    await saveOpenModal(cooldownModal);
+
+    await shell.getByRole('button', { name: '刷新', exact: true }).click();
+    await expect(shell.locator('tr', { hasText: 'focus_stacks' })).toContainText('专注层数');
+    await expect(shell.locator('tr', { hasText: 'weapon_mode' })).toContainText('模式');
+
+    await shell.locator('tr', { hasText: 'weapon_mode' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewMode = visibleModal(page, '查看内部状态');
+    await expect(viewMode.getByLabel('内部状态标识', { exact: true })).toBeDisabled();
+    await expect(viewMode.getByLabel('选项标识 1', { exact: true })).toHaveValue('minigun');
+    await expect(viewMode.getByRole('button', { name: '保存', exact: true })).toHaveCount(0);
+    await closeEditorByOutsideOrEscape(page, testInfo);
+
+    await shell.locator('tr', { hasText: 'ammo' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editAmmo = visibleModal(page, '编辑内部状态');
+    await expect(editAmmo.getByLabel('内部状态标识', { exact: true })).toBeDisabled();
+    await expect(editAmmo.getByLabel('状态种类', { exact: true })).toBeDisabled();
+    await editAmmo.getByLabel('内部状态名称', { exact: true }).fill('弹药改');
+    await saveOpenModal(editAmmo);
+
+    const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/internal-states') && item.body.stateKey === 'focus_stacks');
+    expect(createWrite?.body).toMatchObject({
+      stateKey: 'focus_stacks',
+      stateType: 'COUNTER',
+      scope: 'TARGET',
+      detail: {
+        initialValueFormulaKey: 'zero',
+        maxValueFormulaKey: 'focus_max_stacks'
+      }
+    });
+    const modeWrite = mock.writes.find((item) => item.method === 'POST' && item.body.stateKey === 'weapon_mode');
+    expect(modeWrite?.body.detail).toMatchObject({
+      options: [
+        { optionKey: 'minigun', name: '机枪', initial: true },
+        { optionKey: 'rocket', name: '火箭', initial: false }
+      ]
+    });
+
+    await shell.locator('tr', { hasText: 'focus_stacks' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteInUse = visibleModal(page, '删除内部状态');
+    await deleteInUse.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(deleteInUse.getByText('该内部状态正在被技能过程使用，不能删除')).toBeVisible();
+    await deleteInUse.getByRole('button', { name: '取消', exact: true }).click();
+
+    await shell.locator('tr', { hasText: 'ready' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteReady = visibleModal(page, '删除内部状态');
+    await deleteReady.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(shell.getByText('内部状态「已准备」已删除。', { exact: true })).toBeVisible();
+    diagnostics.assertClean('five internal state kinds');
+  });
+
+  test('covers eight process step editors and clears hidden fields', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增过程', exact: true }).click();
+    const createModal = visibleModal(page, '新增过程');
+    await createModal.getByRole('button', { name: '新增步骤', exact: true }).click();
+    const stepModal = visibleModal(page, '新增步骤');
+    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toHaveCount(0);
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '延迟');
+    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByText('时长按毫秒解释')).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '多段');
+    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toHaveCount(0);
+    await expect(stepModal.getByLabel('执行次数公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('间隔公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByText('未来按正整数解释')).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '周期');
+    await expect(stepModal.getByLabel('首次执行时机', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '引导');
+    await expect(stepModal.getByLabel('持续时间公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('执行次数公式', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '蓄力');
+    await expect(stepModal.getByLabel('最短蓄力公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最长蓄力公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('到达最长时间是否自动释放', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '重施');
+    await expect(stepModal.getByLabel('重施窗口公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最大重施次数公式', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, stepModal, '步骤种类', '强化下一次普通攻击');
+    await expect(stepModal.getByLabel('有效窗口公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('消耗时点', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最短蓄力公式', { exact: true })).toHaveCount(0);
+    await assertNoForbiddenSkillProcessTerms(stepModal);
+
+    await stepModal.getByLabel('步骤标识', { exact: true }).fill('empowered');
+    await stepModal.getByLabel('步骤名称', { exact: true }).fill('强化普攻');
+    await chooseSelectOption(page, stepModal, '有效窗口公式', '强化窗口');
+    await clickArcoRadioByVisibleLabel(stepModal, '攻击发起');
+    await saveOpenModal(stepModal);
+    await expect(createModal.locator('tr', { hasText: 'empowered' })).toContainText('强化下一次普通攻击');
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    diagnostics.assertClean('eight process step editors');
+  });
+
+  test('creates, updates and deletes a process aggregate with cooldown, bindings and operations', async ({ page }, testInfo) => {
+    testInfo.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    mock.skillInternalStates = [
+      {
+        gameId: GAME_ID,
+        skillKey: 'varus_w',
+        stateKey: 'focus_stacks',
+        name: '专注层数',
+        stateType: 'COUNTER',
+        scope: 'SKILL',
+        description: null,
+        sortOrder: 10,
+        detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+        createdAt: CREATED_AT,
+        updatedAt: UPDATED_AT
+      },
+      {
+        gameId: GAME_ID,
+        skillKey: 'varus_w',
+        stateKey: 'weapon_mode',
+        name: '武器模式',
+        stateType: 'MODE',
+        scope: 'SKILL',
+        description: null,
+        sortOrder: 20,
+        detail: {
+          options: [
+            { optionKey: 'minigun', name: '机枪', sortOrder: 10, initial: true },
+            { optionKey: 'rocket', name: '火箭', sortOrder: 20, initial: false }
+          ]
+        },
+        createdAt: CREATED_AT,
+        updatedAt: UPDATED_AT
+      }
+    ];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增过程', exact: true }).click();
+    const createModal = visibleModal(page, '新增过程');
+    await createModal.getByLabel('过程标识', { exact: true }).fill('primary_cast');
+    await createModal.getByLabel('过程名称', { exact: true }).fill('主要施放过程');
+    await createModal.getByLabel('排序', { exact: true }).fill('10');
+    await clickArcoRadioByVisibleLabel(createModal, '配置普通冷却');
+    await chooseSelectOption(page, createModal, '冷却时长公式', '冷却时长');
+    await expect(createModal.getByText('时长按毫秒解释')).toBeVisible();
+
+    await createModal.locator('tr', { hasText: '暂无步骤' }).waitFor({ state: 'hidden' }).catch(() => undefined);
+    await createModal.locator('tr').filter({ hasText: '立即' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const hitStep = visibleModal(page, '编辑步骤');
+    await hitStep.getByLabel('步骤标识', { exact: true }).fill('hit');
+    await hitStep.getByLabel('步骤名称', { exact: true }).fill('命中');
+    await saveOpenModal(hitStep);
+
+    await createModal.getByRole('button', { name: '新增步骤', exact: true }).click();
+    const delayStep = visibleModal(page, '新增步骤');
+    await delayStep.getByLabel('步骤标识', { exact: true }).fill('delay');
+    await delayStep.getByLabel('步骤名称', { exact: true }).fill('延迟');
+    await chooseSelectOption(page, delayStep, '步骤种类', '延迟');
+    await chooseSelectOption(page, delayStep, '延迟公式', '延迟');
+    await saveOpenModal(delayStep);
+
+    await createModal.getByRole('button', { name: '新增效果挂接', exact: true }).click();
+    const hitBinding = visibleModal(page, '新增效果挂接');
+    await hitBinding.getByLabel('挂接标识', { exact: true }).fill('hit_results');
+    await chooseSelectOption(page, hitBinding, '效果', '命中结果');
+    await chooseSelectOption(page, hitBinding, '过程时点', '步骤执行');
+    await chooseSelectOption(page, hitBinding, '步骤', '命中');
+    await saveOpenModal(hitBinding);
+
+    await createModal.getByRole('button', { name: '新增效果挂接', exact: true }).click();
+    const manaBinding = visibleModal(page, '新增效果挂接');
+    await manaBinding.getByLabel('挂接标识', { exact: true }).fill('mana_cost');
+    await chooseSelectOption(page, manaBinding, '效果', '法力消耗');
+    await chooseSelectOption(page, manaBinding, '过程时点', '过程开始');
+    await expect(manaBinding.getByLabel('步骤', { exact: true })).toHaveCount(0);
+    await saveOpenModal(manaBinding);
+
+    await createModal.getByRole('button', { name: '新增内部状态操作', exact: true }).click();
+    const consumeOp = visibleModal(page, '新增内部状态操作');
+    await consumeOp.getByLabel('操作标识', { exact: true }).fill('consume_focus');
+    await consumeOp.getByLabel('操作名称', { exact: true }).fill('消耗专注层数');
+    await chooseSelectOption(page, consumeOp, '内部状态', '专注层数（计数）');
+    await chooseSelectOption(page, consumeOp, '操作', '消耗');
+    await chooseSelectOption(page, consumeOp, '数值公式', '专注消耗');
+    await chooseSelectOption(page, consumeOp, '过程时点', '过程开始');
+    await saveOpenModal(consumeOp);
+
+    await createModal.getByRole('button', { name: '新增内部状态操作', exact: true }).click();
+    const selectOp = visibleModal(page, '新增内部状态操作');
+    await selectOp.getByLabel('操作标识', { exact: true }).fill('select_rocket');
+    await selectOp.getByLabel('操作名称', { exact: true }).fill('选择火箭');
+    await chooseSelectOption(page, selectOp, '内部状态', '武器模式（模式）');
+    await expect(selectOp.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await chooseSelectOption(page, selectOp, '模式选项', '火箭');
+    await chooseSelectOption(page, selectOp, '过程时点', '过程完成');
+    await saveOpenModal(selectOp);
+
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(shell.getByText('过程「主要施放过程」已保存。', { exact: true })).toBeVisible();
+    const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/processes'));
+    expect(createWrite?.body).toMatchObject({
+      processKey: 'primary_cast',
+      activationType: 'ACTIVE',
+      cooldown: {
+        durationFormulaKey: 'cooldown_ms',
+        startMoment: { momentType: 'PROCESS_START', stepKey: null }
+      }
+    });
+    expect(createWrite?.body.steps).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stepKey: 'hit', stepType: 'IMMEDIATE', detail: {} }),
+      expect.objectContaining({ stepKey: 'delay', stepType: 'DELAY', detail: { delayFormulaKey: 'impact_delay_ms' } })
+    ]));
+    expect(createWrite?.body.effectBindings).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        bindingKey: 'hit_results',
+        effectKey: 'on_hit_results',
+        moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit' }
+      })
+    ]));
+    expect(createWrite?.body.stateOperations).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        operationKey: 'consume_focus',
+        operation: 'CONSUME',
+        valueFormulaKey: 'focus_cost',
+        optionKey: null
+      }),
+      expect.objectContaining({
+        operationKey: 'select_rocket',
+        operation: 'SELECT',
+        valueFormulaKey: null,
+        optionKey: 'rocket'
+      })
+    ]));
+
+    await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑过程');
+    await expect(editModal.getByLabel('过程标识', { exact: true })).toBeDisabled();
+    await editModal.locator('tr', { hasText: 'mana_cost' }).getByRole('button', { name: '删除', exact: true }).click();
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    const updateWrite = mock.writes.filter((item) => item.method === 'PUT' && item.path.endsWith('/processes/primary_cast')).at(-1);
+    expect(updateWrite?.body).not.toHaveProperty('processKey');
+    expect((updateWrite?.body.effectBindings as SkillProcessEffectBindingRow[]).map((item) => item.bindingKey)).not.toContain('mana_cost');
+
+    await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除过程');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(shell.getByText('过程「主要施放过程」已删除。', { exact: true })).toBeVisible();
+    expect(mock.skillProcesses).toHaveLength(0);
+    diagnostics.assertClean('process aggregate create update delete');
+  });
+
+  test('blocks deleting a referenced step, retains failed drafts and only stops the failed catalog', async ({ page }, testInfo) => {
+    testInfo.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    mock.skillInternalStates = [{
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      stateKey: 'ready',
+      name: '已准备',
+      stateType: 'FLAG',
+      scope: 'SKILL',
+      description: null,
+      sortOrder: 10,
+      detail: { initialEnabled: false },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增过程', exact: true }).click();
+    const createModal = visibleModal(page, '新增过程');
+    await createModal.getByLabel('过程标识', { exact: true }).fill('draft_process');
+    await createModal.getByLabel('过程名称', { exact: true }).fill('草稿过程');
+    await createModal.locator('tr').filter({ hasText: '立即' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const hitStep = visibleModal(page, '编辑步骤');
+    await hitStep.getByLabel('步骤标识', { exact: true }).fill('hit');
+    await hitStep.getByLabel('步骤名称', { exact: true }).fill('命中');
+    await saveOpenModal(hitStep);
+
+    await createModal.getByRole('button', { name: '新增效果挂接', exact: true }).click();
+    const binding = visibleModal(page, '新增效果挂接');
+    await binding.getByLabel('挂接标识', { exact: true }).fill('hit_results');
+    await chooseSelectOption(page, binding, '效果', '命中结果');
+    await chooseSelectOption(page, binding, '过程时点', '步骤执行');
+    await chooseSelectOption(page, binding, '步骤', '命中');
+    await saveOpenModal(binding);
+
+    const stepSection = createModal.locator('section').filter({ hasText: '过程步骤' });
+    await stepSection.locator('tr').filter({ hasText: 'hit' }).getByRole('button', { name: '删除', exact: true }).click();
+    await expect(createModal.getByText(/无法删除步骤「命中」，仍被引用：效果挂接 hit_results/)).toBeVisible();
+    await expect(stepSection.locator('tr').filter({ hasText: 'hit' })).toBeVisible();
+
+    mock.processWriteFailure = 'validation';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByText('服务端过程名称校验失败', { exact: true })).toBeVisible();
+    await expect(createModal.getByLabel('过程名称', { exact: true })).toHaveValue('草稿过程');
+    await expect(createModal.locator('tr', { hasText: 'hit_results' })).toBeVisible();
+    expect(mock.skillProcesses).toHaveLength(0);
+
+    mock.processWriteFailure = null;
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(createModal).toBeHidden();
+
+    mock.skillFormulaListFailure = true;
+    await shell.getByRole('tab', { name: '内部状态' }).click();
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const flagCreate = visibleModal(page, '新增内部状态');
+    await chooseSelectOption(page, flagCreate, '状态种类', '准备标记');
+    await flagCreate.getByLabel('内部状态标识', { exact: true }).fill('ready_flag');
+    await flagCreate.getByLabel('内部状态名称', { exact: true }).fill('准备标记');
+    await saveOpenModal(flagCreate);
+    await expect(shell.getByText('内部状态「准备标记」已保存。', { exact: true })).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const blockedCounter = visibleModal(page, '新增内部状态');
+    await blockedCounter.getByLabel('内部状态标识', { exact: true }).fill('blocked_counter');
+    await blockedCounter.getByLabel('内部状态名称', { exact: true }).fill('被阻断计数');
+    await expect(blockedCounter.getByText('503.SKILL_FORMULA_LIST_UNAVAILABLE: 技能公式读取失败', { exact: true }).or(blockedCounter.getByText(/公式读取失败/))).toBeVisible();
+    await blockedCounter.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(blockedCounter).toBeVisible();
+    await expect(blockedCounter.getByText('请选择初始值公式。', { exact: true }).or(blockedCounter.getByText('目录不完整，无法保存未知引用。'))).toBeVisible();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    diagnostics.assertClean('referenced step block, retained draft and catalog isolation');
+  });
+
+  test('keeps process and step drafts when nested parameter-formula catalog is refreshed', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await expect(shell.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(shell.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+
+    await shell.getByRole('button', { name: '新增过程', exact: true }).click();
+    const createModal = visibleModal(page, '新增过程');
+    await createModal.getByLabel('过程标识', { exact: true }).fill('draft_process');
+    await createModal.getByLabel('过程名称', { exact: true }).fill('草稿过程');
+    await expect(createModal.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(createModal.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+
+    await createModal.getByRole('button', { name: '新增内部状态操作', exact: true }).click();
+    const operationModal = visibleModal(page, '新增内部状态操作');
+    await expect(operationModal.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(operationModal.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+    await operationModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(operationModal).toBeHidden();
+
+    await createModal.getByRole('button', { name: '新增步骤', exact: true }).click();
+    const stepModal = visibleModal(page, '新增步骤');
+    await stepModal.getByLabel('步骤标识', { exact: true }).fill('delay_step');
+    await stepModal.getByLabel('步骤名称', { exact: true }).fill('延迟步骤');
+    await chooseSelectOption(page, stepModal, '步骤种类', '延迟');
+    await expect(stepModal.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(stepModal.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+
+    await stepModal.getByRole('button', { name: '参数与公式', exact: true }).click();
+    const formulaShell = visibleModal(page, '参数与公式 - 枯萎箭袋');
+    await expect(formulaShell).toBeVisible();
+    await expect(stepModal).toBeVisible();
+    await expect(createModal).toBeVisible();
+
+    mock.skillFormulas.push(formulaRow('varus_w', 'nested_catalog_formula', '嵌套目录公式', 99));
+    await closeVisibleDialog(formulaShell);
+    await expect(stepModal).toBeVisible();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByLabel('过程名称', { exact: true })).toHaveValue('草稿过程');
+    await expect(stepModal.getByLabel('步骤标识', { exact: true })).toHaveValue('delay_step');
+    await expect(stepModal.getByLabel('步骤名称', { exact: true })).toHaveValue('延迟步骤');
+    await expect(stepModal.getByLabel('延迟公式', { exact: true })).not.toContainText('嵌套目录公式');
+    await chooseSelectOption(page, stepModal, '延迟公式', '嵌套目录公式');
+    diagnostics.assertClean('nested parameter-formula catalog refresh keeps drafts');
+  });
+
+  test('keeps effect-binding drafts when nested effect catalog is refreshed', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增过程', exact: true }).click();
+    const createModal = visibleModal(page, '新增过程');
+    await createModal.getByLabel('过程标识', { exact: true }).fill('draft_binding_process');
+    await createModal.getByLabel('过程名称', { exact: true }).fill('挂接草稿过程');
+
+    await createModal.getByRole('button', { name: '新增效果挂接', exact: true }).click();
+    const bindingModal = visibleModal(page, '新增效果挂接');
+    await bindingModal.getByLabel('挂接标识', { exact: true }).fill('draft_binding');
+    await expect(bindingModal.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+    await expect(bindingModal.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(0);
+
+    await bindingModal.getByRole('button', { name: '效果与结果', exact: true }).click();
+    const effectShell = visibleModal(page, '效果与结果 - 枯萎箭袋');
+    await expect(effectShell).toBeVisible();
+    await expect(bindingModal).toBeVisible();
+    await expect(createModal).toBeVisible();
+
+    mock.skillEffects.push({
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      effectKey: 'nested_catalog_effect',
+      name: '嵌套目录效果',
+      description: null,
+      sortOrder: 99,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: []
+    });
+    await closeVisibleDialog(effectShell);
+    await expect(bindingModal).toBeVisible();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByLabel('过程名称', { exact: true })).toHaveValue('挂接草稿过程');
+    await expect(bindingModal.getByLabel('挂接标识', { exact: true })).toHaveValue('draft_binding');
+    await expect(bindingModal.getByLabel('效果', { exact: true })).not.toContainText('嵌套目录效果');
+    await chooseSelectOption(page, bindingModal, '效果', '嵌套目录效果');
+    diagnostics.assertClean('nested effect catalog refresh keeps binding drafts');
+  });
+
+  test('shows nested catalog entries on create and edit, but not in view mode', async ({ page }, testInfo) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    mock.skillInternalStates = [{
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      stateKey: 'focus_stacks',
+      name: '专注层数',
+      stateType: 'COUNTER',
+      scope: 'SKILL',
+      description: null,
+      sortOrder: 10,
+      detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    mock.skillProcesses = [{
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      processKey: 'primary_cast',
+      name: '主要施放过程',
+      activationType: 'ACTIVE',
+      description: null,
+      sortOrder: 10,
+      cooldown: null,
+      steps: [{
+        stepKey: 'hit',
+        name: '命中',
+        stepType: 'IMMEDIATE',
+        description: null,
+        sortOrder: 0,
+        detail: {}
+      }],
+      effectBindings: [{
+        bindingKey: 'hit_results',
+        effectKey: 'on_hit_results',
+        moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit' },
+        sortOrder: 0
+      }],
+      stateOperations: [],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await expect(shell.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(shell.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+
+    await shell.getByRole('tab', { name: '内部状态' }).click();
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const createState = visibleModal(page, '新增内部状态');
+    await expect(createState.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await expect(createState.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+    await createState.getByRole('button', { name: '取消', exact: true }).click();
+
+    await shell.locator('tr', { hasText: 'focus_stacks' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editState = visibleModal(page, '编辑内部状态');
+    await expect(editState.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(1);
+    await closeEditorByOutsideOrEscape(page, testInfo);
+
+    await shell.locator('tr', { hasText: 'focus_stacks' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewState = visibleModal(page, '查看内部状态');
+    await expect(viewState.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(0);
+    await expect(viewState.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+    await closeEditorByOutsideOrEscape(page, testInfo);
+
+    await shell.getByRole('tab', { name: '技能过程' }).click();
+    await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewProcess = visibleModal(page, '查看过程');
+    await expect(viewProcess.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(0);
+    await expect(viewProcess.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+
+    await viewProcess.locator('section').filter({ hasText: '过程步骤' }).locator('tr', { hasText: '命中' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewStep = visibleModal(page, '查看步骤');
+    await expect(viewStep.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(0);
+    await closeEditorByOutsideOrEscape(page, testInfo);
+
+    await viewProcess.locator('section').filter({ hasText: '效果挂接' }).locator('tr', { hasText: 'hit_results' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewBinding = visibleModal(page, '查看效果挂接');
+    await expect(viewBinding.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    diagnostics.assertClean('catalog entries hidden in view mode');
   });
 });
 

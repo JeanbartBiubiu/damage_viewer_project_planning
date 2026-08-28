@@ -26,6 +26,7 @@ import type { SkillCategory } from '../../../types/skillCategory';
 import { SkillEditorModal, type SkillEditorMode } from './SkillEditorModal';
 import { SkillEffectManagementModal } from './effects/SkillEffectManagementModal';
 import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
+import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
@@ -39,6 +40,7 @@ type EditorState = { mode: SkillEditorMode; skill: Skill | null };
 type StatusTarget = { skill: Skill; nextStatus: SkillStatus };
 type ParameterFormulaTarget = Skill;
 type EffectTarget = Skill;
+type ProcessInternalStateTarget = Skill;
 
 const EMPTY_QUERY: SkillListQuery = {};
 
@@ -91,6 +93,7 @@ export function SkillManagementPage({
   const [deleting, setDeleting] = useState(false);
   const [parameterFormulaTarget, setParameterFormulaTarget] = useState<ParameterFormulaTarget | null>(null);
   const [effectTarget, setEffectTarget] = useState<EffectTarget | null>(null);
+  const [processInternalStateTarget, setProcessInternalStateTarget] = useState<ProcessInternalStateTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
   const [pageGameId, setPageGameId] = useState(selectedGameId);
@@ -119,6 +122,7 @@ export function SkillManagementPage({
     setDeleting(false);
     setParameterFormulaTarget(null);
     setEffectTarget(null);
+    setProcessInternalStateTarget(null);
     setNotice(null);
   }
 
@@ -183,6 +187,11 @@ export function SkillManagementPage({
     void loadSkills(appliedQuery);
   }, [appliedQuery, loadSkills]);
 
+  const handleProcessInternalStateSkillMissing = useCallback(() => {
+    setProcessInternalStateTarget(null);
+    void loadSkills(appliedQuery);
+  }, [appliedQuery, loadSkills]);
+
   useEffect(() => {
     onDirtyChange(false);
   }, [onDirtyChange, selectedGameId]);
@@ -215,6 +224,9 @@ export function SkillManagementPage({
       current && current.skillKey === saved.skillKey ? saved : current
     ));
     setEffectTarget((current) => (
+      current && current.skillKey === saved.skillKey ? saved : current
+    ));
+    setProcessInternalStateTarget((current) => (
       current && current.skillKey === saved.skillKey ? saved : current
     ));
   };
@@ -267,6 +279,9 @@ export function SkillManagementPage({
       setEffectTarget((current) => (
         current && current.skillKey === deleteTarget.skillKey ? null : current
       ));
+      setProcessInternalStateTarget((current) => (
+        current && current.skillKey === deleteTarget.skillKey ? null : current
+      ));
       setNotice(`技能「${deletedName}」已删除。`);
       await loadSkills(appliedQuery);
     } catch (error) {
@@ -317,7 +332,7 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 470,
+      width: 580,
       fixed: 'right',
       render: (_value, record: Skill) => (
         <Space size="mini">
@@ -329,6 +344,7 @@ export function SkillManagementPage({
           >编辑</Button>
           <Button size="mini" onClick={() => setParameterFormulaTarget(record)}>参数与公式</Button>
           <Button size="mini" onClick={() => setEffectTarget(record)}>效果与结果</Button>
+          <Button size="mini" onClick={() => setProcessInternalStateTarget(record)}>过程与内部状态</Button>
           <Button
             size="mini"
             status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -436,7 +452,7 @@ export function SkillManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1450 }}
+          scroll={{ x: 1560 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>
@@ -475,6 +491,17 @@ export function SkillManagementPage({
         adminToken={adminToken}
         onClose={() => setEffectTarget(null)}
         onSkillMissing={handleEffectSkillMissing}
+        onDirtyChange={onDirtyChange}
+      />
+
+      <SkillProcessInternalStateModal
+        visible={processInternalStateTarget !== null}
+        skill={processInternalStateTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onClose={() => setProcessInternalStateTarget(null)}
+        onSkillMissing={handleProcessInternalStateSkillMissing}
         onDirtyChange={onDirtyChange}
       />
 
