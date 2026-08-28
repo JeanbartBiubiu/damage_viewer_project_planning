@@ -49,6 +49,7 @@ public class SkillFormulaService {
     private static final int MAX_DEPTH = 32;
     private static final int MAX_NODES = 256;
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_formulas";
+    private static final String EFFECT_VALUE_FORMULA_CONSTRAINT = "fk_skill_effect_result_values_formula";
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
@@ -772,6 +773,10 @@ public class SkillFormulaService {
         return conflict("409.SKILL_FORMULA_KEY_EXISTS", "技能公式标识已存在", "formulaKey");
     }
 
+    private static ApiException formulaInUse() {
+        return conflict("409.SKILL_FORMULA_IN_USE", "技能公式已被效果结果引用，不能删除", "formulaKey");
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -811,6 +816,9 @@ public class SkillFormulaService {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
+        }
+        if (text.contains(EFFECT_VALUE_FORMULA_CONSTRAINT)) {
+            return formulaInUse();
         }
         return ex;
     }
