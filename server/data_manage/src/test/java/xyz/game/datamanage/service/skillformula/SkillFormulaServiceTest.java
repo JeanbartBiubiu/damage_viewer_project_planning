@@ -598,6 +598,21 @@ class SkillFormulaServiceTest {
     }
 
     @Test
+    void mapsSkillEffectResultValueFormulaFkToStableInUseError() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "insert or update on table violates foreign key constraint "
+                    + "fk_skill_effect_result_values_formula"
+            )
+        );
+
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+        verify(formulaMapper).delete(GAME_ID, SKILL_KEY, FORMULA_KEY);
+    }
+
+    @Test
     void rejectsImmutableFormulaKeyDuplicateKeyAndMissingParents() {
         assertCode(
             "400.VALIDATION_FAILED",

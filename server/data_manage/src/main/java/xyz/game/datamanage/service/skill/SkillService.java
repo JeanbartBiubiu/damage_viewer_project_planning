@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
+import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
@@ -46,6 +47,7 @@ public class SkillService {
     private final SkillMapper mapper;
     private final SkillParameterMapper parameterMapper;
     private final SkillFormulaMapper formulaMapper;
+    private final SkillEffectMapper effectMapper;
     private final SkillParameterLevelService levelService;
 
     public SkillService(
@@ -53,12 +55,14 @@ public class SkillService {
         SkillMapper mapper,
         SkillParameterMapper parameterMapper,
         SkillFormulaMapper formulaMapper,
+        SkillEffectMapper effectMapper,
         SkillParameterLevelService levelService
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
         this.parameterMapper = parameterMapper;
         this.formulaMapper = formulaMapper;
+        this.effectMapper = effectMapper;
         this.levelService = levelService;
     }
 
@@ -154,6 +158,10 @@ public class SkillService {
         if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw notFound(skillKey);
         }
+        if (effectMapper.countExternalCooldownReferences(gameId, skillKey) > 0) {
+            throw inUse();
+        }
+        effectMapper.deleteAllForSkill(gameId, skillKey);
         formulaMapper.deleteAllForSkill(gameId, skillKey);
         parameterMapper.deleteAllForSkill(gameId, skillKey);
         if (mapper.delete(gameId, skillKey) == 0) {
@@ -475,6 +483,10 @@ public class SkillService {
 
     private static ApiException keyExists() {
         return conflict("409.SKILL_KEY_EXISTS", "技能标识已存在", "skillKey");
+    }
+
+    private static ApiException inUse() {
+        return conflict("409.SKILL_IN_USE", "技能已被其他技能的冷却变化结果引用，不能删除", "skillKey");
     }
 
     private static ApiException unknownCategory(int index) {
