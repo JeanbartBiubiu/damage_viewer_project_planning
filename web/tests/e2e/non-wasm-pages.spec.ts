@@ -126,6 +126,36 @@ type SkillFormulaRow = {
   updatedAt: string;
 };
 
+type SkillEffectValueRuleRow = {
+  formulaKey: string;
+  fixedMultiplier: number;
+  fixedMinValue: number | null;
+  fixedMaxValue: number | null;
+};
+
+type SkillEffectResultRow = {
+  resultKey: string;
+  name: string;
+  resultType: string;
+  target: 'SOURCE' | 'TARGET';
+  description: string | null;
+  sortOrder: number;
+  valueRule: SkillEffectValueRuleRow | null;
+  detail: Json;
+};
+
+type SkillEffectRow = {
+  gameId: string;
+  skillKey: string;
+  effectKey: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  results: SkillEffectResultRow[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
 
 type CapturedWrite = {
@@ -170,8 +200,15 @@ class MockApi {
   skills: SkillRow[] = [];
   skillParameters: SkillParameterRow[] = [];
   skillFormulas: SkillFormulaRow[] = [];
+  skillEffects: SkillEffectRow[] = [];
   skillCategoryListFailure = false;
+  skillListFailure = false;
+  skillFormulaListFailure = false;
+  damageTypeListFailure = false;
+  attributeListFailure = false;
+  statusListFailure = false;
   statusWriteFailure: WriteFailure = null;
+  effectWriteFailure: WriteFailure = null;
   parameterDeleteConflictKeys = new Set<string>();
   minLevel = 1;
   maxLevel = 2;
@@ -536,6 +573,10 @@ class MockApi {
 
     if (path === `/api/admin/games/${GAME_ID}/skills`) {
       if (method === 'GET') {
+        if (this.skillListFailure) {
+          await this.error(route, 503, '503.SKILL_LIST_UNAVAILABLE', '技能读取失败');
+          return;
+        }
         const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
         const status = url.searchParams.get('status');
         const items = this.skills.filter((item) => {
@@ -608,6 +649,7 @@ class MockApi {
         this.skills = this.skills.filter((item) => item.skillKey !== key);
         this.skillParameters = this.skillParameters.filter((item) => item.skillKey !== key);
         this.skillFormulas = this.skillFormulas.filter((item) => item.skillKey !== key);
+        this.skillEffects = this.skillEffects.filter((item) => item.skillKey !== key);
         await route.fulfill({ status: 204 });
         return;
       }
@@ -719,6 +761,10 @@ class MockApi {
         return;
       }
       if (method === 'GET') {
+        if (this.skillFormulaListFailure) {
+          await this.error(route, 503, '503.SKILL_FORMULA_LIST_UNAVAILABLE', '技能公式读取失败');
+          return;
+        }
         const items = this.skillFormulas
           .filter((item) => item.skillKey === skillKey)
           .map(({ expression: _expression, ...summary }) => summary);
@@ -793,8 +839,85 @@ class MockApi {
       }
     }
 
+    const skillEffectsList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/effects$`)
+    );
+    if (skillEffectsList) {
+      const skillKey = skillEffectsList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        const items = this.skillEffects
+          .filter((item) => item.skillKey === skillKey)
+          .map((item) => this.toSkillEffectSummary(item));
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyEffectWriteFailure(route)) {
+          return;
+        }
+        const row = this.buildSkillEffectRow(skillKey, String(body.effectKey), body);
+        this.skillEffects.push(row);
+        await this.json(route, 201, this.cloneSkillEffect(row));
+        return;
+      }
+    }
+
+    const skillEffectDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/effects/([^/]+)$`)
+    );
+    if (skillEffectDetail) {
+      const skillKey = skillEffectDetail[1]!;
+      const effectKey = skillEffectDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillEffects.find((item) => (
+        item.skillKey === skillKey && item.effectKey === effectKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_EFFECT_NOT_FOUND', '技能效果不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, this.cloneSkillEffect(existing));
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (await this.applyEffectWriteFailure(route)) {
+          return;
+        }
+        const next = this.buildSkillEffectRow(skillKey, existing.effectKey, body, existing);
+        this.skillEffects = this.skillEffects.map((item) => (
+          item.skillKey === skillKey && item.effectKey === effectKey ? next : item
+        ));
+        await this.json(route, 200, this.cloneSkillEffect(next));
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.skillEffects = this.skillEffects.filter((item) => !(
+          item.skillKey === skillKey && item.effectKey === effectKey
+        ));
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
     if (path === `/api/admin/games/${GAME_ID}/damage-types`) {
       if (method === 'GET') {
+        if (this.damageTypeListFailure) {
+          await this.error(route, 503, '503.DAMAGE_TYPE_LIST_UNAVAILABLE', '伤害类型读取失败');
+          return;
+        }
         const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
         const status = url.searchParams.get('status');
         const items = this.damageTypes.filter((item) => {
@@ -866,6 +989,10 @@ class MockApi {
 
     if (path === `/api/admin/games/${GAME_ID}/statuses`) {
       if (method === 'GET') {
+        if (this.statusListFailure) {
+          await this.error(route, 503, '503.STATUS_LIST_UNAVAILABLE', '状态读取失败');
+          return;
+        }
         const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
         const status = url.searchParams.get('status');
         this.listQueries.push({ keyword: url.searchParams.get('keyword'), status });
@@ -949,6 +1076,10 @@ class MockApi {
 
     if (path === `/api/admin/games/${GAME_ID}/attributes`) {
       if (method === 'GET') {
+        if (this.attributeListFailure) {
+          await this.error(route, 503, '503.ATTRIBUTE_LIST_UNAVAILABLE', '属性读取失败');
+          return;
+        }
         const keyword = url.searchParams.get('keyword');
         const status = url.searchParams.get('status');
         this.listQueries.push({ keyword, status });
@@ -1030,6 +1161,93 @@ class MockApi {
 
     this.unmockedRequests.push(`${method} ${path}`);
     await this.error(route, 404, '404.UNMOCKED', `unmocked API ${method} ${path}`);
+  }
+
+  private toSkillEffectSummary(row: SkillEffectRow): Json {
+    return {
+      gameId: row.gameId,
+      skillKey: row.skillKey,
+      effectKey: row.effectKey,
+      name: row.name,
+      description: row.description,
+      sortOrder: row.sortOrder,
+      resultCount: row.results.length,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt
+    };
+  }
+
+  private cloneSkillEffect(row: SkillEffectRow): SkillEffectRow {
+    return JSON.parse(JSON.stringify(row)) as SkillEffectRow;
+  }
+
+  private parseEffectResults(body: Json): SkillEffectResultRow[] {
+    if (!Array.isArray(body.results)) {
+      return [];
+    }
+    return body.results.map((raw) => {
+      const item = raw as Json;
+      const valueRule = item.valueRule && typeof item.valueRule === 'object'
+        ? item.valueRule as SkillEffectValueRuleRow
+        : null;
+      return {
+        resultKey: String(item.resultKey),
+        name: String(item.name),
+        resultType: String(item.resultType),
+        target: item.target === 'SOURCE' ? 'SOURCE' : 'TARGET',
+        description: typeof item.description === 'string' ? item.description : null,
+        sortOrder: Number(item.sortOrder),
+        valueRule,
+        detail: item.detail && typeof item.detail === 'object' ? item.detail as Json : {}
+      };
+    });
+  }
+
+  private buildSkillEffectRow(
+    skillKey: string,
+    effectKey: string,
+    body: Json,
+    existing?: SkillEffectRow
+  ): SkillEffectRow {
+    return {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey,
+      name: String(body.name),
+      description: typeof body.description === 'string' ? body.description : null,
+      sortOrder: Number(body.sortOrder),
+      results: this.parseEffectResults(body),
+      createdAt: existing?.createdAt ?? CREATED_AT,
+      updatedAt: existing ? '2026-08-23T11:00:00Z' : UPDATED_AT
+    };
+  }
+
+  private async applyEffectWriteFailure(route: Route): Promise<boolean> {
+    if (this.effectWriteFailure === null) {
+      return false;
+    }
+    if (this.effectWriteFailure === 'network') {
+      await route.abort('connectionrefused');
+      return true;
+    }
+    if (this.effectWriteFailure === 'validation') {
+      await this.error(route, 400, '400.VALIDATION_FAILED', '效果信息不合法', {
+        fieldIssues: [
+          {
+            field: 'name',
+            code: 'FORMAT_INVALID',
+            message: '服务端效果名称校验失败'
+          }
+        ]
+      });
+      return true;
+    }
+    if (this.effectWriteFailure === 'duplicate') {
+      await this.error(route, 409, '409.SKILL_EFFECT_KEY_EXISTS', '效果标识已存在');
+      return true;
+    }
+    await this.error(route, 404, '404.SKILL_EFFECT_NOT_FOUND', '技能效果不存在');
+    return true;
   }
 
   private async applyStatusWriteFailure(route: Route): Promise<boolean> {
@@ -1243,11 +1461,219 @@ function visibleModal(page: Page, title: string): Locator {
   return page.getByRole('dialog', { name: title });
 }
 
+const SKILL_EFFECT_FORBIDDEN_TERMS = [
+  '斩杀',
+  '反伤',
+  '过程',
+  '生命周期',
+  '条件',
+  '事件',
+  '暴击',
+  '吸血',
+  '计算预览',
+  'Wasm'
+] as const;
+
+async function assertNoForbiddenSkillEffectTerms(scope: Locator): Promise<void> {
+  for (const text of SKILL_EFFECT_FORBIDDEN_TERMS) {
+    await expect(scope.getByText(text, { exact: true })).toHaveCount(0);
+  }
+}
+
+async function chooseVisibleOption(page: Page, name: string): Promise<void> {
+  const option = page.getByRole('option', { name, exact: true });
+  await expect(option).toBeVisible();
+  await option.click();
+  await expect(option).toBeHidden();
+}
+
+async function chooseSelectOption(
+  page: Page,
+  modal: Locator,
+  label: string,
+  optionName: string
+): Promise<void> {
+  await modal.getByLabel(label, { exact: true }).click();
+  await chooseVisibleOption(page, optionName);
+}
+
+async function clickArcoRadioByVisibleLabel(modal: Locator, label: string): Promise<void> {
+  const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const radioLabel = modal.locator('label.arco-radio', {
+    hasText: new RegExp('^' + escapedLabel + '$')
+  });
+  await expect(radioLabel).toBeVisible();
+  await radioLabel.click();
+  await expect(modal.getByRole('radio', { name: label, exact: true })).toBeChecked();
+}
+
+function seedSkillEffectCatalog(
+  mock: MockApi,
+  skillKey = 'varus_w',
+  skillName = '枯萎箭袋'
+): void {
+  mock.skillCategories = [{
+    gameId: GAME_ID,
+    skillCategoryKey: 'active',
+    name: '主动技能',
+    description: null,
+    status: 'ENABLED',
+    sortOrder: 10,
+    createdAt: CREATED_AT,
+    updatedAt: UPDATED_AT
+  }];
+  mock.skills = [
+    {
+      gameId: GAME_ID,
+      skillKey,
+      name: skillName,
+      description: null,
+      maxLevel: 5,
+      status: 'ENABLED',
+      sortOrder: 0,
+      skillCategoryKeys: ['active'],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey: 'other_skill',
+      name: '其他技能',
+      description: null,
+      maxLevel: 1,
+      status: 'ENABLED',
+      sortOrder: 1,
+      skillCategoryKeys: ['active'],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey: 'retired_skill',
+      name: '退役技能',
+      description: null,
+      maxLevel: 1,
+      status: 'DISABLED',
+      sortOrder: 2,
+      skillCategoryKeys: ['active'],
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+  mock.skillFormulas = [
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'damage',
+      name: '伤害公式',
+      description: null,
+      sortOrder: 0,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'base_damage' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'heal',
+      name: '治疗公式',
+      description: null,
+      sortOrder: 1,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+  mock.damageTypes = [
+    {
+      gameId: GAME_ID,
+      damageTypeKey: 'physical',
+      name: '物理伤害',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      damageTypeKey: 'magic',
+      name: '魔法伤害',
+      description: null,
+      status: 'DISABLED',
+      sortOrder: 20,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+  mock.attributes = [
+    attribute('attack_damage', '攻击力'),
+    attribute('mana', '法力值'),
+    attribute('old_attr', '旧属性', { status: 'DISABLED' })
+  ];
+  mock.statuses = [
+    {
+      gameId: GAME_ID,
+      statusKey: 'poison',
+      name: '中毒',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      statusKey: 'old_poison',
+      name: '旧中毒',
+      description: null,
+      status: 'DISABLED',
+      sortOrder: 20,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+}
+
+function valueRule(
+  formulaKey: string,
+  overrides: Partial<SkillEffectValueRuleRow> = {}
+): SkillEffectValueRuleRow {
+  return {
+    formulaKey,
+    fixedMultiplier: 1,
+    fixedMinValue: null,
+    fixedMaxValue: null,
+    ...overrides
+  };
+}
+
+async function openSkillEffects(page: Page, skillKey: string, skillName: string): Promise<Locator> {
+  await skillRow(page, skillKey).getByRole('button', { name: '效果与结果', exact: true }).click();
+  const shell = visibleModal(page, `效果与结果 - ${skillName}`);
+  await expect(shell).toBeVisible();
+  return shell;
+}
+
+async function fillValueRule(
+  page: Page,
+  modal: Locator,
+  formulaName: string
+): Promise<void> {
+  await chooseSelectOption(page, modal, '数值公式', formulaName);
+}
+
+async function saveOpenModal(modal: Locator): Promise<void> {
+  await modal.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(modal).toBeHidden();
+}
+
 async function closeEditorByOutsideOrEscape(page: Page, testInfo: TestInfo): Promise<void> {
   if (testInfo.project.name === 'Desktop Chrome') {
     await page
       .locator('.arco-modal-wrapper:visible')
       .filter({ has: page.locator('.arco-modal:visible') })
+      .last()
       .click({ position: { x: 8, y: 8 } });
     return;
   }
@@ -1644,7 +2070,13 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(createModal).toBeHidden();
     await expect(skillRow(page, 'ezreal_q')).toContainText('秘术射击');
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+    expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/effects"]').count()).toBe(0);
     expect(mock.skills[0]?.skillCategoryKeys).toEqual([]);
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+    expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/effects"]').count()).toBe(0);
 
     await skillRow(page, 'ezreal_q').getByRole('button', { name: '查看', exact: true }).click();
     const viewModal = visibleModal(page, '查看技能');
@@ -1749,6 +2181,7 @@ test.describe('skill management without Wasm', () => {
     await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeDisabled();
     await expect(row.getByRole('button', { name: '查看', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '参数与公式', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '效果与结果', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '停用', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '删除', exact: true })).toBeEnabled();
 
@@ -1894,6 +2327,432 @@ test.describe('skill management without Wasm', () => {
     await shell.getByRole('button', { name: '关闭', exact: true }).click();
     await expect(shell).toBeHidden();
     diagnostics.assertClean('skill parameter and formula management');
+  });
+
+  test('manages skill effects and results from the skills page entry', async ({ page }, testInfo) => {
+    testInfo.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(1);
+    expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await expect(shell.getByText('暂无效果', { exact: true })).toBeVisible();
+    await assertNoForbiddenSkillEffectTerms(page.locator('.app-main'));
+    await assertNoForbiddenSkillEffectTerms(shell);
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await expect(createModal).toBeVisible();
+    await createModal.getByLabel('效果标识', { exact: true }).fill('on_hit_results');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('命中结果');
+    await createModal.getByLabel('排序', { exact: true }).fill('10');
+    await expect(createModal.getByText('暂无结果', { exact: true })).toBeVisible();
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const damageModal = visibleModal(page, '新增结果');
+    await expect(damageModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await damageModal.getByLabel('结果标识', { exact: true }).fill('physical_hit');
+    await damageModal.getByLabel('结果名称', { exact: true }).fill('造成物理伤害');
+    await expect(damageModal.getByLabel('结果种类', { exact: true })).toContainText('伤害');
+    await fillValueRule(page, damageModal, '伤害公式');
+    await chooseSelectOption(page, damageModal, '伤害类型', '物理伤害');
+    await saveOpenModal(damageModal);
+    await expect(createModal.locator('tr', { hasText: 'physical_hit' })).toBeVisible();
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const healModal = visibleModal(page, '新增结果');
+    await healModal.getByLabel('结果标识', { exact: true }).fill('self_heal');
+    await healModal.getByLabel('结果名称', { exact: true }).fill('自我治疗');
+    await chooseSelectOption(page, healModal, '结果种类', '直接治疗');
+    await clickArcoRadioByVisibleLabel(healModal, '施法者');
+    await expect(healModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
+    await fillValueRule(page, healModal, '治疗公式');
+    await saveOpenModal(healModal);
+
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(shell.getByText('效果「命中结果」已保存。', { exact: true })).toBeVisible();
+    await expect(shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('cell', { name: '2', exact: true })).toBeVisible();
+    const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
+    expect(createWrite?.body).toMatchObject({
+      effectKey: 'on_hit_results',
+      name: '命中结果',
+      description: null,
+      sortOrder: 10
+    });
+    expect(createWrite?.body.results).toEqual([
+      {
+        resultKey: 'physical_hit',
+        name: '造成物理伤害',
+        resultType: 'DAMAGE',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        valueRule: valueRule('damage'),
+        detail: { damageTypeKey: 'physical' }
+      },
+      {
+        resultKey: 'self_heal',
+        name: '自我治疗',
+        resultType: 'DIRECT_HEAL',
+        target: 'SOURCE',
+        description: null,
+        sortOrder: 0,
+        valueRule: valueRule('heal'),
+        detail: {}
+      }
+    ]);
+
+    await shell.getByRole('button', { name: '刷新', exact: true }).click();
+    await expect(shell.locator('tr', { hasText: 'on_hit_results' })).toContainText('命中结果');
+    await expect(shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('cell', { name: '2', exact: true })).toBeVisible();
+
+    await shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('button', { name: '查看', exact: true }).click();
+    const viewModal = visibleModal(page, '查看效果');
+    await expect(viewModal.getByLabel('效果标识', { exact: true })).toBeDisabled();
+    await expect(viewModal.getByLabel('效果名称', { exact: true })).toBeDisabled();
+    await expect(viewModal.getByRole('button', { name: '保存', exact: true })).toHaveCount(0);
+    await expect(viewModal.getByRole('button', { name: '新增结果', exact: true })).toHaveCount(0);
+    await expect(viewModal.locator('tr', { hasText: 'physical_hit' })).toBeVisible();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(viewModal).toBeHidden();
+    await expect(shell).toBeVisible();
+
+    await shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑效果');
+    await expect(editModal.getByLabel('效果标识', { exact: true })).toBeDisabled();
+    await expect(editModal.locator('tr', { hasText: 'physical_hit' })).toBeVisible();
+    await editModal.locator('tr', { hasText: 'self_heal' }).getByRole('button', { name: '删除', exact: true }).click();
+    await expect(editModal.locator('tr', { hasText: 'self_heal' })).toHaveCount(0);
+    await expect(editModal.locator('tr', { hasText: 'physical_hit' })).toBeVisible();
+
+    await editModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const statusModal = visibleModal(page, '新增结果');
+    await statusModal.getByLabel('结果标识', { exact: true }).fill('apply_poison');
+    await statusModal.getByLabel('结果名称', { exact: true }).fill('施加中毒');
+    await chooseSelectOption(page, statusModal, '结果种类', '状态操作');
+    await expect(statusModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(statusModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
+    await chooseSelectOption(page, statusModal, '状态', '中毒');
+    await clickArcoRadioByVisibleLabel(statusModal, '施加');
+    await saveOpenModal(statusModal);
+
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    const updateWrite = mock.writes.filter((item) => item.method === 'PUT' && item.path.endsWith('/effects/on_hit_results')).at(-1);
+    expect(updateWrite?.body).not.toHaveProperty('effectKey');
+    expect((updateWrite?.body.results as SkillEffectResultRow[]).map((item) => item.resultKey)).toEqual([
+      'apply_poison',
+      'physical_hit'
+    ]);
+    expect((updateWrite?.body.results as SkillEffectResultRow[]).find((item) => item.resultKey === 'apply_poison')).toEqual({
+      resultKey: 'apply_poison',
+      name: '施加中毒',
+      resultType: 'STATUS_OPERATION',
+      target: 'TARGET',
+      description: null,
+      sortOrder: 0,
+      valueRule: null,
+      detail: { statusKey: 'poison', operation: 'APPLY' }
+    });
+    await expect(shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('cell', { name: '2', exact: true })).toBeVisible();
+
+    await shell.locator('tr', { hasText: 'on_hit_results' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除效果');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(shell.getByText('效果「命中结果」已删除。', { exact: true })).toBeVisible();
+    await expect(shell.getByText('暂无效果', { exact: true })).toBeVisible();
+    expect(mock.skillEffects).toHaveLength(0);
+    diagnostics.assertClean('skill effect and result management');
+  });
+
+  test('covers seven result editors and omits the value rule for cooldown reset', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('mixed_results');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('混合结果');
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const resultModal = visibleModal(page, '新增结果');
+    await expect(resultModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('伤害类型', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('属性', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('状态', { exact: true })).toHaveCount(0);
+    await assertNoForbiddenSkillEffectTerms(resultModal);
+
+    await chooseSelectOption(page, resultModal, '结果种类', '直接治疗');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
+
+    await chooseSelectOption(page, resultModal, '结果种类', '普通护盾');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
+
+    await chooseSelectOption(page, resultModal, '结果种类', '属性变化');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('属性', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('属性变化操作', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, resultModal, '结果种类', '资源变化');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('资源属性', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('资源变化操作', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, resultModal, '结果种类', '冷却变化');
+    await expect(resultModal.getByLabel('受影响技能', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('冷却变化操作', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByText('变化量按毫秒解释')).toBeVisible();
+    await clickArcoRadioByVisibleLabel(resultModal, '重置为可用');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
+    await clickArcoRadioByVisibleLabel(resultModal, '增加');
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByText('变化量按毫秒解释')).toBeVisible();
+
+    await chooseSelectOption(page, resultModal, '结果种类', '状态操作');
+    await expect(resultModal.getByLabel('状态', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('状态操作', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
+    await resultModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(resultModal).toBeHidden();
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const resetModal = visibleModal(page, '新增结果');
+    await resetModal.getByLabel('结果标识', { exact: true }).fill('reset_cd');
+    await resetModal.getByLabel('结果名称', { exact: true }).fill('重置冷却');
+    await chooseSelectOption(page, resetModal, '结果种类', '冷却变化');
+    await chooseSelectOption(page, resetModal, '受影响技能', '其他技能');
+    await clickArcoRadioByVisibleLabel(resetModal, '重置为可用');
+    await expect(resetModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await saveOpenModal(resetModal);
+
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
+    const results = createWrite?.body.results as SkillEffectResultRow[];
+    expect(results.find((item) => item.resultKey === 'reset_cd')).toEqual({
+      resultKey: 'reset_cd',
+      name: '重置冷却',
+      resultType: 'COOLDOWN_CHANGE',
+      target: 'TARGET',
+      description: null,
+      sortOrder: 0,
+      valueRule: null,
+      detail: { affectedSkillKey: 'other_skill', operation: 'RESET' }
+    });
+    diagnostics.assertClean('seven result editors and omitted cooldown reset value rule');
+  });
+
+  test('retains disabled catalog refs, blocks new disabled choices, and only stops the failed catalog result', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.skillEffects = [{
+      gameId: GAME_ID,
+      skillKey: 'varus_w',
+      effectKey: 'legacy_hit',
+      name: '旧命中',
+      description: null,
+      sortOrder: 1,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [
+        {
+          resultKey: 'magic_hit',
+          name: '造成魔法伤害',
+          resultType: 'DAMAGE',
+          target: 'TARGET',
+          description: null,
+          sortOrder: 0,
+          valueRule: valueRule('damage'),
+          detail: { damageTypeKey: 'magic' }
+        },
+        {
+          resultKey: 'old_status',
+          name: '施加旧中毒',
+          resultType: 'STATUS_OPERATION',
+          target: 'TARGET',
+          description: null,
+          sortOrder: 1,
+          valueRule: null,
+          detail: { statusKey: 'old_poison', operation: 'APPLY' }
+        }
+      ]
+    }];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.locator('tr', { hasText: 'legacy_hit' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑效果');
+    await expect(editModal.locator('tr', { hasText: 'magic_hit' })).toBeVisible();
+
+    await editModal.locator('tr', { hasText: 'magic_hit' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const retainedDamage = visibleModal(page, '编辑结果');
+    await expect(retainedDamage.getByLabel('伤害类型', { exact: true })).toContainText('魔法伤害（已停用）');
+    await retainedDamage.getByLabel('伤害类型', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '物理伤害', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '魔法伤害（已停用）', exact: true })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('option', { name: '魔法伤害（已停用）', exact: true })).toBeHidden();
+    await retainedDamage.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(retainedDamage).toBeHidden();
+
+    await editModal.locator('tr', { hasText: 'old_status' }).getByRole('button', { name: '查看', exact: true }).click();
+    const retainedStatus = visibleModal(page, '查看结果');
+    await expect(retainedStatus.getByLabel('状态', { exact: true })).toContainText('旧中毒（已停用）');
+    await retainedStatus.getByRole('button', { name: '关闭', exact: true }).click();
+    await expect(retainedStatus).toBeHidden();
+
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    const retainedWrite = mock.writes.filter((item) => item.method === 'PUT' && item.path.endsWith('/effects/legacy_hit')).at(-1);
+    expect((retainedWrite?.body.results as SkillEffectResultRow[]).map((item) => ({
+      resultKey: item.resultKey,
+      damageTypeKey: item.detail.damageTypeKey,
+      statusKey: item.detail.statusKey
+    }))).toEqual([
+      { resultKey: 'magic_hit', damageTypeKey: 'magic', statusKey: undefined },
+      { resultKey: 'old_status', damageTypeKey: undefined, statusKey: 'old_poison' }
+    ]);
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('fresh_effect');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('新效果');
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const createDamage = visibleModal(page, '新增结果');
+    await expect(createDamage.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await createDamage.getByLabel('伤害类型', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '物理伤害', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '魔法伤害', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('option', { name: '魔法伤害（已停用）', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '物理伤害', exact: true }).click();
+
+    await chooseSelectOption(page, createDamage, '结果种类', '状态操作');
+    await createDamage.getByLabel('状态', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '中毒', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '旧中毒', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('option', { name: '旧中毒（已停用）', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '中毒', exact: true }).click();
+
+    await chooseSelectOption(page, createDamage, '结果种类', '冷却变化');
+    await createDamage.getByLabel('受影响技能', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '其他技能', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '退役技能', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('option', { name: '退役技能（已停用）', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '其他技能', exact: true }).click();
+    await createDamage.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(createDamage).toBeHidden();
+
+    mock.damageTypeListFailure = true;
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const blockedDamage = visibleModal(page, '新增结果');
+    await expect(blockedDamage.getByText('503.DAMAGE_TYPE_LIST_UNAVAILABLE: 伤害类型读取失败', { exact: true })).toBeVisible();
+    await blockedDamage.getByLabel('结果标识', { exact: true }).fill('blocked_hit');
+    await blockedDamage.getByLabel('结果名称', { exact: true }).fill('被阻断伤害');
+    await fillValueRule(page, blockedDamage, '伤害公式');
+    await blockedDamage.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(blockedDamage).toBeVisible();
+    await expect(blockedDamage.getByText('请选择伤害类型。', { exact: true })).toBeVisible();
+
+    await chooseSelectOption(page, blockedDamage, '结果种类', '直接治疗');
+    await expect(blockedDamage.getByText('503.DAMAGE_TYPE_LIST_UNAVAILABLE: 伤害类型读取失败')).toHaveCount(0);
+    await blockedDamage.getByLabel('结果标识', { exact: true }).fill('local_heal');
+    await blockedDamage.getByLabel('结果名称', { exact: true }).fill('局部治疗');
+    await fillValueRule(page, blockedDamage, '治疗公式');
+    await saveOpenModal(blockedDamage);
+    await expect(createModal.locator('tr', { hasText: 'local_heal' })).toBeVisible();
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    diagnostics.assertClean('disabled catalog refs and local catalog failure');
+  });
+
+  test('keeps the effect draft after save failure and discards unsaved drafts on mask or Escape', async ({ page }, testInfo) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('draft_effect');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('草稿效果');
+    await createModal.getByLabel('说明', { exact: true }).fill('完整聚合草稿');
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const firstResult = visibleModal(page, '新增结果');
+    await firstResult.getByLabel('结果标识', { exact: true }).fill('draft_hit');
+    await firstResult.getByLabel('结果名称', { exact: true }).fill('草稿伤害');
+    await fillValueRule(page, firstResult, '伤害公式');
+    await chooseSelectOption(page, firstResult, '伤害类型', '物理伤害');
+    await saveOpenModal(firstResult);
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const secondResult = visibleModal(page, '新增结果');
+    await secondResult.getByLabel('结果标识', { exact: true }).fill('draft_poison');
+    await secondResult.getByLabel('结果名称', { exact: true }).fill('草稿中毒');
+    await chooseSelectOption(page, secondResult, '结果种类', '状态操作');
+    await chooseSelectOption(page, secondResult, '状态', '中毒');
+    await saveOpenModal(secondResult);
+
+    mock.effectWriteFailure = 'validation';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByText('服务端效果名称校验失败', { exact: true })).toBeVisible();
+    await expect(createModal.getByLabel('效果标识', { exact: true })).toHaveValue('draft_effect');
+    await expect(createModal.getByLabel('效果名称', { exact: true })).toHaveValue('草稿效果');
+    await expect(createModal.getByLabel('说明', { exact: true })).toHaveValue('完整聚合草稿');
+    await expect(createModal.locator('tr', { hasText: 'draft_hit' })).toBeVisible();
+    await expect(createModal.locator('tr', { hasText: 'draft_poison' })).toBeVisible();
+    expect(mock.skillEffects).toHaveLength(0);
+
+    mock.effectWriteFailure = 'network';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal.getByText(/fetch|network/i)).toBeVisible();
+    await expect(createModal.getByLabel('效果名称', { exact: true })).toHaveValue('草稿效果');
+    await expect(createModal.locator('tr', { hasText: 'draft_poison' })).toBeVisible();
+
+    mock.effectWriteFailure = null;
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(shell.getByText('效果「草稿效果」已保存。', { exact: true })).toBeVisible();
+    await expect(shell).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const discardEffect = visibleModal(page, '新增效果');
+    await discardEffect.getByLabel('效果名称', { exact: true }).fill('将被丢弃的效果');
+    await discardEffect.getByRole('button', { name: '新增结果', exact: true }).click();
+    const discardResult = visibleModal(page, '新增结果');
+    await discardResult.getByLabel('结果名称', { exact: true }).fill('将被丢弃的结果');
+    await page.keyboard.press('Escape');
+    await expect(discardResult).toBeHidden();
+    await expect(discardEffect).toBeVisible();
+    await expect(discardEffect.getByText('暂无结果', { exact: true })).toBeVisible();
+    await expect(discardEffect.getByLabel('效果名称', { exact: true })).toHaveValue('将被丢弃的效果');
+
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(discardEffect).toBeHidden();
+    expect(mock.skillEffects).toHaveLength(1);
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const reopened = visibleModal(page, '新增效果');
+    await expect(reopened.getByLabel('效果名称', { exact: true })).toHaveValue('');
+    await expect(reopened.getByText('暂无结果', { exact: true })).toBeVisible();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    diagnostics.assertClean('effect save failure retains draft and mask/escape discards');
   });
 });
 
