@@ -150,6 +150,32 @@ cd server/data_manage
 mvn -Dtest=StatusBasicManagementSchemaSqlTest,StatusServiceTest,StatusAdminControllerTest test
 ```
 
+### 技能效果结构与基础结果管理
+
+`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作五张类型明细表。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
+
+管理接口位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：GET 列表摘要或详情，POST 新建，PUT 全量替换结果集合，DELETE 删除。`effectKey` / `resultKey` 创建后不可改；已有结果的 `resultType` 不可改。
+
+已有开发库按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/skill_effect_basic_result_management_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新七种结果延迟形状约束触发器）
+
+脚本先核对 `skills`、`skill_formulas`、`damage_types`、`attributes`、`statuses` 前置结构；八张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。不写默认记录、不读取旧效果、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=SkillEffectBasicResultManagementDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillFormulaServiceTest,SkillServiceTest,DamageTypeServiceTest,StatusServiceTest test
+```
+
+随后：
+
+```bash
+mvn test
+```
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。
