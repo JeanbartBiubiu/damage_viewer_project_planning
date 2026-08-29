@@ -31,6 +31,7 @@ public record SkillEffectDamageDetail(
         @JsonProperty("operation") JsonNode operation,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
         @JsonProperty("statusKey") JsonNode statusKey,
+        @JsonProperty("targetEffectKey") JsonNode targetEffectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillEffectDamageDetail(
@@ -39,7 +40,8 @@ public record SkillEffectDamageDetail(
                 "attributeKey", attributeKey,
                 "operation", operation,
                 "affectedSkillKey", affectedSkillKey,
-                "statusKey", statusKey
+                "statusKey", statusKey,
+                "targetEffectKey", targetEffectKey
             ),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );

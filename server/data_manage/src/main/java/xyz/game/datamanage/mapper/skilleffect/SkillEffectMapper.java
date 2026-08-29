@@ -11,9 +11,23 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecyclePeriodicExecutionMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
@@ -306,6 +320,157 @@ public interface SkillEffectMapper {
 
     List<SkillEffectCatalogLockRow> lockStatuses(
         @Param("gameId") String gameId,
+        @Param("keys") Collection<String> keys
+    );
+
+    SkillEffectLifecycleRow findLifecycle(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    SkillEffectLifecycleRow findLifecycleForUpdate(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertLifecycle(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("durationFormulaKey") String durationFormulaKey,
+        @Param("maxStacksFormulaKey") String maxStacksFormulaKey,
+        @Param("applicationStacksFormulaKey") String applicationStacksFormulaKey,
+        @Param("instanceScope") SkillEffectLifecycleInstanceScope instanceScope,
+        @Param("reapplicationStackMode") SkillEffectLifecycleReapplicationStackMode reapplicationStackMode,
+        @Param("reapplicationDurationMode") SkillEffectLifecycleReapplicationDurationMode reapplicationDurationMode,
+        @Param("expiryMode") SkillEffectLifecycleExpiryMode expiryMode,
+        @Param("periodicIntervalFormulaKey") String periodicIntervalFormulaKey,
+        @Param("firstPeriodicExecution") SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution
+    );
+
+    int updateLifecycle(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("durationFormulaKey") String durationFormulaKey,
+        @Param("maxStacksFormulaKey") String maxStacksFormulaKey,
+        @Param("applicationStacksFormulaKey") String applicationStacksFormulaKey,
+        @Param("instanceScope") SkillEffectLifecycleInstanceScope instanceScope,
+        @Param("reapplicationStackMode") SkillEffectLifecycleReapplicationStackMode reapplicationStackMode,
+        @Param("reapplicationDurationMode") SkillEffectLifecycleReapplicationDurationMode reapplicationDurationMode,
+        @Param("expiryMode") SkillEffectLifecycleExpiryMode expiryMode,
+        @Param("periodicIntervalFormulaKey") String periodicIntervalFormulaKey,
+        @Param("firstPeriodicExecution") SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution
+    );
+
+    int deleteLifecycle(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    List<SkillEffectResultLifecycleBehaviorRow> listLifecycleBehaviors(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertLifecycleBehavior(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("moment") SkillEffectLifecycleMoment moment,
+        @Param("valueReadMode") SkillEffectLifecycleValueReadMode valueReadMode,
+        @Param("stackValueMode") SkillEffectLifecycleStackValueMode stackValueMode,
+        @Param("reapplicationValueMode") SkillEffectLifecycleReapplicationValueMode reapplicationValueMode,
+        @Param("periodicExecutionMode") SkillEffectLifecyclePeriodicExecutionMode periodicExecutionMode
+    );
+
+    int updateLifecycleBehavior(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("moment") SkillEffectLifecycleMoment moment,
+        @Param("valueReadMode") SkillEffectLifecycleValueReadMode valueReadMode,
+        @Param("stackValueMode") SkillEffectLifecycleStackValueMode stackValueMode,
+        @Param("reapplicationValueMode") SkillEffectLifecycleReapplicationValueMode reapplicationValueMode,
+        @Param("periodicExecutionMode") SkillEffectLifecyclePeriodicExecutionMode periodicExecutionMode
+    );
+
+    int deleteLifecycleBehaviors(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKeys") Collection<String> resultKeys
+    );
+
+    int deleteAllLifecycleBehaviors(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    List<SkillEffectLifecycleOperationDetailRow> listLifecycleOperationDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertLifecycleOperationDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("targetEffectKey") String targetEffectKey,
+        @Param("operation") SkillEffectLifecycleOperation operation
+    );
+
+    int updateLifecycleOperationDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("targetEffectKey") String targetEffectKey,
+        @Param("operation") SkillEffectLifecycleOperation operation
+    );
+
+    int deleteLifecycleOperationDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKeys") Collection<String> resultKeys
+    );
+
+    int deleteLifecycleOperationDetailsForSkill(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey
+    );
+
+    long countLifecycleOperationReferences(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("targetEffectKey") String targetEffectKey
+    );
+
+    long countRefreshOperationReferences(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("targetEffectKey") String targetEffectKey
+    );
+
+    List<String> lockEffects(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("keys") Collection<String> keys
+    );
+
+    List<SkillEffectLifecycleRow> lockLifecycles(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
         @Param("keys") Collection<String> keys
     );
 }

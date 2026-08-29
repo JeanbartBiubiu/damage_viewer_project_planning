@@ -29,21 +29,39 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
@@ -60,6 +78,8 @@ public class SkillEffectService {
 
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_effects";
     private static final String PROCESS_BINDING_CONSTRAINT = "fk_skill_process_effect_bindings_effect";
+    private static final String LIFECYCLE_TARGET_CONSTRAINT = "fk_skill_effect_lifecycle_operations_target";
+    private static final String REFRESH_DURATION_CONSTRAINT = "ck_skill_effect_lifecycle_refresh_target_duration";
     private static final String DISABLED = "DISABLED";
 
     private final GamesMapper gamesMapper;
@@ -103,8 +123,15 @@ public class SkillEffectService {
         if (mapper.countByKey(gameId, skillKey, values.effectKey()) > 0) {
             throw keyExists();
         }
-        CollectedRefs refs = collectAndValidateResults(values.results(), Map.of(), skillKey);
-        lockAndValidateCatalogs(gameId, skillKey, refs);
+        CollectedRefs refs = collectAndValidateResults(
+            values.lifecycle(),
+            values.results(),
+            Map.of(),
+            skillKey,
+            values.effectKey(),
+            null
+        );
+        lockAndValidateCatalogs(gameId, skillKey, values.effectKey(), refs);
         try {
             mapper.insertEffect(
                 gameId,
@@ -114,9 +141,10 @@ public class SkillEffectService {
                 values.description(),
                 values.sortOrder()
             );
+            insertLifecycleIfPresent(gameId, skillKey, values.effectKey(), values.lifecycle());
             insertResults(gameId, skillKey, values.effectKey(), values.results());
         } catch (DataIntegrityViolationException ex) {
-            throw mapWriteConstraint(ex);
+            throw mapWriteConstraint(ex, false, false);
         }
         return requireDetail(gameId, skillKey, values.effectKey());
     }
@@ -137,6 +165,7 @@ public class SkillEffectService {
         List<SkillEffectResultRow> existingRows = nullToEmpty(
             mapper.listResultsForUpdate(gameId, skillKey, effectKey)
         );
+        SkillEffectLifecycleRow existingLifecycle = mapper.findLifecycleForUpdate(gameId, skillKey, effectKey);
         Map<String, SkillEffectResultRow> existingByKey = indexExistingResults(existingRows);
         List<Map<String, String>> typeIssues = new ArrayList<>();
         for (int i = 0; i < values.results().size(); i++) {
@@ -152,9 +181,28 @@ public class SkillEffectService {
         }
         throwIfInvalid(typeIssues);
 
+        if (existingLifecycle != null && values.lifecycle() == null
+            && mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
+            throw lifecycleInUse();
+        }
+        boolean clearingDuration = existingLifecycle != null
+            && existingLifecycle.durationFormulaKey() != null
+            && (values.lifecycle() == null || values.lifecycle().durationFormulaKey() == null);
+        if (clearingDuration
+            && mapper.countRefreshOperationReferences(gameId, skillKey, effectKey) > 0) {
+            throw refreshInUse();
+        }
+
         ExistingCatalog existingCatalog = loadExistingCatalog(gameId, skillKey, effectKey, existingRows);
-        CollectedRefs refs = collectAndValidateResults(values.results(), existingCatalog.retained, skillKey);
-        lockAndValidateCatalogs(gameId, skillKey, refs);
+        CollectedRefs refs = collectAndValidateResults(
+            values.lifecycle(),
+            values.results(),
+            existingCatalog.retained,
+            skillKey,
+            effectKey,
+            existingLifecycle == null ? null : existingLifecycle.instanceScope()
+        );
+        lockAndValidateCatalogs(gameId, skillKey, effectKey, refs);
 
         Set<String> requestedKeys = new LinkedHashSet<>();
         for (SkillEffectResultRequest result : values.results()) {
@@ -167,9 +215,13 @@ public class SkillEffectService {
             }
         }
         try {
+            persistLifecycle(gameId, skillKey, effectKey, existingLifecycle, values.lifecycle());
             if (!removedKeys.isEmpty()) {
+                mapper.deleteLifecycleBehaviors(gameId, skillKey, effectKey, removedKeys);
+                mapper.deleteLifecycleOperationDetails(gameId, skillKey, effectKey, removedKeys);
                 mapper.deleteResults(gameId, skillKey, effectKey, removedKeys);
             }
+            Set<String> existingBehaviorKeys = existingCatalog.behaviors.keySet();
             for (SkillEffectResultRequest result : values.results()) {
                 if (existingByKey.containsKey(result.resultKey())) {
                     updateResultAggregate(
@@ -177,7 +229,8 @@ public class SkillEffectService {
                         skillKey,
                         effectKey,
                         result,
-                        existingCatalog.values.containsKey(result.resultKey())
+                        existingCatalog.values.containsKey(result.resultKey()),
+                        existingBehaviorKeys.contains(result.resultKey())
                     );
                 } else {
                     insertResultAggregate(gameId, skillKey, effectKey, result);
@@ -194,7 +247,7 @@ public class SkillEffectService {
                 throw effectNotFound(effectKey);
             }
         } catch (DataIntegrityViolationException ex) {
-            throw mapWriteConstraint(ex);
+            throw mapWriteConstraint(ex, existingLifecycle != null && values.lifecycle() == null, clearingDuration);
         }
         return requireDetail(gameId, skillKey, effectKey);
     }
@@ -209,12 +262,15 @@ public class SkillEffectService {
         if (mapper.countProcessBindings(gameId, skillKey, effectKey) > 0) {
             throw effectInUse();
         }
+        if (mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
+            throw lifecycleInUse();
+        }
         try {
             if (mapper.deleteEffect(gameId, skillKey, effectKey) == 0) {
                 throw effectNotFound(effectKey);
             }
         } catch (DataIntegrityViolationException ex) {
-            throw mapWriteConstraint(ex);
+            throw mapWriteConstraint(ex, true, false);
         }
     }
 
@@ -267,6 +323,19 @@ public class SkillEffectService {
             effectKey,
             mapper.listStatusOperationDetails(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectLifecycleOperationDetailRow> operations = indexLifecycleOperations(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listLifecycleOperationDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors = indexLifecycleBehaviors(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listLifecycleBehaviors(gameId, skillKey, effectKey)
+        );
+        SkillEffectLifecycleRow lifecycleRow = mapper.findLifecycle(gameId, skillKey, effectKey);
 
         List<SkillEffectResultResponse> assembled = new ArrayList<>(results.size());
         for (SkillEffectResultRow result : results) {
@@ -280,7 +349,9 @@ public class SkillEffectService {
                 attributes,
                 resources,
                 cooldowns,
-                statuses
+                statuses,
+                operations,
+                behaviors
             ));
         }
         return new SkillEffectDetailResponse(
@@ -290,6 +361,7 @@ public class SkillEffectService {
             effect.name(),
             effect.description(),
             effect.sortOrder(),
+            toLifecycleResponse(lifecycleRow),
             List.copyOf(assembled),
             effect.createdAt(),
             effect.updatedAt()
@@ -306,7 +378,9 @@ public class SkillEffectService {
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
-        Map<String, SkillEffectStatusOperationDetailRow> statuses
+        Map<String, SkillEffectStatusOperationDetailRow> statuses,
+        Map<String, SkillEffectLifecycleOperationDetailRow> operations,
+        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
     ) {
         String resultKey = result.resultKey();
         SkillEffectResultValueRow value = values.get(resultKey);
@@ -315,7 +389,15 @@ public class SkillEffectService {
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
         SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
-        int extraDetails = countPresent(damageRow, attributeRow, resourceRow, cooldownRow, statusRow);
+        SkillEffectLifecycleOperationDetailRow operationRow = operations.get(resultKey);
+        int extraDetails = countPresent(
+            damageRow,
+            attributeRow,
+            resourceRow,
+            cooldownRow,
+            statusRow,
+            operationRow
+        );
         SkillEffectResultType type = result.resultType();
         if (type == null) {
             throw corrupt(gameId, skillKey, effectKey, resultKey, "结果种类缺失");
@@ -401,6 +483,35 @@ public class SkillEffectService {
                     new SkillEffectStatusOperationDetail(statusRow.statusKey(), statusRow.operation())
                 );
             }
+            case LIFECYCLE_OPERATION -> {
+                if (operationRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期操作结果形状损坏");
+                }
+                SkillEffectLifecycleOperation operation = operationRow.operation();
+                if (operation == SkillEffectLifecycleOperation.REFRESH
+                    || operation == SkillEffectLifecycleOperation.REMOVE) {
+                    if (value != null) {
+                        throw corrupt(gameId, skillKey, effectKey, resultKey, "刷新或移除不得有数值规则");
+                    }
+                    yield new AssembledResultPayload(
+                        null,
+                        new SkillEffectLifecycleOperationDetail(operationRow.targetEffectKey(), operation)
+                    );
+                }
+                if (operation == SkillEffectLifecycleOperation.INCREASE
+                    || operation == SkillEffectLifecycleOperation.DECREASE
+                    || operation == SkillEffectLifecycleOperation.SET
+                    || operation == SkillEffectLifecycleOperation.CONSUME) {
+                    if (value == null) {
+                        throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期层数操作缺少数值规则");
+                    }
+                    yield new AssembledResultPayload(
+                        toValueRule(value),
+                        new SkillEffectLifecycleOperationDetail(operationRow.targetEffectKey(), operation)
+                    );
+                }
+                throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期操作损坏");
+            }
         };
         return new SkillEffectResultResponse(
             result.resultKey(),
@@ -410,7 +521,8 @@ public class SkillEffectService {
             result.description(),
             result.sortOrder(),
             payload.valueRule(),
-            payload.detail()
+            payload.detail(),
+            toBehaviorResponse(behaviors.get(resultKey))
         );
     }
 
@@ -426,6 +538,7 @@ public class SkillEffectService {
             request.name(),
             request.description(),
             request.sortOrder(),
+            request.lifecycle(),
             request.results() == null ? List.of() : List.copyOf(request.results())
         );
     }
@@ -446,14 +559,18 @@ public class SkillEffectService {
             request.name(),
             request.description(),
             request.sortOrder(),
+            request.lifecycle(),
             request.results() == null ? List.of() : List.copyOf(request.results())
         );
     }
 
     private CollectedRefs collectAndValidateResults(
+        SkillEffectLifecycleRequest lifecycle,
         List<SkillEffectResultRequest> results,
         Map<String, RetainedCatalog> retained,
-        String pathSkillKey
+        String pathSkillKey,
+        String currentEffectKey,
+        SkillEffectLifecycleInstanceScope existingScope
     ) {
         List<Map<String, String>> issues = new ArrayList<>();
         List<Map<String, String>> bodyIssues = new ArrayList<>();
@@ -461,11 +578,42 @@ public class SkillEffectService {
             issues.add(fieldIssue("results", "REQUIRED", "效果至少包含一个结果"));
             throwIfInvalid(issues);
         }
+        if (existingScope != null
+            && lifecycle != null
+            && lifecycle.instanceScope() != null
+            && existingScope != lifecycle.instanceScope()) {
+            issues.add(fieldIssue("lifecycle.instanceScope", "IMMUTABLE", "实例范围不能修改"));
+        }
+        validateLifecycle(lifecycle, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
+        collectLifecycleFormulaRefs(lifecycle, refs);
+        boolean hasPeriodic = false;
+        boolean hasNaturalEnd = false;
         for (int i = 0; i < results.size(); i++) {
-            validateResult(results.get(i), i, seenKeys, retained, pathSkillKey, refs, issues, bodyIssues);
+            SkillEffectResultRequest result = results.get(i);
+            validateResult(
+                result,
+                i,
+                seenKeys,
+                retained,
+                pathSkillKey,
+                currentEffectKey,
+                refs,
+                issues,
+                bodyIssues
+            );
+            validateLifecycleBehavior(lifecycle, result, i, issues);
+            if (result != null && result.lifecycleBehavior() != null) {
+                if (result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERIODIC) {
+                    hasPeriodic = true;
+                }
+                if (result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.NATURAL_END) {
+                    hasNaturalEnd = true;
+                }
+            }
         }
+        validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
         return refs;
@@ -477,6 +625,7 @@ public class SkillEffectService {
         Set<String> seenKeys,
         Map<String, RetainedCatalog> retained,
         String pathSkillKey,
+        String currentEffectKey,
         CollectedRefs refs,
         List<Map<String, String>> issues,
         List<Map<String, String>> bodyIssues
@@ -513,6 +662,13 @@ public class SkillEffectService {
             case RESOURCE_CHANGE -> validateResourceChange(result, index, retained, refs, issues);
             case COOLDOWN_CHANGE -> validateCooldownChange(result, index, retained, pathSkillKey, refs, issues);
             case STATUS_OPERATION -> validateStatusOperation(result, index, retained, refs, issues);
+            case LIFECYCLE_OPERATION -> validateLifecycleOperation(
+                result,
+                index,
+                currentEffectKey,
+                refs,
+                issues
+            );
         }
     }
 
@@ -700,12 +856,382 @@ public class SkillEffectService {
         refs.statusKeys.add(statusKey);
     }
 
+    private void validateLifecycleOperation(
+        SkillEffectResultRequest result,
+        int index,
+        String currentEffectKey,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        if (!(result.detail() instanceof SkillEffectLifecycleOperationDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "生命周期操作结果明细形状不合法"));
+            validateValueRulePresence(result, index, issues);
+            return;
+        }
+        SkillEffectLifecycleOperation operation = detail.operation();
+        if (operation == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "生命周期操作不能为空"));
+            validateValueRulePresence(result, index, issues);
+        } else if (operation == SkillEffectLifecycleOperation.REFRESH
+            || operation == SkillEffectLifecycleOperation.REMOVE) {
+            forbidValueRule(result, index, issues);
+        } else {
+            requireValueRule(result, index, refs, issues);
+        }
+        String targetEffectKey = detail.targetEffectKey();
+        if (targetEffectKey == null || targetEffectKey.isBlank()) {
+            issues.add(fieldIssue(
+                resultPath(index, "detail.targetEffectKey"),
+                "REQUIRED",
+                "目标效果不能为空"
+            ));
+            return;
+        }
+        refs.targetEffects.add(new TargetEffectRef(
+            resultPath(index, "detail.targetEffectKey"),
+            targetEffectKey,
+            operation == SkillEffectLifecycleOperation.REFRESH,
+            currentEffectKey != null && currentEffectKey.equals(targetEffectKey)
+        ));
+        refs.targetEffectKeys.add(targetEffectKey);
+    }
+
+    private void validateLifecycle(SkillEffectLifecycleRequest lifecycle, List<Map<String, String>> issues) {
+        if (lifecycle == null) {
+            return;
+        }
+        if (lifecycle.maxStacksFormulaKey() == null || lifecycle.maxStacksFormulaKey().isBlank()) {
+            issues.add(fieldIssue("lifecycle.maxStacksFormulaKey", "REQUIRED", "最大层数公式不能为空"));
+        }
+        if (lifecycle.applicationStacksFormulaKey() == null
+            || lifecycle.applicationStacksFormulaKey().isBlank()) {
+            issues.add(fieldIssue("lifecycle.applicationStacksFormulaKey", "REQUIRED", "每次施加层数公式不能为空"));
+        }
+        if (lifecycle.instanceScope() == null) {
+            issues.add(fieldIssue("lifecycle.instanceScope", "REQUIRED", "实例范围不能为空"));
+        }
+        if (lifecycle.reapplicationStackMode() == null) {
+            issues.add(fieldIssue("lifecycle.reapplicationStackMode", "REQUIRED", "重复施加层数处理不能为空"));
+        }
+        if (lifecycle.expiryMode() == null) {
+            issues.add(fieldIssue("lifecycle.expiryMode", "REQUIRED", "到期方式不能为空"));
+        }
+        boolean hasDuration = lifecycle.durationFormulaKey() != null;
+        if (!hasDuration) {
+            if (lifecycle.expiryMode() != null
+                && lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY) {
+                issues.add(fieldIssue(
+                    "lifecycle.expiryMode",
+                    "COMBINATION_INVALID",
+                    "没有自然到期时到期方式必须为EXPLICIT_ONLY"
+                ));
+            }
+            if (lifecycle.reapplicationDurationMode() != null) {
+                issues.add(fieldIssue(
+                    "lifecycle.reapplicationDurationMode",
+                    "FORBIDDEN",
+                    "没有自然到期时不能设置重复施加持续时间处理"
+                ));
+            }
+        } else {
+            if (lifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY) {
+                issues.add(fieldIssue(
+                    "lifecycle.expiryMode",
+                    "COMBINATION_INVALID",
+                    "有自然到期时不能只显式移除"
+                ));
+            }
+            if (lifecycle.reapplicationDurationMode() == null) {
+                issues.add(fieldIssue(
+                    "lifecycle.reapplicationDurationMode",
+                    "REQUIRED",
+                    "有自然到期时必须设置重复施加持续时间处理"
+                ));
+            }
+        }
+        if (lifecycle.reapplicationDurationMode() == SkillEffectLifecycleReapplicationDurationMode.INDEPENDENT
+            && lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.INDEPENDENT) {
+            issues.add(fieldIssue(
+                "lifecycle.expiryMode",
+                "COMBINATION_INVALID",
+                "独立计时必须与独立到期同时出现"
+            ));
+        }
+        if (lifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.INDEPENDENT
+            && lifecycle.reapplicationDurationMode() != SkillEffectLifecycleReapplicationDurationMode.INDEPENDENT) {
+            issues.add(fieldIssue(
+                "lifecycle.reapplicationDurationMode",
+                "COMBINATION_INVALID",
+                "独立到期必须与独立计时同时出现"
+            ));
+        }
+        if (lifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.ONE_BY_ONE
+            && lifecycle.reapplicationDurationMode() != null
+            && lifecycle.reapplicationDurationMode() != SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL
+            && lifecycle.reapplicationDurationMode() != SkillEffectLifecycleReapplicationDurationMode.KEEP_REMAINING) {
+            issues.add(fieldIssue(
+                "lifecycle.reapplicationDurationMode",
+                "COMBINATION_INVALID",
+                "逐层到期只能搭配整体刷新或保留剩余时间"
+            ));
+        }
+        if ((lifecycle.periodicIntervalFormulaKey() == null)
+            != (lifecycle.firstPeriodicExecution() == null)) {
+            if (lifecycle.periodicIntervalFormulaKey() == null) {
+                issues.add(fieldIssue("lifecycle.periodicIntervalFormulaKey", "REQUIRED", "周期间隔与首次周期必须同时设置"));
+            } else {
+                issues.add(fieldIssue("lifecycle.firstPeriodicExecution", "REQUIRED", "周期间隔与首次周期必须同时设置"));
+            }
+        }
+    }
+
+    private void collectLifecycleFormulaRefs(SkillEffectLifecycleRequest lifecycle, CollectedRefs refs) {
+        if (lifecycle == null) {
+            return;
+        }
+        addLifecycleFormula(refs, "lifecycle.durationFormulaKey", lifecycle.durationFormulaKey());
+        addLifecycleFormula(refs, "lifecycle.maxStacksFormulaKey", lifecycle.maxStacksFormulaKey());
+        addLifecycleFormula(refs, "lifecycle.applicationStacksFormulaKey", lifecycle.applicationStacksFormulaKey());
+        addLifecycleFormula(refs, "lifecycle.periodicIntervalFormulaKey", lifecycle.periodicIntervalFormulaKey());
+    }
+
+    private static void addLifecycleFormula(CollectedRefs refs, String path, String formulaKey) {
+        if (formulaKey == null || formulaKey.isBlank()) {
+            return;
+        }
+        refs.lifecycleFormulas.add(new CatalogRef(path, formulaKey, true));
+        refs.formulaKeys.add(formulaKey);
+    }
+
+    private void validateLifecycleBehavior(
+        SkillEffectLifecycleRequest lifecycle,
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        if (result == null) {
+            return;
+        }
+        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+        if (lifecycle == null) {
+            if (behavior != null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior"),
+                    "FORBIDDEN",
+                    "没有生命周期时结果不能有生命周期行为"
+                ));
+            }
+            return;
+        }
+        if (behavior == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior"),
+                "REQUIRED",
+                "有生命周期时每个结果必须声明生命周期行为"
+            ));
+            return;
+        }
+        if (behavior.moment() == null) {
+            issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.moment"), "REQUIRED", "生命周期时点不能为空"));
+            return;
+        }
+        boolean hasValueRule = result.valueRule() != null;
+        if (hasValueRule) {
+            if (behavior.valueReadMode() == null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.valueReadMode"),
+                    "REQUIRED",
+                    "有数值规则时必须选择读取方式"
+                ));
+            } else if ((behavior.moment() == SkillEffectLifecycleMoment.APPLICATION
+                    || behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT)
+                && behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.valueReadMode"),
+                    "COMBINATION_INVALID",
+                    "施加时和持续生效数值只允许施加快照"
+                ));
+            }
+        } else if (behavior.valueReadMode() != null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.valueReadMode"),
+                "FORBIDDEN",
+                "没有数值规则时不能设置读取方式"
+            ));
+        }
+        if (behavior.moment() == SkillEffectLifecycleMoment.PERIODIC) {
+            if (behavior.periodicExecutionMode() == null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.periodicExecutionMode"),
+                    "REQUIRED",
+                    "周期时点必须选择执行次数"
+                ));
+            }
+        } else if (behavior.periodicExecutionMode() != null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.periodicExecutionMode"),
+                "FORBIDDEN",
+                "非周期时点不能设置周期执行次数"
+            ));
+        }
+        if (behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT) {
+            validatePersistentBehavior(result, index, behavior, issues);
+        } else if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.stackValueMode"),
+                "FORBIDDEN",
+                "非持续生效结果不能设置层数和值合并"
+            ));
+        }
+        if (behavior.moment() == SkillEffectLifecycleMoment.NATURAL_END
+            && lifecycle.durationFormulaKey() == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.moment"),
+                "COMBINATION_INVALID",
+                "没有自然到期时不能使用自然结束时点"
+            ));
+        }
+    }
+
+    private void validatePersistentBehavior(
+        SkillEffectResultRequest result,
+        int index,
+        SkillEffectResultLifecycleBehaviorRequest behavior,
+        List<Map<String, String>> issues
+    ) {
+        SkillEffectResultType type = result.resultType();
+        boolean statusApply = type == SkillEffectResultType.STATUS_OPERATION
+            && result.detail() instanceof SkillEffectStatusOperationDetail statusDetail
+            && statusDetail.operation() == SkillEffectStatusOperation.APPLY;
+        boolean allowed = type == SkillEffectResultType.NORMAL_SHIELD
+            || type == SkillEffectResultType.ATTRIBUTE_CHANGE
+            || statusApply;
+        if (!allowed) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.moment"),
+                "COMBINATION_INVALID",
+                "持续生效只允许普通护盾、属性变化和状态施加"
+            ));
+            return;
+        }
+        if (statusApply) {
+            if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.stackValueMode"),
+                    "FORBIDDEN",
+                    "持续状态施加不能设置层数和值合并"
+                ));
+            }
+            return;
+        }
+        if (behavior.stackValueMode() == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.stackValueMode"),
+                "REQUIRED",
+                "持续数值结果必须选择层数贡献方式"
+            ));
+            return;
+        }
+        boolean attributeSet = type == SkillEffectResultType.ATTRIBUTE_CHANGE
+            && result.detail() instanceof SkillEffectAttributeChangeDetail attributeDetail
+            && attributeDetail.operation() == SkillEffectAttributeChangeOperation.SET;
+        if (attributeSet && behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.stackValueMode"),
+                "COMBINATION_INVALID",
+                "属性覆盖只允许共享数值"
+            ));
+        }
+        if (behavior.stackValueMode() == SkillEffectLifecycleStackValueMode.PER_STACK) {
+            if (behavior.reapplicationValueMode() != null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
+                    "FORBIDDEN",
+                    "每层贡献时不能设置重复施加值合并"
+                ));
+            }
+            return;
+        }
+        if (behavior.reapplicationValueMode() == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
+                "REQUIRED",
+                "共享数值时必须选择重复施加值合并"
+            ));
+            return;
+        }
+        if (attributeSet
+            && behavior.reapplicationValueMode() == SkillEffectLifecycleReapplicationValueMode.ADD) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
+                "COMBINATION_INVALID",
+                "属性覆盖不能使用重复相加"
+            ));
+        }
+    }
+
+    private void validateLifecyclePeriodicPair(
+        SkillEffectLifecycleRequest lifecycle,
+        boolean hasPeriodic,
+        boolean hasNaturalEnd,
+        List<Map<String, String>> issues
+    ) {
+        if (lifecycle == null) {
+            return;
+        }
+        if (hasPeriodic) {
+            if (lifecycle.periodicIntervalFormulaKey() == null) {
+                issues.add(fieldIssue(
+                    "lifecycle.periodicIntervalFormulaKey",
+                    "REQUIRED",
+                    "存在周期结果时必须设置周期间隔"
+                ));
+            }
+            if (lifecycle.firstPeriodicExecution() == null) {
+                issues.add(fieldIssue(
+                    "lifecycle.firstPeriodicExecution",
+                    "REQUIRED",
+                    "存在周期结果时必须设置首次周期"
+                ));
+            }
+        } else {
+            if (lifecycle.periodicIntervalFormulaKey() != null) {
+                issues.add(fieldIssue(
+                    "lifecycle.periodicIntervalFormulaKey",
+                    "FORBIDDEN",
+                    "没有周期结果时不能设置周期间隔"
+                ));
+            }
+            if (lifecycle.firstPeriodicExecution() != null) {
+                issues.add(fieldIssue(
+                    "lifecycle.firstPeriodicExecution",
+                    "FORBIDDEN",
+                    "没有周期结果时不能设置首次周期"
+                ));
+            }
+        }
+        if (hasNaturalEnd && lifecycle.durationFormulaKey() == null) {
+            issues.add(fieldIssue(
+                "lifecycle.durationFormulaKey",
+                "COMBINATION_INVALID",
+                "没有自然到期时不能使用自然结束结果"
+            ));
+        }
+    }
+
     private void validateValueRulePresence(
         SkillEffectResultRequest result,
         int index,
         List<Map<String, String>> issues
     ) {
         if (result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+            forbidValueRule(result, index, issues);
+            return;
+        }
+        if (result.resultType() == SkillEffectResultType.LIFECYCLE_OPERATION
+            && result.detail() instanceof SkillEffectLifecycleOperationDetail detail
+            && (detail.operation() == SkillEffectLifecycleOperation.REFRESH
+                || detail.operation() == SkillEffectLifecycleOperation.REMOVE)) {
             forbidValueRule(result, index, issues);
             return;
         }
@@ -772,19 +1298,38 @@ public class SkillEffectService {
         }
     }
 
-    private void lockAndValidateCatalogs(String gameId, String skillKey, CollectedRefs refs) {
+    private void lockAndValidateCatalogs(
+        String gameId,
+        String skillKey,
+        String currentEffectKey,
+        CollectedRefs refs
+    ) {
         Set<String> formulas = lockFormulas(gameId, skillKey, refs.formulaKeys);
         Map<String, String> damageTypes = lockCatalog(refs.damageTypeKeys, keys -> mapper.lockDamageTypes(gameId, keys));
         Map<String, String> attributes = lockCatalog(refs.attributeKeys, keys -> mapper.lockAttributes(gameId, keys));
         Map<String, String> skills = lockCatalog(refs.skillKeys, keys -> mapper.lockSkills(gameId, keys));
         Map<String, String> statuses = lockCatalog(refs.statusKeys, keys -> mapper.lockStatuses(gameId, keys));
+        Set<String> targetEffects = lockEffectKeys(gameId, skillKey, targetLockKeys(refs.targetEffectKeys, currentEffectKey));
+        Map<String, SkillEffectLifecycleRow> targetLifecycles = lockTargetLifecycles(
+            gameId,
+            skillKey,
+            targetLockKeys(refs.targetEffectKeys, currentEffectKey)
+        );
 
         List<Map<String, String>> unknown = new ArrayList<>();
         addUnknown(unknown, refs.formulas, formulas, "UNKNOWN_FORMULA", "技能公式不存在或不属于当前技能");
+        addUnknown(
+            unknown,
+            refs.lifecycleFormulas,
+            formulas,
+            "UNKNOWN_LIFECYCLE_FORMULA",
+            "生命周期公式不存在或不属于当前技能"
+        );
         addUnknown(unknown, refs.damageTypes, damageTypes.keySet(), "UNKNOWN_DAMAGE_TYPE", "伤害类型不存在或不属于当前游戏");
         addUnknown(unknown, refs.attributes, attributes.keySet(), "UNKNOWN_ATTRIBUTE", "属性不存在或不属于当前游戏");
         addUnknown(unknown, refs.skills, skills.keySet(), "UNKNOWN_SKILL", "技能不存在或不属于当前游戏");
         addUnknown(unknown, refs.statuses, statuses.keySet(), "UNKNOWN_STATUS", "状态不存在或不属于当前游戏");
+        addTargetEffectIssues(unknown, refs.targetEffects, currentEffectKey, targetEffects, targetLifecycles);
         if (!unknown.isEmpty()) {
             unknown.sort(Comparator.comparing(issue -> issue.get("field")));
             throw new ApiException(
@@ -866,6 +1411,7 @@ public class SkillEffectService {
         );
         insertValueIfPresent(gameId, skillKey, effectKey, result);
         insertDetail(gameId, skillKey, effectKey, result);
+        insertBehaviorIfPresent(gameId, skillKey, effectKey, result);
     }
 
     private void updateResultAggregate(
@@ -873,7 +1419,8 @@ public class SkillEffectService {
         String skillKey,
         String effectKey,
         SkillEffectResultRequest result,
-        boolean hadValue
+        boolean hadValue,
+        boolean hadBehavior
     ) {
         mapper.updateResult(
             gameId,
@@ -904,6 +1451,7 @@ public class SkillEffectService {
             mapper.deleteValue(gameId, skillKey, effectKey, result.resultKey());
         }
         updateDetail(gameId, skillKey, effectKey, result);
+        persistBehavior(gameId, skillKey, effectKey, result, hadBehavior);
     }
 
     private void insertValueIfPresent(
@@ -974,6 +1522,14 @@ public class SkillEffectService {
                 detail.statusKey(),
                 detail.operation()
             );
+            case SkillEffectLifecycleOperationDetail detail -> mapper.insertLifecycleOperationDetail(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                detail.targetEffectKey(),
+                detail.operation()
+            );
             case SkillEffectDirectHealDetail ignored -> {
             }
             case SkillEffectNormalShieldDetail ignored -> {
@@ -1027,6 +1583,14 @@ public class SkillEffectService {
                 detail.statusKey(),
                 detail.operation()
             );
+            case SkillEffectLifecycleOperationDetail detail -> mapper.updateLifecycleOperationDetail(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                detail.targetEffectKey(),
+                detail.operation()
+            );
             case SkillEffectDirectHealDetail ignored -> {
             }
             case SkillEffectNormalShieldDetail ignored -> {
@@ -1077,6 +1641,12 @@ public class SkillEffectService {
             effectKey,
             mapper.listStatusOperationDetails(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors = indexLifecycleBehaviors(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listLifecycleBehaviors(gameId, skillKey, effectKey)
+        );
         for (SkillEffectResultRow row : existingRows) {
             String resultKey = row.resultKey();
             SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
@@ -1093,7 +1663,7 @@ public class SkillEffectService {
                 statusRow == null ? null : statusRow.statusKey()
             ));
         }
-        return new ExistingCatalog(values, retained);
+        return new ExistingCatalog(values, retained, behaviors);
     }
 
     private void lockParentSkill(String gameId, String skillKey) {
@@ -1208,6 +1778,36 @@ public class SkillEffectService {
         for (SkillEffectStatusOperationDetailRow row : nullToEmpty(rows)) {
             if (indexed.put(row.resultKey(), row) != null) {
                 throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "状态操作明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectLifecycleOperationDetailRow> indexLifecycleOperations(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectLifecycleOperationDetailRow> rows
+    ) {
+        Map<String, SkillEffectLifecycleOperationDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectLifecycleOperationDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命周期操作明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectResultLifecycleBehaviorRow> indexLifecycleBehaviors(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectResultLifecycleBehaviorRow> rows
+    ) {
+        Map<String, SkillEffectResultLifecycleBehaviorRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectResultLifecycleBehaviorRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命周期行为重复");
             }
         }
         return indexed;
@@ -1349,6 +1949,30 @@ public class SkillEffectService {
         return conflict("409.SKILL_EFFECT_IN_USE", "技能效果已被过程挂接引用，不能删除", "effectKey");
     }
 
+    private static ApiException lifecycleInUse() {
+        return conflict(
+            "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+            "技能效果生命周期仍被生命周期操作引用，不能删除或移除",
+            "effectKey"
+        );
+    }
+
+    private static ApiException refreshInUse() {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+            "目标生命周期仍被刷新操作引用，不能清空持续时间",
+            Map.of(
+                "fieldIssues",
+                List.of(fieldIssue(
+                    "lifecycle.durationFormulaKey",
+                    "REFRESH_OPERATION_IN_USE",
+                    "目标生命周期仍被刷新操作引用，不能清空持续时间"
+                ))
+            )
+        );
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -1387,13 +2011,53 @@ public class SkillEffectService {
         );
     }
 
-    private static RuntimeException mapWriteConstraint(DataIntegrityViolationException ex) {
+    private static RuntimeException mapWriteConstraint(
+        DataIntegrityViolationException ex,
+        boolean deletingOrRemovingLifecycle,
+        boolean clearingDuration
+    ) {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
         }
         if (text.contains(PROCESS_BINDING_CONSTRAINT)) {
             return effectInUse();
+        }
+        if (text.contains(LIFECYCLE_TARGET_CONSTRAINT)) {
+            if (deletingOrRemovingLifecycle) {
+                return lifecycleInUse();
+            }
+            return new ApiException(
+                HttpStatus.BAD_REQUEST,
+                "400.INVALID_SKILL_EFFECT_REFERENCE",
+                "技能效果引用不合法",
+                Map.of(
+                    "fieldIssues",
+                    List.of(fieldIssue(
+                        "results.detail.targetEffectKey",
+                        "UNKNOWN_LIFECYCLE_EFFECT",
+                        "目标效果不存在或没有生命周期"
+                    ))
+                )
+            );
+        }
+        if (text.contains(REFRESH_DURATION_CONSTRAINT)) {
+            if (clearingDuration) {
+                return refreshInUse();
+            }
+            return new ApiException(
+                HttpStatus.BAD_REQUEST,
+                "400.INVALID_SKILL_EFFECT_REFERENCE",
+                "技能效果引用不合法",
+                Map.of(
+                    "fieldIssues",
+                    List.of(fieldIssue(
+                        "results.detail.targetEffectKey",
+                        "TARGET_EFFECT_HAS_NO_DURATION",
+                        "刷新目标没有自然到期"
+                    ))
+                )
+            );
         }
         return ex;
     }
@@ -1420,29 +2084,241 @@ public class SkillEffectService {
         return values == null ? Set.of() : values;
     }
 
+    private void insertLifecycleIfPresent(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        SkillEffectLifecycleRequest lifecycle
+    ) {
+        if (lifecycle == null) {
+            return;
+        }
+        mapper.insertLifecycle(
+            gameId,
+            skillKey,
+            effectKey,
+            lifecycle.durationFormulaKey(),
+            lifecycle.maxStacksFormulaKey(),
+            lifecycle.applicationStacksFormulaKey(),
+            lifecycle.instanceScope(),
+            lifecycle.reapplicationStackMode(),
+            lifecycle.reapplicationDurationMode(),
+            lifecycle.expiryMode(),
+            lifecycle.periodicIntervalFormulaKey(),
+            lifecycle.firstPeriodicExecution()
+        );
+    }
+
+    private void persistLifecycle(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        SkillEffectLifecycleRow existing,
+        SkillEffectLifecycleRequest requested
+    ) {
+        if (existing != null && requested != null) {
+            mapper.updateLifecycle(
+                gameId,
+                skillKey,
+                effectKey,
+                requested.durationFormulaKey(),
+                requested.maxStacksFormulaKey(),
+                requested.applicationStacksFormulaKey(),
+                requested.instanceScope(),
+                requested.reapplicationStackMode(),
+                requested.reapplicationDurationMode(),
+                requested.expiryMode(),
+                requested.periodicIntervalFormulaKey(),
+                requested.firstPeriodicExecution()
+            );
+            return;
+        }
+        if (existing == null && requested != null) {
+            insertLifecycleIfPresent(gameId, skillKey, effectKey, requested);
+            return;
+        }
+        if (existing != null) {
+            mapper.deleteAllLifecycleBehaviors(gameId, skillKey, effectKey);
+            mapper.deleteLifecycle(gameId, skillKey, effectKey);
+        }
+    }
+
+    private void insertBehaviorIfPresent(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        SkillEffectResultRequest result
+    ) {
+        persistBehavior(gameId, skillKey, effectKey, result, false);
+    }
+
+    private void persistBehavior(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        SkillEffectResultRequest result,
+        boolean hadBehavior
+    ) {
+        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+        if (behavior == null) {
+            if (hadBehavior) {
+                mapper.deleteLifecycleBehaviors(gameId, skillKey, effectKey, List.of(result.resultKey()));
+            }
+            return;
+        }
+        if (hadBehavior) {
+            mapper.updateLifecycleBehavior(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                behavior.moment(),
+                behavior.valueReadMode(),
+                behavior.stackValueMode(),
+                behavior.reapplicationValueMode(),
+                behavior.periodicExecutionMode()
+            );
+            return;
+        }
+        mapper.insertLifecycleBehavior(
+            gameId,
+            skillKey,
+            effectKey,
+            result.resultKey(),
+            behavior.moment(),
+            behavior.valueReadMode(),
+            behavior.stackValueMode(),
+            behavior.reapplicationValueMode(),
+            behavior.periodicExecutionMode()
+        );
+    }
+
+    private static Set<String> targetLockKeys(Set<String> keys, String currentEffectKey) {
+        if (keys.isEmpty()) {
+            return keys;
+        }
+        LinkedHashSet<String> filtered = new LinkedHashSet<>(keys);
+        if (currentEffectKey != null) {
+            filtered.remove(currentEffectKey);
+        }
+        return filtered;
+    }
+
+    private Set<String> lockEffectKeys(String gameId, String skillKey, Set<String> keys) {
+        if (keys.isEmpty()) {
+            return Set.of();
+        }
+        List<String> lockKeys = new ArrayList<>(keys);
+        lockKeys.sort(String::compareTo);
+        return new HashSet<>(nullToEmpty(mapper.lockEffects(gameId, skillKey, lockKeys)));
+    }
+
+    private Map<String, SkillEffectLifecycleRow> lockTargetLifecycles(
+        String gameId,
+        String skillKey,
+        Set<String> keys
+    ) {
+        if (keys.isEmpty()) {
+            return Map.of();
+        }
+        List<String> lockKeys = new ArrayList<>(keys);
+        lockKeys.sort(String::compareTo);
+        Map<String, SkillEffectLifecycleRow> found = new LinkedHashMap<>();
+        for (SkillEffectLifecycleRow row : nullToEmpty(mapper.lockLifecycles(gameId, skillKey, lockKeys))) {
+            found.put(row.effectKey(), row);
+        }
+        return found;
+    }
+
+    private static void addTargetEffectIssues(
+        List<Map<String, String>> issues,
+        List<TargetEffectRef> refs,
+        String currentEffectKey,
+        Set<String> existingEffects,
+        Map<String, SkillEffectLifecycleRow> lifecycles
+    ) {
+        for (TargetEffectRef ref : refs) {
+            if (ref.selfReference() || (currentEffectKey != null && currentEffectKey.equals(ref.key()))) {
+                issues.add(fieldIssue(ref.path(), "SELF_LIFECYCLE_REFERENCE", "不能引用所属效果自身"));
+                continue;
+            }
+            if (!existingEffects.contains(ref.key())) {
+                issues.add(fieldIssue(ref.path(), "UNKNOWN_LIFECYCLE_EFFECT", "目标效果不存在或不属于当前技能"));
+                continue;
+            }
+            SkillEffectLifecycleRow lifecycle = lifecycles.get(ref.key());
+            if (lifecycle == null) {
+                issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_LIFECYCLE", "目标效果没有生命周期"));
+                continue;
+            }
+            if (ref.refresh() && lifecycle.durationFormulaKey() == null) {
+                issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_DURATION", "刷新目标没有自然到期"));
+            }
+        }
+    }
+
+    private static SkillEffectLifecycleResponse toLifecycleResponse(SkillEffectLifecycleRow row) {
+        if (row == null) {
+            return null;
+        }
+        return new SkillEffectLifecycleResponse(
+            row.durationFormulaKey(),
+            row.maxStacksFormulaKey(),
+            row.applicationStacksFormulaKey(),
+            row.instanceScope(),
+            row.reapplicationStackMode(),
+            row.reapplicationDurationMode(),
+            row.expiryMode(),
+            row.periodicIntervalFormulaKey(),
+            row.firstPeriodicExecution()
+        );
+    }
+
+    private static SkillEffectResultLifecycleBehaviorResponse toBehaviorResponse(
+        SkillEffectResultLifecycleBehaviorRow row
+    ) {
+        if (row == null) {
+            return null;
+        }
+        return new SkillEffectResultLifecycleBehaviorResponse(
+            row.moment(),
+            row.valueReadMode(),
+            row.stackValueMode(),
+            row.reapplicationValueMode(),
+            row.periodicExecutionMode()
+        );
+    }
+
     private record ValidatedEffect(
         String effectKey,
         String name,
         String description,
         Integer sortOrder,
+        SkillEffectLifecycleRequest lifecycle,
         List<SkillEffectResultRequest> results
     ) {
     }
 
     private static final class CollectedRefs {
         private final List<CatalogRef> formulas = new ArrayList<>();
+        private final List<CatalogRef> lifecycleFormulas = new ArrayList<>();
         private final List<CatalogRef> damageTypes = new ArrayList<>();
         private final List<CatalogRef> attributes = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> statuses = new ArrayList<>();
+        private final List<TargetEffectRef> targetEffects = new ArrayList<>();
         private final LinkedHashSet<String> formulaKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> damageTypeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> attributeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> skillKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> statusKeys = new LinkedHashSet<>();
+        private final LinkedHashSet<String> targetEffectKeys = new LinkedHashSet<>();
     }
 
     private record CatalogRef(String path, String key, boolean retainedOrExempt) {
+    }
+
+    private record TargetEffectRef(String path, String key, boolean refresh, boolean selfReference) {
     }
 
     private record RetainedCatalog(
@@ -1455,7 +2331,8 @@ public class SkillEffectService {
 
     private record ExistingCatalog(
         Map<String, SkillEffectResultValueRow> values,
-        Map<String, RetainedCatalog> retained
+        Map<String, RetainedCatalog> retained,
+        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
     ) {
     }
 
