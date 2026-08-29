@@ -30,6 +30,7 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
                 case RESOURCE_CHANGE -> SkillEffectResourceChangeDetail.class;
                 case COOLDOWN_CHANGE -> SkillEffectCooldownChangeDetail.class;
                 case STATUS_OPERATION -> SkillEffectStatusOperationDetail.class;
+                case LIFECYCLE_OPERATION -> SkillEffectLifecycleOperationDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);
         }
@@ -41,7 +42,8 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
             text(node, "description"),
             codec.treeToValue(node.get("sortOrder"), Integer.class),
             codec.treeToValue(node.get("valueRule"), SkillEffectValueRuleRequest.class),
-            detail
+            detail,
+            codec.treeToValue(node.get("lifecycleBehavior"), SkillEffectResultLifecycleBehaviorRequest.class)
         );
     }
 

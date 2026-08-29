@@ -10,8 +10,22 @@ public record SkillEffectDetailResponse(
     String name,
     String description,
     Integer sortOrder,
+    SkillEffectLifecycleResponse lifecycle,
     List<SkillEffectResultResponse> results,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {
+    public SkillEffectDetailResponse(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        String name,
+        String description,
+        Integer sortOrder,
+        List<SkillEffectResultResponse> results,
+        OffsetDateTime createdAt,
+        OffsetDateTime updatedAt
+    ) {
+        this(gameId, skillKey, effectKey, name, description, sortOrder, null, results, createdAt, updatedAt);
+    }
 }

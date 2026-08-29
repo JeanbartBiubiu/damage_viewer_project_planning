@@ -420,6 +420,7 @@ class SkillServiceTest {
 
         InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -444,6 +445,7 @@ class SkillServiceTest {
         InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -460,6 +462,7 @@ class SkillServiceTest {
         ApiException exception = assertThrows(ApiException.class, () -> service.delete(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", exception.getCode());
         verify(processMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(effectMapper, never()).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         verify(effectMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(internalStateMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(formulaMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
