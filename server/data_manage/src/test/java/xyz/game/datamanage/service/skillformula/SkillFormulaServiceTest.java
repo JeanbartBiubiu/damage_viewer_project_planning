@@ -639,6 +639,19 @@ class SkillFormulaServiceTest {
     }
 
     @Test
+    void mapsLifecycleDurationFormulaFkToStableInUseError() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
+            new DataIntegrityViolationException(
+                "update or delete on table violates foreign key constraint "
+                    + "fk_skill_effect_lifecycles_duration_formula"
+            )
+        );
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+    }
+
+    @Test
     void mapsStateOperationValueFormulaFkToStableInUseError() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
