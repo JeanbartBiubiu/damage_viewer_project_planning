@@ -11,6 +11,4 @@ public interface GamesMapper {
     List<Map<String, Object>> listGames();
 
     Long countGames(@Param("gameId") String gameId);
-
-    Integer ensureGamePartitions(@Param("gameId") String gameId);
 }
