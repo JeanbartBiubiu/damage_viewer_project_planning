@@ -7,7 +7,6 @@ import {
   type RouteId,
   type StaticRouteId
 } from './config/navigation';
-import { AbilitySetupPage } from './pages/admin/ability-setup/AbilitySetupPage';
 import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
 import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
 import { DamageTypeManagementPage } from './pages/admin/damage-types/DamageTypeManagementPage';
@@ -16,14 +15,7 @@ import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
 import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
 import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
 import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
-import { DirectDamageAbilityPage } from './pages/admin/direct-damage-ability/DirectDamageAbilityPage';
-import { EffectSequenceSetupPage } from './pages/admin/effect-sequence-setup/EffectSequenceSetupPage';
-import { EffectStepSetupPage } from './pages/admin/effect-step-setup/EffectStepSetupPage';
-import { ProviderSetupPage } from './pages/admin/provider-setup/ProviderSetupPage';
 import { ImagesPage } from './pages/ImagesPage';
-import { OverviewPage } from './pages/OverviewPage';
-import { VersionPublishPage } from './pages/VersionPublishPage';
-import { WasmValidationGenericPage } from './pages/WasmValidationGenericPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -32,11 +24,10 @@ const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
 const MOBILE_NAV_MEDIA_QUERY = '(max-width: 1240px)';
 const MOBILE_PRIMARY_NAVIGATION_ID = 'mobile-primary-navigation';
+const DEFAULT_ROUTE: StaticRouteId = 'attributes';
+const DEFAULT_HASH = '#/attributes';
 
 const STATIC_ROUTE_IDS = new Set<string>([
-  'overview',
-  'workspace',
-  'wasm-validation-generic',
   'images',
   'attributes',
   'characters',
@@ -45,12 +36,7 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'damage-types',
   'skills',
   'statuses',
-  'game-settings',
-  'provider-setup',
-  'ability-setup',
-  'effect-sequence-setup',
-  'effect-step-setup',
-  'direct-damage-ability'
+  'game-settings'
 ]);
 
 function resolveSelectedGameId(current: string | null, games: GameSummary[]): string | null {
@@ -76,23 +62,31 @@ function readStoredValue(key: string, fallback: string): string {
   return window.localStorage.getItem(key) ?? fallback;
 }
 
+function canonicalHashForRoute(route: RouteId): string {
+  return `#/${route}`;
+}
+
 function readRouteFromHash(): RouteId {
   if (typeof window === 'undefined') {
-    return 'overview';
+    return DEFAULT_ROUTE;
   }
 
   const hashPath = window.location.hash.replace(/^#\/?/, '').split('?')[0] ?? '';
   const [routeSegment] = hashPath.split('/').filter(Boolean);
 
-  if (routeSegment === 'versions' || routeSegment === 'version-publish') {
-    return 'workspace';
-  }
-
   if (routeSegment && STATIC_ROUTE_IDS.has(routeSegment)) {
     return routeSegment as StaticRouteId;
   }
 
-  return 'overview';
+  return DEFAULT_ROUTE;
+}
+
+function replaceLocationHash(hash: string): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  const { pathname, search } = window.location;
+  window.history.replaceState(null, '', `${pathname}${search}${hash}`);
 }
 
 function getGamesStatusLabel(status: LoadState): string {
@@ -137,15 +131,14 @@ export default function App() {
   const [gamesEtag, setGamesEtag] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
-  const [combatDataRefreshSeed, setCombatDataRefreshSeed] = useState(0);
   const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState(() =>
-    createDefaultCollapsedNavigationGroups(readRouteFromHash())
+    createDefaultCollapsedNavigationGroups()
   );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [attributeEditorDirty, setAttributeEditorDirty] = useState(false);
   const attributeEditorDirtyRef = useRef(false);
   const acceptedHashRef = useRef(
-    typeof window === 'undefined' ? '' : window.location.hash
+    typeof window === 'undefined' ? DEFAULT_HASH : window.location.hash || DEFAULT_HASH
   );
 
   const handleAttributeDirtyChange = useCallback((dirty: boolean) => {
@@ -154,6 +147,17 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const applyRouteFromLocation = () => {
+      const nextRoute = readRouteFromHash();
+      const canonicalHash = canonicalHashForRoute(nextRoute);
+      if (window.location.hash !== canonicalHash) {
+        replaceLocationHash(canonicalHash);
+      }
+      acceptedHashRef.current = canonicalHash;
+      setRoute(nextRoute);
+      setMobileNavOpen(false);
+    };
+
     const syncFromHash = () => {
       const nextHash = window.location.hash;
       if (
@@ -161,17 +165,14 @@ export default function App() {
         nextHash !== acceptedHashRef.current &&
         !window.confirm('当前修改尚未保存，确定要离开吗？')
       ) {
-        const { pathname, search } = window.location;
-        window.history.replaceState(null, '', `${pathname}${search}${acceptedHashRef.current}`);
+        replaceLocationHash(acceptedHashRef.current);
         return;
       }
 
       if (attributeEditorDirtyRef.current && nextHash !== acceptedHashRef.current) {
         handleAttributeDirtyChange(false);
       }
-      acceptedHashRef.current = nextHash;
-      setRoute(readRouteFromHash());
-      setMobileNavOpen(false);
+      applyRouteFromLocation();
     };
 
     syncFromHash();
@@ -190,7 +191,9 @@ export default function App() {
       event.returnValue = '';
     };
     window.addEventListener('beforeunload', warnBeforeUnload);
-    return () => window.removeEventListener('beforeunload', warnBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', warnBeforeUnload);
+    };
   }, []);
 
   // Narrow-screen media query: close mobile navigation when returning to desktop.
@@ -265,7 +268,6 @@ export default function App() {
 
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
   const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
-  const gamesReachable = gamesStatus === 'success';
 
   const applyApiBase = () => {
     const nextValue = resolveApiBaseUrl(apiBaseDraft);
@@ -299,24 +301,15 @@ export default function App() {
   };
 
   let pageContent = (
-    <OverviewPage
+    <AttributeManagementPage
       apiBaseUrl={apiBaseUrl}
-      games={games}
       selectedGameId={selectedGameId}
-      onSelectGameId={setSelectedGameId}
+      adminToken={adminToken}
+      onDirtyChange={handleAttributeDirtyChange}
     />
   );
 
-  if (route === 'attributes') {
-    pageContent = (
-      <AttributeManagementPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onDirtyChange={handleAttributeDirtyChange}
-      />
-    );
-  } else if (route === 'characters') {
+  if (route === 'characters') {
     pageContent = (
       <CharacterManagementPage
         apiBaseUrl={apiBaseUrl}
@@ -378,71 +371,6 @@ export default function App() {
         adminToken={adminToken}
       />
     );
-  } else if (route === 'workspace') {
-    pageContent = (
-      <VersionPublishPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        selectedGameName={selectedGameName}
-        adminToken={adminToken}
-        onAdminTokenChange={setAdminToken}
-        onDataPublished={() => setCombatDataRefreshSeed((value) => value + 1)}
-      />
-    );
-  } else if (route === 'provider-setup') {
-    pageContent = (
-      <ProviderSetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'ability-setup') {
-    pageContent = (
-      <AbilitySetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'effect-sequence-setup') {
-    pageContent = (
-      <EffectSequenceSetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'effect-step-setup') {
-    pageContent = (
-      <EffectStepSetupPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'direct-damage-ability') {
-    pageContent = (
-      <DirectDamageAbilityPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        gamesReachable={gamesReachable}
-      />
-    );
-  } else if (route === 'wasm-validation-generic') {
-    pageContent = (
-      <WasmValidationGenericPage
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        selectedGameName={selectedGameName}
-        externalRefreshSeed={combatDataRefreshSeed}
-      />
-    );
   } else if (route === 'images') {
     pageContent = (
       <ImagesPage
@@ -469,7 +397,7 @@ export default function App() {
               Web 控制台
             </Typography.Title>
             <Typography.Text className="brand-copy">
-              属性管理、配置维护、版本发布与图片同步。
+              属性、角色、装备、技能与图片管理。
             </Typography.Text>
           </div>
           <button

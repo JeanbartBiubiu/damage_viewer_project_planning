@@ -318,33 +318,12 @@ class MockApi {
     const path = decodeURIComponent(url.pathname);
 
     if (method === 'GET' && path === '/api/games') {
-      await this.json(route, 200, [{ gameId: GAME_ID, gameName: GAME_NAME }]);
+      await this.json(route, 200, [{ gameId: GAME_ID, gameName: GAME_NAME, gameImgUrl: null }]);
       return;
     }
 
-    if (method === 'GET' && path === `/api/games/${GAME_ID}/versions/current`) {
-      await this.json(route, 200, {
-        gameId: GAME_ID,
-        versionCode: '1.0.0',
-        releaseDate: '2026-08-01',
-        publishedAt: CREATED_AT,
-        updatedAt: UPDATED_AT,
-        changeRevision: 7
-      });
-      return;
-    }
-
-    if (method === 'GET' && path === `/api/games/${GAME_ID}/combat-data/state`) {
-      await this.json(route, 200, {
-        gameId: GAME_ID,
-        currentRevision: 7,
-        data: {
-          gameId: GAME_ID,
-          currentRevision: 7,
-          publishedRevision: 7,
-          updatedAt: UPDATED_AT
-        }
-      });
+    if (method === 'GET' && path === `/api/games/${GAME_ID}/images`) {
+      await this.json(route, 200, { gameId: GAME_ID, images: [] });
       return;
     }
 
@@ -4488,7 +4467,7 @@ test.describe('attribute management without Wasm', () => {
       await dialog.dismiss();
     });
     await page.evaluate(() => {
-      window.location.hash = '#/overview';
+      window.location.hash = '#/characters';
     });
     await expect(page).toHaveURL(/#\/attributes$/);
     await expect(modal).toBeVisible();
@@ -4497,10 +4476,10 @@ test.describe('attribute management without Wasm', () => {
       await dialog.accept();
     });
     await page.evaluate(() => {
-      window.location.hash = '#/overview';
+      window.location.hash = '#/characters';
     });
-    await expect(page).toHaveURL(/#\/overview$/);
-    await expect(page.locator('.app-main').getByText('游戏入口', { exact: true }).first()).toBeVisible();
+    await expect(page).toHaveURL(/#\/characters$/);
+    await expect(page.locator('.app-main').getByText('角色管理', { exact: true }).first()).toBeVisible();
 
     await page.goto('/#/attributes');
     await waitForGame(page);
@@ -4517,28 +4496,74 @@ test.describe('attribute management without Wasm', () => {
     diagnostics.assertClean('unsaved guards');
   });
 
-  test('keeps legacy hashes, renders overview and exposes no legacy navigation entry', async ({ page }) => {
+  test('lands root and unknown hashes on attributes and keeps current pages', async ({ page }) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
+
+    await page.goto('/');
+    await waitForGame(page);
+    await expect(page).toHaveURL(/#\/attributes$/);
+    await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
+
+    await page.goto('/#/');
+    await waitForGame(page);
+    await expect(page).toHaveURL(/#\/attributes$/);
+    await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
+
     const legacyHashes = [
+      '#/overview',
+      '#/workspace',
+      '#/wasm-validation-generic',
       '#/combat-data/effect-steps',
       '#/admin/attribute-definitions',
       '#/entity-growth',
       '#/entity-setup',
-      '#/entity-provider-mount'
+      '#/entity-provider-mount',
+      '#/provider-setup',
+      '#/ability-setup',
+      '#/effect-sequence-setup',
+      '#/effect-step-setup',
+      '#/direct-damage-ability'
     ];
 
     for (const hash of legacyHashes) {
       await page.goto(`/${hash}`);
       await waitForGame(page);
-      await expect(page.locator('.app-main').getByText('游戏入口', { exact: true }).first()).toBeVisible();
-      expect(await page.evaluate(() => window.location.hash)).toBe(hash);
+      await expect(page).toHaveURL(/#\/attributes$/);
+      await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
     }
 
+    const currentPages: Array<[string, string]> = [
+      ['#/attributes', '属性管理'],
+      ['#/characters', '角色管理'],
+      ['#/equipment', '装备管理'],
+      ['#/skill-categories', '技能分类管理'],
+      ['#/damage-types', '伤害类型管理'],
+      ['#/skills', '技能管理'],
+      ['#/statuses', '状态管理'],
+      ['#/game-settings', '游戏配置'],
+      ['#/images', '同步动作']
+    ];
+
+    for (const [hash, title] of currentPages) {
+      await page.goto(`/${hash}`);
+      await waitForGame(page);
+      await expect(page).toHaveURL(new RegExp(`${hash.replace('/', '\\/')}$`));
+      await expect(page.locator('.app-main').getByText(title, { exact: true }).first()).toBeVisible();
+    }
+
+    expect(await page.locator('a[href="#/overview"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/workspace"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/wasm-validation-generic"]').count()).toBe(0);
     expect(await page.locator('a[href^="#/combat-data"]').count()).toBe(0);
     expect(await page.locator('a[href="#/entity-growth"]').count()).toBe(0);
     expect(await page.locator('a[href="#/entity-setup"]').count()).toBe(0);
     expect(await page.locator('a[href="#/entity-provider-mount"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/provider-setup"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/ability-setup"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/effect-sequence-setup"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/effect-step-setup"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/direct-damage-ability"]').count()).toBe(0);
     expect(await page.locator('a[href="#/attributes"]').count()).toBe(1);
     expect(await page.locator('a[href="#/characters"]').count()).toBe(1);
     expect(await page.locator('a[href="#/equipment"]').count()).toBe(1);
@@ -4546,6 +4571,8 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/damage-types"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skills"]').count()).toBe(1);
     expect(await page.locator('a[href="#/statuses"]').count()).toBe(1);
-    diagnostics.assertClean('legacy hash fallback');
+    expect(await page.locator('a[href="#/game-settings"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/images"]').count()).toBe(1);
+    diagnostics.assertClean('current pages and unknown hash fallback');
   });
 });
