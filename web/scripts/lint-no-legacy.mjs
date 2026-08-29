@@ -37,6 +37,20 @@ const FORBIDDEN = [
     id: 'legacy-dps-abi',
     pattern:
       /tinygoV2DpsAdapter|SingleAttackerDPS|single_attacker_dps|engine_init\b|engine_begin_run\b|engine_snapshot_initial\b|engine_snapshot_actions_initial\b|engine_step\b|engine_abort_run\b|legacyRequiredExports|TinyGoV2BridgeProfile|profile:\s*['"]legacy['"]/
+  },
+  {
+    id: 'legacy-combat-data-pages',
+    pattern:
+      /pages\/(OverviewPage|VersionPublishPage|WasmValidationGenericPage)|pages\/admin\/(provider-setup|ability-setup|effect-sequence-setup|effect-step-setup|direct-damage-ability|entity-setup|entity-growth|entity-provider-mount|combat-data|AdminPublishRail|combatDataNav|usePublishFlow|versionPublishModel)\b/
+  },
+  {
+    id: 'legacy-combat-data-modules',
+    pattern:
+      /combatDataClient|combatDataLoader|combatDataCache|combatDataImageReference|combatDataAssembler|CombatDataImageReferenceField|types\/combatData\b|getCurrentVersion\b|publishVersion\b/
+  },
+  {
+    id: 'legacy-combat-data-requests',
+    pattern: /\/combat-data\/|versions\/current|versions:publish|versions\/:publish|versions\/publish/
   }
 ];
 
