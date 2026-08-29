@@ -2,7 +2,6 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Isolated non-Wasm Playwright acceptance config.
- * Does not import or evaluate playwright.config.ts / wasm-generic.spec.ts.
  * Requires zero E2E_* environment variables.
  *
  * Optional purpose-built base URL (not E2E_*): NON_WASM_WEB_BASE_URL.
