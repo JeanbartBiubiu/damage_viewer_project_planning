@@ -2,11 +2,9 @@ package xyz.game.datamanage.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.cache.Cache;
@@ -14,61 +12,33 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import xyz.game.datamanage.service.combatdata.revision.CombatDataPublishService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
 public class GameDataService {
 
     private static final Pattern GAME_ID_PATTERN = Pattern.compile("^[a-z0-9_]+$");
-    private static final List<String> READ_CACHE_NAMES = List.of("games", "currentVersion", "images");
 
     private final PostgresReadStore readStore;
     private final PostgresWriteStore writeStore;
     private final PostgresJsonSupport jsonSupport;
     private final CacheManager cacheManager;
-    private final CombatDataPublishService combatDataPublishService;
 
     public GameDataService(
         PostgresReadStore readStore,
         PostgresWriteStore writeStore,
         PostgresJsonSupport jsonSupport,
-        CacheManager cacheManager,
-        CombatDataPublishService combatDataPublishService
+        CacheManager cacheManager
     ) {
         this.readStore = readStore;
         this.writeStore = writeStore;
         this.jsonSupport = jsonSupport;
         this.cacheManager = cacheManager;
-        this.combatDataPublishService = combatDataPublishService;
     }
 
     @Cacheable(cacheNames = "games", key = "'all'")
     public ArrayNode listGames() {
         return readStore.listGames();
-    }
-
-    @Cacheable(cacheNames = "currentVersion", key = "#p0")
-    public ObjectNode getCurrentVersion(String gameId) {
-        validateGameId(gameId);
-        assertGameExists(gameId);
-        PostgresReadStore.VersionRecord current = readStore.findCurrentPublishedVersion(gameId);
-        if (current == null) {
-            throw notFound("Current published version not found", Map.of("gameId", gameId));
-        }
-
-        ObjectNode response = JsonNodeFactory.instance.objectNode();
-        response.put("gameId", gameId);
-        response.put("versionCode", current.versionCode());
-        if (current.releaseDate() != null) {
-            response.put("releaseDate", current.releaseDate().toString());
-        }
-        response.put("changeRevision", current.changeRevision());
-        if (current.publishedAt() != null) {
-            response.put("publishedAt", current.publishedAt().toString());
-        }
-        response.put("updatedAt", current.updatedAt().toString());
-        return response;
     }
 
     @Cacheable(
@@ -89,14 +59,6 @@ public class GameDataService {
         jsonSupport.validateNoVersionFields(body, "");
         ObjectNode response = writeStore.upsertImage(gameId, uri, body);
         evictCache("images");
-        return response;
-    }
-
-    public ObjectNode publishVersion(String gameId, ObjectNode requestBody) {
-        validateGameId(gameId);
-        assertGameExists(gameId);
-        ObjectNode response = combatDataPublishService.publishVersion(gameId, requestBody);
-        evictReadCaches();
         return response;
     }
 
@@ -124,12 +86,6 @@ public class GameDataService {
             return Instant.parse(raw);
         } catch (DateTimeParseException ex) {
             throw badRequest("updatedAfter must be ISO-8601 timestamp", Map.of("path", "/updatedAfter"));
-        }
-    }
-
-    private void evictReadCaches() {
-        for (String cacheName : READ_CACHE_NAMES) {
-            evictCache(cacheName);
         }
     }
 

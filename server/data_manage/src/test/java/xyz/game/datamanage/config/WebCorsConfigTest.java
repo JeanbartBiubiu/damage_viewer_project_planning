@@ -17,14 +17,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
-import xyz.game.datamanage.controller.adminapi.VersionAdminController;
+import xyz.game.datamanage.controller.adminapi.ImageAdminController;
 import xyz.game.datamanage.controller.publicapi.GamePublicController;
 import xyz.game.datamanage.service.GameDataService;
-import xyz.game.datamanage.service.combatdata.revision.CombatDataPublishService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.JwtVerifier;
 
-@WebMvcTest(controllers = {GamePublicController.class, VersionAdminController.class})
+@WebMvcTest(controllers = {GamePublicController.class, ImageAdminController.class})
 @Import({WebCorsConfig.class, AdminAuthFilter.class})
 class WebCorsConfigTest {
 
@@ -35,9 +34,6 @@ class WebCorsConfigTest {
 
     @MockitoBean
     private GameDataService gameDataService;
-
-    @MockitoBean
-    private CombatDataPublishService combatDataPublishService;
 
     @MockitoBean
     private AdminEditLogHelper adminEditLogHelper;
@@ -59,14 +55,14 @@ class WebCorsConfigTest {
     @Test
     void adminPreflightRequestPassesWithoutAuthorization() throws Exception {
         mockMvc.perform(
-            options("/api/admin/games/lol/versions:publish")
+            options("/api/admin/games/lol/images/icon.png")
                     .header(HttpHeaders.ORIGIN, ORIGIN)
-                    .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST")
+                    .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PUT")
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Authorization, Content-Type, If-None-Match")
             )
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*"))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("POST")))
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PUT")))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("If-None-Match")));
     }
 }
