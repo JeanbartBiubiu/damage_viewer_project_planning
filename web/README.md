@@ -1,35 +1,31 @@
 # Damage Viewer Web
 
-`web/` 是 Damage Viewer 的前端工作台。它负责把后端通用 1v1 `combat-data` 维护、版本发布、图片缓存和 Wasm 模拟入口放到一个可联调、可验证的 Web 壳里。
+`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7.4 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
 
 它在整条链路里的位置是：
 
-1. 读取后端 `current version`、公开 `combat-data/**`、images。
-2. 提供 Admin combat-data 分表编辑页（细粒度 PUT）。
-3. 按 `gameId + revision` 可选缓存 combat-data graph。
-4. 在浏览器侧组装现有 TinyGo V2 `CompileRequest`，完成 compile / run / release。
+1. 读取后端游戏列表、当前管理接口和 images。
+2. 提供属性、角色、装备、技能分类、伤害类型、技能、状态和游戏配置管理页。
+3. 在浏览器侧缓存并同步图片资源。
 
 ## 当前主要页面
 
-- `src/App.tsx`：应用外壳、路由、API 基址和本地状态
-- `src/pages/OverviewPage.tsx`：系统总览、当前版本与 combat-data revision
-- `src/pages/VersionPublishPage.tsx`：版本发布（`versions:publish`，记录 changeRevision）
-- `src/pages/admin/combat-data/`：按资源表拆分的 combat-data 编辑页（`#/combat-data/<resource-id>`）
+- `src/App.tsx`：应用外壳、路由、API 基址和本地状态；根地址与未知 Hash 落到 `#/attributes`
+- `src/pages/admin/attributes/`：属性管理（`#/attributes`）
+- `src/pages/admin/characters/`：角色管理（`#/characters`）
+- `src/pages/admin/equipment/`：装备管理（`#/equipment`）
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
 - `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果及效果生命周期、过程与内部状态）
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
-- `src/pages/WasmValidationGenericPage.tsx`：combat-data → 组装 → compile / run / release
-- `src/pages/ImagesPage.tsx`：图片缓存与同步
+- `src/pages/admin/game-settings/`：游戏配置（`#/game-settings`）
+- `src/pages/ImagesPage.tsx`：图片缓存与同步（`#/images`）
 
 ## 关键入口地图
 
 - `src/App.tsx`：应用壳层、页面切换和全局本地状态
-- `src/config/navigation.ts`：导航项、公开/Admin 接口说明
-- `src/services/apiClient.ts`：API 基址、games/current/images/publish
-- `src/services/combatDataClient.ts`：Public/Admin combat-data 客户端
-- `src/services/combatDataLoader.ts`：revision-safe 读取与缓存失效
-- `src/engine/combatDataAssembler.ts`：combat-data → `CompileRequest`
+- `src/config/navigation.ts`：导航项
+- `src/services/apiClient.ts`：API 基址、games/images
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
 - `src/engine/wasm/`：Wasm 构建产物目录
@@ -66,7 +62,6 @@ API 基址解析顺序：
 
 - 页面内切换后的 API 基址会持久化到浏览器本地存储。
 - Admin Token 也会持久化到浏览器本地存储，仅用于当前前端工作台联调。
-- 若 `GET /api/games` 正常但 `GET .../combat-data/**` 全部 404，多半是连到了旧后端进程（常见于 8080 仍跑旧服务、新 backend worktree 在其他端口）；页面会给出明确诊断，请切换 API 基址，不要假设默认 8080 一定是新后端。
 
 ## 本地开发
 
@@ -80,31 +75,12 @@ npm run dev
 | --- | --- |
 | `npm install` | 安装依赖 |
 | `npm run dev` | 启动 Vite |
-| `npm run lint` | 静态扫描：禁止旧 Bundle/Catalog/hero 等 REST 事实依赖 |
+| `npm run lint` | 静态扫描：禁止已删除的旧 Bundle/Catalog/combat-data 页面与请求 |
 | `npm run typecheck` | TypeScript 工程检查 |
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
-| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：11 个静态页 + 30 个 combat-data 页，技能管理页覆盖参数、公式、效果与结果及效果生命周期、过程与内部状态；Desktop Chrome；无需 `E2E_*` |
-| `npm run test:e2e:wasm-generic` | Playwright 通用规格：后端 current/state/abilities/entities 探测 + 指定 source/target + 页面 combat-data ready + compile/run/release（需四个 `E2E_*` 必填项） |
-| `npm run smoke:wasm-generic` | 发布门禁：`lint` → `typecheck` → `test` → `build` → Playwright（fail-fast） |
-
-### Live smoke（fail-closed）
-
-```powershell
-cd web
-$env:E2E_API_BASE_URL = "http://127.0.0.1:8080"   # 必填，非空
-$env:E2E_GAME_ID = "lol"                           # 必填，非空
-$env:E2E_SOURCE_ENTITY_ID = "hero_vayne"            # 必填，须存在且可运行
-$env:E2E_TARGET_ENTITY_ID = "target_dummy_fighter"  # 必填，须存在且与 source 不同
-# 可选：$env:E2E_WEB_BASE_URL = "http://127.0.0.1:5173"  # 已有前端；未设则自动 vite preview :4173
-npm run smoke:wasm-generic
-```
-
-- 缺少任一必填 `E2E_*`，或 source/target 相同：**非零退出**，不会 `skip`。
-- source/target 必须存在于公开 entities 数据中；source 还须具有可运行的 `ability/basic_attack` 主动技能。
-- 后端不可达、无 current version、combat-data state 不可用或 gameId 不匹配：**断言失败**。
-- 浏览器在启动前写入 `damage-viewer.web.api-base-url`，与探测同一 API；打开 `#/wasm-validation-generic`，要求完整 combat-data ready，并通过页面完成 canonical compile → run → release。任一 public combat-data 5xx、读取/装配错误或生命周期失败都会使门禁失败；不编造后端数据、不做破坏性 Admin 写。
+| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 9 类管理页；Desktop Chrome；无需 `E2E_*` |
 
 ## 常用验证
 
@@ -118,44 +94,25 @@ npm run build
 
 本迭代默认页面回归为**非 Wasm**。可复用清单见 [../文档记录/测试记录/web/非Wasm最小回归清单.md](../文档记录/测试记录/web/非Wasm最小回归清单.md)。
 
-2026-07-18 的 41 路由实际执行证据见 [非Wasm全页面验收记录-2026-07-18.md](../文档记录/测试记录/web/非Wasm全页面验收记录-2026-07-18.md)。mock 浏览器覆盖与真实 Backend 只读结果分开记录，不以 mock 代替 live 兼容结论。
-
 涉及页面或联调行为改动时，按固定顺序至少回归：
 
 1. 静态：`npm run lint` → `typecheck` → `test` → `build` → `test:e2e:non-wasm`
-2. `#/overview`
-3. `#/workspace` 观察；可选受控 publish 后核验 `#/overview` 与 `#/combat-data/entities`
+2. `#/attributes`
+3. `#/characters`、`#/equipment`、`#/skill-categories`、`#/damage-types`、`#/skills`、`#/statuses`、`#/game-settings`
 4. `#/images`
-5. `#/entity-setup` → `#/provider-setup` → `#/ability-setup` → `#/effect-sequence-setup` → `#/effect-step-setup` → `#/combat-data/entities`
-
-说明：实体分表覆盖必须走 `#/combat-data/entities`；裸 `#/combat-data` 会重定向到 registry 首个资源（当前 `progression-schema`），不能代替该覆盖。
-
-`npm run smoke:wasm-generic` 保留为**范围触发**的额外 Wasm 门禁，不是默认页面回归要求。
 
 ## 常见问题
 
 ### 1. 页面能打开，但接口请求失败
 
 - 确认后端服务是否已启动。
-- 检查页面内 API 基址与 `VITE_API_BASE_URL`（工具栏与 combat-data 页会醒目展示当前基址）。
+- 检查页面内 API 基址与 `VITE_API_BASE_URL`。
 - 若浏览器缓存了旧地址，清理本地存储后重试。
 
-### 2. `/api/games` 正常，但 combat-data 全部 404
+### 2. 根地址没有进入属性管理
 
-- 这通常是旧后端进程 / 错误端口，而不是单条资源缺失。
-- 重启当前 backend worktree 服务，或把 API 基址改到新后端端口（例如本机联调常见的 8081）。
-- 前端不会自动改端口；需在工具栏手动应用。
-
-### 3. Wasm 验证页没有实体可选
-
-- 确认已通过 combat-data 实体页写入至少一个 entity。
-- 确认 `GET /api/games/{gameId}/combat-data/entities` 可返回列表（允许为空）。
-- 确认 `src/engine/wasm/tinygo_engine_v2.wasm` 存在。
-
-### 4. 旧 Bundle / Catalog 去哪了
-
-- 后端已删除 Bundle / Wasm Catalog 全量快照；Web 不再请求这些路径。
-- 发布只冻结 `changeRevision` 到 `game_versions`，前端以 combat-data 最新主表为准组装。
+- 空 Hash 与无法识别的旧 Hash 都会落到 `#/attributes`。
+- 确认前端构建已包含当前路由，而不是仍打开旧总览页。
 
 ## 协作说明
 
