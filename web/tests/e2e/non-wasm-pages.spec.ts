@@ -142,6 +142,7 @@ type SkillEffectResultRow = {
   sortOrder: number;
   valueRule: SkillEffectValueRuleRow | null;
   detail: Json;
+  lifecycleBehavior: Json | null;
 };
 
 type SkillEffectRow = {
@@ -151,6 +152,7 @@ type SkillEffectRow = {
   name: string;
   description: string | null;
   sortOrder: number;
+  lifecycle: Json | null;
   results: SkillEffectResultRow[];
   createdAt: string;
   updatedAt: string;
@@ -218,7 +220,7 @@ type SkillProcessRow = {
   updatedAt: string;
 };
 
-type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | null;
+type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | 'lifecycle-in-use' | 'lifecycle-field' | null;
 
 type CapturedWrite = {
   method: string;
@@ -276,6 +278,7 @@ class MockApi {
   statusListFailure = false;
   statusWriteFailure: WriteFailure = null;
   effectWriteFailure: WriteFailure = null;
+  effectWriteFieldIssues: Array<{ field: string; code: string; message: string }> = [];
   internalStateWriteFailure: WriteFailure = null;
   processWriteFailure: WriteFailure = null;
   parameterDeleteConflictKeys = new Set<string>();
@@ -935,6 +938,9 @@ class MockApi {
         if (await this.applyEffectWriteFailure(route)) {
           return;
         }
+        if (await this.applyLifecycleWriteRules(route, skillKey, String(body.effectKey), body)) {
+          return;
+        }
         const row = this.buildSkillEffectRow(skillKey, String(body.effectKey), body);
         this.skillEffects.push(row);
         await this.json(route, 201, this.cloneSkillEffect(row));
@@ -969,6 +975,9 @@ class MockApi {
         if (await this.applyEffectWriteFailure(route)) {
           return;
         }
+        if (await this.applyLifecycleWriteRules(route, skillKey, existing.effectKey, body, existing)) {
+          return;
+        }
         const next = this.buildSkillEffectRow(skillKey, existing.effectKey, body, existing);
         this.skillEffects = this.skillEffects.map((item) => (
           item.skillKey === skillKey && item.effectKey === effectKey ? next : item
@@ -978,6 +987,15 @@ class MockApi {
       }
       if (method === 'DELETE') {
         this.writes.push({ method, path, body: {} });
+        if (this.effectWriteFailure === 'lifecycle-in-use' || this.isLifecycleTargetInUse(skillKey, effectKey)) {
+          await this.error(
+            route,
+            409,
+            '409.SKILL_EFFECT_LIFECYCLE_IN_USE',
+            '该效果正在被其他效果的生命周期操作引用，不能删除。'
+          );
+          return;
+        }
         this.skillEffects = this.skillEffects.filter((item) => !(
           item.skillKey === skillKey && item.effectKey === effectKey
         ));
@@ -1404,6 +1422,7 @@ class MockApi {
       description: row.description,
       sortOrder: row.sortOrder,
       resultCount: row.results.length,
+      lifecycleEnabled: row.lifecycle !== null,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt
     };
@@ -1606,9 +1625,120 @@ class MockApi {
         description: typeof item.description === 'string' ? item.description : null,
         sortOrder: Number(item.sortOrder),
         valueRule,
-        detail: item.detail && typeof item.detail === 'object' ? item.detail as Json : {}
+        detail: item.detail && typeof item.detail === 'object' ? item.detail as Json : {},
+        lifecycleBehavior: item.lifecycleBehavior && typeof item.lifecycleBehavior === 'object'
+          ? item.lifecycleBehavior as Json
+          : null
       };
     });
+  }
+
+  private parseEffectLifecycle(body: Json): Json | null {
+    return body.lifecycle && typeof body.lifecycle === 'object' ? body.lifecycle as Json : null;
+  }
+
+  private isLifecycleTargetInUse(skillKey: string, effectKey: string): boolean {
+    return this.skillEffects.some((item) => (
+      item.skillKey === skillKey
+      && item.effectKey !== effectKey
+      && item.results.some((result) => (
+        result.resultType === 'LIFECYCLE_OPERATION'
+        && result.detail
+        && typeof result.detail === 'object'
+        && (result.detail as { targetEffectKey?: string }).targetEffectKey === effectKey
+      ))
+    ));
+  }
+
+  private findRefreshTargetConflict(skillKey: string, effectKey: string, nextLifecycle: Json | null): boolean {
+    const hadDuration = this.skillEffects.some((item) => (
+      item.skillKey === skillKey
+      && item.effectKey === effectKey
+      && item.lifecycle
+      && typeof item.lifecycle === 'object'
+      && Boolean((item.lifecycle as { durationFormulaKey?: string | null }).durationFormulaKey)
+    ));
+    const nextDuration = nextLifecycle
+      && typeof nextLifecycle === 'object'
+      ? (nextLifecycle as { durationFormulaKey?: string | null }).durationFormulaKey
+      : null;
+    if (!hadDuration || nextDuration) {
+      return false;
+    }
+    return this.skillEffects.some((item) => (
+      item.skillKey === skillKey
+      && item.results.some((result) => (
+        result.resultType === 'LIFECYCLE_OPERATION'
+        && result.detail
+        && typeof result.detail === 'object'
+        && (result.detail as { targetEffectKey?: string; operation?: string }).targetEffectKey === effectKey
+        && (result.detail as { operation?: string }).operation === 'REFRESH'
+      ))
+    ));
+  }
+
+  private async applyLifecycleWriteRules(
+    route: Route,
+    skillKey: string,
+    effectKey: string,
+    body: Json,
+    existing?: SkillEffectRow
+  ): Promise<boolean> {
+    const nextLifecycle = this.parseEffectLifecycle(body);
+    if (existing && existing.lifecycle && nextLifecycle === null && this.isLifecycleTargetInUse(skillKey, effectKey)) {
+      await this.error(
+        route,
+        409,
+        '409.SKILL_EFFECT_LIFECYCLE_IN_USE',
+        '该效果正在被其他效果的生命周期操作引用，不能关闭生命周期。'
+      );
+      return true;
+    }
+    if (this.findRefreshTargetConflict(skillKey, effectKey, nextLifecycle)) {
+      await this.error(route, 409, '409.SKILL_EFFECT_LIFECYCLE_IN_USE', '仍被刷新操作引用', {
+        fieldIssues: [
+          {
+            field: 'lifecycle.durationFormulaKey',
+            code: 'REFRESH_OPERATION_IN_USE',
+            message: '该持续时间仍被刷新操作引用。'
+          }
+        ]
+      });
+      return true;
+    }
+    if (!Array.isArray(body.results)) {
+      return false;
+    }
+    const fieldIssues: Array<{ field: string; code: string; message: string }> = [];
+    body.results.forEach((raw, index) => {
+      const item = raw as Json;
+      if (item.resultType !== 'LIFECYCLE_OPERATION' || !item.detail || typeof item.detail !== 'object') {
+        return;
+      }
+      const detail = item.detail as { targetEffectKey?: string; operation?: string };
+      if (detail.operation !== 'REFRESH' || !detail.targetEffectKey) {
+        return;
+      }
+      const target = this.skillEffects.find((row) => (
+        row.skillKey === skillKey && row.effectKey === detail.targetEffectKey
+      ));
+      const targetDuration = target?.lifecycle
+        && typeof target.lifecycle === 'object'
+        ? (target.lifecycle as { durationFormulaKey?: string | null }).durationFormulaKey
+        : null;
+      if (target && !targetDuration) {
+        fieldIssues.push({
+          field: `results[${index}].detail.targetEffectKey`,
+          code: 'TARGET_EFFECT_HAS_NO_DURATION',
+          message: '目标效果没有持续时间。'
+        });
+      }
+    });
+    if (fieldIssues.length > 0) {
+      await this.error(route, 400, '400.INVALID_SKILL_EFFECT_REFERENCE', '技能效果引用不合法', { fieldIssues });
+      return true;
+    }
+    return false;
   }
 
   private buildSkillEffectRow(
@@ -1624,6 +1754,7 @@ class MockApi {
       name: String(body.name),
       description: typeof body.description === 'string' ? body.description : null,
       sortOrder: Number(body.sortOrder),
+      lifecycle: this.parseEffectLifecycle(body),
       results: this.parseEffectResults(body),
       createdAt: existing?.createdAt ?? CREATED_AT,
       updatedAt: existing ? '2026-08-23T11:00:00Z' : UPDATED_AT
@@ -1647,6 +1778,29 @@ class MockApi {
             message: '服务端效果名称校验失败'
           }
         ]
+      });
+      return true;
+    }
+    if (this.effectWriteFailure === 'lifecycle-in-use') {
+      await this.error(
+        route,
+        409,
+        '409.SKILL_EFFECT_LIFECYCLE_IN_USE',
+        '该效果正在被其他效果的生命周期操作引用，不能删除。'
+      );
+      return true;
+    }
+    if (this.effectWriteFailure === 'lifecycle-field') {
+      await this.error(route, 400, '400.VALIDATION_FAILED', '效果信息不合法', {
+        fieldIssues: this.effectWriteFieldIssues.length > 0
+          ? this.effectWriteFieldIssues
+          : [
+              {
+                field: 'lifecycle.durationFormulaKey',
+                code: 'FORMAT_INVALID',
+                message: '持续时间公式不合法'
+              }
+            ]
       });
       return true;
     }
@@ -1873,7 +2027,6 @@ const SKILL_EFFECT_FORBIDDEN_TERMS = [
   '斩杀',
   '反伤',
   '过程',
-  '生命周期',
   '条件',
   '事件',
   '暴击',
@@ -1988,6 +2141,39 @@ function seedSkillEffectCatalog(
       description: null,
       sortOrder: 1,
       expression: { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'one',
+      name: '一层',
+      description: null,
+      sortOrder: 2,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'one' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'poison_duration_ms',
+      name: '持续时间',
+      description: null,
+      sortOrder: 3,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'poison_duration_ms' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'poison_tick_interval_ms',
+      name: '周期间隔',
+      description: null,
+      sortOrder: 4,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'poison_tick_interval_ms' },
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     }
@@ -2130,6 +2316,7 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
       name: '命中结果',
       description: null,
       sortOrder: 10,
+      lifecycle: null,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT,
       results: [{
@@ -2140,7 +2327,8 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         description: null,
         sortOrder: 10,
         valueRule: valueRule('damage'),
-        detail: { damageTypeKey: 'physical' }
+        detail: { damageTypeKey: 'physical' },
+        lifecycleBehavior: null
       }]
     },
     {
@@ -2150,6 +2338,7 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
       name: '法力消耗',
       description: null,
       sortOrder: 20,
+      lifecycle: null,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT,
       results: [{
@@ -2160,7 +2349,8 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         description: null,
         sortOrder: 10,
         valueRule: valueRule('heal'),
-        detail: { attributeKey: 'mana', operation: 'CONSUME' }
+        detail: { attributeKey: 'mana', operation: 'CONSUME' },
+        lifecycleBehavior: null
       }]
     }
   ];
@@ -2904,7 +3094,8 @@ test.describe('skill management without Wasm', () => {
       effectKey: 'on_hit_results',
       name: '命中结果',
       description: null,
-      sortOrder: 10
+      sortOrder: 10,
+      lifecycle: null
     });
     expect(createWrite?.body.results).toEqual([
       {
@@ -2914,6 +3105,7 @@ test.describe('skill management without Wasm', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        lifecycleBehavior: null,
         valueRule: valueRule('damage'),
         detail: { damageTypeKey: 'physical' }
       },
@@ -2924,6 +3116,7 @@ test.describe('skill management without Wasm', () => {
         target: 'SOURCE',
         description: null,
         sortOrder: 0,
+        lifecycleBehavior: null,
         valueRule: valueRule('heal'),
         detail: {}
       }
@@ -2978,6 +3171,7 @@ test.describe('skill management without Wasm', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      lifecycleBehavior: null,
       valueRule: null,
       detail: { statusKey: 'poison', operation: 'APPLY' }
     });
@@ -3073,6 +3267,7 @@ test.describe('skill management without Wasm', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      lifecycleBehavior: null,
       valueRule: null,
       detail: { affectedSkillKey: 'other_skill', operation: 'RESET' }
     });
@@ -3089,6 +3284,7 @@ test.describe('skill management without Wasm', () => {
       name: '旧命中',
       description: null,
       sortOrder: 1,
+      lifecycle: null,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT,
       results: [
@@ -3100,7 +3296,8 @@ test.describe('skill management without Wasm', () => {
           description: null,
           sortOrder: 0,
           valueRule: valueRule('damage'),
-          detail: { damageTypeKey: 'magic' }
+          detail: { damageTypeKey: 'magic' },
+          lifecycleBehavior: null
         },
         {
           resultKey: 'old_status',
@@ -3110,7 +3307,8 @@ test.describe('skill management without Wasm', () => {
           description: null,
           sortOrder: 1,
           valueRule: null,
-          detail: { statusKey: 'old_poison', operation: 'APPLY' }
+          detail: { statusKey: 'old_poison', operation: 'APPLY' },
+          lifecycleBehavior: null
         }
       ]
     }];
@@ -3276,6 +3474,228 @@ test.describe('skill management without Wasm', () => {
     await expect(reopened.getByText('暂无结果', { exact: true })).toBeVisible();
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('effect save failure retains draft and mask/escape discards');
+  });
+
+  test('creates, reopens and updates a lifecycle effect', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('toxic_trap');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('剧毒陷阱');
+    await createModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, createModal, '持续时间公式', '持续时间');
+    await chooseSelectOption(page, createModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, createModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, createModal, '实例范围', '按来源与承受对象');
+    await chooseSelectOption(page, createModal, '重复层数', '保留层数');
+    await chooseSelectOption(page, createModal, '重复持续', '刷新全部时间');
+    await chooseSelectOption(page, createModal, '到期方式', '一次全部到期');
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const resultModal = visibleModal(page, '新增结果');
+    await resultModal.getByLabel('结果标识', { exact: true }).fill('poison_tick');
+    await resultModal.getByLabel('结果名称', { exact: true }).fill('周期伤害');
+    await fillValueRule(page, resultModal, '伤害公式');
+    await chooseSelectOption(page, resultModal, '伤害类型', '物理伤害');
+    await chooseSelectOption(page, resultModal, '生命周期时点', '每次周期');
+    await clickArcoRadioByVisibleLabel(resultModal, '到当前时点重新读取');
+    await clickArcoRadioByVisibleLabel(resultModal, '每个生命周期实例执行一次');
+    await saveOpenModal(resultModal);
+
+    await chooseSelectOption(page, createModal, '周期间隔公式', '周期间隔');
+    await chooseSelectOption(page, createModal, '首次周期', '等待一个间隔');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(shell.getByText('有生命周期', { exact: true })).toBeVisible();
+
+    const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
+    expect(createWrite?.body.lifecycle).toMatchObject({
+      durationFormulaKey: 'poison_duration_ms',
+      maxStacksFormulaKey: 'one',
+      applicationStacksFormulaKey: 'one',
+      instanceScope: 'SOURCE_TARGET',
+      reapplicationStackMode: 'KEEP',
+      reapplicationDurationMode: 'REFRESH_ALL',
+      expiryMode: 'ALL_AT_ONCE',
+      periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+      firstPeriodicExecution: 'AFTER_INTERVAL'
+    });
+    expect(createWrite?.body.results[0]).toMatchObject({
+      resultType: 'DAMAGE',
+      lifecycleBehavior: {
+        moment: 'PERIODIC',
+        valueReadMode: 'MOMENT_EVALUATION',
+        stackValueMode: null,
+        reapplicationValueMode: null,
+        periodicExecutionMode: 'ONCE_PER_INSTANCE'
+      }
+    });
+
+    await shell.locator('tr', { hasText: 'toxic_trap' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑效果');
+    await expect(editModal.getByLabel('实例范围', { exact: true })).toBeDisabled();
+    await chooseSelectOption(page, editModal, '重复层数', '增加层数');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    const updateWrite = mock.writes.filter((item) => item.method === 'PUT' && item.path.endsWith('/effects/toxic_trap')).at(-1);
+    expect(updateWrite?.body.lifecycle).toMatchObject({
+      instanceScope: 'SOURCE_TARGET',
+      reapplicationStackMode: 'INCREASE'
+    });
+    diagnostics.assertClean('lifecycle effect create reopen and update');
+  });
+
+  test('configures persistent attribute, shield and status apply plus lifecycle operation targets', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const targetModal = visibleModal(page, '新增效果');
+    await targetModal.getByLabel('效果标识', { exact: true }).fill('focus_mark');
+    await targetModal.getByLabel('效果名称', { exact: true }).fill('专注印记');
+    await targetModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, targetModal, '持续时间公式', '持续时间');
+    await chooseSelectOption(page, targetModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, targetModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, targetModal, '实例范围', '按承受对象');
+    await chooseSelectOption(page, targetModal, '重复层数', '增加层数');
+    await chooseSelectOption(page, targetModal, '重复持续', '刷新全部时间');
+    await chooseSelectOption(page, targetModal, '到期方式', '一次全部到期');
+    await targetModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const slowModal = visibleModal(page, '新增结果');
+    await slowModal.getByLabel('结果标识', { exact: true }).fill('slow');
+    await slowModal.getByLabel('结果名称', { exact: true }).fill('持续减速');
+    await chooseSelectOption(page, slowModal, '结果种类', '属性变化');
+    await fillValueRule(page, slowModal, '伤害公式');
+    await chooseSelectOption(page, slowModal, '属性', '攻击力');
+    await clickArcoRadioByVisibleLabel(slowModal, '减少');
+    await chooseSelectOption(page, slowModal, '生命周期时点', '持续生效');
+    await clickArcoRadioByVisibleLabel(slowModal, '整个实例共享数值');
+    await slowModal.getByLabel('重复值方式', { exact: true }).locator('label.arco-radio', { hasText: /^覆盖$/ }).click();
+    await saveOpenModal(slowModal);
+    await targetModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(targetModal).toBeHidden();
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const shieldModal = visibleModal(page, '新增效果');
+    await shieldModal.getByLabel('效果标识', { exact: true }).fill('barrier');
+    await shieldModal.getByLabel('效果名称', { exact: true }).fill('护盾');
+    await shieldModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, shieldModal, '持续时间公式', '持续时间');
+    await chooseSelectOption(page, shieldModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, shieldModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, shieldModal, '实例范围', '当前技能');
+    await chooseSelectOption(page, shieldModal, '重复层数', '覆盖层数');
+    await chooseSelectOption(page, shieldModal, '重复持续', '保留剩余时间');
+    await chooseSelectOption(page, shieldModal, '到期方式', '逐层到期');
+    await shieldModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const shieldResult = visibleModal(page, '新增结果');
+    await shieldResult.getByLabel('结果标识', { exact: true }).fill('normal_shield');
+    await shieldResult.getByLabel('结果名称', { exact: true }).fill('普通护盾');
+    await chooseSelectOption(page, shieldResult, '结果种类', '普通护盾');
+    await fillValueRule(page, shieldResult, '治疗公式');
+    await chooseSelectOption(page, shieldResult, '生命周期时点', '持续生效');
+    await clickArcoRadioByVisibleLabel(shieldResult, '每层分别贡献数值');
+    await expect(shieldResult.getByLabel('重复值方式', { exact: true })).toHaveCount(0);
+    await saveOpenModal(shieldResult);
+    await shieldModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const statusResult = visibleModal(page, '新增结果');
+    await statusResult.getByLabel('结果标识', { exact: true }).fill('apply_poison');
+    await statusResult.getByLabel('结果名称', { exact: true }).fill('施加中毒');
+    await chooseSelectOption(page, statusResult, '结果种类', '状态操作');
+    await chooseSelectOption(page, statusResult, '状态', '中毒');
+    await chooseSelectOption(page, statusResult, '生命周期时点', '持续生效');
+    await expect(statusResult.getByLabel('层数值方式', { exact: true })).toHaveCount(0);
+    await saveOpenModal(statusResult);
+    await shieldModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(shieldModal).toBeHidden();
+
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const opModal = visibleModal(page, '新增效果');
+    await opModal.getByLabel('效果标识', { exact: true }).fill('consume_focus');
+    await opModal.getByLabel('效果名称', { exact: true }).fill('消耗专注');
+    await opModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const opResult = visibleModal(page, '新增结果');
+    await opResult.getByLabel('结果标识', { exact: true }).fill('consume');
+    await opResult.getByLabel('结果名称', { exact: true }).fill('消耗印记');
+    await chooseSelectOption(page, opResult, '结果种类', '生命周期操作');
+    await chooseSelectOption(page, opResult, '目标效果', '专注印记');
+    await chooseSelectOption(page, opResult, '生命周期操作', '消耗');
+    await fillValueRule(page, opResult, '一层');
+    await expect(opResult.getByLabel('生命周期时点', { exact: true })).toHaveCount(0);
+    await opResult.getByLabel('目标效果', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '专注印记', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '护盾', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '消耗专注', exact: true })).toHaveCount(0);
+    await page.keyboard.press('Escape');
+    await saveOpenModal(opResult);
+    await opModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(opModal).toBeHidden();
+
+    await shell.locator('tr', { hasText: 'focus_mark' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除效果');
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(deleteModal.getByText('该效果正在被其他效果的生命周期操作引用，不能删除。', { exact: true })).toBeVisible();
+    await deleteModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(shell.locator('tr', { hasText: 'focus_mark' })).toBeVisible();
+    diagnostics.assertClean('persistent results and lifecycle operation targets');
+  });
+
+  test('blocks illegal lifecycle combinations and keeps drafts after backend field errors', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('bad_combo');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('非法组合');
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const resultModal = visibleModal(page, '新增结果');
+    await resultModal.getByLabel('结果标识', { exact: true }).fill('hit');
+    await resultModal.getByLabel('结果名称', { exact: true }).fill('伤害');
+    await fillValueRule(page, resultModal, '伤害公式');
+    await chooseSelectOption(page, resultModal, '伤害类型', '物理伤害');
+    await saveOpenModal(resultModal);
+    await createModal.getByLabel('生命周期', { exact: true }).click();
+    await expect(createModal.getByText('待配置', { exact: true })).toBeVisible();
+    await expect(createModal.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+
+    await createModal.locator('tr', { hasText: 'hit' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editResult = visibleModal(page, '编辑结果');
+    await editResult.getByLabel('生命周期时点', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '自然结束', exact: true })).toHaveCount(0);
+    await chooseVisibleOption(page, '施加时');
+    await saveOpenModal(editResult);
+
+    await chooseSelectOption(page, createModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, createModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, createModal, '实例范围', '当前技能');
+    await chooseSelectOption(page, createModal, '重复层数', '保留层数');
+    mock.effectWriteFailure = 'lifecycle-field';
+    mock.effectWriteFieldIssues = [
+      {
+        field: 'lifecycle.durationFormulaKey',
+        code: 'REFRESH_OPERATION_IN_USE',
+        message: '该持续时间仍被刷新操作引用。'
+      }
+    ];
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByText('该持续时间仍被刷新操作引用。', { exact: true })).toBeVisible();
+    await expect(createModal.getByLabel('效果名称', { exact: true })).toHaveValue('非法组合');
+    await expect(createModal.locator('tr', { hasText: 'hit' })).toBeVisible();
+    diagnostics.assertClean('illegal lifecycle combinations and retained field errors');
   });
 
   test('adds a process entry on the skills page without a new route', async ({ page }) => {
@@ -3783,6 +4203,7 @@ test.describe('skill management without Wasm', () => {
       name: '嵌套目录效果',
       description: null,
       sortOrder: 99,
+      lifecycle: null,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT,
       results: []

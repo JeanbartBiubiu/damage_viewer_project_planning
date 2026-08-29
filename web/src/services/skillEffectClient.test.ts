@@ -27,6 +27,7 @@ const damageResult = {
   target: 'TARGET' as const,
   description: null,
   sortOrder: 10,
+  lifecycleBehavior: null,
   valueRule: {
     formulaKey: 'damage',
     fixedMultiplier: 1,
@@ -44,12 +45,14 @@ const summary: SkillEffectSummary = {
   description: null,
   sortOrder: 10,
   resultCount: 1,
+  lifecycleEnabled: false,
   createdAt: '2026-08-27T00:00:00Z',
   updatedAt: '2026-08-27T00:00:00Z'
 };
 
 const detail: SkillEffect = {
   ...summary,
+  lifecycle: null,
   results: [damageResult]
 };
 
@@ -58,6 +61,7 @@ const createBody: CreateSkillEffectRequest = {
   name: '命中结果',
   description: null,
   sortOrder: 10,
+  lifecycle: null,
   results: [damageResult]
 };
 
@@ -65,6 +69,7 @@ const updateBody: UpdateSkillEffectRequest = {
   name: '命中结果',
   description: null,
   sortOrder: 11,
+  lifecycle: null,
   results: [damageResult]
 };
 
@@ -92,6 +97,7 @@ describe('skillEffectClient', () => {
     expect(listed.status).toBe(200);
     expect(listed.data[0]).not.toHaveProperty('results');
     expect(listed.data[0]?.resultCount).toBe(1);
+    expect(listed.data[0]?.lifecycleEnabled).toBe(false);
 
     const detailMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
@@ -168,5 +174,114 @@ describe('skillEffectClient', () => {
     expect(calls[1]?.body).toEqual(updateBody);
     expect(calls[1]?.body).not.toHaveProperty('effectKey');
     expect(calls[2]?.body).toBeNull();
+  });
+
+  it('passes through lifecycleEnabled, lifecycle and lifecycle operation results', async () => {
+    const lifecycleDetail: SkillEffect = {
+      gameId: 'demo',
+      skillKey: 'ezreal_q',
+      effectKey: 'toxic_trap',
+      name: '剧毒陷阱',
+      description: null,
+      sortOrder: 10,
+      createdAt: '2026-08-28T00:00:00Z',
+      updatedAt: '2026-08-28T00:00:00Z',
+      lifecycle: {
+        durationFormulaKey: 'poison_duration_ms',
+        maxStacksFormulaKey: 'one',
+        applicationStacksFormulaKey: 'one',
+        instanceScope: 'SOURCE_TARGET',
+        reapplicationStackMode: 'KEEP',
+        reapplicationDurationMode: 'REFRESH_ALL',
+        expiryMode: 'ALL_AT_ONCE',
+        periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+        firstPeriodicExecution: 'AFTER_INTERVAL'
+      },
+      results: [
+        {
+          resultKey: 'poison_tick',
+          name: '周期伤害',
+          resultType: 'DAMAGE',
+          target: 'TARGET',
+          description: null,
+          sortOrder: 10,
+          lifecycleBehavior: {
+            moment: 'PERIODIC',
+            valueReadMode: 'MOMENT_EVALUATION',
+            stackValueMode: null,
+            reapplicationValueMode: null,
+            periodicExecutionMode: 'ONCE_PER_INSTANCE'
+          },
+          valueRule: {
+            formulaKey: 'damage',
+            fixedMultiplier: 1,
+            fixedMinValue: null,
+            fixedMaxValue: null
+          },
+          detail: { damageTypeKey: 'physical' }
+        },
+        {
+          resultKey: 'consume_focus',
+          name: '消耗专注',
+          resultType: 'LIFECYCLE_OPERATION',
+          target: 'TARGET',
+          description: null,
+          sortOrder: 20,
+          lifecycleBehavior: null,
+          valueRule: {
+            formulaKey: 'damage',
+            fixedMultiplier: 1,
+            fixedMinValue: null,
+            fixedMaxValue: null
+          },
+          detail: { targetEffectKey: 'focus_mark', operation: 'CONSUME' }
+        }
+      ]
+    };
+    const createLifecycleBody: CreateSkillEffectRequest = {
+      effectKey: 'toxic_trap',
+      name: '剧毒陷阱',
+      description: null,
+      sortOrder: 10,
+      lifecycle: lifecycleDetail.lifecycle,
+      results: lifecycleDetail.results
+    };
+
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const method = init?.method ?? 'GET';
+      if (method === 'GET' && String(input).endsWith('/effects')) {
+        return jsonResponse(200, [{
+          gameId: 'demo',
+          skillKey: 'ezreal_q',
+          effectKey: 'toxic_trap',
+          name: '剧毒陷阱',
+          description: null,
+          sortOrder: 10,
+          resultCount: 2,
+          lifecycleEnabled: true,
+          createdAt: '2026-08-28T00:00:00Z',
+          updatedAt: '2026-08-28T00:00:00Z'
+        }]);
+      }
+      return jsonResponse(method === 'POST' ? 201 : 200, lifecycleDetail);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'ezreal_q', 'token');
+    expect(listed.data[0]?.lifecycleEnabled).toBe(true);
+
+    const created = await createSkillEffect(
+      'http://localhost:8080',
+      'demo',
+      'ezreal_q',
+      'token',
+      createLifecycleBody
+    );
+    expect(created.data.lifecycle).toEqual(lifecycleDetail.lifecycle);
+    expect(created.data.results[1]).toMatchObject({
+      resultType: 'LIFECYCLE_OPERATION',
+      detail: { targetEffectKey: 'focus_mark', operation: 'CONSUME' }
+    });
+    expect(JSON.parse(String(fetchMock.mock.calls[1]?.[1]?.body))).toEqual(createLifecycleBody);
   });
 });
