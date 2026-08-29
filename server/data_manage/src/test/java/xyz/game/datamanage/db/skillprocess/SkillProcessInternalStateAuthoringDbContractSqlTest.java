@@ -335,7 +335,7 @@ class SkillProcessInternalStateAuthoringDbContractSqlTest {
     void internalCascadeIsLimitedToOwnershipForeignKeys() {
         String region = schemaNormalized.substring(
             schemaNormalized.indexOf("create table public.skill_internal_states"),
-            schemaNormalized.indexOf("create table public.game_data_state")
+            schemaNormalized.indexOf("create table public.images")
         );
         int seen = 0;
         for (String constraint : INTERNAL_CASCADE_FKS) {
