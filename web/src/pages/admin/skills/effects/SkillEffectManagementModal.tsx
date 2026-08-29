@@ -12,6 +12,7 @@ import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient
 import { deleteSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
 import type { Skill } from '../../../../types/skill';
 import type { SkillEffectSummary } from '../../../../types/skillEffect';
+import { SKILL_EFFECT_LIFECYCLE_IN_USE_MESSAGE } from './effectForm';
 import {
   SkillEffectEditorModal,
   type SkillEffectEditorMode
@@ -155,6 +156,10 @@ export function SkillEffectManagementModal({
         handleSkillMissing();
         return;
       }
+      if (error instanceof ApiRequestError && error.code === '409.SKILL_EFFECT_LIFECYCLE_IN_USE') {
+        setDeleteError(SKILL_EFFECT_LIFECYCLE_IN_USE_MESSAGE);
+        return;
+      }
       setDeleteError(getErrorMessage(error));
     } finally {
       setDeleting(false);
@@ -165,6 +170,14 @@ export function SkillEffectManagementModal({
     { title: '效果名称', dataIndex: 'name' },
     { title: '稳定标识', dataIndex: 'effectKey' },
     { title: '结果数量', dataIndex: 'resultCount', width: 100 },
+    {
+      title: '生命周期',
+      dataIndex: 'lifecycleEnabled',
+      width: 120,
+      render: (_value, record: SkillEffectSummary) => (
+        record.lifecycleEnabled ? '有生命周期' : '无生命周期'
+      )
+    },
     { title: '排序', dataIndex: 'sortOrder', width: 80 },
     {
       title: '更新时间',
@@ -205,6 +218,7 @@ export function SkillEffectManagementModal({
         visible={visible && skill !== null}
         maskClosable
         onCancel={close}
+        style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
           <Button onClick={close} disabled={deleting}>关闭</Button>
         }
