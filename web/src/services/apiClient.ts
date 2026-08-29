@@ -1,11 +1,8 @@
 import type {
   ApiErrorResponse,
-  CurrentVersion,
   GameSummary,
   ImageAsset,
-  ImageCollectionResponse,
-  VersionPublishPayload,
-  VersionPublishResponse
+  ImageCollectionResponse
 } from '../types/api';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8080';
@@ -51,14 +48,10 @@ export function getErrorMessage(error: unknown): string {
 }
 
 export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSummary[]>> {
-  return requestJson<GameSummary[]>(apiBaseUrl, '/api/games');
-}
-
-export async function getCurrentVersion(apiBaseUrl: string, gameId: string): Promise<ApiResult<CurrentVersion>> {
-  const result = await requestJson<CurrentVersion>(apiBaseUrl, `/api/games/${encodePathSegment(gameId)}/versions/current`);
+  const result = await requestJson<unknown>(apiBaseUrl, '/api/games');
   return {
     ...result,
-    data: normalizeCurrentVersion(result.data)
+    data: normalizeGameSummaries(result.data)
   };
 }
 
@@ -86,24 +79,6 @@ export async function putImage(
     token,
     body: JSON.stringify({ imageBase64 })
   });
-}
-
-export async function publishVersion(
-  apiBaseUrl: string,
-  gameId: string,
-  token: string,
-  body: VersionPublishPayload
-): Promise<ApiResult<VersionPublishResponse>> {
-  const result = await requestJson<VersionPublishResponse>(apiBaseUrl, adminPath(gameId, 'versions:publish'), {
-    method: 'POST',
-    token,
-    body: JSON.stringify(body)
-  });
-
-  return {
-    ...result,
-    data: normalizePublishedVersion(result.data)
-  };
 }
 
 export async function requestJson<T>(
@@ -144,25 +119,19 @@ export async function requestJson<T>(
   };
 }
 
-function normalizeCurrentVersion(version: CurrentVersion): CurrentVersion {
-  return {
-    gameId: version.gameId,
-    versionCode: version.versionCode,
-    releaseDate: version.releaseDate,
-    publishedAt: version.publishedAt,
-    updatedAt: version.updatedAt,
-    changeRevision: version.changeRevision
-  };
+function normalizeGameSummaries(value: unknown): GameSummary[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.map((item) => normalizeGameSummary(item));
 }
 
-function normalizePublishedVersion(version: VersionPublishResponse): VersionPublishResponse {
+function normalizeGameSummary(value: unknown): GameSummary {
+  const record = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   return {
-    gameId: version.gameId,
-    versionCode: version.versionCode,
-    releaseDate: version.releaseDate,
-    publishedAt: version.publishedAt,
-    updatedAt: version.updatedAt,
-    changeRevision: version.changeRevision
+    gameId: typeof record.gameId === 'string' ? record.gameId : '',
+    gameName: typeof record.gameName === 'string' ? record.gameName : '',
+    gameImgUrl: typeof record.gameImgUrl === 'string' ? record.gameImgUrl : null
   };
 }
 
