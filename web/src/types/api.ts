@@ -17,25 +17,7 @@ export type ApiErrorResponse = {
 export type GameSummary = {
   gameId: string;
   gameName: string;
-  gameImgUrl?: string;
-  progressionSchema?: GameProgressionSchema;
-};
-
-export type GameProgressionSchema = {
-  progressionKind: 'LEVEL' | 'STAR' | string;
-  stageMin: number;
-  stageMax: number;
-  stageLabel: string;
-  requireAllStages: boolean;
-};
-
-export type CurrentVersion = {
-  gameId: string;
-  versionCode: string;
-  releaseDate?: string;
-  publishedAt?: string;
-  updatedAt?: string;
-  changeRevision?: number;
+  gameImgUrl: string | null;
 };
 
 export type ImageAsset = {
@@ -47,18 +29,4 @@ export type ImageAsset = {
 export type ImageCollectionResponse = {
   gameId: string;
   images: ImageAsset[];
-};
-
-export type VersionPublishPayload = {
-  versionCode: string;
-  releaseDate?: string;
-};
-
-export type VersionPublishResponse = {
-  gameId: string;
-  versionCode: string;
-  releaseDate?: string;
-  publishedAt?: string;
-  updatedAt?: string;
-  changeRevision?: number;
 };
