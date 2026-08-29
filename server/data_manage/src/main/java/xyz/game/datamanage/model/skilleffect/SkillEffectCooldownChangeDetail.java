@@ -35,6 +35,7 @@ public record SkillEffectCooldownChangeDetail(
         @JsonProperty("damageTypeKey") JsonNode damageTypeKey,
         @JsonProperty("attributeKey") JsonNode attributeKey,
         @JsonProperty("statusKey") JsonNode statusKey,
+        @JsonProperty("targetEffectKey") JsonNode targetEffectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillEffectCooldownChangeDetail(
@@ -43,7 +44,8 @@ public record SkillEffectCooldownChangeDetail(
             SkillEffectDetailFieldCapture.captureForeign(
                 "damageTypeKey", damageTypeKey,
                 "attributeKey", attributeKey,
-                "statusKey", statusKey
+                "statusKey", statusKey,
+                "targetEffectKey", targetEffectKey
             ),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );

@@ -47,7 +47,24 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecyclePeriodicExecutionMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
@@ -72,7 +89,12 @@ class SkillEffectServiceTest {
     private static final String GAME_ID = "lol";
     private static final String SKILL_KEY = "ezreal_q";
     private static final String EFFECT_KEY = "on_hit_results";
+    private static final String TARGET_EFFECT_KEY = "mark_effect";
     private static final String FORMULA_KEY = "base_damage";
+    private static final String DURATION_FORMULA = "duration_f";
+    private static final String MAX_STACKS_FORMULA = "max_stacks_f";
+    private static final String APP_STACKS_FORMULA = "app_stacks_f";
+    private static final String PERIODIC_FORMULA = "periodic_f";
     private static final OffsetDateTime TS = OffsetDateTime.parse("2026-08-27T00:00:00Z");
 
     @Mock private GamesMapper gamesMapper;
@@ -96,6 +118,7 @@ class SkillEffectServiceTest {
         assertEquals(1, items.size());
         assertEquals(EFFECT_KEY, items.get(0).effectKey());
         assertEquals(2, items.get(0).resultCount());
+        assertEquals(false, items.get(0).lifecycleEnabled());
 
         when(gamesMapper.countGames("missing")).thenReturn(0L);
         assertCode("404.GAME_NOT_FOUND", () -> service.list("missing", SKILL_KEY));
@@ -689,6 +712,554 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void createsWithoutLifecycleLeavesBehaviorNullAndDoesNotInsertLifecycle() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        stubDetailRead(sevenResultRows(), sevenValueRows(), sevenDetails());
+
+        SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createAllSeven());
+        assertNull(detail.lifecycle());
+        assertNull(detail.results().get(0).lifecycleBehavior());
+        verify(mapper, never()).insertLifecycle(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+        verify(mapper, never()).insertLifecycleBehavior(
+            any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+    }
+
+    @Test
+    void createsFullLifecycleAndReadsItBackWithApplicationBehavior() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        stubDetailRead(List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            ));
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                null, null, null
+            )
+        ));
+
+        SkillEffectDetailResponse detail = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+            )
+        );
+        assertEquals(SkillEffectLifecycleInstanceScope.TARGET, detail.lifecycle().instanceScope());
+        assertEquals(DURATION_FORMULA, detail.lifecycle().durationFormulaKey());
+        assertEquals(SkillEffectLifecycleMoment.APPLICATION, detail.results().get(0).lifecycleBehavior().moment());
+        verify(mapper).insertLifecycle(
+            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY),
+            eq(DURATION_FORMULA), eq(MAX_STACKS_FORMULA), eq(APP_STACKS_FORMULA),
+            eq(SkillEffectLifecycleInstanceScope.TARGET),
+            eq(SkillEffectLifecycleReapplicationStackMode.INCREASE),
+            eq(SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL),
+            eq(SkillEffectLifecycleExpiryMode.ALL_AT_ONCE),
+            isNull(), isNull()
+        );
+        verify(mapper).insertLifecycleBehavior(
+            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("physical_hit"),
+            eq(SkillEffectLifecycleMoment.APPLICATION),
+            eq(SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT),
+            isNull(), isNull(), isNull()
+        );
+        verify(mapper, never()).deleteLifecycle(any(), any(), any());
+    }
+
+    @Test
+    void rejectsPeriodicMismatchBothDirectionsAndNaturalEndWithoutDuration() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+
+        ApiException missingPeriodic = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(damageResultWithBehavior(
+                        "physical_hit",
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.PERIODIC,
+                            SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION,
+                            null, null, SkillEffectLifecyclePeriodicExecutionMode.ONCE_PER_INSTANCE
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", missingPeriodic.getCode());
+        assertField(missingPeriodic, "lifecycle.periodicIntervalFormulaKey", "REQUIRED");
+
+        ApiException extraPeriodic = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10,
+                    new SkillEffectLifecycleRequest(
+                        DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.INCREASE,
+                        SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
+                        SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+                        PERIODIC_FORMULA,
+                        SkillEffectLifecycleFirstPeriodicExecution.IMMEDIATE
+                    ),
+                    List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", extraPeriodic.getCode());
+        assertField(extraPeriodic, "lifecycle.periodicIntervalFormulaKey", "FORBIDDEN");
+
+        ApiException naturalEnd = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10,
+                    new SkillEffectLifecycleRequest(
+                        null, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        null,
+                        SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
+                        null, null
+                    ),
+                    List.of(statusResultWithBehavior(
+                        "apply_poison",
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.NATURAL_END, null, null, null, null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", naturalEnd.getCode());
+        assertField(naturalEnd, "results[0].lifecycleBehavior.moment", "COMBINATION_INVALID");
+    }
+
+    @Test
+    void acceptsPersistentShieldAttributeAndStatusApplyAndRejectsDamagePersistent() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+
+        ApiException damagePersistent = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(damageResultWithBehavior(
+                        "physical_hit",
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.PERSISTENT,
+                            SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                            SkillEffectLifecycleStackValueMode.SHARED,
+                            SkillEffectLifecycleReapplicationValueMode.KEEP,
+                            null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", damagePersistent.getCode());
+        assertField(damagePersistent, "results[0].lifecycleBehavior.moment", "COMBINATION_INVALID");
+
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        stubDetailRead(
+            List.of(resultRow("normal_shield", SkillEffectResultType.NORMAL_SHIELD)),
+            List.of(valueRow("normal_shield")),
+            new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
+        );
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "normal_shield",
+                SkillEffectLifecycleMoment.PERSISTENT,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                SkillEffectLifecycleStackValueMode.SHARED,
+                SkillEffectLifecycleReapplicationValueMode.KEEP,
+                null
+            )
+        ));
+
+        SkillEffectDetailResponse detail = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                List.of(shieldResultWithBehavior(
+                    "normal_shield",
+                    new SkillEffectResultLifecycleBehaviorRequest(
+                        SkillEffectLifecycleMoment.PERSISTENT,
+                        SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                        SkillEffectLifecycleStackValueMode.SHARED,
+                        SkillEffectLifecycleReapplicationValueMode.KEEP,
+                        null
+                    )
+                ))
+            )
+        );
+        assertEquals(SkillEffectLifecycleMoment.PERSISTENT, detail.results().get(0).lifecycleBehavior().moment());
+        assertEquals(
+            SkillEffectLifecycleStackValueMode.SHARED,
+            detail.results().get(0).lifecycleBehavior().stackValueMode()
+        );
+    }
+
+    @Test
+    void lifecycleOperationsRequireValueExceptRefreshRemoveAndProtectTargetReferences() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        stubEnabledCatalogs();
+
+        ApiException missingValue = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "inc_mark", SkillEffectLifecycleOperation.INCREASE, TARGET_EFFECT_KEY, null,
+                        applicationSnapshot()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", missingValue.getCode());
+        assertField(missingValue, "results[0].valueRule", "REQUIRED");
+
+        ApiException refreshValue = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "refresh_mark", SkillEffectLifecycleOperation.REFRESH, TARGET_EFFECT_KEY, valueRule(),
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.APPLICATION, null, null, null, null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", refreshValue.getCode());
+        assertField(refreshValue, "results[0].valueRule", "FORBIDDEN");
+
+        ApiException selfRef = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "refresh_self", SkillEffectLifecycleOperation.REMOVE, EFFECT_KEY, null,
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.APPLICATION, null, null, null, null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", selfRef.getCode());
+        assertField(selfRef, "results[0].detail.targetEffectKey", "SELF_LIFECYCLE_REFERENCE");
+    }
+
+    @Test
+    void refreshWithoutDurationIsRejectedBeforeWrite() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockEffects(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(TARGET_EFFECT_KEY));
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowWithoutDuration(TARGET_EFFECT_KEY)));
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "refresh_mark", SkillEffectLifecycleOperation.REFRESH, TARGET_EFFECT_KEY, null,
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.APPLICATION, null, null, null, null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
+        assertField(exception, "results[0].detail.targetEffectKey", "TARGET_EFFECT_HAS_NO_DURATION");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void deletePrefersProcessBindingOverLifecycleReference() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(2L);
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(3L);
+
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        verify(mapper, never()).deleteEffect(any(), any(), any());
+    }
+
+    @Test
+    void deleteLifecycleInUseWhenOnlyOperationReferencesExist() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+
+        assertCode("409.SKILL_EFFECT_LIFECYCLE_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        verify(mapper, never()).deleteEffect(any(), any(), any());
+    }
+
+    @Test
+    void removingLifecycleIsRejectedWhenReferencedAndClearingDurationIsRejectedWhenRefreshInUse() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+        stubEnabledCatalogs();
+
+        assertCode(
+            "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+            () -> service.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+            )
+        );
+        verify(mapper, never()).deleteLifecycle(any(), any(), any());
+        verify(mapper, never()).updateLifecycle(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countRefreshOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+        ApiException refresh = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null, "命中结果", null, 10,
+                    new SkillEffectLifecycleRequest(
+                        null, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        null,
+                        SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
+                        null, null
+                    ),
+                    List.of(damageResultWithBehavior(
+                        "physical_hit",
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.APPLICATION,
+                            SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                            null, null, null
+                        )
+                    ))
+                )
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", refresh.getCode());
+        assertField(refresh, "lifecycle.durationFormulaKey", "REFRESH_OPERATION_IN_USE");
+        verify(mapper, never()).updateLifecycle(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+    }
+
+    @Test
+    void updateExistingLifecycleUsesInPlaceUpdate() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
+        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
+        ));
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                null, null, null
+            )
+        ));
+        stubEnabledCatalogs();
+        when(mapper.updateLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+        stubDetailRead(
+            List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            )
+        );
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+
+        service.update(
+            GAME_ID,
+            SKILL_KEY,
+            EFFECT_KEY,
+            new SkillEffectUpdateRequest(
+                null, "命中结果", null, 10, timedLifecycle(),
+                List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+            )
+        );
+        verify(mapper).updateLifecycle(
+            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY),
+            eq(DURATION_FORMULA), eq(MAX_STACKS_FORMULA), eq(APP_STACKS_FORMULA),
+            eq(SkillEffectLifecycleInstanceScope.TARGET),
+            eq(SkillEffectLifecycleReapplicationStackMode.INCREASE),
+            eq(SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL),
+            eq(SkillEffectLifecycleExpiryMode.ALL_AT_ONCE),
+            isNull(), isNull()
+        );
+        verify(mapper, never()).deleteLifecycle(any(), any(), any());
+        verify(mapper, never()).insertLifecycle(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+    }
+
+    @Test
+    void unknownLifecycleFormulaIsCollectedWithResultFormulas() {
+        stubParentAndNewKey();
+        when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of());
+        when(mapper.lockDamageTypes(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectCatalogLockRow("physical", "ENABLED")
+        ));
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
+                    List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
+        assertField(exception, "lifecycle.durationFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
+        assertField(exception, "lifecycle.maxStacksFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
+        assertField(exception, "results[0].valueRule.formulaKey", "UNKNOWN_FORMULA");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void instanceScopeIsImmutableOnExistingLifecycle() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null, "命中结果", null, 10,
+                    new SkillEffectLifecycleRequest(
+                        DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillEffectLifecycleInstanceScope.SKILL,
+                        SkillEffectLifecycleReapplicationStackMode.INCREASE,
+                        SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
+                        SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+                        null, null
+                    ),
+                    List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", exception.getCode());
+        assertField(exception, "lifecycle.instanceScope", "IMMUTABLE");
+        verify(mapper, never()).updateLifecycle(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        );
+    }
+
+    @Test
+    void listsLifecycleEnabledFromSummaryAggregation() {
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.listSummaries(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillEffectSummaryResponse(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10, 1, true, TS, TS
+            )
+        ));
+        assertEquals(true, service.list(GAME_ID, SKILL_KEY).get(0).lifecycleEnabled());
+    }
+
+    @Test
+    void unknownWriteConstraintIsNotMapped() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        DataIntegrityViolationException unrelated = new DataIntegrityViolationException(
+            "violates foreign key constraint fk_unrelated_table"
+        );
+        when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenThrow(unrelated);
+        DataIntegrityViolationException thrown = assertThrows(
+            DataIntegrityViolationException.class,
+            () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly())
+        );
+        assertEquals(unrelated, thrown);
+    }
+
+    @Test
     void assembleReturnsInternalErrorWhenShapeIsCorrupt() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
@@ -996,6 +1567,135 @@ class SkillEffectServiceTest {
         assertTrue(
             issues.stream().anyMatch(issue -> field.equals(issue.get("field")) && code.equals(issue.get("code"))),
             () -> "expected " + field + "/" + code + " but was " + issues
+        );
+    }
+
+    private static SkillEffectLifecycleRequest timedLifecycle() {
+        return new SkillEffectLifecycleRequest(
+            DURATION_FORMULA,
+            MAX_STACKS_FORMULA,
+            APP_STACKS_FORMULA,
+            SkillEffectLifecycleInstanceScope.TARGET,
+            SkillEffectLifecycleReapplicationStackMode.INCREASE,
+            SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
+            SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            null,
+            null
+        );
+    }
+
+    private static SkillEffectResultLifecycleBehaviorRequest applicationSnapshot() {
+        return new SkillEffectResultLifecycleBehaviorRequest(
+            SkillEffectLifecycleMoment.APPLICATION,
+            SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+            null,
+            null,
+            null
+        );
+    }
+
+    private static SkillEffectResultRequest damageResultWithBehavior(
+        String resultKey,
+        SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest(
+            resultKey,
+            "物理伤害",
+            SkillEffectResultType.DAMAGE,
+            SkillEffectTarget.TARGET,
+            null,
+            0,
+            valueRule(),
+            new SkillEffectDamageDetail("physical"),
+            behavior
+        );
+    }
+
+    private static SkillEffectResultRequest shieldResultWithBehavior(
+        String resultKey,
+        SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest(
+            resultKey,
+            "普通护盾",
+            SkillEffectResultType.NORMAL_SHIELD,
+            SkillEffectTarget.SOURCE,
+            null,
+            2,
+            valueRule(),
+            new SkillEffectNormalShieldDetail(),
+            behavior
+        );
+    }
+
+    private static SkillEffectResultRequest statusResultWithBehavior(
+        String resultKey,
+        SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest(
+            resultKey,
+            "施加中毒",
+            SkillEffectResultType.STATUS_OPERATION,
+            SkillEffectTarget.TARGET,
+            null,
+            6,
+            null,
+            new SkillEffectStatusOperationDetail("poison", SkillEffectStatusOperation.APPLY),
+            behavior
+        );
+    }
+
+    private static SkillEffectResultRequest lifecycleOpResult(
+        String resultKey,
+        SkillEffectLifecycleOperation operation,
+        String targetEffectKey,
+        SkillEffectValueRuleRequest valueRule,
+        SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest(
+            resultKey,
+            "生命周期操作",
+            SkillEffectResultType.LIFECYCLE_OPERATION,
+            SkillEffectTarget.TARGET,
+            null,
+            0,
+            valueRule,
+            new SkillEffectLifecycleOperationDetail(targetEffectKey, operation),
+            behavior
+        );
+    }
+
+    private static SkillEffectLifecycleRow lifecycleRow() {
+        return new SkillEffectLifecycleRow(
+            GAME_ID,
+            SKILL_KEY,
+            EFFECT_KEY,
+            DURATION_FORMULA,
+            MAX_STACKS_FORMULA,
+            APP_STACKS_FORMULA,
+            SkillEffectLifecycleInstanceScope.TARGET,
+            SkillEffectLifecycleReapplicationStackMode.INCREASE,
+            SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
+            SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            null,
+            null
+        );
+    }
+
+    private static SkillEffectLifecycleRow lifecycleRowWithoutDuration(String effectKey) {
+        return new SkillEffectLifecycleRow(
+            GAME_ID,
+            SKILL_KEY,
+            effectKey,
+            null,
+            MAX_STACKS_FORMULA,
+            APP_STACKS_FORMULA,
+            SkillEffectLifecycleInstanceScope.TARGET,
+            SkillEffectLifecycleReapplicationStackMode.KEEP,
+            null,
+            SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
+            null,
+            null
         );
     }
 

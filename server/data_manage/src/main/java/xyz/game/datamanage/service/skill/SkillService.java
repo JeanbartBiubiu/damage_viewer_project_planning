@@ -169,6 +169,7 @@ public class SkillService {
         if (effectMapper.countExternalCooldownReferences(gameId, skillKey) > 0) {
             throw inUse();
         }
+        effectMapper.deleteLifecycleOperationDetailsForSkill(gameId, skillKey);
         processMapper.deleteAllForSkill(gameId, skillKey);
         effectMapper.deleteAllForSkill(gameId, skillKey);
         internalStateMapper.deleteAllForSkill(gameId, skillKey);
