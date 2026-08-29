@@ -17,7 +17,7 @@
 - `src/pages/admin/combat-data/`：按资源表拆分的 combat-data 编辑页（`#/combat-data/<resource-id>`）
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
-- `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果、过程与内部状态）
+- `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果及效果生命周期、过程与内部状态）
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/WasmValidationGenericPage.tsx`：combat-data → 组装 → compile / run / release
 - `src/pages/ImagesPage.tsx`：图片缓存与同步
@@ -85,7 +85,7 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
-| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：11 个静态页 + 30 个 combat-data 页，技能管理页覆盖参数、公式、效果与结果、过程与内部状态；Desktop Chrome；无需 `E2E_*` |
+| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：11 个静态页 + 30 个 combat-data 页，技能管理页覆盖参数、公式、效果与结果及效果生命周期、过程与内部状态；Desktop Chrome；无需 `E2E_*` |
 | `npm run test:e2e:wasm-generic` | Playwright 通用规格：后端 current/state/abilities/entities 探测 + 指定 source/target + 页面 combat-data ready + compile/run/release（需四个 `E2E_*` 必填项） |
 | `npm run smoke:wasm-generic` | 发布门禁：`lint` → `typecheck` → `test` → `build` → Playwright（fail-fast） |
 

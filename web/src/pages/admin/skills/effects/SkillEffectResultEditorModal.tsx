@@ -23,8 +23,15 @@ import type {
   AttributeChangeOperation,
   CooldownChangeOperation,
   ResourceChangeOperation,
+  SkillEffectLifecycleMoment,
+  SkillEffectLifecycleOperation,
+  SkillEffectPeriodicExecutionMode,
+  SkillEffectReapplicationValueMode,
   SkillEffectResultType,
+  SkillEffectStackValueMode,
+  SkillEffectSummary,
   SkillEffectTarget,
+  SkillEffectValueReadMode,
   StatusOperation
 } from '../../../../types/skillEffect';
 import type { GameStatus } from '../../../../types/status';
@@ -35,24 +42,45 @@ import {
   DISABLED_PARENT_SKILL_LABEL,
   INCOMPLETE_CATALOG_MESSAGE,
   RESOURCE_CHANGE_OPERATION_LABELS,
+  SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
+  SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
+  SKILL_EFFECT_LIFECYCLE_OPERATIONS,
+  SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS,
+  SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS,
   SKILL_EFFECT_RESULT_TYPES,
   SKILL_EFFECT_RESULT_TYPE_LABELS,
+  SKILL_EFFECT_STACK_VALUE_MODE_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
+  SKILL_EFFECT_VALUE_READ_MODE_LABELS,
   STATUS_OPERATION_LABELS,
+  UNKNOWN_LIFECYCLE_TARGET_LABEL,
   applyCooldownOperationChange,
+  applyLifecycleMomentChange,
+  applyLifecycleOperationChange,
   applyResultTypeChange,
+  applyStackValueModeChange,
+  clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
+  isAttributeSetPersistent,
   isCatalogOptionSelectable,
+  isPeriodicExecutionModeVisible,
+  isReapplicationValueModeVisible,
+  isStackValueModeVisible,
+  isValueReadModeFixed,
+  isValueReadModeVisible,
   isValueRuleVisible,
   listAffectedSkillOptions,
+  listAllowedLifecycleMoments,
   listAttributeOptions,
   listDamageTypeOptions,
   listFormulaOptions,
+  listLifecycleTargetOptions,
   listStatusOptions,
   validateSkillEffectDraft,
   type CatalogRefOption,
   type EffectCatalogLoadState,
   type EffectFormCatalog,
+  type SkillEffectDraft,
   type SkillEffectResultDraft,
   type SkillEffectResultDraftErrors
 } from './effectForm';
@@ -69,6 +97,11 @@ type SkillEffectResultEditorModalProps = {
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
   parentSkill: Skill;
+  parentDraft: SkillEffectDraft;
+  effectSummaries: ReadonlyArray<Pick<SkillEffectSummary, 'effectKey' | 'name' | 'lifecycleEnabled'>>;
+  effectsLoadState?: 'ready' | 'failed';
+  effectsError?: string | null;
+  onRetryEffects?: () => void;
   apiBaseUrl: string;
   selectedGameId: string;
   adminToken: string;
@@ -121,6 +154,23 @@ function toSelectOptions(
   }));
 }
 
+function toLifecycleTargetSelectOptions(
+  options: CatalogRefOption[],
+  names: Map<string, string>
+): Array<{ label: string; value: string; disabled: boolean }> {
+  return options.map((option) => {
+    const name = names.get(option.key) ?? option.key;
+    const label = option.source === 'unknown'
+      ? `${option.key}（${UNKNOWN_LIFECYCLE_TARGET_LABEL}）`
+      : name;
+    return {
+      value: option.key,
+      label,
+      disabled: !isCatalogOptionSelectable(option)
+    };
+  });
+}
+
 function hasUnknownOption(options: CatalogRefOption[], currentKey: string): boolean {
   const trimmed = currentKey.trim();
   if (!trimmed) return false;
@@ -137,6 +187,11 @@ export function SkillEffectResultEditorModal({
   formulas,
   formulasLoadState,
   parentSkill,
+  parentDraft,
+  effectSummaries,
+  effectsLoadState,
+  effectsError,
+  onRetryEffects,
   apiBaseUrl,
   selectedGameId,
   adminToken,
@@ -321,17 +376,20 @@ export function SkillEffectResultEditorModal({
 
   const catalog = useMemo<EffectFormCatalog>(() => ({
     parentSkillKey: parentSkill.skillKey,
+    parentEffectKey: parentDraft.effectKey.trim(),
     formulas,
+    effects: effectSummaries,
     damageTypes,
     attributes,
     skills,
     statuses
-  }), [attributes, damageTypes, formulas, parentSkill.skillKey, skills, statuses]);
+  }), [attributes, damageTypes, effectSummaries, formulas, parentDraft.effectKey, parentSkill.skillKey, skills, statuses]);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,
-    formulas: formulasLoadState
-  }), [catalogLoadState, formulasLoadState]);
+    formulas: formulasLoadState,
+    effects: effectsLoadState
+  }), [catalogLoadState, effectsLoadState, formulasLoadState]);
 
   const formulaOptions = useMemo(
     () => listFormulaOptions(catalog, draft.formulaKey),
@@ -352,6 +410,22 @@ export function SkillEffectResultEditorModal({
   const statusOptions = useMemo(
     () => listStatusOptions(catalog, draft.statusKey, draft.originalStatusKey),
     [catalog, draft.originalStatusKey, draft.statusKey]
+  );
+  const lifecycleTargetOptions = useMemo(
+    () => listLifecycleTargetOptions(catalog, draft.targetEffectKey, catalog.parentEffectKey),
+    [catalog, draft.targetEffectKey]
+  );
+  const lifecycleTargetNames = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const item of effectSummaries) {
+      names.set(item.effectKey, item.name);
+    }
+    return names;
+  }, [effectSummaries]);
+  const hasDuration = Boolean(parentDraft.lifecycle.durationFormulaKey.trim());
+  const allowedMoments = useMemo(
+    () => listAllowedLifecycleMoments(draft, hasDuration),
+    [draft, hasDuration]
   );
 
   const formulaNames = useMemo(
@@ -390,6 +464,12 @@ export function SkillEffectResultEditorModal({
     if (draft.resultType === 'STATUS_OPERATION' && hasUnknownOption(statusOptions, draft.statusKey)) {
       return true;
     }
+    if (
+      draft.resultType === 'LIFECYCLE_OPERATION'
+      && hasUnknownOption(lifecycleTargetOptions, draft.targetEffectKey)
+    ) {
+      return true;
+    }
     return false;
   }, [
     attributeOptions,
@@ -400,7 +480,9 @@ export function SkillEffectResultEditorModal({
     draft.formulaKey,
     draft.resultType,
     draft.statusKey,
+    draft.targetEffectKey,
     formulaOptions,
+    lifecycleTargetOptions,
     showValueRule,
     skillOptions,
     statusOptions
@@ -419,6 +501,9 @@ export function SkillEffectResultEditorModal({
     }
     if (draft.resultType === 'COOLDOWN_CHANGE' && catalogLoading.skills) return true;
     if (draft.resultType === 'STATUS_OPERATION' && catalogLoading.statuses) return true;
+    if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsLoadState !== 'ready' && effectsLoadState !== 'failed') {
+      return effectsLoadState === undefined;
+    }
     return false;
   }, [
     catalogLoading.attributes,
@@ -426,6 +511,7 @@ export function SkillEffectResultEditorModal({
     catalogLoading.skills,
     catalogLoading.statuses,
     draft.resultType,
+    effectsLoadState,
     formulasLoadState,
     showValueRule
   ]);
@@ -450,6 +536,9 @@ export function SkillEffectResultEditorModal({
     if (draft.resultType === 'STATUS_OPERATION' && catalogErrors.statuses) {
       messages.push(catalogErrors.statuses);
     }
+    if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsError) {
+      messages.push(effectsError);
+    }
     return messages;
   }, [
     catalogErrors.attributes,
@@ -457,12 +546,13 @@ export function SkillEffectResultEditorModal({
     catalogErrors.skills,
     catalogErrors.statuses,
     draft.resultType,
+    effectsError,
     formulasLoadState,
     showValueRule
   ]);
 
   const patchDraft = (next: SkillEffectResultDraft) => {
-    setDraft(next);
+    setDraft(clearHiddenLifecycleBehaviorFields(next));
     setErrors({});
     setSaveError(null);
   };
@@ -477,25 +567,29 @@ export function SkillEffectResultEditorModal({
       : siblingResults.filter((_, index) => index !== resultIndex);
     const validation = validateSkillEffectDraft(
       {
-        effectKey: 'placeholder',
-        name: 'placeholder',
-        description: '',
-        sortOrder: '0',
+        ...parentDraft,
         results: [...others, draft]
       },
       {
         includeEffectKey: false,
         catalog,
-        catalogLoadState: validationCatalogState
+        catalogLoadState: validationCatalogState,
+        skipLifecycleShapeValidation: true
       }
     );
     if (!validation.ok) {
       const current = validation.resultErrors.find((item) => item.index === others.length);
-      setErrors(current?.fieldErrors ?? {});
+      if (current && Object.keys(current.fieldErrors).length > 0) {
+        setErrors(current.fieldErrors);
+        if (Object.keys(validation.fieldErrors).length > 0) {
+          setSaveError(Object.values(validation.fieldErrors).filter(Boolean).join('；'));
+        }
+        return;
+      }
       if (Object.keys(validation.fieldErrors).length > 0) {
         setSaveError(Object.values(validation.fieldErrors).filter(Boolean).join('；'));
+        return;
       }
-      return;
     }
     if (unknownBlocking) {
       setSaveError(INCOMPLETE_CATALOG_MESSAGE);
@@ -511,6 +605,7 @@ export function SkillEffectResultEditorModal({
     }
     if (draft.resultType === 'COOLDOWN_CHANGE') void loadSkillsCatalog();
     if (draft.resultType === 'STATUS_OPERATION') void loadStatusesCatalog();
+    if (draft.resultType === 'LIFECYCLE_OPERATION') onRetryEffects?.();
   };
 
   return (
@@ -519,6 +614,7 @@ export function SkillEffectResultEditorModal({
       visible={visible}
       maskClosable
       onCancel={close}
+      style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
       footer={
         <Space>
           <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>
@@ -890,6 +986,172 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
           {errors.detail ? <Alert type="error" content={errors.detail} /> : null}
+
+          {parentDraft.lifecycleEnabled ? (
+            <>
+              <Form.Item
+                label="生命周期时点"
+                required
+                validateStatus={errors.moment ? 'error' : undefined}
+                help={errors.moment}
+              >
+                <Select
+                  aria-label="生命周期时点"
+                  value={draft.lifecycleBehavior.moment || undefined}
+                  disabled={readOnly}
+                  options={allowedMoments.map((value) => ({
+                    value,
+                    label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
+                  }))}
+                  placeholder="请选择生命周期时点"
+                  onChange={(value) => patchDraft(
+                    applyLifecycleMomentChange(draft, value as SkillEffectLifecycleMoment)
+                  )}
+                />
+              </Form.Item>
+              {isValueReadModeVisible(draft) ? (
+                <Form.Item
+                  label="数值读取"
+                  required
+                  validateStatus={errors.valueReadMode ? 'error' : undefined}
+                  help={errors.valueReadMode}
+                >
+                  <Radio.Group
+                    aria-label="数值读取"
+                    value={draft.lifecycleBehavior.valueReadMode}
+                    disabled={readOnly || isValueReadModeFixed(draft)}
+                    onChange={(value) => patchDraft({
+                      ...draft,
+                      lifecycleBehavior: {
+                        ...draft.lifecycleBehavior,
+                        valueReadMode: value as SkillEffectValueReadMode
+                      }
+                    })}
+                  >
+                    {Object.entries(SKILL_EFFECT_VALUE_READ_MODE_LABELS).map(([value, label]) => (
+                      <Radio key={value} value={value}>{label}</Radio>
+                    ))}
+                  </Radio.Group>
+                </Form.Item>
+              ) : null}
+              {isStackValueModeVisible(draft) ? (
+                <Form.Item
+                  label="层数值方式"
+                  required
+                  validateStatus={errors.stackValueMode ? 'error' : undefined}
+                  help={errors.stackValueMode}
+                >
+                  <Radio.Group
+                    aria-label="层数值方式"
+                    value={draft.lifecycleBehavior.stackValueMode}
+                    disabled={readOnly || isAttributeSetPersistent(draft)}
+                    onChange={(value) => patchDraft(
+                      applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
+                    )}
+                  >
+                    {Object.entries(SKILL_EFFECT_STACK_VALUE_MODE_LABELS)
+                      .filter(([value]) => !(isAttributeSetPersistent(draft) && value === 'PER_STACK'))
+                      .map(([value, label]) => (
+                        <Radio key={value} value={value}>{label}</Radio>
+                      ))}
+                  </Radio.Group>
+                </Form.Item>
+              ) : null}
+              {isReapplicationValueModeVisible(draft) ? (
+                <Form.Item
+                  label="重复值方式"
+                  required
+                  validateStatus={errors.reapplicationValueMode ? 'error' : undefined}
+                  help={errors.reapplicationValueMode}
+                >
+                  <Radio.Group
+                    aria-label="重复值方式"
+                    value={draft.lifecycleBehavior.reapplicationValueMode}
+                    disabled={readOnly}
+                    onChange={(value) => patchDraft({
+                      ...draft,
+                      lifecycleBehavior: {
+                        ...draft.lifecycleBehavior,
+                        reapplicationValueMode: value as SkillEffectReapplicationValueMode
+                      }
+                    })}
+                  >
+                    {Object.entries(SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS)
+                      .filter(([value]) => !(isAttributeSetPersistent(draft) && value === 'ADD'))
+                      .map(([value, label]) => (
+                        <Radio key={value} value={value}>{label}</Radio>
+                      ))}
+                  </Radio.Group>
+                </Form.Item>
+              ) : null}
+              {isPeriodicExecutionModeVisible(draft) ? (
+                <Form.Item
+                  label="周期执行次数"
+                  required
+                  validateStatus={errors.periodicExecutionMode ? 'error' : undefined}
+                  help={errors.periodicExecutionMode}
+                >
+                  <Radio.Group
+                    aria-label="周期执行次数"
+                    value={draft.lifecycleBehavior.periodicExecutionMode}
+                    disabled={readOnly}
+                    onChange={(value) => patchDraft({
+                      ...draft,
+                      lifecycleBehavior: {
+                        ...draft.lifecycleBehavior,
+                        periodicExecutionMode: value as SkillEffectPeriodicExecutionMode
+                      }
+                    })}
+                  >
+                    {Object.entries(SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS).map(([value, label]) => (
+                      <Radio key={value} value={value}>{label}</Radio>
+                    ))}
+                  </Radio.Group>
+                </Form.Item>
+              ) : null}
+              {errors.lifecycleBehavior ? <Alert type="error" content={errors.lifecycleBehavior} /> : null}
+            </>
+          ) : null}
+
+          {draft.resultType === 'LIFECYCLE_OPERATION' ? (
+            <>
+              <Form.Item
+                label="目标效果"
+                required
+                validateStatus={errors.targetEffectKey ? 'error' : undefined}
+                help={errors.targetEffectKey}
+              >
+                <Select
+                  aria-label="目标效果"
+                  value={draft.targetEffectKey || undefined}
+                  disabled={readOnly}
+                  options={toLifecycleTargetSelectOptions(lifecycleTargetOptions, lifecycleTargetNames)}
+                  placeholder="请选择目标效果"
+                  onChange={(value) => patchDraft({ ...draft, targetEffectKey: String(value ?? '') })}
+                />
+              </Form.Item>
+              <Form.Item
+                label="操作"
+                required
+                validateStatus={errors.lifecycleOperation ? 'error' : undefined}
+                help={errors.lifecycleOperation}
+              >
+                <Select
+                  aria-label="生命周期操作"
+                  value={draft.lifecycleOperation || undefined}
+                  disabled={readOnly}
+                  options={SKILL_EFFECT_LIFECYCLE_OPERATIONS.map((value) => ({
+                    value,
+                    label: SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS[value]
+                  }))}
+                  placeholder="请选择操作"
+                  onChange={(value) => patchDraft(
+                    applyLifecycleOperationChange(draft, value as SkillEffectLifecycleOperation)
+                  )}
+                />
+              </Form.Item>
+            </>
+          ) : null}
         </Form>
       </Space>
     </Modal>
