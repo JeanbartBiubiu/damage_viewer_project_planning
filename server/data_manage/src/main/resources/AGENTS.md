@@ -19,11 +19,12 @@
 
 1. 改 mapper XML 后至少运行 `mvn test`。
 2. 改 `application.yml`、cache、Redis、JWT 或 mapper location 后补跑 `mvn package`。
-3. 改发布、版本、bundle 或资源 SQL 时回归发布链和公共 bundle 读取。
+3. 改游戏或图片 SQL 时回归 `GET /api/games` 与图片读写。
 
 ## 常见陷阱
 
 1. 不要把真实 DB、Redis 或 JWT 凭据写回仓库。
 2. `mybatis.mapper-locations` 依赖 `classpath*:mapper/**/*.xml`。
-3. XML 中存在 live schema 兼容和 reserved `UNION` read model，不要只按表名机械改。
-4. `ORDER BY` 会影响 Admin 展示和 Bundle 快照顺序。
+3. PostgreSQL JDBC 要求驼峰别名加引号，例如 `AS "gameId"`。
+4. `ORDER BY` 会影响 Admin 展示顺序。
+5. 不要把已删除的 combat-data / versions mapper 路径当成现行映射。

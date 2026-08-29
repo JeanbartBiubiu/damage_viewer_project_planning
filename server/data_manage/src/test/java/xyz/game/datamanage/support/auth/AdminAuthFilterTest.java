@@ -37,7 +37,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterReturns401WhenAuthorizationHeaderMissing() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/attributes");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         filter.doFilter(request, response, filterChain);
@@ -48,7 +48,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterReturns401WhenTokenInvalid() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/attributes");
         request.addHeader("Authorization", "Bearer bad.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(jwtVerifier.verify("bad.token.value")).thenThrow(new IllegalArgumentException("JWT signature invalid"));
@@ -61,7 +61,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterReturns403WhenCanEditIsFalse() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/attributes");
         request.addHeader("Authorization", "Bearer ok.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(jwtVerifier.verify("ok.token.value")).thenReturn(new AuthContext("admin@example.com", false, true));
@@ -74,7 +74,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterPassesThroughWhenTokenValidCanEditTrueAndPaidFalse() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/heroes/hero_ahri");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/admin/games/lol/attributes");
         request.addHeader("Authorization", "Bearer ok.token.value");
         MockHttpServletResponse response = new MockHttpServletResponse();
         AuthContext authContext = new AuthContext("admin@example.com", true, false);
@@ -101,9 +101,9 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterSkipsPreflightRequestsOnAdminRoutes() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("OPTIONS", "/api/admin/games/lol/versions:publish");
+        MockHttpServletRequest request = new MockHttpServletRequest("OPTIONS", "/api/admin/games/lol/images/icon.png");
         request.addHeader(HttpHeaders.ORIGIN, "http://localhost:5173");
-        request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST");
+        request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PUT");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         filter.doFilter(request, response, filterChain);
@@ -115,7 +115,7 @@ class AdminAuthFilterTest {
 
     @Test
     void doFilterBypassesAuthWhenVerifierIsDisabled() throws ServletException, IOException {
-        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/api/admin/games/lol/versions:publish");
+        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/api/admin/games/lol/images/icon.png");
         MockHttpServletResponse response = new MockHttpServletResponse();
         AuthContext authContext = new AuthContext("dev-local@example.com", true, true);
         when(jwtVerifier.isDisabled()).thenReturn(true);
