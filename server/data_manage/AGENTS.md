@@ -28,17 +28,15 @@
 
 1. `src/main/java/xyz/game/datamanage/DataManageApplication.java`：应用启动入口。
 2. `src/main/resources/application.yml`：数据库、Redis、缓存、JWT 与启动探测配置。
-3. `controller/publicapi/GamePublicController.java`：游戏列表公共读取。
-4. `controller/publicapi/VersionPublicController.java`：仅 `GET .../versions/current`（当前版本元数据；不含 Bundle/Catalog）。
-5. `controller/adminapi/VersionAdminController.java`：`POST .../versions:publish`（冻结 `publishRevision`，增量拷贝 `change_revision ∈ (previousPublishedRevision, publishRevision]` 的行到 `*_log`）。
-6. `controller/publicapi/combatdata/**`：Public `GET /api/games/{gameId}/combat-data/**`（含 `/state`）。
-7. `controller/adminapi/combatdata/**`：Admin `PUT /api/admin/games/{gameId}/combat-data/**`（细粒度覆盖写）。
-8. `service/GameDataService.java`：games / current / images / publish 薄聚合（publish 委托 combat-data）。
-9. `service/combatdata/**`：combat-data 读写、revision 递增、`CombatDataPublishService` 发布拷贝。
-10. `mapper/combatdata/**` + `src/main/resources/mapper/combatdata/**`：最新主表与 `_log` 访问。
-11. `config/StartupDependencyVerifier.java`：依赖探测。
+3. `controller/publicapi/GamePublicController.java`：游戏列表公共读取（`gameId` / `gameName` / 可空 `gameImgUrl`）。
+4. `controller/publicapi/ImagePublicController.java`、`controller/adminapi/ImageAdminController.java`：图片读取与写入。
+5. `controller/adminapi/attribute|character|equipment|skill*|status|damagetype|skillprocess|skilleffect|skillinternalstate/**`：阶段 0～7.4 当前管理接口。
+6. `service/GameDataService.java`：games / images 薄聚合。
+7. `service/PostgresReadStore.java`、`service/PostgresWriteStore.java`：游戏读取与图片/编辑日志写入。
+8. `mapper/**` + `src/main/resources/mapper/**`：当前业务表与图片访问。
+9. `config/StartupDependencyVerifier.java`：依赖探测。
 
-当前数据面：**revision-safe 最新主表 + publish 增量拷贝变更行 → `*_log`**。不组装、不提供 Bundle / Wasm Catalog。
+当前数据面：阶段 0～7.4 业务表 + 独立 `images` 分区。旧 `/combat-data/**`、旧版本发布和旧 `*_log` 拷贝链路已经删除。
 
 ## 默认运行与验证
 
@@ -60,7 +58,7 @@
 
 1. 改 `controller/**`、`service/**`、`mapper/**`、`support/**`：至少跑 `mvn test`。
 2. 改 `pom.xml`、`application.yml`、缓存/JWT/启动配置：再补 `mvn package`。
-3. 改公共读取、发布链、缓存或数据库结构：至少验证 `GET /api/games`、`GET /api/games/{gameId}/versions/current`、至少一类 `GET /api/games/{gameId}/combat-data/**`（含 `/state`）、至少一类 Admin `PUT .../combat-data/**`、`POST .../versions:publish`（响应含 `changeRevision`；不生成 Bundle/Catalog）。
+3. 改公共读取、缓存或数据库结构：至少验证 `GET /api/games`、图片接口，以及至少一类阶段 0～7.4 管理读写；旧 combat-data / versions 路径应返回普通 404。
 4. 改 SQL 或接口契约：同步检查 `db/**`、`接口/**`、README/设计文档口径。
 
 ## 常见陷阱
@@ -69,4 +67,4 @@
 2. `app.startup.fail-fast` 默认是 `false`；如需在启动阶段立即暴露 PostgreSQL / Redis 问题，可显式设为 `true`。
 3. `APP_AUTH_JWT_DISABLED` 默认允许本地关闭 Admin JWT；若改为启用，记得同时提供公钥配置并回归 Admin 接口。
 4. CORS 当前只放开 `/api/**`；若联调异常，先确认请求路径而不是直接扩大放行范围。
-5. 读路径按 `change_revision` / `game_data_state` 对齐；发布冻结 `publishRevision`，并增量拷贝 `change_revision ∈ (previousPublishedRevision, publishRevision]` 的行到 `_log`，不要假设仍存在 `/bundle` 或 `/wasm-catalog`。
+5. 不要把已删除的 `/combat-data/**`、`versions/current` 或 `versions:publish` 当成当前能力；图片分区只由 `ensure_game_partitions` 维护。

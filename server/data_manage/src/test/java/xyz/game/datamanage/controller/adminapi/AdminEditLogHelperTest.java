@@ -24,7 +24,7 @@ class AdminEditLogHelperTest {
         AdminEditLogHelper helper = new AdminEditLogHelper(gameDataService);
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("PUT");
-        when(request.getRequestURI()).thenReturn("/api/admin/games/lol/heroes/hero_ahri");
+        when(request.getRequestURI()).thenReturn("/api/admin/games/lol/attributes");
 
         doThrow(new RuntimeException("db unavailable"))
             .when(gameDataService)
