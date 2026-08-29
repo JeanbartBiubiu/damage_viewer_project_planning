@@ -492,7 +492,8 @@ CREATE TABLE public.skill_effect_results (
     CONSTRAINT ck_skill_effect_results_type
         CHECK (result_type IN (
             'DAMAGE', 'DIRECT_HEAL', 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE',
-            'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION'
+            'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION',
+            'LIFECYCLE_OPERATION'
         )),
     CONSTRAINT ck_skill_effect_results_target
         CHECK (target IN ('SOURCE', 'TARGET')),
@@ -672,6 +673,178 @@ CREATE INDEX ix_skill_effect_status_operation_details_status
     (game_id, status_key, skill_key, effect_key, result_key);
 
 COMMENT ON TABLE public.skill_effect_status_operation_details IS '状态操作结果明细';
+
+CREATE TABLE public.skill_effect_lifecycles (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    duration_formula_key varchar(64),
+    max_stacks_formula_key varchar(64) NOT NULL,
+    application_stacks_formula_key varchar(64) NOT NULL,
+    instance_scope varchar(24) NOT NULL,
+    reapplication_stack_mode varchar(24) NOT NULL,
+    reapplication_duration_mode varchar(24),
+    expiry_mode varchar(24) NOT NULL,
+    periodic_interval_formula_key varchar(64),
+    first_periodic_execution varchar(24),
+    CONSTRAINT pk_skill_effect_lifecycles
+        PRIMARY KEY (game_id, skill_key, effect_key),
+    CONSTRAINT fk_skill_effect_lifecycles_effect
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_lifecycles_duration_formula
+        FOREIGN KEY (game_id, skill_key, duration_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_effect_lifecycles_max_stacks_formula
+        FOREIGN KEY (game_id, skill_key, max_stacks_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_effect_lifecycles_application_stacks_formula
+        FOREIGN KEY (game_id, skill_key, application_stacks_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT fk_skill_effect_lifecycles_periodic_interval_formula
+        FOREIGN KEY (game_id, skill_key, periodic_interval_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_effect_lifecycles_instance_scope
+        CHECK (instance_scope IN ('SKILL', 'SOURCE', 'TARGET', 'SOURCE_TARGET')),
+    CONSTRAINT ck_skill_effect_lifecycles_reapplication_stack_mode
+        CHECK (reapplication_stack_mode IN ('KEEP', 'INCREASE', 'REPLACE')),
+    CONSTRAINT ck_skill_effect_lifecycles_reapplication_duration_mode
+        CHECK (
+            reapplication_duration_mode IS NULL
+            OR reapplication_duration_mode IN ('REFRESH_ALL', 'KEEP_REMAINING', 'INDEPENDENT')
+        ),
+    CONSTRAINT ck_skill_effect_lifecycles_expiry_mode
+        CHECK (expiry_mode IN ('ALL_AT_ONCE', 'ONE_BY_ONE', 'INDEPENDENT', 'EXPLICIT_ONLY')),
+    CONSTRAINT ck_skill_effect_lifecycles_first_periodic_execution
+        CHECK (
+            first_periodic_execution IS NULL
+            OR first_periodic_execution IN ('IMMEDIATE', 'AFTER_INTERVAL')
+        ),
+    CONSTRAINT ck_skill_effect_lifecycles_duration_expiry
+        CHECK (
+            (
+                duration_formula_key IS NULL
+                AND expiry_mode = 'EXPLICIT_ONLY'
+                AND reapplication_duration_mode IS NULL
+            )
+            OR (
+                duration_formula_key IS NOT NULL
+                AND expiry_mode <> 'EXPLICIT_ONLY'
+                AND reapplication_duration_mode IS NOT NULL
+            )
+        ),
+    CONSTRAINT ck_skill_effect_lifecycles_independent_pair
+        CHECK (
+            (reapplication_duration_mode = 'INDEPENDENT')
+            = (expiry_mode = 'INDEPENDENT')
+        ),
+    CONSTRAINT ck_skill_effect_lifecycles_one_by_one
+        CHECK (
+            expiry_mode <> 'ONE_BY_ONE'
+            OR reapplication_duration_mode IN ('REFRESH_ALL', 'KEEP_REMAINING')
+        ),
+    CONSTRAINT ck_skill_effect_lifecycles_periodic_pair
+        CHECK (
+            (periodic_interval_formula_key IS NULL)
+            = (first_periodic_execution IS NULL)
+        )
+);
+
+CREATE INDEX ix_skill_effect_lifecycles_duration_formula
+    ON public.skill_effect_lifecycles
+    (game_id, skill_key, duration_formula_key, effect_key);
+
+CREATE INDEX ix_skill_effect_lifecycles_max_stacks_formula
+    ON public.skill_effect_lifecycles
+    (game_id, skill_key, max_stacks_formula_key, effect_key);
+
+CREATE INDEX ix_skill_effect_lifecycles_application_stacks_formula
+    ON public.skill_effect_lifecycles
+    (game_id, skill_key, application_stacks_formula_key, effect_key);
+
+CREATE INDEX ix_skill_effect_lifecycles_periodic_interval_formula
+    ON public.skill_effect_lifecycles
+    (game_id, skill_key, periodic_interval_formula_key, effect_key);
+
+COMMENT ON TABLE public.skill_effect_lifecycles IS '技能效果生命周期';
+
+CREATE TABLE public.skill_effect_result_lifecycle_behaviors (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    moment varchar(24) NOT NULL,
+    value_read_mode varchar(24),
+    stack_value_mode varchar(24),
+    reapplication_value_mode varchar(24),
+    periodic_execution_mode varchar(24),
+    CONSTRAINT pk_skill_effect_result_lifecycle_behaviors
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_result_lifecycle_behaviors_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_effect_result_lifecycle_behaviors_moment
+        CHECK (moment IN (
+            'APPLICATION', 'PERSISTENT', 'FULL_STACKS',
+            'PERIODIC', 'NATURAL_END', 'EARLY_REMOVE'
+        )),
+    CONSTRAINT ck_skill_effect_result_lifecycle_behaviors_value_read_mode
+        CHECK (
+            value_read_mode IS NULL
+            OR value_read_mode IN ('APPLICATION_SNAPSHOT', 'MOMENT_EVALUATION')
+        ),
+    CONSTRAINT ck_skill_effect_result_lifecycle_behaviors_stack_value_mode
+        CHECK (
+            stack_value_mode IS NULL
+            OR stack_value_mode IN ('SHARED', 'PER_STACK')
+        ),
+    CONSTRAINT ck_skill_effect_result_lifecycle_behaviors_reapplication_value_mode
+        CHECK (
+            reapplication_value_mode IS NULL
+            OR reapplication_value_mode IN ('KEEP', 'REPLACE', 'ADD')
+        ),
+    CONSTRAINT ck_skill_effect_result_lifecycle_behaviors_periodic_execution_mode
+        CHECK (
+            periodic_execution_mode IS NULL
+            OR periodic_execution_mode IN ('ONCE_PER_INSTANCE', 'ONCE_PER_ACTIVE_STACK')
+        )
+);
+
+COMMENT ON TABLE public.skill_effect_result_lifecycle_behaviors IS '技能效果结果生命周期行为';
+
+CREATE TABLE public.skill_effect_lifecycle_operation_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    target_effect_key varchar(64) NOT NULL,
+    operation varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_effect_lifecycle_operation_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_lifecycle_operation_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_lifecycle_operations_target
+        FOREIGN KEY (game_id, skill_key, target_effect_key)
+        REFERENCES public.skill_effect_lifecycles (game_id, skill_key, effect_key),
+    CONSTRAINT ck_skill_effect_lifecycle_operation_details_operation
+        CHECK (operation IN (
+            'INCREASE', 'DECREASE', 'SET', 'REFRESH', 'CONSUME', 'REMOVE'
+        )),
+    CONSTRAINT ck_skill_effect_lifecycle_operation_details_not_self
+        CHECK (target_effect_key <> effect_key)
+);
+
+CREATE INDEX ix_skill_effect_lifecycle_operations_target
+    ON public.skill_effect_lifecycle_operation_details
+    (game_id, skill_key, target_effect_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_lifecycle_operation_details IS '生命周期操作结果明细';
 
 CREATE TABLE public.skill_internal_states (
     game_id varchar(64) NOT NULL,

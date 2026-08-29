@@ -249,7 +249,7 @@ END;
 $$;
 
 -- -----------------------------------------------------------------------------
--- skill_effect_results：事务提交时必须满足七种结果完整形状
+-- skill_effect_results：事务提交时必须满足八种结果完整形状
 -- -----------------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION public.trg_skill_effect_result_complete_shape()
@@ -263,12 +263,14 @@ DECLARE
     v_result_key varchar(64);
     v_result_type varchar(24);
     v_cooldown_operation varchar(16);
+    v_lifecycle_operation varchar(24);
     v_value_count int;
     v_damage_count int;
     v_attribute_count int;
     v_resource_count int;
     v_cooldown_count int;
     v_status_count int;
+    v_lifecycle_op_count int;
 BEGIN
     IF TG_TABLE_NAME = 'skill_effect_results' THEN
         IF TG_OP = 'DELETE' THEN
@@ -339,6 +341,12 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_lifecycle_op_count
+      FROM public.skill_effect_lifecycle_operation_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
 
     IF v_result_type = 'DAMAGE' THEN
         IF v_value_count <> 1
@@ -346,7 +354,8 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) DAMAGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -358,7 +367,8 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) % shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
@@ -370,7 +380,8 @@ BEGIN
             OR v_attribute_count <> 1
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) ATTRIBUTE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -382,7 +393,8 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 1
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) RESOURCE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -393,7 +405,8 @@ BEGIN
             OR v_damage_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -424,10 +437,43 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 1 THEN
+            OR v_status_count <> 1
+            OR v_lifecycle_op_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) STATUS_OPERATION shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'LIFECYCLE_OPERATION' THEN
+        IF v_lifecycle_op_count <> 1
+            OR v_damage_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT d.operation
+          INTO v_lifecycle_operation
+          FROM public.skill_effect_lifecycle_operation_details d
+         WHERE d.game_id = v_game_id
+           AND d.skill_key = v_skill_key
+           AND d.effect_key = v_effect_key
+           AND d.result_key = v_result_key;
+        IF v_lifecycle_operation IN ('INCREASE', 'DECREASE', 'SET', 'CONSUME')
+            AND v_value_count <> 1 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION % requires value rule at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key, v_lifecycle_operation
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_lifecycle_operation IN ('REFRESH', 'REMOVE') AND v_value_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION % must not have value rule at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key, v_lifecycle_operation
                 USING ERRCODE = 'check_violation';
         END IF;
     ELSE
@@ -461,7 +507,8 @@ DECLARE
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
-        'skill_effect_status_operation_details'
+        'skill_effect_status_operation_details',
+        'skill_effect_lifecycle_operation_details'
     ];
 BEGIN
     FOREACH v_detail IN ARRAY v_details
@@ -486,6 +533,440 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+-- -----------------------------------------------------------------------------
+-- skill_effect 生命周期聚合形状：效果 / 生命周期 / 结果 / 行为
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_effect_key varchar(64);
+    v_has_lifecycle boolean;
+    v_duration_formula_key varchar(64);
+    v_periodic_interval_formula_key varchar(64);
+    v_first_periodic_execution varchar(24);
+    v_result record;
+    v_behavior_count int;
+    v_value_count int;
+    v_moment varchar(24);
+    v_value_read_mode varchar(24);
+    v_stack_value_mode varchar(24);
+    v_reapplication_value_mode varchar(24);
+    v_periodic_execution_mode varchar(24);
+    v_status_operation varchar(16);
+    v_attribute_operation varchar(16);
+    v_periodic_behavior_count int;
+BEGIN
+    IF TG_TABLE_NAME = 'skill_effects' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_effect_key := NEW.effect_key;
+    ELSIF TG_TABLE_NAME = 'skill_effect_results' THEN
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_effect_key := OLD.effect_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_effect_key := NEW.effect_key;
+        END IF;
+    ELSIF TG_TABLE_NAME = 'skill_effect_lifecycles' THEN
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_effect_key := OLD.effect_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_effect_key := NEW.effect_key;
+        END IF;
+    ELSE
+        IF TG_OP = 'DELETE' THEN
+            v_game_id := OLD.game_id;
+            v_skill_key := OLD.skill_key;
+            v_effect_key := OLD.effect_key;
+        ELSE
+            v_game_id := NEW.game_id;
+            v_skill_key := NEW.skill_key;
+            v_effect_key := NEW.effect_key;
+        END IF;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1
+          FROM public.skill_effects e
+         WHERE e.game_id = v_game_id
+           AND e.skill_key = v_skill_key
+           AND e.effect_key = v_effect_key
+    ) THEN
+        RETURN COALESCE(NEW, OLD);
+    END IF;
+
+    SELECT true,
+           l.duration_formula_key,
+           l.periodic_interval_formula_key,
+           l.first_periodic_execution
+      INTO v_has_lifecycle,
+           v_duration_formula_key,
+           v_periodic_interval_formula_key,
+           v_first_periodic_execution
+      FROM public.skill_effect_lifecycles l
+     WHERE l.game_id = v_game_id
+       AND l.skill_key = v_skill_key
+       AND l.effect_key = v_effect_key;
+    IF NOT FOUND THEN
+        v_has_lifecycle := false;
+        v_duration_formula_key := NULL;
+        v_periodic_interval_formula_key := NULL;
+        v_first_periodic_execution := NULL;
+    END IF;
+
+    IF NOT v_has_lifecycle THEN
+        IF EXISTS (
+            SELECT 1
+              FROM public.skill_effect_result_lifecycle_behaviors b
+             WHERE b.game_id = v_game_id
+               AND b.skill_key = v_skill_key
+               AND b.effect_key = v_effect_key
+        ) THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: behaviors without lifecycle',
+                v_game_id, v_skill_key, v_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        RETURN COALESCE(NEW, OLD);
+    END IF;
+
+    FOR v_result IN
+        SELECT r.result_key, r.result_type
+          FROM public.skill_effect_results r
+         WHERE r.game_id = v_game_id
+           AND r.skill_key = v_skill_key
+           AND r.effect_key = v_effect_key
+    LOOP
+        SELECT COUNT(*) INTO v_behavior_count
+          FROM public.skill_effect_result_lifecycle_behaviors b
+         WHERE b.game_id = v_game_id
+           AND b.skill_key = v_skill_key
+           AND b.effect_key = v_effect_key
+           AND b.result_key = v_result.result_key;
+        IF v_behavior_count <> 1 THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % must have exactly one behavior',
+                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+
+        SELECT b.moment,
+               b.value_read_mode,
+               b.stack_value_mode,
+               b.reapplication_value_mode,
+               b.periodic_execution_mode
+          INTO v_moment,
+               v_value_read_mode,
+               v_stack_value_mode,
+               v_reapplication_value_mode,
+               v_periodic_execution_mode
+          FROM public.skill_effect_result_lifecycle_behaviors b
+         WHERE b.game_id = v_game_id
+           AND b.skill_key = v_skill_key
+           AND b.effect_key = v_effect_key
+           AND b.result_key = v_result.result_key;
+
+        SELECT COUNT(*) INTO v_value_count
+          FROM public.skill_effect_result_values v
+         WHERE v.game_id = v_game_id
+           AND v.skill_key = v_skill_key
+           AND v.effect_key = v_effect_key
+           AND v.result_key = v_result.result_key;
+
+        IF v_moment = 'PERSISTENT' THEN
+            IF v_result.result_type NOT IN ('NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION') THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            IF v_result.result_type = 'STATUS_OPERATION' THEN
+                SELECT d.operation
+                  INTO v_status_operation
+                  FROM public.skill_effect_status_operation_details d
+                 WHERE d.game_id = v_game_id
+                   AND d.skill_key = v_skill_key
+                   AND d.effect_key = v_effect_key
+                   AND d.result_key = v_result.result_key;
+                IF v_status_operation IS DISTINCT FROM 'APPLY' THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+                IF v_stack_value_mode IS NOT NULL OR v_reapplication_value_mode IS NOT NULL THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % persistent status stack fields invalid',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+            ELSE
+                IF v_stack_value_mode IS NULL THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % stack_value_mode required',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+                IF v_stack_value_mode = 'PER_STACK' THEN
+                    IF v_reapplication_value_mode IS NOT NULL THEN
+                        RAISE EXCEPTION
+                            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % PER_STACK forbids reapplication_value_mode',
+                            v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                            USING ERRCODE = 'check_violation';
+                    END IF;
+                ELSIF v_reapplication_value_mode IS NULL THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % SHARED requires reapplication_value_mode',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+                IF v_result.result_type = 'ATTRIBUTE_CHANGE' THEN
+                    SELECT d.operation
+                      INTO v_attribute_operation
+                      FROM public.skill_effect_attribute_change_details d
+                     WHERE d.game_id = v_game_id
+                       AND d.skill_key = v_skill_key
+                       AND d.effect_key = v_effect_key
+                       AND d.result_key = v_result.result_key;
+                    IF v_attribute_operation = 'SET' THEN
+                        IF v_stack_value_mode IS DISTINCT FROM 'SHARED'
+                            OR v_reapplication_value_mode NOT IN ('KEEP', 'REPLACE') THEN
+                            RAISE EXCEPTION
+                                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % SET stack merge invalid',
+                                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                                USING ERRCODE = 'check_violation';
+                        END IF;
+                    END IF;
+                END IF;
+            END IF;
+        ELSE
+            IF v_stack_value_mode IS NOT NULL OR v_reapplication_value_mode IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % stack fields only for PERSISTENT',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        END IF;
+
+        IF v_value_count > 0 THEN
+            IF v_value_read_mode IS NULL THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % value_read_mode required',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            IF v_moment IN ('APPLICATION', 'PERSISTENT')
+                AND v_value_read_mode IS DISTINCT FROM 'APPLICATION_SNAPSHOT' THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % APPLICATION/PERSISTENT must snapshot',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_value_read_mode IS NOT NULL THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % value_read_mode must be empty',
+                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+
+        IF v_moment = 'PERIODIC' THEN
+            IF v_periodic_execution_mode IS NULL THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % periodic_execution_mode required',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_periodic_execution_mode IS NOT NULL THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % periodic_execution_mode must be empty',
+                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+
+        IF v_moment = 'NATURAL_END' AND v_duration_formula_key IS NULL THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: NATURAL_END requires duration',
+                v_game_id, v_skill_key, v_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END LOOP;
+
+    SELECT COUNT(*) INTO v_periodic_behavior_count
+      FROM public.skill_effect_result_lifecycle_behaviors b
+     WHERE b.game_id = v_game_id
+       AND b.skill_key = v_skill_key
+       AND b.effect_key = v_effect_key
+       AND b.moment = 'PERIODIC';
+    IF v_periodic_behavior_count > 0 THEN
+        IF v_periodic_interval_formula_key IS NULL OR v_first_periodic_execution IS NULL THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: periodic fields required',
+                v_game_id, v_skill_key, v_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_periodic_interval_formula_key IS NOT NULL OR v_first_periodic_execution IS NOT NULL THEN
+        RAISE EXCEPTION
+            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: periodic fields must be empty',
+            v_game_id, v_skill_key, v_effect_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape() IS
+    'deferred：保证效果、生命周期、结果与结果行为在提交时满足聚合形状';
+
+DROP TRIGGER IF EXISTS trg_skill_effects_lifecycle_aggregate_shape
+    ON public.skill_effects;
+CREATE CONSTRAINT TRIGGER trg_skill_effects_lifecycle_aggregate_shape
+AFTER INSERT OR UPDATE ON public.skill_effects
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
+
+DROP TRIGGER IF EXISTS trg_skill_effect_results_lifecycle_aggregate_shape
+    ON public.skill_effect_results;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_results_lifecycle_aggregate_shape
+AFTER INSERT OR UPDATE OR DELETE ON public.skill_effect_results
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
+
+DROP TRIGGER IF EXISTS trg_skill_effect_lifecycles_aggregate_shape
+    ON public.skill_effect_lifecycles;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_lifecycles_aggregate_shape
+AFTER INSERT OR UPDATE OR DELETE ON public.skill_effect_lifecycles
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
+
+DROP TRIGGER IF EXISTS trg_skill_effect_result_lifecycle_behaviors_aggregate_shape
+    ON public.skill_effect_result_lifecycle_behaviors;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_result_lifecycle_behaviors_aggregate_shape
+AFTER INSERT OR UPDATE OR DELETE ON public.skill_effect_result_lifecycle_behaviors
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
+
+-- -----------------------------------------------------------------------------
+-- REFRESH 操作目标必须有自然到期；从操作方与目标生命周期两侧延迟保护
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_effect_lifecycle_refresh_target_duration()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_target_effect_key varchar(64);
+    v_duration_formula_key varchar(64);
+    v_refresh_count int;
+BEGIN
+    IF TG_TABLE_NAME = 'skill_effect_lifecycle_operation_details' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        IF NEW.operation IS DISTINCT FROM 'REFRESH' THEN
+            RETURN NEW;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_target_effect_key := NEW.target_effect_key;
+        SELECT l.duration_formula_key
+          INTO v_duration_formula_key
+          FROM public.skill_effect_lifecycles l
+         WHERE l.game_id = v_game_id
+           AND l.skill_key = v_skill_key
+           AND l.effect_key = v_target_effect_key;
+        IF NOT FOUND THEN
+            RETURN NEW;
+        END IF;
+        IF v_duration_formula_key IS NULL THEN
+            RAISE EXCEPTION
+                'ck_skill_effect_lifecycle_refresh_target_duration: REFRESH target % has no duration',
+                v_target_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        RETURN NEW;
+    END IF;
+
+    IF TG_OP = 'DELETE' THEN
+        v_game_id := OLD.game_id;
+        v_skill_key := OLD.skill_key;
+        v_target_effect_key := OLD.effect_key;
+        IF NOT EXISTS (
+            SELECT 1
+              FROM public.skill_effects e
+             WHERE e.game_id = v_game_id
+               AND e.skill_key = v_skill_key
+               AND e.effect_key = v_target_effect_key
+        ) THEN
+            RETURN OLD;
+        END IF;
+        v_duration_formula_key := NULL;
+    ELSE
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_target_effect_key := NEW.effect_key;
+        v_duration_formula_key := NEW.duration_formula_key;
+        IF v_duration_formula_key IS NOT NULL THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO v_refresh_count
+      FROM public.skill_effect_lifecycle_operation_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.target_effect_key = v_target_effect_key
+       AND d.operation = 'REFRESH';
+    IF v_refresh_count > 0 THEN
+        RAISE EXCEPTION
+            'ck_skill_effect_lifecycle_refresh_target_duration: lifecycle % still referenced by REFRESH',
+            v_target_effect_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_effect_lifecycle_refresh_target_duration() IS
+    'deferred：REFRESH 操作目标必须有自然到期，操作方写入与目标清空持续时间两侧保护';
+
+DROP TRIGGER IF EXISTS trg_skill_effect_lifecycle_refresh_target_duration_ops
+    ON public.skill_effect_lifecycle_operation_details;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_lifecycle_refresh_target_duration_ops
+AFTER INSERT OR UPDATE ON public.skill_effect_lifecycle_operation_details
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_refresh_target_duration();
+
+DROP TRIGGER IF EXISTS trg_skill_effect_lifecycle_refresh_target_duration_lc
+    ON public.skill_effect_lifecycles;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_lifecycle_refresh_target_duration_lc
+AFTER UPDATE OR DELETE ON public.skill_effect_lifecycles
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_refresh_target_duration();
 
 -- -----------------------------------------------------------------------------
 -- skill_internal_states：事务提交时必须满足五种内部状态完整形状

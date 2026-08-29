@@ -256,7 +256,14 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             assertFalse(table.contains("text[]"), () -> tableName + " must not use text[]");
             assertFalse(table.contains("varchar[]"), () -> tableName + " must not use varchar[]");
             assertFalse(table.contains("process"), () -> tableName + " must not add process columns");
-            assertFalse(table.contains("lifecycle"), () -> tableName + " must not add lifecycle columns");
+            if ("skill_effect_results".equals(tableName)) {
+                assertFalse(table.contains("lifecycle_enabled"),
+                    () -> tableName + " must not add lifecycle columns");
+                assertFalse(table.contains("duration_formula"),
+                    () -> tableName + " must not add lifecycle columns");
+            } else {
+                assertFalse(table.contains("lifecycle"), () -> tableName + " must not add lifecycle columns");
+            }
             assertFalse(table.contains("condition"), () -> tableName + " must not add condition columns");
             assertFalse(table.contains("event_"), () -> tableName + " must not add event columns");
             assertFalse(table.contains("crit"), () -> tableName + " must not add crit columns");
