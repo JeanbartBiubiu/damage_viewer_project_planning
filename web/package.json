@@ -10,10 +10,7 @@
     "lint": "node scripts/lint-no-legacy.mjs",
     "typecheck": "tsc -b --pretty false",
     "test": "vitest run --config vitest.config.ts",
-    "test:wasm-generic": "vitest run --config vitest.config.ts src/engine/combatDataAssembler.test.ts src/engine/genericEngineClient.test.ts src/services/combatDataClient.test.ts src/services/adminPayload.test.ts",
-    "test:e2e:wasm-generic": "playwright test --config playwright.config.ts tests/e2e/wasm-generic.spec.ts",
-    "test:e2e:non-wasm": "playwright test --config playwright.non-wasm.config.ts",
-    "smoke:wasm-generic": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e:wasm-generic"
+    "test:e2e:non-wasm": "playwright test --config playwright.non-wasm.config.ts"
   },
   "dependencies": {
     "@arco-design/web-react": "^2.66.0",

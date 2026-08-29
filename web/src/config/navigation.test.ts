@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { navigationGroups, navigationItems } from './navigation';
 
 describe('product navigation', () => {
-  it('exposes attribute and character management in the data-management group', () => {
+  it('exposes only the current nine management entries', () => {
     const dataGroup = navigationGroups.find((group) => group.id === 'data-management');
 
+    expect(navigationGroups.map((group) => group.id)).toEqual(['data-management']);
     expect(dataGroup?.items.map((item) => item.id)).toEqual([
-      'overview',
       'attributes',
       'characters',
       'equipment',
@@ -15,12 +15,17 @@ describe('product navigation', () => {
       'skills',
       'statuses',
       'game-settings',
-      'provider-setup',
-      'ability-setup',
-      'effect-sequence-setup',
-      'effect-step-setup',
-      'direct-damage-ability',
-      'workspace',
+      'images'
+    ]);
+    expect(navigationItems.map((item) => item.id)).toEqual([
+      'attributes',
+      'characters',
+      'equipment',
+      'skill-categories',
+      'damage-types',
+      'skills',
+      'statuses',
+      'game-settings',
       'images'
     ]);
     expect(dataGroup?.items.find((item) => item.id === 'attributes')).toMatchObject({
@@ -31,9 +36,9 @@ describe('product navigation', () => {
       hashSegment: 'characters',
       label: '角色管理'
     });
-    expect(dataGroup?.items.find((item) => item.id === 'game-settings')).toMatchObject({
-      hashSegment: 'game-settings',
-      label: '游戏配置'
+    expect(dataGroup?.items.find((item) => item.id === 'equipment')).toMatchObject({
+      hashSegment: 'equipment',
+      label: '装备管理'
     });
     expect(dataGroup?.items.find((item) => item.id === 'skill-categories')).toMatchObject({
       hashSegment: 'skill-categories',
@@ -52,48 +57,42 @@ describe('product navigation', () => {
       label: '状态管理',
       summary: ''
     });
+    expect(dataGroup?.items.find((item) => item.id === 'game-settings')).toMatchObject({
+      hashSegment: 'game-settings',
+      label: '游戏配置'
+    });
+    expect(dataGroup?.items.find((item) => item.id === 'images')).toMatchObject({
+      hashSegment: 'images',
+      label: '图片缓存'
+    });
   });
 
-  it('does not expose old entity navigation, legacy combat-data groups or entity growth', () => {
-    expect(navigationGroups.map((group) => group.id)).toEqual([
-      'data-management',
-      'wasm-validation'
-    ]);
-    expect(navigationGroups.some((group) => String(group.id).startsWith('combat-data'))).toBe(
-      false
-    );
+  it('does not expose old combat-data, publish or wasm-validation entries', () => {
+    expect(
+      navigationItems.some((item) =>
+        [
+          'overview',
+          'workspace',
+          'wasm-validation-generic',
+          'provider-setup',
+          'ability-setup',
+          'effect-sequence-setup',
+          'effect-step-setup',
+          'direct-damage-ability',
+          'entity-growth',
+          'entity-setup',
+          'entity-provider-mount'
+        ].includes(item.id)
+      )
+    ).toBe(false);
     expect(
       navigationItems.some(
         (item) =>
-          item.id === 'entity-growth' ||
-          item.id === 'entity-setup' ||
-          item.id === 'entity-provider-mount' ||
-          item.hashSegment === 'entity-growth' ||
+          item.hashSegment === 'overview' ||
+          item.hashSegment === 'workspace' ||
           item.hashSegment === 'combat-data' ||
           item.hashSegment.startsWith('combat-data/')
       )
     ).toBe(false);
-  });
-
-  it('keeps the non-legacy authoring, operations and validation entries', () => {
-    expect(navigationItems.map((item) => item.id)).toEqual([
-      'overview',
-      'attributes',
-      'characters',
-      'equipment',
-      'skill-categories',
-      'damage-types',
-      'skills',
-      'statuses',
-      'game-settings',
-      'provider-setup',
-      'ability-setup',
-      'effect-sequence-setup',
-      'effect-step-setup',
-      'direct-damage-ability',
-      'workspace',
-      'images',
-      'wasm-validation-generic'
-    ]);
   });
 });
