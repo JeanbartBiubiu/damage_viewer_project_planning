@@ -205,6 +205,32 @@ mvn -Dtest=SkillProcessInternalStateAuthoringDbContractSqlTest,SkillInternalStat
 mvn test
 ```
 
+### 效果与状态生命周期管理
+
+`public.skill_effect_lifecycles` 保存效果级可选生命周期，`public.skill_effect_result_lifecycle_behaviors` 保存每个结果的生命周期行为，`public.skill_effect_lifecycle_operation_details` 保存第八种结果 `LIFECYCLE_OPERATION` 的目标效果与操作。生命周期公式外键限制删除；生命周期操作目标外键即时、非级联，引用同技能已有生命周期，并禁止自引用。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。本阶段只保存、校验、回读和保护引用，不执行计时、周期、层数、公式、状态、属性、护盾、发布或 Wasm。
+
+管理接口仍位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：摘要增加只读 `lifecycleEnabled`；详情、POST、PUT 增加可空 `lifecycle`；每个结果增加可空 `lifecycleBehavior`。没有独立生命周期控制器。
+
+已有开发库按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/effect_status_lifecycle_management_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新八种结果延迟形状约束与生命周期聚合/刷新约束触发器）
+
+脚本先核对阶段 7.2 效果八张表、`skill_formulas` 和阶段 7.3 `fk_skill_process_effect_bindings_effect`；三张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。只核对并替换本阶段需要更新的结果种类检查、结果形状函数/触发器和原子表明细触发器循环。不写默认记录、不读取旧生命周期、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=SkillEffectStatusLifecycleManagementDbContractSqlTest,SkillEffectBasicResultManagementDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillFormulaServiceTest,SkillServiceTest,SkillProcessServiceTest test
+```
+
+随后：
+
+```bash
+mvn test
+```
+
 ### Entity / attribute `imageUri` 引用（revisioned URI，非版本化字节）
 
 `game_entities` 与 `attribute_definitions`（及对应 `_log`）可挂可选 `image_uri`，复合 FK `(game_id, image_uri) → images(game_id, uri)`。Public / Admin 读写暴露 `imageUri`。Admin 写入：省略保留既有关联（新行 null）；JSON `null` 或空白清除；非空须同游戏 `images` 精确存在；非文本或缺失引用在 revision 分配前 `400.INVALID_BODY`（`details.path=/imageUri`）。实体 `:batch` 顶层同样允许 `imageUri`。URI 随行 `change_revision` 版本化；`images` 字节本身不进 log、不版本化。

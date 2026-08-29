@@ -13,6 +13,7 @@
             <arg column="description" javaType="java.lang.String"/>
             <arg column="sort_order" javaType="java.lang.Integer"/>
             <arg column="result_count" javaType="java.lang.Integer"/>
+            <arg column="lifecycle_enabled" javaType="java.lang.Boolean"/>
             <arg column="created_at" javaType="java.time.OffsetDateTime"/>
             <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
         </constructor>
@@ -112,6 +113,48 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="lifecycleRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="max_stacks_formula_key" javaType="java.lang.String"/>
+            <arg column="application_stacks_formula_key" javaType="java.lang.String"/>
+            <arg column="instance_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope"/>
+            <arg column="reapplication_stack_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode"/>
+            <arg column="reapplication_duration_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode"/>
+            <arg column="expiry_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode"/>
+            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="first_periodic_execution" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="lifecycleBehaviorRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="moment" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment"/>
+            <arg column="value_read_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode"/>
+            <arg column="stack_value_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode"/>
+            <arg column="reapplication_value_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode"/>
+            <arg column="periodic_execution_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecyclePeriodicExecutionMode"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="lifecycleOperationRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="target_effect_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="catalogLock" type="xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow">
         <constructor>
             <arg column="ref_key" javaType="java.lang.String"/>
@@ -122,12 +165,17 @@
     <select id="listSummaries" resultMap="summary">
         SELECT e.game_id, e.skill_key, e.effect_key, e.name, e.description, e.sort_order,
                CAST(COUNT(r.result_key) AS integer) AS result_count,
+               BOOL_OR(l.effect_key IS NOT NULL) AS lifecycle_enabled,
                e.created_at, e.updated_at
         FROM public.skill_effects e
         LEFT JOIN public.skill_effect_results r
           ON r.game_id = e.game_id
          AND r.skill_key = e.skill_key
          AND r.effect_key = e.effect_key
+        LEFT JOIN public.skill_effect_lifecycles l
+          ON l.game_id = e.game_id
+         AND l.skill_key = e.skill_key
+         AND l.effect_key = e.effect_key
         WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
         GROUP BY e.game_id, e.skill_key, e.effect_key, e.name, e.description,
                  e.sort_order, e.created_at, e.updated_at
@@ -457,6 +505,190 @@
             #{key}
         </foreach>
         ORDER BY status_key
+        FOR UPDATE
+    </select>
+
+    <select id="findLifecycle" resultMap="lifecycleRow">
+        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
+               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
+               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
+               first_periodic_execution
+        FROM public.skill_effect_lifecycles
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <select id="findLifecycleForUpdate" resultMap="lifecycleRow">
+        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
+               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
+               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
+               first_periodic_execution
+        FROM public.skill_effect_lifecycles
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        FOR UPDATE
+    </select>
+
+    <insert id="insertLifecycle">
+        INSERT INTO public.skill_effect_lifecycles (
+            game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
+            application_stacks_formula_key, instance_scope, reapplication_stack_mode,
+            reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
+            first_periodic_execution
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{durationFormulaKey}, #{maxStacksFormulaKey},
+            #{applicationStacksFormulaKey}, #{instanceScope}, #{reapplicationStackMode},
+            #{reapplicationDurationMode}, #{expiryMode}, #{periodicIntervalFormulaKey},
+            #{firstPeriodicExecution}
+        )
+    </insert>
+
+    <update id="updateLifecycle">
+        UPDATE public.skill_effect_lifecycles
+        SET duration_formula_key = #{durationFormulaKey},
+            max_stacks_formula_key = #{maxStacksFormulaKey},
+            application_stacks_formula_key = #{applicationStacksFormulaKey},
+            instance_scope = #{instanceScope},
+            reapplication_stack_mode = #{reapplicationStackMode},
+            reapplication_duration_mode = #{reapplicationDurationMode},
+            expiry_mode = #{expiryMode},
+            periodic_interval_formula_key = #{periodicIntervalFormulaKey},
+            first_periodic_execution = #{firstPeriodicExecution}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </update>
+
+    <delete id="deleteLifecycle">
+        DELETE FROM public.skill_effect_lifecycles
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </delete>
+
+    <select id="listLifecycleBehaviors" resultMap="lifecycleBehaviorRow">
+        SELECT game_id, skill_key, effect_key, result_key, moment, value_read_mode,
+               stack_value_mode, reapplication_value_mode, periodic_execution_mode
+        FROM public.skill_effect_result_lifecycle_behaviors
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertLifecycleBehavior">
+        INSERT INTO public.skill_effect_result_lifecycle_behaviors (
+            game_id, skill_key, effect_key, result_key, moment, value_read_mode,
+            stack_value_mode, reapplication_value_mode, periodic_execution_mode
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{moment}, #{valueReadMode},
+            #{stackValueMode}, #{reapplicationValueMode}, #{periodicExecutionMode}
+        )
+    </insert>
+
+    <update id="updateLifecycleBehavior">
+        UPDATE public.skill_effect_result_lifecycle_behaviors
+        SET moment = #{moment},
+            value_read_mode = #{valueReadMode},
+            stack_value_mode = #{stackValueMode},
+            reapplication_value_mode = #{reapplicationValueMode},
+            periodic_execution_mode = #{periodicExecutionMode}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <delete id="deleteLifecycleBehaviors">
+        DELETE FROM public.skill_effect_result_lifecycle_behaviors
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key IN
+        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+            #{resultKey}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAllLifecycleBehaviors">
+        DELETE FROM public.skill_effect_result_lifecycle_behaviors
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </delete>
+
+    <select id="listLifecycleOperationDetails" resultMap="lifecycleOperationRow">
+        SELECT game_id, skill_key, effect_key, result_key, target_effect_key, operation
+        FROM public.skill_effect_lifecycle_operation_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertLifecycleOperationDetail">
+        INSERT INTO public.skill_effect_lifecycle_operation_details (
+            game_id, skill_key, effect_key, result_key, target_effect_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{targetEffectKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateLifecycleOperationDetail">
+        UPDATE public.skill_effect_lifecycle_operation_details
+        SET target_effect_key = #{targetEffectKey},
+            operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <delete id="deleteLifecycleOperationDetails">
+        DELETE FROM public.skill_effect_lifecycle_operation_details
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key IN
+        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+            #{resultKey}
+        </foreach>
+    </delete>
+
+    <delete id="deleteLifecycleOperationDetailsForSkill">
+        DELETE FROM public.skill_effect_lifecycle_operation_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <select id="countLifecycleOperationReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_lifecycle_operation_details
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND target_effect_key = #{targetEffectKey}
+    </select>
+
+    <select id="countRefreshOperationReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_lifecycle_operation_details
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND target_effect_key = #{targetEffectKey}
+          AND operation = 'REFRESH'
+    </select>
+
+    <select id="lockEffects" resultType="string">
+        SELECT effect_key
+        FROM public.skill_effects
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY effect_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockLifecycles" resultMap="lifecycleRow">
+        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
+               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
+               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
+               first_periodic_execution
+        FROM public.skill_effect_lifecycles
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY effect_key
         FOR UPDATE
     </select>
 </mapper>

@@ -8,6 +8,19 @@ public record SkillEffectResultResponse(
     String description,
     Integer sortOrder,
     SkillEffectValueRuleResponse valueRule,
-    SkillEffectResultDetail detail
+    SkillEffectResultDetail detail,
+    SkillEffectResultLifecycleBehaviorResponse lifecycleBehavior
 ) {
+    public SkillEffectResultResponse(
+        String resultKey,
+        String name,
+        SkillEffectResultType resultType,
+        SkillEffectTarget target,
+        String description,
+        Integer sortOrder,
+        SkillEffectValueRuleResponse valueRule,
+        SkillEffectResultDetail detail
+    ) {
+        this(resultKey, name, resultType, target, description, sortOrder, valueRule, detail, null);
+    }
 }

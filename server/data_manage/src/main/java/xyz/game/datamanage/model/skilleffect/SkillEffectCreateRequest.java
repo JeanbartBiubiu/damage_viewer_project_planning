@@ -21,6 +21,8 @@ public record SkillEffectCreateRequest(
     @NotNull(message = "排序不能为空")
     @PositiveOrZero(message = "排序不能小于0")
     Integer sortOrder,
+    @Valid
+    SkillEffectLifecycleRequest lifecycle,
     @NotNull(message = "结果列表不能缺失")
     @NotEmpty(message = "效果至少包含一个结果")
     @Valid
@@ -33,5 +35,15 @@ public record SkillEffectCreateRequest(
             description = description.trim();
             description = description.isEmpty() ? null : description;
         }
+    }
+
+    public SkillEffectCreateRequest(
+        String effectKey,
+        String name,
+        String description,
+        Integer sortOrder,
+        List<SkillEffectResultRequest> results
+    ) {
+        this(effectKey, name, description, sortOrder, null, results);
     }
 }

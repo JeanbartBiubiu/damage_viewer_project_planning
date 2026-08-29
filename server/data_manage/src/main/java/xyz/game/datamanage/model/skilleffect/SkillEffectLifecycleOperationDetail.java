@@ -8,38 +8,44 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Map;
 import java.util.Set;
 
-public record SkillEffectDirectHealDetail(
+public record SkillEffectLifecycleOperationDetail(
+    String targetEffectKey,
+    SkillEffectLifecycleOperation operation,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
 
-    public SkillEffectDirectHealDetail {
+    public SkillEffectLifecycleOperationDetail {
+        targetEffectKey = targetEffectKey == null ? null : targetEffectKey.trim();
         foreignFields = SkillEffectDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillEffectDetailFieldCapture.normalize(unknownFields);
     }
 
-    public SkillEffectDirectHealDetail() {
-        this(Set.of(), Set.of());
+    public SkillEffectLifecycleOperationDetail(
+        String targetEffectKey,
+        SkillEffectLifecycleOperation operation
+    ) {
+        this(targetEffectKey, operation, Set.of(), Set.of());
     }
 
     @JsonCreator
-    static SkillEffectDirectHealDetail fromJson(
+    static SkillEffectLifecycleOperationDetail fromJson(
+        @JsonProperty("targetEffectKey") String targetEffectKey,
+        @JsonProperty("operation") SkillEffectLifecycleOperation operation,
         @JsonProperty("damageTypeKey") JsonNode damageTypeKey,
         @JsonProperty("attributeKey") JsonNode attributeKey,
-        @JsonProperty("operation") JsonNode operation,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
         @JsonProperty("statusKey") JsonNode statusKey,
-        @JsonProperty("targetEffectKey") JsonNode targetEffectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
-        return new SkillEffectDirectHealDetail(
+        return new SkillEffectLifecycleOperationDetail(
+            targetEffectKey,
+            operation,
             SkillEffectDetailFieldCapture.captureForeign(
                 "damageTypeKey", damageTypeKey,
                 "attributeKey", attributeKey,
-                "operation", operation,
                 "affectedSkillKey", affectedSkillKey,
-                "statusKey", statusKey,
-                "targetEffectKey", targetEffectKey
+                "statusKey", statusKey
             ),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );

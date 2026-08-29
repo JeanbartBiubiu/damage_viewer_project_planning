@@ -70,7 +70,11 @@ public class SkillFormulaService {
         "fk_skill_process_recast_count_formula",
         "fk_skill_process_empowered_window_formula",
         "fk_skill_process_cooldown_duration_formula",
-        "fk_skill_process_state_operation_value_formula"
+        "fk_skill_process_state_operation_value_formula",
+        "fk_skill_effect_lifecycles_duration_formula",
+        "fk_skill_effect_lifecycles_max_stacks_formula",
+        "fk_skill_effect_lifecycles_application_stacks_formula",
+        "fk_skill_effect_lifecycles_periodic_interval_formula"
     );
 
     private final GamesMapper gamesMapper;
