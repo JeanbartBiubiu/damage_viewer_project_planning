@@ -29,6 +29,7 @@ public record SkillEffectNormalShieldDetail(
         @JsonProperty("operation") JsonNode operation,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
         @JsonProperty("statusKey") JsonNode statusKey,
+        @JsonProperty("targetEffectKey") JsonNode targetEffectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillEffectNormalShieldDetail(
@@ -37,7 +38,8 @@ public record SkillEffectNormalShieldDetail(
                 "attributeKey", attributeKey,
                 "operation", operation,
                 "affectedSkillKey", affectedSkillKey,
-                "statusKey", statusKey
+                "statusKey", statusKey,
+                "targetEffectKey", targetEffectKey
             ),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );

@@ -29,7 +29,9 @@ public record SkillEffectResultRequest(
     SkillEffectValueRuleRequest valueRule,
     @NotNull(message = "结果明细不能为空")
     @Valid
-    SkillEffectResultDetail detail
+    SkillEffectResultDetail detail,
+    @Valid
+    SkillEffectResultLifecycleBehaviorRequest lifecycleBehavior
 ) {
     public SkillEffectResultRequest {
         resultKey = resultKey == null ? null : resultKey.trim();
@@ -38,5 +40,18 @@ public record SkillEffectResultRequest(
             description = description.trim();
             description = description.isEmpty() ? null : description;
         }
+    }
+
+    public SkillEffectResultRequest(
+        String resultKey,
+        String name,
+        SkillEffectResultType resultType,
+        SkillEffectTarget target,
+        String description,
+        Integer sortOrder,
+        SkillEffectValueRuleRequest valueRule,
+        SkillEffectResultDetail detail
+    ) {
+        this(resultKey, name, resultType, target, description, sortOrder, valueRule, detail, null);
     }
 }

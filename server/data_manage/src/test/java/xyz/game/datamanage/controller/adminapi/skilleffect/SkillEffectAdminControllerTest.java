@@ -2,6 +2,9 @@ package xyz.game.datamanage.controller.adminapi.skilleffect;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -22,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -39,6 +43,9 @@ import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
@@ -87,6 +94,7 @@ class SkillEffectAdminControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].effectKey").value("on_hit_results"))
             .andExpect(jsonPath("$[0].resultCount").value(1))
+            .andExpect(jsonPath("$[0].lifecycleEnabled").value(false))
             .andExpect(jsonPath("$[0].results").doesNotExist());
 
         mockMvc.perform(get(BASE_PATH + "/on_hit_results"))
@@ -217,6 +225,89 @@ class SkillEffectAdminControllerTest {
     }
 
     @Test
+    void lifecycleOperationAndLifecycleObjectAreAcceptedByDeserializer() throws Exception {
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
+            .thenReturn(detail());
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "effectKey":"refresh_mark",
+                      "name":"刷新印记",
+                      "sortOrder":20,
+                      "lifecycle":{
+                        "durationFormulaKey":"duration_f",
+                        "maxStacksFormulaKey":"max_stacks_f",
+                        "applicationStacksFormulaKey":"app_stacks_f",
+                        "instanceScope":"TARGET",
+                        "reapplicationStackMode":"INCREASE",
+                        "reapplicationDurationMode":"REFRESH_ALL",
+                        "expiryMode":"ALL_AT_ONCE"
+                      },
+                      "results":[
+                        {
+                          "resultKey":"refresh_other",
+                          "name":"刷新目标",
+                          "resultType":"LIFECYCLE_OPERATION",
+                          "target":"TARGET",
+                          "sortOrder":0,
+                          "lifecycleBehavior":{"moment":"APPLICATION"},
+                          "detail":{"targetEffectKey":"mark_effect","operation":"REFRESH"}
+                        }
+                      ]
+                    }
+                    """))
+            .andExpect(status().isCreated());
+
+        ArgumentCaptor<SkillEffectCreateRequest> captor =
+            ArgumentCaptor.forClass(SkillEffectCreateRequest.class);
+        verify(service).create(eq("lol"), eq("ezreal_q"), captor.capture());
+        SkillEffectCreateRequest request = captor.getValue();
+        assertNotNull(request.lifecycle());
+        assertEquals(SkillEffectLifecycleInstanceScope.TARGET, request.lifecycle().instanceScope());
+        assertEquals(SkillEffectResultType.LIFECYCLE_OPERATION, request.results().get(0).resultType());
+        assertInstanceOf(SkillEffectLifecycleOperationDetail.class, request.results().get(0).detail());
+        SkillEffectLifecycleOperationDetail detail =
+            (SkillEffectLifecycleOperationDetail) request.results().get(0).detail();
+        assertEquals("mark_effect", detail.targetEffectKey());
+        assertEquals(SkillEffectLifecycleOperation.REFRESH, detail.operation());
+        assertEquals(
+            xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment.APPLICATION,
+            request.results().get(0).lifecycleBehavior().moment()
+        );
+        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
+    }
+
+    @Test
+    void unknownLifecycleOperationReturnsInvalidBodyBeforeService() throws Exception {
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "effectKey":"refresh_mark",
+                      "name":"刷新印记",
+                      "sortOrder":20,
+                      "results":[
+                        {
+                          "resultKey":"refresh_other",
+                          "name":"刷新目标",
+                          "resultType":"LIFECYCLE_OPERATION",
+                          "target":"TARGET",
+                          "sortOrder":0,
+                          "detail":{"targetEffectKey":"mark_effect","operation":"RESET"}
+                        }
+                      ]
+                    }
+                    """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+
+        verify(service, never()).create(any(), any(), any());
+        verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @Test
     void mutexDetailFieldsReturnInvalidBodyWithStableFieldPaths() throws Exception {
         GamesMapper gamesMapper = Mockito.mock(GamesMapper.class);
         SkillMapper skillMapper = Mockito.mock(SkillMapper.class);
@@ -249,7 +340,7 @@ class SkillEffectAdminControllerTest {
                           "target":"TARGET",
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
-                          "detail":{"damageTypeKey":"physical","attributeKey":"ad","statusKey":"poison"}
+                          "detail":{"damageTypeKey":"physical","attributeKey":"ad","statusKey":"poison","targetEffectKey":"mark_effect"}
                         }
                       ]
                     }
@@ -258,7 +349,8 @@ class SkillEffectAdminControllerTest {
             .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"))
             .andExpect(jsonPath("$.error.details.fieldIssues[*].field", hasItems(
                 "results[0].detail.attributeKey",
-                "results[0].detail.statusKey"
+                "results[0].detail.statusKey",
+                "results[0].detail.targetEffectKey"
             )))
             .andExpect(jsonPath("$.error.details.fieldIssues[*].code",
                 org.hamcrest.Matchers.everyItem(org.hamcrest.Matchers.is("FIELD_MUTEX"))))

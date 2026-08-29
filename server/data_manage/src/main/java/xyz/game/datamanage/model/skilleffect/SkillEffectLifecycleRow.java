@@ -1,0 +1,17 @@
+package xyz.game.datamanage.model.skilleffect;
+
+public record SkillEffectLifecycleRow(
+    String gameId,
+    String skillKey,
+    String effectKey,
+    String durationFormulaKey,
+    String maxStacksFormulaKey,
+    String applicationStacksFormulaKey,
+    SkillEffectLifecycleInstanceScope instanceScope,
+    SkillEffectLifecycleReapplicationStackMode reapplicationStackMode,
+    SkillEffectLifecycleReapplicationDurationMode reapplicationDurationMode,
+    SkillEffectLifecycleExpiryMode expiryMode,
+    String periodicIntervalFormulaKey,
+    SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution
+) {
+}
