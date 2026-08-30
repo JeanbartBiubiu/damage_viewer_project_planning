@@ -1,0 +1,134 @@
+package xyz.game.datamanage.model.skilltrigger;
+
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Set;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
+
+public final class SkillTriggerEventCapabilities {
+
+    private static final Set<SkillTriggerEventType> EVENT_SOURCE_EVENTS = EnumSet.of(
+        SkillTriggerEventType.DAMAGE_TAKEN,
+        SkillTriggerEventType.STATUS_CHANGED,
+        SkillTriggerEventType.CONTROL_RECEIVED
+    );
+
+    private static final Set<SkillTriggerEventType> EMPTY_DETAIL_EVENTS = EnumSet.of(
+        SkillTriggerEventType.BASIC_ATTACK_START,
+        SkillTriggerEventType.BASIC_ATTACK_HIT,
+        SkillTriggerEventType.DAMAGE_DEALT,
+        SkillTriggerEventType.DAMAGE_TAKEN,
+        SkillTriggerEventType.CONTROL_RECEIVED,
+        SkillTriggerEventType.KILL
+    );
+
+    private SkillTriggerEventCapabilities() {
+    }
+
+    public static boolean hasEventSource(SkillTriggerEventType eventType) {
+        return eventType != null && EVENT_SOURCE_EVENTS.contains(eventType);
+    }
+
+    public static boolean requiresEmptyDetail(SkillTriggerEventType eventType) {
+        return eventType != null && EMPTY_DETAIL_EVENTS.contains(eventType);
+    }
+
+    public static SkillTriggerValueDomain valueDomain(SkillTriggerEventValueKey valueKey) {
+        if (valueKey == null) {
+            return null;
+        }
+        return switch (valueKey) {
+            case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, LIFECYCLE_STACKS,
+                PERIOD_INDEX, STATE_BEFORE, STATE_AFTER -> SkillTriggerValueDomain.INTEGER;
+            case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER, THRESHOLD_VALUE
+                -> SkillTriggerValueDomain.DECIMAL;
+        };
+    }
+
+    public static boolean eventValueAllowed(
+        SkillTriggerEventType eventType,
+        SkillTriggerEventValueKey valueKey,
+        SkillProcessMomentType momentType,
+        SkillProcessStepType stepType
+    ) {
+        if (eventType == null || valueKey == null) {
+            return false;
+        }
+        return switch (eventType) {
+            case BASIC_ATTACK_HIT, SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
+            case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
+            case LIFECYCLE_MOMENT -> false;
+            case HEALTH_THRESHOLD_CROSSED -> valueKey == SkillTriggerEventValueKey.ATTRIBUTE_BEFORE
+                || valueKey == SkillTriggerEventValueKey.ATTRIBUTE_AFTER
+                || valueKey == SkillTriggerEventValueKey.THRESHOLD_VALUE;
+            case INTERNAL_STATE_CHANGED -> valueKey == SkillTriggerEventValueKey.STATE_BEFORE
+                || valueKey == SkillTriggerEventValueKey.STATE_AFTER;
+            default -> false;
+        };
+    }
+
+    public static boolean lifecycleEventValueAllowed(
+        SkillTriggerEventValueKey valueKey,
+        SkillTriggerLifecycleEventMoment moment
+    ) {
+        if (valueKey == null) {
+            return false;
+        }
+        return switch (valueKey) {
+            case LIFECYCLE_STACKS, REMAINING_MS -> true;
+            case PERIOD_INDEX -> moment == SkillTriggerLifecycleEventMoment.PERIODIC;
+            default -> false;
+        };
+    }
+
+    public static boolean internalStateEventValueAllowed(
+        SkillTriggerEventValueKey valueKey,
+        SkillTriggerInternalStateChangeKind changeKind
+    ) {
+        return (valueKey == SkillTriggerEventValueKey.STATE_BEFORE
+            || valueKey == SkillTriggerEventValueKey.STATE_AFTER)
+            && changeKind == SkillTriggerInternalStateChangeKind.VALUE_CHANGED;
+    }
+
+    private static boolean processMomentValueAllowed(
+        SkillTriggerEventValueKey valueKey,
+        SkillProcessMomentType momentType,
+        SkillProcessStepType stepType
+    ) {
+        return switch (valueKey) {
+            case STEP_EXECUTION_INDEX -> momentType == SkillProcessMomentType.STEP_EXECUTION;
+            case CHARGE_DURATION_MS -> stepType == SkillProcessStepType.CHARGE
+                && (momentType == SkillProcessMomentType.STEP_EXECUTION
+                    || momentType == SkillProcessMomentType.STEP_COMPLETE
+                    || momentType == SkillProcessMomentType.STEP_TIMEOUT);
+            case RECAST_COUNT -> stepType == SkillProcessStepType.RECAST
+                && (momentType == SkillProcessMomentType.STEP_EXECUTION
+                    || momentType == SkillProcessMomentType.STEP_COMPLETE
+                    || momentType == SkillProcessMomentType.STEP_TIMEOUT);
+            default -> false;
+        };
+    }
+
+    public static Map<SkillTriggerEventType, String> currentTargetBindings() {
+        return Map.ofEntries(
+            Map.entry(SkillTriggerEventType.SKILL_USED, "该次技能使用的显式目标；没有时为来源对象"),
+            Map.entry(SkillTriggerEventType.BASIC_ATTACK_START, "本次普通攻击目标"),
+            Map.entry(SkillTriggerEventType.BASIC_ATTACK_HIT, "本次普通攻击命中的对象"),
+            Map.entry(SkillTriggerEventType.SKILL_HIT, "本次技能命中的对象"),
+            Map.entry(SkillTriggerEventType.PROCESS_MOMENT, "目标过程实例的目标；没有时为来源对象"),
+            Map.entry(SkillTriggerEventType.RESULT_AVAILABLE, "目标效果执行上下文的目标；没有时为来源对象"),
+            Map.entry(SkillTriggerEventType.LIFECYCLE_MOMENT, "目标生命周期实例的承受对象"),
+            Map.entry(SkillTriggerEventType.DAMAGE_DEALT, "本次伤害承受对象"),
+            Map.entry(SkillTriggerEventType.DAMAGE_TAKEN, "来源对象自身"),
+            Map.entry(SkillTriggerEventType.STATUS_CHANGED, "subject 指定的状态变化对象"),
+            Map.entry(SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, "subject 指定的生命属性变化对象"),
+            Map.entry(SkillTriggerEventType.INTERNAL_STATE_CHANGED, "TARGET 范围状态的实例目标；技能范围状态为来源对象"),
+            Map.entry(SkillTriggerEventType.CONTROL_RECEIVED, "来源对象自身"),
+            Map.entry(SkillTriggerEventType.ENTITY_DIED, "subject 指定的死亡对象"),
+            Map.entry(SkillTriggerEventType.ENTITY_UNTARGETABLE, "subject 指定的不可选取对象"),
+            Map.entry(SkillTriggerEventType.KILL, "本次被击杀对象"),
+            Map.entry(SkillTriggerEventType.PROCESS_CANCEL_REQUESTED, "目标过程实例的目标；没有时为来源对象")
+        );
+    }
+}

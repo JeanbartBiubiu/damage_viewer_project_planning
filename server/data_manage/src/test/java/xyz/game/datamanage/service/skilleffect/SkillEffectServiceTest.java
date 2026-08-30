@@ -1294,6 +1294,92 @@ class SkillEffectServiceTest {
         assertCode("409.SKILL_EFFECT_KEY_EXISTS", () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly()));
     }
 
+    @Test
+    void triggerRuleProtectsEffectDeleteUpdateAndCycleWithLongConstructor() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(triggerRuleService.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            Map.of("field", "effectKey", "code", "TRIGGER_RULE_EFFECT_IN_USE", "message", "技能效果仍被触发规则引用，不能删除")
+        ));
+        ApiException triggerOnly = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        assertEquals("409.SKILL_EFFECT_IN_USE", triggerOnly.getCode());
+        assertField(triggerOnly, "effectKey", "TRIGGER_RULE_EFFECT_IN_USE");
+        verify(mapper, never()).deleteEffect(any(), any(), any());
+
+        when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+        ApiException preferred = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        assertEquals("409.SKILL_EFFECT_IN_USE", preferred.getCode());
+        assertField(preferred, "effectKey", "CONFLICT");
+
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE",
+            "结果仍被触发规则引用，不能移除",
+            Map.of("fieldIssues", List.of(Map.of("field", "results", "code", "TRIGGER_RULE_RESULT_IN_USE")))
+        )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        stubEnabledCatalogs();
+        ApiException result = assertThrows(
+            ApiException.class,
+            () -> guarded.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_IN_USE", result.getCode());
+        assertField(result, "results", "TRIGGER_RULE_RESULT_IN_USE");
+
+        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.BAD_REQUEST,
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            "触发规则存在未受保护的循环",
+            Map.of()
+        )).when(triggerRuleService).assertCurrentSkillCycle(GAME_ID, SKILL_KEY);
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
+        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
+        ));
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                null, null, null
+            )
+        ));
+        stubEnabledCatalogs();
+        when(mapper.updateLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> guarded.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null, "命中结果", null, 10, timedLifecycle(),
+                    List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
+                )
+            )
+        );
+    }
+
     private void stubParentAndNewKey() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
