@@ -52,6 +52,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
+        "skill_effect_cooldown_change_targets",
         "skill_effect_status_operation_details",
         "skill_effect_lifecycles",
         "skill_effect_result_lifecycle_behaviors",
@@ -224,15 +225,15 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     @Test
-    void schemaDefinesExactlyTheCurrentSeventyOneParentTables() {
+    void schemaDefinesExactlyTheCurrentSeventyTwoParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(45, KEEP_PARENTS.size());
+        assertEquals(46, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
         assertEquals(26, STAGE_7_5_PARENTS.size());
-        assertEquals(71, expected.size());
+        assertEquals(72, expected.size());
         assertEquals(expected, created);
-        assertEquals(71, created.size());
+        assertEquals(72, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -280,10 +281,13 @@ class LegacyCombatDataCleanupDbContractSqlTest {
 
     @Test
     void breakingMigrationCoversExactDropSetWithoutCascade() {
-        assertEquals(45, KEEP_PARENTS.size());
+        List<String> historicalKeepParents = KEEP_PARENTS.stream()
+            .filter(table -> !"skill_effect_cooldown_change_targets".equals(table))
+            .toList();
+        assertEquals(45, historicalKeepParents.size());
         assertEquals(74, DROP_PARENTS.size());
         assertEquals(11, LEGACY_TRIGGERS.size());
-        for (String table : KEEP_PARENTS) {
+        for (String table : historicalKeepParents) {
             assertTrue(migrationSql.contains("'" + table + "'"), () -> "keep parent missing from migration: " + table);
         }
         for (String table : DROP_PARENTS) {

@@ -625,7 +625,6 @@ CREATE TABLE public.skill_effect_cooldown_change_details (
     skill_key varchar(64) NOT NULL,
     effect_key varchar(64) NOT NULL,
     result_key varchar(64) NOT NULL,
-    affected_skill_key varchar(64) NOT NULL,
     operation varchar(16) NOT NULL,
     CONSTRAINT pk_skill_effect_cooldown_change_details
         PRIMARY KEY (game_id, skill_key, effect_key, result_key),
@@ -634,18 +633,35 @@ CREATE TABLE public.skill_effect_cooldown_change_details (
         REFERENCES public.skill_effect_results
             (game_id, skill_key, effect_key, result_key)
         ON DELETE CASCADE,
-    CONSTRAINT fk_skill_effect_cooldown_change_details_skill
-        FOREIGN KEY (game_id, affected_skill_key)
-        REFERENCES public.skills (game_id, skill_key),
     CONSTRAINT ck_skill_effect_cooldown_change_details_operation
         CHECK (operation IN ('REDUCE', 'INCREASE', 'RESET'))
 );
 
-CREATE INDEX ix_skill_effect_cooldown_change_details_skill
-    ON public.skill_effect_cooldown_change_details
+COMMENT ON TABLE public.skill_effect_cooldown_change_details IS '冷却变化结果明细';
+
+CREATE TABLE public.skill_effect_cooldown_change_targets (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    affected_skill_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_cooldown_change_targets
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key, affected_skill_key),
+    CONSTRAINT fk_skill_effect_cooldown_change_targets_detail
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_cooldown_change_details
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_cooldown_change_targets_skill
+        FOREIGN KEY (game_id, affected_skill_key)
+        REFERENCES public.skills (game_id, skill_key)
+);
+
+CREATE INDEX ix_skill_effect_cooldown_change_targets_skill
+    ON public.skill_effect_cooldown_change_targets
     (game_id, affected_skill_key, skill_key, effect_key, result_key);
 
-COMMENT ON TABLE public.skill_effect_cooldown_change_details IS '冷却变化结果明细';
+COMMENT ON TABLE public.skill_effect_cooldown_change_targets IS '冷却变化结果的受影响技能';
 
 CREATE TABLE public.skill_effect_status_operation_details (
     game_id varchar(64) NOT NULL,

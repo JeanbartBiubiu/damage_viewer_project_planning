@@ -1,3 +1,221 @@
+-- 技能冷却变化目标从单值升级为多选关系表。
+-- 只接受完整旧结构或完整新结构；任何部分迁移、约束漂移都主动回滚。
+
+BEGIN;
+
+LOCK TABLE public.skill_effect_cooldown_change_details IN ACCESS EXCLUSIVE MODE;
+
+DO $migration_preflight$
+DECLARE
+    v_has_old_column boolean;
+    v_has_target_table boolean;
+    v_detail_columns text[];
+    v_target_columns text[];
+BEGIN
+    IF to_regclass('public.skill_effect_results') IS NULL
+        OR to_regclass('public.skills') IS NULL
+        OR to_regclass('public.skill_effect_cooldown_change_details') IS NULL THEN
+        RAISE EXCEPTION 'skill cooldown multi-select migration prerequisites are missing';
+    END IF;
+
+    SELECT EXISTS (
+        SELECT 1
+          FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'skill_effect_cooldown_change_details'
+           AND column_name = 'affected_skill_key'
+    ) INTO v_has_old_column;
+    v_has_target_table := to_regclass('public.skill_effect_cooldown_change_targets') IS NOT NULL;
+
+    IF v_has_old_column = v_has_target_table THEN
+        RAISE EXCEPTION
+            'skill cooldown multi-select structure is partial: old_column=%, target_table=%',
+            v_has_old_column,
+            v_has_target_table;
+    END IF;
+
+    SELECT array_agg(column_name::text ORDER BY ordinal_position)
+      INTO v_detail_columns
+      FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'skill_effect_cooldown_change_details';
+
+    IF v_has_old_column THEN
+        IF v_detail_columns <> ARRAY[
+            'game_id', 'skill_key', 'effect_key', 'result_key', 'affected_skill_key', 'operation'
+        ]::text[] THEN
+            RAISE EXCEPTION 'legacy skill_effect_cooldown_change_details column set is incompatible';
+        END IF;
+        IF NOT EXISTS (
+            SELECT 1
+              FROM pg_constraint c
+              JOIN pg_class t ON t.oid = c.conrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_details'
+               AND c.conname = 'fk_skill_effect_cooldown_change_details_skill'
+               AND c.contype = 'f'
+               AND c.confrelid = 'public.skills'::regclass
+               AND c.confdeltype = 'a'
+        ) OR NOT EXISTS (
+            SELECT 1
+              FROM pg_indexes
+             WHERE schemaname = 'public'
+               AND tablename = 'skill_effect_cooldown_change_details'
+               AND indexname = 'ix_skill_effect_cooldown_change_details_skill'
+        ) THEN
+            RAISE EXCEPTION 'legacy cooldown target foreign key or reverse index is incompatible';
+        END IF;
+    ELSE
+        IF v_detail_columns <> ARRAY[
+            'game_id', 'skill_key', 'effect_key', 'result_key', 'operation'
+        ]::text[] THEN
+            RAISE EXCEPTION 'current skill_effect_cooldown_change_details column set is incompatible';
+        END IF;
+
+        SELECT array_agg(column_name::text ORDER BY ordinal_position)
+          INTO v_target_columns
+          FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'skill_effect_cooldown_change_targets';
+        IF v_target_columns <> ARRAY[
+            'game_id', 'skill_key', 'effect_key', 'result_key', 'affected_skill_key'
+        ]::text[] THEN
+            RAISE EXCEPTION 'skill_effect_cooldown_change_targets column set is incompatible';
+        END IF;
+
+        IF NOT EXISTS (
+            SELECT 1
+              FROM pg_constraint c
+              JOIN pg_class t ON t.oid = c.conrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_targets'
+               AND c.conname = 'pk_skill_effect_cooldown_change_targets'
+               AND c.contype = 'p'
+        ) OR NOT EXISTS (
+            SELECT 1
+              FROM pg_constraint c
+              JOIN pg_class t ON t.oid = c.conrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_targets'
+               AND c.conname = 'fk_skill_effect_cooldown_change_targets_detail'
+               AND c.contype = 'f'
+               AND c.confrelid = 'public.skill_effect_cooldown_change_details'::regclass
+               AND c.confdeltype = 'c'
+        ) OR NOT EXISTS (
+            SELECT 1
+              FROM pg_constraint c
+              JOIN pg_class t ON t.oid = c.conrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_targets'
+               AND c.conname = 'fk_skill_effect_cooldown_change_targets_skill'
+               AND c.contype = 'f'
+               AND c.confrelid = 'public.skills'::regclass
+               AND c.confdeltype = 'a'
+        ) OR NOT EXISTS (
+            SELECT 1
+              FROM pg_indexes
+             WHERE schemaname = 'public'
+               AND tablename = 'skill_effect_cooldown_change_targets'
+               AND indexname = 'ix_skill_effect_cooldown_change_targets_skill'
+        ) OR NOT EXISTS (
+            SELECT 1
+              FROM pg_trigger tr
+              JOIN pg_class t ON t.oid = tr.tgrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_targets'
+               AND tr.tgname = 'trg_skill_effect_cooldown_change_targets_complete_shape'
+               AND NOT tr.tgisinternal
+        ) THEN
+            RAISE EXCEPTION 'current skill cooldown multi-select constraints, index or shape trigger are incomplete';
+        END IF;
+    END IF;
+END;
+$migration_preflight$;
+
+CREATE TABLE IF NOT EXISTS public.skill_effect_cooldown_change_targets (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    affected_skill_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_cooldown_change_targets
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key, affected_skill_key),
+    CONSTRAINT fk_skill_effect_cooldown_change_targets_detail
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_cooldown_change_details
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_cooldown_change_targets_skill
+        FOREIGN KEY (game_id, affected_skill_key)
+        REFERENCES public.skills (game_id, skill_key)
+);
+
+CREATE INDEX IF NOT EXISTS ix_skill_effect_cooldown_change_targets_skill
+    ON public.skill_effect_cooldown_change_targets
+    (game_id, affected_skill_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_cooldown_change_targets IS '冷却变化结果的受影响技能';
+
+DO $migration_data$
+DECLARE
+    v_has_old_column boolean;
+    v_old_count bigint;
+    v_target_count bigint;
+    v_invalid_group_count bigint;
+BEGIN
+    SELECT EXISTS (
+        SELECT 1
+          FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'skill_effect_cooldown_change_details'
+           AND column_name = 'affected_skill_key'
+    ) INTO v_has_old_column;
+
+    IF v_has_old_column THEN
+        SELECT COUNT(*) INTO v_old_count
+          FROM public.skill_effect_cooldown_change_details;
+
+        EXECUTE $sql$
+            INSERT INTO public.skill_effect_cooldown_change_targets (
+                game_id, skill_key, effect_key, result_key, affected_skill_key
+            )
+            SELECT game_id, skill_key, effect_key, result_key, affected_skill_key
+              FROM public.skill_effect_cooldown_change_details
+        $sql$;
+
+        SELECT COUNT(*) INTO v_target_count
+          FROM public.skill_effect_cooldown_change_targets;
+        SELECT COUNT(*) INTO v_invalid_group_count
+          FROM (
+              SELECT game_id, skill_key, effect_key, result_key
+                FROM public.skill_effect_cooldown_change_targets
+               GROUP BY game_id, skill_key, effect_key, result_key
+              HAVING COUNT(*) <> 1
+          ) migrated;
+
+        IF v_target_count <> v_old_count OR v_invalid_group_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill cooldown target backfill mismatch: old=%, targets=%, invalid_groups=%',
+                v_old_count,
+                v_target_count,
+                v_invalid_group_count;
+        END IF;
+
+        DROP INDEX public.ix_skill_effect_cooldown_change_details_skill;
+        ALTER TABLE public.skill_effect_cooldown_change_details
+            DROP CONSTRAINT fk_skill_effect_cooldown_change_details_skill;
+        ALTER TABLE public.skill_effect_cooldown_change_details
+            DROP COLUMN affected_skill_key;
+    END IF;
+END;
+$migration_data$;
+
+-- 使用当前 triggers.sql 的完整定义刷新函数及约束触发器，保证迁移可独立完成。
 -- =============================================================================
 -- Damage Viewer System - Database Schema V2 (Triggers / Functions)
 -- =============================================================================
@@ -2096,3 +2314,53 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+DO $migration_postcheck$
+DECLARE
+    v_detail_columns text[];
+    v_target_columns text[];
+BEGIN
+    SELECT array_agg(column_name::text ORDER BY ordinal_position)
+      INTO v_detail_columns
+      FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'skill_effect_cooldown_change_details';
+    SELECT array_agg(column_name::text ORDER BY ordinal_position)
+      INTO v_target_columns
+      FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'skill_effect_cooldown_change_targets';
+
+    IF v_detail_columns <> ARRAY[
+        'game_id', 'skill_key', 'effect_key', 'result_key', 'operation'
+    ]::text[]
+        OR v_target_columns <> ARRAY[
+            'game_id', 'skill_key', 'effect_key', 'result_key', 'affected_skill_key'
+        ]::text[]
+        OR EXISTS (
+            SELECT 1
+              FROM information_schema.columns
+             WHERE table_schema = 'public'
+               AND table_name = 'skill_effect_cooldown_change_details'
+               AND column_name = 'affected_skill_key'
+        )
+        OR NOT EXISTS (
+            SELECT 1
+              FROM pg_trigger tr
+              JOIN pg_class t ON t.oid = tr.tgrelid
+              JOIN pg_namespace n ON n.oid = t.relnamespace
+             WHERE n.nspname = 'public'
+               AND t.relname = 'skill_effect_cooldown_change_targets'
+               AND tr.tgname = 'trg_skill_effect_cooldown_change_targets_complete_shape'
+               AND NOT tr.tgisinternal
+        )
+        OR position(
+            'skill_effect_cooldown_change_targets'
+            IN pg_get_functiondef('public.trg_skill_effect_result_complete_shape()'::regprocedure)
+        ) = 0 THEN
+        RAISE EXCEPTION 'skill cooldown multi-select migration postcheck failed';
+    END IF;
+END;
+$migration_postcheck$;
+
+COMMIT;

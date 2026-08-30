@@ -41,6 +41,8 @@ import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -277,6 +279,47 @@ class SkillEffectAdminControllerTest {
             request.results().get(0).lifecycleBehavior().moment()
         );
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
+    }
+
+    @Test
+    void cooldownTargetArrayIsAcceptedByDeserializerWithoutScalarFallback() throws Exception {
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
+            .thenReturn(detail());
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "effectKey":"reduce_cooldowns",
+                      "name":"减少技能冷却",
+                      "sortOrder":20,
+                      "results":[
+                        {
+                          "resultKey":"reduce_abilities",
+                          "name":"减少技能冷却",
+                          "resultType":"COOLDOWN_CHANGE",
+                          "target":"SOURCE",
+                          "sortOrder":0,
+                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "detail":{
+                            "affectedSkillKeys":["ezreal_q","ezreal_w","ezreal_e","ezreal_r"],
+                            "operation":"REDUCE"
+                          }
+                        }
+                      ]
+                    }
+                    """))
+            .andExpect(status().isCreated());
+
+        ArgumentCaptor<SkillEffectCreateRequest> captor =
+            ArgumentCaptor.forClass(SkillEffectCreateRequest.class);
+        verify(service).create(eq("lol"), eq("ezreal_q"), captor.capture());
+        SkillEffectCooldownChangeDetail cooldown = assertInstanceOf(
+            SkillEffectCooldownChangeDetail.class,
+            captor.getValue().results().get(0).detail()
+        );
+        assertEquals(List.of("ezreal_q", "ezreal_w", "ezreal_e", "ezreal_r"), cooldown.affectedSkillKeys());
+        assertEquals(SkillEffectCooldownChangeOperation.REDUCE, cooldown.operation());
     }
 
     @Test
