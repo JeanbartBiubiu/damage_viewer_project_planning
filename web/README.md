@@ -17,6 +17,7 @@
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
 - `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果及效果生命周期、过程与内部状态、条件与触发）
+  - 冷却变化结果的“受影响技能”使用默认多选组件；请求与回显字段为 `detail.affectedSkillKeys`
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/admin/game-settings/`：游戏配置（`#/game-settings`）
 - `src/pages/ImagesPage.tsx`：图片缓存与同步（`#/images`）

@@ -3675,7 +3675,12 @@ test.describe('skill management without Wasm', () => {
     await resetModal.getByLabel('结果标识', { exact: true }).fill('reset_cd');
     await resetModal.getByLabel('结果名称', { exact: true }).fill('重置冷却');
     await chooseSelectOption(page, resetModal, '结果种类', '冷却变化');
-    await chooseSelectOption(page, resetModal, '受影响技能', '其他技能');
+    await resetModal.getByLabel('受影响技能', { exact: true }).click();
+    await page.getByRole('option', { name: '枯萎箭袋', exact: true }).click();
+    await page.getByRole('option', { name: '其他技能', exact: true }).click();
+    await page.keyboard.press('Escape');
+    await expect(resetModal.getByLabel('受影响技能', { exact: true })).toContainText('枯萎箭袋');
+    await expect(resetModal.getByLabel('受影响技能', { exact: true })).toContainText('其他技能');
     await clickArcoRadioByVisibleLabel(resetModal, '重置为可用');
     await expect(resetModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
     await saveOpenModal(resetModal);
@@ -3693,7 +3698,7 @@ test.describe('skill management without Wasm', () => {
       sortOrder: 0,
       lifecycleBehavior: null,
       valueRule: null,
-      detail: { affectedSkillKey: 'other_skill', operation: 'RESET' }
+      detail: { affectedSkillKeys: ['varus_w', 'other_skill'], operation: 'RESET' }
     });
     diagnostics.assertClean('seven result editors and omitted cooldown reset value rule');
   });

@@ -404,8 +404,8 @@ export function SkillEffectResultEditorModal({
     [catalog, draft.attributeKey, draft.originalAttributeKey]
   );
   const skillOptions = useMemo(
-    () => listAffectedSkillOptions(catalog, draft.affectedSkillKey, draft.originalAffectedSkillKey),
-    [catalog, draft.affectedSkillKey, draft.originalAffectedSkillKey]
+    () => listAffectedSkillOptions(catalog, draft.affectedSkillKeys, draft.originalAffectedSkillKeys),
+    [catalog, draft.affectedSkillKeys, draft.originalAffectedSkillKeys]
   );
   const statusOptions = useMemo(
     () => listStatusOptions(catalog, draft.statusKey, draft.originalStatusKey),
@@ -458,7 +458,10 @@ export function SkillEffectResultEditorModal({
     ) {
       return true;
     }
-    if (draft.resultType === 'COOLDOWN_CHANGE' && hasUnknownOption(skillOptions, draft.affectedSkillKey)) {
+    if (
+      draft.resultType === 'COOLDOWN_CHANGE'
+      && draft.affectedSkillKeys.some((skillKey) => hasUnknownOption(skillOptions, skillKey))
+    ) {
       return true;
     }
     if (draft.resultType === 'STATUS_OPERATION' && hasUnknownOption(statusOptions, draft.statusKey)) {
@@ -474,7 +477,7 @@ export function SkillEffectResultEditorModal({
   }, [
     attributeOptions,
     damageTypeOptions,
-    draft.affectedSkillKey,
+    draft.affectedSkillKeys,
     draft.attributeKey,
     draft.damageTypeKey,
     draft.formulaKey,
@@ -912,16 +915,27 @@ export function SkillEffectResultEditorModal({
               <Form.Item
                 label="受影响技能"
                 required
-                validateStatus={errors.affectedSkillKey ? 'error' : undefined}
-                help={errors.affectedSkillKey}
+                validateStatus={errors.affectedSkillKeys ? 'error' : undefined}
+                help={errors.affectedSkillKeys}
               >
                 <Select
                   aria-label="受影响技能"
-                  value={draft.affectedSkillKey || undefined}
+                  mode="multiple"
+                  value={draft.affectedSkillKeys}
                   disabled={readOnly}
                   options={toSelectOptions(skillOptions, skillNames, parentSkill)}
-                  placeholder="请选择受影响技能"
-                  onChange={(value) => patchDraft({ ...draft, affectedSkillKey: String(value ?? '') })}
+                  placeholder="请选择一个或多个受影响技能"
+                  renderFormat={(_option, value) => {
+                    const key = typeof value === 'object' && value !== null && 'value' in value
+                      ? String(value.value)
+                      : String(value);
+                    const catalogOption = skillOptions.find((item) => item.key === key);
+                    return catalogOption ? catalogLabel(catalogOption, skillNames, parentSkill) : key;
+                  }}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    affectedSkillKeys: Array.isArray(value) ? value.map(String) : []
+                  })}
                 />
               </Form.Item>
               <Form.Item
