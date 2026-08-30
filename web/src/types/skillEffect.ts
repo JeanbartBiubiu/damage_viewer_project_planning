@@ -17,6 +17,29 @@ export type SkillEffectValueRule = {
   fixedMaxValue: number | null;
 };
 
+export type SkillEffectDamageDeliveryKind = 'SKILL' | 'BASIC_ATTACK';
+export type SkillEffectDamageOriginKind = 'DIRECT' | 'REFLECTED';
+export type SkillEffectCriticalMode = 'DISALLOWED' | 'SOURCE_CRIT_CHANCE' | 'FORCED';
+export type SkillEffectVampType = 'LIFE_STEAL' | 'OMNIVAMP' | 'PHYSICAL_VAMP' | 'SPELL_VAMP';
+export type SkillEffectVampBasisOutputKind = 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+export type SkillEffectNormalShieldDecayMode = 'NONE' | 'LINEAR_TO_ZERO';
+
+export type SkillEffectCriticalPolicy = {
+  mode: SkillEffectCriticalMode;
+  multiplierFormulaKey: string | null;
+};
+
+/**
+ * 暂存的技能侧吸血结构。
+ * 后续设计应以来源对象的吸血属性和游戏级结算规则为主；这里不应要求每个技能重复配置，
+ * 最终只保留确有必要的伤害例外或效率修正。全局规则冻结前保持现有接口无损读写。
+ */
+export type SkillEffectVampRule = {
+  vampType: SkillEffectVampType;
+  basisOutputKind: SkillEffectVampBasisOutputKind;
+  efficiencyFormulaKey: string;
+};
+
 export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
 export type ResourceChangeOperation = 'RESTORE' | 'CONSUME' | 'REFUND';
 export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET';
@@ -70,6 +93,15 @@ export type SkillEffectResultLifecycleBehavior = {
 
 export type SkillEffectDamageDetail = {
   damageTypeKey: string;
+  deliveryKind: SkillEffectDamageDeliveryKind;
+  originKind: SkillEffectDamageOriginKind;
+  critical: SkillEffectCriticalPolicy;
+  vampRules: SkillEffectVampRule[];
+};
+
+export type SkillEffectNormalShieldDetail = {
+  absorbedDamageTypeKey: string | null;
+  decayMode: SkillEffectNormalShieldDecayMode;
 };
 
 export type SkillEffectEmptyDetail = {
@@ -139,7 +171,7 @@ export type SkillEffectDirectHealResult = SkillEffectResultBase & {
 export type SkillEffectNormalShieldResult = SkillEffectResultBase & {
   resultType: 'NORMAL_SHIELD';
   valueRule: SkillEffectValueRule;
-  detail: SkillEffectEmptyDetail;
+  detail: SkillEffectNormalShieldDetail;
 };
 
 export type SkillEffectAttributeChangeResult = SkillEffectResultBase & {
