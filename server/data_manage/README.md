@@ -61,7 +61,7 @@
 
 **新库（fresh install）**：
 
-1. `db/game_manage/schema.sql`（71 张保留父表，含阶段 7.5 二十六张技能触发规则表与 `images` 列表分区）
+1. `db/game_manage/schema.sql`（72 张保留父表，含阶段 7.5 二十六张技能触发规则表、冷却变化目标关系表与 `images` 列表分区）
 2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
 
 不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
@@ -145,7 +145,7 @@ mvn -Dtest=StatusBasicManagementSchemaSqlTest,StatusServiceTest,StatusAdminContr
 
 ### 技能效果结构与基础结果管理
 
-`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作五张类型明细表。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
+`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作五张类型明细表。冷却变化的操作保存在 `public.skill_effect_cooldown_change_details`，受影响技能集合保存在 `public.skill_effect_cooldown_change_targets`；接口使用 `detail.affectedSkillKeys`。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
 
 管理接口位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：GET 列表摘要或详情，POST 新建，PUT 全量替换结果集合，DELETE 删除。`effectKey` / `resultKey` 创建后不可改；已有结果的 `resultType` 不可改。
 
