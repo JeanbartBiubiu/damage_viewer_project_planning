@@ -45,8 +45,13 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
@@ -65,6 +70,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
@@ -82,6 +89,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -131,27 +142,25 @@ class SkillEffectServiceTest {
     }
 
     @Test
-    void createsAllSevenResultKindsAndReadsThemBack() {
+    void createsSixNonShieldResultKindsAndReadsThemBack() {
         stubParentAndNewKey();
         stubAllInserts();
         stubEnabledCatalogs();
-        stubDetailRead(sevenResultRows(), sevenValueRows(), sevenDetails());
+        stubDetailRead(sixNonShieldResultRows(), sixNonShieldValueRows(), sixNonShieldDetails());
 
-        SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createAllSeven());
+        SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createSixNonShieldResults());
         assertEquals(EFFECT_KEY, detail.effectKey());
-        assertEquals(7, detail.results().size());
+        assertEquals(6, detail.results().size());
         assertEquals(SkillEffectResultType.DAMAGE, detail.results().get(0).resultType());
         assertInstanceOf(SkillEffectDamageDetail.class, detail.results().get(0).detail());
         assertEquals(SkillEffectResultType.DIRECT_HEAL, detail.results().get(1).resultType());
         assertInstanceOf(SkillEffectDirectHealDetail.class, detail.results().get(1).detail());
-        assertEquals(SkillEffectResultType.NORMAL_SHIELD, detail.results().get(2).resultType());
-        assertInstanceOf(SkillEffectNormalShieldDetail.class, detail.results().get(2).detail());
-        assertEquals(SkillEffectResultType.ATTRIBUTE_CHANGE, detail.results().get(3).resultType());
-        assertEquals(SkillEffectResultType.RESOURCE_CHANGE, detail.results().get(4).resultType());
-        assertEquals(SkillEffectResultType.COOLDOWN_CHANGE, detail.results().get(5).resultType());
-        assertEquals(FORMULA_KEY, detail.results().get(5).valueRule().formulaKey());
-        assertEquals(SkillEffectResultType.STATUS_OPERATION, detail.results().get(6).resultType());
-        assertNull(detail.results().get(6).valueRule());
+        assertEquals(SkillEffectResultType.ATTRIBUTE_CHANGE, detail.results().get(2).resultType());
+        assertEquals(SkillEffectResultType.RESOURCE_CHANGE, detail.results().get(3).resultType());
+        assertEquals(SkillEffectResultType.COOLDOWN_CHANGE, detail.results().get(4).resultType());
+        assertEquals(FORMULA_KEY, detail.results().get(4).valueRule().formulaKey());
+        assertEquals(SkillEffectResultType.STATUS_OPERATION, detail.results().get(5).resultType());
+        assertNull(detail.results().get(5).valueRule());
 
         InOrder order = inOrder(skillMapper, mapper);
         order.verify(skillMapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
@@ -163,7 +172,15 @@ class SkillEffectServiceTest {
         order.verify(mapper).insertEffect(
             eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), isNull(), eq(10)
         );
-        verify(mapper).insertDamageDetail(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical");
+        verify(mapper).insertDamageDetail(
+            GAME_ID,
+            SKILL_KEY,
+            EFFECT_KEY,
+            "physical_hit",
+            "physical",
+            SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.DIRECT
+        );
         verify(mapper).insertValue(
             eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("reset_self"),
             eq(FORMULA_KEY), eq(BigDecimal.ONE), isNull(), isNull()
@@ -175,6 +192,159 @@ class SkillEffectServiceTest {
         verify(mapper).insertStatusOperationDetail(
             GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
         );
+    }
+
+    @Test
+    void createsDamageCriticalAndVampRulesAndReadsCanonicalShape() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        List<SkillEffectResultRow> results = List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE));
+        stubDetailRead(
+            results,
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID,
+                    SKILL_KEY,
+                    EFFECT_KEY,
+                    "physical_hit",
+                    "physical",
+                    SkillEffectDamageDeliveryKind.SKILL,
+                    SkillEffectDamageOriginKind.DIRECT
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            )
+        );
+        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectCriticalPolicyRow(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                "physical_hit",
+                SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
+                "crit_multiplier"
+            )
+        ));
+        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectVampRuleRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectVampType.LIFE_STEAL,
+                SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
+                "life_steal_efficiency"
+            ),
+            new SkillEffectVampRuleRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectVampType.OMNIVAMP,
+                SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
+                "omnivamp_efficiency"
+            )
+        ));
+
+        SkillEffectDamageDetail requestDetail = new SkillEffectDamageDetail(
+            "physical",
+            SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.DIRECT,
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, "crit_multiplier"),
+            List.of(
+                new SkillEffectVampRule(
+                    SkillEffectVampType.LIFE_STEAL,
+                    SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
+                    "life_steal_efficiency"
+                ),
+                new SkillEffectVampRule(
+                    SkillEffectVampType.OMNIVAMP,
+                    SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
+                    "omnivamp_efficiency"
+                )
+            )
+        );
+        SkillEffectDetailResponse response = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "命中结果",
+                null,
+                10,
+                List.of(new SkillEffectResultRequest(
+                    "physical_hit",
+                    "物理伤害",
+                    SkillEffectResultType.DAMAGE,
+                    SkillEffectTarget.TARGET,
+                    null,
+                    0,
+                    valueRule(),
+                    requestDetail
+                ))
+            )
+        );
+
+        SkillEffectDamageDetail saved = (SkillEffectDamageDetail) response.results().get(0).detail();
+        assertEquals(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, saved.critical().mode());
+        assertEquals("crit_multiplier", saved.critical().multiplierFormulaKey());
+        assertEquals(2, saved.vampRules().size());
+        assertEquals(SkillEffectVampType.LIFE_STEAL, saved.vampRules().get(0).vampType());
+        assertEquals(SkillEffectVampType.OMNIVAMP, saved.vampRules().get(1).vampType());
+        verify(mapper).insertCriticalPolicy(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+            SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, "crit_multiplier"
+        );
+        verify(mapper).insertVampRule(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+            SkillEffectVampType.LIFE_STEAL,
+            SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
+            "life_steal_efficiency"
+        );
+    }
+
+    @Test
+    void rejectsInvalidCriticalShapeAndDuplicateVampTypeBeforeWrite() {
+        stubParentAndNewKey();
+        SkillEffectDamageDetail invalid = new SkillEffectDamageDetail(
+            "physical",
+            SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.DIRECT,
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, "crit_multiplier"),
+            List.of(
+                new SkillEffectVampRule(
+                    SkillEffectVampType.LIFE_STEAL,
+                    SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
+                    "life_steal_efficiency"
+                ),
+                new SkillEffectVampRule(
+                    SkillEffectVampType.LIFE_STEAL,
+                    SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
+                    "other_efficiency"
+                )
+            )
+        );
+
+        ApiException exception = assertThrows(ApiException.class, () -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "命中结果",
+                null,
+                10,
+                List.of(new SkillEffectResultRequest(
+                    "physical_hit",
+                    "物理伤害",
+                    SkillEffectResultType.DAMAGE,
+                    SkillEffectTarget.TARGET,
+                    null,
+                    0,
+                    valueRule(),
+                    invalid
+                ))
+            )
+        ));
+
+        assertEquals("400.VALIDATION_FAILED", exception.getCode());
+        assertField(exception, "results[0].detail.critical.multiplierFormulaKey", "INVALID_CRITICAL_SHAPE");
+        assertField(exception, "results[0].detail.vampRules[1].vampType", "DUPLICATE_VAMP_TYPE");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -195,6 +365,14 @@ class SkillEffectServiceTest {
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
             ))
         );
+        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            List.of(new SkillEffectCriticalPolicyRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectCriticalMode.DISALLOWED, null
+            ))
+        );
+        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
@@ -225,7 +403,8 @@ class SkillEffectServiceTest {
         when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.deleteValue(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self")).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateCriticalPolicy(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
@@ -567,7 +746,7 @@ class SkillEffectServiceTest {
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
         stubDetailRead(
             List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
@@ -898,9 +1077,9 @@ class SkillEffectServiceTest {
         stubParentAndNewKey();
         stubAllInserts();
         stubEnabledCatalogs();
-        stubDetailRead(sevenResultRows(), sevenValueRows(), sevenDetails());
+        stubDetailRead(sixNonShieldResultRows(), sixNonShieldValueRows(), sixNonShieldDetails());
 
-        SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createAllSeven());
+        SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createSixNonShieldResults());
         assertNull(detail.lifecycle());
         assertNull(detail.results().get(0).lifecycleBehavior());
         verify(mapper, never()).insertLifecycle(
@@ -1070,6 +1249,39 @@ class SkillEffectServiceTest {
         assertEquals("400.VALIDATION_FAILED", damagePersistent.getCode());
         assertField(damagePersistent, "results[0].lifecycleBehavior.moment", "COMBINATION_INVALID");
 
+        SkillEffectLifecycleRequest lifecycleWithoutDuration = new SkillEffectLifecycleRequest(
+            null,
+            MAX_STACKS_FORMULA,
+            APP_STACKS_FORMULA,
+            SkillEffectLifecycleInstanceScope.TARGET,
+            SkillEffectLifecycleReapplicationStackMode.INCREASE,
+            SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
+            SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            null,
+            null
+        );
+        ApiException linearWithoutDuration = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY,
+                    "命中结果",
+                    null,
+                    10,
+                    lifecycleWithoutDuration,
+                    List.of(shieldResultWithBehavior(
+                        "normal_shield",
+                        new SkillEffectNormalShieldDetail("physical", SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO),
+                        persistentShared()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", linearWithoutDuration.getCode());
+        assertField(linearWithoutDuration, "lifecycle.durationFormulaKey", "REQUIRED");
+
         stubParentAndNewKey();
         stubAllInserts();
         stubEnabledCatalogs();
@@ -1082,6 +1294,16 @@ class SkillEffectServiceTest {
             List.of(valueRow("normal_shield")),
             new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
         );
+        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectNormalShieldInteractionRow(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                "normal_shield",
+                "physical",
+                SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO
+            )
+        ));
         when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
         when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
             new SkillEffectResultLifecycleBehaviorRow(
@@ -1101,13 +1323,8 @@ class SkillEffectServiceTest {
                 EFFECT_KEY, "命中结果", null, 10, timedLifecycle(),
                 List.of(shieldResultWithBehavior(
                     "normal_shield",
-                    new SkillEffectResultLifecycleBehaviorRequest(
-                        SkillEffectLifecycleMoment.PERSISTENT,
-                        SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
-                        SkillEffectLifecycleStackValueMode.SHARED,
-                        SkillEffectLifecycleReapplicationValueMode.KEEP,
-                        null
-                    )
+                    new SkillEffectNormalShieldDetail("physical", SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO),
+                    persistentShared()
                 ))
             )
         );
@@ -1116,6 +1333,9 @@ class SkillEffectServiceTest {
             SkillEffectLifecycleStackValueMode.SHARED,
             detail.results().get(0).lifecycleBehavior().stackValueMode()
         );
+        SkillEffectNormalShieldDetail shield = (SkillEffectNormalShieldDetail) detail.results().get(0).detail();
+        assertEquals("physical", shield.absorbedDamageTypeKey());
+        assertEquals(SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO, shield.decayMode());
     }
 
     @Test
@@ -1313,7 +1533,7 @@ class SkillEffectServiceTest {
             .thenReturn(1);
         when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
             .thenReturn(1);
         when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
@@ -1546,7 +1766,7 @@ class SkillEffectServiceTest {
             .thenReturn(1);
         when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
             .thenReturn(1);
         when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
@@ -1571,7 +1791,10 @@ class SkillEffectServiceTest {
         when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertCriticalPolicy(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertVampRule(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertNormalShieldInteraction(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
@@ -1608,6 +1831,25 @@ class SkillEffectServiceTest {
         when(mapper.listResults(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(results);
         when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(values);
         when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.damage);
+        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            results.stream()
+                .filter(row -> row.resultType() == SkillEffectResultType.DAMAGE)
+                .map(row -> new SkillEffectCriticalPolicyRow(
+                    row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(),
+                    SkillEffectCriticalMode.DISALLOWED, null
+                ))
+                .toList()
+        );
+        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            results.stream()
+                .filter(row -> row.resultType() == SkillEffectResultType.NORMAL_SHIELD)
+                .map(row -> new SkillEffectNormalShieldInteractionRow(
+                    row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(),
+                    null, SkillEffectNormalShieldDecayMode.NONE
+                ))
+                .toList()
+        );
         when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.attributes);
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.resources);
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.cooldowns);
@@ -1621,7 +1863,7 @@ class SkillEffectServiceTest {
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.statuses);
     }
 
-    private static SkillEffectCreateRequest createAllSeven() {
+    private static SkillEffectCreateRequest createSixNonShieldResults() {
         return new SkillEffectCreateRequest(
             EFFECT_KEY,
             "命中结果",
@@ -1630,7 +1872,6 @@ class SkillEffectServiceTest {
             List.of(
                 damageResult("physical_hit"),
                 healResult("direct_heal"),
-                shieldResult("normal_shield"),
                 attributeResult("buff_ad"),
                 resourceResult("consume_mp"),
                 cooldownReduceResult("reset_self", SKILL_KEY),
@@ -1757,11 +1998,10 @@ class SkillEffectServiceTest {
         return new SkillEffectValueRuleRequest(FORMULA_KEY, BigDecimal.ONE, null, null);
     }
 
-    private static List<SkillEffectResultRow> sevenResultRows() {
+    private static List<SkillEffectResultRow> sixNonShieldResultRows() {
         return List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE),
             resultRow("direct_heal", SkillEffectResultType.DIRECT_HEAL),
-            resultRow("normal_shield", SkillEffectResultType.NORMAL_SHIELD),
             resultRow("buff_ad", SkillEffectResultType.ATTRIBUTE_CHANGE),
             resultRow("consume_mp", SkillEffectResultType.RESOURCE_CHANGE),
             resultRow("reset_self", SkillEffectResultType.COOLDOWN_CHANGE),
@@ -1769,18 +2009,17 @@ class SkillEffectServiceTest {
         );
     }
 
-    private static List<SkillEffectResultValueRow> sevenValueRows() {
+    private static List<SkillEffectResultValueRow> sixNonShieldValueRows() {
         return List.of(
             valueRow("physical_hit"),
             valueRow("direct_heal"),
-            valueRow("normal_shield"),
             valueRow("buff_ad"),
             valueRow("consume_mp"),
             valueRow("reset_self")
         );
     }
 
-    private static DetailBundle sevenDetails() {
+    private static DetailBundle sixNonShieldDetails() {
         return new DetailBundle(
             List.of(new SkillEffectDamageDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
@@ -1894,6 +2133,14 @@ class SkillEffectServiceTest {
         String resultKey,
         SkillEffectResultLifecycleBehaviorRequest behavior
     ) {
+        return shieldResultWithBehavior(resultKey, new SkillEffectNormalShieldDetail(), behavior);
+    }
+
+    private static SkillEffectResultRequest shieldResultWithBehavior(
+        String resultKey,
+        SkillEffectNormalShieldDetail detail,
+        SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
         return new SkillEffectResultRequest(
             resultKey,
             "普通护盾",
@@ -1902,8 +2149,18 @@ class SkillEffectServiceTest {
             null,
             2,
             valueRule(),
-            new SkillEffectNormalShieldDetail(),
+            detail,
             behavior
+        );
+    }
+
+    private static SkillEffectResultLifecycleBehaviorRequest persistentShared() {
+        return new SkillEffectResultLifecycleBehaviorRequest(
+            SkillEffectLifecycleMoment.PERSISTENT,
+            SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+            SkillEffectLifecycleStackValueMode.SHARED,
+            SkillEffectLifecycleReapplicationValueMode.KEEP,
+            null
         );
     }
 

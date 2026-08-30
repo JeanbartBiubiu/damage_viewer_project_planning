@@ -26,6 +26,9 @@ import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
@@ -33,6 +36,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
@@ -51,6 +55,9 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCondition;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
@@ -80,6 +87,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDeta
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimit;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerReferenceHit;
@@ -91,6 +99,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
@@ -101,6 +110,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -322,6 +332,8 @@ public class SkillTriggerRuleService {
             inUse.sort(Comparator.comparing(issue -> issue.get("field")));
             throw effectInUse(inUse);
         }
+        assertReflectedEffectUpdate(gameId, skillKey, effectKey, candidateResults);
+        assertInteractionFormulaCompatibility(gameId, skillKey, effectKey, candidateResults);
         List<Map<String, String>> shapeIssues = collectEffectShapeIssues(
             gameId, skillKey, effectKey, candidateLifecycle, candidateResults
         );
@@ -329,6 +341,232 @@ public class SkillTriggerRuleService {
             shapeIssues.sort(Comparator.comparing(issue -> issue.get("field")));
             throw effectInUse(shapeIssues);
         }
+    }
+
+    private void assertInteractionFormulaCompatibility(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectResultRequest> candidateResults
+    ) {
+        Set<String> candidateFormulas = collectInteractionFormulaKeys(candidateResults);
+        Set<String> existingFormulas = new LinkedHashSet<>(
+            nullToEmpty(mapper.listEffectInteractionFormulaKeys(gameId, skillKey, effectKey))
+        );
+        if (candidateFormulas.equals(existingFormulas)) {
+            return;
+        }
+        Map<String, List<SkillTriggerEffectShapeRow>> effectShapes = indexEffects(
+            mapper.listEffectShapes(gameId, skillKey)
+        );
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes = indexProcesses(
+            mapper.listProcessShapes(gameId, skillKey)
+        );
+        Map<String, SkillTriggerEffectActionRow> effectActions = new LinkedHashMap<>();
+        for (SkillTriggerEffectActionRow row : nullToEmpty(mapper.listEffectActionsForSkill(gameId, skillKey))) {
+            effectActions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
+        }
+        Map<String, SkillTriggerProcessActionRow> processActions = new LinkedHashMap<>();
+        for (SkillTriggerProcessActionRow row : nullToEmpty(mapper.listProcessActionsForSkill(gameId, skillKey))) {
+            processActions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
+        }
+        List<RuntimeInputDependencyHit> hits = new ArrayList<>();
+        Map<String, Collection<String>> overrides = Map.of(effectKey, candidateFormulas);
+        for (SkillTriggerActionRow action : nullToEmpty(mapper.listActionsForSkill(gameId, skillKey))) {
+            String compositeKey = action.ruleKey() + '\u0000' + action.actionKey();
+            String targetKey = switch (action.actionType()) {
+                case EXECUTE_EFFECT -> {
+                    SkillTriggerEffectActionRow row = effectActions.get(compositeKey);
+                    yield row == null ? null : row.effectKey();
+                }
+                case START_PROCESS -> {
+                    SkillTriggerProcessActionRow row = processActions.get(compositeKey);
+                    yield row == null ? null : row.processKey();
+                }
+                case FAIL_PROCESS -> null;
+            };
+            if (targetKey == null) {
+                continue;
+            }
+            Map<String, SkillParameterValueType> existingReachable = analyzer.reachableRuntimeParameters(
+                gameId,
+                skillKey,
+                action.actionType(),
+                targetKey,
+                effectShapes,
+                processShapes
+            );
+            Map<String, SkillParameterValueType> candidateReachable = analyzer.reachableRuntimeParameters(
+                gameId,
+                skillKey,
+                action.actionType(),
+                targetKey,
+                effectShapes,
+                processShapes,
+                overrides
+            );
+            Set<String> parameters = new LinkedHashSet<>(existingReachable.keySet());
+            parameters.addAll(candidateReachable.keySet());
+            for (String parameterKey : parameters) {
+                if (!Objects.equals(existingReachable.get(parameterKey), candidateReachable.get(parameterKey))) {
+                    hits.add(new RuntimeInputDependencyHit(action.ruleKey(), action.actionKey(), parameterKey));
+                }
+            }
+        }
+        if (hits.isEmpty()) {
+            return;
+        }
+        hits.sort(Comparator
+            .comparing(RuntimeInputDependencyHit::ruleKey)
+            .thenComparing(RuntimeInputDependencyHit::actionKey)
+            .thenComparing(RuntimeInputDependencyHit::parameterKey));
+        List<String> paths = collectInteractionFormulaPaths(candidateResults);
+        String field = paths.isEmpty() ? "results" : paths.get(0);
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (RuntimeInputDependencyHit hit : hits) {
+            Map<String, String> issue = fieldIssue(
+                field,
+                "TRIGGER_RULE_RUNTIME_INPUT_IN_USE",
+                "暴击或吸血公式变化会改变既有触发规则的计算时参数",
+                hit.ruleKey() + "/" + hit.actionKey() + "/" + hit.parameterKey()
+            );
+            issue.put("ruleKey", hit.ruleKey());
+            issue.put("actionKey", hit.actionKey());
+            issue.put("parameterKey", hit.parameterKey());
+            issues.add(issue);
+        }
+        throw effectInUse(issues);
+    }
+
+    private void assertReflectedEffectUpdate(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectResultRequest> candidateResults
+    ) {
+        int reflectedResultIndex = -1;
+        for (int i = 0; i < candidateResults.size(); i++) {
+            SkillEffectResultRequest result = candidateResults.get(i);
+            if (result != null
+                && result.resultType() == SkillEffectResultType.DAMAGE
+                && result.detail() instanceof SkillEffectDamageDetail damage
+                && damage.originKind() == SkillEffectDamageOriginKind.REFLECTED) {
+                reflectedResultIndex = i;
+                break;
+            }
+        }
+        if (reflectedResultIndex < 0) {
+            return;
+        }
+        Map<String, SkillTriggerRuleRow> rules = new LinkedHashMap<>();
+        for (SkillTriggerRuleRow row : nullToEmpty(mapper.listRules(gameId, skillKey))) {
+            rules.put(row.ruleKey(), row);
+        }
+        Map<String, SkillTriggerActionRow> actions = new LinkedHashMap<>();
+        for (SkillTriggerActionRow row : nullToEmpty(mapper.listActionsForSkill(gameId, skillKey))) {
+            actions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
+        }
+        Map<String, SkillTriggerEffectActionRow> effectActions = new LinkedHashMap<>();
+        for (SkillTriggerEffectActionRow row : nullToEmpty(mapper.listEffectActionsForSkill(gameId, skillKey))) {
+            effectActions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
+        }
+        Map<String, SkillTriggerProcessActionRow> processActions = new LinkedHashMap<>();
+        for (SkillTriggerProcessActionRow row : nullToEmpty(mapper.listProcessActionsForSkill(gameId, skillKey))) {
+            processActions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
+        }
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes = indexProcesses(
+            mapper.listProcessShapes(gameId, skillKey)
+        );
+        Map<String, SkillTriggerDamageEventDetail> damageEvents = new LinkedHashMap<>();
+        for (var row : nullToEmpty(mapper.listDamageEventsForSkill(gameId, skillKey))) {
+            damageEvents.put(
+                row.ruleKey(),
+                new SkillTriggerDamageEventDetail(row.damageTypeKey(), row.deliveryKind(), row.originKind())
+            );
+        }
+        Set<String> protectedRules = new LinkedHashSet<>();
+        for (var row : nullToEmpty(mapper.listCooldownsForSkill(gameId, skillKey))) {
+            protectedRules.add(row.ruleKey());
+        }
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (SkillTriggerActionRow action : actions.values()) {
+            String compositeKey = action.ruleKey() + '\u0000' + action.actionKey();
+            boolean reachesCandidate = switch (action.actionType()) {
+                case EXECUTE_EFFECT -> {
+                    SkillTriggerEffectActionRow detail = effectActions.get(compositeKey);
+                    yield detail != null && Objects.equals(detail.effectKey(), effectKey);
+                }
+                case START_PROCESS -> {
+                    SkillTriggerProcessActionRow detail = processActions.get(compositeKey);
+                    yield detail != null && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
+                        .anyMatch(row -> Objects.equals(row.bindingEffectKey(), effectKey));
+                }
+                case FAIL_PROCESS -> false;
+            };
+            if (!reachesCandidate) {
+                continue;
+            }
+            SkillTriggerRuleRow rule = rules.get(action.ruleKey());
+            SkillTriggerDamageEventDetail damageEvent = damageEvents.get(action.ruleKey());
+            boolean guarded = rule != null
+                && rule.eventType() == SkillTriggerEventType.DAMAGE_TAKEN
+                && action.targetContext() == SkillTriggerTargetContext.EVENT_SOURCE
+                && (damageEvent != null && damageEvent.originKind() == SkillTriggerDamageOriginKind.DIRECT
+                    || protectedRules.contains(action.ruleKey()));
+            if (!guarded) {
+                issues.add(fieldIssue(
+                    resultPath(reflectedResultIndex, "detail.originKind"),
+                    "REFLECT_LOOP_UNGUARDED",
+                    "既有触发规则无法安全执行反伤效果",
+                    action.ruleKey() + "/" + action.actionKey()
+                ));
+            }
+        }
+        if (!issues.isEmpty()) {
+            issues.sort(Comparator.comparing(issue -> issue.get("rejectedValue")));
+            throw new ApiException(
+                HttpStatus.BAD_REQUEST,
+                "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+                "技能触发规则存在无保护反伤循环",
+                Map.of("fieldIssues", List.copyOf(issues))
+            );
+        }
+    }
+
+    private static Set<String> collectInteractionFormulaKeys(List<SkillEffectResultRequest> results) {
+        Set<String> formulaKeys = new LinkedHashSet<>();
+        for (SkillEffectResultRequest result : results) {
+            if (result == null || !(result.detail() instanceof SkillEffectDamageDetail damage)) {
+                continue;
+            }
+            SkillEffectCriticalPolicy critical = damage.critical();
+            if (critical != null && critical.multiplierFormulaKey() != null) {
+                formulaKeys.add(critical.multiplierFormulaKey());
+            }
+            for (SkillEffectVampRule vampRule : damage.vampRules() == null ? List.<SkillEffectVampRule>of() : damage.vampRules()) {
+                if (vampRule != null && vampRule.efficiencyFormulaKey() != null) {
+                    formulaKeys.add(vampRule.efficiencyFormulaKey());
+                }
+            }
+        }
+        return Set.copyOf(formulaKeys);
+    }
+
+    private static List<String> collectInteractionFormulaPaths(List<SkillEffectResultRequest> results) {
+        List<String> paths = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            SkillEffectResultRequest result = results.get(i);
+            if (result == null || !(result.detail() instanceof SkillEffectDamageDetail damage)) {
+                continue;
+            }
+            paths.add(resultPath(i, "detail.critical.multiplierFormulaKey"));
+            if (damage.vampRules() != null) {
+                for (int j = 0; j < damage.vampRules().size(); j++) {
+                    paths.add(resultPath(i, "detail.vampRules[" + j + "].efficiencyFormulaKey"));
+                }
+            }
+        }
+        return paths;
     }
 
     public void assertCurrentSkillCycle(String gameId, String skillKey) {
@@ -791,7 +1029,19 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue("eventSource.detail.subject", "REQUIRED", "事件主体不能为空"));
                 }
             }
-            case BASIC_ATTACK_START, BASIC_ATTACK_HIT, DAMAGE_DEALT, DAMAGE_TAKEN, CONTROL_RECEIVED, KILL -> {
+            case DAMAGE_DEALT, DAMAGE_TAKEN -> {
+                if (!(detail instanceof SkillTriggerDamageEventDetail damage)) {
+                    issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "伤害事件明细形状不合法"));
+                    return;
+                }
+                if (damage.deliveryKind() == null) {
+                    issues.add(fieldIssue("eventSource.detail.deliveryKind", "REQUIRED", "伤害产生方式筛选不能为空"));
+                }
+                if (damage.originKind() == null) {
+                    issues.add(fieldIssue("eventSource.detail.originKind", "REQUIRED", "伤害来源性质筛选不能为空"));
+                }
+            }
+            case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
                 if (!(detail instanceof SkillTriggerEmptyEventDetail)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "该事件明细必须为空对象"));
                 }
@@ -1135,6 +1385,9 @@ public class SkillTriggerRuleService {
         Map<String, SkillTriggerCatalogLockRow> attributes = indexCatalog(
             mapper.lockAttributes(gameId, refs.attributeKeys)
         );
+        Map<String, SkillTriggerCatalogLockRow> damageTypes = indexCatalog(
+            mapper.lockDamageTypes(gameId, refs.damageTypeKeys)
+        );
         Map<String, SkillTriggerCatalogLockRow> statuses = indexCatalog(mapper.lockStatuses(gameId, refs.statusKeys));
         Set<String> formulas = new LinkedHashSet<>(nullToEmpty(mapper.lockFormulas(gameId, skillKey, refs.formulaKeys)));
         Map<String, SkillTriggerParameterRefRow> parameters = indexParameters(
@@ -1159,6 +1412,18 @@ public class SkillTriggerRuleService {
                 referenceIssues.add(fieldIssue(ref.field(), "REFERENCE_TYPE_MISMATCH", "生命阈值只能引用数值属性"));
             } else if (ref.numeric() && DISABLED.equals(row.status())) {
                 referenceIssues.add(fieldIssue(ref.field(), "ATTRIBUTE_DISABLED", "生命阈值必须引用启用的数值属性"));
+            }
+        }
+        for (CatalogRef ref : refs.damageTypes) {
+            SkillTriggerCatalogLockRow row = damageTypes.get(ref.key());
+            if (row == null) {
+                referenceIssues.add(fieldIssue(
+                    ref.field(),
+                    "UNKNOWN_INTERACTION_DAMAGE_TYPE",
+                    "伤害事件筛选引用的伤害类型不存在或不属于当前游戏"
+                ));
+            } else if (isNewDisabled(current, ref.field(), ref.key()) && DISABLED.equals(row.status())) {
+                referenceIssues.add(fieldIssue(ref.field(), "DAMAGE_TYPE_DISABLED", "不能新增停用伤害类型引用"));
             }
         }
         for (CatalogRef ref : refs.statuses) {
@@ -1252,6 +1517,7 @@ public class SkillTriggerRuleService {
         }
         throwIfReferenceInvalid(referenceIssues);
         throwIfBindingInvalid(bindingIssues);
+        validateReflectedDamageRule(values, effectShapes, processShapes);
         return new Catalog(effectShapes, processShapes, states);
     }
 
@@ -1828,6 +2094,12 @@ public class SkillTriggerRuleService {
                     referenceIssues
                 );
             }
+            case DAMAGE_DEALT, DAMAGE_TAKEN -> {
+                SkillTriggerDamageEventDetail detail = (SkillTriggerDamageEventDetail) eventSource.detail();
+                if (detail.damageTypeKey() != null) {
+                    refs.addDamageType(new CatalogRef("eventSource.detail.damageTypeKey", detail.damageTypeKey()));
+                }
+            }
             default -> {
             }
         }
@@ -2076,6 +2348,17 @@ public class SkillTriggerRuleService {
             case ENTITY_DIED, ENTITY_UNTARGETABLE -> {
                 SkillTriggerSubjectEventDetail detail = (SkillTriggerSubjectEventDetail) eventSource.detail();
                 mapper.insertSubjectEvent(gameId, skillKey, ruleKey, detail.subject().name());
+            }
+            case DAMAGE_DEALT, DAMAGE_TAKEN -> {
+                SkillTriggerDamageEventDetail detail = (SkillTriggerDamageEventDetail) eventSource.detail();
+                mapper.insertDamageEvent(
+                    gameId,
+                    skillKey,
+                    ruleKey,
+                    detail.damageTypeKey(),
+                    detail.deliveryKind().name(),
+                    detail.originKind().name()
+                );
             }
             default -> {
             }
@@ -2474,6 +2757,71 @@ public class SkillTriggerRuleService {
             || AttributeValueType.INTEGER.name().equals(valueType);
     }
 
+    private void validateReflectedDamageRule(
+        ValidatedRule values,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectShapes,
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes
+    ) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (int i = 0; i < values.actions().size(); i++) {
+            SkillTriggerAction action = values.actions().get(i);
+            boolean reflected = switch (action.actionType()) {
+                case EXECUTE_EFFECT -> action.detail() instanceof SkillTriggerExecuteEffectActionDetail detail
+                    && effectContainsReflectedDamage(detail.effectKey(), effectShapes);
+                case START_PROCESS -> action.detail() instanceof SkillTriggerStartProcessActionDetail detail
+                    && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
+                        .map(SkillTriggerProcessShapeRow::bindingEffectKey)
+                        .filter(Objects::nonNull)
+                        .anyMatch(effectKey -> effectContainsReflectedDamage(effectKey, effectShapes));
+                case FAIL_PROCESS -> false;
+            };
+            if (!reflected) {
+                continue;
+            }
+            if (values.eventSource().eventType() != SkillTriggerEventType.DAMAGE_TAKEN) {
+                issues.add(fieldIssue(
+                    "eventSource.eventType",
+                    "REFLECT_LOOP_UNGUARDED",
+                    "反伤效果只能由受到伤害事件触发"
+                ));
+            }
+            if (action.targetContext() != SkillTriggerTargetContext.EVENT_SOURCE) {
+                issues.add(fieldIssue(
+                    actionPath(i, "targetContext"),
+                    "REFLECT_LOOP_UNGUARDED",
+                    "反伤效果必须作用于事件来源对象"
+                ));
+            }
+            boolean directOnly = values.eventSource().detail() instanceof SkillTriggerDamageEventDetail damage
+                && damage.originKind() == SkillTriggerDamageOriginKind.DIRECT;
+            if (!directOnly && values.perTargetCooldown() == null) {
+                issues.add(fieldIssue(
+                    "eventSource.detail.originKind",
+                    "REFLECT_LOOP_UNGUARDED",
+                    "反伤规则必须只接收直接伤害，或配置每目标冷却"
+                ));
+            }
+        }
+        if (!issues.isEmpty()) {
+            issues.sort(Comparator.comparing(issue -> issue.get("field")));
+            throw new ApiException(
+                HttpStatus.BAD_REQUEST,
+                "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+                "技能触发规则存在无保护反伤循环",
+                Map.of("fieldIssues", List.copyOf(issues))
+            );
+        }
+    }
+
+    private static boolean effectContainsReflectedDamage(
+        String effectKey,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectShapes
+    ) {
+        return effectShapes.getOrDefault(effectKey, List.of()).stream()
+            .anyMatch(row -> row.resultType() == SkillEffectResultType.DAMAGE
+                && row.damageOriginKind() == SkillEffectDamageOriginKind.REFLECTED);
+    }
+
     private static boolean isNewDisabled(SkillTriggerRuleDetailResponse current, String field, String key) {
         if (current == null) {
             return true;
@@ -2778,6 +3126,7 @@ public class SkillTriggerRuleService {
 
     private static final class CollectedRefs {
         private final List<CatalogRef> attributes = new ArrayList<>();
+        private final List<CatalogRef> damageTypes = new ArrayList<>();
         private final List<CatalogRef> statuses = new ArrayList<>();
         private final List<CatalogRef> formulas = new ArrayList<>();
         private final List<CatalogRef> effects = new ArrayList<>();
@@ -2786,6 +3135,7 @@ public class SkillTriggerRuleService {
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> parameters = new ArrayList<>();
         private final Set<String> attributeKeys = new LinkedHashSet<>();
+        private final Set<String> damageTypeKeys = new LinkedHashSet<>();
         private final Set<String> statusKeys = new LinkedHashSet<>();
         private final Set<String> formulaKeys = new LinkedHashSet<>();
         private final Set<String> effectKeys = new LinkedHashSet<>();
@@ -2798,6 +3148,13 @@ public class SkillTriggerRuleService {
             attributes.add(ref);
             if (ref.key() != null) {
                 attributeKeys.add(ref.key());
+            }
+        }
+
+        private void addDamageType(CatalogRef ref) {
+            damageTypes.add(ref);
+            if (ref.key() != null) {
+                damageTypeKeys.add(ref.key());
             }
         }
 
@@ -2862,5 +3219,8 @@ public class SkillTriggerRuleService {
         Map<String, List<SkillTriggerProcessShapeRow>> processShapes,
         Map<String, SkillTriggerInternalStateLockRow> states
     ) {
+    }
+
+    private record RuntimeInputDependencyHit(String ruleKey, String actionKey, String parameterKey) {
     }
 }

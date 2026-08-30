@@ -116,6 +116,17 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="damageEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind"/>
+            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="conditionGroupRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -354,6 +365,9 @@
             <arg column="application_stacks_formula_key" javaType="java.lang.String"/>
             <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
             <arg column="expiry_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="damage_delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
+            <arg column="damage_origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind"/>
         </constructor>
     </resultMap>
 
@@ -445,7 +459,10 @@
                l.max_stacks_formula_key,
                l.application_stacks_formula_key,
                l.periodic_interval_formula_key,
-               l.expiry_mode
+               l.expiry_mode,
+               dd.damage_type_key,
+               dd.delivery_kind AS damage_delivery_kind,
+               dd.origin_kind AS damage_origin_kind
         FROM public.skill_effect_results r
         LEFT JOIN public.skill_effect_result_values v
           ON v.game_id = r.game_id
@@ -457,6 +474,11 @@
          AND ac.skill_key = r.skill_key
          AND ac.effect_key = r.effect_key
          AND ac.result_key = r.result_key
+        LEFT JOIN public.skill_effect_damage_details dd
+          ON dd.game_id = r.game_id
+         AND dd.skill_key = r.skill_key
+         AND dd.effect_key = r.effect_key
+         AND dd.result_key = r.result_key
         LEFT JOIN public.skill_effect_status_operation_details so
           ON so.game_id = r.game_id
          AND so.skill_key = r.skill_key
@@ -628,6 +650,11 @@
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
             RETURNING 1
         ),
+        deleted_damage_events AS (
+            DELETE FROM public.skill_trigger_rule_damage_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
         deleted_condition_groups AS (
             DELETE FROM public.skill_trigger_rule_condition_groups
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
@@ -695,6 +722,12 @@
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
     </select>
 
+    <select id="findDamageEvent" resultMap="damageEventRow">
+        SELECT game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
+        FROM public.skill_trigger_rule_damage_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
     <insert id="insertProcessEvent">
         INSERT INTO public.skill_trigger_rule_process_events (
             game_id, skill_key, rule_key, process_key, moment_type, step_key
@@ -757,6 +790,14 @@
             game_id, skill_key, rule_key, subject
         ) VALUES (
             #{gameId}, #{skillKey}, #{ruleKey}, #{subject}
+        )
+    </insert>
+
+    <insert id="insertDamageEvent">
+        INSERT INTO public.skill_trigger_rule_damage_events (
+            game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{damageTypeKey}, #{deliveryKind}, #{originKind}
         )
     </insert>
 
@@ -1129,10 +1170,33 @@
         ORDER BY rule_key ASC
     </select>
 
+    <select id="listDamageEventsForSkill" resultMap="damageEventRow">
+        SELECT game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
+        FROM public.skill_trigger_rule_damage_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
     <select id="listEffectShapes" resultMap="effectShapeRow">
         <include refid="effectShapeSelect"/>
         WHERE r.game_id = #{gameId} AND r.skill_key = #{skillKey}
         ORDER BY r.effect_key ASC, r.sort_order ASC, r.result_key ASC
+    </select>
+
+    <select id="listEffectInteractionFormulaKeys" resultType="string">
+        SELECT multiplier_formula_key AS formula_key
+        FROM public.skill_effect_result_critical_policies
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND multiplier_formula_key IS NOT NULL
+        UNION
+        SELECT efficiency_formula_key AS formula_key
+        FROM public.skill_effect_result_vamp_rules
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+        ORDER BY formula_key
     </select>
 
     <select id="listProcessShapes" resultMap="processShapeRow">
@@ -1381,6 +1445,17 @@
             <property name="column" value="status_key"/>
         </include>
         ORDER BY status_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockDamageTypes" resultMap="catalogLockRow">
+        SELECT damage_type_key AS key, status, CAST(NULL AS varchar) AS value_type
+        FROM public.damage_types
+        WHERE game_id = #{gameId}
+        <include refid="andKeysIn">
+            <property name="column" value="damage_type_key"/>
+        </include>
+        ORDER BY damage_type_key
         FOR UPDATE
     </select>
 

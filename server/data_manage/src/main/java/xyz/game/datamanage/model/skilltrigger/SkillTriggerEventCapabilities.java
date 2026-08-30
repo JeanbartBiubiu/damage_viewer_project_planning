@@ -17,8 +17,6 @@ public final class SkillTriggerEventCapabilities {
     private static final Set<SkillTriggerEventType> EMPTY_DETAIL_EVENTS = EnumSet.of(
         SkillTriggerEventType.BASIC_ATTACK_START,
         SkillTriggerEventType.BASIC_ATTACK_HIT,
-        SkillTriggerEventType.DAMAGE_DEALT,
-        SkillTriggerEventType.DAMAGE_TAKEN,
         SkillTriggerEventType.CONTROL_RECEIVED,
         SkillTriggerEventType.KILL
     );
