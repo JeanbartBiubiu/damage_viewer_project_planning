@@ -27,6 +27,7 @@ import {
   type SkillParameterEditorMode
 } from './SkillParameterEditorModal';
 import { formatParameterValue, type LevelRange } from './parameterForm';
+import { SKILL_TRIGGER_PARAMETER_IN_USE_MESSAGE } from './triggers/triggerRuleForm';
 
 type SkillParameterFormulaModalProps = {
   visible: boolean;
@@ -288,7 +289,7 @@ export function SkillParameterFormulaModal({
       await loadParameters();
     } catch (error) {
       if (error instanceof ApiRequestError && error.code === '409.SKILL_PARAMETER_IN_USE') {
-        setDeleteError('该参数正在被技能公式使用，不能删除');
+        setDeleteError(SKILL_TRIGGER_PARAMETER_IN_USE_MESSAGE);
       } else if (error instanceof ApiRequestError && error.code === '404.SKILL_NOT_FOUND') {
         handleSkillMissing();
       } else {
