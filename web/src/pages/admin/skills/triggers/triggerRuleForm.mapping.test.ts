@@ -74,7 +74,13 @@ function damageResult(resultKey: string, formulaKey: string): SkillEffectResult 
     sortOrder: 10,
     lifecycleBehavior: null,
     valueRule: { formulaKey, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
-    detail: { damageTypeKey: 'physical' }
+    detail: {
+      damageTypeKey: 'physical',
+      deliveryKind: 'SKILL',
+      originKind: 'DIRECT',
+      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      vampRules: []
+    }
   };
 }
 
