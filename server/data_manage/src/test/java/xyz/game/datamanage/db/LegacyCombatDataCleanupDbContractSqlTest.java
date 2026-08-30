@@ -49,6 +49,9 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effect_results",
         "skill_effect_result_values",
         "skill_effect_damage_details",
+        "skill_effect_result_critical_policies",
+        "skill_effect_result_vamp_rules",
+        "skill_effect_result_normal_shield_interactions",
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
@@ -88,6 +91,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_trigger_rule_health_threshold_events",
         "skill_trigger_rule_internal_state_events",
         "skill_trigger_rule_subject_events",
+        "skill_trigger_rule_damage_events",
         "skill_trigger_rule_condition_groups",
         "skill_trigger_rule_conditions",
         "skill_trigger_rule_attribute_conditions",
@@ -225,15 +229,15 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     @Test
-    void schemaDefinesExactlyTheCurrentSeventyTwoParentTables() {
+    void schemaDefinesExactlyTheCurrentSeventySixParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(46, KEEP_PARENTS.size());
+        assertEquals(49, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
-        assertEquals(26, STAGE_7_5_PARENTS.size());
-        assertEquals(72, expected.size());
+        assertEquals(27, STAGE_7_5_PARENTS.size());
+        assertEquals(76, expected.size());
         assertEquals(expected, created);
-        assertEquals(72, created.size());
+        assertEquals(76, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -282,7 +286,12 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     @Test
     void breakingMigrationCoversExactDropSetWithoutCascade() {
         List<String> historicalKeepParents = KEEP_PARENTS.stream()
-            .filter(table -> !"skill_effect_cooldown_change_targets".equals(table))
+            .filter(table -> !Set.of(
+                "skill_effect_cooldown_change_targets",
+                "skill_effect_result_critical_policies",
+                "skill_effect_result_vamp_rules",
+                "skill_effect_result_normal_shield_interactions"
+            ).contains(table))
             .toList();
         assertEquals(45, historicalKeepParents.size());
         assertEquals(74, DROP_PARENTS.size());
