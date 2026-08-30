@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
@@ -197,12 +199,18 @@ class SkillEffectServiceTest {
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
             List.of(new SkillEffectCooldownChangeDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY,
-                SkillEffectCooldownChangeOperation.REDUCE
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
             )),
             List.of(new SkillEffectCooldownChangeDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY,
-                SkillEffectCooldownChangeOperation.RESET
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.RESET
+            ))
+        );
+        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            List.of(new SkillEffectCooldownChangeTargetRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
+            )),
+            List.of(new SkillEffectCooldownChangeTargetRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
             ))
         );
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
@@ -218,7 +226,7 @@ class SkillEffectServiceTest {
         when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.deleteValue(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self")).thenReturn(1);
         when(mapper.updateDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateCooldownChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
@@ -500,7 +508,7 @@ class SkillEffectServiceTest {
                 && "UNKNOWN_FORMULA".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
-            "results[2].detail.affectedSkillKey".equals(issue.get("field"))
+            "results[2].detail.affectedSkillKeys[0]".equals(issue.get("field"))
                 && "UNKNOWN_SKILL".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
@@ -595,7 +603,7 @@ class SkillEffectServiceTest {
         when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
         stubDetailRead(
             List.of(resultRow("reduce_self", SkillEffectResultType.COOLDOWN_CHANGE)),
             List.of(valueRow("reduce_self")),
@@ -604,8 +612,7 @@ class SkillEffectServiceTest {
                 List.of(),
                 List.of(),
                 List.of(new SkillEffectCooldownChangeDetailRow(
-                    GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY,
-                    SkillEffectCooldownChangeOperation.REDUCE
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
                 )),
                 List.of()
             )
@@ -622,8 +629,8 @@ class SkillEffectServiceTest {
                 List.of(cooldownReduceResult("reduce_self", SKILL_KEY))
             )
         );
-        assertEquals(SKILL_KEY,
-            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillKey());
+        assertEquals(List.of(SKILL_KEY),
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillKeys());
 
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
         when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
@@ -637,8 +644,7 @@ class SkillEffectServiceTest {
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
             List.of(),
             List.of(new SkillEffectCooldownChangeDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY,
-                SkillEffectCooldownChangeOperation.REDUCE
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
             ))
         );
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
@@ -656,8 +662,8 @@ class SkillEffectServiceTest {
                 List.of(cooldownReduceResult("reduce_self", SKILL_KEY))
             )
         );
-        assertEquals(SKILL_KEY,
-            ((SkillEffectCooldownChangeDetail) updated.results().get(0).detail()).affectedSkillKey());
+        assertEquals(List.of(SKILL_KEY),
+            ((SkillEffectCooldownChangeDetail) updated.results().get(0).detail()).affectedSkillKeys());
 
         when(mapper.lockSkills(eq(GAME_ID), anyCollection()))
             .thenReturn(List.of(new SkillEffectCatalogLockRow("other_skill", "DISABLED")));
@@ -677,7 +683,183 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", other.getCode());
-        assertField(other, "results[0].detail.affectedSkillKey", "SKILL_DISABLED");
+        assertField(other, "results[0].detail.affectedSkillKeys[0]", "SKILL_DISABLED");
+    }
+
+    @Test
+    void cooldownChangePersistsOneResultWithMultipleOrderedTargets() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        stubDetailRead(
+            List.of(resultRow("reduce_abilities", SkillEffectResultType.COOLDOWN_CHANGE)),
+            List.of(valueRow("reduce_abilities")),
+            new DetailBundle(
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(new SkillEffectCooldownChangeDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectCooldownChangeOperation.REDUCE
+                )),
+                List.of()
+            )
+        );
+        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w"),
+            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY),
+            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r")
+        ));
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "命中减少技能冷却",
+                null,
+                0,
+                List.of(cooldownReduceResult(
+                    "reduce_abilities",
+                    List.of(SKILL_KEY, "ezreal_w", "ezreal_r")
+                ))
+            )
+        );
+
+        assertEquals(1, created.results().size());
+        assertEquals(
+            List.of("ezreal_w", SKILL_KEY, "ezreal_r"),
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillKeys()
+        );
+        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY);
+        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w");
+        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r");
+    }
+
+    @Test
+    void cooldownChangeRejectsEmptyAndDuplicateTargetLists() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+
+        ApiException empty = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY,
+                    "空目标",
+                    null,
+                    0,
+                    List.of(cooldownReduceResult("reduce_abilities", List.of()))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", empty.getCode());
+        assertField(empty, "results[0].detail.affectedSkillKeys", "AFFECTED_SKILL_REQUIRED");
+
+        ApiException duplicate = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY,
+                    "重复目标",
+                    null,
+                    0,
+                    List.of(cooldownReduceResult(
+                        "reduce_abilities",
+                        List.of("ezreal_w", " ezreal_w ")
+                    ))
+                )
+            )
+        );
+        assertEquals("400.VALIDATION_FAILED", duplicate.getCode());
+        assertField(duplicate, "results[0].detail.affectedSkillKeys[1]", "DUPLICATE_AFFECTED_SKILL");
+    }
+
+    @Test
+    void cooldownChangeRejectsRemovedScalarFieldAsInvalidBody() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        SkillEffectResultRequest result = new SkillEffectResultRequest(
+            "reduce_abilities",
+            "旧单值字段",
+            SkillEffectResultType.COOLDOWN_CHANGE,
+            SkillEffectTarget.SOURCE,
+            null,
+            0,
+            valueRule(),
+            new SkillEffectCooldownChangeDetail(
+                null,
+                SkillEffectCooldownChangeOperation.REDUCE,
+                Set.of(),
+                Set.of("affectedSkillKey")
+            )
+        );
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "旧字段", null, 0, List.of(result))
+            )
+        );
+
+        assertEquals("400.INVALID_BODY", exception.getCode());
+        assertField(exception, "results[0].detail.affectedSkillKey", "UNKNOWN_FIELD");
+    }
+
+    @Test
+    void updateRetainsDisabledCooldownTargetsButRejectsNewDisabledTargets() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("reduce_abilities", SkillEffectResultType.COOLDOWN_CHANGE)
+        ));
+        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("reduce_abilities")));
+        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectCooldownChangeDetailRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectCooldownChangeOperation.REDUCE
+            )
+        ));
+        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectCooldownChangeTargetRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "disabled_existing"
+            )
+        ));
+        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(FORMULA_KEY));
+        when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectCatalogLockRow("disabled_existing", "DISABLED"),
+            new SkillEffectCatalogLockRow("disabled_new", "DISABLED")
+        ));
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null,
+                    "停用目标集合",
+                    null,
+                    0,
+                    List.of(cooldownReduceResult(
+                        "reduce_abilities",
+                        List.of("disabled_existing", "disabled_new")
+                    ))
+                )
+            )
+        );
+
+        assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", exception.getCode());
+        assertField(exception, "results[0].detail.affectedSkillKeys[1]", "SKILL_DISABLED");
     }
 
     @Test
@@ -1392,7 +1574,8 @@ class SkillEffectServiceTest {
         when(mapper.insertDamageDetail(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertCooldownChangeTarget(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
     }
 
@@ -1428,6 +1611,13 @@ class SkillEffectServiceTest {
         when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.attributes);
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.resources);
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.cooldowns);
+        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            details.cooldowns.stream()
+                .map(row -> new SkillEffectCooldownChangeTargetRow(
+                    row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), SKILL_KEY
+                ))
+                .toList()
+        );
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.statuses);
     }
 
@@ -1521,6 +1711,10 @@ class SkillEffectServiceTest {
     }
 
     private static SkillEffectResultRequest cooldownReduceResult(String resultKey, String affectedSkillKey) {
+        return cooldownReduceResult(resultKey, List.of(affectedSkillKey));
+    }
+
+    private static SkillEffectResultRequest cooldownReduceResult(String resultKey, List<String> affectedSkillKeys) {
         return new SkillEffectResultRequest(
             resultKey,
             "减少冷却",
@@ -1529,7 +1723,7 @@ class SkillEffectServiceTest {
             null,
             5,
             valueRule(),
-            new SkillEffectCooldownChangeDetail(affectedSkillKey, SkillEffectCooldownChangeOperation.REDUCE)
+            new SkillEffectCooldownChangeDetail(affectedSkillKeys, SkillEffectCooldownChangeOperation.REDUCE)
         );
     }
 
@@ -1542,7 +1736,7 @@ class SkillEffectServiceTest {
             null,
             5,
             null,
-            new SkillEffectCooldownChangeDetail(affectedSkillKey, SkillEffectCooldownChangeOperation.RESET)
+            new SkillEffectCooldownChangeDetail(List.of(affectedSkillKey), SkillEffectCooldownChangeOperation.RESET)
         );
     }
 
@@ -1600,8 +1794,7 @@ class SkillEffectServiceTest {
                 SkillEffectResourceChangeOperation.CONSUME
             )),
             List.of(new SkillEffectCooldownChangeDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reset_self", SKILL_KEY,
-                SkillEffectCooldownChangeOperation.REDUCE
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reset_self", SkillEffectCooldownChangeOperation.REDUCE
             )),
             List.of(new SkillEffectStatusOperationDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison",
