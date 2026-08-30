@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -252,6 +253,22 @@ class StatusServiceTest {
         );
         assertCode("404.GAME_NOT_FOUND", () -> service.delete("missing", KEY));
         verifyNoInteractions(mapper);
+    }
+
+    @Test
+    void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService);
+        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.STATUS_IN_USE",
+            "状态仍被触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(Map.of("field", "statusKey", "code", "TRIGGER_RULE_STATUS_IN_USE")))
+        )).when(triggerRuleService).assertStatusDeletable(GAME_ID, KEY);
+        assertCode("409.STATUS_IN_USE", () -> guarded.delete(GAME_ID, KEY));
+        verify(mapper, never()).delete(GAME_ID, KEY);
     }
 
     private static StatusResponse status() {

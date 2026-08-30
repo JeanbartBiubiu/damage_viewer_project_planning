@@ -470,6 +470,56 @@ class SkillServiceTest {
         verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
     }
 
+    @Test
+    void triggerRuleProtectsCrossSkillSourceAndDeletesOwnRulesBeforeChildren() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
+        SkillService guarded = new SkillService(
+            gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, processMapper,
+            internalStateMapper, levelService, triggerRuleService
+        );
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_IN_USE",
+            "技能仍被其他技能的触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(Map.of("field", "skillKey", "code", "CONFLICT")))
+        )).when(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
+        ApiException blocked = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY));
+        assertEquals("409.SKILL_IN_USE", blocked.getCode());
+        verify(triggerRuleService, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(processMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
+
+        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.clearInvocations(
+            mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
+        );
+        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
+        when(processMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(effectMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(internalStateMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(formulaMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(parameterMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
+        when(mapper.delete(GAME_ID, SKILL_KEY)).thenReturn(1);
+        guarded.delete(GAME_ID, SKILL_KEY);
+        InOrder order = inOrder(
+            mapper, triggerRuleService, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
+        );
+        order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
+        order.verify(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(triggerRuleService).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
+        order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(formulaMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(parameterMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+        order.verify(mapper).delete(GAME_ID, SKILL_KEY);
+    }
+
     private static SkillParameterRow parameterRow(
         String parameterKey,
         SkillParameterValueMode mode,

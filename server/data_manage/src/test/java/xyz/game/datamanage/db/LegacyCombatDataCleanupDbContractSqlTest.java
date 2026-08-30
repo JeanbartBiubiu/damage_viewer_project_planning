@@ -77,6 +77,35 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "images"
     );
 
+    static final List<String> STAGE_7_5_PARENTS = List.of(
+        "skill_trigger_rules",
+        "skill_trigger_rule_process_events",
+        "skill_trigger_rule_skill_events",
+        "skill_trigger_rule_result_events",
+        "skill_trigger_rule_lifecycle_events",
+        "skill_trigger_rule_status_events",
+        "skill_trigger_rule_health_threshold_events",
+        "skill_trigger_rule_internal_state_events",
+        "skill_trigger_rule_subject_events",
+        "skill_trigger_rule_condition_groups",
+        "skill_trigger_rule_conditions",
+        "skill_trigger_rule_attribute_conditions",
+        "skill_trigger_rule_status_conditions",
+        "skill_trigger_rule_internal_state_conditions",
+        "skill_trigger_rule_event_value_conditions",
+        "skill_trigger_rule_actions",
+        "skill_trigger_rule_effect_actions",
+        "skill_trigger_rule_process_actions",
+        "skill_trigger_rule_runtime_input_bindings",
+        "skill_trigger_rule_internal_state_bindings",
+        "skill_trigger_rule_combat_status_bindings",
+        "skill_trigger_rule_event_value_bindings",
+        "skill_trigger_rule_prior_result_bindings",
+        "skill_trigger_rule_result_modifiers",
+        "skill_trigger_rule_per_target_cooldowns",
+        "skill_trigger_rule_process_limits"
+    );
+
     static final List<String> DROP_PARENTS = List.of(
         "game_data_state",
         "game_versions",
@@ -195,15 +224,24 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     @Test
-    void schemaDefinesExactlyTheFortyFiveKeptParentTables() {
+    void schemaDefinesExactlyTheCurrentSeventyOneParentTables() {
+        List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(KEEP_PARENTS, created);
-        assertEquals(45, created.size());
+        assertEquals(45, KEEP_PARENTS.size());
+        assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
+        assertEquals(26, STAGE_7_5_PARENTS.size());
+        assertEquals(71, expected.size());
+        assertEquals(expected, created);
+        assertEquals(71, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
                 () -> "schema.sql must not define dropped parent " + table
             );
+        }
+        for (String table : STAGE_7_5_PARENTS) {
+            assertFalse(DROP_PARENTS.contains(table), () -> "stage 7.5 table must not be in cleanup drop set: " + table);
+            assertFalse(KEEP_PARENTS.contains(table), () -> "stage 7.5 table must not be required in cleanup keep set: " + table);
         }
         assertTrue(schemaNormalized.contains("create table public.images ("));
         assertTrue(schemaNormalized.contains("partition by list (game_id)"));
@@ -250,6 +288,9 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         }
         for (String table : DROP_PARENTS) {
             assertTrue(migrationSql.contains("'" + table + "'"), () -> "drop parent missing from migration: " + table);
+        }
+        for (String table : STAGE_7_5_PARENTS) {
+            assertFalse(DROP_PARENTS.contains(table), () -> "stage 7.5 table must not be in cleanup drop set: " + table);
         }
         for (String triggerName : LEGACY_TRIGGERS) {
             assertTrue(migrationSql.contains("'" + triggerName + "'"), () -> "legacy trigger missing: " + triggerName);
@@ -356,6 +397,14 @@ class LegacyCombatDataCleanupDbContractSqlTest {
             "retained-table FKs onto the drop set must remain independently blocked"
         );
         assertFalse(Pattern.compile("(?is)\\bcascade\\b").matcher(migrationSql).find());
+    }
+
+    private static List<String> currentParentTables() {
+        List<String> current = new ArrayList<>(KEEP_PARENTS.size() + STAGE_7_5_PARENTS.size());
+        current.addAll(KEEP_PARENTS.subList(0, KEEP_PARENTS.size() - 1));
+        current.addAll(STAGE_7_5_PARENTS);
+        current.add(KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
+        return current;
     }
 
     private static List<String> extractCreateTableNames(String sql) {

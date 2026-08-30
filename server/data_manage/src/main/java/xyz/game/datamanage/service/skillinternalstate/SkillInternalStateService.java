@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -49,19 +51,40 @@ public class SkillInternalStateService {
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_internal_states";
     private static final String STATE_IN_USE_CONSTRAINT = "fk_skill_process_state_operations_state";
     private static final String OPTION_IN_USE_CONSTRAINT = "fk_skill_process_state_operations_option";
+    private static final Set<String> TRIGGER_STATE_IN_USE_CONSTRAINTS = Set.of(
+        "fk_skill_trigger_istate_events_state",
+        "fk_skill_trigger_istate_cond_state",
+        "fk_skill_trigger_istate_bind_state"
+    );
+    private static final Set<String> TRIGGER_OPTION_IN_USE_CONSTRAINTS = Set.of(
+        "fk_skill_trigger_istate_cond_option",
+        "fk_skill_trigger_istate_bind_option"
+    );
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillInternalStateMapper mapper;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillInternalStateService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillInternalStateMapper mapper
     ) {
+        this(gamesMapper, skillMapper, mapper, null);
+    }
+
+    @Autowired
+    public SkillInternalStateService(
+        GamesMapper gamesMapper,
+        SkillMapper skillMapper,
+        SkillInternalStateMapper mapper,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -166,6 +189,9 @@ public class SkillInternalStateService {
         }
         if (mapper.countStateOperations(gameId, skillKey, stateKey) > 0) {
             throw stateInUse();
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertInternalStateDeletable(gameId, skillKey, stateKey);
         }
         try {
             if (mapper.deleteState(gameId, skillKey, stateKey) == 0) {
@@ -527,6 +553,9 @@ public class SkillInternalStateService {
         if (!removed.isEmpty() && mapper.countOptionOperations(gameId, skillKey, stateKey, removed) > 0) {
             throw optionInUse();
         }
+        if (!removed.isEmpty() && triggerRuleService != null) {
+            triggerRuleService.assertOptionsNotReferenced(gameId, skillKey, stateKey, removed);
+        }
         if (!removed.isEmpty()) {
             mapper.deleteModeOptions(gameId, skillKey, stateKey, removed);
         }
@@ -725,6 +754,16 @@ public class SkillInternalStateService {
         }
         if (text.contains(OPTION_IN_USE_CONSTRAINT)) {
             return optionInUse();
+        }
+        for (String constraint : TRIGGER_OPTION_IN_USE_CONSTRAINTS) {
+            if (text.contains(constraint)) {
+                return optionInUse();
+            }
+        }
+        for (String constraint : TRIGGER_STATE_IN_USE_CONSTRAINTS) {
+            if (text.contains(constraint)) {
+                return stateInUse();
+            }
         }
         return ex;
     }

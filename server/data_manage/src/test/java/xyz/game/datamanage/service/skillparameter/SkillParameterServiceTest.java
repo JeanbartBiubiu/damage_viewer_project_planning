@@ -460,6 +460,28 @@ class SkillParameterServiceTest {
         verify(parameterMapper, never()).lockGame(anyString());
     }
 
+    @Test
+    void triggerRuleProtectsParameterDeleteAfterFormulaCheckWithLongConstructor() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillParameterService guarded = new SkillParameterService(
+            gamesMapper, skillMapper, parameterMapper, levelService, triggerRuleService
+        );
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill(5));
+        when(parameterMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, PARAMETER_KEY)).thenReturn(row(
+            PARAMETER_KEY, SkillParameterValueType.DECIMAL, SkillParameterValueMode.FIXED, java.math.BigDecimal.ONE, null
+        ));
+        when(parameterMapper.countFormulaReferences(GAME_ID, SKILL_KEY, PARAMETER_KEY)).thenReturn(0L);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_PARAMETER_IN_USE",
+            "技能参数仍被触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(Map.of("field", "parameterKey", "code", "TRIGGER_RULE_PARAMETER_IN_USE")))
+        )).when(triggerRuleService).assertParameterDeletable(GAME_ID, SKILL_KEY, PARAMETER_KEY);
+        assertCode("409.SKILL_PARAMETER_IN_USE", () -> guarded.delete(GAME_ID, SKILL_KEY, PARAMETER_KEY));
+        verify(parameterMapper, never()).delete(anyString(), anyString(), anyString());
+    }
+
     private static Map<String, BigDecimal> levelMap(int... values) {
         Map<String, BigDecimal> map = new LinkedHashMap<>();
         for (int i = 0; i < values.length; i++) {
