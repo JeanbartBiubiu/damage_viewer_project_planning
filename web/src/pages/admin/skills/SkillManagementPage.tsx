@@ -27,6 +27,8 @@ import { SkillEditorModal, type SkillEditorMode } from './SkillEditorModal';
 import { SkillEffectManagementModal } from './effects/SkillEffectManagementModal';
 import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
+import { SkillTriggerRuleManagementModal } from './triggers/SkillTriggerRuleManagementModal';
+import { SKILL_TRIGGER_ENTRY_LABEL } from './triggers/triggerRuleForm';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
@@ -41,6 +43,7 @@ type StatusTarget = { skill: Skill; nextStatus: SkillStatus };
 type ParameterFormulaTarget = Skill;
 type EffectTarget = Skill;
 type ProcessInternalStateTarget = Skill;
+type TriggerRuleTarget = Skill;
 
 const EMPTY_QUERY: SkillListQuery = {};
 
@@ -94,6 +97,7 @@ export function SkillManagementPage({
   const [parameterFormulaTarget, setParameterFormulaTarget] = useState<ParameterFormulaTarget | null>(null);
   const [effectTarget, setEffectTarget] = useState<EffectTarget | null>(null);
   const [processInternalStateTarget, setProcessInternalStateTarget] = useState<ProcessInternalStateTarget | null>(null);
+  const [triggerRuleTarget, setTriggerRuleTarget] = useState<TriggerRuleTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
   const [pageGameId, setPageGameId] = useState(selectedGameId);
@@ -123,6 +127,7 @@ export function SkillManagementPage({
     setParameterFormulaTarget(null);
     setEffectTarget(null);
     setProcessInternalStateTarget(null);
+    setTriggerRuleTarget(null);
     setNotice(null);
   }
 
@@ -192,6 +197,11 @@ export function SkillManagementPage({
     void loadSkills(appliedQuery);
   }, [appliedQuery, loadSkills]);
 
+  const handleTriggerRuleSkillMissing = useCallback(() => {
+    setTriggerRuleTarget(null);
+    void loadSkills(appliedQuery);
+  }, [appliedQuery, loadSkills]);
+
   useEffect(() => {
     onDirtyChange(false);
   }, [onDirtyChange, selectedGameId]);
@@ -227,6 +237,9 @@ export function SkillManagementPage({
       current && current.skillKey === saved.skillKey ? saved : current
     ));
     setProcessInternalStateTarget((current) => (
+      current && current.skillKey === saved.skillKey ? saved : current
+    ));
+    setTriggerRuleTarget((current) => (
       current && current.skillKey === saved.skillKey ? saved : current
     ));
   };
@@ -282,6 +295,9 @@ export function SkillManagementPage({
       setProcessInternalStateTarget((current) => (
         current && current.skillKey === deleteTarget.skillKey ? null : current
       ));
+      setTriggerRuleTarget((current) => (
+        current && current.skillKey === deleteTarget.skillKey ? null : current
+      ));
       setNotice(`技能「${deletedName}」已删除。`);
       await loadSkills(appliedQuery);
     } catch (error) {
@@ -332,7 +348,7 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 580,
+      width: 680,
       fixed: 'right',
       render: (_value, record: Skill) => (
         <Space size="mini">
@@ -345,6 +361,7 @@ export function SkillManagementPage({
           <Button size="mini" onClick={() => setParameterFormulaTarget(record)}>参数与公式</Button>
           <Button size="mini" onClick={() => setEffectTarget(record)}>效果与结果</Button>
           <Button size="mini" onClick={() => setProcessInternalStateTarget(record)}>过程与内部状态</Button>
+          <Button size="mini" onClick={() => setTriggerRuleTarget(record)}>{SKILL_TRIGGER_ENTRY_LABEL}</Button>
           <Button
             size="mini"
             status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -452,7 +469,7 @@ export function SkillManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1560 }}
+          scroll={{ x: 1680 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>
@@ -502,6 +519,17 @@ export function SkillManagementPage({
         adminToken={adminToken}
         onClose={() => setProcessInternalStateTarget(null)}
         onSkillMissing={handleProcessInternalStateSkillMissing}
+        onDirtyChange={onDirtyChange}
+      />
+
+      <SkillTriggerRuleManagementModal
+        visible={triggerRuleTarget !== null}
+        skill={triggerRuleTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onClose={() => setTriggerRuleTarget(null)}
+        onSkillMissing={handleTriggerRuleSkillMissing}
         onDirtyChange={onDirtyChange}
       />
 

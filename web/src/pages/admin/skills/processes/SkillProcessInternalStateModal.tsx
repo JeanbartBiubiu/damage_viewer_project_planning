@@ -33,6 +33,7 @@ import {
   SKILL_INTERNAL_STATE_TYPE_LABELS
 } from './internalStateForm';
 import { SKILL_PROCESS_ACTIVATION_TYPE_LABELS } from './processForm';
+import { SKILL_TRIGGER_INTERNAL_STATE_IN_USE_MESSAGE } from '../triggers/triggerRuleForm';
 
 type ContentManager = 'parameter-formula' | 'effects' | null;
 
@@ -293,7 +294,7 @@ export function SkillProcessInternalStateModal({
         return;
       }
       if (error instanceof ApiRequestError && error.code === '409.SKILL_INTERNAL_STATE_IN_USE') {
-        setDeleteError('该内部状态正在被技能过程使用，不能删除');
+        setDeleteError(SKILL_TRIGGER_INTERNAL_STATE_IN_USE_MESSAGE);
       } else {
         setDeleteError(getErrorMessage(error));
       }

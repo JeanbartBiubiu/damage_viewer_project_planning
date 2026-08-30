@@ -1,6 +1,6 @@
 # Damage Viewer Web
 
-`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7.4 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
+`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7.5 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
 
 它在整条链路里的位置是：
 
@@ -16,7 +16,7 @@
 - `src/pages/admin/equipment/`：装备管理（`#/equipment`）
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）
-- `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果及效果生命周期、过程与内部状态）
+- `src/pages/admin/skills/`：技能管理（`#/skills`，含参数、公式、效果与结果及效果生命周期、过程与内部状态、条件与触发）
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/admin/game-settings/`：游戏配置（`#/game-settings`）
 - `src/pages/ImagesPage.tsx`：图片缓存与同步（`#/images`）
@@ -26,6 +26,7 @@
 - `src/App.tsx`：应用壳层、页面切换和全局本地状态
 - `src/config/navigation.ts`：导航项
 - `src/services/apiClient.ts`：API 基址、games/images
+- `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
 - `src/engine/wasm/`：Wasm 构建产物目录
@@ -80,7 +81,7 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
-| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 9 类管理页；Desktop Chrome；无需 `E2E_*` |
+| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 9 类管理页；仅 Desktop Chrome，不覆盖移动端；无需 `E2E_*` |
 
 ## 常用验证
 
@@ -92,7 +93,21 @@ npm run test
 npm run build
 ```
 
-本迭代默认页面回归为**非 Wasm**。可复用清单见 [../文档记录/测试记录/web/非Wasm最小回归清单.md](../文档记录/测试记录/web/非Wasm最小回归清单.md)。
+本迭代默认页面回归为**非 Wasm**。可复用清单见 [../文档记录/测试记录/web/非Wasm最小回归清单.md](../文档记录/测试记录/web/非Wasm最小回归清单.md)。当前管理页只维护桌面布局，不覆盖移动端。
+
+阶段 7.5 在技能行提供「条件与触发」入口，不新增导航或路由。配置范围为 17 种固定事件、4 种条件、3 种动作和 4 种动态输入来源；只保存规则聚合，不执行事件/公式，也不含运行时、Wasm 或阶段 7.6 结果来源。
+
+阶段提交前在 `web/` 运行：
+
+```powershell
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run test:e2e:non-wasm
+```
+
+聚焦条件与触发：`npx vitest run --config vitest.config.ts src/services/skillTriggerRuleClient.test.ts src/pages/admin/skills/triggers`，以及 `npx playwright test --config playwright.non-wasm.config.ts -g "condition and trigger"`。
 
 涉及页面或联调行为改动时，按固定顺序至少回归：
 
