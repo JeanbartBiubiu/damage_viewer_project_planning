@@ -66,6 +66,42 @@
             <arg column="effect_key" javaType="java.lang.String"/>
             <arg column="result_key" javaType="java.lang.String"/>
             <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
+            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="criticalPolicyRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="critical_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode"/>
+            <arg column="multiplier_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="vampRuleRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="vamp_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectVampType"/>
+            <arg column="basis_output_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind"/>
+            <arg column="efficiency_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="normalShieldInteractionRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="absorbed_damage_type_key" javaType="java.lang.String"/>
+            <arg column="decay_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode"/>
         </constructor>
     </resultMap>
 
@@ -322,22 +358,106 @@
     </delete>
 
     <select id="listDamageDetails" resultMap="damageRow">
-        SELECT game_id, skill_key, effect_key, result_key, damage_type_key
+        SELECT game_id, skill_key, effect_key, result_key, damage_type_key,
+               delivery_kind, origin_kind
         FROM public.skill_effect_damage_details
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
     </select>
 
     <insert id="insertDamageDetail">
         INSERT INTO public.skill_effect_damage_details (
-            game_id, skill_key, effect_key, result_key, damage_type_key
+            game_id, skill_key, effect_key, result_key, damage_type_key,
+            delivery_kind, origin_kind
         ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey}
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey},
+            #{deliveryKind}, #{originKind}
         )
     </insert>
 
     <update id="updateDamageDetail">
         UPDATE public.skill_effect_damage_details
-        SET damage_type_key = #{damageTypeKey}
+        SET damage_type_key = #{damageTypeKey},
+            delivery_kind = #{deliveryKind},
+            origin_kind = #{originKind}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listCriticalPolicies" resultMap="criticalPolicyRow">
+        SELECT game_id, skill_key, effect_key, result_key, critical_mode, multiplier_formula_key
+        FROM public.skill_effect_result_critical_policies
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertCriticalPolicy">
+        INSERT INTO public.skill_effect_result_critical_policies (
+            game_id, skill_key, effect_key, result_key, critical_mode, multiplier_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{criticalMode}, #{multiplierFormulaKey}
+        )
+    </insert>
+
+    <update id="updateCriticalPolicy">
+        UPDATE public.skill_effect_result_critical_policies
+        SET critical_mode = #{criticalMode},
+            multiplier_formula_key = #{multiplierFormulaKey}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <select id="listVampRules" resultMap="vampRuleRow">
+        SELECT game_id, skill_key, effect_key, result_key, vamp_type,
+               basis_output_kind, efficiency_formula_key
+        FROM public.skill_effect_result_vamp_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        ORDER BY result_key, CASE vamp_type
+            WHEN 'LIFE_STEAL' THEN 1
+            WHEN 'OMNIVAMP' THEN 2
+            WHEN 'PHYSICAL_VAMP' THEN 3
+            WHEN 'SPELL_VAMP' THEN 4
+            ELSE 99 END
+    </select>
+
+    <insert id="insertVampRule">
+        INSERT INTO public.skill_effect_result_vamp_rules (
+            game_id, skill_key, effect_key, result_key, vamp_type,
+            basis_output_kind, efficiency_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{vampType},
+            #{basisOutputKind}, #{efficiencyFormulaKey}
+        )
+    </insert>
+
+    <delete id="deleteVampRules">
+        DELETE FROM public.skill_effect_result_vamp_rules
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </delete>
+
+    <select id="listNormalShieldInteractions" resultMap="normalShieldInteractionRow">
+        SELECT game_id, skill_key, effect_key, result_key, absorbed_damage_type_key, decay_mode
+        FROM public.skill_effect_result_normal_shield_interactions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertNormalShieldInteraction">
+        INSERT INTO public.skill_effect_result_normal_shield_interactions (
+            game_id, skill_key, effect_key, result_key, absorbed_damage_type_key, decay_mode
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{absorbedDamageTypeKey}, #{decayMode}
+        )
+    </insert>
+
+    <update id="updateNormalShieldInteraction">
+        UPDATE public.skill_effect_result_normal_shield_interactions
+        SET absorbed_damage_type_key = #{absorbedDamageTypeKey},
+            decay_mode = #{decayMode}
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}

@@ -34,11 +34,47 @@ public class SkillTriggerRuntimeInputAnalyzer {
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey
     ) {
+        return reachableRuntimeParameters(
+            gameId,
+            skillKey,
+            actionType,
+            targetKey,
+            effectsByKey,
+            processesByKey,
+            Map.of()
+        );
+    }
+
+    public Map<String, SkillParameterValueType> reachableRuntimeParameters(
+        String gameId,
+        String skillKey,
+        SkillTriggerActionType actionType,
+        String targetKey,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        Map<String, ? extends Collection<String>> interactionFormulaOverrides
+    ) {
         Set<String> formulaKeys = new LinkedHashSet<>();
         if (actionType == SkillTriggerActionType.EXECUTE_EFFECT) {
-            collectEffectFormulas(targetKey, effectsByKey, formulaKeys);
+            collectEffectFormulas(
+                gameId,
+                skillKey,
+                targetKey,
+                effectsByKey,
+                interactionFormulaOverrides,
+                formulaKeys
+            );
         } else if (actionType == SkillTriggerActionType.START_PROCESS) {
-            collectProcessFormulas(gameId, skillKey, targetKey, effectsByKey, processesByKey, formulaKeys, new LinkedHashSet<>());
+            collectProcessFormulas(
+                gameId,
+                skillKey,
+                targetKey,
+                effectsByKey,
+                processesByKey,
+                interactionFormulaOverrides,
+                formulaKeys,
+                new LinkedHashSet<>()
+            );
         }
         if (formulaKeys.isEmpty()) {
             return Map.of();
@@ -59,8 +95,11 @@ public class SkillTriggerRuntimeInputAnalyzer {
     }
 
     private void collectEffectFormulas(
+        String gameId,
+        String skillKey,
         String effectKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
         Set<String> formulaKeys
     ) {
         List<SkillTriggerEffectShapeRow> results = effectsByKey.getOrDefault(effectKey, List.of());
@@ -75,6 +114,12 @@ public class SkillTriggerRuntimeInputAnalyzer {
                 lifecycleFormulasCollected = true;
             }
         }
+        Collection<String> interactionFormulas = interactionFormulaOverrides.containsKey(effectKey)
+            ? interactionFormulaOverrides.get(effectKey)
+            : mapper.listEffectInteractionFormulaKeys(gameId, skillKey, effectKey);
+        for (String formulaKey : nullToEmpty(interactionFormulas)) {
+            addFormula(formulaKeys, formulaKey);
+        }
     }
 
     private void collectProcessFormulas(
@@ -83,6 +128,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
         String processKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
         Set<String> formulaKeys,
         Set<String> visitedEffects
     ) {
@@ -108,7 +154,14 @@ public class SkillTriggerRuntimeInputAnalyzer {
             addFormula(formulaKeys, row.cooldownDurationFormulaKey());
             addFormula(formulaKeys, row.operationValueFormulaKey());
             if (row.bindingEffectKey() != null && visitedEffects.add(row.bindingEffectKey())) {
-                collectEffectFormulas(row.bindingEffectKey(), effectsByKey, formulaKeys);
+                collectEffectFormulas(
+                    gameId,
+                    skillKey,
+                    row.bindingEffectKey(),
+                    effectsByKey,
+                    interactionFormulaOverrides,
+                    formulaKeys
+                );
             }
             if (shouldCollectStateDefinitionFormulas(row) && row.operationStateKey() != null) {
                 for (String formulaKey : nullToEmpty(

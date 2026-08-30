@@ -11,7 +11,11 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -25,6 +29,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationVa
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
@@ -36,6 +42,9 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 
 @Mapper
 public interface SkillEffectMapper {
@@ -180,7 +189,9 @@ public interface SkillEffectMapper {
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
-        @Param("damageTypeKey") String damageTypeKey
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageOriginKind originKind
     );
 
     int updateDamageDetail(
@@ -188,7 +199,80 @@ public interface SkillEffectMapper {
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
-        @Param("damageTypeKey") String damageTypeKey
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageOriginKind originKind
+    );
+
+    List<SkillEffectCriticalPolicyRow> listCriticalPolicies(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertCriticalPolicy(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("criticalMode") SkillEffectCriticalMode criticalMode,
+        @Param("multiplierFormulaKey") String multiplierFormulaKey
+    );
+
+    int updateCriticalPolicy(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("criticalMode") SkillEffectCriticalMode criticalMode,
+        @Param("multiplierFormulaKey") String multiplierFormulaKey
+    );
+
+    List<SkillEffectVampRuleRow> listVampRules(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertVampRule(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("vampType") SkillEffectVampType vampType,
+        @Param("basisOutputKind") SkillEffectVampBasisOutputKind basisOutputKind,
+        @Param("efficiencyFormulaKey") String efficiencyFormulaKey
+    );
+
+    int deleteVampRules(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey
+    );
+
+    List<SkillEffectNormalShieldInteractionRow> listNormalShieldInteractions(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertNormalShieldInteraction(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("absorbedDamageTypeKey") String absorbedDamageTypeKey,
+        @Param("decayMode") SkillEffectNormalShieldDecayMode decayMode
+    );
+
+    int updateNormalShieldInteraction(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("absorbedDamageTypeKey") String absorbedDamageTypeKey,
+        @Param("decayMode") SkillEffectNormalShieldDecayMode decayMode
     );
 
     List<SkillEffectAttributeChangeDetailRow> listAttributeChangeDetails(
