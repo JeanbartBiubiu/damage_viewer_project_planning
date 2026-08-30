@@ -61,6 +61,7 @@ import {
   isInstanceScopeLocked,
   listFormulaOptions,
   mapSkillEffectFieldIssues,
+  normalizeEffectDraftForDirtyComparison,
   skillEffectToDraft,
   sortResultDrafts,
   validateSkillEffectDraft,
@@ -130,7 +131,7 @@ function referenceSummary(result: SkillEffectResultDraft): string {
     case 'RESOURCE_CHANGE':
       return result.attributeKey || '—';
     case 'COOLDOWN_CHANGE':
-      return result.affectedSkillKey || '—';
+      return result.affectedSkillKeys.length > 0 ? result.affectedSkillKeys.join('、') : '—';
     case 'STATUS_OPERATION':
       return result.statusKey || '—';
     case 'LIFECYCLE_OPERATION':
@@ -192,7 +193,10 @@ export function SkillEffectEditorModal({
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
 
   const reportDirty = useCallback((next: SkillEffectDraft, currentBaseline: SkillEffectDraft) => {
-    onDirtyChange(JSON.stringify(next) !== JSON.stringify(currentBaseline));
+    onDirtyChange(
+      JSON.stringify(normalizeEffectDraftForDirtyComparison(next))
+        !== JSON.stringify(normalizeEffectDraftForDirtyComparison(currentBaseline))
+    );
   }, [onDirtyChange]);
 
   const resetLocalState = useCallback(() => {
