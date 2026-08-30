@@ -1,4 +1,5 @@
 import { ApiRequestError } from '../../../../services/apiClient';
+import type { DamageType } from '../../../../types/damageType';
 import type { FormulaAttributeValueKind, FormulaExpressionNode, SkillFormula } from '../../../../types/skillFormula';
 import type { SkillInternalState, SkillInternalStateType } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
@@ -28,6 +29,8 @@ import type {
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerConditionType,
+  SkillTriggerDamageDeliveryKind,
+  SkillTriggerDamageOriginKind,
   SkillTriggerEventSource,
   SkillTriggerEventType,
   SkillTriggerEventUseKind,
@@ -90,6 +93,18 @@ export const INCOMPLETE_CATALOG_MESSAGE = '缺少当前表单必需目录，无�
 export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
 export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数公式，不执行计数。';
 export const PRIOR_RESULT_OUTPUT_LABEL = '基础结果值';
+
+export const SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS = {
+  ANY: '任意',
+  SKILL: '技能',
+  BASIC_ATTACK: '普通攻击'
+} as const satisfies { [K in SkillTriggerDamageDeliveryKind]: string };
+
+export const SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS = {
+  ANY: '任意',
+  DIRECT: '直接伤害',
+  REFLECTED: '反伤'
+} as const satisfies { [K in SkillTriggerDamageOriginKind]: string };
 
 export const FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS = [
   'POST_DEFENSE_DAMAGE',
@@ -180,6 +195,7 @@ export type SkillTriggerCatalogKind =
   | 'parameters'
   | 'formulas'
   | 'effects'
+  | 'damageTypes'
   | 'processes'
   | 'internalStates';
 
@@ -283,16 +299,16 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.DAMAGE_DEALT,
     currentTargetBinding: '本次伤害承受对象。',
     hasEventSource: false,
-    requiredCatalogs: [],
-    detailFields: []
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
   },
   DAMAGE_TAKEN: {
     eventType: 'DAMAGE_TAKEN',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.DAMAGE_TAKEN,
     currentTargetBinding: '来源对象自身。',
     hasEventSource: true,
-    requiredCatalogs: [],
-    detailFields: []
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
   },
   STATUS_CHANGED: {
     eventType: 'STATUS_CHANGED',
@@ -731,9 +747,11 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'BASIC_ATTACK_HIT':
       return { eventType, detail: emptyEventDetail() };
     case 'DAMAGE_DEALT':
-      return { eventType, detail: emptyEventDetail() };
     case 'DAMAGE_TAKEN':
-      return { eventType, detail: emptyEventDetail() };
+      return {
+        eventType,
+        detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
+      };
     case 'CONTROL_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
     case 'KILL':
@@ -2115,6 +2133,14 @@ export function collectExecuteEffectFormulaKeys(effect: SkillEffect): string[] {
   const keys: string[] = [];
   for (const result of effect.results) {
     if (result.valueRule?.formulaKey) keys.push(result.valueRule.formulaKey);
+    if (result.resultType === 'DAMAGE') {
+      if (result.detail.critical.multiplierFormulaKey) {
+        keys.push(result.detail.critical.multiplierFormulaKey);
+      }
+      for (const rule of result.detail.vampRules) {
+        keys.push(rule.efficiencyFormulaKey);
+      }
+    }
   }
   if (effect.lifecycle) {
     if (effect.lifecycle.durationFormulaKey) keys.push(effect.lifecycle.durationFormulaKey);
@@ -2149,6 +2175,22 @@ export function collectStartProcessFormulaKeys(
     if (effect) keys.push(...collectExecuteEffectFormulaKeys(effect));
   }
   return [...new Set(keys.filter(Boolean))];
+}
+
+export function effectHasReflectedDamage(effect: SkillEffect | undefined): boolean {
+  return Boolean(effect?.results.some((result) => (
+    result.resultType === 'DAMAGE' && result.detail.originKind === 'REFLECTED'
+  )));
+}
+
+export function processHasReflectedDamage(
+  process: SkillProcess | undefined,
+  effectsByKey: ReadonlyMap<string, SkillEffect> | undefined
+): boolean {
+  if (!process || !effectsByKey) return false;
+  return process.effectBindings.some((binding) => (
+    effectHasReflectedDamage(effectsByKey.get(binding.effectKey))
+  ));
 }
 
 export function reachableRuntimeInputParameters(
@@ -2471,6 +2513,7 @@ export function validateSkillTriggerDraft(
     formulasByKey?: ReadonlyMap<string, SkillFormula>;
     parameters?: readonly SkillParameter[];
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
+    damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
     statesByKey?: ReadonlyMap<string, SkillInternalState>;
     stepType?: SkillProcessStepType | null;
@@ -2502,6 +2545,33 @@ export function validateSkillTriggerDraft(
     const effect = options.effectsByKey?.get(draft.eventSource.detail.effectKey);
     if (effect && !effect.lifecycle?.periodicIntervalFormulaKey) {
       pushError(nestedErrors, 'eventSource.detail.moment', '周期时点要求已配置周期间隔。');
+    }
+  }
+  if (
+    draft.eventSource.eventType === 'DAMAGE_DEALT'
+    || draft.eventSource.eventType === 'DAMAGE_TAKEN'
+  ) {
+    const detail = draft.eventSource.detail;
+    if (
+      detail.deliveryKind !== 'ANY'
+      && detail.deliveryKind !== 'SKILL'
+      && detail.deliveryKind !== 'BASIC_ATTACK'
+    ) {
+      pushError(nestedErrors, 'eventSource.detail.deliveryKind', '请选择伤害产生方式。');
+    }
+    if (
+      detail.originKind !== 'ANY'
+      && detail.originKind !== 'DIRECT'
+      && detail.originKind !== 'REFLECTED'
+    ) {
+      pushError(nestedErrors, 'eventSource.detail.originKind', '请选择伤害来源性质。');
+    }
+    if (
+      detail.damageTypeKey
+      && options.damageTypesByKey
+      && !options.damageTypesByKey.has(detail.damageTypeKey)
+    ) {
+      pushError(nestedErrors, 'eventSource.detail.damageTypeKey', '伤害类型目录中不存在该选项。');
     }
   }
 
@@ -2652,6 +2722,35 @@ export function validateSkillTriggerDraft(
       }
     } else if (action.resultModifiers.length > 0) {
       pushError(nestedErrors, `actions[${actionIndex}].resultModifiers`, '只有执行效果可以配置结果修正。');
+    }
+    const reflected = action.actionType === 'EXECUTE_EFFECT'
+      ? effectHasReflectedDamage(options.effectsByKey?.get(action.detail.effectKey))
+      : action.actionType === 'START_PROCESS'
+        ? processHasReflectedDamage(
+            options.processesByKey?.get(action.detail.processKey),
+            options.effectsByKey
+          )
+        : false;
+    if (reflected) {
+      if (draft.eventSource.eventType !== 'DAMAGE_TAKEN') {
+        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由受到伤害事件触发。');
+      }
+      if (action.targetContext !== 'EVENT_SOURCE') {
+        pushError(
+          nestedErrors,
+          `actions[${actionIndex}].targetContext`,
+          '反伤效果必须作用于事件来源对象。'
+        );
+      }
+      const directOnly = draft.eventSource.eventType === 'DAMAGE_TAKEN'
+        && draft.eventSource.detail.originKind === 'DIRECT';
+      if (!directOnly && !draft.perTargetCooldownEnabled) {
+        pushError(
+          nestedErrors,
+          'eventSource.detail.originKind',
+          '反伤规则必须只接收直接伤害，或配置每目标冷却。'
+        );
+      }
     }
     if (action.actionType !== 'FAIL_PROCESS' && options.formulasByKey && options.parameters && options.effectsByKey) {
       const formulaKeys = action.actionType === 'EXECUTE_EFFECT'

@@ -4,6 +4,8 @@ import {
   deleteSkillEffect,
   getSkillEffect,
   listSkillEffects,
+  parseSkillEffect,
+  SkillEffectProtocolError,
   updateSkillEffect
 } from './skillEffectClient';
 import type {
@@ -34,7 +36,13 @@ const damageResult = {
     fixedMinValue: null,
     fixedMaxValue: null
   },
-  detail: { damageTypeKey: 'physical' }
+  detail: {
+    damageTypeKey: 'physical',
+    deliveryKind: 'SKILL',
+    originKind: 'DIRECT',
+    critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+    vampRules: []
+  }
 };
 
 const summary: SkillEffectSummary = {
@@ -218,7 +226,13 @@ describe('skillEffectClient', () => {
             fixedMinValue: null,
             fixedMaxValue: null
           },
-          detail: { damageTypeKey: 'physical' }
+          detail: {
+            damageTypeKey: 'physical',
+            deliveryKind: 'SKILL',
+            originKind: 'DIRECT',
+            critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+            vampRules: []
+          }
         },
         {
           resultKey: 'consume_focus',
@@ -283,5 +297,21 @@ describe('skillEffectClient', () => {
       detail: { targetEffectKey: 'focus_mark', operation: 'CONSUME' }
     });
     expect(JSON.parse(String(fetchMock.mock.calls[1]?.[1]?.body))).toEqual(createLifecycleBody);
+  });
+
+  it('rejects migrated damage and shield responses when required detail fields are missing', () => {
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{ ...damageResult, detail: { damageTypeKey: 'physical' } }]
+    })).toThrow(SkillEffectProtocolError);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'NORMAL_SHIELD',
+        detail: { absorbedDamageTypeKey: null }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.decayMode/);
   });
 });
