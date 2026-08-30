@@ -83,8 +83,6 @@ class SkillTriggerRuleEventShapeServiceTest {
         for (SkillTriggerEventType type : List.of(
             SkillTriggerEventType.BASIC_ATTACK_START,
             SkillTriggerEventType.BASIC_ATTACK_HIT,
-            SkillTriggerEventType.DAMAGE_DEALT,
-            SkillTriggerEventType.DAMAGE_TAKEN,
             SkillTriggerEventType.CONTROL_RECEIVED,
             SkillTriggerEventType.KILL
         )) {

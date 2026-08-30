@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -29,6 +31,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
@@ -172,6 +177,82 @@ class SkillTriggerRuleAdminControllerTest {
             .andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"));
         verify(service, never()).create(any(), any(), any());
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @Test
+    void damageEventDetailBindsAndSerializesWithExplicitFilters() throws Exception {
+        SkillTriggerRuleDetailResponse response = new SkillTriggerRuleDetailResponse(
+            "on_damage_taken",
+            "受到伤害",
+            null,
+            10,
+            new SkillTriggerEventSource(
+                SkillTriggerEventType.DAMAGE_TAKEN,
+                new SkillTriggerDamageEventDetail(
+                    "physical",
+                    SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
+                    SkillTriggerDamageOriginKind.DIRECT
+                )
+            ),
+            List.of(),
+            List.of(new SkillTriggerAction(
+                "reflect",
+                "执行反伤",
+                SkillTriggerActionType.EXECUTE_EFFECT,
+                10,
+                SkillTriggerTargetContext.EVENT_SOURCE,
+                new SkillTriggerExecuteEffectActionDetail("reflect_damage"),
+                List.of(),
+                List.of()
+            )),
+            null,
+            null
+        );
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillTriggerRuleCreateRequest.class)))
+            .thenReturn(response);
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "ruleKey":"on_damage_taken",
+                      "name":"受到伤害",
+                      "sortOrder":10,
+                      "eventSource":{
+                        "eventType":"DAMAGE_TAKEN",
+                        "detail":{
+                          "damageTypeKey":"physical",
+                          "deliveryKind":"BASIC_ATTACK",
+                          "originKind":"DIRECT"
+                        }
+                      },
+                      "conditionGroups":[],
+                      "actions":[{
+                        "actionKey":"reflect",
+                        "name":"执行反伤",
+                        "actionType":"EXECUTE_EFFECT",
+                        "sortOrder":10,
+                        "targetContext":"EVENT_SOURCE",
+                        "detail":{"effectKey":"reflect_damage"},
+                        "runtimeInputBindings":[],
+                        "resultModifiers":[]
+                      }]
+                    }
+                    """))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.eventSource.eventType").value("DAMAGE_TAKEN"))
+            .andExpect(jsonPath("$.eventSource.detail.damageTypeKey").value("physical"))
+            .andExpect(jsonPath("$.eventSource.detail.deliveryKind").value("BASIC_ATTACK"))
+            .andExpect(jsonPath("$.eventSource.detail.originKind").value("DIRECT"));
+
+        ArgumentCaptor<SkillTriggerRuleCreateRequest> request = ArgumentCaptor.forClass(
+            SkillTriggerRuleCreateRequest.class
+        );
+        verify(service).create(eq("lol"), eq("ezreal_q"), request.capture());
+        SkillTriggerDamageEventDetail submitted = (SkillTriggerDamageEventDetail) request.getValue().eventSource().detail();
+        assertEquals("physical", submitted.damageTypeKey());
+        assertEquals(SkillTriggerDamageDeliveryKind.BASIC_ATTACK, submitted.deliveryKind());
+        assertEquals(SkillTriggerDamageOriginKind.DIRECT, submitted.originKind());
     }
 
     private static SkillTriggerRuleSummaryResponse summary() {
