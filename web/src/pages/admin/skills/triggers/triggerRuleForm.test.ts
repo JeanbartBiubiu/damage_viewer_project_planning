@@ -127,16 +127,16 @@ const EVENT_CAPABILITY_ROWS = [
     label: '来源对象造成伤害',
     currentTargetBinding: '本次伤害承受对象。',
     hasEventSource: false,
-    requiredCatalogs: [],
-    detailFields: []
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
   },
   {
     eventType: 'DAMAGE_TAKEN',
     label: '来源对象受到伤害',
     currentTargetBinding: '来源对象自身。',
     hasEventSource: true,
-    requiredCatalogs: [],
-    detailFields: []
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
   },
   {
     eventType: 'STATUS_CHANGED',
@@ -414,7 +414,10 @@ describe('trigger event member set and capability table', () => {
       detail: { effectKey: '', moment: 'APPLICATION' }
     });
     const switched = switchEventType(createEmptyEventSource('SKILL_USED'), 'DAMAGE_TAKEN');
-    expect(switched).toEqual({ eventType: 'DAMAGE_TAKEN', detail: {} });
+    expect(switched).toEqual({
+      eventType: 'DAMAGE_TAKEN',
+      detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
+    });
     expect(switched.detail).not.toHaveProperty('sourceSkillKey');
     expect(switched.detail).not.toHaveProperty('useKind');
     const same = createEmptyEventSource('KILL');

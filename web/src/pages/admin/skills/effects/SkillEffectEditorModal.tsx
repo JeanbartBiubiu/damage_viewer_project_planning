@@ -34,10 +34,14 @@ import {
 } from './SkillEffectResultEditorModal';
 import {
   LIFECYCLE_PENDING_BEHAVIOR_LABEL,
+  SKILL_EFFECT_CRITICAL_MODE_LABELS,
+  SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_EFFECT_EXPIRY_MODE_LABELS,
   SKILL_EFFECT_FIRST_PERIODIC_EXECUTION_LABELS,
   SKILL_EFFECT_INSTANCE_SCOPE_LABELS,
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
+  SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
   SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS,
   SKILL_EFFECT_REAPPLICATION_DURATION_MODE_LABELS,
   SKILL_EFFECT_REAPPLICATION_STACK_MODE_LABELS,
@@ -141,6 +145,29 @@ function referenceSummary(result: SkillEffectResultDraft): string {
       return unexpected;
     }
   }
+}
+
+function interactionSummary(result: SkillEffectResultDraft): string {
+  if (result.resultType === 'DAMAGE') {
+    const delivery = result.damageDeliveryKind
+      ? SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS[result.damageDeliveryKind]
+      : '—';
+    const origin = result.damageOriginKind
+      ? SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS[result.damageOriginKind]
+      : '—';
+    const critical = result.criticalMode
+      ? SKILL_EFFECT_CRITICAL_MODE_LABELS[result.criticalMode]
+      : '—';
+    return `${delivery} / ${origin} / ${critical} / 吸血 ${result.vampRules.length} 条`;
+  }
+  if (result.resultType === 'NORMAL_SHIELD') {
+    const damageType = result.absorbedDamageTypeKey || '全部伤害';
+    const decay = result.shieldDecayMode
+      ? SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS[result.shieldDecayMode]
+      : '—';
+    return `${damageType} / ${decay}`;
+  }
+  return '—';
 }
 
 function sortResultsWithIndex(
@@ -513,6 +540,9 @@ export function SkillEffectEditorModal({
     return names;
   }, [formulas]);
   const showPeriodicFields = hasPeriodicResults(draft);
+  const hasLinearDecayShield = draft.results.some((result) => (
+    result.resultType === 'NORMAL_SHIELD' && result.shieldDecayMode === 'LINEAR_TO_ZERO'
+  ));
 
   const lifecycleFormulaSelect = (currentKey: string) => formulaOptions.map((option) => ({
     value: option.key,
@@ -589,6 +619,10 @@ export function SkillEffectEditorModal({
     {
       title: '关键引用摘要',
       render: (_value, row: { item: SkillEffectResultDraft }) => referenceSummary(row.item)
+    },
+    {
+      title: '特殊交互',
+      render: (_value, row: { item: SkillEffectResultDraft }) => interactionSummary(row.item)
     },
     {
       title: '排序',
@@ -888,10 +922,9 @@ export function SkillEffectEditorModal({
                         aria-label="重复持续"
                         value={draft.lifecycle.reapplicationDurationMode || undefined}
                         disabled={readOnly || saving}
-                        options={Object.entries(SKILL_EFFECT_REAPPLICATION_DURATION_MODE_LABELS).map(([value, label]) => ({
-                          value,
-                          label
-                        }))}
+                        options={Object.entries(SKILL_EFFECT_REAPPLICATION_DURATION_MODE_LABELS)
+                          .filter(([value]) => !hasLinearDecayShield || value !== 'INDEPENDENT')
+                          .map(([value, label]) => ({ value, label }))}
                         placeholder="请选择重复持续方式"
                         onChange={(value) => patchLifecycleDraft(
                           applyReapplicationDurationModeChange(
@@ -915,7 +948,11 @@ export function SkillEffectEditorModal({
                       options={Object.entries(SKILL_EFFECT_EXPIRY_MODE_LABELS)
                         .filter(([value]) => (
                           draft.lifecycle.durationFormulaKey
-                            ? value !== 'EXPLICIT_ONLY'
+                            ? (
+                              hasLinearDecayShield
+                                ? value === 'ALL_AT_ONCE'
+                                : value !== 'EXPLICIT_ONLY'
+                            )
                             : value === 'EXPLICIT_ONLY'
                         ))
                         .map(([value, label]) => ({ value, label }))}

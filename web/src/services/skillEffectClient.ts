@@ -4,13 +4,220 @@ import { skillsPath } from './skillClient';
 import type {
   CreateSkillEffectRequest,
   SkillEffect,
+  SkillEffectResult,
+  SkillEffectResultType,
   SkillEffectSummary,
   UpdateSkillEffectRequest
 } from '../types/skillEffect';
 
+const RESULT_TYPES = new Set<SkillEffectResultType>([
+  'DAMAGE',
+  'DIRECT_HEAL',
+  'NORMAL_SHIELD',
+  'ATTRIBUTE_CHANGE',
+  'RESOURCE_CHANGE',
+  'COOLDOWN_CHANGE',
+  'STATUS_OPERATION',
+  'LIFECYCLE_OPERATION'
+]);
+
+const DAMAGE_DELIVERY_KINDS = new Set(['SKILL', 'BASIC_ATTACK']);
+const DAMAGE_ORIGIN_KINDS = new Set(['DIRECT', 'REFLECTED']);
+const CRITICAL_MODES = new Set(['DISALLOWED', 'SOURCE_CRIT_CHANCE', 'FORCED']);
+const VAMP_TYPES = new Set(['LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP']);
+const VAMP_BASIS_OUTPUT_KINDS = new Set(['POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS']);
+const SHIELD_DECAY_MODES = new Set(['NONE', 'LINEAR_TO_ZERO']);
+
+export class SkillEffectProtocolError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'SkillEffectProtocolError';
+  }
+}
+
 function effectsPath(gameId: string, skillKey: string, effectKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/effects`;
   return effectKey === undefined ? base : `${base}/${encodePathSegment(effectKey)}`;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function protocolError(path: string): never {
+  throw new SkillEffectProtocolError(`技能效果响应与固定联合类型不匹配：${path}`);
+}
+
+function shouldValidateShape(): boolean {
+  return import.meta.env.DEV === true;
+}
+
+function assertString(value: unknown, path: string): string {
+  if (typeof value !== 'string') protocolError(path);
+  return value;
+}
+
+function assertNumber(value: unknown, path: string): number {
+  if (typeof value !== 'number' || Number.isNaN(value)) protocolError(path);
+  return value;
+}
+
+function assertNullableString(value: unknown, path: string): string | null {
+  if (value === null) return null;
+  return assertString(value, path);
+}
+
+function assertEnum(value: unknown, allowed: ReadonlySet<string>, path: string): string {
+  if (typeof value !== 'string' || !allowed.has(value)) protocolError(path);
+  return value;
+}
+
+function assertValueRule(value: unknown, path: string): void {
+  if (!isRecord(value)) protocolError(path);
+  assertString(value.formulaKey, `${path}.formulaKey`);
+  assertNumber(value.fixedMultiplier, `${path}.fixedMultiplier`);
+  if (value.fixedMinValue !== null) assertNumber(value.fixedMinValue, `${path}.fixedMinValue`);
+  if (value.fixedMaxValue !== null) assertNumber(value.fixedMaxValue, `${path}.fixedMaxValue`);
+}
+
+function assertResult(value: unknown, path: string): SkillEffectResult {
+  if (!isRecord(value)) protocolError(path);
+  const resultType = value.resultType;
+  if (typeof resultType !== 'string' || !RESULT_TYPES.has(resultType as SkillEffectResultType)) {
+    protocolError(`${path}.resultType`);
+  }
+  assertString(value.resultKey, `${path}.resultKey`);
+  assertString(value.name, `${path}.name`);
+  assertEnum(value.target, new Set(['SOURCE', 'TARGET']), `${path}.target`);
+  assertNullableString(value.description, `${path}.description`);
+  assertNumber(value.sortOrder, `${path}.sortOrder`);
+  if (value.lifecycleBehavior !== null && !isRecord(value.lifecycleBehavior)) {
+    protocolError(`${path}.lifecycleBehavior`);
+  }
+  if (!isRecord(value.detail)) protocolError(`${path}.detail`);
+  const detail = value.detail;
+
+  if (resultType === 'STATUS_OPERATION') {
+    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    assertString(detail.statusKey, `${path}.detail.statusKey`);
+    assertEnum(detail.operation, new Set(['APPLY', 'REMOVE']), `${path}.detail.operation`);
+    return value as SkillEffectResult;
+  }
+  if (resultType === 'COOLDOWN_CHANGE') {
+    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET']), `${path}.detail.operation`);
+    if (!Array.isArray(detail.affectedSkillKeys)) protocolError(`${path}.detail.affectedSkillKeys`);
+    detail.affectedSkillKeys.forEach((item, index) => {
+      assertString(item, `${path}.detail.affectedSkillKeys[${index}]`);
+    });
+    if (detail.operation === 'RESET') {
+      if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    } else {
+      assertValueRule(value.valueRule, `${path}.valueRule`);
+    }
+    return value as SkillEffectResult;
+  }
+  if (resultType === 'LIFECYCLE_OPERATION') {
+    assertString(detail.targetEffectKey, `${path}.detail.targetEffectKey`);
+    const operation = assertEnum(
+      detail.operation,
+      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'CONSUME', 'REMOVE']),
+      `${path}.detail.operation`
+    );
+    if (operation === 'REFRESH' || operation === 'REMOVE') {
+      if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    } else {
+      assertValueRule(value.valueRule, `${path}.valueRule`);
+    }
+    return value as SkillEffectResult;
+  }
+
+  assertValueRule(value.valueRule, `${path}.valueRule`);
+  switch (resultType) {
+    case 'DAMAGE': {
+      assertString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
+      assertEnum(detail.deliveryKind, DAMAGE_DELIVERY_KINDS, `${path}.detail.deliveryKind`);
+      assertEnum(detail.originKind, DAMAGE_ORIGIN_KINDS, `${path}.detail.originKind`);
+      if (!isRecord(detail.critical)) protocolError(`${path}.detail.critical`);
+      assertEnum(detail.critical.mode, CRITICAL_MODES, `${path}.detail.critical.mode`);
+      assertNullableString(
+        detail.critical.multiplierFormulaKey,
+        `${path}.detail.critical.multiplierFormulaKey`
+      );
+      if (!Array.isArray(detail.vampRules)) protocolError(`${path}.detail.vampRules`);
+      detail.vampRules.forEach((rule, index) => {
+        const rulePath = `${path}.detail.vampRules[${index}]`;
+        if (!isRecord(rule)) protocolError(rulePath);
+        assertEnum(rule.vampType, VAMP_TYPES, `${rulePath}.vampType`);
+        assertEnum(rule.basisOutputKind, VAMP_BASIS_OUTPUT_KINDS, `${rulePath}.basisOutputKind`);
+        assertString(rule.efficiencyFormulaKey, `${rulePath}.efficiencyFormulaKey`);
+      });
+      break;
+    }
+    case 'NORMAL_SHIELD':
+      assertNullableString(detail.absorbedDamageTypeKey, `${path}.detail.absorbedDamageTypeKey`);
+      assertEnum(detail.decayMode, SHIELD_DECAY_MODES, `${path}.detail.decayMode`);
+      break;
+    case 'ATTRIBUTE_CHANGE':
+      assertString(detail.attributeKey, `${path}.detail.attributeKey`);
+      assertEnum(detail.operation, new Set(['INCREASE', 'DECREASE', 'SET']), `${path}.detail.operation`);
+      break;
+    case 'RESOURCE_CHANGE':
+      assertString(detail.attributeKey, `${path}.detail.attributeKey`);
+      assertEnum(detail.operation, new Set(['RESTORE', 'CONSUME', 'REFUND']), `${path}.detail.operation`);
+      break;
+    case 'DIRECT_HEAL':
+      break;
+    default:
+      protocolError(`${path}.resultType`);
+  }
+  return value as SkillEffectResult;
+}
+
+export function parseSkillEffect(value: unknown): SkillEffect {
+  if (!isRecord(value) || !Array.isArray(value.results)) protocolError('effect');
+  value.results.forEach((item, index) => assertResult(item, `effect.results[${index}]`));
+  assertString(value.gameId, 'effect.gameId');
+  assertString(value.skillKey, 'effect.skillKey');
+  assertString(value.effectKey, 'effect.effectKey');
+  assertString(value.name, 'effect.name');
+  assertNullableString(value.description, 'effect.description');
+  assertNumber(value.sortOrder, 'effect.sortOrder');
+  if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
+  assertString(value.createdAt, 'effect.createdAt');
+  assertString(value.updatedAt, 'effect.updatedAt');
+  return value as SkillEffect;
+}
+
+export function parseSkillEffectSummary(value: unknown): SkillEffectSummary {
+  if (!isRecord(value)) protocolError('summary');
+  return {
+    gameId: assertString(value.gameId, 'summary.gameId'),
+    skillKey: assertString(value.skillKey, 'summary.skillKey'),
+    effectKey: assertString(value.effectKey, 'summary.effectKey'),
+    name: assertString(value.name, 'summary.name'),
+    description: assertNullableString(value.description, 'summary.description'),
+    sortOrder: assertNumber(value.sortOrder, 'summary.sortOrder'),
+    resultCount: assertNumber(value.resultCount, 'summary.resultCount'),
+    lifecycleEnabled: typeof value.lifecycleEnabled === 'boolean'
+      ? value.lifecycleEnabled
+      : protocolError('summary.lifecycleEnabled'),
+    createdAt: assertString(value.createdAt, 'summary.createdAt'),
+    updatedAt: assertString(value.updatedAt, 'summary.updatedAt')
+  };
+}
+
+function maybeParseEffect(value: unknown): SkillEffect {
+  return shouldValidateShape() ? parseSkillEffect(value) : value as SkillEffect;
+}
+
+function maybeParseSummaries(value: unknown): SkillEffectSummary[] {
+  if (!Array.isArray(value)) {
+    if (shouldValidateShape()) protocolError('list');
+    return [];
+  }
+  return shouldValidateShape()
+    ? value.map((item) => parseSkillEffectSummary(item))
+    : value as SkillEffectSummary[];
 }
 
 export function listSkillEffects(
@@ -19,7 +226,8 @@ export function listSkillEffects(
   skillKey: string,
   token: string
 ): Promise<ApiResult<SkillEffectSummary[]>> {
-  return requestJson<SkillEffectSummary[]>(apiBaseUrl, effectsPath(gameId, skillKey), { token });
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey), { token })
+    .then((result) => ({ ...result, data: maybeParseSummaries(result.data) }));
 }
 
 export function getSkillEffect(
@@ -29,7 +237,8 @@ export function getSkillEffect(
   effectKey: string,
   token: string
 ): Promise<ApiResult<SkillEffect>> {
-  return requestJson<SkillEffect>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), { token });
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), { token })
+    .then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
 
 export function createSkillEffect(
@@ -39,11 +248,11 @@ export function createSkillEffect(
   token: string,
   body: CreateSkillEffectRequest
 ): Promise<ApiResult<SkillEffect>> {
-  return requestJson<SkillEffect>(apiBaseUrl, effectsPath(gameId, skillKey), {
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey), {
     method: 'POST',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
 
 export function updateSkillEffect(
@@ -54,11 +263,11 @@ export function updateSkillEffect(
   token: string,
   body: UpdateSkillEffectRequest
 ): Promise<ApiResult<SkillEffect>> {
-  return requestJson<SkillEffect>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
     method: 'PUT',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
 
 export function deleteSkillEffect(
