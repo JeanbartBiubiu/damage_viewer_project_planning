@@ -246,6 +246,20 @@ describe('skillTriggerRuleClient', () => {
       ...detail,
       eventSource: { eventType: 'LIFECYCLE_MOMENT', detail: { effectKey: 'focus_mark' } }
     })).toThrow(/触发规则响应与固定联合类型不匹配/);
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'DAMAGE_TAKEN', detail: {} }
+    })).toThrow(/eventSource\.detail\.damageTypeKey/);
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: {
+        eventType: 'DAMAGE_TAKEN',
+        detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT' }
+      }
+    }).eventSource).toEqual({
+      eventType: 'DAMAGE_TAKEN',
+      detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT' }
+    });
   });
 
   it.each([
