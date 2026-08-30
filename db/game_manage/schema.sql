@@ -548,6 +548,8 @@ CREATE TABLE public.skill_effect_damage_details (
     effect_key varchar(64) NOT NULL,
     result_key varchar(64) NOT NULL,
     damage_type_key varchar(64) NOT NULL,
+    delivery_kind varchar(32) NOT NULL,
+    origin_kind varchar(32) NOT NULL,
     CONSTRAINT pk_skill_effect_damage_details
         PRIMARY KEY (game_id, skill_key, effect_key, result_key),
     CONSTRAINT fk_skill_effect_damage_details_result
@@ -557,7 +559,11 @@ CREATE TABLE public.skill_effect_damage_details (
         ON DELETE CASCADE,
     CONSTRAINT fk_skill_effect_damage_details_damage_type
         FOREIGN KEY (game_id, damage_type_key)
-        REFERENCES public.damage_types (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key),
+    CONSTRAINT ck_skill_effect_damage_details_delivery_kind
+        CHECK (delivery_kind IN ('SKILL', 'BASIC_ATTACK')),
+    CONSTRAINT ck_skill_effect_damage_details_origin_kind
+        CHECK (origin_kind IN ('DIRECT', 'REFLECTED'))
 );
 
 CREATE INDEX ix_skill_effect_damage_details_type
@@ -565,6 +571,95 @@ CREATE INDEX ix_skill_effect_damage_details_type
     (game_id, damage_type_key, skill_key, effect_key, result_key);
 
 COMMENT ON TABLE public.skill_effect_damage_details IS '伤害结果明细';
+
+CREATE TABLE public.skill_effect_result_critical_policies (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    critical_mode varchar(32) NOT NULL,
+    multiplier_formula_key varchar(64),
+    CONSTRAINT pk_skill_effect_result_critical_policies
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_critical_policies_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_critical_policies_formula
+        FOREIGN KEY (game_id, skill_key, multiplier_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_critical_policies_mode
+        CHECK (critical_mode IN ('DISALLOWED', 'SOURCE_CRIT_CHANCE', 'FORCED')),
+    CONSTRAINT ck_skill_effect_critical_policies_formula
+        CHECK (critical_mode <> 'DISALLOWED' OR multiplier_formula_key IS NULL)
+);
+
+CREATE INDEX ix_skill_effect_critical_policies_formula
+    ON public.skill_effect_result_critical_policies
+    (game_id, skill_key, multiplier_formula_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_result_critical_policies IS '伤害结果暴击策略';
+
+CREATE TABLE public.skill_effect_result_vamp_rules (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    vamp_type varchar(32) NOT NULL,
+    basis_output_kind varchar(32) NOT NULL,
+    efficiency_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_vamp_rules
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key, vamp_type),
+    CONSTRAINT fk_skill_effect_vamp_rules_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_vamp_rules_formula
+        FOREIGN KEY (game_id, skill_key, efficiency_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_vamp_rules_type
+        CHECK (vamp_type IN ('LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP')),
+    CONSTRAINT ck_skill_effect_vamp_rules_basis
+        CHECK (basis_output_kind IN ('POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'))
+);
+
+CREATE INDEX ix_skill_effect_vamp_rules_formula
+    ON public.skill_effect_result_vamp_rules
+    (game_id, skill_key, efficiency_formula_key, effect_key, result_key, vamp_type);
+
+COMMENT ON TABLE public.skill_effect_result_vamp_rules IS '伤害结果吸血规则';
+
+CREATE TABLE public.skill_effect_result_normal_shield_interactions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    absorbed_damage_type_key varchar(64),
+    decay_mode varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_normal_shield_interactions
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_normal_shield_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_normal_shield_damage_type
+        FOREIGN KEY (game_id, absorbed_damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_normal_shield_decay_mode
+        CHECK (decay_mode IN ('NONE', 'LINEAR_TO_ZERO'))
+);
+
+CREATE INDEX ix_skill_effect_normal_shield_damage_type
+    ON public.skill_effect_result_normal_shield_interactions
+    (game_id, absorbed_damage_type_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_result_normal_shield_interactions IS '普通护盾伤害吸收与衰减规则';
 
 CREATE TABLE public.skill_effect_attribute_change_details (
     game_id varchar(64) NOT NULL,
@@ -1796,6 +1891,35 @@ CREATE TABLE public.skill_trigger_rule_subject_events (
 );
 
 COMMENT ON TABLE public.skill_trigger_rule_subject_events IS '技能触发规则对象死亡或不可选取事件明细';
+
+CREATE TABLE public.skill_trigger_rule_damage_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    damage_type_key varchar(64),
+    delivery_kind varchar(32) NOT NULL,
+    origin_kind varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_damage_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_damage_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_damage_events_damage_type
+        FOREIGN KEY (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_trigger_damage_events_delivery_kind
+        CHECK (delivery_kind IN ('ANY', 'SKILL', 'BASIC_ATTACK')),
+    CONSTRAINT ck_skill_trigger_damage_events_origin_kind
+        CHECK (origin_kind IN ('ANY', 'DIRECT', 'REFLECTED'))
+);
+
+CREATE INDEX ix_skill_trigger_damage_events_damage_type
+    ON public.skill_trigger_rule_damage_events
+    (game_id, damage_type_key, skill_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_damage_events IS '技能触发规则伤害事件筛选';
 
 CREATE TABLE public.skill_trigger_rule_condition_groups (
     game_id varchar(64) NOT NULL,

@@ -32,10 +32,14 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
@@ -52,6 +56,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultDetail;
@@ -71,6 +77,9 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -348,6 +357,24 @@ public class SkillEffectService {
             effectKey,
             mapper.listDamageDetails(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectCriticalPolicyRow> criticalPolicies = indexCriticalPolicies(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listCriticalPolicies(gameId, skillKey, effectKey)
+        );
+        Map<String, List<SkillEffectVampRuleRow>> vampRules = indexVampRules(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listVampRules(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectNormalShieldInteractionRow> normalShields = indexNormalShieldInteractions(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
             skillKey,
@@ -398,6 +425,9 @@ public class SkillEffectService {
                 result,
                 values,
                 damage,
+                criticalPolicies,
+                vampRules,
+                normalShields,
                 attributes,
                 resources,
                 cooldowns,
@@ -428,6 +458,9 @@ public class SkillEffectService {
         SkillEffectResultRow result,
         Map<String, SkillEffectResultValueRow> values,
         Map<String, SkillEffectDamageDetailRow> damage,
+        Map<String, SkillEffectCriticalPolicyRow> criticalPolicies,
+        Map<String, List<SkillEffectVampRuleRow>> vampRules,
+        Map<String, SkillEffectNormalShieldInteractionRow> normalShields,
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
@@ -439,6 +472,9 @@ public class SkillEffectService {
         String resultKey = result.resultKey();
         SkillEffectResultValueRow value = values.get(resultKey);
         SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
+        SkillEffectCriticalPolicyRow criticalRow = criticalPolicies.get(resultKey);
+        List<SkillEffectVampRuleRow> vampRows = vampRules.getOrDefault(resultKey, List.of());
+        SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
         SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
@@ -447,6 +483,7 @@ public class SkillEffectService {
         SkillEffectLifecycleOperationDetailRow operationRow = operations.get(resultKey);
         int extraDetails = countPresent(
             damageRow,
+            normalShieldRow,
             attributeRow,
             resourceRow,
             cooldownRow,
@@ -457,14 +494,33 @@ public class SkillEffectService {
         if (type == null) {
             throw corrupt(gameId, skillKey, effectKey, resultKey, "结果种类缺失");
         }
+        if (type != SkillEffectResultType.DAMAGE && (criticalRow != null || !vampRows.isEmpty())) {
+            throw corrupt(gameId, skillKey, effectKey, resultKey, "非伤害结果存在暴击或吸血明细");
+        }
         AssembledResultPayload payload = switch (type) {
             case DAMAGE -> {
-                if (value == null || damageRow == null || extraDetails != 1) {
+                if (value == null || damageRow == null || criticalRow == null || extraDetails != 1) {
                     throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害结果形状损坏");
                 }
+                List<SkillEffectVampRule> assembledVampRules = vampRows.stream()
+                    .map(row -> new SkillEffectVampRule(
+                        row.vampType(),
+                        row.basisOutputKind(),
+                        row.efficiencyFormulaKey()
+                    ))
+                    .toList();
                 yield new AssembledResultPayload(
                     toValueRule(value),
-                    new SkillEffectDamageDetail(damageRow.damageTypeKey())
+                    new SkillEffectDamageDetail(
+                        damageRow.damageTypeKey(),
+                        damageRow.deliveryKind(),
+                        damageRow.originKind(),
+                        new SkillEffectCriticalPolicy(
+                            criticalRow.criticalMode(),
+                            criticalRow.multiplierFormulaKey()
+                        ),
+                        assembledVampRules
+                    )
                 );
             }
             case DIRECT_HEAL -> {
@@ -474,10 +530,16 @@ public class SkillEffectService {
                 yield new AssembledResultPayload(toValueRule(value), new SkillEffectDirectHealDetail());
             }
             case NORMAL_SHIELD -> {
-                if (value == null || extraDetails != 0) {
+                if (value == null || normalShieldRow == null || extraDetails != 1) {
                     throw corrupt(gameId, skillKey, effectKey, resultKey, "普通护盾结果形状损坏");
                 }
-                yield new AssembledResultPayload(toValueRule(value), new SkillEffectNormalShieldDetail());
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectNormalShieldDetail(
+                        normalShieldRow.absorbedDamageTypeKey(),
+                        normalShieldRow.decayMode()
+                    )
+                );
             }
             case ATTRIBUTE_CHANGE -> {
                 if (value == null || attributeRow == null || extraDetails != 1) {
@@ -659,6 +721,7 @@ public class SkillEffectService {
                 bodyIssues
             );
             validateLifecycleBehavior(lifecycle, result, i, issues);
+            validateNormalShieldLifecycle(lifecycle, result, i, issues);
             if (result != null && result.lifecycleBehavior() != null) {
                 if (result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERIODIC) {
                     hasPeriodic = true;
@@ -712,7 +775,8 @@ public class SkillEffectService {
         }
         switch (result.resultType()) {
             case DAMAGE -> validateDamage(result, index, retained, refs, issues);
-            case DIRECT_HEAL, NORMAL_SHIELD -> validateEmptyDetailValue(result, index, refs, issues);
+            case DIRECT_HEAL -> validateEmptyDetailValue(result, index, refs, issues);
+            case NORMAL_SHIELD -> validateNormalShield(result, index, retained, refs, issues);
             case ATTRIBUTE_CHANGE -> validateAttributeChange(result, index, retained, refs, issues);
             case RESOURCE_CHANGE -> validateResourceChange(result, index, retained, refs, issues);
             case COOLDOWN_CHANGE -> validateCooldownChange(result, index, retained, pathSkillKey, refs, issues);
@@ -763,14 +827,68 @@ public class SkillEffectService {
         String damageTypeKey = detail.damageTypeKey();
         if (damageTypeKey == null || damageTypeKey.isBlank()) {
             issues.add(fieldIssue(resultPath(index, "detail.damageTypeKey"), "REQUIRED", "伤害类型不能为空"));
+        } else {
+            refs.damageTypes.add(new CatalogRef(
+                resultPath(index, "detail.damageTypeKey"),
+                damageTypeKey,
+                isRetained(retained, result.resultKey(), CatalogKind.DAMAGE_TYPE, damageTypeKey)
+            ));
+            refs.damageTypeKeys.add(damageTypeKey);
+        }
+        if (detail.deliveryKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.deliveryKind"), "REQUIRED", "伤害产生方式不能为空"));
+        }
+        if (detail.originKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.originKind"), "REQUIRED", "伤害来源性质不能为空"));
+        }
+        SkillEffectCriticalPolicy critical = detail.critical();
+        if (critical == null || critical.mode() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.critical.mode"), "REQUIRED", "暴击方式不能为空"));
+        } else if (critical.mode() == SkillEffectCriticalMode.DISALLOWED
+            && critical.multiplierFormulaKey() != null) {
+            issues.add(fieldIssue(
+                resultPath(index, "detail.critical.multiplierFormulaKey"),
+                "INVALID_CRITICAL_SHAPE",
+                "不允许暴击时不能配置暴击倍率公式"
+            ));
+        }
+        if (critical != null && critical.multiplierFormulaKey() != null) {
+            addInteractionFormulaRef(
+                refs,
+                resultPath(index, "detail.critical.multiplierFormulaKey"),
+                critical.multiplierFormulaKey()
+            );
+        }
+        List<SkillEffectVampRule> vampRules = detail.vampRules();
+        if (vampRules == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.vampRules"), "REQUIRED", "吸血规则不能为空"));
             return;
         }
-        refs.damageTypes.add(new CatalogRef(
-            resultPath(index, "detail.damageTypeKey"),
-            damageTypeKey,
-            isRetained(retained, result.resultKey(), CatalogKind.DAMAGE_TYPE, damageTypeKey)
-        ));
-        refs.damageTypeKeys.add(damageTypeKey);
+        if (vampRules.size() > SkillEffectVampType.values().length) {
+            issues.add(fieldIssue(resultPath(index, "detail.vampRules"), "SIZE_INVALID", "吸血规则不能超过4条"));
+        }
+        Set<SkillEffectVampType> seenVampTypes = new HashSet<>();
+        for (int i = 0; i < vampRules.size(); i++) {
+            SkillEffectVampRule rule = vampRules.get(i);
+            String prefix = resultPath(index, "detail.vampRules[" + i + "]");
+            if (rule == null) {
+                issues.add(fieldIssue(prefix, "REQUIRED", "吸血规则不能为空"));
+                continue;
+            }
+            if (rule.vampType() == null) {
+                issues.add(fieldIssue(prefix + ".vampType", "REQUIRED", "吸血种类不能为空"));
+            } else if (!seenVampTypes.add(rule.vampType())) {
+                issues.add(fieldIssue(prefix + ".vampType", "DUPLICATE_VAMP_TYPE", "同一吸血种类不能重复"));
+            }
+            if (rule.basisOutputKind() == null) {
+                issues.add(fieldIssue(prefix + ".basisOutputKind", "INVALID_VAMP_BASIS", "吸血计算基准不能为空"));
+            }
+            if (rule.efficiencyFormulaKey() == null || rule.efficiencyFormulaKey().isBlank()) {
+                issues.add(fieldIssue(prefix + ".efficiencyFormulaKey", "REQUIRED", "吸血效率公式不能为空"));
+            } else {
+                addInteractionFormulaRef(refs, prefix + ".efficiencyFormulaKey", rule.efficiencyFormulaKey());
+            }
+        }
     }
 
     private void validateEmptyDetailValue(
@@ -781,9 +899,89 @@ public class SkillEffectService {
     ) {
         requireValueRule(result, index, refs, issues);
         if (!(result.detail() instanceof SkillEffectDirectHealDetail)
-            && !(result.detail() instanceof SkillEffectNormalShieldDetail)) {
+        ) {
             issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "结果明细形状不合法"));
         }
+    }
+
+    private void validateNormalShield(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectNormalShieldDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "普通护盾结果明细形状不合法"));
+            return;
+        }
+        if (detail.decayMode() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.decayMode"), "REQUIRED", "护盾衰减方式不能为空"));
+        }
+        String damageTypeKey = detail.absorbedDamageTypeKey();
+        if (damageTypeKey != null && !damageTypeKey.isBlank()) {
+            refs.interactionDamageTypes.add(new CatalogRef(
+                resultPath(index, "detail.absorbedDamageTypeKey"),
+                damageTypeKey,
+                isRetained(retained, result.resultKey(), CatalogKind.DAMAGE_TYPE, damageTypeKey)
+            ));
+            refs.damageTypeKeys.add(damageTypeKey);
+        }
+    }
+
+    private void validateNormalShieldLifecycle(
+        SkillEffectLifecycleRequest lifecycle,
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        if (result == null || result.resultType() != SkillEffectResultType.NORMAL_SHIELD) {
+            return;
+        }
+        if (lifecycle == null) {
+            issues.add(fieldIssue(resultPath(index, "lifecycleBehavior"), "REQUIRED", "普通护盾必须配置生命周期"));
+            return;
+        }
+        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+        if (behavior == null || behavior.moment() != SkillEffectLifecycleMoment.PERSISTENT) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.moment"),
+                "COMBINATION_INVALID",
+                "普通护盾必须持续生效"
+            ));
+            return;
+        }
+        if (!(result.detail() instanceof SkillEffectNormalShieldDetail detail)
+            || detail.decayMode() != SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO) {
+            return;
+        }
+        if (lifecycle.durationFormulaKey() == null) {
+            issues.add(fieldIssue(
+                "lifecycle.durationFormulaKey",
+                "REQUIRED",
+                "线性衰减护盾必须配置持续时间"
+            ));
+        }
+        if (lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.ALL_AT_ONCE) {
+            issues.add(fieldIssue(
+                "lifecycle.expiryMode",
+                "COMBINATION_INVALID",
+                "线性衰减护盾只允许整体到期"
+            ));
+        }
+        if (behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.stackValueMode"),
+                "COMBINATION_INVALID",
+                "线性衰减护盾只允许共享护盾值"
+            ));
+        }
+    }
+
+    private static void addInteractionFormulaRef(CollectedRefs refs, String path, String formulaKey) {
+        refs.interactionFormulas.add(new CatalogRef(path, formulaKey, true));
+        refs.formulaKeys.add(formulaKey);
     }
 
     private void validateAttributeChange(
@@ -1392,12 +1590,26 @@ public class SkillEffectService {
         addUnknown(unknown, refs.formulas, formulas, "UNKNOWN_FORMULA", "技能公式不存在或不属于当前技能");
         addUnknown(
             unknown,
+            refs.interactionFormulas,
+            formulas,
+            "UNKNOWN_INTERACTION_FORMULA",
+            "暴击或吸血公式不存在或不属于当前技能"
+        );
+        addUnknown(
+            unknown,
             refs.lifecycleFormulas,
             formulas,
             "UNKNOWN_LIFECYCLE_FORMULA",
             "生命周期公式不存在或不属于当前技能"
         );
         addUnknown(unknown, refs.damageTypes, damageTypes.keySet(), "UNKNOWN_DAMAGE_TYPE", "伤害类型不存在或不属于当前游戏");
+        addUnknown(
+            unknown,
+            refs.interactionDamageTypes,
+            damageTypes.keySet(),
+            "UNKNOWN_INTERACTION_DAMAGE_TYPE",
+            "护盾吸收伤害类型不存在或不属于当前游戏"
+        );
         addUnknown(unknown, refs.attributes, attributes.keySet(), "UNKNOWN_ATTRIBUTE", "属性不存在或不属于当前游戏");
         addUnknown(unknown, refs.skills, skills.keySet(), "UNKNOWN_SKILL", "技能不存在或不属于当前游戏");
         addUnknown(unknown, refs.statuses, statuses.keySet(), "UNKNOWN_STATUS", "状态不存在或不属于当前游戏");
@@ -1414,6 +1626,13 @@ public class SkillEffectService {
 
         List<Map<String, String>> disabled = new ArrayList<>();
         addDisabled(disabled, refs.damageTypes, damageTypes, "DAMAGE_TYPE_DISABLED", "不能新增停用伤害类型引用");
+        addDisabled(
+            disabled,
+            refs.interactionDamageTypes,
+            damageTypes,
+            "DAMAGE_TYPE_DISABLED",
+            "不能新增停用伤害类型引用"
+        );
         addDisabled(disabled, refs.attributes, attributes, "ATTRIBUTE_DISABLED", "不能新增停用属性引用");
         addDisabled(disabled, refs.skills, skills, "SKILL_DISABLED", "不能新增停用技能引用");
         addDisabled(disabled, refs.statuses, statuses, "STATUS_DISABLED", "不能新增停用状态引用");
@@ -1560,7 +1779,9 @@ public class SkillEffectService {
                 skillKey,
                 effectKey,
                 result.resultKey(),
-                detail.damageTypeKey()
+                detail.damageTypeKey(),
+                detail.deliveryKind(),
+                detail.originKind()
             );
             case SkillEffectAttributeChangeDetail detail -> mapper.insertAttributeChangeDetail(
                 gameId,
@@ -1606,7 +1827,35 @@ public class SkillEffectService {
             );
             case SkillEffectDirectHealDetail ignored -> {
             }
-            case SkillEffectNormalShieldDetail ignored -> {
+            case SkillEffectNormalShieldDetail detail -> mapper.insertNormalShieldInteraction(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                detail.absorbedDamageTypeKey(),
+                detail.decayMode()
+            );
+        }
+        if (result.detail() instanceof SkillEffectDamageDetail damage) {
+            SkillEffectCriticalPolicy critical = damage.critical();
+            mapper.insertCriticalPolicy(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                critical.mode(),
+                critical.multiplierFormulaKey()
+            );
+            for (SkillEffectVampRule vampRule : damage.vampRules()) {
+                mapper.insertVampRule(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    vampRule.vampType(),
+                    vampRule.basisOutputKind(),
+                    vampRule.efficiencyFormulaKey()
+                );
             }
         }
     }
@@ -1623,7 +1872,9 @@ public class SkillEffectService {
                 skillKey,
                 effectKey,
                 result.resultKey(),
-                detail.damageTypeKey()
+                detail.damageTypeKey(),
+                detail.deliveryKind(),
+                detail.originKind()
             );
             case SkillEffectAttributeChangeDetail detail -> mapper.updateAttributeChangeDetail(
                 gameId,
@@ -1670,7 +1921,36 @@ public class SkillEffectService {
             );
             case SkillEffectDirectHealDetail ignored -> {
             }
-            case SkillEffectNormalShieldDetail ignored -> {
+            case SkillEffectNormalShieldDetail detail -> mapper.updateNormalShieldInteraction(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                detail.absorbedDamageTypeKey(),
+                detail.decayMode()
+            );
+        }
+        if (result.detail() instanceof SkillEffectDamageDetail damage) {
+            SkillEffectCriticalPolicy critical = damage.critical();
+            mapper.updateCriticalPolicy(
+                gameId,
+                skillKey,
+                effectKey,
+                result.resultKey(),
+                critical.mode(),
+                critical.multiplierFormulaKey()
+            );
+            mapper.deleteVampRules(gameId, skillKey, effectKey, result.resultKey());
+            for (SkillEffectVampRule vampRule : damage.vampRules()) {
+                mapper.insertVampRule(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    vampRule.vampType(),
+                    vampRule.basisOutputKind(),
+                    vampRule.efficiencyFormulaKey()
+                );
             }
         }
     }
@@ -1705,6 +1985,12 @@ public class SkillEffectService {
             skillKey,
             effectKey,
             mapper.listDamageDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectNormalShieldInteractionRow> normalShields = indexNormalShieldInteractions(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
         );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
@@ -1746,8 +2032,16 @@ public class SkillEffectService {
             SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
             SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
             SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
+            SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
+            Set<String> retainedDamageTypes = new LinkedHashSet<>();
+            if (damageRow != null && damageRow.damageTypeKey() != null) {
+                retainedDamageTypes.add(damageRow.damageTypeKey());
+            }
+            if (normalShieldRow != null && normalShieldRow.absorbedDamageTypeKey() != null) {
+                retainedDamageTypes.add(normalShieldRow.absorbedDamageTypeKey());
+            }
             retained.put(resultKey, new RetainedCatalog(
-                damageRow == null ? null : damageRow.damageTypeKey(),
+                Set.copyOf(retainedDamageTypes),
                 attributeRow == null
                     ? (resourceRow == null ? null : resourceRow.attributeKey())
                     : attributeRow.attributeKey(),
@@ -1810,6 +2104,56 @@ public class SkillEffectService {
         for (SkillEffectDamageDetailRow row : nullToEmpty(rows)) {
             if (indexed.put(row.resultKey(), row) != null) {
                 throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectCriticalPolicyRow> indexCriticalPolicies(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectCriticalPolicyRow> rows
+    ) {
+        Map<String, SkillEffectCriticalPolicyRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectCriticalPolicyRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "暴击策略重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, List<SkillEffectVampRuleRow>> indexVampRules(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectVampRuleRow> rows
+    ) {
+        Map<String, List<SkillEffectVampRuleRow>> indexed = new LinkedHashMap<>();
+        Map<String, Set<SkillEffectVampType>> seen = new LinkedHashMap<>();
+        for (SkillEffectVampRuleRow row : nullToEmpty(rows)) {
+            Set<SkillEffectVampType> seenTypes = seen.computeIfAbsent(row.resultKey(), ignored -> new HashSet<>());
+            if (!seenTypes.add(row.vampType())) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "吸血种类重复");
+            }
+            indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>()).add(row);
+        }
+        Map<String, List<SkillEffectVampRuleRow>> immutable = new LinkedHashMap<>();
+        indexed.forEach((resultKey, values) -> immutable.put(resultKey, List.copyOf(values)));
+        return immutable;
+    }
+
+    private Map<String, SkillEffectNormalShieldInteractionRow> indexNormalShieldInteractions(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectNormalShieldInteractionRow> rows
+    ) {
+        Map<String, SkillEffectNormalShieldInteractionRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectNormalShieldInteractionRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "普通护盾交互重复");
             }
         }
         return indexed;
@@ -1935,7 +2279,7 @@ public class SkillEffectService {
             return false;
         }
         return switch (kind) {
-            case DAMAGE_TYPE -> Objects.equals(catalog.damageTypeKey(), value);
+            case DAMAGE_TYPE -> catalog.damageTypeKeys().contains(value);
             case ATTRIBUTE -> Objects.equals(catalog.attributeKey(), value);
             case SKILL -> catalog.affectedSkillKeys().contains(value);
             case STATUS -> Objects.equals(catalog.statusKey(), value);
@@ -2427,8 +2771,10 @@ public class SkillEffectService {
 
     private static final class CollectedRefs {
         private final List<CatalogRef> formulas = new ArrayList<>();
+        private final List<CatalogRef> interactionFormulas = new ArrayList<>();
         private final List<CatalogRef> lifecycleFormulas = new ArrayList<>();
         private final List<CatalogRef> damageTypes = new ArrayList<>();
+        private final List<CatalogRef> interactionDamageTypes = new ArrayList<>();
         private final List<CatalogRef> attributes = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> statuses = new ArrayList<>();
@@ -2448,7 +2794,7 @@ public class SkillEffectService {
     }
 
     private record RetainedCatalog(
-        String damageTypeKey,
+        Set<String> damageTypeKeys,
         String attributeKey,
         Set<String> affectedSkillKeys,
         String statusKey
