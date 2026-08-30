@@ -1497,6 +1497,984 @@ CREATE INDEX ix_skill_process_state_operations_moment
 COMMENT ON TABLE public.skill_process_state_operations IS '技能过程内部状态操作';
 
 -- -----------------------------------------------------------------------------
+-- 技能触发规则（阶段 7.5）：26 张关系表
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE public.skill_trigger_rules (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(1000),
+    sort_order integer NOT NULL DEFAULT 0,
+    event_type varchar(32) NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_skill_trigger_rules
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_rules_skill
+        FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key),
+    CONSTRAINT ck_skill_trigger_rules_key
+        CHECK (rule_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_trigger_rules_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_trigger_rules_sort_order
+        CHECK (sort_order >= 0 AND sort_order <= 999999),
+    CONSTRAINT ck_skill_trigger_rules_event_type
+        CHECK (event_type IN (
+            'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',
+            'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
+            'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
+            'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
+            'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',
+            'KILL', 'PROCESS_CANCEL_REQUESTED'
+        ))
+);
+
+CREATE INDEX ix_skill_trigger_rules_list
+    ON public.skill_trigger_rules (game_id, skill_key, sort_order, rule_key);
+
+CREATE INDEX ix_skill_trigger_rules_event_type
+    ON public.skill_trigger_rules (game_id, skill_key, event_type, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rules IS '技能触发规则';
+
+CREATE TABLE public.skill_trigger_rule_process_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    moment_type varchar(24),
+    step_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_process_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_process_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_process_events_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key),
+    CONSTRAINT fk_skill_trigger_process_events_step
+        FOREIGN KEY (game_id, skill_key, process_key, step_key)
+        REFERENCES public.skill_process_steps
+            (game_id, skill_key, process_key, step_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_process_events_moment
+        CHECK (
+            (
+                moment_type IS NULL
+                AND step_key IS NULL
+            )
+            OR (
+                moment_type IN ('PROCESS_START', 'PROCESS_COMPLETE', 'PROCESS_FAILURE')
+                AND step_key IS NULL
+            )
+            OR (
+                moment_type IN (
+                    'STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE', 'STEP_TIMEOUT'
+                )
+                AND step_key IS NOT NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_process_events_process
+    ON public.skill_trigger_rule_process_events
+    (game_id, skill_key, process_key, rule_key);
+
+CREATE INDEX ix_skill_trigger_process_events_step
+    ON public.skill_trigger_rule_process_events
+    (game_id, skill_key, process_key, step_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_process_events IS '技能触发规则过程事件明细';
+
+CREATE TABLE public.skill_trigger_rule_skill_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    source_skill_key varchar(64),
+    use_kind varchar(16),
+    CONSTRAINT pk_skill_trigger_rule_skill_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_skill_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_skill_events_source_skill
+        FOREIGN KEY (game_id, source_skill_key)
+        REFERENCES public.skills (game_id, skill_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_skill_events_use_kind
+        CHECK (
+            use_kind IS NULL
+            OR use_kind IN ('ACTIVE', 'CONSUMABLE', 'ANY')
+        )
+);
+
+CREATE INDEX ix_skill_trigger_skill_events_source_skill
+    ON public.skill_trigger_rule_skill_events
+    (game_id, source_skill_key, skill_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_skill_events IS '技能触发规则技能使用或命中事件明细';
+
+CREATE TABLE public.skill_trigger_rule_result_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_result_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_result_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_result_events_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+);
+
+CREATE INDEX ix_skill_trigger_result_events_result
+    ON public.skill_trigger_rule_result_events
+    (game_id, skill_key, effect_key, result_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_result_events IS '技能触发规则无生命周期结果可用事件明细';
+
+CREATE TABLE public.skill_trigger_rule_lifecycle_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    lifecycle_moment varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_lifecycle_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_lifecycle_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_lifecycle_events_effect
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key),
+    CONSTRAINT fk_skill_trigger_lifecycle_events_lifecycle
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effect_lifecycles (game_id, skill_key, effect_key),
+    CONSTRAINT ck_skill_trigger_lifecycle_events_moment
+        CHECK (lifecycle_moment IN (
+            'APPLICATION', 'FULL_STACKS', 'PERIODIC', 'NATURAL_END', 'EARLY_REMOVE'
+        ))
+);
+
+CREATE INDEX ix_skill_trigger_lifecycle_events_effect
+    ON public.skill_trigger_rule_lifecycle_events
+    (game_id, skill_key, effect_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_lifecycle_events IS '技能触发规则生命周期时点事件明细';
+
+CREATE TABLE public.skill_trigger_rule_status_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    status_key varchar(64) NOT NULL,
+    change_kind varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_status_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_status_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_status_events_status
+        FOREIGN KEY (game_id, status_key)
+        REFERENCES public.statuses (game_id, status_key),
+    CONSTRAINT ck_skill_trigger_status_events_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET')),
+    CONSTRAINT ck_skill_trigger_status_events_change
+        CHECK (change_kind IN ('APPLY', 'REMOVE'))
+);
+
+CREATE INDEX ix_skill_trigger_status_events_status
+    ON public.skill_trigger_rule_status_events
+    (game_id, status_key, skill_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_status_events IS '技能触发规则战斗状态变化事件明细';
+
+CREATE TABLE public.skill_trigger_rule_health_threshold_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    threshold_formula_key varchar(64) NOT NULL,
+    direction varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_health_threshold_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_health_threshold_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_health_threshold_events_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT fk_skill_trigger_health_threshold_formula
+        FOREIGN KEY (game_id, skill_key, threshold_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_trigger_health_threshold_events_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET')),
+    CONSTRAINT ck_skill_trigger_health_threshold_events_direction
+        CHECK (direction IN ('UPWARD', 'DOWNWARD'))
+);
+
+CREATE INDEX ix_skill_trigger_health_threshold_events_attribute
+    ON public.skill_trigger_rule_health_threshold_events
+    (game_id, attribute_key, skill_key, rule_key);
+
+CREATE INDEX ix_skill_trigger_health_threshold_events_formula
+    ON public.skill_trigger_rule_health_threshold_events
+    (game_id, skill_key, threshold_formula_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_health_threshold_events IS '技能触发规则生命阈值事件明细';
+
+CREATE TABLE public.skill_trigger_rule_internal_state_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    change_kind varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_internal_state_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_istate_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_istate_events_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key),
+    CONSTRAINT ck_skill_trigger_istate_events_change
+        CHECK (change_kind IN (
+            'VALUE_CHANGED', 'OPTION_SELECTED', 'FLAG_CHANGED', 'COOLDOWN_READY'
+        ))
+);
+
+CREATE INDEX ix_skill_trigger_istate_events_state
+    ON public.skill_trigger_rule_internal_state_events
+    (game_id, skill_key, state_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_internal_state_events IS '技能触发规则内部状态变化事件明细';
+
+CREATE TABLE public.skill_trigger_rule_subject_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_subject_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_subject_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_trigger_subject_events_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET'))
+);
+
+COMMENT ON TABLE public.skill_trigger_rule_subject_events IS '技能触发规则对象死亡或不可选取事件明细';
+
+CREATE TABLE public.skill_trigger_rule_condition_groups (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_trigger_rule_condition_groups
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key),
+    CONSTRAINT fk_skill_trigger_condition_groups_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_trigger_condition_groups_key
+        CHECK (group_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_trigger_condition_groups_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_trigger_condition_groups_sort_order
+        CHECK (sort_order >= 0 AND sort_order <= 999999)
+);
+
+CREATE INDEX ix_skill_trigger_condition_groups_list
+    ON public.skill_trigger_rule_condition_groups
+    (game_id, skill_key, rule_key, sort_order, group_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_condition_groups IS '技能触发规则条件组';
+
+CREATE TABLE public.skill_trigger_rule_conditions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    condition_key varchar(64) NOT NULL,
+    condition_type varchar(32) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_skill_trigger_rule_conditions
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key, condition_key),
+    CONSTRAINT fk_skill_trigger_conditions_group
+        FOREIGN KEY (game_id, skill_key, rule_key, group_key)
+        REFERENCES public.skill_trigger_rule_condition_groups
+            (game_id, skill_key, rule_key, group_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_trigger_conditions_key
+        CHECK (condition_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_trigger_conditions_type
+        CHECK (condition_type IN (
+            'ATTRIBUTE_COMPARE', 'STATUS_CHECK',
+            'INTERNAL_STATE_CHECK', 'EVENT_VALUE_COMPARE'
+        )),
+    CONSTRAINT ck_skill_trigger_conditions_sort_order
+        CHECK (sort_order >= 0 AND sort_order <= 999999)
+);
+
+CREATE INDEX ix_skill_trigger_conditions_list
+    ON public.skill_trigger_rule_conditions
+    (game_id, skill_key, rule_key, group_key, sort_order, condition_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_conditions IS '技能触发规则条件';
+
+CREATE TABLE public.skill_trigger_rule_attribute_conditions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    condition_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    attribute_value_kind varchar(24) NOT NULL,
+    comparator varchar(8) NOT NULL,
+    comparison_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_attribute_conditions
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key, condition_key),
+    CONSTRAINT fk_skill_trigger_attr_cond_condition
+        FOREIGN KEY (game_id, skill_key, rule_key, group_key, condition_key)
+        REFERENCES public.skill_trigger_rule_conditions
+            (game_id, skill_key, rule_key, group_key, condition_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_attr_cond_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT fk_skill_trigger_attr_cond_formula
+        FOREIGN KEY (game_id, skill_key, comparison_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_trigger_attr_cond_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE')),
+    CONSTRAINT ck_skill_trigger_attr_cond_value_kind
+        CHECK (attribute_value_kind IN (
+            'BASE', 'BONUS', 'TOTAL', 'CURRENT', 'MISSING',
+            'CURRENT_RATIO', 'MISSING_RATIO'
+        )),
+    CONSTRAINT ck_skill_trigger_attr_cond_comparator
+        CHECK (comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'))
+);
+
+CREATE INDEX ix_skill_trigger_attr_cond_attribute
+    ON public.skill_trigger_rule_attribute_conditions
+    (game_id, attribute_key, skill_key, rule_key, group_key, condition_key);
+
+CREATE INDEX ix_skill_trigger_attr_cond_formula
+    ON public.skill_trigger_rule_attribute_conditions
+    (game_id, skill_key, comparison_formula_key, rule_key, group_key, condition_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_attribute_conditions IS '技能触发规则属性比较条件明细';
+
+CREATE TABLE public.skill_trigger_rule_status_conditions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    condition_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    status_key varchar(64) NOT NULL,
+    check_kind varchar(24) NOT NULL,
+    source_effect_key varchar(64),
+    source_result_key varchar(64),
+    comparator varchar(8),
+    comparison_formula_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_status_conditions
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key, condition_key),
+    CONSTRAINT fk_skill_trigger_status_cond_condition
+        FOREIGN KEY (game_id, skill_key, rule_key, group_key, condition_key)
+        REFERENCES public.skill_trigger_rule_conditions
+            (game_id, skill_key, rule_key, group_key, condition_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_status_cond_status
+        FOREIGN KEY (game_id, status_key)
+        REFERENCES public.statuses (game_id, status_key),
+    CONSTRAINT fk_skill_trigger_status_cond_source_result
+        FOREIGN KEY (game_id, skill_key, source_effect_key, source_result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        MATCH SIMPLE,
+    CONSTRAINT fk_skill_trigger_status_cond_formula
+        FOREIGN KEY (game_id, skill_key, comparison_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_status_cond_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE')),
+    CONSTRAINT ck_skill_trigger_status_cond_check_kind
+        CHECK (check_kind IN ('PRESENT', 'ABSENT', 'STACKS_COMPARE', 'REMAINING_MS_COMPARE')),
+    CONSTRAINT ck_skill_trigger_status_cond_shape
+        CHECK (
+            (
+                check_kind IN ('PRESENT', 'ABSENT')
+                AND source_effect_key IS NULL
+                AND source_result_key IS NULL
+                AND comparator IS NULL
+                AND comparison_formula_key IS NULL
+            )
+            OR (
+                check_kind IN ('STACKS_COMPARE', 'REMAINING_MS_COMPARE')
+                AND source_effect_key IS NOT NULL
+                AND source_result_key IS NOT NULL
+                AND comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT')
+                AND comparison_formula_key IS NOT NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_status_cond_status
+    ON public.skill_trigger_rule_status_conditions
+    (game_id, status_key, skill_key, rule_key, group_key, condition_key);
+
+CREATE INDEX ix_skill_trigger_status_cond_source_result
+    ON public.skill_trigger_rule_status_conditions
+    (game_id, skill_key, source_effect_key, source_result_key, rule_key, group_key, condition_key);
+
+CREATE INDEX ix_skill_trigger_status_cond_formula
+    ON public.skill_trigger_rule_status_conditions
+    (game_id, skill_key, comparison_formula_key, rule_key, group_key, condition_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_status_conditions IS '技能触发规则战斗状态检查条件明细';
+
+CREATE TABLE public.skill_trigger_rule_internal_state_conditions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    condition_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    value_kind varchar(24) NOT NULL,
+    option_key varchar(64),
+    expected_boolean boolean,
+    comparator varchar(8),
+    comparison_formula_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_internal_state_conditions
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key, condition_key),
+    CONSTRAINT fk_skill_trigger_istate_cond_condition
+        FOREIGN KEY (game_id, skill_key, rule_key, group_key, condition_key)
+        REFERENCES public.skill_trigger_rule_conditions
+            (game_id, skill_key, rule_key, group_key, condition_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_istate_cond_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_trigger_istate_cond_option
+        FOREIGN KEY (game_id, skill_key, state_key, option_key)
+        REFERENCES public.skill_internal_state_mode_options
+            (game_id, skill_key, state_key, option_key)
+        MATCH SIMPLE,
+    CONSTRAINT fk_skill_trigger_istate_cond_formula
+        FOREIGN KEY (game_id, skill_key, comparison_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_istate_cond_value_kind
+        CHECK (value_kind IN ('VALUE', 'OPTION_SELECTED', 'ENABLED', 'REMAINING_MS')),
+    CONSTRAINT ck_skill_trigger_istate_cond_shape
+        CHECK (
+            (
+                value_kind IN ('VALUE', 'REMAINING_MS')
+                AND option_key IS NULL
+                AND expected_boolean IS NULL
+                AND comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT')
+                AND comparison_formula_key IS NOT NULL
+            )
+            OR (
+                value_kind = 'OPTION_SELECTED'
+                AND option_key IS NOT NULL
+                AND expected_boolean IS NULL
+                AND comparator IS NULL
+                AND comparison_formula_key IS NULL
+            )
+            OR (
+                value_kind = 'ENABLED'
+                AND option_key IS NULL
+                AND expected_boolean IS NOT NULL
+                AND comparator IS NULL
+                AND comparison_formula_key IS NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_istate_cond_state
+    ON public.skill_trigger_rule_internal_state_conditions
+    (game_id, skill_key, state_key, rule_key, group_key, condition_key);
+
+CREATE INDEX ix_skill_trigger_istate_cond_option
+    ON public.skill_trigger_rule_internal_state_conditions
+    (game_id, skill_key, state_key, option_key, rule_key, group_key, condition_key);
+
+CREATE INDEX ix_skill_trigger_istate_cond_formula
+    ON public.skill_trigger_rule_internal_state_conditions
+    (game_id, skill_key, comparison_formula_key, rule_key, group_key, condition_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_internal_state_conditions IS '技能触发规则内部状态检查条件明细';
+
+CREATE TABLE public.skill_trigger_rule_event_value_conditions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    condition_key varchar(64) NOT NULL,
+    event_value_key varchar(32) NOT NULL,
+    comparator varchar(8) NOT NULL,
+    comparison_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_event_value_conditions
+        PRIMARY KEY (game_id, skill_key, rule_key, group_key, condition_key),
+    CONSTRAINT fk_skill_trigger_event_value_cond_condition
+        FOREIGN KEY (game_id, skill_key, rule_key, group_key, condition_key)
+        REFERENCES public.skill_trigger_rule_conditions
+            (game_id, skill_key, rule_key, group_key, condition_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_event_value_cond_formula
+        FOREIGN KEY (game_id, skill_key, comparison_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_trigger_event_value_cond_key
+        CHECK (event_value_key IN (
+            'STEP_EXECUTION_INDEX', 'CHARGE_DURATION_MS', 'RECAST_COUNT',
+            'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
+            'STATE_BEFORE', 'STATE_AFTER',
+            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'
+        )),
+    CONSTRAINT ck_skill_trigger_event_value_cond_comparator
+        CHECK (comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'))
+);
+
+CREATE INDEX ix_skill_trigger_event_value_cond_formula
+    ON public.skill_trigger_rule_event_value_conditions
+    (game_id, skill_key, comparison_formula_key, rule_key, group_key, condition_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_event_value_conditions IS '技能触发规则事件值比较条件明细';
+
+CREATE TABLE public.skill_trigger_rule_actions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    action_type varchar(24) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    target_context varchar(24),
+    CONSTRAINT pk_skill_trigger_rule_actions
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key),
+    CONSTRAINT fk_skill_trigger_actions_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_trigger_actions_key
+        CHECK (action_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_trigger_actions_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_skill_trigger_actions_type
+        CHECK (action_type IN ('EXECUTE_EFFECT', 'START_PROCESS', 'FAIL_PROCESS')),
+    CONSTRAINT ck_skill_trigger_actions_sort_order
+        CHECK (sort_order >= 0 AND sort_order <= 999999),
+    CONSTRAINT ck_skill_trigger_actions_target_context
+        CHECK (
+            (
+                action_type IN ('EXECUTE_EFFECT', 'START_PROCESS')
+                AND target_context IN ('CURRENT_TARGET', 'EVENT_SOURCE')
+            )
+            OR (
+                action_type = 'FAIL_PROCESS'
+                AND target_context IS NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_actions_list
+    ON public.skill_trigger_rule_actions
+    (game_id, skill_key, rule_key, sort_order, action_key);
+
+CREATE INDEX ix_skill_trigger_actions_type
+    ON public.skill_trigger_rule_actions
+    (game_id, skill_key, rule_key, action_type, action_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_actions IS '技能触发规则有序动作';
+
+CREATE TABLE public.skill_trigger_rule_effect_actions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_effect_actions
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key),
+    CONSTRAINT fk_skill_trigger_effect_actions_action
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key)
+        REFERENCES public.skill_trigger_rule_actions
+            (game_id, skill_key, rule_key, action_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_effect_actions_effect
+        FOREIGN KEY (game_id, skill_key, effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key),
+    CONSTRAINT uq_skill_trigger_effect_action_effect
+        UNIQUE (game_id, skill_key, rule_key, action_key, effect_key)
+);
+
+CREATE INDEX ix_skill_trigger_effect_actions_effect
+    ON public.skill_trigger_rule_effect_actions
+    (game_id, skill_key, effect_key, rule_key, action_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_effect_actions IS '技能触发规则执行效果动作明细';
+
+CREATE TABLE public.skill_trigger_rule_process_actions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    failure_reason varchar(24),
+    CONSTRAINT pk_skill_trigger_rule_process_actions
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key),
+    CONSTRAINT fk_skill_trigger_process_actions_action
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key)
+        REFERENCES public.skill_trigger_rule_actions
+            (game_id, skill_key, rule_key, action_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_process_actions_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key),
+    CONSTRAINT ck_skill_trigger_process_actions_failure
+        CHECK (
+            failure_reason IS NULL
+            OR failure_reason IN (
+                'CONTROLLED', 'SOURCE_DIED', 'TARGET_UNTARGETABLE',
+                'ACTIVE_CANCELLED', 'EVENT_ABORTED'
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_process_actions_process
+    ON public.skill_trigger_rule_process_actions
+    (game_id, skill_key, process_key, rule_key, action_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_process_actions IS '技能触发规则启动或令过程失败动作明细';
+
+CREATE TABLE public.skill_trigger_rule_runtime_input_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    parameter_key varchar(64) NOT NULL,
+    source_type varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_runtime_input_bindings
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, binding_key),
+    CONSTRAINT fk_skill_trigger_runtime_bindings_action
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key)
+        REFERENCES public.skill_trigger_rule_actions
+            (game_id, skill_key, rule_key, action_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_runtime_bindings_parameter
+        FOREIGN KEY (game_id, skill_key, parameter_key)
+        REFERENCES public.skill_parameters (game_id, skill_key, parameter_key),
+    CONSTRAINT uq_skill_trigger_runtime_bindings_parameter
+        UNIQUE (game_id, skill_key, rule_key, action_key, parameter_key),
+    CONSTRAINT ck_skill_trigger_runtime_bindings_key
+        CHECK (binding_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_skill_trigger_runtime_bindings_source_type
+        CHECK (source_type IN (
+            'INTERNAL_STATE', 'COMBAT_STATUS', 'EVENT_VALUE', 'PRIOR_ACTION_RESULT'
+        ))
+);
+
+CREATE INDEX ix_skill_trigger_runtime_bindings_parameter
+    ON public.skill_trigger_rule_runtime_input_bindings
+    (game_id, skill_key, parameter_key, rule_key, action_key, binding_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_runtime_input_bindings IS '技能触发规则动态输入来源绑定';
+
+CREATE TABLE public.skill_trigger_rule_internal_state_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    state_key varchar(64) NOT NULL,
+    value_kind varchar(24) NOT NULL,
+    option_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_internal_state_bindings
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, binding_key),
+    CONSTRAINT fk_skill_trigger_istate_bind_binding
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key, binding_key)
+        REFERENCES public.skill_trigger_rule_runtime_input_bindings
+            (game_id, skill_key, rule_key, action_key, binding_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_istate_bind_state
+        FOREIGN KEY (game_id, skill_key, state_key)
+        REFERENCES public.skill_internal_states (game_id, skill_key, state_key),
+    CONSTRAINT fk_skill_trigger_istate_bind_option
+        FOREIGN KEY (game_id, skill_key, state_key, option_key)
+        REFERENCES public.skill_internal_state_mode_options
+            (game_id, skill_key, state_key, option_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_istate_bind_value_kind
+        CHECK (value_kind IN ('VALUE', 'OPTION_SELECTED', 'ENABLED', 'REMAINING_MS')),
+    CONSTRAINT ck_skill_trigger_istate_bind_shape
+        CHECK (
+            (
+                value_kind = 'OPTION_SELECTED'
+                AND option_key IS NOT NULL
+            )
+            OR (
+                value_kind IN ('VALUE', 'ENABLED', 'REMAINING_MS')
+                AND option_key IS NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_istate_bind_state
+    ON public.skill_trigger_rule_internal_state_bindings
+    (game_id, skill_key, state_key, rule_key, action_key, binding_key);
+
+CREATE INDEX ix_skill_trigger_istate_bind_option
+    ON public.skill_trigger_rule_internal_state_bindings
+    (game_id, skill_key, state_key, option_key, rule_key, action_key, binding_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_internal_state_bindings IS '技能触发规则内部状态动态输入来源明细';
+
+CREATE TABLE public.skill_trigger_rule_combat_status_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    subject varchar(24) NOT NULL,
+    status_key varchar(64) NOT NULL,
+    value_kind varchar(24) NOT NULL,
+    source_effect_key varchar(64),
+    source_result_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_combat_status_bindings
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, binding_key),
+    CONSTRAINT fk_skill_trigger_combat_status_bind_binding
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key, binding_key)
+        REFERENCES public.skill_trigger_rule_runtime_input_bindings
+            (game_id, skill_key, rule_key, action_key, binding_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_combat_status_bind_status
+        FOREIGN KEY (game_id, status_key)
+        REFERENCES public.statuses (game_id, status_key),
+    CONSTRAINT fk_skill_trigger_combat_status_bind_result
+        FOREIGN KEY (game_id, skill_key, source_effect_key, source_result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        MATCH SIMPLE,
+    CONSTRAINT ck_skill_trigger_combat_status_bind_subject
+        CHECK (subject IN ('SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE')),
+    CONSTRAINT ck_skill_trigger_combat_status_bind_value_kind
+        CHECK (value_kind IN ('PRESENT', 'STACKS', 'REMAINING_MS')),
+    CONSTRAINT ck_skill_trigger_combat_status_bind_shape
+        CHECK (
+            (
+                value_kind = 'PRESENT'
+                AND source_effect_key IS NULL
+                AND source_result_key IS NULL
+            )
+            OR (
+                value_kind IN ('STACKS', 'REMAINING_MS')
+                AND source_effect_key IS NOT NULL
+                AND source_result_key IS NOT NULL
+            )
+        )
+);
+
+CREATE INDEX ix_skill_trigger_combat_status_bind_status
+    ON public.skill_trigger_rule_combat_status_bindings
+    (game_id, status_key, skill_key, rule_key, action_key, binding_key);
+
+CREATE INDEX ix_skill_trigger_combat_status_bind_source_result
+    ON public.skill_trigger_rule_combat_status_bindings
+    (game_id, skill_key, source_effect_key, source_result_key, rule_key, action_key, binding_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_combat_status_bindings IS '技能触发规则战斗状态动态输入来源明细';
+
+CREATE TABLE public.skill_trigger_rule_event_value_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    event_value_key varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_event_value_bindings
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, binding_key),
+    CONSTRAINT fk_skill_trigger_event_value_bind_binding
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key, binding_key)
+        REFERENCES public.skill_trigger_rule_runtime_input_bindings
+            (game_id, skill_key, rule_key, action_key, binding_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_trigger_event_value_bind_key
+        CHECK (event_value_key IN (
+            'STEP_EXECUTION_INDEX', 'CHARGE_DURATION_MS', 'RECAST_COUNT',
+            'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
+            'STATE_BEFORE', 'STATE_AFTER',
+            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'
+        ))
+);
+
+COMMENT ON TABLE public.skill_trigger_rule_event_value_bindings IS '技能触发规则事件值动态输入来源明细';
+
+CREATE TABLE public.skill_trigger_rule_prior_result_bindings (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    binding_key varchar(64) NOT NULL,
+    source_action_key varchar(64) NOT NULL,
+    source_effect_key varchar(64) NOT NULL,
+    source_result_key varchar(64) NOT NULL,
+    output_kind varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_prior_result_bindings
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, binding_key),
+    CONSTRAINT fk_skill_trigger_prior_result_bind_binding
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key, binding_key)
+        REFERENCES public.skill_trigger_rule_runtime_input_bindings
+            (game_id, skill_key, rule_key, action_key, binding_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_prior_result_bind_source_action
+        FOREIGN KEY (game_id, skill_key, rule_key, source_action_key, source_effect_key)
+        REFERENCES public.skill_trigger_rule_effect_actions
+            (game_id, skill_key, rule_key, action_key, effect_key)
+        DEFERRABLE INITIALLY DEFERRED,
+    CONSTRAINT fk_skill_trigger_prior_result_bind_result
+        FOREIGN KEY (game_id, skill_key, source_effect_key, source_result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        DEFERRABLE INITIALLY DEFERRED,
+    CONSTRAINT ck_skill_trigger_prior_result_bind_output
+        CHECK (output_kind = 'CONFIGURED_VALUE')
+);
+
+CREATE INDEX ix_skill_trigger_prior_result_bind_source_action
+    ON public.skill_trigger_rule_prior_result_bindings
+    (game_id, skill_key, rule_key, source_action_key, action_key, binding_key);
+
+CREATE INDEX ix_skill_trigger_prior_result_bind_result
+    ON public.skill_trigger_rule_prior_result_bindings
+    (game_id, skill_key, source_effect_key, source_result_key, rule_key, action_key, binding_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_prior_result_bindings IS '技能触发规则前序动作基础结果动态输入来源明细';
+
+CREATE TABLE public.skill_trigger_rule_result_modifiers (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    action_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    fixed_multiplier numeric,
+    fixed_min_value numeric,
+    fixed_max_value numeric,
+    CONSTRAINT pk_skill_trigger_rule_result_modifiers
+        PRIMARY KEY (game_id, skill_key, rule_key, action_key, result_key),
+    CONSTRAINT fk_skill_trigger_result_modifiers_action
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key)
+        REFERENCES public.skill_trigger_rule_actions
+            (game_id, skill_key, rule_key, action_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_result_modifiers_effect_action
+        FOREIGN KEY (game_id, skill_key, rule_key, action_key, effect_key)
+        REFERENCES public.skill_trigger_rule_effect_actions
+            (game_id, skill_key, rule_key, action_key, effect_key),
+    CONSTRAINT fk_skill_trigger_result_modifiers_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT ck_skill_trigger_result_modifiers_present
+        CHECK (
+            fixed_multiplier IS NOT NULL
+            OR fixed_min_value IS NOT NULL
+            OR fixed_max_value IS NOT NULL
+        ),
+    CONSTRAINT ck_skill_trigger_result_modifiers_multiplier
+        CHECK (fixed_multiplier IS NULL OR fixed_multiplier >= 0),
+    CONSTRAINT ck_skill_trigger_result_modifiers_bounds
+        CHECK (
+            fixed_min_value IS NULL
+            OR fixed_max_value IS NULL
+            OR fixed_min_value <= fixed_max_value
+        )
+);
+
+CREATE INDEX ix_skill_trigger_result_modifiers_result
+    ON public.skill_trigger_rule_result_modifiers
+    (game_id, skill_key, effect_key, result_key, rule_key, action_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_result_modifiers IS '技能触发规则执行效果固定结果修正';
+
+CREATE TABLE public.skill_trigger_rule_per_target_cooldowns (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    duration_formula_key varchar(64) NOT NULL,
+    target_context varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_per_target_cooldowns
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_per_target_cd_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_per_target_cd_formula
+        FOREIGN KEY (game_id, skill_key, duration_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key),
+    CONSTRAINT ck_skill_trigger_per_target_cd_target
+        CHECK (target_context IN ('CURRENT_TARGET', 'EVENT_SOURCE'))
+);
+
+CREATE INDEX ix_skill_trigger_per_target_cd_formula
+    ON public.skill_trigger_rule_per_target_cooldowns
+    (game_id, skill_key, duration_formula_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_per_target_cooldowns IS '技能触发规则每目标冷却';
+
+CREATE TABLE public.skill_trigger_rule_process_limits (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    process_key varchar(64) NOT NULL,
+    limit_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_process_limits
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_process_limits_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_process_limits_process
+        FOREIGN KEY (game_id, skill_key, process_key)
+        REFERENCES public.skill_processes (game_id, skill_key, process_key),
+    CONSTRAINT fk_skill_trigger_process_limit_formula
+        FOREIGN KEY (game_id, skill_key, limit_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+);
+
+CREATE INDEX ix_skill_trigger_process_limits_process
+    ON public.skill_trigger_rule_process_limits
+    (game_id, skill_key, process_key, rule_key);
+
+CREATE INDEX ix_skill_trigger_process_limits_formula
+    ON public.skill_trigger_rule_process_limits
+    (game_id, skill_key, limit_formula_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_process_limits IS '技能触发规则单次过程最大触发次数';
+
+-- -----------------------------------------------------------------------------
 -- 图片资源（按 game_id 列表分区；子分区由 ensure_game_partitions 幂等创建）
 -- -----------------------------------------------------------------------------
 
