@@ -332,7 +332,9 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
         ));
         List<String> triggerDetailTables = extractDetailTriggerTables(triggersSql);
         List<String> migrationDetailTables = extractDetailTriggerTables(migrationSql);
-        assertEquals(DETAIL_TRIGGER_TABLES, triggerDetailTables);
+        List<String> currentDetailTables = new ArrayList<>(DETAIL_TRIGGER_TABLES);
+        currentDetailTables.add(8, "skill_trigger_rule_damage_events");
+        assertEquals(currentDetailTables, triggerDetailTables);
         assertEquals(DETAIL_TRIGGER_TABLES, migrationDetailTables);
         assertTrue(triggersNormalized.contains("create constraint trigger trg_%i_complete_shape"));
         assertTrue(triggersNormalized.contains(
@@ -450,7 +452,7 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             extraXml.removeAll(javaIds);
             return "mapper mismatch missingXml=" + missingXml + " extraXml=" + extraXml;
         });
-        assertEquals(105, javaIds.size());
+        assertEquals(110, javaIds.size());
     }
 
     private static String schemaRegion() {

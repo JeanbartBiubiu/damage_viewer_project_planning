@@ -70,6 +70,9 @@ DECLARE
     v_lifecycle_operation varchar(24);
     v_value_count int;
     v_damage_count int;
+    v_critical_count int;
+    v_vamp_count int;
+    v_normal_shield_count int;
     v_attribute_count int;
     v_resource_count int;
     v_cooldown_count int;
@@ -122,6 +125,24 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_critical_count
+      FROM public.skill_effect_result_critical_policies d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_vamp_count
+      FROM public.skill_effect_result_vamp_rules d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_normal_shield_count
+      FROM public.skill_effect_result_normal_shield_interactions d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
     SELECT COUNT(*) INTO v_attribute_count
       FROM public.skill_effect_attribute_change_details d
      WHERE d.game_id = v_game_id
@@ -162,6 +183,9 @@ BEGIN
     IF v_result_type = 'DAMAGE' THEN
         IF v_value_count <> 1
             OR v_damage_count <> 1
+            OR v_critical_count <> 1
+            OR v_vamp_count < 0 OR v_vamp_count > 4
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
@@ -172,9 +196,12 @@ BEGIN
                 v_game_id, v_skill_key, v_effect_key, v_result_key
                 USING ERRCODE = 'check_violation';
         END IF;
-    ELSIF v_result_type IN ('DIRECT_HEAL', 'NORMAL_SHIELD') THEN
+    ELSIF v_result_type = 'DIRECT_HEAL' THEN
         IF v_value_count <> 1
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
@@ -185,9 +212,28 @@ BEGIN
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
                 USING ERRCODE = 'check_violation';
         END IF;
+    ELSIF v_result_type = 'NORMAL_SHIELD' THEN
+        IF v_value_count <> 1
+            OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 1
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) NORMAL_SHIELD shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
     ELSIF v_result_type = 'ATTRIBUTE_CHANGE' THEN
         IF v_value_count <> 1
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 1
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
@@ -201,6 +247,9 @@ BEGIN
     ELSIF v_result_type = 'RESOURCE_CHANGE' THEN
         IF v_value_count <> 1
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 1
             OR v_cooldown_count <> 0
@@ -215,6 +264,9 @@ BEGIN
         IF v_cooldown_count <> 1
             OR v_cooldown_target_count < 1
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_status_count <> 0
@@ -246,6 +298,9 @@ BEGIN
     ELSIF v_result_type = 'STATUS_OPERATION' THEN
         IF v_value_count <> 0
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
@@ -259,6 +314,9 @@ BEGIN
     ELSIF v_result_type = 'LIFECYCLE_OPERATION' THEN
         IF v_lifecycle_op_count <> 1
             OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
@@ -316,6 +374,9 @@ DECLARE
     v_details text[] := ARRAY[
         'skill_effect_result_values',
         'skill_effect_damage_details',
+        'skill_effect_result_critical_policies',
+        'skill_effect_result_vamp_rules',
+        'skill_effect_result_normal_shield_interactions',
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
@@ -361,6 +422,7 @@ DECLARE
     v_effect_key varchar(64);
     v_has_lifecycle boolean;
     v_duration_formula_key varchar(64);
+    v_expiry_mode varchar(24);
     v_periodic_interval_formula_key varchar(64);
     v_first_periodic_execution varchar(24);
     v_result record;
@@ -373,6 +435,7 @@ DECLARE
     v_periodic_execution_mode varchar(24);
     v_status_operation varchar(16);
     v_attribute_operation varchar(16);
+    v_normal_shield_decay_mode varchar(32);
     v_periodic_behavior_count int;
 BEGIN
     IF TG_TABLE_NAME = 'skill_effects' THEN
@@ -426,10 +489,12 @@ BEGIN
 
     SELECT true,
            l.duration_formula_key,
+           l.expiry_mode,
            l.periodic_interval_formula_key,
            l.first_periodic_execution
       INTO v_has_lifecycle,
            v_duration_formula_key,
+           v_expiry_mode,
            v_periodic_interval_formula_key,
            v_first_periodic_execution
       FROM public.skill_effect_lifecycles l
@@ -439,11 +504,25 @@ BEGIN
     IF NOT FOUND THEN
         v_has_lifecycle := false;
         v_duration_formula_key := NULL;
+        v_expiry_mode := NULL;
         v_periodic_interval_formula_key := NULL;
         v_first_periodic_execution := NULL;
     END IF;
 
     IF NOT v_has_lifecycle THEN
+        IF EXISTS (
+            SELECT 1
+              FROM public.skill_effect_results r
+             WHERE r.game_id = v_game_id
+               AND r.skill_key = v_skill_key
+               AND r.effect_key = v_effect_key
+               AND r.result_type = 'NORMAL_SHIELD'
+        ) THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: NORMAL_SHIELD requires lifecycle',
+                v_game_id, v_skill_key, v_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
         IF EXISTS (
             SELECT 1
               FROM public.skill_effect_result_lifecycle_behaviors b
@@ -501,6 +580,14 @@ BEGIN
            AND v.skill_key = v_skill_key
            AND v.effect_key = v_effect_key
            AND v.result_key = v_result.result_key;
+
+        IF v_result.result_type = 'NORMAL_SHIELD'
+            AND v_moment IS DISTINCT FROM 'PERSISTENT' THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: NORMAL_SHIELD result % must be PERSISTENT',
+                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
 
         IF v_moment = 'PERSISTENT' THEN
             IF v_result.result_type NOT IN ('NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION') THEN
@@ -565,6 +652,26 @@ BEGIN
                                 v_game_id, v_skill_key, v_effect_key, v_result.result_key
                                 USING ERRCODE = 'check_violation';
                         END IF;
+                    END IF;
+                END IF;
+                IF v_result.result_type = 'NORMAL_SHIELD' THEN
+                    SELECT d.decay_mode
+                      INTO v_normal_shield_decay_mode
+                      FROM public.skill_effect_result_normal_shield_interactions d
+                     WHERE d.game_id = v_game_id
+                       AND d.skill_key = v_skill_key
+                       AND d.effect_key = v_effect_key
+                       AND d.result_key = v_result.result_key;
+                    IF v_normal_shield_decay_mode = 'LINEAR_TO_ZERO'
+                        AND (
+                            v_duration_formula_key IS NULL
+                            OR v_expiry_mode IS DISTINCT FROM 'ALL_AT_ONCE'
+                            OR v_stack_value_mode IS DISTINCT FROM 'SHARED'
+                        ) THEN
+                        RAISE EXCEPTION
+                            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % linear shield decay invalid',
+                            v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                            USING ERRCODE = 'check_violation';
                     END IF;
                 END IF;
             END IF;
@@ -675,6 +782,14 @@ DROP TRIGGER IF EXISTS trg_skill_effect_result_lifecycle_behaviors_aggregate_sha
     ON public.skill_effect_result_lifecycle_behaviors;
 CREATE CONSTRAINT TRIGGER trg_skill_effect_result_lifecycle_behaviors_aggregate_shape
 AFTER INSERT OR UPDATE OR DELETE ON public.skill_effect_result_lifecycle_behaviors
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
+
+DROP TRIGGER IF EXISTS trg_skill_effect_normal_shield_interactions_aggregate_shape
+    ON public.skill_effect_result_normal_shield_interactions;
+CREATE CONSTRAINT TRIGGER trg_skill_effect_normal_shield_interactions_aggregate_shape
+AFTER INSERT OR UPDATE OR DELETE ON public.skill_effect_result_normal_shield_interactions
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW
 EXECUTE FUNCTION public.trg_skill_effect_lifecycle_aggregate_shape();
@@ -1424,6 +1539,7 @@ DECLARE
     v_health_event_count int;
     v_istate_event_count int;
     v_subject_event_count int;
+    v_damage_event_count int;
     v_action_count int;
     v_fail_count int;
     v_group record;
@@ -1507,60 +1623,69 @@ BEGIN
     SELECT COUNT(*) INTO v_subject_event_count
     FROM public.skill_trigger_rule_subject_events
     WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_damage_event_count
+    FROM public.skill_trigger_rule_damage_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
 
     v_expected_detail := CASE
         WHEN v_event_type IN ('PROCESS_MOMENT', 'PROCESS_CANCEL_REQUESTED') THEN
             CASE WHEN v_process_event_count = 1
                 AND v_skill_event_count + v_result_event_count + v_lifecycle_event_count
                     + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type IN ('SKILL_USED', 'SKILL_HIT') THEN
             CASE WHEN v_skill_event_count = 1
                 AND v_process_event_count + v_result_event_count + v_lifecycle_event_count
                     + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type = 'RESULT_AVAILABLE' THEN
             CASE WHEN v_result_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_lifecycle_event_count
                     + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type = 'LIFECYCLE_MOMENT' THEN
             CASE WHEN v_lifecycle_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type = 'STATUS_CHANGED' THEN
             CASE WHEN v_status_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type = 'HEALTH_THRESHOLD_CROSSED' THEN
             CASE WHEN v_health_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_status_event_count + v_istate_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type = 'INTERNAL_STATE_CHANGED' THEN
             CASE WHEN v_istate_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_subject_event_count = 0
+                    + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
         WHEN v_event_type IN ('ENTITY_DIED', 'ENTITY_UNTARGETABLE') THEN
             CASE WHEN v_subject_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_istate_event_count = 0
+                    + v_istate_event_count + v_damage_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type IN ('DAMAGE_DEALT', 'DAMAGE_TAKEN') THEN
+            CASE WHEN v_damage_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
+                    + v_istate_event_count + v_subject_event_count = 0
             THEN 1 ELSE 0 END
         ELSE
             CASE WHEN v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_istate_event_count + v_subject_event_count = 0
+                    + v_istate_event_count + v_subject_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
     END;
 
@@ -2037,6 +2162,7 @@ DECLARE
         'skill_trigger_rule_health_threshold_events',
         'skill_trigger_rule_internal_state_events',
         'skill_trigger_rule_subject_events',
+        'skill_trigger_rule_damage_events',
         'skill_trigger_rule_condition_groups',
         'skill_trigger_rule_conditions',
         'skill_trigger_rule_attribute_conditions',

@@ -77,6 +77,8 @@ public class SkillFormulaService {
         "fk_skill_effect_lifecycles_max_stacks_formula",
         "fk_skill_effect_lifecycles_application_stacks_formula",
         "fk_skill_effect_lifecycles_periodic_interval_formula",
+        "fk_skill_effect_critical_policies_formula",
+        "fk_skill_effect_vamp_rules_formula",
         "fk_skill_trigger_health_threshold_formula",
         "fk_skill_trigger_attr_cond_formula",
         "fk_skill_trigger_status_cond_formula",
