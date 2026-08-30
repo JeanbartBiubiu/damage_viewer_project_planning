@@ -5,7 +5,6 @@ public record SkillEffectCooldownChangeDetailRow(
     String skillKey,
     String effectKey,
     String resultKey,
-    String affectedSkillKey,
     SkillEffectCooldownChangeOperation operation
 ) {
 }

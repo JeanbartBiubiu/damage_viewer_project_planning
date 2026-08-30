@@ -10,6 +10,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
@@ -244,12 +245,17 @@ public interface SkillEffectMapper {
         @Param("effectKey") String effectKey
     );
 
+    List<SkillEffectCooldownChangeTargetRow> listCooldownChangeTargets(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
     int insertCooldownChangeDetail(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
-        @Param("affectedSkillKey") String affectedSkillKey,
         @Param("operation") SkillEffectCooldownChangeOperation operation
     );
 
@@ -258,8 +264,22 @@ public interface SkillEffectMapper {
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
-        @Param("affectedSkillKey") String affectedSkillKey,
         @Param("operation") SkillEffectCooldownChangeOperation operation
+    );
+
+    int insertCooldownChangeTarget(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("affectedSkillKey") String affectedSkillKey
+    );
+
+    int deleteCooldownChangeTargets(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey
     );
 
     List<SkillEffectStatusOperationDetailRow> listStatusOperationDetails(

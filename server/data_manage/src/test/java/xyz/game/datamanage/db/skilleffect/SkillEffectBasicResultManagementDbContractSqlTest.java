@@ -35,6 +35,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
+        "skill_effect_cooldown_change_targets",
         "skill_effect_status_operation_details"
     );
 
@@ -45,6 +46,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         "fk_skill_effect_attribute_change_details_result",
         "fk_skill_effect_resource_change_details_result",
         "fk_skill_effect_cooldown_change_details_result",
+        "fk_skill_effect_cooldown_change_targets_detail",
         "fk_skill_effect_status_operation_details_result"
     );
 
@@ -66,7 +68,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
     }
 
     @Test
-    void schemaDefinesEightTablesWithCompositeKeysForeignKeysChecksAndIndexes() {
+    void schemaDefinesCurrentTablesWithCompositeKeysForeignKeysChecksAndIndexes() {
         for (String tableName : TARGET_TABLES) {
             assertTrue(
                 schemaNormalized.contains("create table public." + tableName),
@@ -180,17 +182,24 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         ));
 
         String cooldowns = normalize(extractCreateTable(schemaSql, "skill_effect_cooldown_change_details"));
-        assertTrue(cooldowns.contains("constraint fk_skill_effect_cooldown_change_details_skill"));
-        assertTrue(cooldowns.contains(
+        assertFalse(cooldowns.contains("affected_skill_key"));
+        assertTrue(cooldowns.contains("operation in ('reduce', 'increase', 'reset')"));
+
+        String cooldownTargets = normalize(extractCreateTable(schemaSql, "skill_effect_cooldown_change_targets"));
+        assertTrue(cooldownTargets.contains("constraint fk_skill_effect_cooldown_change_targets_detail"));
+        assertTrue(cooldownTargets.contains("constraint fk_skill_effect_cooldown_change_targets_skill"));
+        assertTrue(cooldownTargets.contains(
             "foreign key (game_id, affected_skill_key) references public.skills (game_id, skill_key)"
         ));
-        assertTrue(cooldowns.contains("operation in ('reduce', 'increase', 'reset')"));
         assertFalse(Pattern.compile(
-            "(?is)fk_skill_effect_cooldown_change_details_skill[^,]*on delete cascade"
-        ).matcher(cooldowns).find());
+            "(?is)fk_skill_effect_cooldown_change_targets_skill[^,]*on delete cascade"
+        ).matcher(cooldownTargets).find());
+        assertTrue(Pattern.compile(
+            "(?is)fk_skill_effect_cooldown_change_targets_detail.*?on delete cascade"
+        ).matcher(cooldownTargets).find());
         assertTrue(schemaNormalized.contains(
-            "create index ix_skill_effect_cooldown_change_details_skill "
-                + "on public.skill_effect_cooldown_change_details "
+            "create index ix_skill_effect_cooldown_change_targets_skill "
+                + "on public.skill_effect_cooldown_change_targets "
                 + "(game_id, affected_skill_key, skill_key, effect_key, result_key)"
         ));
 
@@ -237,6 +246,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             "skill_effect_attribute_change_details",
             "skill_effect_resource_change_details",
             "skill_effect_cooldown_change_details",
+            "skill_effect_cooldown_change_targets",
             "skill_effect_status_operation_details"
         )) {
             assertTrue(
@@ -304,7 +314,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             "fk_skill_effect_damage_details_damage_type",
             "fk_skill_effect_attribute_change_details_attribute",
             "fk_skill_effect_resource_change_details_attribute",
-            "fk_skill_effect_cooldown_change_details_skill",
+            "fk_skill_effect_cooldown_change_targets_skill",
             "fk_skill_effect_status_operation_details_status"
         )) {
             assertFalse(
@@ -357,6 +367,9 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         assertFalse(catalogChecks.contains("create table if not exists"));
         assertFalse(catalogChecks.contains("create index if not exists"));
         for (String tableName : TARGET_TABLES) {
+            if ("skill_effect_cooldown_change_targets".equals(tableName)) {
+                continue;
+            }
             assertTrue(catalogChecks.contains("create table public." + tableName));
         }
     }
@@ -398,6 +411,10 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
     void schemaAndMigrationShareFrozenCreateTableBodies() {
         for (String tableName : TARGET_TABLES) {
             String schemaTable = normalize(extractCreateTable(schemaSql, tableName));
+            if ("skill_effect_cooldown_change_targets".equals(tableName)) {
+                assertTrue(schemaTable.contains("constraint pk_skill_effect_cooldown_change_targets"));
+                continue;
+            }
             String migrationTable = normalize(extractCreateTable(migrationSql, tableName));
             assertTrue(schemaTable.contains("constraint pk_" + tableName));
             assertTrue(migrationTable.contains("constraint pk_" + tableName));
@@ -434,8 +451,11 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         while (cascade.find()) {
             cascadeCount++;
         }
-        assertTrue(cascadeCount >= INTERNAL_CASCADE_FKS.size());
+        assertTrue(cascadeCount >= INTERNAL_CASCADE_FKS.size() - 1);
         for (String constraint : INTERNAL_CASCADE_FKS) {
+            if ("fk_skill_effect_cooldown_change_targets_detail".equals(constraint)) {
+                continue;
+            }
             assertTrue(
                 migrationNormalized.contains(constraint),
                 () -> "migration missing ownership FK " + constraint
