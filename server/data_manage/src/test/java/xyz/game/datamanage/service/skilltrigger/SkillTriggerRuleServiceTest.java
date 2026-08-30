@@ -36,6 +36,7 @@ import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSuppo
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +49,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillformula.AttributeValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
@@ -59,6 +68,10 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
@@ -176,6 +189,207 @@ class SkillTriggerRuleServiceTest {
         );
         assertCode("409.SKILL_TRIGGER_RULE_KEY_EXISTS", () -> service.create(GAME_ID, SKILL_KEY, create));
         verify(mapper, never()).forceDeferredConstraintsImmediate();
+    }
+
+    @Test
+    void damageEventFiltersRoundTripAndPersistAsOneAggregate() {
+        when(mapper.lockDamageTypes(eq(GAME_ID), any())).thenAnswer(invocation -> {
+            Collection<String> keys = invocation.getArgument(1);
+            return keys.stream()
+                .map(key -> new xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow(
+                    key, "ENABLED", null
+                ))
+                .toList();
+        });
+        SkillTriggerRuleCreateRequest create = new SkillTriggerRuleCreateRequest(
+            "on_physical_basic_damage",
+            "受到物理普攻伤害",
+            null,
+            10,
+            new SkillTriggerEventSource(
+                SkillTriggerEventType.DAMAGE_TAKEN,
+                new SkillTriggerDamageEventDetail(
+                    "physical",
+                    SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
+                    SkillTriggerDamageOriginKind.DIRECT
+                )
+            ),
+            List.of(),
+            List.of(executeAction("deal", EFFECT_KEY)),
+            null,
+            null
+        );
+        stubAssembleExecuteEffect(
+            mapper,
+            "on_physical_basic_damage",
+            "受到物理普攻伤害",
+            SkillTriggerEventType.DAMAGE_TAKEN,
+            "deal",
+            EFFECT_KEY
+        );
+        when(mapper.findDamageEvent(GAME_ID, SKILL_KEY, "on_physical_basic_damage")).thenReturn(
+            new SkillTriggerDamageEventRow(
+                GAME_ID,
+                SKILL_KEY,
+                "on_physical_basic_damage",
+                "physical",
+                SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
+                SkillTriggerDamageOriginKind.DIRECT
+            )
+        );
+
+        SkillTriggerRuleDetailResponse response = service.create(GAME_ID, SKILL_KEY, create);
+
+        SkillTriggerDamageEventDetail saved = (SkillTriggerDamageEventDetail) response.eventSource().detail();
+        assertEquals("physical", saved.damageTypeKey());
+        assertEquals(SkillTriggerDamageDeliveryKind.BASIC_ATTACK, saved.deliveryKind());
+        assertEquals(SkillTriggerDamageOriginKind.DIRECT, saved.originKind());
+        verify(mapper).insertDamageEvent(
+            GAME_ID,
+            SKILL_KEY,
+            "on_physical_basic_damage",
+            "physical",
+            "BASIC_ATTACK",
+            "DIRECT"
+        );
+    }
+
+    @Test
+    void reflectedEffectUpdateChecksRulesThatReachItThroughAProcess() {
+        String ruleKey = "reflect_from_process";
+        String actionKey = "start_reflect_process";
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.ruleRow(ruleKey, "启动反伤过程", SkillTriggerEventType.DAMAGE_TAKEN)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
+                GAME_ID,
+                SKILL_KEY,
+                ruleKey,
+                actionKey,
+                "启动反伤过程",
+                SkillTriggerActionType.START_PROCESS,
+                10,
+                SkillTriggerTargetContext.CURRENT_TARGET
+            )
+        ));
+        when(mapper.listProcessActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.processActionRow(ruleKey, actionKey, PROCESS_KEY)
+        ));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.bindingProcess(PROCESS_KEY, EFFECT_KEY)
+        ));
+        when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerDamageEventRow(
+                GAME_ID,
+                SKILL_KEY,
+                ruleKey,
+                null,
+                SkillTriggerDamageDeliveryKind.ANY,
+                SkillTriggerDamageOriginKind.DIRECT
+            )
+        ));
+
+        SkillEffectDamageDetail reflected = new SkillEffectDamageDetail(
+            "magic",
+            SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.REFLECTED,
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null),
+            List.of()
+        );
+        ApiException exception = thrown(() -> service.assertEffectUpdate(
+            GAME_ID,
+            SKILL_KEY,
+            EFFECT_KEY,
+            null,
+            null,
+            List.of(new SkillEffectResultRequest(
+                "reflected_damage",
+                "反伤",
+                SkillEffectResultType.DAMAGE,
+                SkillEffectTarget.TARGET,
+                null,
+                0,
+                null,
+                reflected
+            )),
+            List.of()
+        ));
+
+        assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", exception.getCode());
+        assertField(exception, "results[0].detail.originKind", "REFLECT_LOOP_UNGUARDED");
+    }
+
+    @Test
+    void interactionFormulaChangeBlocksDirectAndProcessRulesInStableOrder() {
+        String directRule = "z_direct_rule";
+        String processRule = "a_process_rule";
+        when(mapper.listEffectInteractionFormulaKeys(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
+                GAME_ID, SKILL_KEY, directRule, "execute", "直接执行",
+                SkillTriggerActionType.EXECUTE_EFFECT, 10, SkillTriggerTargetContext.CURRENT_TARGET
+            ),
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
+                GAME_ID, SKILL_KEY, processRule, "start", "启动过程",
+                SkillTriggerActionType.START_PROCESS, 10, SkillTriggerTargetContext.CURRENT_TARGET
+            )
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow(directRule, "execute", EFFECT_KEY)
+        ));
+        when(mapper.listProcessActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.processActionRow(processRule, "start", PROCESS_KEY)
+        ));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.bindingProcess(PROCESS_KEY, EFFECT_KEY)
+        ));
+        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenAnswer(invocation -> {
+            Collection<String> formulaKeys = invocation.getArgument(2);
+            return formulaKeys.contains("interaction_formula")
+                ? List.of(SkillTriggerRuleTestSupport.runtimeParam(
+                    "interaction_ratio",
+                    xyz.game.datamanage.model.skillparameter.SkillParameterValueType.DECIMAL
+                ))
+                : List.of();
+        });
+
+        SkillEffectDamageDetail candidate = new SkillEffectDamageDetail(
+            "physical",
+            SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.DIRECT,
+            new SkillEffectCriticalPolicy(
+                SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
+                "interaction_formula"
+            ),
+            List.of()
+        );
+        ApiException exception = thrown(() -> service.assertEffectUpdate(
+            GAME_ID,
+            SKILL_KEY,
+            EFFECT_KEY,
+            null,
+            null,
+            List.of(new SkillEffectResultRequest(
+                "damage",
+                "伤害",
+                SkillEffectResultType.DAMAGE,
+                SkillEffectTarget.TARGET,
+                null,
+                0,
+                null,
+                candidate
+            )),
+            List.of()
+        ));
+
+        assertEquals("409.SKILL_EFFECT_IN_USE", exception.getCode());
+        List<Map<String, String>> issues = SkillTriggerRuleTestSupport.fieldIssues(exception);
+        assertEquals(2, issues.size());
+        assertEquals("results[0].detail.critical.multiplierFormulaKey", issues.get(0).get("field"));
+        assertEquals("a_process_rule", issues.get(0).get("ruleKey"));
+        assertEquals("z_direct_rule", issues.get(1).get("ruleKey"));
+        assertEquals("interaction_ratio", issues.get(0).get("parameterKey"));
     }
 
     @Test

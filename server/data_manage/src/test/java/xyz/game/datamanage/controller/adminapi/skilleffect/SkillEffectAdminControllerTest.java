@@ -107,6 +107,10 @@ class SkillEffectAdminControllerTest {
             .andExpect(jsonPath("$.results", hasSize(1)))
             .andExpect(jsonPath("$.results[0].resultType").value("DAMAGE"))
             .andExpect(jsonPath("$.results[0].detail.damageTypeKey").value("physical"))
+            .andExpect(jsonPath("$.results[0].detail.deliveryKind").value("SKILL"))
+            .andExpect(jsonPath("$.results[0].detail.originKind").value("DIRECT"))
+            .andExpect(jsonPath("$.results[0].detail.critical.mode").value("DISALLOWED"))
+            .andExpect(jsonPath("$.results[0].detail.vampRules", hasSize(0)))
             .andExpect(jsonPath("$.results[0].valueRule.formulaKey").value("base_damage"));
 
         mockMvc.perform(post(BASE_PATH)
@@ -129,6 +133,14 @@ class SkillEffectAdminControllerTest {
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        ArgumentCaptor<SkillEffectCreateRequest> createRequest = ArgumentCaptor.forClass(SkillEffectCreateRequest.class);
+        verify(service).create(eq("lol"), eq("ezreal_q"), createRequest.capture());
+        SkillEffectDamageDetail submitted = (SkillEffectDamageDetail) createRequest.getValue().results().get(0).detail();
+        assertEquals("physical", submitted.damageTypeKey());
+        assertEquals("SKILL", submitted.deliveryKind().name());
+        assertEquals("DIRECT", submitted.originKind().name());
+        assertEquals("DISALLOWED", submitted.critical().mode().name());
+        assertEquals(0, submitted.vampRules().size());
     }
 
     @Test
@@ -455,7 +467,13 @@ class SkillEffectAdminControllerTest {
                   "target":"TARGET",
                   "sortOrder":0,
                   "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
-                  "detail":{"damageTypeKey":"physical"}
+                  "detail":{
+                    "damageTypeKey":"physical",
+                    "deliveryKind":"SKILL",
+                    "originKind":"DIRECT",
+                    "critical":{"mode":"DISALLOWED","multiplierFormulaKey":null},
+                    "vampRules":[]
+                  }
                 }
               ]
             }
@@ -476,7 +494,13 @@ class SkillEffectAdminControllerTest {
                   "target":"TARGET",
                   "sortOrder":0,
                   "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
-                  "detail":{"damageTypeKey":"physical"}
+                  "detail":{
+                    "damageTypeKey":"physical",
+                    "deliveryKind":"SKILL",
+                    "originKind":"DIRECT",
+                    "critical":{"mode":"DISALLOWED","multiplierFormulaKey":null},
+                    "vampRules":[]
+                  }
                 }
               ]
             }

@@ -237,8 +237,9 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
         assertTrue(triggersSql.contains("COOLDOWN_CHANGE RESET must not have value rule at commit"));
         assertTrue(triggersSql.contains("STATUS_OPERATION shape invalid at commit"));
         assertTrue(Pattern.compile(
-            "(?s)v_result_type IN \\('DIRECT_HEAL', 'NORMAL_SHIELD'\\).*shape invalid at commit"
+            "(?s)v_result_type = 'DIRECT_HEAL'.*?% shape invalid at commit"
         ).matcher(triggersSql).find());
+        assertTrue(triggersSql.contains("NORMAL_SHIELD shape invalid at commit"));
 
         for (String detailTable : List.of(
             "skill_effect_result_values",
@@ -279,7 +280,11 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             assertFalse(table.contains("crit"), () -> tableName + " must not add crit columns");
             assertFalse(table.contains("lifesteal"), () -> tableName + " must not add lifesteal columns");
             assertFalse(table.contains("execute"), () -> tableName + " must not add execute columns");
-            assertFalse(table.contains("reflect"), () -> tableName + " must not add reflect columns");
+            if (!"skill_effect_damage_details".equals(tableName)) {
+                assertFalse(table.contains("reflect"), () -> tableName + " must not add reflect columns");
+            } else {
+                assertFalse(table.contains("reflect_"), () -> tableName + " must not add dedicated reflect columns");
+            }
             assertFalse(table.contains("previous_result"), () -> tableName + " must not add previous-result columns");
             assertFalse(table.contains("wasm"), () -> tableName + " must not add wasm columns");
             assertFalse(table.contains("publish"), () -> tableName + " must not add publish columns");

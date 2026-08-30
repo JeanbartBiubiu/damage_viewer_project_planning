@@ -25,6 +25,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
@@ -142,9 +144,10 @@ public class SkillTriggerRuleAssembler {
         SkillTriggerHealthThresholdEventRow healthEvent = mapper.findHealthEvent(gameId, skillKey, ruleKey);
         SkillTriggerInternalStateEventRow internalStateEvent = mapper.findInternalStateEvent(gameId, skillKey, ruleKey);
         SkillTriggerSubjectEventRow subjectEvent = mapper.findSubjectEvent(gameId, skillKey, ruleKey);
+        SkillTriggerDamageEventRow damageEvent = mapper.findDamageEvent(gameId, skillKey, ruleKey);
         int present = countPresent(
             processEvent, skillEvent, resultEvent, lifecycleEvent, statusEvent, healthEvent,
-            internalStateEvent, subjectEvent
+            internalStateEvent, subjectEvent, damageEvent
         );
         return switch (eventType) {
             case PROCESS_MOMENT -> {
@@ -243,7 +246,20 @@ public class SkillTriggerRuleAssembler {
                     new SkillTriggerSubjectEventDetail(subjectEvent.subject())
                 );
             }
-            case BASIC_ATTACK_START, BASIC_ATTACK_HIT, DAMAGE_DEALT, DAMAGE_TAKEN, CONTROL_RECEIVED, KILL -> {
+            case DAMAGE_DEALT, DAMAGE_TAKEN -> {
+                if (damageEvent == null || present != 1) {
+                    throw corrupt(gameId, skillKey, ruleKey, "伤害事件明细形状损坏");
+                }
+                yield new SkillTriggerEventSource(
+                    eventType,
+                    new SkillTriggerDamageEventDetail(
+                        damageEvent.damageTypeKey(),
+                        damageEvent.deliveryKind(),
+                        damageEvent.originKind()
+                    )
+                );
+            }
+            case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
                 if (present != 0) {
                     throw corrupt(gameId, skillKey, ruleKey, "无明细事件存在多余明细");
                 }

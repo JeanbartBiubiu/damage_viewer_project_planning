@@ -11,6 +11,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingRow;
@@ -132,6 +133,10 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
     );
 
+    SkillTriggerDamageEventRow findDamageEvent(
+        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
+    );
+
     int insertProcessEvent(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
@@ -197,6 +202,15 @@ public interface SkillTriggerRuleMapper {
         @Param("skillKey") String skillKey,
         @Param("ruleKey") String ruleKey,
         @Param("subject") String subject
+    );
+
+    int insertDamageEvent(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("ruleKey") String ruleKey,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") String deliveryKind,
+        @Param("originKind") String originKind
     );
 
     List<SkillTriggerConditionGroupRow> listConditionGroups(
@@ -420,8 +434,18 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("skillKey") String skillKey
     );
 
+    List<SkillTriggerDamageEventRow> listDamageEventsForSkill(
+        @Param("gameId") String gameId, @Param("skillKey") String skillKey
+    );
+
     List<SkillTriggerEffectShapeRow> listEffectShapes(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey
+    );
+
+    List<String> listEffectInteractionFormulaKeys(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
     );
 
     List<SkillTriggerProcessShapeRow> listProcessShapes(
@@ -451,6 +475,10 @@ public interface SkillTriggerRuleMapper {
     );
 
     List<SkillTriggerCatalogLockRow> lockStatuses(
+        @Param("gameId") String gameId, @Param("keys") Collection<String> keys
+    );
+
+    List<SkillTriggerCatalogLockRow> lockDamageTypes(
         @Param("gameId") String gameId, @Param("keys") Collection<String> keys
     );
 
