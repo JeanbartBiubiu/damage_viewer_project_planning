@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse;
 import xyz.game.datamanage.model.skillprocess.SkillProcessUpdateRequest;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -69,6 +71,12 @@ public class SkillProcessService {
 
     private static final Logger log = LoggerFactory.getLogger(SkillProcessService.class);
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_processes";
+    private static final Set<String> TRIGGER_PROCESS_IN_USE_CONSTRAINTS = Set.of(
+        "fk_skill_trigger_process_events_process",
+        "fk_skill_trigger_process_events_step",
+        "fk_skill_trigger_process_actions_process",
+        "fk_skill_trigger_process_limits_process"
+    );
     private static final Set<SkillProcessMomentType> PROCESS_MOMENTS = EnumSet.of(
         SkillProcessMomentType.PROCESS_START,
         SkillProcessMomentType.PROCESS_COMPLETE,
@@ -104,15 +112,27 @@ public class SkillProcessService {
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillProcessMapper mapper;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillProcessService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillProcessMapper mapper
     ) {
+        this(gamesMapper, skillMapper, mapper, null);
+    }
+
+    @Autowired
+    public SkillProcessService(
+        GamesMapper gamesMapper,
+        SkillMapper skillMapper,
+        SkillProcessMapper mapper,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -215,6 +235,9 @@ public class SkillProcessService {
             mapper.deleteAllBindings(gameId, skillKey, processKey);
             mapper.deleteAllOperations(gameId, skillKey, processKey);
             if (!removedSteps.isEmpty()) {
+                if (triggerRuleService != null) {
+                    triggerRuleService.assertStepsNotReferenced(gameId, skillKey, processKey, removedSteps);
+                }
                 mapper.deleteSteps(gameId, skillKey, processKey, removedSteps);
             }
             for (SkillProcessStepRequest step : values.steps()) {
@@ -244,6 +267,9 @@ public class SkillProcessService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+        }
         return requireDetail(gameId, skillKey, processKey);
     }
 
@@ -254,8 +280,15 @@ public class SkillProcessService {
         if (mapper.findProcessForUpdate(gameId, skillKey, processKey) == null) {
             throw processNotFound(processKey);
         }
-        if (mapper.deleteProcess(gameId, skillKey, processKey) == 0) {
-            throw processNotFound(processKey);
+        if (triggerRuleService != null) {
+            triggerRuleService.assertProcessDeletable(gameId, skillKey, processKey);
+        }
+        try {
+            if (mapper.deleteProcess(gameId, skillKey, processKey) == 0) {
+                throw processNotFound(processKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
         }
     }
 
@@ -1286,6 +1319,19 @@ public class SkillProcessService {
         return conflict("409.SKILL_PROCESS_KEY_EXISTS", "技能过程标识已存在", "processKey");
     }
 
+    private static ApiException processInUse() {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.SKILL_PROCESS_IN_USE",
+            "技能过程仍被触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(fieldIssue(
+                "processKey",
+                "TRIGGER_RULE_PROCESS_IN_USE",
+                "技能过程仍被触发规则引用，不能删除"
+            )))
+        );
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -1315,6 +1361,11 @@ public class SkillProcessService {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
+        }
+        for (String constraint : TRIGGER_PROCESS_IN_USE_CONSTRAINTS) {
+            if (text.contains(constraint)) {
+                return processInUse();
+            }
         }
         return ex;
     }
