@@ -1,3 +1,349 @@
+-- 阶段 7.6.1：伤害来源、暴击、吸血、普通护盾交互与伤害事件筛选。
+-- 接受完整阶段 7.5 + 冷却变化多选基线；部分结构或未知漂移主动回滚。
+
+BEGIN;
+
+LOCK TABLE public.skill_effect_results IN ACCESS EXCLUSIVE MODE;
+LOCK TABLE public.skill_effect_damage_details IN ACCESS EXCLUSIVE MODE;
+LOCK TABLE public.skill_effect_lifecycles IN ACCESS EXCLUSIVE MODE;
+LOCK TABLE public.skill_effect_result_lifecycle_behaviors IN ACCESS EXCLUSIVE MODE;
+LOCK TABLE public.skill_trigger_rules IN ACCESS EXCLUSIVE MODE;
+
+DO $migration_preflight$
+DECLARE
+    v_new_table_count integer;
+    v_new_damage_column_count integer;
+    v_invalid_shields text;
+BEGIN
+    IF to_regclass('public.skill_effect_results') IS NULL
+        OR to_regclass('public.skill_effect_damage_details') IS NULL
+        OR to_regclass('public.skill_effect_lifecycles') IS NULL
+        OR to_regclass('public.skill_effect_result_lifecycle_behaviors') IS NULL
+        OR to_regclass('public.skill_effect_cooldown_change_targets') IS NULL
+        OR to_regclass('public.skill_trigger_rules') IS NULL
+        OR to_regprocedure('public.trg_skill_effect_result_complete_shape()') IS NULL
+        OR to_regprocedure('public.trg_skill_effect_lifecycle_aggregate_shape()') IS NULL
+        OR to_regprocedure('public.trg_skill_trigger_rule_complete_shape()') IS NULL THEN
+        RAISE EXCEPTION 'damage and normal shield interaction migration prerequisites are missing';
+    END IF;
+
+    SELECT COUNT(*) INTO v_new_table_count
+      FROM (VALUES
+          ('skill_effect_result_critical_policies'),
+          ('skill_effect_result_vamp_rules'),
+          ('skill_effect_result_normal_shield_interactions'),
+          ('skill_trigger_rule_damage_events')
+      ) required(table_name)
+     WHERE to_regclass('public.' || required.table_name) IS NOT NULL;
+
+    SELECT COUNT(*) INTO v_new_damage_column_count
+      FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'skill_effect_damage_details'
+       AND column_name IN ('delivery_kind', 'origin_kind');
+
+    IF NOT (
+        (v_new_table_count = 0 AND v_new_damage_column_count = 0)
+        OR (v_new_table_count = 4 AND v_new_damage_column_count = 2)
+    ) THEN
+        RAISE EXCEPTION
+            'damage and normal shield interaction structure is partial: tables=%, damage_columns=%',
+            v_new_table_count,
+            v_new_damage_column_count;
+    END IF;
+
+    SELECT string_agg(
+               format('%s/%s/%s/%s', r.game_id, r.skill_key, r.effect_key, r.result_key),
+               ', '
+               ORDER BY r.game_id, r.skill_key, r.effect_key, r.result_key
+           )
+      INTO v_invalid_shields
+      FROM public.skill_effect_results r
+      LEFT JOIN public.skill_effect_lifecycles l
+        ON l.game_id = r.game_id
+       AND l.skill_key = r.skill_key
+       AND l.effect_key = r.effect_key
+      LEFT JOIN public.skill_effect_result_lifecycle_behaviors b
+        ON b.game_id = r.game_id
+       AND b.skill_key = r.skill_key
+       AND b.effect_key = r.effect_key
+       AND b.result_key = r.result_key
+     WHERE r.result_type = 'NORMAL_SHIELD'
+       AND (
+           l.effect_key IS NULL
+           OR b.result_key IS NULL
+           OR b.moment IS DISTINCT FROM 'PERSISTENT'
+           OR b.stack_value_mode IS NULL
+           OR (
+               b.stack_value_mode = 'PER_STACK'
+               AND b.reapplication_value_mode IS NOT NULL
+           )
+           OR (
+               b.stack_value_mode = 'SHARED'
+               AND b.reapplication_value_mode IS NULL
+           )
+       );
+
+    IF v_invalid_shields IS NOT NULL THEN
+        RAISE EXCEPTION
+            'existing NORMAL_SHIELD results must be repaired through the effect API before migration: %',
+            v_invalid_shields;
+    END IF;
+END;
+$migration_preflight$;
+
+ALTER TABLE public.skill_effect_damage_details
+    ADD COLUMN IF NOT EXISTS delivery_kind varchar(32);
+ALTER TABLE public.skill_effect_damage_details
+    ADD COLUMN IF NOT EXISTS origin_kind varchar(32);
+
+UPDATE public.skill_effect_damage_details
+   SET delivery_kind = 'SKILL'
+ WHERE delivery_kind IS NULL;
+UPDATE public.skill_effect_damage_details
+   SET origin_kind = 'DIRECT'
+ WHERE origin_kind IS NULL;
+
+ALTER TABLE public.skill_effect_damage_details
+    ALTER COLUMN delivery_kind SET NOT NULL;
+ALTER TABLE public.skill_effect_damage_details
+    ALTER COLUMN origin_kind SET NOT NULL;
+
+DO $damage_constraints$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+          FROM pg_constraint c
+         WHERE c.conrelid = 'public.skill_effect_damage_details'::regclass
+           AND c.conname = 'ck_skill_effect_damage_details_delivery_kind'
+    ) THEN
+        ALTER TABLE public.skill_effect_damage_details
+            ADD CONSTRAINT ck_skill_effect_damage_details_delivery_kind
+            CHECK (delivery_kind IN ('SKILL', 'BASIC_ATTACK'));
+    END IF;
+    IF NOT EXISTS (
+        SELECT 1
+          FROM pg_constraint c
+         WHERE c.conrelid = 'public.skill_effect_damage_details'::regclass
+           AND c.conname = 'ck_skill_effect_damage_details_origin_kind'
+    ) THEN
+        ALTER TABLE public.skill_effect_damage_details
+            ADD CONSTRAINT ck_skill_effect_damage_details_origin_kind
+            CHECK (origin_kind IN ('DIRECT', 'REFLECTED'));
+    END IF;
+END;
+$damage_constraints$;
+
+CREATE TABLE IF NOT EXISTS public.skill_effect_result_critical_policies (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    critical_mode varchar(32) NOT NULL,
+    multiplier_formula_key varchar(64),
+    CONSTRAINT pk_skill_effect_result_critical_policies
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_critical_policies_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_critical_policies_formula
+        FOREIGN KEY (game_id, skill_key, multiplier_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_critical_policies_mode
+        CHECK (critical_mode IN ('DISALLOWED', 'SOURCE_CRIT_CHANCE', 'FORCED')),
+    CONSTRAINT ck_skill_effect_critical_policies_formula
+        CHECK (critical_mode <> 'DISALLOWED' OR multiplier_formula_key IS NULL)
+);
+
+CREATE INDEX IF NOT EXISTS ix_skill_effect_critical_policies_formula
+    ON public.skill_effect_result_critical_policies
+    (game_id, skill_key, multiplier_formula_key, effect_key, result_key);
+
+-- 暂存结构：吸血默认值后续应来自来源对象属性与游戏级结算规则，
+-- 本表最终只应承载确有必要的伤害例外或效率修正。
+CREATE TABLE IF NOT EXISTS public.skill_effect_result_vamp_rules (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    vamp_type varchar(32) NOT NULL,
+    basis_output_kind varchar(32) NOT NULL,
+    efficiency_formula_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_vamp_rules
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key, vamp_type),
+    CONSTRAINT fk_skill_effect_vamp_rules_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_vamp_rules_formula
+        FOREIGN KEY (game_id, skill_key, efficiency_formula_key)
+        REFERENCES public.skill_formulas (game_id, skill_key, formula_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_vamp_rules_type
+        CHECK (vamp_type IN ('LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP')),
+    CONSTRAINT ck_skill_effect_vamp_rules_basis
+        CHECK (basis_output_kind IN ('POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'))
+);
+
+CREATE INDEX IF NOT EXISTS ix_skill_effect_vamp_rules_formula
+    ON public.skill_effect_result_vamp_rules
+    (game_id, skill_key, efficiency_formula_key, effect_key, result_key, vamp_type);
+
+CREATE TABLE IF NOT EXISTS public.skill_effect_result_normal_shield_interactions (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    absorbed_damage_type_key varchar(64),
+    decay_mode varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_normal_shield_interactions
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_normal_shield_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_normal_shield_damage_type
+        FOREIGN KEY (game_id, absorbed_damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_normal_shield_decay_mode
+        CHECK (decay_mode IN ('NONE', 'LINEAR_TO_ZERO'))
+);
+
+CREATE INDEX IF NOT EXISTS ix_skill_effect_normal_shield_damage_type
+    ON public.skill_effect_result_normal_shield_interactions
+    (game_id, absorbed_damage_type_key, skill_key, effect_key, result_key);
+
+CREATE TABLE IF NOT EXISTS public.skill_trigger_rule_damage_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    damage_type_key varchar(64),
+    delivery_kind varchar(32) NOT NULL,
+    origin_kind varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_damage_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_damage_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_damage_events_damage_type
+        FOREIGN KEY (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_trigger_damage_events_delivery_kind
+        CHECK (delivery_kind IN ('ANY', 'SKILL', 'BASIC_ATTACK')),
+    CONSTRAINT ck_skill_trigger_damage_events_origin_kind
+        CHECK (origin_kind IN ('ANY', 'DIRECT', 'REFLECTED'))
+);
+
+CREATE INDEX IF NOT EXISTS ix_skill_trigger_damage_events_damage_type
+    ON public.skill_trigger_rule_damage_events
+    (game_id, damage_type_key, skill_key, rule_key);
+
+COMMENT ON TABLE public.skill_effect_result_critical_policies IS '伤害结果暴击策略';
+COMMENT ON TABLE public.skill_effect_result_vamp_rules IS '伤害结果吸血规则';
+COMMENT ON TABLE public.skill_effect_result_normal_shield_interactions IS '普通护盾伤害吸收与衰减规则';
+COMMENT ON TABLE public.skill_trigger_rule_damage_events IS '技能触发规则伤害事件筛选';
+
+INSERT INTO public.skill_effect_result_critical_policies (
+    game_id, skill_key, effect_key, result_key, critical_mode, multiplier_formula_key
+)
+SELECT r.game_id, r.skill_key, r.effect_key, r.result_key, 'DISALLOWED', NULL
+  FROM public.skill_effect_results r
+ WHERE r.result_type = 'DAMAGE'
+   AND NOT EXISTS (
+       SELECT 1
+         FROM public.skill_effect_result_critical_policies p
+        WHERE p.game_id = r.game_id
+          AND p.skill_key = r.skill_key
+          AND p.effect_key = r.effect_key
+          AND p.result_key = r.result_key
+   );
+
+INSERT INTO public.skill_effect_result_normal_shield_interactions (
+    game_id, skill_key, effect_key, result_key, absorbed_damage_type_key, decay_mode
+)
+SELECT r.game_id, r.skill_key, r.effect_key, r.result_key, NULL, 'NONE'
+  FROM public.skill_effect_results r
+ WHERE r.result_type = 'NORMAL_SHIELD'
+   AND NOT EXISTS (
+       SELECT 1
+         FROM public.skill_effect_result_normal_shield_interactions i
+        WHERE i.game_id = r.game_id
+          AND i.skill_key = r.skill_key
+          AND i.effect_key = r.effect_key
+          AND i.result_key = r.result_key
+   );
+
+INSERT INTO public.skill_trigger_rule_damage_events (
+    game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
+)
+SELECT r.game_id, r.skill_key, r.rule_key, NULL, 'ANY', 'ANY'
+  FROM public.skill_trigger_rules r
+ WHERE r.event_type IN ('DAMAGE_DEALT', 'DAMAGE_TAKEN')
+   AND NOT EXISTS (
+       SELECT 1
+         FROM public.skill_trigger_rule_damage_events d
+        WHERE d.game_id = r.game_id
+          AND d.skill_key = r.skill_key
+          AND d.rule_key = r.rule_key
+   );
+
+DO $migration_backfill_check$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+          FROM public.skill_effect_results r
+          LEFT JOIN public.skill_effect_result_critical_policies p
+            ON p.game_id = r.game_id
+           AND p.skill_key = r.skill_key
+           AND p.effect_key = r.effect_key
+           AND p.result_key = r.result_key
+         WHERE r.result_type = 'DAMAGE'
+         GROUP BY r.game_id, r.skill_key, r.effect_key, r.result_key
+        HAVING COUNT(p.result_key) <> 1
+    ) THEN
+        RAISE EXCEPTION 'damage critical policy backfill is incomplete';
+    END IF;
+
+    IF EXISTS (
+        SELECT 1
+          FROM public.skill_effect_results r
+          LEFT JOIN public.skill_effect_result_normal_shield_interactions i
+            ON i.game_id = r.game_id
+           AND i.skill_key = r.skill_key
+           AND i.effect_key = r.effect_key
+           AND i.result_key = r.result_key
+         WHERE r.result_type = 'NORMAL_SHIELD'
+         GROUP BY r.game_id, r.skill_key, r.effect_key, r.result_key
+        HAVING COUNT(i.result_key) <> 1
+    ) THEN
+        RAISE EXCEPTION 'normal shield interaction backfill is incomplete';
+    END IF;
+
+    IF EXISTS (
+        SELECT 1
+          FROM public.skill_trigger_rules r
+          LEFT JOIN public.skill_trigger_rule_damage_events d
+            ON d.game_id = r.game_id
+           AND d.skill_key = r.skill_key
+           AND d.rule_key = r.rule_key
+         WHERE r.event_type IN ('DAMAGE_DEALT', 'DAMAGE_TAKEN')
+         GROUP BY r.game_id, r.skill_key, r.rule_key
+        HAVING COUNT(d.rule_key) <> 1
+    ) THEN
+        RAISE EXCEPTION 'damage event detail backfill is incomplete';
+    END IF;
+END;
+$migration_backfill_check$;
+
+-- 刷新当前完整触发器定义，使本迁移在单事务内完成形状升级。
 -- =============================================================================
 -- Damage Viewer System - Database Schema V2 (Triggers / Functions)
 -- =============================================================================
@@ -2222,3 +2568,35 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+
+
+DO $migration_postflight$
+DECLARE
+    v_missing_trigger_count integer;
+BEGIN
+    SELECT COUNT(*) INTO v_missing_trigger_count
+      FROM (VALUES
+          ('skill_effect_result_critical_policies', 'trg_skill_effect_result_critical_policies_complete_shape'),
+          ('skill_effect_result_vamp_rules', 'trg_skill_effect_result_vamp_rules_complete_shape'),
+          ('skill_effect_result_normal_shield_interactions', 'trg_skill_effect_result_normal_shield_interactions_complete_shape'),
+          ('skill_trigger_rule_damage_events', 'trg_skill_trigger_rule_damage_events_complete_shape')
+      ) required(table_name, trigger_name)
+     WHERE NOT EXISTS (
+         SELECT 1
+           FROM pg_trigger tr
+           JOIN pg_class t ON t.oid = tr.tgrelid
+           JOIN pg_namespace n ON n.oid = t.relnamespace
+          WHERE n.nspname = 'public'
+            AND t.relname = required.table_name
+            AND tr.tgname = required.trigger_name::name
+            AND NOT tr.tgisinternal
+     );
+
+    IF v_missing_trigger_count <> 0 THEN
+        RAISE EXCEPTION 'damage and normal shield interaction shape triggers are incomplete';
+    END IF;
+END;
+$migration_postflight$;
+
+COMMIT;
