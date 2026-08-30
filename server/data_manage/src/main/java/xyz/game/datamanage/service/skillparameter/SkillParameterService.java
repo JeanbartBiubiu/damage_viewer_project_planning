@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
 import xyz.game.datamanage.model.skillparameter.SkillParameterUpdateRequest;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -30,11 +32,13 @@ public class SkillParameterService {
 
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_parameters";
     private static final String PARAMETER_REFERENCE_CONSTRAINT = "fk_skill_formula_nodes_parameter";
+    private static final String TRIGGER_PARAMETER_CONSTRAINT = "fk_skill_trigger_runtime_bindings_parameter";
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillParameterMapper parameterMapper;
     private final SkillParameterLevelService levelService;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillParameterService(
         GamesMapper gamesMapper,
@@ -42,10 +46,22 @@ public class SkillParameterService {
         SkillParameterMapper parameterMapper,
         SkillParameterLevelService levelService
     ) {
+        this(gamesMapper, skillMapper, parameterMapper, levelService, null);
+    }
+
+    @Autowired
+    public SkillParameterService(
+        GamesMapper gamesMapper,
+        SkillMapper skillMapper,
+        SkillParameterMapper parameterMapper,
+        SkillParameterLevelService levelService,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.parameterMapper = parameterMapper;
         this.levelService = levelService;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -192,6 +208,9 @@ public class SkillParameterService {
         }
         if (parameterMapper.countFormulaReferences(gameId, skillKey, parameterKey) > 0) {
             throw parameterInUse();
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertParameterDeletable(gameId, skillKey, parameterKey);
         }
         try {
             if (parameterMapper.delete(gameId, skillKey, parameterKey) == 0) {
@@ -441,7 +460,7 @@ public class SkillParameterService {
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
         }
-        if (text.contains(PARAMETER_REFERENCE_CONSTRAINT)) {
+        if (text.contains(PARAMETER_REFERENCE_CONSTRAINT) || text.contains(TRIGGER_PARAMETER_CONSTRAINT)) {
             return parameterInUse();
         }
         return ex;
