@@ -220,6 +220,24 @@ type SkillProcessRow = {
   updatedAt: string;
 };
 
+type SkillTriggerRuleStored = {
+  gameId: string;
+  skillKey: string;
+  ruleKey: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  eventSource: Json;
+  conditionGroups: Json[];
+  actions: Json[];
+  perTargetCooldown: Json | null;
+  maxTriggersPerProcess: Json | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TriggerRuleWriteFailure = 'unprotected-cycle' | 'not-found' | null;
+
 type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | 'lifecycle-in-use' | 'lifecycle-field' | null;
 
 type CapturedWrite = {
@@ -267,6 +285,7 @@ class MockApi {
   skillEffects: SkillEffectRow[] = [];
   skillInternalStates: SkillInternalStateRow[] = [];
   skillProcesses: SkillProcessRow[] = [];
+  skillTriggerRules: SkillTriggerRuleStored[] = [];
   skillCategoryListFailure = false;
   skillListFailure = false;
   skillFormulaListFailure = false;
@@ -281,6 +300,8 @@ class MockApi {
   effectWriteFieldIssues: Array<{ field: string; code: string; message: string }> = [];
   internalStateWriteFailure: WriteFailure = null;
   processWriteFailure: WriteFailure = null;
+  triggerRuleWriteFailure: TriggerRuleWriteFailure = null;
+  triggerRuleWriteHold: Promise<void> | null = null;
   parameterDeleteConflictKeys = new Set<string>();
   internalStateDeleteConflictKeys = new Set<string>();
   minLevel = 1;
@@ -702,6 +723,9 @@ class MockApi {
         this.skillParameters = this.skillParameters.filter((item) => item.skillKey !== key);
         this.skillFormulas = this.skillFormulas.filter((item) => item.skillKey !== key);
         this.skillEffects = this.skillEffects.filter((item) => item.skillKey !== key);
+        this.skillInternalStates = this.skillInternalStates.filter((item) => item.skillKey !== key);
+        this.skillProcesses = this.skillProcesses.filter((item) => item.skillKey !== key);
+        this.skillTriggerRules = this.skillTriggerRules.filter((item) => item.skillKey !== key);
         await route.fulfill({ status: 204 });
         return;
       }
@@ -1135,6 +1159,77 @@ class MockApi {
         this.writes.push({ method, path, body: {} });
         this.skillProcesses = this.skillProcesses.filter((item) => !(
           item.skillKey === skillKey && item.processKey === processKey
+        ));
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
+    const skillTriggerRulesList = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/trigger-rules$`)
+    );
+    if (skillTriggerRulesList) {
+      const skillKey = skillTriggerRulesList[1]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      if (method === 'GET') {
+        const items = this.skillTriggerRules
+          .filter((item) => item.skillKey === skillKey)
+          .map((item) => this.toTriggerRuleSummary(item));
+        await this.json(route, 200, items);
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        if (await this.applyTriggerRuleWrite(route, method, path, body)) {
+          return;
+        }
+        const row = this.buildTriggerRule(skillKey, String(body.ruleKey), body);
+        this.skillTriggerRules.push(row);
+        await this.json(route, 201, this.toTriggerRuleDetail(row));
+        return;
+      }
+    }
+
+    const skillTriggerRuleDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/skills/([^/]+)/trigger-rules/([^/]+)$`)
+    );
+    if (skillTriggerRuleDetail) {
+      const skillKey = skillTriggerRuleDetail[1]!;
+      const ruleKey = skillTriggerRuleDetail[2]!;
+      if (!this.skills.some((item) => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+        return;
+      }
+      const existing = this.skillTriggerRules.find((item) => (
+        item.skillKey === skillKey && item.ruleKey === ruleKey
+      ));
+      if (!existing) {
+        await this.error(route, 404, '404.SKILL_TRIGGER_RULE_NOT_FOUND', '触发规则不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, this.toTriggerRuleDetail(existing));
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        if (await this.applyTriggerRuleWrite(route, method, path, body)) {
+          return;
+        }
+        const next = this.buildTriggerRule(skillKey, existing.ruleKey, body, existing);
+        this.skillTriggerRules = this.skillTriggerRules.map((item) => (
+          item.skillKey === skillKey && item.ruleKey === ruleKey ? next : item
+        ));
+        await this.json(route, 200, this.toTriggerRuleDetail(next));
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.skillTriggerRules = this.skillTriggerRules.filter((item) => !(
+          item.skillKey === skillKey && item.ruleKey === ruleKey
         ));
         await route.fulfill({ status: 204 });
         return;
@@ -1847,6 +1942,112 @@ class MockApi {
     return true;
   }
 
+  private toTriggerRuleSummary(row: SkillTriggerRuleStored): Json {
+    const eventSource = row.eventSource;
+    return {
+      ruleKey: row.ruleKey,
+      name: row.name,
+      description: row.description,
+      eventType: typeof eventSource.eventType === 'string' ? eventSource.eventType : 'SKILL_USED',
+      conditionGroupCount: row.conditionGroups.length,
+      actionCount: row.actions.length,
+      perTargetCooldownEnabled: row.perTargetCooldown !== null,
+      maxTriggersPerProcessEnabled: row.maxTriggersPerProcess !== null,
+      sortOrder: row.sortOrder,
+      updatedAt: row.updatedAt
+    };
+  }
+
+  private toTriggerRuleDetail(row: SkillTriggerRuleStored): Json {
+    return {
+      ruleKey: row.ruleKey,
+      name: row.name,
+      description: row.description,
+      sortOrder: row.sortOrder,
+      eventSource: this.cloneJson(row.eventSource),
+      conditionGroups: this.cloneJson(row.conditionGroups),
+      actions: this.cloneJson(row.actions),
+      perTargetCooldown: this.cloneJson(row.perTargetCooldown),
+      maxTriggersPerProcess: this.cloneJson(row.maxTriggersPerProcess)
+    };
+  }
+
+  private buildTriggerRule(
+    skillKey: string,
+    ruleKey: string,
+    body: Json,
+    existing?: SkillTriggerRuleStored
+  ): SkillTriggerRuleStored {
+    return {
+      gameId: GAME_ID,
+      skillKey,
+      ruleKey,
+      name: String(body.name),
+      description: typeof body.description === 'string' ? body.description : null,
+      sortOrder: Number(body.sortOrder),
+      eventSource: body.eventSource && typeof body.eventSource === 'object'
+        ? body.eventSource as Json
+        : { eventType: 'SKILL_USED', detail: {} },
+      conditionGroups: Array.isArray(body.conditionGroups) ? body.conditionGroups as Json[] : [],
+      actions: Array.isArray(body.actions) ? body.actions as Json[] : [],
+      perTargetCooldown: body.perTargetCooldown && typeof body.perTargetCooldown === 'object'
+        ? body.perTargetCooldown as Json
+        : null,
+      maxTriggersPerProcess: body.maxTriggersPerProcess && typeof body.maxTriggersPerProcess === 'object'
+        ? body.maxTriggersPerProcess as Json
+        : null,
+      createdAt: existing?.createdAt ?? CREATED_AT,
+      updatedAt: existing ? '2026-08-30T12:00:00Z' : UPDATED_AT
+    };
+  }
+
+  private async applyTriggerRuleWrite(
+    route: Route,
+    method: string,
+    path: string,
+    body: Json
+  ): Promise<boolean> {
+    this.writes.push({ method, path, body });
+    if (this.triggerRuleWriteHold) {
+      await this.triggerRuleWriteHold;
+    }
+    if (this.triggerRuleWriteFailure === 'unprotected-cycle') {
+      const firstAction = Array.isArray(body.actions) && body.actions[0] && typeof body.actions[0] === 'object'
+        ? body.actions[0] as Json
+        : {};
+      await this.error(
+        route,
+        400,
+        '400.TRIGGER_RULE_CYCLE_UNGUARDED',
+        '当前技能规则图存在不经过任何保护边的有向环。',
+        {
+          fieldIssues: [
+            {
+              field: 'perTargetCooldown',
+              code: 'TRIGGER_RULE_CYCLE_UNGUARDED',
+              message: '当前关系形成没有保护的循环'
+            },
+            {
+              field: 'actions[0].detail.effectKey',
+              code: 'TRIGGER_RULE_CYCLE_UNGUARDED',
+              message: '该动作会形成无保护循环'
+            }
+          ],
+          cyclePath: [String(body.ruleKey ?? 'low_health_shield'), 'unknown_rule'],
+          ruleKey: String(body.ruleKey ?? 'low_health_shield'),
+          actionKey: String(firstAction.actionKey ?? 'action_1'),
+          producedEvent: { eventType: 'RESULT_AVAILABLE', effectKey: 'shield_effect' }
+        }
+      );
+      return true;
+    }
+    if (this.triggerRuleWriteFailure === 'not-found') {
+      await this.error(route, 404, '404.SKILL_TRIGGER_RULE_NOT_FOUND', '触发规则不存在');
+      return true;
+    }
+    return false;
+  }
+
   private async body(request: Request): Promise<Json> {
     const raw = request.postData();
     return raw ? JSON.parse(raw) as Json : {};
@@ -2340,6 +2541,250 @@ async function openSkillProcesses(page: Page, skillKey: string, skillName: strin
   const shell = visibleModal(page, `过程与内部状态 - ${skillName}`);
   await expect(shell).toBeVisible();
   return shell;
+}
+
+async function openSkillTriggers(page: Page, skillKey: string, skillName: string): Promise<Locator> {
+  await skillRow(page, skillKey).getByRole('button', { name: '条件与触发', exact: true }).click();
+  const shell = visibleModal(page, `条件与触发 - ${skillName}`);
+  await expect(shell).toBeVisible();
+  return shell;
+}
+
+function createDeferred(): { promise: Promise<void>; resolve: () => void } {
+  let resolve!: () => void;
+  const promise = new Promise<void>((done) => {
+    resolve = done;
+  });
+  return { promise, resolve };
+}
+
+const STAGE_76_PRIOR_RESULT_TERMS = [
+  '防御后伤害',
+  '护盾吸收',
+  '实际扣血',
+  '实际治疗',
+  '阻挡',
+  '免疫',
+  '击杀',
+  'POST_DEFENSE_DAMAGE',
+  'SHIELD_ABSORBED',
+  'ACTUAL_HEALTH_LOSS',
+  'ACTUAL_HEAL',
+  'BLOCKED',
+  'IMMUNE',
+  'KILL',
+  'PERSISTENT'
+] as const;
+
+function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName = '枯萎箭袋'): void {
+  seedSkillProcessCatalog(mock, skillKey, skillName);
+  mock.attributes = [
+    ...mock.attributes,
+    attribute('hp', '生命值')
+  ];
+  mock.skillParameters = [
+    {
+      gameId: GAME_ID,
+      skillKey,
+      parameterKey: 'prior_hit_value',
+      name: '前序命中值',
+      valueType: 'DECIMAL',
+      valueMode: 'RUNTIME_INPUT',
+      fixedValue: null,
+      levelValues: null,
+      description: null,
+      sortOrder: 0,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      parameterKey: 'low_health_ratio',
+      name: '低生命比例',
+      valueType: 'DECIMAL',
+      valueMode: 'FIXED',
+      fixedValue: 0.3,
+      levelValues: null,
+      description: null,
+      sortOrder: 1,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+  mock.skillFormulas = [
+    ...mock.skillFormulas,
+    formulaRow(skillKey, 'hp_threshold', '低生命阈值', 40),
+    {
+      gameId: GAME_ID,
+      skillKey,
+      formulaKey: 'follow_up',
+      name: '追加伤害公式',
+      description: null,
+      sortOrder: 41,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
+  mock.skillFormulas = mock.skillFormulas.map((item) => (
+    item.formulaKey === 'hp_threshold'
+      ? { ...item, expression: { nodeType: 'PARAMETER', parameterKey: 'low_health_ratio' } }
+      : item
+  ));
+  mock.skillEffects = [
+    ...mock.skillEffects,
+    {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey: 'shield_effect',
+      name: '低生命护盾',
+      description: null,
+      sortOrder: 30,
+      lifecycle: null,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [{
+        resultKey: 'apply_shield',
+        name: '施加护盾',
+        resultType: 'NORMAL_SHIELD',
+        target: 'SOURCE',
+        description: null,
+        sortOrder: 10,
+        valueRule: valueRule('heal'),
+        detail: {},
+        lifecycleBehavior: null
+      }]
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey: 'follow_up_hit',
+      name: '追加伤害',
+      description: null,
+      sortOrder: 40,
+      lifecycle: null,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [{
+        resultKey: 'scaled_hit',
+        name: '追加打击',
+        resultType: 'DAMAGE',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 10,
+        valueRule: valueRule('follow_up'),
+        detail: { damageTypeKey: 'physical' },
+        lifecycleBehavior: null
+      }]
+    },
+    {
+      gameId: GAME_ID,
+      skillKey,
+      effectKey: 'focus_mark',
+      name: '专注标记',
+      description: null,
+      sortOrder: 50,
+      lifecycle: {
+        durationFormulaKey: 'poison_duration_ms',
+        maxStacksFormulaKey: 'one',
+        applicationStacksFormulaKey: 'one',
+        instanceScope: 'TARGET',
+        reapplicationStackMode: 'INCREASE',
+        reapplicationDurationMode: 'REFRESH_ALL',
+        expiryMode: 'ALL_AT_ONCE',
+        periodicIntervalFormulaKey: null,
+        firstPeriodicExecution: null
+      },
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT,
+      results: [{
+        resultKey: 'apply_mark',
+        name: '施加标记',
+        resultType: 'STATUS_OPERATION',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 10,
+        valueRule: null,
+        detail: { statusKey: 'poison', operation: 'APPLY' },
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: null,
+          stackValueMode: null,
+          reapplicationValueMode: null,
+          periodicExecutionMode: null
+        }
+      }]
+    }
+  ];
+  mock.skillInternalStates = [{
+    gameId: GAME_ID,
+    skillKey,
+    stateKey: 'focus_stacks',
+    name: '专注层数',
+    stateType: 'COUNTER',
+    scope: 'SKILL',
+    description: null,
+    sortOrder: 10,
+    detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+    createdAt: CREATED_AT,
+    updatedAt: UPDATED_AT
+  }];
+  mock.skillProcesses = [{
+    gameId: GAME_ID,
+    skillKey,
+    processKey: 'primary_cast',
+    name: '主要施放过程',
+    activationType: 'ACTIVE',
+    description: null,
+    sortOrder: 10,
+    cooldown: null,
+    steps: [{
+      stepKey: 'hit',
+      name: '命中',
+      stepType: 'IMMEDIATE',
+      description: null,
+      sortOrder: 0,
+      detail: {}
+    }],
+    effectBindings: [],
+    stateOperations: [],
+    createdAt: CREATED_AT,
+    updatedAt: UPDATED_AT
+  }];
+}
+
+async function chooseTriggerEventType(page: Page, modal: Locator, optionName: string): Promise<void> {
+  const trigger = modal.getByLabel('事件类型', { exact: true });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  const textbox = trigger.getByRole('textbox');
+  if (await textbox.count()) {
+    await textbox.fill(optionName);
+  }
+  await chooseVisibleOption(page, optionName);
+  const confirm = page.getByRole('dialog').filter({ hasText: /将清除|将关闭该保护/ });
+  const prompted = await confirm.waitFor({ state: 'visible', timeout: 1000 }).then(() => true).catch(() => false);
+  if (prompted) {
+    await confirm.getByRole('button', { name: '确定', exact: true }).click();
+  }
+  await expect(trigger).toContainText(optionName);
+}
+
+async function fillExecuteEffectAction(
+  page: Page,
+  actionModal: Locator,
+  values: { key?: string; name: string; effectName: string }
+): Promise<void> {
+  await expect(actionModal).toBeVisible();
+  if (values.key) {
+    await actionModal.getByLabel('动作标识', { exact: true }).fill(values.key);
+  }
+  await actionModal.getByLabel('动作名称', { exact: true }).fill(values.name);
+  await chooseSelectOption(page, actionModal, '目标效果', values.effectName);
+  await expect(actionModal.getByRole('button', { name: '确定', exact: true })).toBeEnabled();
+  await actionModal.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(actionModal).toBeHidden();
 }
 
 async function closeVisibleDialog(dialog: Locator): Promise<void> {
@@ -3012,7 +3457,7 @@ test.describe('skill management without Wasm', () => {
     await ratioRow.getByRole('button', { name: '删除', exact: true }).click();
     const deleteModal = visibleModal(page, '删除参数');
     await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
-    await expect(deleteModal.getByText('该参数正在被技能公式使用，不能删除')).toBeVisible();
+    await expect(deleteModal.getByText('该参数正在被技能公式或条件与触发规则使用，不能删除')).toBeVisible();
     expect(mock.skillParameters.some((item) => item.parameterKey === 'missing_health_ratio')).toBe(true);
 
     await deleteModal.getByRole('button', { name: '取消', exact: true }).click();
@@ -3801,7 +4246,7 @@ test.describe('skill management without Wasm', () => {
     await shell.locator('tr', { hasText: 'focus_stacks' }).getByRole('button', { name: '删除', exact: true }).click();
     const deleteInUse = visibleModal(page, '删除内部状态');
     await deleteInUse.getByRole('button', { name: '删除', exact: true }).click();
-    await expect(deleteInUse.getByText('该内部状态正在被技能过程使用，不能删除')).toBeVisible();
+    await expect(deleteInUse.getByText('该内部状态正在被技能过程或条件与触发规则使用，不能删除')).toBeVisible();
     await deleteInUse.getByRole('button', { name: '取消', exact: true }).click();
 
     await shell.locator('tr', { hasText: 'ready' }).getByRole('button', { name: '删除', exact: true }).click();
@@ -4281,6 +4726,255 @@ test.describe('skill management without Wasm', () => {
     await expect(viewBinding.getByRole('button', { name: '效果与结果', exact: true })).toHaveCount(0);
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('catalog entries hidden in view mode');
+  });
+
+  test('opens condition and trigger management from the skill row without a new route', async ({ page }, testInfo) => {
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const row = skillRow(page, 'varus_w');
+    await expect(row.getByRole('button', { name: '条件与触发', exact: true })).toHaveCount(1);
+    expect(await page.locator('a[href="#/skill-triggers"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/triggers"]').count()).toBe(0);
+    expect(await page.locator('a[href="#/condition-triggers"]').count()).toBe(0);
+
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await expect(shell.getByText('当前技能还没有条件与触发规则', { exact: true })).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await expect(createModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await expect(createModal).toBeHidden();
+    await expect(shell).toBeVisible();
+
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const dirtyModal = visibleModal(page, '新增规则');
+    await dirtyModal.getByLabel('规则名称', { exact: true }).fill('未保存规则');
+    await dirtyModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await expect(leaveConfirm).toBeVisible();
+    await leaveConfirm.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(dirtyModal).toBeVisible();
+    await expect(dirtyModal.getByLabel('规则名称', { exact: true })).toHaveValue('未保存规则');
+    await dirtyModal.getByRole('button', { name: '取消', exact: true }).click();
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(dirtyModal).toBeHidden();
+    await expect(shell).toBeVisible();
+    diagnostics.assertClean('condition and trigger entry empty state and close');
+  });
+
+  test('creates a low-health condition and trigger rule, blocks duplicate save, then deletes it', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await expect(createModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await createModal.getByLabel('规则标识', { exact: true }).fill('low_health_shield');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('低生命护盾');
+    await chooseTriggerEventType(page, createModal, '指定对象生命属性越过阈值');
+    await chooseSelectOption(page, createModal, '生命阈值对象', '来源对象');
+    await chooseSelectOption(page, createModal, '生命阈值属性', '生命值');
+    await chooseSelectOption(page, createModal, '阈值公式', '低生命阈值');
+    await chooseSelectOption(page, createModal, '生命阈值方向', '向下');
+    await createModal.getByRole('switch', { name: '每目标冷却', exact: true }).click();
+    await chooseSelectOption(page, createModal, '每目标冷却公式', '冷却时长');
+
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '施加护盾',
+      effectName: '低生命护盾'
+    });
+    await expect(createModal.getByText('1. 施加护盾')).toBeVisible();
+
+    const hold = createDeferred();
+    mock.triggerRuleWriteHold = hold.promise;
+    const saveButton = createModal.getByRole('button', { name: '保存', exact: true });
+    await saveButton.click();
+    await expect(saveButton).toHaveClass(/arco-btn-loading/);
+    await expect(saveButton).toBeDisabled();
+    await saveButton.click({ force: true });
+    hold.resolve();
+    mock.triggerRuleWriteHold = null;
+    await expect(createModal).toBeHidden();
+    await expect(shell.getByText('规则「低生命护盾」已保存。', { exact: true })).toBeVisible();
+    await expect(shell.locator('tr', { hasText: 'low_health_shield' })).toBeVisible();
+    expect(mock.writes.filter((item) => item.method === 'POST' && item.path.endsWith('/trigger-rules'))).toHaveLength(1);
+
+    const created = mock.skillTriggerRules[0];
+    expect(created?.eventSource).toMatchObject({
+      eventType: 'HEALTH_THRESHOLD_CROSSED',
+      detail: {
+        subject: 'SOURCE',
+        attributeKey: 'hp',
+        thresholdFormulaKey: 'hp_threshold',
+        direction: 'DOWNWARD'
+      }
+    });
+    expect(created?.perTargetCooldown).toMatchObject({
+      durationFormulaKey: 'cooldown_ms',
+      targetContext: 'CURRENT_TARGET'
+    });
+    expect(created?.actions[0]).toMatchObject({
+      name: '施加护盾',
+      actionType: 'EXECUTE_EFFECT',
+      detail: { effectKey: 'shield_effect' }
+    });
+
+    await shell.locator('tr', { hasText: 'low_health_shield' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑规则');
+    await expect(editModal.getByLabel('规则标识', { exact: true })).toBeDisabled();
+    await expect(editModal.getByLabel('规则标识', { exact: true })).toHaveValue('low_health_shield');
+    await expect(editModal.getByLabel('规则名称', { exact: true })).toHaveValue('低生命护盾');
+    await expect(editModal.getByLabel('事件类型', { exact: true })).toContainText('指定对象生命属性越过阈值');
+    await expect(editModal.getByLabel('生命阈值对象', { exact: true })).toContainText('来源对象');
+    await expect(editModal.getByLabel('生命阈值属性', { exact: true })).toContainText('生命值');
+    await expect(editModal.getByLabel('阈值公式', { exact: true })).toContainText('低生命阈值');
+    await expect(editModal.getByLabel('生命阈值方向', { exact: true })).toContainText('向下');
+    await expect(editModal.getByRole('switch', { name: '每目标冷却', exact: true })).toBeChecked();
+    await expect(editModal.getByText('1. 施加护盾')).toBeVisible();
+    await expect(editModal.getByText('执行效果', { exact: true })).toBeVisible();
+    await editModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(editModal).toBeHidden();
+
+    await shell.locator('tr', { hasText: 'low_health_shield' }).getByRole('button', { name: '删除', exact: true }).click();
+    const deleteModal = visibleModal(page, '删除规则');
+    await expect(deleteModal.getByText('确定删除规则「低生命护盾」吗？', { exact: true })).toBeVisible();
+    await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
+    await expect(deleteModal).toBeHidden();
+    await expect(shell.locator('tr', { hasText: 'low_health_shield' })).toHaveCount(0);
+    await expect(shell.getByText('当前技能还没有条件与触发规则', { exact: true })).toBeVisible();
+    expect(mock.skillTriggerRules).toHaveLength(0);
+    diagnostics.assertClean('condition and trigger low-health round-trip');
+  });
+
+  test('binds a later condition and trigger execute-effect action to the earlier configured-value result', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await expect(createModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await createModal.getByLabel('规则标识', { exact: true }).fill('follow_up_from_hit');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('命中后追加');
+
+    await chooseTriggerEventType(page, createModal, '当前技能生命周期到达离散时点');
+    await chooseSelectOption(page, createModal, '生命周期事件效果', '专注标记');
+    await createModal.getByLabel('生命周期时点', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '施加', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '满层', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '周期', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '自然结束', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '提前移除', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '持续生效', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('option', { name: 'PERSISTENT', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '满层', exact: true }).click();
+
+    await chooseTriggerEventType(page, createModal, '当前技能内部状态发生固定变化');
+    await chooseSelectOption(page, createModal, '内部状态变化状态', '专注层数');
+    await createModal.getByLabel('内部状态变化种类', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '数值变化', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '持续生效', exact: true })).toHaveCount(0);
+    for (const term of ['防御后伤害', '护盾吸收', '实际扣血', '实际治疗', '阻挡', '免疫']) {
+      await expect(page.getByRole('option', { name: term, exact: true })).toHaveCount(0);
+    }
+    await page.keyboard.press('Escape');
+
+    await chooseTriggerEventType(page, createModal, '技能命中');
+
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '命中伤害',
+      effectName: '命中结果'
+    });
+    await expect(createModal.getByText('1. 命中伤害')).toBeVisible();
+
+    await createModal.getByRole('button', { name: '新增动作', exact: true }).click();
+    const secondAction = visibleModal(page, '新增动作');
+    await secondAction.getByLabel('动作标识', { exact: true }).fill('apply_follow_up');
+    await secondAction.getByLabel('动作名称', { exact: true }).fill('追加伤害');
+    await chooseSelectOption(page, secondAction, '目标效果', '追加伤害');
+    await expect(secondAction.getByText('绑定与可达参数不一致。', { exact: true })).toBeVisible();
+    await secondAction.getByRole('button', { name: '新增绑定', exact: true }).click();
+    const bindingModal = visibleModal(page, '新增绑定');
+    await bindingModal.getByLabel('绑定标识', { exact: true }).fill('bind_prior_hit');
+    await chooseSelectOption(page, bindingModal, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+    await chooseSelectOption(page, bindingModal, '来源种类', '更早动作基础结果');
+    await bindingModal.getByLabel('前序基础结果', { exact: true }).click();
+    const priorOption = page.getByRole('option', { name: /基础结果值/ });
+    await expect(priorOption).toBeVisible();
+    for (const term of STAGE_76_PRIOR_RESULT_TERMS) {
+      await expect(page.getByRole('option', { name: term, exact: true })).toHaveCount(0);
+    }
+    await priorOption.click();
+    await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(bindingModal).toBeHidden();
+    await expect(secondAction.getByText('更早动作基础结果 / action_1 / damage / 基础结果值')).toBeVisible();
+    await secondAction.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(secondAction).toBeHidden();
+
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(shell.locator('tr', { hasText: 'follow_up_from_hit' })).toContainText('技能命中');
+
+    await shell.locator('tr', { hasText: 'follow_up_from_hit' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑规则');
+    await expect(editModal.getByText('1. 命中伤害')).toBeVisible();
+    await expect(editModal.getByText('2. 追加伤害')).toBeVisible();
+    await expect(editModal.getByText('绑定 1')).toBeVisible();
+    await editModal.getByRole('button', { name: '编辑', exact: true }).nth(1).click();
+    const editSecond = visibleModal(page, '编辑动作');
+    await expect(editSecond.getByText('更早动作基础结果 / action_1 / damage / 基础结果值')).toBeVisible();
+    await editSecond.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(editSecond).toBeHidden();
+    await editModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    diagnostics.assertClean('condition and trigger prior-result binding');
+  });
+
+  test('keeps the condition and trigger draft open for an unguarded cycle error', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await expect(createModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    await createModal.getByLabel('规则标识', { exact: true }).fill('low_health_shield');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('低生命护盾');
+    await chooseTriggerEventType(page, createModal, '指定对象生命属性越过阈值');
+    await chooseSelectOption(page, createModal, '生命阈值属性', '生命值');
+    await chooseSelectOption(page, createModal, '阈值公式', '低生命阈值');
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '施加护盾',
+      effectName: '低生命护盾'
+    });
+    await expect(createModal.getByText('1. 施加护盾')).toBeVisible();
+
+    mock.triggerRuleWriteFailure = 'unprotected-cycle';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByLabel('规则名称', { exact: true })).toHaveValue('低生命护盾');
+    await expect(createModal.getByText(/当前关系形成没有保护的循环：/)).toBeVisible();
+    await expect(createModal.getByText(/unknown_rule/)).toBeVisible();
+    await expect(createModal.getByText('可增加每目标冷却、单次过程最大触发次数或调整关系。')).toBeVisible();
+    await expect(createModal.getByText('400.TRIGGER_RULE_CYCLE_UNGUARDED')).toBeVisible();
+    expect(mock.skillTriggerRules).toHaveLength(0);
+    diagnostics.assertClean('condition and trigger unguarded cycle');
   });
 });
 
