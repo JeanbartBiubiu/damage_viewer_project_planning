@@ -52,6 +52,9 @@ export type SkillTriggerStatusChangeKind = 'APPLY' | 'REMOVE';
 
 export type SkillTriggerHealthDirection = 'UPWARD' | 'DOWNWARD';
 
+export type SkillTriggerDamageDeliveryKind = 'ANY' | 'SKILL' | 'BASIC_ATTACK';
+export type SkillTriggerDamageOriginKind = 'ANY' | 'DIRECT' | 'REFLECTED';
+
 export type SkillTriggerInternalStateChangeKind =
   | 'VALUE_CHANGED'
   | 'OPTION_SELECTED'
@@ -129,6 +132,12 @@ export type SkillTriggerLifecycleMomentEventDetail = {
   moment: SkillTriggerLifecycleEventMoment;
 };
 
+export type SkillTriggerDamageEventDetail = {
+  damageTypeKey: string | null;
+  deliveryKind: SkillTriggerDamageDeliveryKind;
+  originKind: SkillTriggerDamageOriginKind;
+};
+
 export type SkillTriggerStatusChangedEventDetail = {
   subject: 'SOURCE' | 'CURRENT_TARGET';
   statusKey: string;
@@ -192,12 +201,12 @@ export type SkillTriggerLifecycleMomentEventSource = {
 
 export type SkillTriggerDamageDealtEventSource = {
   eventType: 'DAMAGE_DEALT';
-  detail: SkillTriggerEmptyDetail;
+  detail: SkillTriggerDamageEventDetail;
 };
 
 export type SkillTriggerDamageTakenEventSource = {
   eventType: 'DAMAGE_TAKEN';
-  detail: SkillTriggerEmptyDetail;
+  detail: SkillTriggerDamageEventDetail;
 };
 
 export type SkillTriggerStatusChangedEventSource = {

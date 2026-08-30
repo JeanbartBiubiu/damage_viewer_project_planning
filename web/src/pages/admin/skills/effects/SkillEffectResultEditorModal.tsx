@@ -23,15 +23,21 @@ import type {
   AttributeChangeOperation,
   CooldownChangeOperation,
   ResourceChangeOperation,
+  SkillEffectCriticalMode,
+  SkillEffectDamageDeliveryKind,
+  SkillEffectDamageOriginKind,
   SkillEffectLifecycleMoment,
   SkillEffectLifecycleOperation,
   SkillEffectPeriodicExecutionMode,
   SkillEffectReapplicationValueMode,
   SkillEffectResultType,
+  SkillEffectNormalShieldDecayMode,
   SkillEffectStackValueMode,
   SkillEffectSummary,
   SkillEffectTarget,
   SkillEffectValueReadMode,
+  SkillEffectVampBasisOutputKind,
+  SkillEffectVampType,
   StatusOperation
 } from '../../../../types/skillEffect';
 import type { GameStatus } from '../../../../types/status';
@@ -42,9 +48,13 @@ import {
   DISABLED_PARENT_SKILL_LABEL,
   INCOMPLETE_CATALOG_MESSAGE,
   RESOURCE_CHANGE_OPERATION_LABELS,
+  SKILL_EFFECT_CRITICAL_MODE_LABELS,
+  SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATIONS,
+  SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
   SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS,
   SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS,
   SKILL_EFFECT_RESULT_TYPES,
@@ -52,9 +62,13 @@ import {
   SKILL_EFFECT_STACK_VALUE_MODE_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_EFFECT_VALUE_READ_MODE_LABELS,
+  SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS,
+  SKILL_EFFECT_VAMP_TYPE_LABELS,
+  SKILL_EFFECT_VAMP_TYPES,
   STATUS_OPERATION_LABELS,
   UNKNOWN_LIFECYCLE_TARGET_LABEL,
   applyCooldownOperationChange,
+  applyCriticalModeChange,
   applyLifecycleMomentChange,
   applyLifecycleOperationChange,
   applyResultTypeChange,
@@ -76,6 +90,7 @@ import {
   listFormulaOptions,
   listLifecycleTargetOptions,
   listStatusOptions,
+  sortVampRuleDrafts,
   validateSkillEffectDraft,
   type CatalogRefOption,
   type EffectCatalogLoadState,
@@ -359,7 +374,9 @@ export function SkillEffectResultEditorModal({
 
   useEffect(() => {
     if (!visible) return;
-    if (draft.resultType === 'DAMAGE') void loadDamageTypes();
+    if (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD') {
+      void loadDamageTypes();
+    }
     if (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE') {
       void loadAttributes();
     }
@@ -399,6 +416,18 @@ export function SkillEffectResultEditorModal({
     () => listDamageTypeOptions(catalog, draft.damageTypeKey, draft.originalDamageTypeKey),
     [catalog, draft.damageTypeKey, draft.originalDamageTypeKey]
   );
+  const absorbedDamageTypeOptions = useMemo(
+    () => listDamageTypeOptions(
+      catalog,
+      draft.absorbedDamageTypeKey,
+      draft.originalAbsorbedDamageTypeKey
+    ),
+    [catalog, draft.absorbedDamageTypeKey, draft.originalAbsorbedDamageTypeKey]
+  );
+  const criticalFormulaOptions = useMemo(
+    () => listFormulaOptions(catalog, draft.criticalMultiplierFormulaKey),
+    [catalog, draft.criticalMultiplierFormulaKey]
+  );
   const attributeOptions = useMemo(
     () => listAttributeOptions(catalog, draft.attributeKey, draft.originalAttributeKey),
     [catalog, draft.attributeKey, draft.originalAttributeKey]
@@ -424,7 +453,12 @@ export function SkillEffectResultEditorModal({
   }, [effectSummaries]);
   const hasDuration = Boolean(parentDraft.lifecycle.durationFormulaKey.trim());
   const allowedMoments = useMemo(
-    () => listAllowedLifecycleMoments(draft, hasDuration),
+    () => {
+      const values = listAllowedLifecycleMoments(draft, hasDuration);
+      return draft.resultType === 'NORMAL_SHIELD' && draft.shieldDecayMode === 'LINEAR_TO_ZERO'
+        ? values.filter((value) => value === 'PERSISTENT')
+        : values;
+    },
     [draft, hasDuration]
   );
 
@@ -453,6 +487,22 @@ export function SkillEffectResultEditorModal({
     if (showValueRule && hasUnknownOption(formulaOptions, draft.formulaKey)) return true;
     if (draft.resultType === 'DAMAGE' && hasUnknownOption(damageTypeOptions, draft.damageTypeKey)) return true;
     if (
+      draft.resultType === 'DAMAGE'
+      && draft.criticalMultiplierFormulaKey
+      && hasUnknownOption(criticalFormulaOptions, draft.criticalMultiplierFormulaKey)
+    ) return true;
+    if (
+      draft.resultType === 'DAMAGE'
+      && draft.vampRules.some((rule) => (
+        hasUnknownOption(listFormulaOptions(catalog, rule.efficiencyFormulaKey), rule.efficiencyFormulaKey)
+      ))
+    ) return true;
+    if (
+      draft.resultType === 'NORMAL_SHIELD'
+      && draft.absorbedDamageTypeKey
+      && hasUnknownOption(absorbedDamageTypeOptions, draft.absorbedDamageTypeKey)
+    ) return true;
+    if (
       (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE')
       && hasUnknownOption(attributeOptions, draft.attributeKey)
     ) {
@@ -476,12 +526,18 @@ export function SkillEffectResultEditorModal({
     return false;
   }, [
     attributeOptions,
+    absorbedDamageTypeOptions,
+    catalog,
+    criticalFormulaOptions,
     damageTypeOptions,
     draft.affectedSkillKeys,
     draft.attributeKey,
     draft.damageTypeKey,
+    draft.absorbedDamageTypeKey,
+    draft.criticalMultiplierFormulaKey,
     draft.formulaKey,
     draft.resultType,
+    draft.vampRules,
     draft.statusKey,
     draft.targetEffectKey,
     formulaOptions,
@@ -495,7 +551,10 @@ export function SkillEffectResultEditorModal({
     if (showValueRule && formulasLoadState !== 'ready' && formulasLoadState !== 'failed') {
       return formulasLoadState === undefined;
     }
-    if (draft.resultType === 'DAMAGE' && catalogLoading.damageTypes) return true;
+    if (
+      (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD')
+      && catalogLoading.damageTypes
+    ) return true;
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE')
       && catalogLoading.attributes
@@ -524,7 +583,10 @@ export function SkillEffectResultEditorModal({
     if (showValueRule && formulasLoadState === 'failed') {
       messages.push(INCOMPLETE_CATALOG_MESSAGE);
     }
-    if (draft.resultType === 'DAMAGE' && catalogErrors.damageTypes) {
+    if (
+      (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD')
+      && catalogErrors.damageTypes
+    ) {
       messages.push(catalogErrors.damageTypes);
     }
     if (
@@ -558,6 +620,36 @@ export function SkillEffectResultEditorModal({
     setDraft(clearHiddenLifecycleBehaviorFields(next));
     setErrors({});
     setSaveError(null);
+  };
+
+  const changeShieldDecayMode = (nextMode: SkillEffectNormalShieldDecayMode) => {
+    if (
+      nextMode === 'LINEAR_TO_ZERO'
+      && parentDraft.lifecycleEnabled
+      && (
+        draft.lifecycleBehavior.moment !== 'PERSISTENT'
+        || draft.lifecycleBehavior.stackValueMode !== 'SHARED'
+      )
+    ) {
+      Modal.confirm({
+        title: '调整生命周期配置',
+        content: '将当前结果的生命周期时点改为“持续生效”，层数值方式改为“整个实例共享数值”。是否继续？',
+        okText: '继续',
+        cancelText: '取消',
+        onOk: () => patchDraft(clearHiddenLifecycleBehaviorFields({
+          ...draft,
+          shieldDecayMode: nextMode,
+          lifecycleBehavior: {
+            ...draft.lifecycleBehavior,
+            moment: 'PERSISTENT',
+            valueReadMode: 'APPLICATION_SNAPSHOT',
+            stackValueMode: 'SHARED'
+          }
+        }))
+      });
+      return;
+    }
+    patchDraft({ ...draft, shieldDecayMode: nextMode });
   };
 
   const close = () => {
@@ -602,7 +694,9 @@ export function SkillEffectResultEditorModal({
   };
 
   const retryNeededCatalog = () => {
-    if (draft.resultType === 'DAMAGE') void loadDamageTypes();
+    if (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD') {
+      void loadDamageTypes();
+    }
     if (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE') {
       void loadAttributes();
     }
@@ -813,21 +907,280 @@ export function SkillEffectResultEditorModal({
           {errors.valueRule ? <Alert type="error" content={errors.valueRule} /> : null}
 
           {draft.resultType === 'DAMAGE' ? (
-            <Form.Item
-              label="伤害类型"
-              required
-              validateStatus={errors.damageTypeKey ? 'error' : undefined}
-              help={errors.damageTypeKey}
-            >
-              <Select
-                aria-label="伤害类型"
-                value={draft.damageTypeKey || undefined}
-                disabled={readOnly}
-                options={toSelectOptions(damageTypeOptions, damageTypeNames)}
-                placeholder="请选择伤害类型"
-                onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
-              />
-            </Form.Item>
+            <>
+              <Form.Item
+                label="伤害类型"
+                required
+                validateStatus={errors.damageTypeKey ? 'error' : undefined}
+                help={errors.damageTypeKey}
+              >
+                <Select
+                  aria-label="伤害类型"
+                  value={draft.damageTypeKey || undefined}
+                  disabled={readOnly}
+                  options={toSelectOptions(damageTypeOptions, damageTypeNames)}
+                  placeholder="请选择伤害类型"
+                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                />
+              </Form.Item>
+              <Form.Item
+                label="伤害产生方式"
+                required
+                validateStatus={errors.damageDeliveryKind ? 'error' : undefined}
+                help={errors.damageDeliveryKind}
+              >
+                <Radio.Group
+                  aria-label="伤害产生方式"
+                  value={draft.damageDeliveryKind}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    damageDeliveryKind: value as SkillEffectDamageDeliveryKind
+                  })}
+                >
+                  {(Object.keys(
+                    SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS
+                  ) as SkillEffectDamageDeliveryKind[]).map((value) => (
+                    <Radio key={value} value={value}>
+                      {SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS[value]}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="伤害来源性质"
+                required
+                validateStatus={errors.damageOriginKind ? 'error' : undefined}
+                help={errors.damageOriginKind}
+              >
+                <Radio.Group
+                  aria-label="伤害来源性质"
+                  value={draft.damageOriginKind}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    damageOriginKind: value as SkillEffectDamageOriginKind
+                  })}
+                >
+                  {(Object.keys(
+                    SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS
+                  ) as SkillEffectDamageOriginKind[]).map((value) => (
+                    <Radio key={value} value={value}>
+                      {SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS[value]}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              {draft.damageOriginKind === 'REFLECTED' ? (
+                <Alert
+                  type="info"
+                  content="这里只标记伤害性质；受到伤害后的触发关系仍在条件与触发中维护。"
+                />
+              ) : null}
+              <Form.Item
+                label="暴击方式"
+                required
+                validateStatus={errors.criticalMode ? 'error' : undefined}
+                help={errors.criticalMode}
+              >
+                <Radio.Group
+                  aria-label="暴击方式"
+                  value={draft.criticalMode}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft(
+                    applyCriticalModeChange(draft, value as SkillEffectCriticalMode)
+                  )}
+                >
+                  {(Object.keys(
+                    SKILL_EFFECT_CRITICAL_MODE_LABELS
+                  ) as SkillEffectCriticalMode[]).map((value) => (
+                    <Radio key={value} value={value}>
+                      {SKILL_EFFECT_CRITICAL_MODE_LABELS[value]}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              {draft.criticalMode !== 'DISALLOWED' ? (
+                <Form.Item
+                  label="暴击倍率公式"
+                  validateStatus={errors.criticalMultiplierFormulaKey ? 'error' : undefined}
+                  help={errors.criticalMultiplierFormulaKey}
+                >
+                  <Select
+                    aria-label="暴击倍率公式"
+                    allowClear
+                    value={draft.criticalMultiplierFormulaKey || undefined}
+                    disabled={readOnly}
+                    options={toSelectOptions(criticalFormulaOptions, formulaNames)}
+                    placeholder="可选"
+                    onChange={(value) => patchDraft({
+                      ...draft,
+                      criticalMultiplierFormulaKey: String(value ?? '')
+                    })}
+                  />
+                </Form.Item>
+              ) : null}
+              <Form.Item
+                label="吸血规则"
+                validateStatus={errors.vampRules ? 'error' : undefined}
+                help={errors.vampRules}
+              >
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  {draft.vampRules.map((rule, index) => {
+                    const usedByOthers = new Set(
+                      draft.vampRules
+                        .filter((_, itemIndex) => itemIndex !== index)
+                        .map((item) => item.vampType)
+                    );
+                    return (
+                      <Space key={`${rule.vampType || 'new'}-${index}`} style={{ width: '100%' }}>
+                        <Select
+                          aria-label={`吸血种类 ${index + 1}`}
+                          value={rule.vampType || undefined}
+                          disabled={readOnly}
+                          style={{ width: 220 }}
+                          options={SKILL_EFFECT_VAMP_TYPES
+                            .filter((value) => !usedByOthers.has(value))
+                            .map((value) => ({
+                              value,
+                              label: SKILL_EFFECT_VAMP_TYPE_LABELS[value]
+                            }))}
+                          placeholder="吸血种类"
+                          onChange={(value) => patchDraft({
+                            ...draft,
+                            vampRules: sortVampRuleDrafts(draft.vampRules.map((item, itemIndex) => (
+                              itemIndex === index
+                                ? { ...item, vampType: value as SkillEffectVampType }
+                                : item
+                            )))
+                          })}
+                        />
+                        <Select
+                          aria-label={`吸血计算基准 ${index + 1}`}
+                          value={rule.basisOutputKind || undefined}
+                          disabled={readOnly}
+                          style={{ width: 220 }}
+                          options={(Object.keys(
+                            SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS
+                          ) as SkillEffectVampBasisOutputKind[]).map((value) => ({
+                            value,
+                            label: SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS[value]
+                          }))}
+                          placeholder="计算基准"
+                          onChange={(value) => patchDraft({
+                            ...draft,
+                            vampRules: draft.vampRules.map((item, itemIndex) => (
+                              itemIndex === index
+                                ? { ...item, basisOutputKind: value as SkillEffectVampBasisOutputKind }
+                                : item
+                            ))
+                          })}
+                        />
+                        <Select
+                          aria-label={`吸血效率公式 ${index + 1}`}
+                          value={rule.efficiencyFormulaKey || undefined}
+                          disabled={readOnly}
+                          style={{ minWidth: 320, flex: 1 }}
+                          options={toSelectOptions(
+                            listFormulaOptions(catalog, rule.efficiencyFormulaKey),
+                            formulaNames
+                          )}
+                          placeholder="效率公式"
+                          onChange={(value) => patchDraft({
+                            ...draft,
+                            vampRules: draft.vampRules.map((item, itemIndex) => (
+                              itemIndex === index
+                                ? { ...item, efficiencyFormulaKey: String(value ?? '') }
+                                : item
+                            ))
+                          })}
+                        />
+                        <Button
+                          status="danger"
+                          disabled={readOnly}
+                          onClick={() => patchDraft({
+                            ...draft,
+                            vampRules: draft.vampRules.filter((_, itemIndex) => itemIndex !== index)
+                          })}
+                        >
+                          删除
+                        </Button>
+                      </Space>
+                    );
+                  })}
+                  {!readOnly ? (
+                    <Button
+                      disabled={draft.vampRules.length >= SKILL_EFFECT_VAMP_TYPES.length}
+                      onClick={() => {
+                        const used = new Set(draft.vampRules.map((item) => item.vampType));
+                        const vampType = SKILL_EFFECT_VAMP_TYPES.find((value) => !used.has(value));
+                        if (!vampType) return;
+                        patchDraft({
+                          ...draft,
+                          vampRules: sortVampRuleDrafts([
+                            ...draft.vampRules,
+                            {
+                              vampType,
+                              basisOutputKind: 'POST_DEFENSE_DAMAGE',
+                              efficiencyFormulaKey: ''
+                            }
+                          ])
+                        });
+                      }}
+                    >
+                      新增吸血规则
+                    </Button>
+                  ) : null}
+                </Space>
+              </Form.Item>
+            </>
+          ) : null}
+
+          {draft.resultType === 'NORMAL_SHIELD' ? (
+            <>
+              <Form.Item
+                label="吸收伤害类型"
+                validateStatus={errors.absorbedDamageTypeKey ? 'error' : undefined}
+                help={errors.absorbedDamageTypeKey}
+              >
+                <Select
+                  aria-label="吸收伤害类型"
+                  value={draft.absorbedDamageTypeKey}
+                  disabled={readOnly}
+                  options={[
+                    { value: '', label: '全部伤害' },
+                    ...toSelectOptions(absorbedDamageTypeOptions, damageTypeNames)
+                  ]}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    absorbedDamageTypeKey: String(value ?? '')
+                  })}
+                />
+              </Form.Item>
+              <Form.Item
+                label="护盾衰减"
+                required
+                validateStatus={errors.shieldDecayMode ? 'error' : undefined}
+                help={errors.shieldDecayMode}
+              >
+                <Radio.Group
+                  aria-label="护盾衰减"
+                  value={draft.shieldDecayMode}
+                  disabled={readOnly}
+                  onChange={(value) => changeShieldDecayMode(
+                    value as SkillEffectNormalShieldDecayMode
+                  )}
+                >
+                  {(Object.keys(
+                    SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS
+                  ) as SkillEffectNormalShieldDecayMode[]).map((value) => (
+                    <Radio key={value} value={value}>
+                      {SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS[value]}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </>
           ) : null}
 
           {draft.resultType === 'ATTRIBUTE_CHANGE' ? (
@@ -1064,7 +1417,16 @@ export function SkillEffectResultEditorModal({
                     )}
                   >
                     {Object.entries(SKILL_EFFECT_STACK_VALUE_MODE_LABELS)
-                      .filter(([value]) => !(isAttributeSetPersistent(draft) && value === 'PER_STACK'))
+                      .filter(([value]) => !(
+                        value === 'PER_STACK'
+                        && (
+                          isAttributeSetPersistent(draft)
+                          || (
+                            draft.resultType === 'NORMAL_SHIELD'
+                            && draft.shieldDecayMode === 'LINEAR_TO_ZERO'
+                          )
+                        )
+                      ))
                       .map(([value, label]) => (
                         <Radio key={value} value={value}>{label}</Radio>
                       ))}
