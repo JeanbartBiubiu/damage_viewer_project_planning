@@ -50,6 +50,9 @@ const SOURCE_TYPES = new Set([
   'PRIOR_ACTION_RESULT'
 ]);
 
+const DAMAGE_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
+const DAMAGE_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
+
 export class SkillTriggerRuleProtocolError extends Error {
   constructor(message: string) {
     super(message);
@@ -127,6 +130,24 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
     case 'LIFECYCLE_MOMENT':
       if (typeof detail.effectKey !== 'string' || typeof detail.moment !== 'string') {
         protocolError(`${path}.detail`);
+      }
+      break;
+    case 'DAMAGE_DEALT':
+    case 'DAMAGE_TAKEN':
+      if (detail.damageTypeKey !== null && typeof detail.damageTypeKey !== 'string') {
+        protocolError(`${path}.detail.damageTypeKey`);
+      }
+      if (
+        typeof detail.deliveryKind !== 'string'
+        || !DAMAGE_DELIVERY_KINDS.has(detail.deliveryKind)
+      ) {
+        protocolError(`${path}.detail.deliveryKind`);
+      }
+      if (
+        typeof detail.originKind !== 'string'
+        || !DAMAGE_ORIGIN_KINDS.has(detail.originKind)
+      ) {
+        protocolError(`${path}.detail.originKind`);
       }
       break;
     case 'STATUS_CHANGED':

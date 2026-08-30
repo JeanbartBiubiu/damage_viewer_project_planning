@@ -9,12 +9,16 @@ import type {
   CreateSkillEffectRequest,
   ResourceChangeOperation,
   SkillEffect,
+  SkillEffectCriticalMode,
+  SkillEffectDamageDeliveryKind,
+  SkillEffectDamageOriginKind,
   SkillEffectExpiryMode,
   SkillEffectFirstPeriodicExecution,
   SkillEffectLifecycle,
   SkillEffectLifecycleInstanceScope,
   SkillEffectLifecycleMoment,
   SkillEffectLifecycleOperation,
+  SkillEffectNormalShieldDecayMode,
   SkillEffectPeriodicExecutionMode,
   SkillEffectReapplicationDurationMode,
   SkillEffectReapplicationStackMode,
@@ -28,6 +32,8 @@ import type {
   SkillEffectTarget,
   SkillEffectValueReadMode,
   SkillEffectValueRule,
+  SkillEffectVampBasisOutputKind,
+  SkillEffectVampType,
   StatusOperation,
   UpdateSkillEffectRequest
 } from '../../../../types/skillEffect';
@@ -61,6 +67,46 @@ export const SKILL_EFFECT_TARGET_LABELS = {
   SOURCE: '施法者',
   TARGET: '当前目标'
 } as const satisfies { [K in SkillEffectTarget]: string };
+
+export const SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS = {
+  SKILL: '技能',
+  BASIC_ATTACK: '普通攻击'
+} as const satisfies { [K in SkillEffectDamageDeliveryKind]: string };
+
+export const SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS = {
+  DIRECT: '直接伤害',
+  REFLECTED: '反伤'
+} as const satisfies { [K in SkillEffectDamageOriginKind]: string };
+
+export const SKILL_EFFECT_CRITICAL_MODE_LABELS = {
+  DISALLOWED: '不允许暴击',
+  SOURCE_CRIT_CHANCE: '按来源对象暴击率判定',
+  FORCED: '强制暴击'
+} as const satisfies { [K in SkillEffectCriticalMode]: string };
+
+export const SKILL_EFFECT_VAMP_TYPE_LABELS = {
+  LIFE_STEAL: '生命偷取',
+  OMNIVAMP: '全能吸血',
+  PHYSICAL_VAMP: '物理吸血',
+  SPELL_VAMP: '法术吸血'
+} as const satisfies { [K in SkillEffectVampType]: string };
+
+export const SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS = {
+  POST_DEFENSE_DAMAGE: '防御后伤害',
+  ACTUAL_HP_LOSS: '实际扣血'
+} as const satisfies { [K in SkillEffectVampBasisOutputKind]: string };
+
+export const SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS = {
+  NONE: '不衰减',
+  LINEAR_TO_ZERO: '随持续时间线性衰减至 0'
+} as const satisfies { [K in SkillEffectNormalShieldDecayMode]: string };
+
+export const SKILL_EFFECT_VAMP_TYPES = [
+  'LIFE_STEAL',
+  'OMNIVAMP',
+  'PHYSICAL_VAMP',
+  'SPELL_VAMP'
+] as const satisfies readonly SkillEffectVampType[];
 
 export const ATTRIBUTE_CHANGE_OPERATION_LABELS = {
   INCREASE: '增加',
@@ -193,6 +239,12 @@ export type SkillEffectResultLifecycleBehaviorDraft = {
   periodicExecutionMode: SkillEffectPeriodicExecutionMode | '';
 };
 
+export type SkillEffectVampRuleDraft = {
+  vampType: SkillEffectVampType | '';
+  basisOutputKind: SkillEffectVampBasisOutputKind | '';
+  efficiencyFormulaKey: string;
+};
+
 export type SkillEffectResultDraft = {
   resultKey: string;
   name: string;
@@ -205,6 +257,13 @@ export type SkillEffectResultDraft = {
   fixedMinValue: string;
   fixedMaxValue: string;
   damageTypeKey: string;
+  damageDeliveryKind: SkillEffectDamageDeliveryKind | '';
+  damageOriginKind: SkillEffectDamageOriginKind | '';
+  criticalMode: SkillEffectCriticalMode | '';
+  criticalMultiplierFormulaKey: string;
+  vampRules: SkillEffectVampRuleDraft[];
+  absorbedDamageTypeKey: string;
+  shieldDecayMode: SkillEffectNormalShieldDecayMode | '';
   attributeKey: string;
   attributeOperation: AttributeChangeOperation | '';
   resourceOperation: ResourceChangeOperation | '';
@@ -217,6 +276,7 @@ export type SkillEffectResultDraft = {
   lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft;
   originalResultType: SkillEffectResultType | null;
   originalDamageTypeKey: string | null;
+  originalAbsorbedDamageTypeKey: string | null;
   originalAttributeKey: string | null;
   originalAffectedSkillKeys: string[];
   originalStatusKey: string | null;
@@ -265,6 +325,13 @@ export type SkillEffectResultDraftField =
   | 'fixedMaxValue'
   | 'valueRule'
   | 'damageTypeKey'
+  | 'damageDeliveryKind'
+  | 'damageOriginKind'
+  | 'criticalMode'
+  | 'criticalMultiplierFormulaKey'
+  | 'vampRules'
+  | 'absorbedDamageTypeKey'
+  | 'shieldDecayMode'
   | 'attributeKey'
   | 'attributeOperation'
   | 'resourceOperation'
@@ -396,6 +463,14 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'valueRule.fixedMaxValue': 'fixedMaxValue',
   detail: 'detail',
   'detail.damageTypeKey': 'damageTypeKey',
+  'detail.deliveryKind': 'damageDeliveryKind',
+  'detail.originKind': 'damageOriginKind',
+  'detail.critical': 'criticalMode',
+  'detail.critical.mode': 'criticalMode',
+  'detail.critical.multiplierFormulaKey': 'criticalMultiplierFormulaKey',
+  'detail.vampRules': 'vampRules',
+  'detail.absorbedDamageTypeKey': 'absorbedDamageTypeKey',
+  'detail.decayMode': 'shieldDecayMode',
   'detail.attributeKey': 'attributeKey',
   'detail.affectedSkillKeys': 'affectedSkillKeys',
   'detail.statusKey': 'statusKey',
@@ -463,6 +538,13 @@ export function createEmptyResultDraft(
     fixedMinValue: '',
     fixedMaxValue: '',
     damageTypeKey: '',
+    damageDeliveryKind: resultType === 'DAMAGE' ? 'SKILL' : '',
+    damageOriginKind: resultType === 'DAMAGE' ? 'DIRECT' : '',
+    criticalMode: resultType === 'DAMAGE' ? 'DISALLOWED' : '',
+    criticalMultiplierFormulaKey: '',
+    vampRules: [],
+    absorbedDamageTypeKey: '',
+    shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
@@ -475,6 +557,7 @@ export function createEmptyResultDraft(
     lifecycleBehavior: createEmptyLifecycleBehaviorDraft(),
     originalResultType: null,
     originalDamageTypeKey: null,
+    originalAbsorbedDamageTypeKey: null,
     originalAttributeKey: null,
     originalAffectedSkillKeys: [],
     originalStatusKey: null,
@@ -517,6 +600,11 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
   switch (result.resultType) {
     case 'DAMAGE':
       draft.damageTypeKey = result.detail.damageTypeKey;
+      draft.damageDeliveryKind = result.detail.deliveryKind;
+      draft.damageOriginKind = result.detail.originKind;
+      draft.criticalMode = result.detail.critical.mode;
+      draft.criticalMultiplierFormulaKey = result.detail.critical.multiplierFormulaKey ?? '';
+      draft.vampRules = sortVampRuleDrafts(result.detail.vampRules.map((rule) => ({ ...rule })));
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       break;
     case 'ATTRIBUTE_CHANGE':
@@ -544,8 +632,12 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.lifecycleOperation = result.detail.operation;
       draft.originalTargetEffectKey = result.detail.targetEffectKey;
       break;
-    case 'DIRECT_HEAL':
     case 'NORMAL_SHIELD':
+      draft.absorbedDamageTypeKey = result.detail.absorbedDamageTypeKey ?? '';
+      draft.shieldDecayMode = result.detail.decayMode;
+      draft.originalAbsorbedDamageTypeKey = result.detail.absorbedDamageTypeKey;
+      break;
+    case 'DIRECT_HEAL':
       break;
     default: {
       const unexpected: never = result;
@@ -611,6 +703,13 @@ export function applyResultTypeChange(
     fixedMinValue: nextNeeds && prevNeeds ? draft.fixedMinValue : '',
     fixedMaxValue: nextNeeds && prevNeeds ? draft.fixedMaxValue : '',
     damageTypeKey: '',
+    damageDeliveryKind: nextType === 'DAMAGE' ? 'SKILL' : '',
+    damageOriginKind: nextType === 'DAMAGE' ? 'DIRECT' : '',
+    criticalMode: nextType === 'DAMAGE' ? 'DISALLOWED' : '',
+    criticalMultiplierFormulaKey: '',
+    vampRules: [],
+    absorbedDamageTypeKey: '',
+    shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
@@ -622,6 +721,30 @@ export function applyResultTypeChange(
     lifecycleOperation: nextLifecycleOperation,
     lifecycleBehavior: createEmptyLifecycleBehaviorDraft()
   });
+}
+
+export function applyCriticalModeChange(
+  draft: SkillEffectResultDraft,
+  nextMode: SkillEffectCriticalMode
+): SkillEffectResultDraft {
+  return clearHiddenResultFields({
+    ...draft,
+    criticalMode: nextMode,
+    criticalMultiplierFormulaKey:
+      nextMode === 'DISALLOWED' ? '' : draft.criticalMultiplierFormulaKey
+  });
+}
+
+export function sortVampRuleDrafts(
+  rules: ReadonlyArray<SkillEffectVampRuleDraft>
+): SkillEffectVampRuleDraft[] {
+  const order = new Map<string, number>(
+    SKILL_EFFECT_VAMP_TYPES.map((value, index) => [value, index])
+  );
+  return [...rules].sort((left, right) => (
+    (order.get(left.vampType) ?? SKILL_EFFECT_VAMP_TYPES.length)
+    - (order.get(right.vampType) ?? SKILL_EFFECT_VAMP_TYPES.length)
+  ));
 }
 
 export function applyCooldownOperationChange(
@@ -693,6 +816,23 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     fixedMinValue: needsValue ? draft.fixedMinValue : '',
     fixedMaxValue: needsValue ? draft.fixedMaxValue : '',
     damageTypeKey: draft.resultType === 'DAMAGE' ? draft.damageTypeKey : '',
+    damageDeliveryKind:
+      draft.resultType === 'DAMAGE' ? draft.damageDeliveryKind || 'SKILL' : '',
+    damageOriginKind:
+      draft.resultType === 'DAMAGE' ? draft.damageOriginKind || 'DIRECT' : '',
+    criticalMode:
+      draft.resultType === 'DAMAGE' ? draft.criticalMode || 'DISALLOWED' : '',
+    criticalMultiplierFormulaKey:
+      draft.resultType === 'DAMAGE' && draft.criticalMode !== 'DISALLOWED'
+        ? draft.criticalMultiplierFormulaKey
+        : '',
+    vampRules: draft.resultType === 'DAMAGE'
+      ? sortVampRuleDrafts(draft.vampRules.map((rule) => ({ ...rule })))
+      : [],
+    absorbedDamageTypeKey:
+      draft.resultType === 'NORMAL_SHIELD' ? draft.absorbedDamageTypeKey : '',
+    shieldDecayMode:
+      draft.resultType === 'NORMAL_SHIELD' ? draft.shieldDecayMode || 'NONE' : '',
     attributeKey:
       draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE'
         ? draft.attributeKey
@@ -1141,6 +1281,7 @@ export function validateSkillEffectDraft(
       {
         lifecycleEnabled: prepared.lifecycleEnabled,
         hasDuration,
+        expiryMode: prepared.lifecycle.expiryMode,
         parentEffectKey
       }
     );
@@ -1202,7 +1343,7 @@ export function buildSkillEffectResult(draft: SkillEffectResultDraft): SkillEffe
     clearHiddenResultFields(draft),
     { includeEffectKey: false },
     fieldErrors,
-    { lifecycleEnabled: false, hasDuration: false, parentEffectKey: '' }
+    { lifecycleEnabled: false, hasDuration: false, expiryMode: '', parentEffectKey: '' }
   );
   if (!built || Object.keys(fieldErrors).length > 0) {
     throw new Error('结果草稿无法构建为强类型请求。');
@@ -1369,6 +1510,7 @@ function appendUnknownOption(options: CatalogRefOption[], currentKey: string): v
 type ResultLifecycleContext = {
   lifecycleEnabled: boolean;
   hasDuration: boolean;
+  expiryMode: SkillEffectExpiryMode | '';
   parentEffectKey: string;
 };
 
@@ -1433,7 +1575,22 @@ function validateAndBuildResult(
         ...base,
         resultType: 'DAMAGE',
         valueRule: valueRule!,
-        detail: { damageTypeKey: draft.damageTypeKey.trim() }
+        detail: {
+          damageTypeKey: draft.damageTypeKey.trim(),
+          deliveryKind: draft.damageDeliveryKind as SkillEffectDamageDeliveryKind,
+          originKind: draft.damageOriginKind as SkillEffectDamageOriginKind,
+          critical: {
+            mode: draft.criticalMode as SkillEffectCriticalMode,
+            multiplierFormulaKey: draft.criticalMode === 'DISALLOWED'
+              ? null
+              : draft.criticalMultiplierFormulaKey.trim() || null
+          },
+          vampRules: sortVampRuleDrafts(draft.vampRules).map((rule) => ({
+            vampType: rule.vampType as SkillEffectVampType,
+            basisOutputKind: rule.basisOutputKind as SkillEffectVampBasisOutputKind,
+            efficiencyFormulaKey: rule.efficiencyFormulaKey.trim()
+          }))
+        }
       };
     case 'DIRECT_HEAL':
       return {
@@ -1447,7 +1604,10 @@ function validateAndBuildResult(
         ...base,
         resultType: 'NORMAL_SHIELD',
         valueRule: valueRule!,
-        detail: {}
+        detail: {
+          absorbedDamageTypeKey: draft.absorbedDamageTypeKey.trim() || null,
+          decayMode: draft.shieldDecayMode as SkillEffectNormalShieldDecayMode
+        }
       };
     case 'ATTRIBUTE_CHANGE':
       return {
@@ -1605,10 +1765,104 @@ function validateTypeSpecificFields(
       requireNonEmpty(draft.damageTypeKey, fieldErrors, 'damageTypeKey', '请选择伤害类型。');
       validateCatalogRef(options, 'damageTypes', draft.damageTypeKey, draft.originalDamageTypeKey, fieldErrors, 'damageTypeKey');
       validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      if (draft.damageDeliveryKind !== 'SKILL' && draft.damageDeliveryKind !== 'BASIC_ATTACK') {
+        fieldErrors.damageDeliveryKind = '请选择伤害产生方式。';
+      }
+      if (draft.damageOriginKind !== 'DIRECT' && draft.damageOriginKind !== 'REFLECTED') {
+        fieldErrors.damageOriginKind = '请选择伤害来源性质。';
+      }
+      if (
+        draft.criticalMode !== 'DISALLOWED'
+        && draft.criticalMode !== 'SOURCE_CRIT_CHANCE'
+        && draft.criticalMode !== 'FORCED'
+      ) {
+        fieldErrors.criticalMode = '请选择暴击方式。';
+      } else if (draft.criticalMode === 'DISALLOWED') {
+        if (draft.criticalMultiplierFormulaKey.trim()) {
+          fieldErrors.criticalMultiplierFormulaKey = '不允许暴击时不能配置暴击倍率公式。';
+        }
+      } else if (draft.criticalMultiplierFormulaKey.trim()) {
+        validateCatalogRef(
+          options,
+          'formulas',
+          draft.criticalMultiplierFormulaKey,
+          draft.criticalMultiplierFormulaKey,
+          fieldErrors,
+          'criticalMultiplierFormulaKey',
+          { allowDisabled: true }
+        );
+      }
+      if (draft.vampRules.length > SKILL_EFFECT_VAMP_TYPES.length) {
+        fieldErrors.vampRules = '吸血规则不能超过 4 条。';
+      }
+      {
+        const seenVampTypes = new Set<string>();
+        for (const rule of draft.vampRules) {
+          if (!(SKILL_EFFECT_VAMP_TYPES as readonly string[]).includes(rule.vampType)) {
+            fieldErrors.vampRules = '请选择吸血种类。';
+            break;
+          }
+          if (seenVampTypes.has(rule.vampType)) {
+            fieldErrors.vampRules = '吸血种类不能重复。';
+            break;
+          }
+          seenVampTypes.add(rule.vampType);
+          if (
+            rule.basisOutputKind !== 'POST_DEFENSE_DAMAGE'
+            && rule.basisOutputKind !== 'ACTUAL_HP_LOSS'
+          ) {
+            fieldErrors.vampRules = '请选择吸血计算基准。';
+            break;
+          }
+          if (!rule.efficiencyFormulaKey.trim()) {
+            fieldErrors.vampRules = '请选择吸血效率公式。';
+            break;
+          }
+          validateCatalogRef(
+            options,
+            'formulas',
+            rule.efficiencyFormulaKey,
+            rule.efficiencyFormulaKey,
+            fieldErrors,
+            'vampRules',
+            { allowDisabled: true }
+          );
+          if (fieldErrors.vampRules) break;
+        }
+      }
       break;
     case 'DIRECT_HEAL':
+      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      break;
     case 'NORMAL_SHIELD':
       validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      if (draft.absorbedDamageTypeKey.trim()) {
+        validateCatalogRef(
+          options,
+          'damageTypes',
+          draft.absorbedDamageTypeKey,
+          draft.originalAbsorbedDamageTypeKey,
+          fieldErrors,
+          'absorbedDamageTypeKey'
+        );
+      }
+      if (draft.shieldDecayMode !== 'NONE' && draft.shieldDecayMode !== 'LINEAR_TO_ZERO') {
+        fieldErrors.shieldDecayMode = '请选择护盾衰减方式。';
+      } else if (draft.shieldDecayMode === 'LINEAR_TO_ZERO') {
+        if (!context.lifecycleEnabled) {
+          fieldErrors.shieldDecayMode = '线性衰减需要先启用父效果生命周期。';
+        } else if (!context.hasDuration) {
+          fieldErrors.shieldDecayMode = '线性衰减需要配置父效果持续时间公式。';
+        } else if (context.expiryMode !== 'ALL_AT_ONCE') {
+          fieldErrors.shieldDecayMode = '线性衰减要求父效果一次全部到期。';
+        }
+        if (draft.lifecycleBehavior.moment !== 'PERSISTENT') {
+          fieldErrors.moment = '线性衰减护盾的生命周期时点必须为持续生效。';
+        }
+        if (draft.lifecycleBehavior.stackValueMode !== 'SHARED') {
+          fieldErrors.stackValueMode = '线性衰减护盾必须使用整个实例共享数值。';
+        }
+      }
       break;
     case 'ATTRIBUTE_CHANGE':
       requireNonEmpty(draft.attributeKey, fieldErrors, 'attributeKey', '请选择属性。');
@@ -2152,11 +2406,21 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         ...result,
         lifecycleBehavior,
         valueRule: { ...result.valueRule },
-        detail: { ...result.detail }
+        detail: {
+          ...result.detail,
+          critical: { ...result.detail.critical },
+          vampRules: result.detail.vampRules.map((rule) => ({ ...rule }))
+        }
       };
     case 'DIRECT_HEAL':
-    case 'NORMAL_SHIELD':
       return { ...result, lifecycleBehavior, valueRule: { ...result.valueRule }, detail: {} };
+    case 'NORMAL_SHIELD':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
     case 'ATTRIBUTE_CHANGE':
       return {
         ...result,
@@ -2218,6 +2482,9 @@ function mapResultIssueField(
   }
   if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
     return 'affectedSkillKeys';
+  }
+  if (/^detail\.vampRules\[\d+\](?:\.(?:vampType|basisOutputKind|efficiencyFormulaKey))?$/.test(nested)) {
+    return 'vampRules';
   }
   if (nested === 'detail.operation') {
     if (resultType === 'ATTRIBUTE_CHANGE') return 'attributeOperation';

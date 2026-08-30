@@ -112,7 +112,13 @@ const EFFECT: SkillEffect = {
         fixedMinValue: null,
         fixedMaxValue: null
       },
-      detail: { damageTypeKey: 'physical' }
+      detail: {
+        damageTypeKey: 'physical',
+        deliveryKind: 'SKILL',
+        originKind: 'DIRECT',
+        critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+        vampRules: []
+      }
     },
     {
       resultKey: 'self_cooldown_reduction',
@@ -241,6 +247,10 @@ describe('skill effect form defaults and conversion', () => {
       resultType: 'DAMAGE',
       target: 'TARGET',
       fixedMultiplier: '1',
+      damageDeliveryKind: 'SKILL',
+      damageOriginKind: 'DIRECT',
+      criticalMode: 'DISALLOWED',
+      vampRules: [],
       originalResultType: null,
       originalDamageTypeKey: null
     });
@@ -260,6 +270,10 @@ describe('skill effect form defaults and conversion', () => {
     expect(draft.results[0]).toMatchObject({
       resultType: 'DAMAGE',
       damageTypeKey: 'physical',
+      damageDeliveryKind: 'SKILL',
+      damageOriginKind: 'DIRECT',
+      criticalMode: 'DISALLOWED',
+      vampRules: [],
       originalResultType: 'DAMAGE',
       originalDamageTypeKey: 'physical',
       statusKey: '',
@@ -308,7 +322,13 @@ describe('skill effect form normalization and request building', () => {
             fixedMinValue: null,
             fixedMaxValue: null
           },
-          detail: { damageTypeKey: 'physical' }
+          detail: {
+            damageTypeKey: 'physical',
+            deliveryKind: 'SKILL',
+            originKind: 'DIRECT',
+            critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+            vampRules: []
+          }
         }
       ]
     });
@@ -473,6 +493,39 @@ describe('skill effect form normalization and request building', () => {
 });
 
 describe('skill effect form validation', () => {
+  it('rejects duplicate or incomplete vamp rows', () => {
+    const duplicate = validateSkillEffectDraft(validEffectDraft([validDamageDraft({
+      vampRules: [
+        {
+          vampType: 'OMNIVAMP',
+          basisOutputKind: 'POST_DEFENSE_DAMAGE',
+          efficiencyFormulaKey: 'heal'
+        },
+        {
+          vampType: 'OMNIVAMP',
+          basisOutputKind: 'ACTUAL_HP_LOSS',
+          efficiencyFormulaKey: 'damage'
+        }
+      ]
+    })]), { includeEffectKey: true, catalog: CATALOG });
+    expect(duplicate.ok).toBe(false);
+    if (!duplicate.ok) {
+      expect(duplicate.resultErrors[0]?.fieldErrors.vampRules).toBe('吸血种类不能重复。');
+    }
+
+    const missingFormula = validateSkillEffectDraft(validEffectDraft([validDamageDraft({
+      vampRules: [{
+        vampType: 'SPELL_VAMP',
+        basisOutputKind: 'ACTUAL_HP_LOSS',
+        efficiencyFormulaKey: ''
+      }]
+    })]), { includeEffectKey: true, catalog: CATALOG });
+    expect(missingFormula.ok).toBe(false);
+    if (!missingFormula.ok) {
+      expect(missingFormula.resultErrors[0]?.fieldErrors.vampRules).toBe('请选择吸血效率公式。');
+    }
+  });
+
   it('accepts the frozen lowercase stable-key grammar', () => {
     expect(SKILL_EFFECT_KEY_PATTERN.test('on_hit_results')).toBe(true);
     expect(SKILL_EFFECT_KEY_PATTERN.test('OnHit')).toBe(false);
@@ -719,7 +772,8 @@ describe('skill effect API field issue mapping', () => {
     const submitted = [
       { resultType: 'DAMAGE' as const },
       { resultType: 'ATTRIBUTE_CHANGE' as const },
-      { resultType: 'COOLDOWN_CHANGE' as const }
+      { resultType: 'COOLDOWN_CHANGE' as const },
+      { resultType: 'NORMAL_SHIELD' as const }
     ];
     const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
       fieldIssues: [
@@ -727,9 +781,13 @@ describe('skill effect API field issue mapping', () => {
         { field: 'name', code: 'LENGTH_INVALID', message: '效果名称不能超过 100 个字符' },
         { field: 'results[0].valueRule.formulaKey', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
         { field: 'results[0].detail.damageTypeKey', code: 'UNKNOWN_DAMAGE_TYPE', message: '伤害类型不存在' },
+        { field: 'results[0].detail.originKind', code: 'ENUM_INVALID', message: '来源性质不合法' },
+        { field: 'results[0].detail.critical.multiplierFormulaKey', code: 'UNKNOWN_FORMULA', message: '暴击公式不存在' },
+        { field: 'results[0].detail.vampRules[1].efficiencyFormulaKey', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
         { field: 'results[1].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' },
         { field: 'results[1].resultType', code: 'IMMUTABLE', message: '结果种类不可修改' },
         { field: 'results[2].detail.affectedSkillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
+        { field: 'results[3].detail.decayMode', code: 'ENUM_INVALID', message: '护盾衰减不合法' },
         { field: 'gameId', code: 'NOT_FOUND', message: '游戏不存在' }
       ]
     });
@@ -744,7 +802,10 @@ describe('skill effect API field issue mapping', () => {
           index: 0,
           fieldErrors: {
             formulaKey: '公式不存在',
-            damageTypeKey: '伤害类型不存在'
+            damageTypeKey: '伤害类型不存在',
+            damageOriginKind: '来源性质不合法',
+            criticalMultiplierFormulaKey: '暴击公式不存在',
+            vampRules: '吸血公式不存在'
           }
         },
         {
@@ -758,6 +819,12 @@ describe('skill effect API field issue mapping', () => {
           index: 2,
           fieldErrors: {
             affectedSkillKeys: '技能不存在'
+          }
+        },
+        {
+          index: 3,
+          fieldErrors: {
+            shieldDecayMode: '护盾衰减不合法'
           }
         }
       ],
@@ -814,6 +881,75 @@ describe('skill effect draft sorting', () => {
     expect(normalizeEffectDraftForDirtyComparison(left)).toEqual(
       normalizeEffectDraftForDirtyComparison(right)
     );
+  });
+
+  it('builds critical and fixed-order vamp details without empty rows', () => {
+    const normalized = expectValid(validEffectDraft([validDamageDraft({
+      criticalMode: 'SOURCE_CRIT_CHANCE',
+      criticalMultiplierFormulaKey: 'heal',
+      vampRules: [
+        {
+          vampType: 'OMNIVAMP',
+          basisOutputKind: 'ACTUAL_HP_LOSS',
+          efficiencyFormulaKey: 'heal'
+        },
+        {
+          vampType: 'LIFE_STEAL',
+          basisOutputKind: 'POST_DEFENSE_DAMAGE',
+          efficiencyFormulaKey: 'damage'
+        }
+      ]
+    })]));
+
+    expect(normalized.results[0]).toMatchObject({
+      resultType: 'DAMAGE',
+      detail: {
+        deliveryKind: 'SKILL',
+        originKind: 'DIRECT',
+        critical: { mode: 'SOURCE_CRIT_CHANCE', multiplierFormulaKey: 'heal' },
+        vampRules: [
+          { vampType: 'LIFE_STEAL', efficiencyFormulaKey: 'damage' },
+          { vampType: 'OMNIVAMP', efficiencyFormulaKey: 'heal' }
+        ]
+      }
+    });
+  });
+
+  it('builds a linearly decaying normal shield only with matching lifecycle fields', () => {
+    const shield = createEmptyResultDraft('NORMAL_SHIELD');
+    Object.assign(shield, {
+      resultKey: 'shield',
+      name: '普通护盾',
+      formulaKey: 'heal',
+      fixedMultiplier: '1',
+      absorbedDamageTypeKey: 'physical',
+      shieldDecayMode: 'LINEAR_TO_ZERO',
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: 'SHARED',
+        reapplicationValueMode: 'KEEP',
+        periodicExecutionMode: ''
+      }
+    });
+    const normalized = expectValid(validEffectDraft([shield], {
+      lifecycleEnabled: true,
+      lifecycle: validLifecycle()
+    }));
+    expect(normalized.results[0]).toMatchObject({
+      resultType: 'NORMAL_SHIELD',
+      detail: { absorbedDamageTypeKey: 'physical', decayMode: 'LINEAR_TO_ZERO' }
+    });
+
+    const invalid = validateSkillEffectDraft(validEffectDraft([shield]), {
+      includeEffectKey: true,
+      catalog: CATALOG
+    });
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) {
+      expect(invalid.resultErrors[0]?.fieldErrors.shieldDecayMode)
+        .toBe('线性衰减需要先启用父效果生命周期。');
+    }
   });
 });
 
