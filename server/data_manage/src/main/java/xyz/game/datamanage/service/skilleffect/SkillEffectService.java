@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -80,20 +82,42 @@ public class SkillEffectService {
     private static final String PROCESS_BINDING_CONSTRAINT = "fk_skill_process_effect_bindings_effect";
     private static final String LIFECYCLE_TARGET_CONSTRAINT = "fk_skill_effect_lifecycle_operations_target";
     private static final String REFRESH_DURATION_CONSTRAINT = "ck_skill_effect_lifecycle_refresh_target_duration";
+    private static final Set<String> TRIGGER_EFFECT_IN_USE_CONSTRAINTS = Set.of(
+        "fk_skill_trigger_effect_actions_effect",
+        "fk_skill_trigger_lifecycle_events_effect",
+        "fk_skill_trigger_lifecycle_events_lifecycle",
+        "fk_skill_trigger_result_events_result",
+        "fk_skill_trigger_result_modifiers_result",
+        "fk_skill_trigger_status_cond_source_result",
+        "fk_skill_trigger_combat_status_bind_result",
+        "fk_skill_trigger_prior_result_bind_result"
+    );
     private static final String DISABLED = "DISABLED";
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillEffectMapper mapper;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillEffectService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillEffectMapper mapper
     ) {
+        this(gamesMapper, skillMapper, mapper, null);
+    }
+
+    @Autowired
+    public SkillEffectService(
+        GamesMapper gamesMapper,
+        SkillMapper skillMapper,
+        SkillEffectMapper mapper,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -181,6 +205,27 @@ public class SkillEffectService {
         }
         throwIfInvalid(typeIssues);
 
+        Set<String> requestedKeys = new LinkedHashSet<>();
+        for (SkillEffectResultRequest result : values.results()) {
+            requestedKeys.add(result.resultKey());
+        }
+        List<String> removedKeys = new ArrayList<>();
+        for (SkillEffectResultRow existing : existingRows) {
+            if (!requestedKeys.contains(existing.resultKey())) {
+                removedKeys.add(existing.resultKey());
+            }
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertEffectUpdate(
+                gameId,
+                skillKey,
+                effectKey,
+                existingLifecycle,
+                values.lifecycle(),
+                values.results(),
+                removedKeys
+            );
+        }
         if (existingLifecycle != null && values.lifecycle() == null
             && mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
             throw lifecycleInUse();
@@ -204,16 +249,6 @@ public class SkillEffectService {
         );
         lockAndValidateCatalogs(gameId, skillKey, effectKey, refs);
 
-        Set<String> requestedKeys = new LinkedHashSet<>();
-        for (SkillEffectResultRequest result : values.results()) {
-            requestedKeys.add(result.resultKey());
-        }
-        List<String> removedKeys = new ArrayList<>();
-        for (SkillEffectResultRow existing : existingRows) {
-            if (!requestedKeys.contains(existing.resultKey())) {
-                removedKeys.add(existing.resultKey());
-            }
-        }
         try {
             persistLifecycle(gameId, skillKey, effectKey, existingLifecycle, values.lifecycle());
             if (!removedKeys.isEmpty()) {
@@ -249,6 +284,9 @@ public class SkillEffectService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex, existingLifecycle != null && values.lifecycle() == null, clearingDuration);
         }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+        }
         return requireDetail(gameId, skillKey, effectKey);
     }
 
@@ -259,8 +297,16 @@ public class SkillEffectService {
         if (mapper.findEffectForUpdate(gameId, skillKey, effectKey) == null) {
             throw effectNotFound(effectKey);
         }
+        List<Map<String, String>> inUse = new ArrayList<>();
         if (mapper.countProcessBindings(gameId, skillKey, effectKey) > 0) {
-            throw effectInUse();
+            inUse.add(fieldIssue("effectKey", "CONFLICT", "技能效果已被过程挂接引用，不能删除"));
+        }
+        if (triggerRuleService != null) {
+            inUse.addAll(triggerRuleService.effectDeleteIssues(gameId, skillKey, effectKey));
+        }
+        if (!inUse.isEmpty()) {
+            inUse.sort(Comparator.comparing(issue -> issue.get("field")));
+            throw effectInUse(inUse);
         }
         if (mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
             throw lifecycleInUse();
@@ -1946,7 +1992,20 @@ public class SkillEffectService {
     }
 
     private static ApiException effectInUse() {
-        return conflict("409.SKILL_EFFECT_IN_USE", "技能效果已被过程挂接引用，不能删除", "effectKey");
+        return effectInUse(List.of(fieldIssue(
+            "effectKey",
+            "CONFLICT",
+            "技能效果已被过程挂接引用，不能删除"
+        )));
+    }
+
+    private static ApiException effectInUse(List<Map<String, String>> fieldIssues) {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE",
+            "技能效果已被引用，不能删除或修改",
+            Map.of("fieldIssues", List.copyOf(fieldIssues))
+        );
     }
 
     private static ApiException lifecycleInUse() {
@@ -2022,6 +2081,11 @@ public class SkillEffectService {
         }
         if (text.contains(PROCESS_BINDING_CONSTRAINT)) {
             return effectInUse();
+        }
+        for (String constraint : TRIGGER_EFFECT_IN_USE_CONSTRAINTS) {
+            if (text.contains(constraint)) {
+                return effectInUse();
+            }
         }
         if (text.contains(LIFECYCLE_TARGET_CONSTRAINT)) {
             if (deletingOrRemovingLifecycle) {

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skill.SkillUpdateRequest;
 import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
 import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -53,6 +55,7 @@ public class SkillService {
     private final SkillProcessMapper processMapper;
     private final SkillInternalStateMapper internalStateMapper;
     private final SkillParameterLevelService levelService;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillService(
         GamesMapper gamesMapper,
@@ -64,6 +67,31 @@ public class SkillService {
         SkillInternalStateMapper internalStateMapper,
         SkillParameterLevelService levelService
     ) {
+        this(
+            gamesMapper,
+            mapper,
+            parameterMapper,
+            formulaMapper,
+            effectMapper,
+            processMapper,
+            internalStateMapper,
+            levelService,
+            null
+        );
+    }
+
+    @Autowired
+    public SkillService(
+        GamesMapper gamesMapper,
+        SkillMapper mapper,
+        SkillParameterMapper parameterMapper,
+        SkillFormulaMapper formulaMapper,
+        SkillEffectMapper effectMapper,
+        SkillProcessMapper processMapper,
+        SkillInternalStateMapper internalStateMapper,
+        SkillParameterLevelService levelService,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
         this.parameterMapper = parameterMapper;
@@ -72,6 +100,7 @@ public class SkillService {
         this.processMapper = processMapper;
         this.internalStateMapper = internalStateMapper;
         this.levelService = levelService;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -166,8 +195,14 @@ public class SkillService {
         if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw notFound(skillKey);
         }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertSourceSkillNotReferenced(gameId, skillKey);
+        }
         if (effectMapper.countExternalCooldownReferences(gameId, skillKey) > 0) {
             throw inUse();
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.deleteAllForSkill(gameId, skillKey);
         }
         effectMapper.deleteLifecycleOperationDetailsForSkill(gameId, skillKey);
         processMapper.deleteAllForSkill(gameId, skillKey);

@@ -1395,8 +1395,685 @@ END;
 $$;
 
 -- -----------------------------------------------------------------------------
+-- skill_trigger_rules：事务提交时必须满足事件、条件、动作、绑定与保护完整形状
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.trg_skill_trigger_rule_complete_shape()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_game_id varchar(64);
+    v_skill_key varchar(64);
+    v_skill_trigger_rule_key varchar(64);
+    v_event_type varchar(32);
+    v_process_event_count int;
+    v_skill_event_count int;
+    v_result_event_count int;
+    v_lifecycle_event_count int;
+    v_status_event_count int;
+    v_health_event_count int;
+    v_istate_event_count int;
+    v_subject_event_count int;
+    v_action_count int;
+    v_fail_count int;
+    v_group record;
+    v_condition record;
+    v_action record;
+    v_binding record;
+    v_modifier record;
+    v_process_event record;
+    v_skill_event record;
+    v_result_event record;
+    v_lifecycle_event record;
+    v_istate_event record;
+    v_process_limit record;
+    v_prior record;
+    v_source_action record;
+    v_lifecycle record;
+    v_state_type varchar(24);
+    v_step_type varchar(32);
+    v_has_value int;
+    v_behavior_moment varchar(24);
+    v_status_op varchar(16);
+    v_status_key varchar(64);
+    v_expected_detail int;
+    v_attr_count int;
+    v_status_count int;
+    v_istate_cond_count int;
+    v_event_value_count int;
+    v_effect_action_count int;
+    v_process_action_count int;
+    v_istate_bind_count int;
+    v_combat_bind_count int;
+    v_event_bind_count int;
+    v_prior_bind_count int;
+    v_last_action_key varchar(64);
+    v_last_action_type varchar(24);
+BEGIN
+    IF TG_TABLE_NAME = 'skill_trigger_rules' THEN
+        IF TG_OP = 'DELETE' THEN
+            RETURN OLD;
+        END IF;
+        v_game_id := NEW.game_id;
+        v_skill_key := NEW.skill_key;
+        v_skill_trigger_rule_key := NEW.rule_key;
+    ELSE
+        v_game_id := COALESCE(NEW.game_id, OLD.game_id);
+        v_skill_key := COALESCE(NEW.skill_key, OLD.skill_key);
+        v_skill_trigger_rule_key := COALESCE(NEW.rule_key, OLD.rule_key);
+    END IF;
+
+    SELECT event_type
+    INTO v_event_type
+    FROM public.skill_trigger_rules
+    WHERE game_id = v_game_id
+      AND skill_key = v_skill_key
+      AND rule_key = v_skill_trigger_rule_key;
+    IF v_event_type IS NULL THEN
+        RETURN COALESCE(NEW, OLD);
+    END IF;
+
+    SELECT COUNT(*) INTO v_process_event_count
+    FROM public.skill_trigger_rule_process_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_skill_event_count
+    FROM public.skill_trigger_rule_skill_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_result_event_count
+    FROM public.skill_trigger_rule_result_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_lifecycle_event_count
+    FROM public.skill_trigger_rule_lifecycle_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_status_event_count
+    FROM public.skill_trigger_rule_status_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_health_event_count
+    FROM public.skill_trigger_rule_health_threshold_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_istate_event_count
+    FROM public.skill_trigger_rule_internal_state_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_subject_event_count
+    FROM public.skill_trigger_rule_subject_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+
+    v_expected_detail := CASE
+        WHEN v_event_type IN ('PROCESS_MOMENT', 'PROCESS_CANCEL_REQUESTED') THEN
+            CASE WHEN v_process_event_count = 1
+                AND v_skill_event_count + v_result_event_count + v_lifecycle_event_count
+                    + v_status_event_count + v_health_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type IN ('SKILL_USED', 'SKILL_HIT') THEN
+            CASE WHEN v_skill_event_count = 1
+                AND v_process_event_count + v_result_event_count + v_lifecycle_event_count
+                    + v_status_event_count + v_health_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type = 'RESULT_AVAILABLE' THEN
+            CASE WHEN v_result_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_lifecycle_event_count
+                    + v_status_event_count + v_health_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type = 'LIFECYCLE_MOMENT' THEN
+            CASE WHEN v_lifecycle_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_status_event_count + v_health_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type = 'STATUS_CHANGED' THEN
+            CASE WHEN v_status_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_health_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type = 'HEALTH_THRESHOLD_CROSSED' THEN
+            CASE WHEN v_health_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_status_event_count + v_istate_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type = 'INTERNAL_STATE_CHANGED' THEN
+            CASE WHEN v_istate_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
+                    + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+        WHEN v_event_type IN ('ENTITY_DIED', 'ENTITY_UNTARGETABLE') THEN
+            CASE WHEN v_subject_event_count = 1
+                AND v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
+                    + v_istate_event_count = 0
+            THEN 1 ELSE 0 END
+        ELSE
+            CASE WHEN v_process_event_count + v_skill_event_count + v_result_event_count
+                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
+                    + v_istate_event_count + v_subject_event_count = 0
+            THEN 1 ELSE 0 END
+    END;
+
+    IF v_expected_detail = 0 THEN
+        RAISE EXCEPTION
+            'skill_trigger_rules(%, %, %) event detail shape invalid at commit',
+            v_game_id, v_skill_key, v_skill_trigger_rule_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF v_event_type = 'PROCESS_MOMENT' THEN
+        SELECT * INTO v_process_event
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_process_event.moment_type IS NULL THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) PROCESS_MOMENT requires process moment at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_process_event.moment_type = 'STEP_TIMEOUT' THEN
+            SELECT step_type INTO v_step_type
+            FROM public.skill_process_steps
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND process_key = v_process_event.process_key
+              AND step_key = v_process_event.step_key;
+            IF v_step_type IS NULL OR v_step_type NOT IN ('CHARGE', 'RECAST', 'EMPOWERED_BASIC_ATTACK') THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) STEP_TIMEOUT only references timeout-capable steps at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        END IF;
+    ELSIF v_event_type = 'PROCESS_CANCEL_REQUESTED' THEN
+        SELECT * INTO v_process_event
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_process_event.moment_type IS NOT NULL OR v_process_event.step_key IS NOT NULL THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) PROCESS_CANCEL_REQUESTED moment fields must be empty at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'SKILL_USED' THEN
+        SELECT * INTO v_skill_event
+        FROM public.skill_trigger_rule_skill_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_skill_event.use_kind IS NULL THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) SKILL_USED requires use_kind at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'SKILL_HIT' THEN
+        SELECT * INTO v_skill_event
+        FROM public.skill_trigger_rule_skill_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_skill_event.use_kind IS NOT NULL THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) SKILL_HIT must not provide use_kind at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'RESULT_AVAILABLE' THEN
+        SELECT * INTO v_result_event
+        FROM public.skill_trigger_rule_result_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF EXISTS (
+            SELECT 1 FROM public.skill_effect_lifecycles
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND effect_key = v_result_event.effect_key
+        ) THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) RESULT_AVAILABLE requires no lifecycle at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'LIFECYCLE_MOMENT' THEN
+        SELECT * INTO v_lifecycle_event
+        FROM public.skill_trigger_rule_lifecycle_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_lifecycle_event.lifecycle_moment = 'PERSISTENT' THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) LIFECYCLE_MOMENT PERSISTENT is not allowed at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT * INTO v_lifecycle
+        FROM public.skill_effect_lifecycles
+        WHERE game_id = v_game_id AND skill_key = v_skill_key
+          AND effect_key = v_lifecycle_event.effect_key;
+        IF NOT FOUND THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) LIFECYCLE_MOMENT requires lifecycle at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_lifecycle_event.lifecycle_moment = 'PERIODIC'
+            AND v_lifecycle.periodic_interval_formula_key IS NULL THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) PERIODIC requires periodic interval at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_lifecycle_event.lifecycle_moment = 'NATURAL_END'
+            AND (v_lifecycle.duration_formula_key IS NULL OR v_lifecycle.expiry_mode = 'EXPLICIT_ONLY') THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) NATURAL_END requires duration and non-explicit expiry at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'INTERNAL_STATE_CHANGED' THEN
+        SELECT * INTO v_istate_event
+        FROM public.skill_trigger_rule_internal_state_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        SELECT state_type INTO v_state_type
+        FROM public.skill_internal_states
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND state_key = v_istate_event.state_key;
+        IF v_istate_event.change_kind = 'VALUE_CHANGED' AND v_state_type NOT IN ('COUNTER', 'AMMO') THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) internal state change_kind does not match state type at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        ELSIF v_istate_event.change_kind = 'OPTION_SELECTED' AND v_state_type <> 'MODE' THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) internal state change_kind does not match state type at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        ELSIF v_istate_event.change_kind = 'FLAG_CHANGED' AND v_state_type <> 'FLAG' THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) internal state change_kind does not match state type at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        ELSIF v_istate_event.change_kind = 'COOLDOWN_READY' AND v_state_type <> 'INTERNAL_COOLDOWN' THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) internal state change_kind does not match state type at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END IF;
+
+    FOR v_group IN
+        SELECT group_key
+        FROM public.skill_trigger_rule_condition_groups
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    LOOP
+        IF NOT EXISTS (
+            SELECT 1 FROM public.skill_trigger_rule_conditions
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND rule_key = v_skill_trigger_rule_key AND group_key = v_group.group_key
+        ) THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) empty condition group at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END LOOP;
+
+    FOR v_condition IN
+        SELECT *
+        FROM public.skill_trigger_rule_conditions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    LOOP
+        SELECT COUNT(*) INTO v_attr_count
+        FROM public.skill_trigger_rule_attribute_conditions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND group_key = v_condition.group_key AND condition_key = v_condition.condition_key;
+        SELECT COUNT(*) INTO v_status_count
+        FROM public.skill_trigger_rule_status_conditions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND group_key = v_condition.group_key AND condition_key = v_condition.condition_key;
+        SELECT COUNT(*) INTO v_istate_cond_count
+        FROM public.skill_trigger_rule_internal_state_conditions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND group_key = v_condition.group_key AND condition_key = v_condition.condition_key;
+        SELECT COUNT(*) INTO v_event_value_count
+        FROM public.skill_trigger_rule_event_value_conditions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND group_key = v_condition.group_key AND condition_key = v_condition.condition_key;
+        IF (v_condition.condition_type = 'ATTRIBUTE_COMPARE' AND NOT (v_attr_count = 1 AND v_status_count + v_istate_cond_count + v_event_value_count = 0))
+            OR (v_condition.condition_type = 'STATUS_CHECK' AND NOT (v_status_count = 1 AND v_attr_count + v_istate_cond_count + v_event_value_count = 0))
+            OR (v_condition.condition_type = 'INTERNAL_STATE_CHECK' AND NOT (v_istate_cond_count = 1 AND v_attr_count + v_status_count + v_event_value_count = 0))
+            OR (v_condition.condition_type = 'EVENT_VALUE_COMPARE' AND NOT (v_event_value_count = 1 AND v_attr_count + v_status_count + v_istate_cond_count = 0))
+        THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) condition detail shape invalid at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_condition.condition_type = 'STATUS_CHECK' THEN
+            PERFORM 1
+            FROM public.skill_trigger_rule_status_conditions c
+            WHERE c.game_id = v_game_id AND c.skill_key = v_skill_key
+              AND c.rule_key = v_skill_trigger_rule_key
+              AND c.group_key = v_condition.group_key
+              AND c.condition_key = v_condition.condition_key
+              AND c.check_kind IN ('STACKS_COMPARE', 'REMAINING_MS_COMPARE');
+            IF FOUND THEN
+                SELECT b.moment, d.operation, d.status_key
+                INTO v_behavior_moment, v_status_op, v_status_key
+                FROM public.skill_trigger_rule_status_conditions c
+                JOIN public.skill_effect_result_lifecycle_behaviors b
+                  ON b.game_id = c.game_id AND c.skill_key = b.skill_key
+                 AND b.effect_key = c.source_effect_key AND b.result_key = c.source_result_key
+                JOIN public.skill_effect_status_operation_details d
+                  ON d.game_id = c.game_id AND d.skill_key = c.skill_key
+                 AND d.effect_key = c.source_effect_key AND d.result_key = c.source_result_key
+                WHERE c.game_id = v_game_id AND c.skill_key = v_skill_key
+                  AND c.rule_key = v_skill_trigger_rule_key
+                  AND c.group_key = v_condition.group_key
+                  AND c.condition_key = v_condition.condition_key;
+                IF v_behavior_moment IS DISTINCT FROM 'PERSISTENT'
+                    OR v_status_op IS DISTINCT FROM 'APPLY'
+                    OR v_status_key IS NULL THEN
+                    RAISE EXCEPTION
+                        'skill_trigger_rules(%, %, %) status source result must be PERSISTENT STATUS_OPERATION APPLY at commit',
+                        v_game_id, v_skill_key, v_skill_trigger_rule_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+            END IF;
+        END IF;
+    END LOOP;
+
+    SELECT COUNT(*) INTO v_action_count
+    FROM public.skill_trigger_rule_actions
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    IF v_action_count = 0 THEN
+        RAISE EXCEPTION
+            'skill_trigger_rules(%, %, %) missing action at commit',
+            v_game_id, v_skill_key, v_skill_trigger_rule_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    SELECT COUNT(*) INTO v_fail_count
+    FROM public.skill_trigger_rule_actions
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+      AND action_type = 'FAIL_PROCESS';
+    IF v_fail_count > 1 THEN
+        RAISE EXCEPTION
+            'skill_trigger_rules(%, %, %) FAIL_PROCESS must be last at commit',
+            v_game_id, v_skill_key, v_skill_trigger_rule_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+    SELECT action_key, action_type
+    INTO v_last_action_key, v_last_action_type
+    FROM public.skill_trigger_rule_actions
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    ORDER BY sort_order ASC, action_key ASC
+    OFFSET v_action_count - 1;
+    IF v_fail_count = 1 AND v_last_action_type <> 'FAIL_PROCESS' THEN
+        RAISE EXCEPTION
+            'skill_trigger_rules(%, %, %) FAIL_PROCESS must be last at commit',
+            v_game_id, v_skill_key, v_skill_trigger_rule_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    FOR v_action IN
+        SELECT *
+        FROM public.skill_trigger_rule_actions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    LOOP
+        SELECT COUNT(*) INTO v_effect_action_count
+        FROM public.skill_trigger_rule_effect_actions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key
+          AND rule_key = v_skill_trigger_rule_key AND action_key = v_action.action_key;
+        SELECT COUNT(*) INTO v_process_action_count
+        FROM public.skill_trigger_rule_process_actions
+        WHERE game_id = v_game_id AND skill_key = v_skill_key
+          AND rule_key = v_skill_trigger_rule_key AND action_key = v_action.action_key;
+        IF (v_action.action_type = 'EXECUTE_EFFECT' AND NOT (v_effect_action_count = 1 AND v_process_action_count = 0))
+            OR (v_action.action_type IN ('START_PROCESS', 'FAIL_PROCESS')
+                AND NOT (v_process_action_count = 1 AND v_effect_action_count = 0))
+        THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) action detail shape invalid at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_action.action_type = 'START_PROCESS' THEN
+            IF EXISTS (
+                SELECT 1 FROM public.skill_trigger_rule_process_actions
+                WHERE game_id = v_game_id AND skill_key = v_skill_key
+                  AND rule_key = v_skill_trigger_rule_key AND action_key = v_action.action_key
+                  AND failure_reason IS NOT NULL
+            ) THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) START_PROCESS failure_reason must be empty at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_action.action_type = 'FAIL_PROCESS' THEN
+            IF EXISTS (
+                SELECT 1 FROM public.skill_trigger_rule_process_actions
+                WHERE game_id = v_game_id AND skill_key = v_skill_key
+                  AND rule_key = v_skill_trigger_rule_key AND action_key = v_action.action_key
+                  AND failure_reason IS NULL
+            ) THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) FAIL_PROCESS requires failure_reason at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        END IF;
+    END LOOP;
+
+    FOR v_binding IN
+        SELECT *
+        FROM public.skill_trigger_rule_runtime_input_bindings
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    LOOP
+        SELECT COUNT(*) INTO v_istate_bind_count
+        FROM public.skill_trigger_rule_internal_state_bindings
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND action_key = v_binding.action_key AND binding_key = v_binding.binding_key;
+        SELECT COUNT(*) INTO v_combat_bind_count
+        FROM public.skill_trigger_rule_combat_status_bindings
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND action_key = v_binding.action_key AND binding_key = v_binding.binding_key;
+        SELECT COUNT(*) INTO v_event_bind_count
+        FROM public.skill_trigger_rule_event_value_bindings
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND action_key = v_binding.action_key AND binding_key = v_binding.binding_key;
+        SELECT COUNT(*) INTO v_prior_bind_count
+        FROM public.skill_trigger_rule_prior_result_bindings
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+          AND action_key = v_binding.action_key AND binding_key = v_binding.binding_key;
+        IF (v_binding.source_type = 'INTERNAL_STATE' AND NOT (v_istate_bind_count = 1 AND v_combat_bind_count + v_event_bind_count + v_prior_bind_count = 0))
+            OR (v_binding.source_type = 'COMBAT_STATUS' AND NOT (v_combat_bind_count = 1 AND v_istate_bind_count + v_event_bind_count + v_prior_bind_count = 0))
+            OR (v_binding.source_type = 'EVENT_VALUE' AND NOT (v_event_bind_count = 1 AND v_istate_bind_count + v_combat_bind_count + v_prior_bind_count = 0))
+            OR (v_binding.source_type = 'PRIOR_ACTION_RESULT' AND NOT (v_prior_bind_count = 1 AND v_istate_bind_count + v_combat_bind_count + v_event_bind_count = 0))
+        THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) binding source detail shape invalid at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF v_binding.source_type = 'PRIOR_ACTION_RESULT' THEN
+            SELECT * INTO v_prior
+            FROM public.skill_trigger_rule_prior_result_bindings
+            WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+              AND action_key = v_binding.action_key AND binding_key = v_binding.binding_key;
+            SELECT a.action_type, a.sort_order, a.action_key, e.effect_key
+            INTO v_source_action
+            FROM public.skill_trigger_rule_actions a
+            LEFT JOIN public.skill_trigger_rule_effect_actions e
+              ON e.game_id = a.game_id AND e.skill_key = a.skill_key
+             AND e.rule_key = a.rule_key AND e.action_key = a.action_key
+            WHERE a.game_id = v_game_id AND a.skill_key = v_skill_key
+              AND a.rule_key = v_skill_trigger_rule_key
+              AND a.action_key = v_prior.source_action_key;
+            SELECT a.sort_order, a.action_key
+            INTO v_action
+            FROM public.skill_trigger_rule_actions a
+            WHERE a.game_id = v_game_id AND a.skill_key = v_skill_key
+              AND a.rule_key = v_skill_trigger_rule_key
+              AND a.action_key = v_binding.action_key;
+            IF v_source_action.action_type IS DISTINCT FROM 'EXECUTE_EFFECT' THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) prior action is not EXECUTE_EFFECT at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            IF v_source_action.effect_key IS DISTINCT FROM v_prior.source_effect_key THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) prior source_effect_key mismatch at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            IF (v_source_action.sort_order, v_source_action.action_key)
+                >= (v_action.sort_order, v_action.action_key) THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) prior action is not earlier at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            SELECT COUNT(*) INTO v_has_value
+            FROM public.skill_effect_result_values
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND effect_key = v_prior.source_effect_key
+              AND result_key = v_prior.source_result_key;
+            IF v_has_value = 0 THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) prior action result is not immediately available at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+            SELECT moment INTO v_behavior_moment
+            FROM public.skill_effect_result_lifecycle_behaviors
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND effect_key = v_prior.source_effect_key
+              AND result_key = v_prior.source_result_key;
+            IF FOUND AND v_behavior_moment IS DISTINCT FROM 'APPLICATION' THEN
+                RAISE EXCEPTION
+                    'skill_trigger_rules(%, %, %) prior action result is not immediately available at commit',
+                    v_game_id, v_skill_key, v_skill_trigger_rule_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        END IF;
+    END LOOP;
+
+    FOR v_modifier IN
+        SELECT *
+        FROM public.skill_trigger_rule_result_modifiers
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key
+    LOOP
+        IF NOT EXISTS (
+            SELECT 1 FROM public.skill_trigger_rule_actions
+            WHERE game_id = v_game_id AND skill_key = v_skill_key
+              AND rule_key = v_skill_trigger_rule_key AND action_key = v_modifier.action_key
+              AND action_type = 'EXECUTE_EFFECT'
+        ) THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) result modifier target invalid at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT COUNT(*) INTO v_has_value
+        FROM public.skill_effect_result_values
+        WHERE game_id = v_game_id AND skill_key = v_skill_key
+          AND effect_key = v_modifier.effect_key AND result_key = v_modifier.result_key;
+        IF v_has_value = 0 THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) result modifier target invalid at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END LOOP;
+
+    SELECT * INTO v_process_limit
+    FROM public.skill_trigger_rule_process_limits
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    IF FOUND THEN
+        IF v_event_type <> 'PROCESS_MOMENT' THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) process limit requires matching PROCESS_MOMENT at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT * INTO v_process_event
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+        IF v_process_event.process_key IS DISTINCT FROM v_process_limit.process_key THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) process limit requires matching PROCESS_MOMENT at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END IF;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+COMMENT ON FUNCTION public.trg_skill_trigger_rule_complete_shape() IS
+    'deferred：保证每个技能触发规则在提交时事件、条件、动作、绑定与保护形状合法';
+
+DROP TRIGGER IF EXISTS trg_skill_trigger_rules_complete_shape
+    ON public.skill_trigger_rules;
+CREATE CONSTRAINT TRIGGER trg_skill_trigger_rules_complete_shape
+AFTER INSERT OR UPDATE ON public.skill_trigger_rules
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_skill_trigger_rule_complete_shape();
+
+DO $$
+DECLARE
+    v_detail text;
+    v_details text[] := ARRAY[
+        'skill_trigger_rule_process_events',
+        'skill_trigger_rule_skill_events',
+        'skill_trigger_rule_result_events',
+        'skill_trigger_rule_lifecycle_events',
+        'skill_trigger_rule_status_events',
+        'skill_trigger_rule_health_threshold_events',
+        'skill_trigger_rule_internal_state_events',
+        'skill_trigger_rule_subject_events',
+        'skill_trigger_rule_condition_groups',
+        'skill_trigger_rule_conditions',
+        'skill_trigger_rule_attribute_conditions',
+        'skill_trigger_rule_status_conditions',
+        'skill_trigger_rule_internal_state_conditions',
+        'skill_trigger_rule_event_value_conditions',
+        'skill_trigger_rule_actions',
+        'skill_trigger_rule_effect_actions',
+        'skill_trigger_rule_process_actions',
+        'skill_trigger_rule_runtime_input_bindings',
+        'skill_trigger_rule_internal_state_bindings',
+        'skill_trigger_rule_combat_status_bindings',
+        'skill_trigger_rule_event_value_bindings',
+        'skill_trigger_rule_prior_result_bindings',
+        'skill_trigger_rule_result_modifiers',
+        'skill_trigger_rule_per_target_cooldowns',
+        'skill_trigger_rule_process_limits'
+    ];
+BEGIN
+    FOREACH v_detail IN ARRAY v_details
+    LOOP
+        IF to_regclass('public.' || v_detail) IS NULL THEN
+            CONTINUE;
+        END IF;
+        EXECUTE format(
+            'DROP TRIGGER IF EXISTS trg_%I_complete_shape ON public.%I',
+            v_detail,
+            v_detail
+        );
+        EXECUTE format(
+            'CREATE CONSTRAINT TRIGGER trg_%I_complete_shape
+             AFTER INSERT OR UPDATE OR DELETE ON public.%I
+             DEFERRABLE INITIALLY DEFERRED
+             FOR EACH ROW
+             EXECUTE FUNCTION public.trg_skill_trigger_rule_complete_shape()',
+            v_detail,
+            v_detail
+        );
+    END LOOP;
+END;
+$$;
+
+-- -----------------------------------------------------------------------------
 -- Backfill images partitions for existing games
 -- -----------------------------------------------------------------------------
+
 
 DO $$
 DECLARE

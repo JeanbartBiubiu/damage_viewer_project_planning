@@ -472,6 +472,60 @@ class SkillInternalStateServiceTest {
         assertEquals(STATE_KEY, exception.getDetails().get("stateKey"));
     }
 
+    @Test
+    void triggerRuleProtectsStateDeleteAndOptionRemovalWithLongConstructor() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillInternalStateService guarded = new SkillInternalStateService(
+            gamesMapper, skillMapper, mapper, triggerRuleService
+        );
+        when(mapper.findStateForUpdate(GAME_ID, SKILL_KEY, STATE_KEY)).thenReturn(stateRow(
+            STATE_KEY, SkillInternalStateType.COUNTER, SkillInternalStateScope.TARGET
+        ));
+        when(mapper.countStateOperations(GAME_ID, SKILL_KEY, STATE_KEY)).thenReturn(0L);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_INTERNAL_STATE_IN_USE",
+            "内部状态仍被触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(Map.of("field", "stateKey", "code", "TRIGGER_RULE_INTERNAL_STATE_IN_USE")))
+        )).when(triggerRuleService).assertInternalStateDeletable(GAME_ID, SKILL_KEY, STATE_KEY);
+        ApiException state = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, STATE_KEY));
+        assertEquals("409.SKILL_INTERNAL_STATE_IN_USE", state.getCode());
+        assertField(state, "stateKey", "TRIGGER_RULE_INTERNAL_STATE_IN_USE");
+        verify(mapper, never()).deleteState(any(), any(), any());
+
+        when(mapper.findStateForUpdate(GAME_ID, SKILL_KEY, "stance")).thenReturn(stateRow(
+            "stance", SkillInternalStateType.MODE, SkillInternalStateScope.SKILL
+        ));
+        when(mapper.listModeOptionsForUpdate(GAME_ID, SKILL_KEY, "stance")).thenReturn(List.of(
+            new SkillInternalStateModeOptionRow(GAME_ID, SKILL_KEY, "stance", "melee", "近战", 0, true),
+            new SkillInternalStateModeOptionRow(GAME_ID, SKILL_KEY, "stance", "ranged", "远程", 1, false)
+        ));
+        when(mapper.countOptionOperations(eq(GAME_ID), eq(SKILL_KEY), eq("stance"), anyCollection())).thenReturn(0L);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_INTERNAL_STATE_OPTION_IN_USE",
+            "模式选项仍被触发规则引用，不能移除",
+            Map.of("fieldIssues", List.of(Map.of("field", "detail.options", "code", "TRIGGER_RULE_OPTION_IN_USE")))
+        )).when(triggerRuleService).assertOptionsNotReferenced(eq(GAME_ID), eq(SKILL_KEY), eq("stance"), anyCollection());
+        ApiException option = assertThrows(
+            ApiException.class,
+            () -> guarded.update(
+                GAME_ID, SKILL_KEY, "stance",
+                new SkillInternalStateUpdateRequest(
+                    null, "姿态", SkillInternalStateType.MODE, SkillInternalStateScope.SKILL, null, 0,
+                    new SkillInternalStateModeDetail(List.of(
+                        new SkillInternalStateModeOption("melee", "近战", 0, true),
+                        new SkillInternalStateModeOption("magic", "法术", 1, false)
+                    ))
+                )
+            )
+        );
+        assertEquals("409.SKILL_INTERNAL_STATE_OPTION_IN_USE", option.getCode());
+        assertField(option, "detail.options", "TRIGGER_RULE_OPTION_IN_USE");
+        verify(mapper, never()).deleteModeOptions(any(), any(), any(), any());
+    }
+
     private void stubCreate(String stateKey) {
         when(mapper.countByKey(GAME_ID, SKILL_KEY, stateKey)).thenReturn(0L);
         when(mapper.insertState(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);

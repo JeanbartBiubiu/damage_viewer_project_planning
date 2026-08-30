@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import xyz.game.datamanage.model.status.StatusListResponse;
 import xyz.game.datamanage.model.status.StatusRecordStatus;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -32,10 +34,24 @@ public class StatusService {
 
     private final GamesMapper gamesMapper;
     private final StatusMapper mapper;
+    private final SkillTriggerRuleService triggerRuleService;
 
-    public StatusService(GamesMapper gamesMapper, StatusMapper mapper) {
+    public StatusService(
+        GamesMapper gamesMapper,
+        StatusMapper mapper
+    ) {
+        this(gamesMapper, mapper, null);
+    }
+
+    @Autowired
+    public StatusService(
+        GamesMapper gamesMapper,
+        StatusMapper mapper,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -122,6 +138,9 @@ public class StatusService {
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, statusKey) == null) {
             throw notFound(statusKey);
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertStatusDeletable(gameId, statusKey);
         }
         try {
             if (mapper.delete(gameId, statusKey) == 0) {

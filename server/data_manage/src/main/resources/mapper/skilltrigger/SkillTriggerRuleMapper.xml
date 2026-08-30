@@ -1,0 +1,1763 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper">
+
+    <resultMap id="summary" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse">
+        <constructor>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="event_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType"/>
+            <arg column="condition_group_count" javaType="java.lang.Integer"/>
+            <arg column="action_count" javaType="java.lang.Integer"/>
+            <arg column="per_target_cooldown_enabled" javaType="java.lang.Boolean"/>
+            <arg column="max_triggers_per_process_enabled" javaType="java.lang.Boolean"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="ruleRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="event_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="processEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="moment_type" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="skillEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="source_skill_key" javaType="java.lang.String"/>
+            <arg column="use_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="resultEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="lifecycleEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="lifecycle_moment" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="statusEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="change_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="healthEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="threshold_formula_key" javaType="java.lang.String"/>
+            <arg column="direction" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="internalStateEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="change_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateChangeKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="subjectEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="conditionGroupRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="conditionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="condition_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeConditionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="attribute_value_kind" javaType="xyz.game.datamanage.model.skillformula.AttributeValueKind"/>
+            <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
+            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="statusConditionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="check_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind"/>
+            <arg column="source_effect_key" javaType="java.lang.String"/>
+            <arg column="source_result_key" javaType="java.lang.String"/>
+            <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
+            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="internalStateConditionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateConditionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+            <arg column="expected_boolean" javaType="java.lang.Boolean"/>
+            <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
+            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="eventValueConditionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="event_value_key" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey"/>
+            <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
+            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="actionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="action_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="target_context" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="effectActionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="processActionRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="failure_reason" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="bindingRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="parameter_key" javaType="java.lang.String"/>
+            <arg column="source_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="internalStateBindingRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="combatStatusBindingRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind"/>
+            <arg column="source_effect_key" javaType="java.lang.String"/>
+            <arg column="source_result_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="eventValueBindingRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="event_value_key" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="priorResultBindingRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="source_action_key" javaType="java.lang.String"/>
+            <arg column="source_effect_key" javaType="java.lang.String"/>
+            <arg column="source_result_key" javaType="java.lang.String"/>
+            <arg column="output_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="modifierRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerResultModifierRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="fixed_multiplier" javaType="java.math.BigDecimal"/>
+            <arg column="fixed_min_value" javaType="java.math.BigDecimal"/>
+            <arg column="fixed_max_value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="cooldownRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldownRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="target_context" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="processLimitRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimitRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="limit_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="effectShapeRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow">
+        <constructor>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="result_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResultType"/>
+            <arg column="target" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectTarget"/>
+            <arg column="has_value_rule" javaType="boolean"/>
+            <arg column="value_formula_key" javaType="java.lang.String"/>
+            <arg column="result_attribute_key" javaType="java.lang.String"/>
+            <arg column="attribute_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation"/>
+            <arg column="status_key" javaType="java.lang.String"/>
+            <arg column="status_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation"/>
+            <arg column="result_moment" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment"/>
+            <arg column="lifecycle_target_effect_key" javaType="java.lang.String"/>
+            <arg column="lifecycle_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation"/>
+            <arg column="has_lifecycle" javaType="boolean"/>
+            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="max_stacks_formula_key" javaType="java.lang.String"/>
+            <arg column="application_stacks_formula_key" javaType="java.lang.String"/>
+            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="expiry_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="processShapeRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessShapeRow">
+        <constructor>
+            <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="binding_effect_key" javaType="java.lang.String"/>
+            <arg column="operation_state_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind"/>
+            <arg column="operation_value_formula_key" javaType="java.lang.String"/>
+            <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
+            <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="step_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStepType"/>
+            <arg column="cooldown_formula_key" javaType="java.lang.String"/>
+            <arg column="delay_formula_key" javaType="java.lang.String"/>
+            <arg column="multi_count_formula_key" javaType="java.lang.String"/>
+            <arg column="multi_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="periodic_count_formula_key" javaType="java.lang.String"/>
+            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="channel_duration_formula_key" javaType="java.lang.String"/>
+            <arg column="channel_count_formula_key" javaType="java.lang.String"/>
+            <arg column="charge_min_formula_key" javaType="java.lang.String"/>
+            <arg column="charge_max_formula_key" javaType="java.lang.String"/>
+            <arg column="recast_window_formula_key" javaType="java.lang.String"/>
+            <arg column="recast_count_formula_key" javaType="java.lang.String"/>
+            <arg column="empowered_window_formula_key" javaType="java.lang.String"/>
+            <arg column="counter_initial_formula_key" javaType="java.lang.String"/>
+            <arg column="counter_max_formula_key" javaType="java.lang.String"/>
+            <arg column="ammo_initial_formula_key" javaType="java.lang.String"/>
+            <arg column="ammo_max_formula_key" javaType="java.lang.String"/>
+            <arg column="ammo_recovery_formula_key" javaType="java.lang.String"/>
+            <arg column="cooldown_duration_formula_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="parameterRefRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow">
+        <constructor>
+            <arg column="parameter_key" javaType="java.lang.String"/>
+            <arg column="value_type" javaType="xyz.game.datamanage.model.skillparameter.SkillParameterValueType"/>
+            <arg column="value_mode" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="catalogLockRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow">
+        <constructor>
+            <arg column="key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+            <arg column="value_type" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="internalStateLockRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow">
+        <constructor>
+            <arg column="state_key" javaType="java.lang.String"/>
+            <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
+            <arg column="scope" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="referenceHit" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerReferenceHit">
+        <constructor>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="field" javaType="java.lang.String"/>
+            <arg column="rejected_value" javaType="java.lang.String"/>
+            <arg column="reason" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="ruleColumns">
+        game_id, skill_key, rule_key, name, description, sort_order, event_type, created_at, updated_at
+    </sql>
+
+    <sql id="effectShapeSelect">
+        SELECT r.effect_key,
+               r.result_key,
+               r.result_type,
+               r.target,
+               (v.formula_key IS NOT NULL) AS has_value_rule,
+               v.formula_key AS value_formula_key,
+               ac.attribute_key AS result_attribute_key,
+               ac.operation AS attribute_operation,
+               so.status_key,
+               so.operation AS status_operation,
+               lb.moment AS result_moment,
+               lo.target_effect_key AS lifecycle_target_effect_key,
+               lo.operation AS lifecycle_operation,
+               (l.effect_key IS NOT NULL) AS has_lifecycle,
+               l.duration_formula_key,
+               l.max_stacks_formula_key,
+               l.application_stacks_formula_key,
+               l.periodic_interval_formula_key,
+               l.expiry_mode
+        FROM public.skill_effect_results r
+        LEFT JOIN public.skill_effect_result_values v
+          ON v.game_id = r.game_id
+         AND v.skill_key = r.skill_key
+         AND v.effect_key = r.effect_key
+         AND v.result_key = r.result_key
+        LEFT JOIN public.skill_effect_attribute_change_details ac
+          ON ac.game_id = r.game_id
+         AND ac.skill_key = r.skill_key
+         AND ac.effect_key = r.effect_key
+         AND ac.result_key = r.result_key
+        LEFT JOIN public.skill_effect_status_operation_details so
+          ON so.game_id = r.game_id
+         AND so.skill_key = r.skill_key
+         AND so.effect_key = r.effect_key
+         AND so.result_key = r.result_key
+        LEFT JOIN public.skill_effect_result_lifecycle_behaviors lb
+          ON lb.game_id = r.game_id
+         AND lb.skill_key = r.skill_key
+         AND lb.effect_key = r.effect_key
+         AND lb.result_key = r.result_key
+        LEFT JOIN public.skill_effect_lifecycle_operation_details lo
+          ON lo.game_id = r.game_id
+         AND lo.skill_key = r.skill_key
+         AND lo.effect_key = r.effect_key
+         AND lo.result_key = r.result_key
+        LEFT JOIN public.skill_effect_lifecycles l
+          ON l.game_id = r.game_id
+         AND l.skill_key = r.skill_key
+         AND l.effect_key = r.effect_key
+    </sql>
+
+    <sql id="andKeysIn">
+        <choose>
+            <when test="keys != null and keys.size() &gt; 0">
+                AND ${column} IN
+                <foreach collection="keys" item="key" open="(" separator="," close=")">
+                    #{key}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1=0
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="listSummaries" resultMap="summary">
+        SELECT r.rule_key,
+               r.name,
+               r.description,
+               r.event_type,
+               CAST((
+                   SELECT COUNT(1)
+                   FROM public.skill_trigger_rule_condition_groups g
+                   WHERE g.game_id = r.game_id
+                     AND g.skill_key = r.skill_key
+                     AND g.rule_key = r.rule_key
+               ) AS integer) AS condition_group_count,
+               CAST((
+                   SELECT COUNT(1)
+                   FROM public.skill_trigger_rule_actions a
+                   WHERE a.game_id = r.game_id
+                     AND a.skill_key = r.skill_key
+                     AND a.rule_key = r.rule_key
+               ) AS integer) AS action_count,
+               EXISTS (
+                   SELECT 1
+                   FROM public.skill_trigger_rule_per_target_cooldowns c
+                   WHERE c.game_id = r.game_id
+                     AND c.skill_key = r.skill_key
+                     AND c.rule_key = r.rule_key
+               ) AS per_target_cooldown_enabled,
+               EXISTS (
+                   SELECT 1
+                   FROM public.skill_trigger_rule_process_limits p
+                   WHERE p.game_id = r.game_id
+                     AND p.skill_key = r.skill_key
+                     AND p.rule_key = r.rule_key
+               ) AS max_triggers_per_process_enabled,
+               r.sort_order,
+               r.updated_at
+        FROM public.skill_trigger_rules r
+        WHERE r.game_id = #{gameId} AND r.skill_key = #{skillKey}
+        ORDER BY r.sort_order ASC, r.rule_key ASC
+    </select>
+
+    <select id="findRule" resultMap="ruleRow">
+        SELECT <include refid="ruleColumns"/>
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findRuleForUpdate" resultMap="ruleRow">
+        SELECT <include refid="ruleColumns"/>
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        FOR UPDATE
+    </select>
+
+    <select id="listRulesForUpdate" resultMap="ruleRow">
+        SELECT <include refid="ruleColumns"/>
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <insert id="insertRule">
+        INSERT INTO public.skill_trigger_rules (
+            game_id, skill_key, rule_key, name, description, sort_order, event_type
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{name}, #{description}, #{sortOrder}, #{eventType}
+        )
+    </insert>
+
+    <update id="updateRule">
+        UPDATE public.skill_trigger_rules
+        SET name = #{name},
+            description = #{description},
+            sort_order = #{sortOrder},
+            event_type = #{eventType},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </update>
+
+    <delete id="deleteRule">
+        DELETE FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </delete>
+
+    <delete id="deleteAllForSkill">
+        DELETE FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+    </delete>
+
+    <delete id="deleteChildren">
+        WITH deleted_process_events AS (
+            DELETE FROM public.skill_trigger_rule_process_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_skill_events AS (
+            DELETE FROM public.skill_trigger_rule_skill_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_result_events AS (
+            DELETE FROM public.skill_trigger_rule_result_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_lifecycle_events AS (
+            DELETE FROM public.skill_trigger_rule_lifecycle_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_status_events AS (
+            DELETE FROM public.skill_trigger_rule_status_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_health_events AS (
+            DELETE FROM public.skill_trigger_rule_health_threshold_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_internal_state_events AS (
+            DELETE FROM public.skill_trigger_rule_internal_state_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_subject_events AS (
+            DELETE FROM public.skill_trigger_rule_subject_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_condition_groups AS (
+            DELETE FROM public.skill_trigger_rule_condition_groups
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_actions AS (
+            DELETE FROM public.skill_trigger_rule_actions
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
+        deleted_cooldowns AS (
+            DELETE FROM public.skill_trigger_rule_per_target_cooldowns
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        )
+        DELETE FROM public.skill_trigger_rule_process_limits
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </delete>
+
+    <select id="findProcessEvent" resultMap="processEventRow">
+        SELECT game_id, skill_key, rule_key, process_key, moment_type, step_key
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findSkillEvent" resultMap="skillEventRow">
+        SELECT game_id, skill_key, rule_key, source_skill_key, use_kind
+        FROM public.skill_trigger_rule_skill_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findResultEvent" resultMap="resultEventRow">
+        SELECT game_id, skill_key, rule_key, effect_key, result_key
+        FROM public.skill_trigger_rule_result_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findLifecycleEvent" resultMap="lifecycleEventRow">
+        SELECT game_id, skill_key, rule_key, effect_key, lifecycle_moment
+        FROM public.skill_trigger_rule_lifecycle_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findStatusEvent" resultMap="statusEventRow">
+        SELECT game_id, skill_key, rule_key, subject, status_key, change_kind
+        FROM public.skill_trigger_rule_status_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findHealthEvent" resultMap="healthEventRow">
+        SELECT game_id, skill_key, rule_key, subject, attribute_key, threshold_formula_key, direction
+        FROM public.skill_trigger_rule_health_threshold_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findInternalStateEvent" resultMap="internalStateEventRow">
+        SELECT game_id, skill_key, rule_key, state_key, change_kind
+        FROM public.skill_trigger_rule_internal_state_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findSubjectEvent" resultMap="subjectEventRow">
+        SELECT game_id, skill_key, rule_key, subject
+        FROM public.skill_trigger_rule_subject_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <insert id="insertProcessEvent">
+        INSERT INTO public.skill_trigger_rule_process_events (
+            game_id, skill_key, rule_key, process_key, moment_type, step_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{processKey}, #{momentType}, #{stepKey}
+        )
+    </insert>
+
+    <insert id="insertSkillEvent">
+        INSERT INTO public.skill_trigger_rule_skill_events (
+            game_id, skill_key, rule_key, source_skill_key, use_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{sourceSkillKey}, #{useKind}
+        )
+    </insert>
+
+    <insert id="insertResultEvent">
+        INSERT INTO public.skill_trigger_rule_result_events (
+            game_id, skill_key, rule_key, effect_key, result_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{effectKey}, #{resultKey}
+        )
+    </insert>
+
+    <insert id="insertLifecycleEvent">
+        INSERT INTO public.skill_trigger_rule_lifecycle_events (
+            game_id, skill_key, rule_key, effect_key, lifecycle_moment
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{effectKey}, #{lifecycleMoment}
+        )
+    </insert>
+
+    <insert id="insertStatusEvent">
+        INSERT INTO public.skill_trigger_rule_status_events (
+            game_id, skill_key, rule_key, subject, status_key, change_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{subject}, #{statusKey}, #{changeKind}
+        )
+    </insert>
+
+    <insert id="insertHealthEvent">
+        INSERT INTO public.skill_trigger_rule_health_threshold_events (
+            game_id, skill_key, rule_key, subject, attribute_key, threshold_formula_key, direction
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{subject}, #{attributeKey},
+            #{thresholdFormulaKey}, #{direction}
+        )
+    </insert>
+
+    <insert id="insertInternalStateEvent">
+        INSERT INTO public.skill_trigger_rule_internal_state_events (
+            game_id, skill_key, rule_key, state_key, change_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{stateKey}, #{changeKind}
+        )
+    </insert>
+
+    <insert id="insertSubjectEvent">
+        INSERT INTO public.skill_trigger_rule_subject_events (
+            game_id, skill_key, rule_key, subject
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{subject}
+        )
+    </insert>
+
+    <select id="listConditionGroups" resultMap="conditionGroupRow">
+        SELECT game_id, skill_key, rule_key, group_key, name, sort_order
+        FROM public.skill_trigger_rule_condition_groups
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY sort_order ASC, group_key ASC
+    </select>
+
+    <select id="listConditions" resultMap="conditionRow">
+        SELECT game_id, skill_key, rule_key, group_key, condition_key, condition_type, sort_order
+        FROM public.skill_trigger_rule_conditions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY group_key ASC, sort_order ASC, condition_key ASC
+    </select>
+
+    <select id="listAttributeConditions" resultMap="attributeConditionRow">
+        SELECT game_id, skill_key, rule_key, group_key, condition_key,
+               subject, attribute_key, attribute_value_kind, comparator, comparison_formula_key
+        FROM public.skill_trigger_rule_attribute_conditions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY group_key ASC, condition_key ASC
+    </select>
+
+    <select id="listStatusConditions" resultMap="statusConditionRow">
+        SELECT game_id, skill_key, rule_key, group_key, condition_key,
+               subject, status_key, check_kind, source_effect_key, source_result_key,
+               comparator, comparison_formula_key
+        FROM public.skill_trigger_rule_status_conditions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY group_key ASC, condition_key ASC
+    </select>
+
+    <select id="listInternalStateConditions" resultMap="internalStateConditionRow">
+        SELECT game_id, skill_key, rule_key, group_key, condition_key,
+               state_key, value_kind, option_key, expected_boolean, comparator, comparison_formula_key
+        FROM public.skill_trigger_rule_internal_state_conditions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY group_key ASC, condition_key ASC
+    </select>
+
+    <select id="listEventValueConditions" resultMap="eventValueConditionRow">
+        SELECT game_id, skill_key, rule_key, group_key, condition_key,
+               event_value_key, comparator, comparison_formula_key
+        FROM public.skill_trigger_rule_event_value_conditions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY group_key ASC, condition_key ASC
+    </select>
+
+    <insert id="insertConditionGroup">
+        INSERT INTO public.skill_trigger_rule_condition_groups (
+            game_id, skill_key, rule_key, group_key, name, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{name}, #{sortOrder}
+        )
+    </insert>
+
+    <insert id="insertCondition">
+        INSERT INTO public.skill_trigger_rule_conditions (
+            game_id, skill_key, rule_key, group_key, condition_key, condition_type, sort_order
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{conditionKey}, #{conditionType}, #{sortOrder}
+        )
+    </insert>
+
+    <insert id="insertAttributeCondition">
+        INSERT INTO public.skill_trigger_rule_attribute_conditions (
+            game_id, skill_key, rule_key, group_key, condition_key,
+            subject, attribute_key, attribute_value_kind, comparator, comparison_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{conditionKey},
+            #{subject}, #{attributeKey}, #{attributeValueKind}, #{comparator}, #{comparisonFormulaKey}
+        )
+    </insert>
+
+    <insert id="insertStatusCondition">
+        INSERT INTO public.skill_trigger_rule_status_conditions (
+            game_id, skill_key, rule_key, group_key, condition_key,
+            subject, status_key, check_kind, source_effect_key, source_result_key,
+            comparator, comparison_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{conditionKey},
+            #{subject}, #{statusKey}, #{checkKind}, #{sourceEffectKey}, #{sourceResultKey},
+            #{comparator}, #{comparisonFormulaKey}
+        )
+    </insert>
+
+    <insert id="insertInternalStateCondition">
+        INSERT INTO public.skill_trigger_rule_internal_state_conditions (
+            game_id, skill_key, rule_key, group_key, condition_key,
+            state_key, value_kind, option_key, expected_boolean, comparator, comparison_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{conditionKey},
+            #{stateKey}, #{valueKind}, #{optionKey}, #{expectedBoolean}, #{comparator}, #{comparisonFormulaKey}
+        )
+    </insert>
+
+    <insert id="insertEventValueCondition">
+        INSERT INTO public.skill_trigger_rule_event_value_conditions (
+            game_id, skill_key, rule_key, group_key, condition_key,
+            event_value_key, comparator, comparison_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{groupKey}, #{conditionKey},
+            #{eventValueKey}, #{comparator}, #{comparisonFormulaKey}
+        )
+    </insert>
+
+    <select id="listActions" resultMap="actionRow">
+        SELECT game_id, skill_key, rule_key, action_key, name, action_type, sort_order, target_context
+        FROM public.skill_trigger_rule_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY sort_order ASC, action_key ASC
+    </select>
+
+    <select id="listEffectActions" resultMap="effectActionRow">
+        SELECT game_id, skill_key, rule_key, action_key, effect_key
+        FROM public.skill_trigger_rule_effect_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC
+    </select>
+
+    <select id="listProcessActions" resultMap="processActionRow">
+        SELECT game_id, skill_key, rule_key, action_key, process_key, failure_reason
+        FROM public.skill_trigger_rule_process_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC
+    </select>
+
+    <insert id="insertAction">
+        INSERT INTO public.skill_trigger_rule_actions (
+            game_id, skill_key, rule_key, action_key, name, action_type, sort_order, target_context
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{name}, #{actionType}, #{sortOrder}, #{targetContext}
+        )
+    </insert>
+
+    <insert id="insertEffectAction">
+        INSERT INTO public.skill_trigger_rule_effect_actions (
+            game_id, skill_key, rule_key, action_key, effect_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{effectKey}
+        )
+    </insert>
+
+    <insert id="insertProcessAction">
+        INSERT INTO public.skill_trigger_rule_process_actions (
+            game_id, skill_key, rule_key, action_key, process_key, failure_reason
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{processKey}, #{failureReason}
+        )
+    </insert>
+
+    <select id="listBindings" resultMap="bindingRow">
+        SELECT game_id, skill_key, rule_key, action_key, binding_key, parameter_key, source_type
+        FROM public.skill_trigger_rule_runtime_input_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, binding_key ASC
+    </select>
+
+    <select id="listInternalStateBindings" resultMap="internalStateBindingRow">
+        SELECT game_id, skill_key, rule_key, action_key, binding_key, state_key, value_kind, option_key
+        FROM public.skill_trigger_rule_internal_state_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, binding_key ASC
+    </select>
+
+    <select id="listCombatStatusBindings" resultMap="combatStatusBindingRow">
+        SELECT game_id, skill_key, rule_key, action_key, binding_key,
+               subject, status_key, value_kind, source_effect_key, source_result_key
+        FROM public.skill_trigger_rule_combat_status_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, binding_key ASC
+    </select>
+
+    <select id="listEventValueBindings" resultMap="eventValueBindingRow">
+        SELECT game_id, skill_key, rule_key, action_key, binding_key, event_value_key
+        FROM public.skill_trigger_rule_event_value_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, binding_key ASC
+    </select>
+
+    <select id="listPriorResultBindings" resultMap="priorResultBindingRow">
+        SELECT game_id, skill_key, rule_key, action_key, binding_key,
+               source_action_key, source_effect_key, source_result_key, output_kind
+        FROM public.skill_trigger_rule_prior_result_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, binding_key ASC
+    </select>
+
+    <insert id="insertBinding">
+        INSERT INTO public.skill_trigger_rule_runtime_input_bindings (
+            game_id, skill_key, rule_key, action_key, binding_key, parameter_key, source_type
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{bindingKey}, #{parameterKey}, #{sourceType}
+        )
+    </insert>
+
+    <insert id="insertInternalStateBinding">
+        INSERT INTO public.skill_trigger_rule_internal_state_bindings (
+            game_id, skill_key, rule_key, action_key, binding_key, state_key, value_kind, option_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{bindingKey},
+            #{stateKey}, #{valueKind}, #{optionKey}
+        )
+    </insert>
+
+    <insert id="insertCombatStatusBinding">
+        INSERT INTO public.skill_trigger_rule_combat_status_bindings (
+            game_id, skill_key, rule_key, action_key, binding_key,
+            subject, status_key, value_kind, source_effect_key, source_result_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{bindingKey},
+            #{subject}, #{statusKey}, #{valueKind}, #{sourceEffectKey}, #{sourceResultKey}
+        )
+    </insert>
+
+    <insert id="insertEventValueBinding">
+        INSERT INTO public.skill_trigger_rule_event_value_bindings (
+            game_id, skill_key, rule_key, action_key, binding_key, event_value_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{bindingKey}, #{eventValueKey}
+        )
+    </insert>
+
+    <insert id="insertPriorResultBinding">
+        INSERT INTO public.skill_trigger_rule_prior_result_bindings (
+            game_id, skill_key, rule_key, action_key, binding_key,
+            source_action_key, source_effect_key, source_result_key, output_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{bindingKey},
+            #{sourceActionKey}, #{sourceEffectKey}, #{sourceResultKey}, #{outputKind}
+        )
+    </insert>
+
+    <select id="listModifiers" resultMap="modifierRow">
+        SELECT game_id, skill_key, rule_key, action_key, result_key, effect_key,
+               fixed_multiplier, fixed_min_value, fixed_max_value
+        FROM public.skill_trigger_rule_result_modifiers
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+        ORDER BY action_key ASC, result_key ASC
+    </select>
+
+    <insert id="insertModifier">
+        INSERT INTO public.skill_trigger_rule_result_modifiers (
+            game_id, skill_key, rule_key, action_key, result_key, effect_key,
+            fixed_multiplier, fixed_min_value, fixed_max_value
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{actionKey}, #{resultKey}, #{effectKey},
+            #{fixedMultiplier}, #{fixedMinValue}, #{fixedMaxValue}
+        )
+    </insert>
+
+    <select id="findCooldown" resultMap="cooldownRow">
+        SELECT game_id, skill_key, rule_key, duration_formula_key, target_context
+        FROM public.skill_trigger_rule_per_target_cooldowns
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findProcessLimit" resultMap="processLimitRow">
+        SELECT game_id, skill_key, rule_key, process_key, limit_formula_key
+        FROM public.skill_trigger_rule_process_limits
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <insert id="insertCooldown">
+        INSERT INTO public.skill_trigger_rule_per_target_cooldowns (
+            game_id, skill_key, rule_key, duration_formula_key, target_context
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{durationFormulaKey}, #{targetContext}
+        )
+    </insert>
+
+    <insert id="insertProcessLimit">
+        INSERT INTO public.skill_trigger_rule_process_limits (
+            game_id, skill_key, rule_key, process_key, limit_formula_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{processKey}, #{limitFormulaKey}
+        )
+    </insert>
+
+    <select id="listRules" resultMap="ruleRow">
+        SELECT <include refid="ruleColumns"/>
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY sort_order ASC, rule_key ASC
+    </select>
+
+    <select id="listActionsForSkill" resultMap="actionRow">
+        SELECT game_id, skill_key, rule_key, action_key, name, action_type, sort_order, target_context
+        FROM public.skill_trigger_rule_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC, sort_order ASC, action_key ASC
+    </select>
+
+    <select id="listEffectActionsForSkill" resultMap="effectActionRow">
+        SELECT game_id, skill_key, rule_key, action_key, effect_key
+        FROM public.skill_trigger_rule_effect_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC, action_key ASC
+    </select>
+
+    <select id="listProcessActionsForSkill" resultMap="processActionRow">
+        SELECT game_id, skill_key, rule_key, action_key, process_key, failure_reason
+        FROM public.skill_trigger_rule_process_actions
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC, action_key ASC
+    </select>
+
+    <select id="listCooldownsForSkill" resultMap="cooldownRow">
+        SELECT game_id, skill_key, rule_key, duration_formula_key, target_context
+        FROM public.skill_trigger_rule_per_target_cooldowns
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listProcessLimitsForSkill" resultMap="processLimitRow">
+        SELECT game_id, skill_key, rule_key, process_key, limit_formula_key
+        FROM public.skill_trigger_rule_process_limits
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listProcessEventsForSkill" resultMap="processEventRow">
+        SELECT game_id, skill_key, rule_key, process_key, moment_type, step_key
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listResultEventsForSkill" resultMap="resultEventRow">
+        SELECT game_id, skill_key, rule_key, effect_key, result_key
+        FROM public.skill_trigger_rule_result_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listLifecycleEventsForSkill" resultMap="lifecycleEventRow">
+        SELECT game_id, skill_key, rule_key, effect_key, lifecycle_moment
+        FROM public.skill_trigger_rule_lifecycle_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listStatusEventsForSkill" resultMap="statusEventRow">
+        SELECT game_id, skill_key, rule_key, subject, status_key, change_kind
+        FROM public.skill_trigger_rule_status_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listHealthEventsForSkill" resultMap="healthEventRow">
+        SELECT game_id, skill_key, rule_key, subject, attribute_key, threshold_formula_key, direction
+        FROM public.skill_trigger_rule_health_threshold_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listInternalStateEventsForSkill" resultMap="internalStateEventRow">
+        SELECT game_id, skill_key, rule_key, state_key, change_kind
+        FROM public.skill_trigger_rule_internal_state_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listSubjectEventsForSkill" resultMap="subjectEventRow">
+        SELECT game_id, skill_key, rule_key, subject
+        FROM public.skill_trigger_rule_subject_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listEffectShapes" resultMap="effectShapeRow">
+        <include refid="effectShapeSelect"/>
+        WHERE r.game_id = #{gameId} AND r.skill_key = #{skillKey}
+        ORDER BY r.effect_key ASC, r.sort_order ASC, r.result_key ASC
+    </select>
+
+    <select id="listProcessShapes" resultMap="processShapeRow">
+        SELECT b.process_key,
+               b.effect_key AS binding_effect_key,
+               CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation,
+               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS state_type,
+               CAST(NULL AS varchar) AS step_key,
+               CAST(NULL AS varchar) AS step_type,
+               CAST(NULL AS varchar) AS cooldown_formula_key,
+               CAST(NULL AS varchar) AS delay_formula_key,
+               CAST(NULL AS varchar) AS multi_count_formula_key,
+               CAST(NULL AS varchar) AS multi_interval_formula_key,
+               CAST(NULL AS varchar) AS periodic_count_formula_key,
+               CAST(NULL AS varchar) AS periodic_interval_formula_key,
+               CAST(NULL AS varchar) AS channel_duration_formula_key,
+               CAST(NULL AS varchar) AS channel_count_formula_key,
+               CAST(NULL AS varchar) AS charge_min_formula_key,
+               CAST(NULL AS varchar) AS charge_max_formula_key,
+               CAST(NULL AS varchar) AS recast_window_formula_key,
+               CAST(NULL AS varchar) AS recast_count_formula_key,
+               CAST(NULL AS varchar) AS empowered_window_formula_key,
+               CAST(NULL AS varchar) AS counter_initial_formula_key,
+               CAST(NULL AS varchar) AS counter_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_initial_formula_key,
+               CAST(NULL AS varchar) AS ammo_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
+               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+        FROM public.skill_process_effect_bindings b
+        WHERE b.game_id = #{gameId} AND b.skill_key = #{skillKey}
+        UNION ALL
+        SELECT o.process_key,
+               CAST(NULL AS varchar) AS binding_effect_key,
+               o.state_key AS operation_state_key,
+               o.operation,
+               o.value_formula_key AS operation_value_formula_key,
+               s.state_type,
+               CAST(NULL AS varchar) AS step_key,
+               CAST(NULL AS varchar) AS step_type,
+               CAST(NULL AS varchar) AS cooldown_formula_key,
+               CAST(NULL AS varchar) AS delay_formula_key,
+               CAST(NULL AS varchar) AS multi_count_formula_key,
+               CAST(NULL AS varchar) AS multi_interval_formula_key,
+               CAST(NULL AS varchar) AS periodic_count_formula_key,
+               CAST(NULL AS varchar) AS periodic_interval_formula_key,
+               CAST(NULL AS varchar) AS channel_duration_formula_key,
+               CAST(NULL AS varchar) AS channel_count_formula_key,
+               CAST(NULL AS varchar) AS charge_min_formula_key,
+               CAST(NULL AS varchar) AS charge_max_formula_key,
+               CAST(NULL AS varchar) AS recast_window_formula_key,
+               CAST(NULL AS varchar) AS recast_count_formula_key,
+               CAST(NULL AS varchar) AS empowered_window_formula_key,
+               CAST(NULL AS varchar) AS counter_initial_formula_key,
+               CAST(NULL AS varchar) AS counter_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_initial_formula_key,
+               CAST(NULL AS varchar) AS ammo_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
+               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+        FROM public.skill_process_state_operations o
+        JOIN public.skill_internal_states s
+          ON s.game_id = o.game_id
+         AND s.skill_key = o.skill_key
+         AND s.state_key = o.state_key
+        WHERE o.game_id = #{gameId} AND o.skill_key = #{skillKey}
+        UNION ALL
+        SELECT st.process_key,
+               CAST(NULL AS varchar) AS binding_effect_key,
+               CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation,
+               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS state_type,
+               st.step_key,
+               st.step_type,
+               CAST(NULL AS varchar) AS cooldown_formula_key,
+               d.delay_formula_key,
+               mh.repeat_count_formula_key AS multi_count_formula_key,
+               mh.interval_formula_key AS multi_interval_formula_key,
+               p.repeat_count_formula_key AS periodic_count_formula_key,
+               p.interval_formula_key AS periodic_interval_formula_key,
+               ch.duration_formula_key AS channel_duration_formula_key,
+               ch.execution_count_formula_key AS channel_count_formula_key,
+               cg.minimum_charge_formula_key AS charge_min_formula_key,
+               cg.maximum_charge_formula_key AS charge_max_formula_key,
+               rc.window_formula_key AS recast_window_formula_key,
+               rc.maximum_recast_count_formula_key AS recast_count_formula_key,
+               em.window_formula_key AS empowered_window_formula_key,
+               CAST(NULL AS varchar) AS counter_initial_formula_key,
+               CAST(NULL AS varchar) AS counter_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_initial_formula_key,
+               CAST(NULL AS varchar) AS ammo_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
+               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+        FROM public.skill_process_steps st
+        LEFT JOIN public.skill_process_delay_step_details d
+          ON d.game_id = st.game_id
+         AND d.skill_key = st.skill_key
+         AND d.process_key = st.process_key
+         AND d.step_key = st.step_key
+        LEFT JOIN public.skill_process_multi_hit_step_details mh
+          ON mh.game_id = st.game_id
+         AND mh.skill_key = st.skill_key
+         AND mh.process_key = st.process_key
+         AND mh.step_key = st.step_key
+        LEFT JOIN public.skill_process_periodic_step_details p
+          ON p.game_id = st.game_id
+         AND p.skill_key = st.skill_key
+         AND p.process_key = st.process_key
+         AND p.step_key = st.step_key
+        LEFT JOIN public.skill_process_channel_step_details ch
+          ON ch.game_id = st.game_id
+         AND ch.skill_key = st.skill_key
+         AND ch.process_key = st.process_key
+         AND ch.step_key = st.step_key
+        LEFT JOIN public.skill_process_charge_step_details cg
+          ON cg.game_id = st.game_id
+         AND cg.skill_key = st.skill_key
+         AND cg.process_key = st.process_key
+         AND cg.step_key = st.step_key
+        LEFT JOIN public.skill_process_recast_step_details rc
+          ON rc.game_id = st.game_id
+         AND rc.skill_key = st.skill_key
+         AND rc.process_key = st.process_key
+         AND rc.step_key = st.step_key
+        LEFT JOIN public.skill_process_empowered_attack_step_details em
+          ON em.game_id = st.game_id
+         AND em.skill_key = st.skill_key
+         AND em.process_key = st.process_key
+         AND em.step_key = st.step_key
+        WHERE st.game_id = #{gameId} AND st.skill_key = #{skillKey}
+        UNION ALL
+        SELECT cd.process_key,
+               CAST(NULL AS varchar) AS binding_effect_key,
+               CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation,
+               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS state_type,
+               CAST(NULL AS varchar) AS step_key,
+               CAST(NULL AS varchar) AS step_type,
+               CAST(NULL AS varchar) AS cooldown_formula_key,
+               CAST(NULL AS varchar) AS delay_formula_key,
+               CAST(NULL AS varchar) AS multi_count_formula_key,
+               CAST(NULL AS varchar) AS multi_interval_formula_key,
+               CAST(NULL AS varchar) AS periodic_count_formula_key,
+               CAST(NULL AS varchar) AS periodic_interval_formula_key,
+               CAST(NULL AS varchar) AS channel_duration_formula_key,
+               CAST(NULL AS varchar) AS channel_count_formula_key,
+               CAST(NULL AS varchar) AS charge_min_formula_key,
+               CAST(NULL AS varchar) AS charge_max_formula_key,
+               CAST(NULL AS varchar) AS recast_window_formula_key,
+               CAST(NULL AS varchar) AS recast_count_formula_key,
+               CAST(NULL AS varchar) AS empowered_window_formula_key,
+               CAST(NULL AS varchar) AS counter_initial_formula_key,
+               CAST(NULL AS varchar) AS counter_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_initial_formula_key,
+               CAST(NULL AS varchar) AS ammo_max_formula_key,
+               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
+               cd.duration_formula_key AS cooldown_duration_formula_key
+        FROM public.skill_process_cooldowns cd
+        WHERE cd.game_id = #{gameId} AND cd.skill_key = #{skillKey}
+        ORDER BY process_key ASC, step_key ASC, binding_effect_key ASC
+    </select>
+
+    <select id="listRuntimeInputParameters" resultMap="parameterRefRow">
+        SELECT DISTINCT p.parameter_key, p.value_type, p.value_mode
+        FROM public.skill_formula_nodes n
+        JOIN public.skill_parameters p
+          ON p.game_id = n.game_id
+         AND p.skill_key = n.skill_key
+         AND p.parameter_key = n.parameter_key
+        WHERE n.game_id = #{gameId}
+          AND n.skill_key = #{skillKey}
+          AND n.node_type = 'PARAMETER'
+          AND p.value_mode = 'RUNTIME_INPUT'
+        <choose>
+            <when test="formulaKeys != null and formulaKeys.size() &gt; 0">
+                AND n.formula_key IN
+                <foreach collection="formulaKeys" item="formulaKey" open="(" separator="," close=")">
+                    #{formulaKey}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1=0
+            </otherwise>
+        </choose>
+        ORDER BY p.parameter_key ASC
+    </select>
+
+    <select id="listInternalStateFormulaKeys" resultType="string">
+        SELECT initial_value_formula_key
+        FROM public.skill_internal_state_counter_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        UNION
+        SELECT max_value_formula_key
+        FROM public.skill_internal_state_counter_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        UNION
+        SELECT initial_value_formula_key
+        FROM public.skill_internal_state_ammo_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        UNION
+        SELECT max_value_formula_key
+        FROM public.skill_internal_state_ammo_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        UNION
+        SELECT recovery_interval_formula_key
+        FROM public.skill_internal_state_ammo_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        UNION
+        SELECT duration_formula_key
+        FROM public.skill_internal_state_cooldown_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+    </select>
+
+    <select id="countRuntimeInputNodes" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_formula_nodes n
+        JOIN public.skill_parameters p
+          ON p.game_id = n.game_id
+         AND p.skill_key = n.skill_key
+         AND p.parameter_key = n.parameter_key
+        WHERE n.game_id = #{gameId}
+          AND n.skill_key = #{skillKey}
+          AND n.formula_key = #{formulaKey}
+          AND n.node_type = 'PARAMETER'
+          AND p.value_mode = 'RUNTIME_INPUT'
+    </select>
+
+    <select id="lockAttributes" resultMap="catalogLockRow">
+        SELECT attribute_key AS key, status, value_type
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+        <include refid="andKeysIn">
+            <property name="column" value="attribute_key"/>
+        </include>
+        ORDER BY attribute_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockStatuses" resultMap="catalogLockRow">
+        SELECT status_key AS key, status, CAST(NULL AS varchar) AS value_type
+        FROM public.statuses
+        WHERE game_id = #{gameId}
+        <include refid="andKeysIn">
+            <property name="column" value="status_key"/>
+        </include>
+        ORDER BY status_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockFormulas" resultType="string">
+        SELECT formula_key
+        FROM public.skill_formulas
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+        <include refid="andKeysIn">
+            <property name="column" value="formula_key"/>
+        </include>
+        ORDER BY formula_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockParameters" resultMap="parameterRefRow">
+        SELECT parameter_key, value_type, value_mode
+        FROM public.skill_parameters
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+        <include refid="andKeysIn">
+            <property name="column" value="parameter_key"/>
+        </include>
+        ORDER BY parameter_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockEffects" resultType="string">
+        SELECT effect_key
+        FROM public.skill_effects
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+        <include refid="andKeysIn">
+            <property name="column" value="effect_key"/>
+        </include>
+        ORDER BY effect_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockResults" resultType="string">
+        SELECT result_key
+        FROM public.skill_effect_results
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+        <include refid="andKeysIn">
+            <property name="column" value="result_key"/>
+        </include>
+        ORDER BY result_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockProcesses" resultType="string">
+        SELECT process_key
+        FROM public.skill_processes
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+        <include refid="andKeysIn">
+            <property name="column" value="process_key"/>
+        </include>
+        ORDER BY process_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockSteps" resultType="string">
+        SELECT step_key
+        FROM public.skill_process_steps
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND process_key = #{processKey}
+        <include refid="andKeysIn">
+            <property name="column" value="step_key"/>
+        </include>
+        ORDER BY step_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockInternalStates" resultMap="internalStateLockRow">
+        SELECT state_key, state_type, scope
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+        <include refid="andKeysIn">
+            <property name="column" value="state_key"/>
+        </include>
+        ORDER BY state_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockOptions" resultType="string">
+        SELECT option_key
+        FROM public.skill_internal_state_mode_options
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND state_key = #{stateKey}
+        <include refid="andKeysIn">
+            <property name="column" value="option_key"/>
+        </include>
+        ORDER BY option_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockSkills" resultMap="catalogLockRow">
+        SELECT skill_key AS key, status, CAST(NULL AS varchar) AS value_type
+        FROM public.skills
+        WHERE game_id = #{gameId}
+        <include refid="andKeysIn">
+            <property name="column" value="skill_key"/>
+        </include>
+        ORDER BY skill_key
+        FOR UPDATE
+    </select>
+
+    <select id="findStepType" resultType="string">
+        SELECT step_type
+        FROM public.skill_process_steps
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND process_key = #{processKey}
+          AND step_key = #{stepKey}
+    </select>
+
+    <select id="effectHasLifecycle" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1
+            FROM public.skill_effect_lifecycles
+            WHERE game_id = #{gameId}
+              AND skill_key = #{skillKey}
+              AND effect_key = #{effectKey}
+        )
+    </select>
+
+    <select id="findEffectShape" resultMap="effectShapeRow">
+        <include refid="effectShapeSelect"/>
+        WHERE r.game_id = #{gameId}
+          AND r.skill_key = #{skillKey}
+          AND r.effect_key = #{effectKey}
+          AND r.result_key = #{resultKey}
+    </select>
+
+    <select id="countStatusApplyPersistent" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_status_operation_details d
+        JOIN public.skill_effect_result_lifecycle_behaviors b
+          ON b.game_id = d.game_id
+         AND b.skill_key = d.skill_key
+         AND b.effect_key = d.effect_key
+         AND b.result_key = d.result_key
+        WHERE d.game_id = #{gameId}
+          AND d.skill_key = #{skillKey}
+          AND d.effect_key = #{effectKey}
+          AND d.result_key = #{resultKey}
+          AND d.status_key = #{statusKey}
+          AND d.operation = 'APPLY'
+          AND b.moment = 'PERSISTENT'
+    </select>
+
+    <select id="countEffectReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_result_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_lifecycle_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_effect_actions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_status_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_combat_status_bindings
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_result_modifiers
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_prior_result_bindings
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+    </select>
+
+    <select id="listResultReferences" resultMap="referenceHit">
+        <choose>
+            <when test="resultKeys != null and resultKeys.size() &gt; 0">
+                SELECT rule_key, 'result_key' AS field, result_key AS rejected_value, 'RESULT_EVENT' AS reason
+                FROM public.skill_trigger_rule_result_events
+                WHERE game_id = #{gameId}
+                  AND skill_key = #{skillKey}
+                  AND effect_key = #{effectKey}
+                  AND result_key IN
+                <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+                    #{resultKey}
+                </foreach>
+                UNION ALL
+                SELECT rule_key, 'source_result_key' AS field, source_result_key AS rejected_value, 'STATUS_CONDITION' AS reason
+                FROM public.skill_trigger_rule_status_conditions
+                WHERE game_id = #{gameId}
+                  AND skill_key = #{skillKey}
+                  AND source_effect_key = #{effectKey}
+                  AND source_result_key IN
+                <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+                    #{resultKey}
+                </foreach>
+                UNION ALL
+                SELECT rule_key, 'source_result_key' AS field, source_result_key AS rejected_value, 'COMBAT_STATUS_BINDING' AS reason
+                FROM public.skill_trigger_rule_combat_status_bindings
+                WHERE game_id = #{gameId}
+                  AND skill_key = #{skillKey}
+                  AND source_effect_key = #{effectKey}
+                  AND source_result_key IN
+                <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+                    #{resultKey}
+                </foreach>
+                UNION ALL
+                SELECT rule_key, 'result_key' AS field, result_key AS rejected_value, 'RESULT_MODIFIER' AS reason
+                FROM public.skill_trigger_rule_result_modifiers
+                WHERE game_id = #{gameId}
+                  AND skill_key = #{skillKey}
+                  AND effect_key = #{effectKey}
+                  AND result_key IN
+                <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+                    #{resultKey}
+                </foreach>
+                UNION ALL
+                SELECT rule_key, 'source_result_key' AS field, source_result_key AS rejected_value, 'PRIOR_RESULT_BINDING' AS reason
+                FROM public.skill_trigger_rule_prior_result_bindings
+                WHERE game_id = #{gameId}
+                  AND skill_key = #{skillKey}
+                  AND source_effect_key = #{effectKey}
+                  AND source_result_key IN
+                <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
+                    #{resultKey}
+                </foreach>
+            </when>
+            <otherwise>
+                SELECT CAST(NULL AS varchar) AS rule_key,
+                       CAST(NULL AS varchar) AS field,
+                       CAST(NULL AS varchar) AS rejected_value,
+                       CAST(NULL AS varchar) AS reason
+                WHERE 1=0
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="countLifecycleReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_trigger_rule_lifecycle_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <select id="countProcessReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_process_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_process_actions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_process_limits
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND process_key = #{processKey})
+    </select>
+
+    <select id="countStepReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_trigger_rule_process_events
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND process_key = #{processKey}
+          AND step_key = #{stepKey}
+    </select>
+
+    <select id="countInternalStateReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_bindings
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+    </select>
+
+    <select id="countOptionReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_conditions
+             WHERE game_id = #{gameId}
+               AND skill_key = #{skillKey}
+               AND state_key = #{stateKey}
+            <choose>
+                <when test="optionKeys != null and optionKeys.size() &gt; 0">
+                    AND option_key IN
+                    <foreach collection="optionKeys" item="optionKey" open="(" separator="," close=")">
+                        #{optionKey}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND 1=0
+                </otherwise>
+            </choose>
+            )
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_bindings
+             WHERE game_id = #{gameId}
+               AND skill_key = #{skillKey}
+               AND state_key = #{stateKey}
+            <choose>
+                <when test="optionKeys != null and optionKeys.size() &gt; 0">
+                    AND option_key IN
+                    <foreach collection="optionKeys" item="optionKey" open="(" separator="," close=")">
+                        #{optionKey}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND 1=0
+                </otherwise>
+            </choose>
+            )
+    </select>
+
+    <select id="countFormulaReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_health_threshold_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND threshold_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_attribute_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_status_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_internal_state_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_event_value_conditions
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_per_target_cooldowns
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND duration_formula_key = #{formulaKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_process_limits
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND limit_formula_key = #{formulaKey})
+    </select>
+
+    <select id="countParameterReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_trigger_rule_runtime_input_bindings
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND parameter_key = #{parameterKey}
+    </select>
+
+    <select id="countStatusReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_status_events
+             WHERE game_id = #{gameId} AND status_key = #{statusKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_status_conditions
+             WHERE game_id = #{gameId} AND status_key = #{statusKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_combat_status_bindings
+             WHERE game_id = #{gameId} AND status_key = #{statusKey})
+    </select>
+
+    <select id="countSourceSkillReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_trigger_rule_skill_events
+        WHERE game_id = #{gameId}
+          AND source_skill_key = #{sourceSkillKey}
+          AND skill_key &lt;&gt; #{sourceSkillKey}
+    </select>
+
+    <update id="forceDeferredConstraintsImmediate">
+        SET CONSTRAINTS ALL IMMEDIATE
+    </update>
+</mapper>
