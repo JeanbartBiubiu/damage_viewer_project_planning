@@ -752,6 +752,25 @@ class SkillFormulaServiceTest {
         assertEquals("500.INTERNAL_ERROR", exception.getCode());
     }
 
+    @Test
+    void triggerRuleProtectsFormulaDeleteBeforeMapperDeleteWithLongConstructor() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillFormulaService guarded = new SkillFormulaService(
+            gamesMapper, skillMapper, formulaMapper, triggerRuleService
+        );
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_FORMULA_IN_USE",
+            "技能公式仍被触发规则引用，不能删除",
+            Map.of("fieldIssues", List.of(Map.of("field", "formulaKey", "code", "TRIGGER_RULE_FORMULA_IN_USE")))
+        )).when(triggerRuleService).assertFormulaDeletable(GAME_ID, SKILL_KEY, FORMULA_KEY);
+        assertCode("409.SKILL_FORMULA_IN_USE", () -> guarded.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
+        verify(formulaMapper, never()).delete(any(), any(), any());
+    }
+
     private static SkillFormulaExpressionNode allKindsExpression() {
         SkillFormulaExpressionNode attributeKinds = new SkillFormulaOperationNode(
             SkillFormulaOperation.ADD,

@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaParameterNode;
 import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -74,21 +76,40 @@ public class SkillFormulaService {
         "fk_skill_effect_lifecycles_duration_formula",
         "fk_skill_effect_lifecycles_max_stacks_formula",
         "fk_skill_effect_lifecycles_application_stacks_formula",
-        "fk_skill_effect_lifecycles_periodic_interval_formula"
+        "fk_skill_effect_lifecycles_periodic_interval_formula",
+        "fk_skill_trigger_health_threshold_formula",
+        "fk_skill_trigger_attr_cond_formula",
+        "fk_skill_trigger_status_cond_formula",
+        "fk_skill_trigger_istate_cond_formula",
+        "fk_skill_trigger_event_value_cond_formula",
+        "fk_skill_trigger_per_target_cd_formula",
+        "fk_skill_trigger_process_limit_formula"
     );
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillFormulaMapper formulaMapper;
+    private final SkillTriggerRuleService triggerRuleService;
 
     public SkillFormulaService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillFormulaMapper formulaMapper
     ) {
+        this(gamesMapper, skillMapper, formulaMapper, null);
+    }
+
+    @Autowired
+    public SkillFormulaService(
+        GamesMapper gamesMapper,
+        SkillMapper skillMapper,
+        SkillFormulaMapper formulaMapper,
+        SkillTriggerRuleService triggerRuleService
+    ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.formulaMapper = formulaMapper;
+        this.triggerRuleService = triggerRuleService;
     }
 
     @Transactional(readOnly = true)
@@ -207,6 +228,9 @@ public class SkillFormulaService {
         }
         if (formulaMapper.findByIdForUpdate(gameId, skillKey, formulaKey) == null) {
             throw formulaNotFound(formulaKey);
+        }
+        if (triggerRuleService != null) {
+            triggerRuleService.assertFormulaDeletable(gameId, skillKey, formulaKey);
         }
         try {
             if (formulaMapper.delete(gameId, skillKey, formulaKey) == 0) {
