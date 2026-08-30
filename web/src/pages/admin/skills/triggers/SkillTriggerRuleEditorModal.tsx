@@ -13,6 +13,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
 import { listAttributes } from '../../../../services/attributeClient';
+import { listDamageTypes } from '../../../../services/damageTypeClient';
 import { getSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
 import { getSkillFormula, listSkillFormulas } from '../../../../services/skillFormulaClient';
 import { getSkillInternalState, listSkillInternalStates } from '../../../../services/skillInternalStateClient';
@@ -27,6 +28,7 @@ import {
   updateSkillTriggerRule
 } from '../../../../services/skillTriggerRuleClient';
 import type { Attribute } from '../../../../types/attribute';
+import type { DamageType } from '../../../../types/damageType';
 import type { Skill } from '../../../../types/skill';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormula, SkillFormulaSummary } from '../../../../types/skillFormula';
@@ -43,6 +45,8 @@ import type {
   SkillTriggerEventSource,
   SkillTriggerEventType,
   SkillTriggerEventUseKind,
+  SkillTriggerDamageDeliveryKind,
+  SkillTriggerDamageOriginKind,
   SkillTriggerHealthDirection,
   SkillTriggerInternalStateChangeKind,
   SkillTriggerLifecycleEventMoment,
@@ -67,6 +71,8 @@ import {
   SKILL_TRIGGER_CONDITION_GROUP_HINT,
   SKILL_TRIGGER_CYCLE_HINT,
   SKILL_TRIGGER_CYCLE_MESSAGE,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_TRIGGER_EVENT_TYPE_LABELS,
   SKILL_TRIGGER_EVENT_TYPES,
   SKILL_TRIGGER_GROUP_AND_LABEL,
@@ -232,6 +238,7 @@ export function SkillTriggerRuleEditorModal({
   const [recordMissing, setRecordMissing] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
+  const [damageTypes, setDamageTypes] = useState<DamageType[]>([]);
   const [statuses, setStatuses] = useState<GameStatus[]>([]);
   const [parameters, setParameters] = useState<SkillParameter[]>([]);
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
@@ -318,6 +325,7 @@ export function SkillTriggerRuleEditorModal({
     setRecordMissing(false);
     setSkills([]);
     setAttributes([]);
+    setDamageTypes([]);
     setStatuses([]);
     setParameters([]);
     setFormulas([]);
@@ -382,6 +390,24 @@ export function SkillTriggerRuleEditorModal({
       if (handleMissing(error)) return;
       setAttributes([]);
       setCatalog('attributes', 'error', getErrorMessage(error));
+    }
+  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
+
+  const loadDamageTypesCatalog = useCallback(async () => {
+    const serial = catalogSerial.current;
+    const token = adminToken.trim();
+    if (!visible || !token) return;
+    setCatalog('damageTypes', 'loading');
+    try {
+      const result = await listDamageTypes(apiBaseUrl, selectedGameId, token);
+      if (catalogSerial.current !== serial) return;
+      setDamageTypes(result.data.items);
+      setCatalog('damageTypes', 'ready');
+    } catch (error) {
+      if (catalogSerial.current !== serial) return;
+      if (handleMissing(error)) return;
+      setDamageTypes([]);
+      setCatalog('damageTypes', 'error', getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
 
@@ -636,6 +662,7 @@ export function SkillTriggerRuleEditorModal({
     await Promise.all([
       loadSkillsCatalog(),
       loadAttributesCatalog(),
+      loadDamageTypesCatalog(),
       loadStatusesCatalog(),
       loadParametersCatalog(),
       loadFormulasCatalog(),
@@ -646,6 +673,7 @@ export function SkillTriggerRuleEditorModal({
     ]);
   }, [
     loadAttributesCatalog,
+    loadDamageTypesCatalog,
     loadEffectsCatalog,
     loadFormulasCatalog,
     loadInternalStatesCatalog,
@@ -704,6 +732,19 @@ export function SkillTriggerRuleEditorModal({
         label: disabledName(item.name, item.attributeKey, item.status === 'DISABLED'),
         disabled: item.status === 'DISABLED' && item.attributeKey !== currentKey
       }))
+  );
+
+  const damageTypeOptions = (currentKey: string | null): CatalogOption[] => (
+    [
+      { value: '', label: '任意伤害类型' },
+      ...damageTypes
+        .filter((item) => item.status === 'ENABLED' || item.damageTypeKey === currentKey)
+        .map((item) => ({
+          value: item.damageTypeKey,
+          label: disabledName(item.name, item.damageTypeKey, item.status === 'DISABLED'),
+          disabled: item.status === 'DISABLED' && item.damageTypeKey !== currentKey
+        }))
+    ]
   );
 
   const statusOptions = (currentKey: string): CatalogOption[] => (
@@ -844,6 +885,7 @@ export function SkillTriggerRuleEditorModal({
         formulasByKey: formulaByKeyRef.current,
         parameters,
         effectsByKey: effectByKeyRef.current,
+        damageTypesByKey: new Map(damageTypes.map((item) => [item.damageTypeKey, item])),
         processesByKey: processByKeyRef.current,
         statesByKey: stateByKeyRef.current,
         stepType: currentStepType
@@ -1126,6 +1168,7 @@ export function SkillTriggerRuleEditorModal({
               disabled: saving,
               skills: skillOptions,
               attributes: attributeOptions,
+              damageTypes: damageTypeOptions,
               statuses: statusOptions,
               formulas: formulaOptions,
               effects,
@@ -1485,6 +1528,7 @@ type EventSourceFieldProps = {
   disabled: boolean;
   skills: (currentKey: string | null) => CatalogOption[];
   attributes: (currentKey: string) => CatalogOption[];
+  damageTypes: (currentKey: string | null) => CatalogOption[];
   statuses: (currentKey: string) => CatalogOption[];
   formulas: CatalogOption[];
   effects: readonly SkillEffectSummary[];
@@ -1717,6 +1761,72 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           </Form.Item>
         </>
       );
+    case 'DAMAGE_DEALT':
+    case 'DAMAGE_TAKEN': {
+      const eventType = eventSource.eventType;
+      return (
+        <>
+          <Form.Item label="伤害类型">
+            <Select
+              aria-label="伤害事件伤害类型"
+              value={eventSource.detail.damageTypeKey ?? ''}
+              disabled={disabled}
+              options={props.damageTypes(eventSource.detail.damageTypeKey)}
+              onChange={(value) => {
+                const key = String(value ?? '');
+                onChange({
+                  eventType,
+                  detail: {
+                    ...eventSource.detail,
+                    damageTypeKey: key === '' ? null : key
+                  }
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="伤害产生方式" required>
+            <Select
+              aria-label="伤害事件产生方式"
+              value={eventSource.detail.deliveryKind}
+              disabled={disabled}
+              options={(Object.keys(
+                SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS
+              ) as SkillTriggerDamageDeliveryKind[]).map((value) => ({
+                value,
+                label: SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS[value]
+              }))}
+              onChange={(value) => onChange({
+                eventType,
+                detail: {
+                  ...eventSource.detail,
+                  deliveryKind: value as SkillTriggerDamageDeliveryKind
+                }
+              })}
+            />
+          </Form.Item>
+          <Form.Item label="伤害来源性质" required>
+            <Select
+              aria-label="伤害事件来源性质"
+              value={eventSource.detail.originKind}
+              disabled={disabled}
+              options={(Object.keys(
+                SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS
+              ) as SkillTriggerDamageOriginKind[]).map((value) => ({
+                value,
+                label: SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS[value]
+              }))}
+              onChange={(value) => onChange({
+                eventType,
+                detail: {
+                  ...eventSource.detail,
+                  originKind: value as SkillTriggerDamageOriginKind
+                }
+              })}
+            />
+          </Form.Item>
+        </>
+      );
+    }
     case 'STATUS_CHANGED':
       return (
         <>

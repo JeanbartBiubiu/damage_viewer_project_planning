@@ -76,7 +76,13 @@ function damageResult(
     sortOrder: 10,
     lifecycleBehavior,
     valueRule: { formulaKey, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
-    detail: { damageTypeKey: 'physical' }
+    detail: {
+      damageTypeKey: 'physical',
+      deliveryKind: 'SKILL',
+      originKind: 'DIRECT',
+      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      vampRules: []
+    }
   };
 }
 
@@ -269,9 +275,21 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
     expect(formulaHasRuntimeInput(THRESHOLD, [RUNTIME_HIT, FIXED_RATIO])).toBe(false);
     expect(formulaHasRuntimeInput(undefined, [RUNTIME_HIT])).toBe(false);
 
+    const specialDamage = damageResult('echo', 'follow_up');
+    if (specialDamage.resultType === 'DAMAGE') {
+      specialDamage.detail.critical = {
+        mode: 'SOURCE_CRIT_CHANCE',
+        multiplierFormulaKey: 'critical_multiplier'
+      };
+      specialDamage.detail.vampRules = [{
+        vampType: 'OMNIVAMP',
+        basisOutputKind: 'ACTUAL_HP_LOSS',
+        efficiencyFormulaKey: 'omnivamp_efficiency'
+      }];
+    }
     const duplicateResults = effect('scaled_hit', [
       damageResult('main', 'follow_up'),
-      damageResult('echo', 'follow_up')
+      specialDamage
     ], {
       durationFormulaKey: 'mark_duration_ms',
       maxStacksFormulaKey: 'five',
@@ -285,6 +303,8 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
     });
     expect(collectExecuteEffectFormulaKeys(duplicateResults)).toEqual([
       'follow_up',
+      'critical_multiplier',
+      'omnivamp_efficiency',
       'mark_duration_ms',
       'five',
       'tick_ms'
@@ -320,6 +340,47 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
       RUNTIME_STACKS
     ]);
     expect(reachableRuntimeInputParameters(['missing'], formulas, parameters)).toEqual([]);
+  });
+});
+
+describe('reflected damage form protection', () => {
+  it('requires damage taken, event source target, and a direct-only filter or cooldown', () => {
+    const reflectedResult = damageResult('reflect', 'follow_up');
+    if (reflectedResult.resultType === 'DAMAGE') {
+      reflectedResult.detail.originKind = 'REFLECTED';
+    }
+    const reflectedEffect = effect('reflect_damage', [reflectedResult]);
+    const action = executeAction('reflect', 'reflect_damage', '10');
+    const draft: SkillTriggerRuleDraft = {
+      ...createEmptyRuleDraft(),
+      ruleKey: 'reflect_rule',
+      name: '反伤',
+      actions: [action]
+    };
+    const invalid = validateSkillTriggerDraft(draft, {
+      includeRuleKey: true,
+      effectsByKey: new Map([[reflectedEffect.effectKey, reflectedEffect]])
+    });
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) {
+      expect(invalid.nestedErrors).toEqual(expect.arrayContaining([
+        expect.objectContaining({ path: 'eventSource.eventType' }),
+        expect.objectContaining({ path: 'actions[0].targetContext' })
+      ]));
+    }
+
+    const valid = validateSkillTriggerDraft({
+      ...draft,
+      eventSource: {
+        eventType: 'DAMAGE_TAKEN',
+        detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT' }
+      },
+      actions: [{ ...action, targetContext: 'EVENT_SOURCE' }]
+    }, {
+      includeRuleKey: true,
+      effectsByKey: new Map([[reflectedEffect.effectKey, reflectedEffect]])
+    });
+    expect(valid.ok).toBe(true);
   });
 });
 
