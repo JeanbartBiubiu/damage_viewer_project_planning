@@ -208,7 +208,7 @@ export type SkillEffectResultDraft = {
   attributeKey: string;
   attributeOperation: AttributeChangeOperation | '';
   resourceOperation: ResourceChangeOperation | '';
-  affectedSkillKey: string;
+  affectedSkillKeys: string[];
   cooldownOperation: CooldownChangeOperation | '';
   statusKey: string;
   statusOperation: StatusOperation | '';
@@ -218,7 +218,7 @@ export type SkillEffectResultDraft = {
   originalResultType: SkillEffectResultType | null;
   originalDamageTypeKey: string | null;
   originalAttributeKey: string | null;
-  originalAffectedSkillKey: string | null;
+  originalAffectedSkillKeys: string[];
   originalStatusKey: string | null;
   originalTargetEffectKey: string | null;
 };
@@ -268,7 +268,7 @@ export type SkillEffectResultDraftField =
   | 'attributeKey'
   | 'attributeOperation'
   | 'resourceOperation'
-  | 'affectedSkillKey'
+  | 'affectedSkillKeys'
   | 'cooldownOperation'
   | 'statusKey'
   | 'statusOperation'
@@ -397,7 +397,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   detail: 'detail',
   'detail.damageTypeKey': 'damageTypeKey',
   'detail.attributeKey': 'attributeKey',
-  'detail.affectedSkillKey': 'affectedSkillKey',
+  'detail.affectedSkillKeys': 'affectedSkillKeys',
   'detail.statusKey': 'statusKey',
   'detail.targetEffectKey': 'targetEffectKey',
   lifecycleBehavior: 'lifecycleBehavior',
@@ -466,7 +466,7 @@ export function createEmptyResultDraft(
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillKey: '',
+    affectedSkillKeys: [],
     cooldownOperation: defaultCooldownOperation(resultType),
     statusKey: '',
     statusOperation: resultType === 'STATUS_OPERATION' ? 'APPLY' : '',
@@ -476,7 +476,7 @@ export function createEmptyResultDraft(
     originalResultType: null,
     originalDamageTypeKey: null,
     originalAttributeKey: null,
-    originalAffectedSkillKey: null,
+    originalAffectedSkillKeys: [],
     originalStatusKey: null,
     originalTargetEffectKey: null
   });
@@ -530,9 +530,9 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.originalAttributeKey = result.detail.attributeKey;
       break;
     case 'COOLDOWN_CHANGE':
-      draft.affectedSkillKey = result.detail.affectedSkillKey;
+      draft.affectedSkillKeys = [...result.detail.affectedSkillKeys];
       draft.cooldownOperation = result.detail.operation;
-      draft.originalAffectedSkillKey = result.detail.affectedSkillKey;
+      draft.originalAffectedSkillKeys = [...result.detail.affectedSkillKeys];
       break;
     case 'STATUS_OPERATION':
       draft.statusKey = result.detail.statusKey;
@@ -614,7 +614,7 @@ export function applyResultTypeChange(
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillKey: '',
+    affectedSkillKeys: [],
     cooldownOperation: nextCooldown,
     statusKey: '',
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
@@ -699,7 +699,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
     resourceOperation: draft.resultType === 'RESOURCE_CHANGE' ? draft.resourceOperation || 'RESTORE' : '',
-    affectedSkillKey: draft.resultType === 'COOLDOWN_CHANGE' ? draft.affectedSkillKey : '',
+    affectedSkillKeys: draft.resultType === 'COOLDOWN_CHANGE' ? [...draft.affectedSkillKeys] : [],
     cooldownOperation:
       draft.resultType === 'COOLDOWN_CHANGE' ? draft.cooldownOperation || 'REDUCE' : '',
     statusKey: draft.resultType === 'STATUS_OPERATION' ? draft.statusKey : '',
@@ -947,6 +947,19 @@ export function sortResultDrafts(results: SkillEffectResultDraft[]): SkillEffect
   });
 }
 
+export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft): SkillEffectDraft {
+  return {
+    ...draft,
+    results: draft.results.map((result) => ({
+      ...result,
+      affectedSkillKeys: result.resultType === 'COOLDOWN_CHANGE'
+        ? [...result.affectedSkillKeys].map((item) => item.trim()).sort()
+        : [],
+      originalAffectedSkillKeys: [...result.originalAffectedSkillKeys].sort()
+    }))
+  };
+}
+
 export function isCatalogOptionSelectable(option: CatalogRefOption): boolean {
   return option.source !== 'unknown';
 }
@@ -1002,27 +1015,37 @@ export function listStatusOptions(
 
 export function listAffectedSkillOptions(
   catalog: EffectFormCatalog,
-  currentKey = '',
-  originalKey: string | null = null
+  currentKeys: ReadonlyArray<string> = [],
+  originalKeys: ReadonlyArray<string> = []
 ): CatalogRefOption[] {
-  const options = listStatusKeyedOptions(
-    catalog.skills.map((item) => ({ key: item.skillKey, status: item.status })),
-    currentKey,
-    originalKey,
-    catalog.parentSkillKey
-  );
-  if (!options.some((item) => item.key === catalog.parentSkillKey)) {
+  const options: CatalogRefOption[] = [];
+  const seen = new Set<string>();
+  for (const item of catalog.skills) {
+    if (item.status === 'ENABLED') {
+      options.push({ key: item.skillKey, status: 'ENABLED', source: 'enabled' });
+      seen.add(item.skillKey);
+    }
+  }
+  if (!seen.has(catalog.parentSkillKey)) {
     const parent = catalog.skills.find((item) => item.skillKey === catalog.parentSkillKey);
-    options.unshift({
+    options.push({
       key: catalog.parentSkillKey,
       status: parent?.status ?? 'DISABLED',
       source: parent?.status === 'ENABLED' ? 'enabled' : 'parent-skill-self-ref'
     });
-  } else {
-    const parentOption = options.find((item) => item.key === catalog.parentSkillKey);
-    if (parentOption && parentOption.status === 'DISABLED' && parentOption.source !== 'retained-disabled') {
-      parentOption.source = 'parent-skill-self-ref';
+    seen.add(catalog.parentSkillKey);
+  }
+  for (const originalKey of originalKeys) {
+    const trimmed = originalKey.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    const original = catalog.skills.find((item) => item.skillKey === trimmed);
+    if (original?.status === 'DISABLED') {
+      options.push({ key: trimmed, status: 'DISABLED', source: 'retained-disabled' });
+      seen.add(trimmed);
     }
+  }
+  for (const currentKey of currentKeys) {
+    appendUnknownOption(options, currentKey);
   }
   return options;
 }
@@ -1453,7 +1476,7 @@ function validateAndBuildResult(
           resultType: 'COOLDOWN_CHANGE',
           valueRule: null,
           detail: {
-            affectedSkillKey: draft.affectedSkillKey.trim(),
+            affectedSkillKeys: draft.affectedSkillKeys.map((item) => item.trim()),
             operation: 'RESET'
           }
         };
@@ -1463,7 +1486,7 @@ function validateAndBuildResult(
         resultType: 'COOLDOWN_CHANGE',
         valueRule: valueRule!,
         detail: {
-          affectedSkillKey: draft.affectedSkillKey.trim(),
+          affectedSkillKeys: draft.affectedSkillKeys.map((item) => item.trim()),
           operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE'
         }
       };
@@ -1612,7 +1635,9 @@ function validateTypeSpecificFields(
       validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
       break;
     case 'COOLDOWN_CHANGE':
-      requireNonEmpty(draft.affectedSkillKey, fieldErrors, 'affectedSkillKey', '请选择受影响技能。');
+      if (draft.affectedSkillKeys.length === 0) {
+        fieldErrors.affectedSkillKeys = '请至少选择一个受影响技能。';
+      }
       if (
         draft.cooldownOperation !== 'REDUCE'
         && draft.cooldownOperation !== 'INCREASE'
@@ -1620,15 +1645,31 @@ function validateTypeSpecificFields(
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }
-      validateCatalogRef(
-        options,
-        'skills',
-        draft.affectedSkillKey,
-        draft.originalAffectedSkillKey,
-        fieldErrors,
-        'affectedSkillKey',
-        { parentSkillKey: options.catalog?.parentSkillKey }
-      );
+      {
+        const seenAffectedSkillKeys = new Set<string>();
+        for (const affectedSkillKey of draft.affectedSkillKeys) {
+          const trimmed = affectedSkillKey.trim();
+          if (!trimmed) {
+            fieldErrors.affectedSkillKeys = '受影响技能不能为空。';
+            break;
+          }
+          if (seenAffectedSkillKeys.has(trimmed)) {
+            fieldErrors.affectedSkillKeys = '受影响技能不能重复。';
+            break;
+          }
+          seenAffectedSkillKeys.add(trimmed);
+          validateCatalogRef(
+            options,
+            'skills',
+            trimmed,
+            draft.originalAffectedSkillKeys.includes(trimmed) ? trimmed : null,
+            fieldErrors,
+            'affectedSkillKeys',
+            { parentSkillKey: options.catalog?.parentSkillKey }
+          );
+          if (fieldErrors.affectedSkillKeys) break;
+        }
+      }
       if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
         validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
       }
@@ -2132,13 +2173,18 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
       };
     case 'COOLDOWN_CHANGE':
       if (result.valueRule === null) {
-        return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
+        return {
+          ...result,
+          lifecycleBehavior,
+          valueRule: null,
+          detail: { ...result.detail, affectedSkillKeys: [...result.detail.affectedSkillKeys] }
+        };
       }
       return {
         ...result,
         lifecycleBehavior,
         valueRule: { ...result.valueRule },
-        detail: { ...result.detail }
+        detail: { ...result.detail, affectedSkillKeys: [...result.detail.affectedSkillKeys] }
       };
     case 'STATUS_OPERATION':
       return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
@@ -2169,6 +2215,9 @@ function mapResultIssueField(
   const direct = RESULT_FIELD_BY_PATH[nested];
   if (direct) {
     return direct;
+  }
+  if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
+    return 'affectedSkillKeys';
   }
   if (nested === 'detail.operation') {
     if (resultType === 'ATTRIBUTE_CHANGE') return 'attributeOperation';
