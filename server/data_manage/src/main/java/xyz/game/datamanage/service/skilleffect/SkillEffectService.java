@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
@@ -77,6 +79,7 @@ import xyz.game.datamanage.support.error.ApiException;
 public class SkillEffectService {
 
     private static final Logger log = LoggerFactory.getLogger(SkillEffectService.class);
+    private static final Pattern STABLE_KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
 
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_effects";
     private static final String PROCESS_BINDING_CONSTRAINT = "fk_skill_process_effect_bindings_effect";
@@ -363,6 +366,9 @@ public class SkillEffectService {
             effectKey,
             mapper.listCooldownChangeDetails(gameId, skillKey, effectKey)
         );
+        Map<String, List<String>> cooldownTargets = indexCooldownChangeTargets(
+            mapper.listCooldownChangeTargets(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
             gameId,
             skillKey,
@@ -395,6 +401,7 @@ public class SkillEffectService {
                 attributes,
                 resources,
                 cooldowns,
+                cooldownTargets,
                 statuses,
                 operations,
                 behaviors
@@ -424,6 +431,7 @@ public class SkillEffectService {
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
+        Map<String, List<String>> cooldownTargets,
         Map<String, SkillEffectStatusOperationDetailRow> statuses,
         Map<String, SkillEffectLifecycleOperationDetailRow> operations,
         Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
@@ -434,6 +442,7 @@ public class SkillEffectService {
         SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
+        List<String> affectedSkillKeys = cooldownTargets.getOrDefault(resultKey, List.of());
         SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
         SkillEffectLifecycleOperationDetailRow operationRow = operations.get(resultKey);
         int extraDetails = countPresent(
@@ -495,7 +504,7 @@ public class SkillEffectService {
                 );
             }
             case COOLDOWN_CHANGE -> {
-                if (cooldownRow == null || extraDetails != 1) {
+                if (cooldownRow == null || affectedSkillKeys.isEmpty() || extraDetails != 1) {
                     throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化结果形状损坏");
                 }
                 SkillEffectCooldownChangeOperation operation = cooldownRow.operation();
@@ -505,7 +514,7 @@ public class SkillEffectService {
                     }
                     yield new AssembledResultPayload(
                         null,
-                        new SkillEffectCooldownChangeDetail(cooldownRow.affectedSkillKey(), operation)
+                        new SkillEffectCooldownChangeDetail(affectedSkillKeys, operation)
                     );
                 }
                 if (operation == SkillEffectCooldownChangeOperation.REDUCE
@@ -515,7 +524,7 @@ public class SkillEffectService {
                     }
                     yield new AssembledResultPayload(
                         toValueRule(value),
-                        new SkillEffectCooldownChangeDetail(cooldownRow.affectedSkillKey(), operation)
+                        new SkillEffectCooldownChangeDetail(affectedSkillKeys, operation)
                     );
                 }
                 throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化操作损坏");
@@ -855,23 +864,40 @@ public class SkillEffectService {
         } else {
             requireValueRule(result, index, refs, issues);
         }
-        String affectedSkillKey = detail.affectedSkillKey();
-        if (affectedSkillKey == null || affectedSkillKey.isBlank()) {
+        List<String> affectedSkillKeys = detail.affectedSkillKeys();
+        if (affectedSkillKeys == null || affectedSkillKeys.isEmpty()) {
             issues.add(fieldIssue(
-                resultPath(index, "detail.affectedSkillKey"),
-                "REQUIRED",
-                "受影响技能不能为空"
+                resultPath(index, "detail.affectedSkillKeys"),
+                "AFFECTED_SKILL_REQUIRED",
+                "至少选择一个受影响技能"
             ));
             return;
         }
-        boolean selfReference = affectedSkillKey.equals(pathSkillKey);
-        refs.skills.add(new CatalogRef(
-            resultPath(index, "detail.affectedSkillKey"),
-            affectedSkillKey,
-            selfReference
-                || isRetained(retained, result.resultKey(), CatalogKind.SKILL, affectedSkillKey)
-        ));
-        refs.skillKeys.add(affectedSkillKey);
+        Set<String> seenAffectedSkillKeys = new HashSet<>();
+        for (int targetIndex = 0; targetIndex < affectedSkillKeys.size(); targetIndex++) {
+            String affectedSkillKey = affectedSkillKeys.get(targetIndex);
+            String path = resultPath(index, "detail.affectedSkillKeys[" + targetIndex + "]");
+            if (affectedSkillKey == null || affectedSkillKey.isBlank()) {
+                issues.add(fieldIssue(path, "AFFECTED_SKILL_REQUIRED", "受影响技能不能为空"));
+                continue;
+            }
+            if (!STABLE_KEY_PATTERN.matcher(affectedSkillKey).matches()) {
+                issues.add(fieldIssue(path, "FORMAT_INVALID", "受影响技能标识格式不合法"));
+                continue;
+            }
+            if (!seenAffectedSkillKeys.add(affectedSkillKey)) {
+                issues.add(fieldIssue(path, "DUPLICATE_AFFECTED_SKILL", "受影响技能不能重复"));
+                continue;
+            }
+            boolean selfReference = affectedSkillKey.equals(pathSkillKey);
+            refs.skills.add(new CatalogRef(
+                path,
+                affectedSkillKey,
+                selfReference
+                    || isRetained(retained, result.resultKey(), CatalogKind.SKILL, affectedSkillKey)
+            ));
+            refs.skillKeys.add(affectedSkillKey);
+        }
     }
 
     private void validateStatusOperation(
@@ -1552,14 +1578,16 @@ public class SkillEffectService {
                 detail.attributeKey(),
                 detail.operation()
             );
-            case SkillEffectCooldownChangeDetail detail -> mapper.insertCooldownChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.affectedSkillKey(),
-                detail.operation()
-            );
+            case SkillEffectCooldownChangeDetail detail -> {
+                mapper.insertCooldownChangeDetail(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    detail.operation()
+                );
+                insertCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillKeys());
+            }
             case SkillEffectStatusOperationDetail detail -> mapper.insertStatusOperationDetail(
                 gameId,
                 skillKey,
@@ -1613,14 +1641,17 @@ public class SkillEffectService {
                 detail.attributeKey(),
                 detail.operation()
             );
-            case SkillEffectCooldownChangeDetail detail -> mapper.updateCooldownChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.affectedSkillKey(),
-                detail.operation()
-            );
+            case SkillEffectCooldownChangeDetail detail -> {
+                mapper.updateCooldownChangeDetail(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    detail.operation()
+                );
+                mapper.deleteCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey());
+                insertCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillKeys());
+            }
             case SkillEffectStatusOperationDetail detail -> mapper.updateStatusOperationDetail(
                 gameId,
                 skillKey,
@@ -1641,6 +1672,18 @@ public class SkillEffectService {
             }
             case SkillEffectNormalShieldDetail ignored -> {
             }
+        }
+    }
+
+    private void insertCooldownChangeTargets(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        String resultKey,
+        List<String> affectedSkillKeys
+    ) {
+        for (String affectedSkillKey : affectedSkillKeys) {
+            mapper.insertCooldownChangeTarget(gameId, skillKey, effectKey, resultKey, affectedSkillKey);
         }
     }
 
@@ -1681,6 +1724,9 @@ public class SkillEffectService {
             effectKey,
             mapper.listCooldownChangeDetails(gameId, skillKey, effectKey)
         );
+        Map<String, List<String>> cooldownTargets = indexCooldownChangeTargets(
+            mapper.listCooldownChangeTargets(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
             gameId,
             skillKey,
@@ -1705,7 +1751,7 @@ public class SkillEffectService {
                 attributeRow == null
                     ? (resourceRow == null ? null : resourceRow.attributeKey())
                     : attributeRow.attributeKey(),
-                cooldownRow == null ? null : cooldownRow.affectedSkillKey(),
+                cooldownRow == null ? Set.of() : Set.copyOf(cooldownTargets.getOrDefault(resultKey, List.of())),
                 statusRow == null ? null : statusRow.statusKey()
             ));
         }
@@ -1814,6 +1860,22 @@ public class SkillEffectService {
         return indexed;
     }
 
+    private Map<String, List<String>> indexCooldownChangeTargets(
+        List<SkillEffectCooldownChangeTargetRow> rows
+    ) {
+        Map<String, List<String>> indexed = new LinkedHashMap<>();
+        for (SkillEffectCooldownChangeTargetRow row : nullToEmpty(rows)) {
+            List<String> targets = indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>());
+            if (targets.contains(row.affectedSkillKey())) {
+                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "冷却变化目标重复");
+            }
+            targets.add(row.affectedSkillKey());
+        }
+        Map<String, List<String>> immutable = new LinkedHashMap<>();
+        indexed.forEach((resultKey, targets) -> immutable.put(resultKey, List.copyOf(targets)));
+        return immutable;
+    }
+
     private Map<String, SkillEffectStatusOperationDetailRow> indexStatusOperation(
         String gameId,
         String skillKey,
@@ -1875,7 +1937,7 @@ public class SkillEffectService {
         return switch (kind) {
             case DAMAGE_TYPE -> Objects.equals(catalog.damageTypeKey(), value);
             case ATTRIBUTE -> Objects.equals(catalog.attributeKey(), value);
-            case SKILL -> Objects.equals(catalog.affectedSkillKey(), value);
+            case SKILL -> catalog.affectedSkillKeys().contains(value);
             case STATUS -> Objects.equals(catalog.statusKey(), value);
         };
     }
@@ -2388,7 +2450,7 @@ public class SkillEffectService {
     private record RetainedCatalog(
         String damageTypeKey,
         String attributeKey,
-        String affectedSkillKey,
+        Set<String> affectedSkillKeys,
         String statusKey
     ) {
     }

@@ -73,6 +73,7 @@ DECLARE
     v_attribute_count int;
     v_resource_count int;
     v_cooldown_count int;
+    v_cooldown_target_count int;
     v_status_count int;
     v_lifecycle_op_count int;
 BEGIN
@@ -139,6 +140,12 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_cooldown_target_count
+      FROM public.skill_effect_cooldown_change_targets t
+     WHERE t.game_id = v_game_id
+       AND t.skill_key = v_skill_key
+       AND t.effect_key = v_effect_key
+       AND t.result_key = v_result_key;
     SELECT COUNT(*) INTO v_status_count
       FROM public.skill_effect_status_operation_details d
      WHERE d.game_id = v_game_id
@@ -206,6 +213,7 @@ BEGIN
         END IF;
     ELSIF v_result_type = 'COOLDOWN_CHANGE' THEN
         IF v_cooldown_count <> 1
+            OR v_cooldown_target_count < 1
             OR v_damage_count <> 0
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
@@ -311,6 +319,7 @@ DECLARE
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
+        'skill_effect_cooldown_change_targets',
         'skill_effect_status_operation_details',
         'skill_effect_lifecycle_operation_details'
     ];
