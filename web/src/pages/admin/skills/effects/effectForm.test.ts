@@ -41,6 +41,7 @@ import {
   listLifecycleTargetOptions,
   listStatusOptions,
   mapSkillEffectFieldIssues,
+  normalizeEffectDraftForDirtyComparison,
   skillEffectResultToDraft,
   skillEffectToDraft,
   sortResultDrafts,
@@ -127,7 +128,7 @@ const EFFECT: SkillEffect = {
         fixedMinValue: 0,
         fixedMaxValue: null
       },
-      detail: { affectedSkillKey: 'ezreal_q', operation: 'REDUCE' }
+      detail: { affectedSkillKeys: ['ezreal_q'], operation: 'REDUCE' }
     }
   ]
 };
@@ -262,13 +263,13 @@ describe('skill effect form defaults and conversion', () => {
       originalResultType: 'DAMAGE',
       originalDamageTypeKey: 'physical',
       statusKey: '',
-      affectedSkillKey: ''
+      affectedSkillKeys: []
     });
     expect(draft.results[1]).toMatchObject({
       resultType: 'COOLDOWN_CHANGE',
       cooldownOperation: 'REDUCE',
-      affectedSkillKey: 'ezreal_q',
-      originalAffectedSkillKey: 'ezreal_q',
+      affectedSkillKeys: ['ezreal_q'],
+      originalAffectedSkillKeys: ['ezreal_q'],
       formulaKey: 'cooldown_reduction_ms',
       fixedMinValue: '0'
     });
@@ -362,7 +363,7 @@ describe('skill effect form normalization and request building', () => {
     cooldown.resultKey = 'cdr';
     cooldown.name = '减少冷却';
     cooldown.formulaKey = 'cooldown_reduction_ms';
-    cooldown.affectedSkillKey = 'ezreal_q';
+    cooldown.affectedSkillKeys = ['ezreal_q', 'ezreal_w'];
     cooldown.cooldownOperation = 'REDUCE';
     cooldown.damageTypeKey = 'physical';
 
@@ -443,7 +444,7 @@ describe('skill effect form normalization and request building', () => {
     expect(normalized.results[5]).toMatchObject({
       resultType: 'COOLDOWN_CHANGE',
       valueRule: { formulaKey: 'cooldown_reduction_ms', fixedMultiplier: 1 },
-      detail: { affectedSkillKey: 'ezreal_q', operation: 'REDUCE' }
+      detail: { affectedSkillKeys: ['ezreal_q', 'ezreal_w'], operation: 'REDUCE' }
     });
     expect(normalized.results[5]).not.toHaveProperty('damageTypeKey');
     expect(normalized.results[6]).toEqual({
@@ -455,7 +456,7 @@ describe('skill effect form normalization and request building', () => {
       sortOrder: 0,
       lifecycleBehavior: null,
       valueRule: null,
-      detail: { affectedSkillKey: 'ezreal_q', operation: 'RESET' }
+      detail: { affectedSkillKeys: ['ezreal_q', 'ezreal_w'], operation: 'RESET' }
     });
     expect(normalized.results[7]).toEqual({
       resultKey: 'poison',
@@ -499,6 +500,29 @@ describe('skill effect form validation', () => {
     expect(duplicated.resultErrors).toEqual([
       { index: 1, fieldErrors: { resultKey: '结果标识不能重复。' } }
     ]);
+  });
+
+  it('requires at least one cooldown target and rejects normalized duplicates', () => {
+    const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
+    cooldown.resultKey = 'reduce_abilities';
+    cooldown.name = '减少技能冷却';
+    cooldown.formulaKey = 'cooldown_reduction_ms';
+
+    const empty = validateSkillEffectDraft(validEffectDraft([cooldown]), {
+      includeEffectKey: true,
+      catalog: CATALOG
+    });
+    expect(empty.ok).toBe(false);
+    if (empty.ok) throw new Error('expected invalid');
+    expect(empty.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('请至少选择一个受影响技能。');
+
+    const duplicate = validateSkillEffectDraft(
+      validEffectDraft([{ ...cooldown, affectedSkillKeys: ['ezreal_w', ' ezreal_w '] }]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(duplicate.ok).toBe(false);
+    if (duplicate.ok) throw new Error('expected invalid');
+    expect(duplicate.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('受影响技能不能重复。');
   });
 
   it('rejects changing the original result type', () => {
@@ -596,7 +620,7 @@ describe('skill effect catalog refs', () => {
     newParentCooldown.resultKey = 'self_cd';
     newParentCooldown.name = '自身冷却';
     newParentCooldown.formulaKey = 'cooldown_reduction_ms';
-    newParentCooldown.affectedSkillKey = 'ezreal_q';
+    newParentCooldown.affectedSkillKeys = ['ezreal_q'];
     expect(
       validateSkillEffectDraft(validEffectDraft([newParentCooldown]), {
         includeEffectKey: true,
@@ -607,7 +631,7 @@ describe('skill effect catalog refs', () => {
     const editParentCooldown = {
       ...newParentCooldown,
       originalResultType: 'COOLDOWN_CHANGE' as const,
-      originalAffectedSkillKey: 'ezreal_w'
+      originalAffectedSkillKeys: ['ezreal_w']
     };
     expect(
       validateSkillEffectDraft(validEffectDraft([editParentCooldown]), {
@@ -617,20 +641,20 @@ describe('skill effect catalog refs', () => {
     ).toBe(true);
 
     const otherDisabled = validateSkillEffectDraft(
-      validEffectDraft([{ ...newParentCooldown, affectedSkillKey: 'retired_skill' }]),
+      validEffectDraft([{ ...newParentCooldown, affectedSkillKeys: ['retired_skill'] }]),
       { includeEffectKey: true, catalog: CATALOG }
     );
     expect(otherDisabled.ok).toBe(false);
     if (otherDisabled.ok) throw new Error('expected invalid');
-    expect(otherDisabled.resultErrors[0]?.fieldErrors.affectedSkillKey).toBe(DISABLED_CATALOG_MESSAGE);
+    expect(otherDisabled.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe(DISABLED_CATALOG_MESSAGE);
 
     const retainOtherDisabled = validateSkillEffectDraft(
       validEffectDraft([
         {
           ...newParentCooldown,
-          affectedSkillKey: 'retired_skill',
+          affectedSkillKeys: ['retired_skill'],
           originalResultType: 'COOLDOWN_CHANGE',
-          originalAffectedSkillKey: 'retired_skill'
+          originalAffectedSkillKeys: ['retired_skill']
         }
       ]),
       { includeEffectKey: false, catalog: CATALOG }
@@ -644,7 +668,7 @@ describe('skill effect catalog refs', () => {
     expect(newSkillOptions.find((item) => item.key === 'ezreal_q')?.source).toBe('parent-skill-self-ref');
     expect(newSkillOptions.some((item) => item.key === 'retired_skill')).toBe(false);
 
-    const retainedOptions = listAffectedSkillOptions(CATALOG, 'retired_skill', 'retired_skill');
+    const retainedOptions = listAffectedSkillOptions(CATALOG, ['retired_skill'], ['retired_skill']);
     expect(retainedOptions.some((item) => item.key === 'retired_skill' && item.source === 'retained-disabled')).toBe(
       true
     );
@@ -705,7 +729,7 @@ describe('skill effect API field issue mapping', () => {
         { field: 'results[0].detail.damageTypeKey', code: 'UNKNOWN_DAMAGE_TYPE', message: '伤害类型不存在' },
         { field: 'results[1].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' },
         { field: 'results[1].resultType', code: 'IMMUTABLE', message: '结果种类不可修改' },
-        { field: 'results[2].detail.affectedSkillKey', code: 'UNKNOWN_SKILL', message: '技能不存在' },
+        { field: 'results[2].detail.affectedSkillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
         { field: 'gameId', code: 'NOT_FOUND', message: '游戏不存在' }
       ]
     });
@@ -733,7 +757,7 @@ describe('skill effect API field issue mapping', () => {
         {
           index: 2,
           fieldErrors: {
-            affectedSkillKey: '技能不存在'
+            affectedSkillKeys: '技能不存在'
           }
         }
       ],
@@ -774,6 +798,22 @@ describe('skill effect draft sorting', () => {
       validDamageDraft({ resultKey: 'c', sortOrder: '5' })
     ]);
     expect(sorted.map((item) => item.resultKey)).toEqual(['c', 'a', 'b']);
+  });
+
+  it('treats cooldown target order as a set for dirty comparison', () => {
+    const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
+    cooldown.affectedSkillKeys = ['ezreal_w', 'ezreal_q'];
+    cooldown.originalAffectedSkillKeys = ['ezreal_w', 'ezreal_q'];
+    const left = validEffectDraft([cooldown]);
+    const right = validEffectDraft([{
+      ...cooldown,
+      affectedSkillKeys: ['ezreal_q', 'ezreal_w'],
+      originalAffectedSkillKeys: ['ezreal_q', 'ezreal_w']
+    }]);
+
+    expect(normalizeEffectDraftForDirtyComparison(left)).toEqual(
+      normalizeEffectDraftForDirtyComparison(right)
+    );
   });
 });
 
@@ -833,7 +873,7 @@ describe('skill effect result conversion coverage', () => {
         sortOrder: 5,
         lifecycleBehavior: null,
         valueRule: null,
-        detail: { affectedSkillKey: 'ezreal_w', operation: 'RESET' }
+        detail: { affectedSkillKeys: ['ezreal_w'], operation: 'RESET' }
       },
       {
         resultKey: 'cc',
@@ -863,7 +903,7 @@ describe('skill effect result conversion coverage', () => {
     expect(drafts[4]).toMatchObject({
       cooldownOperation: 'RESET',
       formulaKey: '',
-      originalAffectedSkillKey: 'ezreal_w'
+      originalAffectedSkillKeys: ['ezreal_w']
     });
     expect(drafts[5]).toMatchObject({
       statusOperation: 'REMOVE',
