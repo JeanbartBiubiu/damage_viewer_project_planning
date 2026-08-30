@@ -87,12 +87,12 @@ export type SkillEffectResourceChangeDetail = {
 };
 
 export type SkillEffectCooldownAdjustDetail = {
-  affectedSkillKey: string;
+  affectedSkillKeys: string[];
   operation: 'REDUCE' | 'INCREASE';
 };
 
 export type SkillEffectCooldownResetDetail = {
-  affectedSkillKey: string;
+  affectedSkillKeys: string[];
   operation: 'RESET';
 };
 
