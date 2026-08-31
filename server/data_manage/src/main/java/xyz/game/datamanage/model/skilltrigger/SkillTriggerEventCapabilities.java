@@ -12,7 +12,8 @@ public final class SkillTriggerEventCapabilities {
         SkillTriggerEventType.DAMAGE_PENDING,
         SkillTriggerEventType.DAMAGE_TAKEN,
         SkillTriggerEventType.STATUS_CHANGED,
-        SkillTriggerEventType.CONTROL_RECEIVED
+        SkillTriggerEventType.CONTROL_RECEIVED,
+        SkillTriggerEventType.SPELL_SHIELD_BLOCKED
     );
 
     private static final Set<SkillTriggerEventType> EMPTY_DETAIL_EVENTS = EnumSet.of(
@@ -133,7 +134,8 @@ public final class SkillTriggerEventCapabilities {
             Map.entry(SkillTriggerEventType.ENTITY_DIED, "subject 指定的死亡对象"),
             Map.entry(SkillTriggerEventType.ENTITY_UNTARGETABLE, "subject 指定的不可选取对象"),
             Map.entry(SkillTriggerEventType.KILL, "本次被击杀对象"),
-            Map.entry(SkillTriggerEventType.PROCESS_CANCEL_REQUESTED, "目标过程实例的目标；没有时为来源对象")
+            Map.entry(SkillTriggerEventType.PROCESS_CANCEL_REQUESTED, "目标过程实例的目标；没有时为来源对象"),
+            Map.entry(SkillTriggerEventType.SPELL_SHIELD_BLOCKED, "法术护盾承受对象（技能拥有者自身）")
         );
     }
 }

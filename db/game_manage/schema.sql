@@ -544,7 +544,7 @@ CREATE TABLE public.skill_effect_results (
             'DAMAGE', 'DIRECT_HEAL', 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE',
             'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION',
             'LIFECYCLE_OPERATION', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-            'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+            'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
         )),
     CONSTRAINT ck_skill_effect_results_target
         CHECK (target IN ('SOURCE', 'TARGET')),
@@ -592,6 +592,25 @@ CREATE INDEX ix_skill_effect_result_values_formula
     (game_id, skill_key, formula_key, effect_key, result_key);
 
 COMMENT ON TABLE public.skill_effect_result_values IS '技能效果结果数值规则';
+
+CREATE TABLE public.skill_effect_result_spell_shield_policies (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    block_scope varchar(24) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_spell_shield_policies
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_spell_shield_policy_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_effect_spell_shield_policy_scope
+        CHECK (block_scope IN ('SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT'))
+);
+
+COMMENT ON TABLE public.skill_effect_result_spell_shield_policies IS '结果被法术护盾阻挡的粒度';
 
 CREATE TABLE public.skill_effect_damage_details (
     game_id varchar(64) NOT NULL,
@@ -1825,7 +1844,7 @@ CREATE TABLE public.skill_trigger_rules (
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
             'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',
-            'KILL', 'PROCESS_CANCEL_REQUESTED'
+            'KILL', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED'
         ))
 );
 
@@ -2106,6 +2125,29 @@ CREATE INDEX ix_skill_trigger_damage_events_damage_type
     (game_id, damage_type_key, skill_key, rule_key);
 
 COMMENT ON TABLE public.skill_trigger_rule_damage_events IS '技能触发规则伤害事件筛选';
+
+CREATE TABLE public.skill_trigger_rule_spell_shield_blocked_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    shield_effect_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_trigger_rule_spell_shield_blocked_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_spell_shield_blocked_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_spell_shield_blocked_effect
+        FOREIGN KEY (game_id, skill_key, shield_effect_key)
+        REFERENCES public.skill_effects (game_id, skill_key, effect_key)
+        ON DELETE RESTRICT
+);
+
+CREATE INDEX ix_skill_trigger_spell_shield_blocked_effect
+    ON public.skill_trigger_rule_spell_shield_blocked_events
+    (game_id, skill_key, shield_effect_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_spell_shield_blocked_events IS '技能触发规则法术护盾已阻挡事件明细';
 
 CREATE TABLE public.skill_trigger_rule_condition_groups (
     game_id varchar(64) NOT NULL,
