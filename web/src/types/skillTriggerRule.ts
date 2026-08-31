@@ -9,6 +9,7 @@ export type SkillTriggerEventType =
   | 'PROCESS_MOMENT'
   | 'RESULT_AVAILABLE'
   | 'LIFECYCLE_MOMENT'
+  | 'DAMAGE_PENDING'
   | 'DAMAGE_DEALT'
   | 'DAMAGE_TAKEN'
   | 'STATUS_CHANGED'
@@ -73,7 +74,11 @@ export type SkillTriggerEventValueKey =
   | 'STATE_AFTER'
   | 'ATTRIBUTE_BEFORE'
   | 'ATTRIBUTE_AFTER'
-  | 'THRESHOLD_VALUE';
+  | 'THRESHOLD_VALUE'
+  | 'RAW_DAMAGE'
+  | 'POST_DEFENSE_DAMAGE'
+  | 'HEALTH_BEFORE'
+  | 'PROJECTED_HEALTH_AFTER';
 
 export type SkillTriggerComparator = 'LT' | 'LTE' | 'EQ' | 'NE' | 'GTE' | 'GT';
 
@@ -204,6 +209,11 @@ export type SkillTriggerDamageDealtEventSource = {
   detail: SkillTriggerDamageEventDetail;
 };
 
+export type SkillTriggerDamagePendingEventSource = {
+  eventType: 'DAMAGE_PENDING';
+  detail: SkillTriggerDamageEventDetail;
+};
+
 export type SkillTriggerDamageTakenEventSource = {
   eventType: 'DAMAGE_TAKEN';
   detail: SkillTriggerDamageEventDetail;
@@ -257,6 +267,7 @@ export type SkillTriggerEventSource =
   | SkillTriggerProcessMomentEventSource
   | SkillTriggerResultAvailableEventSource
   | SkillTriggerLifecycleMomentEventSource
+  | SkillTriggerDamagePendingEventSource
   | SkillTriggerDamageDealtEventSource
   | SkillTriggerDamageTakenEventSource
   | SkillTriggerStatusChangedEventSource

@@ -35,12 +35,19 @@ import {
 import {
   LIFECYCLE_PENDING_BEHAVIOR_LABEL,
   SKILL_EFFECT_CRITICAL_MODE_LABELS,
+  SKILL_EFFECT_CRITICAL_FILTER_LABELS,
   SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS,
   SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_EFFECT_EXPIRY_MODE_LABELS,
   SKILL_EFFECT_FIRST_PERIODIC_EXECUTION_LABELS,
   SKILL_EFFECT_INSTANCE_SCOPE_LABELS,
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
+  SKILL_EFFECT_HEALING_KIND_LABELS,
+  SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS,
+  SKILL_EFFECT_MODIFIER_OPERATION_LABELS,
   SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
   SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS,
   SKILL_EFFECT_REAPPLICATION_DURATION_MODE_LABELS,
@@ -63,6 +70,7 @@ import {
   hasPeriodicResults,
   hasUnconfiguredLifecycleResults,
   isInstanceScopeLocked,
+  isPersistentOnlyResultType,
   listFormulaOptions,
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
@@ -140,6 +148,13 @@ function referenceSummary(result: SkillEffectResultDraft): string {
       return result.statusKey || '—';
     case 'LIFECYCLE_OPERATION':
       return result.targetEffectKey || '—';
+    case 'DAMAGE_MODIFIER':
+    case 'DAMAGE_IMMUNITY':
+      return result.damageTypeKey || '全部伤害';
+    case 'HEALING_MODIFIER':
+      return result.formulaKey || '—';
+    case 'HEALTH_FLOOR':
+      return result.attributeKey || '—';
     default: {
       const unexpected: never = result.resultType;
       return unexpected;
@@ -166,6 +181,48 @@ function interactionSummary(result: SkillEffectResultDraft): string {
       ? SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS[result.shieldDecayMode]
       : '—';
     return `${damageType} / ${decay}`;
+  }
+  if (result.resultType === 'DAMAGE_MODIFIER') {
+    const direction = result.modifierDirection
+      ? SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS[result.modifierDirection]
+      : '—';
+    const operation = result.modifierOperation
+      ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation]
+      : '—';
+    const delivery = result.damageFilterDeliveryKind
+      ? SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS[result.damageFilterDeliveryKind]
+      : '—';
+    const origin = result.damageFilterOriginKind
+      ? SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS[result.damageFilterOriginKind]
+      : '—';
+    const critical = result.criticalFilter
+      ? SKILL_EFFECT_CRITICAL_FILTER_LABELS[result.criticalFilter]
+      : '—';
+    return `${direction} / ${operation} / ${delivery} / ${origin} / ${critical}`;
+  }
+  if (result.resultType === 'HEALING_MODIFIER') {
+    const direction = result.healingModifierDirection
+      ? SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS[result.healingModifierDirection]
+      : '—';
+    const operation = result.modifierOperation
+      ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation]
+      : '—';
+    const kind = result.healingKind
+      ? SKILL_EFFECT_HEALING_KIND_LABELS[result.healingKind]
+      : '—';
+    return `${direction} / ${operation} / ${kind}`;
+  }
+  if (result.resultType === 'DAMAGE_IMMUNITY') {
+    const delivery = result.damageFilterDeliveryKind
+      ? SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS[result.damageFilterDeliveryKind]
+      : '—';
+    const origin = result.damageFilterOriginKind
+      ? SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS[result.damageFilterOriginKind]
+      : '—';
+    return `${delivery} / ${origin}`;
+  }
+  if (result.resultType === 'HEALTH_FLOOR') {
+    return '持续生命下限';
   }
   return '—';
 }
@@ -417,6 +474,14 @@ export function SkillEffectEditorModal({
   const toggleLifecycle = (checked: boolean) => {
     if (checked) {
       patchLifecycleDraft(enableLifecycleDraft(draft));
+      return;
+    }
+    const requiredBy = draft.results.filter((result) => isPersistentOnlyResultType(result.resultType));
+    if (requiredBy.length > 0) {
+      Modal.warning({
+        title: '不能关闭生命周期',
+        content: `以下结果只能持续生效：${requiredBy.map((result) => result.name || result.resultKey).join('、')}。请先删除或修改这些结果。`
+      });
       return;
     }
     if (!hasLifecycleDraftContent(draft)) {
@@ -1066,6 +1131,7 @@ export function SkillEffectEditorModal({
         effectsLoadState={effectsLoadState}
         effectsError={effectsError}
         onRetryEffects={() => void loadEffectSummaries()}
+        onEnableLifecycle={() => patchLifecycleDraft(enableLifecycleDraft(draft))}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
