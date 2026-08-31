@@ -22,6 +22,7 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
   'PROCESS_MOMENT',
   'RESULT_AVAILABLE',
   'LIFECYCLE_MOMENT',
+  'DAMAGE_PENDING',
   'DAMAGE_DEALT',
   'DAMAGE_TAKEN',
   'STATUS_CHANGED',
@@ -132,6 +133,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
         protocolError(`${path}.detail`);
       }
       break;
+    case 'DAMAGE_PENDING':
     case 'DAMAGE_DEALT':
     case 'DAMAGE_TAKEN':
       if (detail.damageTypeKey !== null && typeof detail.damageTypeKey !== 'string') {

@@ -18,7 +18,11 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'RESOURCE_CHANGE',
   'COOLDOWN_CHANGE',
   'STATUS_OPERATION',
-  'LIFECYCLE_OPERATION'
+  'LIFECYCLE_OPERATION',
+  'DAMAGE_MODIFIER',
+  'HEALING_MODIFIER',
+  'DAMAGE_IMMUNITY',
+  'HEALTH_FLOOR'
 ]);
 
 const DAMAGE_DELIVERY_KINDS = new Set(['SKILL', 'BASIC_ATTACK']);
@@ -27,6 +31,13 @@ const CRITICAL_MODES = new Set(['DISALLOWED', 'SOURCE_CRIT_CHANCE', 'FORCED']);
 const VAMP_TYPES = new Set(['LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP']);
 const VAMP_BASIS_OUTPUT_KINDS = new Set(['POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS']);
 const SHIELD_DECAY_MODES = new Set(['NONE', 'LINEAR_TO_ZERO']);
+const MODIFIER_OPERATIONS = new Set(['INCREASE', 'DECREASE']);
+const DAMAGE_MODIFIER_DIRECTIONS = new Set(['DEALT', 'TAKEN']);
+const HEALING_MODIFIER_DIRECTIONS = new Set(['DONE', 'RECEIVED']);
+const DAMAGE_FILTER_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
+const DAMAGE_FILTER_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
+const CRITICAL_FILTERS = new Set(['ANY', 'CRITICAL_ONLY', 'NON_CRITICAL_ONLY']);
+const HEALING_KINDS = new Set(['ANY', 'DIRECT', 'VAMP']);
 
 export class SkillEffectProtocolError extends Error {
   constructor(message: string) {
@@ -103,6 +114,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     assertEnum(detail.operation, new Set(['APPLY', 'REMOVE']), `${path}.detail.operation`);
     return value as SkillEffectResult;
   }
+  if (resultType === 'DAMAGE_IMMUNITY') {
+    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    assertNullableString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
+    assertEnum(
+      detail.deliveryKind,
+      DAMAGE_FILTER_DELIVERY_KINDS,
+      `${path}.detail.deliveryKind`
+    );
+    assertEnum(detail.originKind, DAMAGE_FILTER_ORIGIN_KINDS, `${path}.detail.originKind`);
+    return value as SkillEffectResult;
+  }
   if (resultType === 'COOLDOWN_CHANGE') {
     assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET']), `${path}.detail.operation`);
     if (!Array.isArray(detail.affectedSkillKeys)) protocolError(`${path}.detail.affectedSkillKeys`);
@@ -164,6 +186,26 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     case 'RESOURCE_CHANGE':
       assertString(detail.attributeKey, `${path}.detail.attributeKey`);
       assertEnum(detail.operation, new Set(['RESTORE', 'CONSUME', 'REFUND']), `${path}.detail.operation`);
+      break;
+    case 'DAMAGE_MODIFIER':
+      assertEnum(detail.direction, DAMAGE_MODIFIER_DIRECTIONS, `${path}.detail.direction`);
+      assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
+      assertNullableString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
+      assertEnum(
+        detail.deliveryKind,
+        DAMAGE_FILTER_DELIVERY_KINDS,
+        `${path}.detail.deliveryKind`
+      );
+      assertEnum(detail.originKind, DAMAGE_FILTER_ORIGIN_KINDS, `${path}.detail.originKind`);
+      assertEnum(detail.criticalFilter, CRITICAL_FILTERS, `${path}.detail.criticalFilter`);
+      break;
+    case 'HEALING_MODIFIER':
+      assertEnum(detail.direction, HEALING_MODIFIER_DIRECTIONS, `${path}.detail.direction`);
+      assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
+      assertEnum(detail.healingKind, HEALING_KINDS, `${path}.detail.healingKind`);
+      break;
+    case 'HEALTH_FLOOR':
+      assertString(detail.attributeKey, `${path}.detail.attributeKey`);
       break;
     case 'DIRECT_HEAL':
       break;

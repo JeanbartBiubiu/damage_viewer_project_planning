@@ -1,6 +1,7 @@
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
+import type { ModifierZone, ModifierZoneDomain } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
@@ -9,8 +10,12 @@ import type {
   CreateSkillEffectRequest,
   ResourceChangeOperation,
   SkillEffect,
+  SkillEffectCriticalFilter,
   SkillEffectCriticalMode,
+  SkillEffectDamageFilterDeliveryKind,
+  SkillEffectDamageFilterOriginKind,
   SkillEffectDamageDeliveryKind,
+  SkillEffectDamageModifierDirection,
   SkillEffectDamageOriginKind,
   SkillEffectExpiryMode,
   SkillEffectFirstPeriodicExecution,
@@ -18,6 +23,9 @@ import type {
   SkillEffectLifecycleInstanceScope,
   SkillEffectLifecycleMoment,
   SkillEffectLifecycleOperation,
+  SkillEffectHealingKind,
+  SkillEffectHealingModifierDirection,
+  SkillEffectModifierOperation,
   SkillEffectNormalShieldDecayMode,
   SkillEffectPeriodicExecutionMode,
   SkillEffectReapplicationDurationMode,
@@ -49,7 +57,11 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'RESOURCE_CHANGE',
   'COOLDOWN_CHANGE',
   'STATUS_OPERATION',
-  'LIFECYCLE_OPERATION'
+  'LIFECYCLE_OPERATION',
+  'DAMAGE_MODIFIER',
+  'HEALING_MODIFIER',
+  'DAMAGE_IMMUNITY',
+  'HEALTH_FLOOR'
 ] as const satisfies readonly SkillEffectResultType[];
 
 export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
@@ -60,7 +72,11 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   RESOURCE_CHANGE: '资源变化',
   COOLDOWN_CHANGE: '冷却变化',
   STATUS_OPERATION: '状态操作',
-  LIFECYCLE_OPERATION: '生命周期操作'
+  LIFECYCLE_OPERATION: '生命周期操作',
+  DAMAGE_MODIFIER: '伤害修正',
+  HEALING_MODIFIER: '治疗修正',
+  DAMAGE_IMMUNITY: '伤害免疫',
+  HEALTH_FLOOR: '生命下限'
 } as const satisfies { [K in SkillEffectResultType]: string };
 
 export const SKILL_EFFECT_TARGET_LABELS = {
@@ -100,6 +116,45 @@ export const SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS = {
   NONE: '不衰减',
   LINEAR_TO_ZERO: '随持续时间线性衰减至 0'
 } as const satisfies { [K in SkillEffectNormalShieldDecayMode]: string };
+
+export const SKILL_EFFECT_MODIFIER_OPERATION_LABELS = {
+  INCREASE: '提高',
+  DECREASE: '降低'
+} as const satisfies { [K in SkillEffectModifierOperation]: string };
+
+export const SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS = {
+  DEALT: '造成的伤害',
+  TAKEN: '受到的伤害'
+} as const satisfies { [K in SkillEffectDamageModifierDirection]: string };
+
+export const SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS = {
+  DONE: '造成的治疗',
+  RECEIVED: '受到的治疗'
+} as const satisfies { [K in SkillEffectHealingModifierDirection]: string };
+
+export const SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS = {
+  ANY: '全部',
+  SKILL: '技能',
+  BASIC_ATTACK: '普通攻击'
+} as const satisfies { [K in SkillEffectDamageFilterDeliveryKind]: string };
+
+export const SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS = {
+  ANY: '全部',
+  DIRECT: '直接伤害',
+  REFLECTED: '反伤'
+} as const satisfies { [K in SkillEffectDamageFilterOriginKind]: string };
+
+export const SKILL_EFFECT_CRITICAL_FILTER_LABELS = {
+  ANY: '全部',
+  CRITICAL_ONLY: '仅暴击',
+  NON_CRITICAL_ONLY: '仅非暴击'
+} as const satisfies { [K in SkillEffectCriticalFilter]: string };
+
+export const SKILL_EFFECT_HEALING_KIND_LABELS = {
+  ANY: '全部',
+  DIRECT: '直接治疗',
+  VAMP: '吸血'
+} as const satisfies { [K in SkillEffectHealingKind]: string };
 
 export const SKILL_EFFECT_VAMP_TYPES = [
   'LIFE_STEAL',
@@ -264,6 +319,14 @@ export type SkillEffectResultDraft = {
   vampRules: SkillEffectVampRuleDraft[];
   absorbedDamageTypeKey: string;
   shieldDecayMode: SkillEffectNormalShieldDecayMode | '';
+  modifierDirection: SkillEffectDamageModifierDirection | '';
+  modifierOperation: SkillEffectModifierOperation | '';
+  damageFilterDeliveryKind: SkillEffectDamageFilterDeliveryKind | '';
+  damageFilterOriginKind: SkillEffectDamageFilterOriginKind | '';
+  criticalFilter: SkillEffectCriticalFilter | '';
+  healingModifierDirection: SkillEffectHealingModifierDirection | '';
+  healingKind: SkillEffectHealingKind | '';
+  modifierZoneKey: string;
   attributeKey: string;
   attributeOperation: AttributeChangeOperation | '';
   resourceOperation: ResourceChangeOperation | '';
@@ -276,6 +339,7 @@ export type SkillEffectResultDraft = {
   lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft;
   originalResultType: SkillEffectResultType | null;
   originalDamageTypeKey: string | null;
+  originalModifierZoneKey: string | null;
   originalAbsorbedDamageTypeKey: string | null;
   originalAttributeKey: string | null;
   originalAffectedSkillKeys: string[];
@@ -332,6 +396,14 @@ export type SkillEffectResultDraftField =
   | 'vampRules'
   | 'absorbedDamageTypeKey'
   | 'shieldDecayMode'
+  | 'modifierDirection'
+  | 'modifierOperation'
+  | 'damageFilterDeliveryKind'
+  | 'damageFilterOriginKind'
+  | 'criticalFilter'
+  | 'healingModifierDirection'
+  | 'healingKind'
+  | 'modifierZoneKey'
   | 'attributeKey'
   | 'attributeOperation'
   | 'resourceOperation'
@@ -386,6 +458,7 @@ export type EffectCatalogLoadState = {
   attributes?: 'ready' | 'failed';
   skills?: 'ready' | 'failed';
   statuses?: 'ready' | 'failed';
+  modifierZones?: 'ready' | 'failed';
 };
 
 export type EffectFormCatalog = {
@@ -397,6 +470,7 @@ export type EffectFormCatalog = {
   attributes: ReadonlyArray<Pick<Attribute, 'attributeKey' | 'status'>>;
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status'>>;
+  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status'>>;
 };
 
 export type SkillEffectFormValidationOptions = {
@@ -471,6 +545,9 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.vampRules': 'vampRules',
   'detail.absorbedDamageTypeKey': 'absorbedDamageTypeKey',
   'detail.decayMode': 'shieldDecayMode',
+  'detail.criticalFilter': 'criticalFilter',
+  'detail.healingKind': 'healingKind',
+  'detail.modifierZoneKey': 'modifierZoneKey',
   'detail.attributeKey': 'attributeKey',
   'detail.affectedSkillKeys': 'affectedSkillKeys',
   'detail.statusKey': 'statusKey',
@@ -545,6 +622,19 @@ export function createEmptyResultDraft(
     vampRules: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
+    modifierDirection: resultType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
+    modifierOperation:
+      resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER'
+        ? 'DECREASE'
+        : '',
+    damageFilterDeliveryKind:
+      resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
+    damageFilterOriginKind:
+      resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
+    criticalFilter: resultType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
+    healingModifierDirection: resultType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
+    healingKind: resultType === 'HEALING_MODIFIER' ? 'ANY' : '',
+    modifierZoneKey: '',
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
@@ -557,6 +647,7 @@ export function createEmptyResultDraft(
     lifecycleBehavior: createEmptyLifecycleBehaviorDraft(),
     originalResultType: null,
     originalDamageTypeKey: null,
+    originalModifierZoneKey: null,
     originalAbsorbedDamageTypeKey: null,
     originalAttributeKey: null,
     originalAffectedSkillKeys: [],
@@ -610,7 +701,9 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
     case 'ATTRIBUTE_CHANGE':
       draft.attributeKey = result.detail.attributeKey;
       draft.attributeOperation = result.detail.operation;
+      draft.modifierZoneKey = result.detail.modifierZoneKey ?? '';
       draft.originalAttributeKey = result.detail.attributeKey;
+      draft.originalModifierZoneKey = result.detail.modifierZoneKey;
       break;
     case 'RESOURCE_CHANGE':
       draft.attributeKey = result.detail.attributeKey;
@@ -637,6 +730,34 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.shieldDecayMode = result.detail.decayMode;
       draft.originalAbsorbedDamageTypeKey = result.detail.absorbedDamageTypeKey;
       break;
+    case 'DAMAGE_MODIFIER':
+      draft.modifierZoneKey = result.detail.modifierZoneKey;
+      draft.modifierDirection = result.detail.direction;
+      draft.modifierOperation = result.detail.operation;
+      draft.damageTypeKey = result.detail.damageTypeKey ?? '';
+      draft.damageFilterDeliveryKind = result.detail.deliveryKind;
+      draft.damageFilterOriginKind = result.detail.originKind;
+      draft.criticalFilter = result.detail.criticalFilter;
+      draft.originalDamageTypeKey = result.detail.damageTypeKey;
+      draft.originalModifierZoneKey = result.detail.modifierZoneKey;
+      break;
+    case 'HEALING_MODIFIER':
+      draft.modifierZoneKey = result.detail.modifierZoneKey;
+      draft.healingModifierDirection = result.detail.direction;
+      draft.modifierOperation = result.detail.operation;
+      draft.healingKind = result.detail.healingKind;
+      draft.originalModifierZoneKey = result.detail.modifierZoneKey;
+      break;
+    case 'DAMAGE_IMMUNITY':
+      draft.damageTypeKey = result.detail.damageTypeKey ?? '';
+      draft.damageFilterDeliveryKind = result.detail.deliveryKind;
+      draft.damageFilterOriginKind = result.detail.originKind;
+      draft.originalDamageTypeKey = result.detail.damageTypeKey;
+      break;
+    case 'HEALTH_FLOOR':
+      draft.attributeKey = result.detail.attributeKey;
+      draft.originalAttributeKey = result.detail.attributeKey;
+      break;
     case 'DIRECT_HEAL':
       break;
     default: {
@@ -655,6 +776,9 @@ export function requiresValueRule(
   if (resultType === 'STATUS_OPERATION') {
     return false;
   }
+  if (resultType === 'DAMAGE_IMMUNITY') {
+    return false;
+  }
   if (resultType === 'COOLDOWN_CHANGE') {
     return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE';
   }
@@ -670,6 +794,9 @@ export function requiresValueRule(
     || resultType === 'NORMAL_SHIELD'
     || resultType === 'ATTRIBUTE_CHANGE'
     || resultType === 'RESOURCE_CHANGE'
+    || resultType === 'DAMAGE_MODIFIER'
+    || resultType === 'HEALING_MODIFIER'
+    || resultType === 'HEALTH_FLOOR'
   );
 }
 
@@ -695,6 +822,16 @@ export function applyResultTypeChange(
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
   const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const lifecycleBehavior = isPersistentOnlyResultType(nextType)
+    ? {
+        moment: 'PERSISTENT' as const,
+        valueReadMode: nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'APPLICATION_SNAPSHOT' as const,
+        stackValueMode: nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'SHARED' as const,
+        reapplicationValueMode:
+          nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'KEEP' as const,
+        periodicExecutionMode: '' as const
+      }
+    : createEmptyLifecycleBehaviorDraft();
   return clearHiddenResultFields({
     ...draft,
     resultType: nextType,
@@ -710,6 +847,18 @@ export function applyResultTypeChange(
     vampRules: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
+    modifierDirection: nextType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
+    modifierOperation:
+      nextType === 'DAMAGE_MODIFIER' || nextType === 'HEALING_MODIFIER'
+        ? 'DECREASE'
+        : '',
+    damageFilterDeliveryKind:
+      nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
+    damageFilterOriginKind:
+      nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
+    criticalFilter: nextType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
+    healingModifierDirection: nextType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
+    healingKind: nextType === 'HEALING_MODIFIER' ? 'ANY' : '',
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
@@ -719,7 +868,7 @@ export function applyResultTypeChange(
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: nextLifecycleOperation,
-    lifecycleBehavior: createEmptyLifecycleBehaviorDraft()
+    lifecycleBehavior
   });
 }
 
@@ -815,7 +964,12 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     fixedMultiplier: needsValue ? (draft.fixedMultiplier === '' ? '1' : draft.fixedMultiplier) : '',
     fixedMinValue: needsValue ? draft.fixedMinValue : '',
     fixedMaxValue: needsValue ? draft.fixedMaxValue : '',
-    damageTypeKey: draft.resultType === 'DAMAGE' ? draft.damageTypeKey : '',
+    damageTypeKey:
+      draft.resultType === 'DAMAGE'
+      || draft.resultType === 'DAMAGE_MODIFIER'
+      || draft.resultType === 'DAMAGE_IMMUNITY'
+        ? draft.damageTypeKey
+        : '',
     damageDeliveryKind:
       draft.resultType === 'DAMAGE' ? draft.damageDeliveryKind || 'SKILL' : '',
     damageOriginKind:
@@ -833,8 +987,32 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'NORMAL_SHIELD' ? draft.absorbedDamageTypeKey : '',
     shieldDecayMode:
       draft.resultType === 'NORMAL_SHIELD' ? draft.shieldDecayMode || 'NONE' : '',
+    modifierDirection:
+      draft.resultType === 'DAMAGE_MODIFIER' ? draft.modifierDirection || 'TAKEN' : '',
+    modifierOperation:
+      draft.resultType === 'DAMAGE_MODIFIER' || draft.resultType === 'HEALING_MODIFIER'
+        ? draft.modifierOperation || 'DECREASE'
+        : '',
+    damageFilterDeliveryKind:
+      draft.resultType === 'DAMAGE_MODIFIER' || draft.resultType === 'DAMAGE_IMMUNITY'
+        ? draft.damageFilterDeliveryKind || 'ANY'
+        : '',
+    damageFilterOriginKind:
+      draft.resultType === 'DAMAGE_MODIFIER' || draft.resultType === 'DAMAGE_IMMUNITY'
+        ? draft.damageFilterOriginKind || 'ANY'
+        : '',
+    criticalFilter:
+      draft.resultType === 'DAMAGE_MODIFIER' ? draft.criticalFilter || 'ANY' : '',
+    healingModifierDirection:
+      draft.resultType === 'HEALING_MODIFIER'
+        ? draft.healingModifierDirection || 'RECEIVED'
+        : '',
+    healingKind: draft.resultType === 'HEALING_MODIFIER' ? draft.healingKind || 'ANY' : '',
+    modifierZoneKey: isModifierZoneRequired(draft) ? draft.modifierZoneKey : '',
     attributeKey:
-      draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE'
+      draft.resultType === 'ATTRIBUTE_CHANGE'
+      || draft.resultType === 'RESOURCE_CHANGE'
+      || draft.resultType === 'HEALTH_FLOOR'
         ? draft.attributeKey
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
@@ -854,21 +1032,35 @@ export function clearHiddenLifecycleBehaviorFields(
   draft: SkillEffectResultDraft
 ): SkillEffectResultDraft {
   const behavior = draft.lifecycleBehavior ?? createEmptyLifecycleBehaviorDraft();
-  const moment = behavior.moment;
+  const moment = isPersistentOnlyResultType(draft.resultType) ? 'PERSISTENT' : behavior.moment;
   const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
-  const snapshotOnly = moment === 'APPLICATION' || moment === 'PERSISTENT';
+  const momentEvaluationAllowed = moment === 'PERSISTENT' && supportsMomentEvaluation(draft);
+  const snapshotOnly = moment === 'APPLICATION' || (moment === 'PERSISTENT' && !momentEvaluationAllowed);
   const showValueRead = needsValue && moment !== '';
   const showStackValue = moment === 'PERSISTENT' && isPersistentNumericResult(draft);
-  const showReapplicationValue = showStackValue && behavior.stackValueMode === 'SHARED';
   const showPeriodicExecution = moment === 'PERIODIC';
   let valueReadMode = behavior.valueReadMode;
   if (!showValueRead) {
     valueReadMode = '';
   } else if (snapshotOnly) {
     valueReadMode = 'APPLICATION_SNAPSHOT';
+  } else if (!valueReadMode) {
+    valueReadMode = 'APPLICATION_SNAPSHOT';
   }
+  const showReapplicationValue = showStackValue
+    && behavior.stackValueMode === 'SHARED'
+    && valueReadMode !== 'MOMENT_EVALUATION';
+  const keepModifierZone = draft.resultType === 'DAMAGE_MODIFIER'
+    || draft.resultType === 'HEALING_MODIFIER'
+    || (
+      draft.resultType === 'ATTRIBUTE_CHANGE'
+      && moment === 'PERSISTENT'
+      && draft.attributeOperation !== ''
+      && draft.attributeOperation !== 'SET'
+    );
   return {
     ...draft,
+    modifierZoneKey: keepModifierZone ? draft.modifierZoneKey : '',
     lifecycleBehavior: {
       moment,
       valueReadMode,
@@ -1018,14 +1210,29 @@ export function hasUnconfiguredLifecycleResults(draft: SkillEffectDraft): boolea
 }
 
 export function isPersistentMomentAllowed(draft: SkillEffectResultDraft): boolean {
-  if (draft.resultType === 'NORMAL_SHIELD' || draft.resultType === 'ATTRIBUTE_CHANGE') {
+  if (
+    draft.resultType === 'NORMAL_SHIELD'
+    || draft.resultType === 'ATTRIBUTE_CHANGE'
+    || isPersistentOnlyResultType(draft.resultType)
+  ) {
     return true;
   }
   return draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
 }
 
 export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolean {
-  return draft.resultType === 'NORMAL_SHIELD' || draft.resultType === 'ATTRIBUTE_CHANGE';
+  return draft.resultType === 'NORMAL_SHIELD'
+    || draft.resultType === 'ATTRIBUTE_CHANGE'
+    || draft.resultType === 'DAMAGE_MODIFIER'
+    || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'HEALTH_FLOOR';
+}
+
+export function isPersistentOnlyResultType(resultType: SkillEffectResultType): boolean {
+  return resultType === 'DAMAGE_MODIFIER'
+    || resultType === 'HEALING_MODIFIER'
+    || resultType === 'DAMAGE_IMMUNITY'
+    || resultType === 'HEALTH_FLOOR';
 }
 
 export function isValueReadModeVisible(draft: SkillEffectResultDraft): boolean {
@@ -1034,7 +1241,7 @@ export function isValueReadModeVisible(draft: SkillEffectResultDraft): boolean {
 
 export function isValueReadModeFixed(draft: SkillEffectResultDraft): boolean {
   const moment = draft.lifecycleBehavior.moment;
-  return moment === 'APPLICATION' || moment === 'PERSISTENT';
+  return moment === 'APPLICATION' || (moment === 'PERSISTENT' && !supportsMomentEvaluation(draft));
 }
 
 export function isStackValueModeVisible(draft: SkillEffectResultDraft): boolean {
@@ -1042,7 +1249,35 @@ export function isStackValueModeVisible(draft: SkillEffectResultDraft): boolean 
 }
 
 export function isReapplicationValueModeVisible(draft: SkillEffectResultDraft): boolean {
-  return isStackValueModeVisible(draft) && draft.lifecycleBehavior.stackValueMode === 'SHARED';
+  return isStackValueModeVisible(draft)
+    && draft.lifecycleBehavior.stackValueMode === 'SHARED'
+    && draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION';
+}
+
+export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean {
+  return draft.resultType === 'DAMAGE_MODIFIER'
+    || draft.resultType === 'HEALING_MODIFIER'
+    || (
+      draft.resultType === 'ATTRIBUTE_CHANGE'
+      && draft.attributeOperation !== ''
+      && draft.attributeOperation !== 'SET'
+    );
+}
+
+export function modifierZoneDomainForDraft(draft: SkillEffectResultDraft): ModifierZoneDomain | null {
+  if (draft.resultType === 'DAMAGE_MODIFIER') return 'DAMAGE';
+  if (draft.resultType === 'HEALING_MODIFIER') return 'HEALING';
+  if (
+    draft.resultType === 'ATTRIBUTE_CHANGE'
+    && draft.lifecycleBehavior.moment === 'PERSISTENT'
+    && draft.attributeOperation !== ''
+    && draft.attributeOperation !== 'SET'
+  ) return 'ATTRIBUTE';
+  return null;
+}
+
+export function isModifierZoneRequired(draft: SkillEffectResultDraft): boolean {
+  return modifierZoneDomainForDraft(draft) !== null;
 }
 
 export function isPeriodicExecutionModeVisible(draft: SkillEffectResultDraft): boolean {
@@ -1059,6 +1294,9 @@ export function listAllowedLifecycleMoments(
   draft: SkillEffectResultDraft,
   hasDuration: boolean
 ): SkillEffectLifecycleMoment[] {
+  if (isPersistentOnlyResultType(draft.resultType)) {
+    return ['PERSISTENT'];
+  }
   const moments: SkillEffectLifecycleMoment[] = ['APPLICATION'];
   if (isPersistentMomentAllowed(draft)) {
     moments.push('PERSISTENT');
@@ -1085,6 +1323,10 @@ export function sortResultDrafts(results: SkillEffectResultDraft[]): SkillEffect
     }
     return left.resultKey.trim().localeCompare(right.resultKey.trim());
   });
+}
+
+export function isSharedOnlyPersistentResult(draft: SkillEffectResultDraft): boolean {
+  return isAttributeSetPersistent(draft) || draft.resultType === 'HEALTH_FLOOR';
 }
 
 export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft): SkillEffectDraft {
@@ -1151,6 +1393,18 @@ export function listStatusOptions(
     currentKey,
     originalKey
   );
+}
+
+export function listModifierZoneOptions(
+  catalog: EffectFormCatalog,
+  domain: ModifierZoneDomain,
+  currentKey = '',
+  originalKey: string | null = null
+): CatalogRefOption[] {
+  const entries = (catalog.modifierZones ?? [])
+    .filter((item) => item.domain === domain)
+    .map((item) => ({ key: item.modifierZoneKey, status: item.status }));
+  return listStatusKeyedOptions(entries, currentKey, originalKey);
 }
 
 export function listAffectedSkillOptions(
@@ -1616,7 +1870,8 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           attributeKey: draft.attributeKey.trim(),
-          operation: draft.attributeOperation as AttributeChangeOperation
+          operation: draft.attributeOperation as AttributeChangeOperation,
+          modifierZoneKey: isModifierZoneRequired(draft) ? draft.modifierZoneKey.trim() : null
         }
       };
     case 'RESOURCE_CHANGE':
@@ -1684,6 +1939,53 @@ function validateAndBuildResult(
           operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME'
         }
       };
+    case 'DAMAGE_MODIFIER':
+      return {
+        ...base,
+        resultType: 'DAMAGE_MODIFIER',
+        valueRule: valueRule!,
+        detail: {
+          modifierZoneKey: draft.modifierZoneKey.trim(),
+          direction: draft.modifierDirection as SkillEffectDamageModifierDirection,
+          operation: draft.modifierOperation as SkillEffectModifierOperation,
+          damageTypeKey: draft.damageTypeKey.trim() || null,
+          deliveryKind: draft.damageFilterDeliveryKind as SkillEffectDamageFilterDeliveryKind,
+          originKind: draft.damageFilterOriginKind as SkillEffectDamageFilterOriginKind,
+          criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter
+        }
+      };
+    case 'HEALING_MODIFIER':
+      return {
+        ...base,
+        resultType: 'HEALING_MODIFIER',
+        valueRule: valueRule!,
+        detail: {
+          modifierZoneKey: draft.modifierZoneKey.trim(),
+          direction: draft.healingModifierDirection as SkillEffectHealingModifierDirection,
+          operation: draft.modifierOperation as SkillEffectModifierOperation,
+          healingKind: draft.healingKind as SkillEffectHealingKind
+        }
+      };
+    case 'DAMAGE_IMMUNITY':
+      return {
+        ...base,
+        resultType: 'DAMAGE_IMMUNITY',
+        valueRule: null,
+        detail: {
+          damageTypeKey: draft.damageTypeKey.trim() || null,
+          deliveryKind: draft.damageFilterDeliveryKind as SkillEffectDamageFilterDeliveryKind,
+          originKind: draft.damageFilterOriginKind as SkillEffectDamageFilterOriginKind
+        }
+      };
+    case 'HEALTH_FLOOR':
+      return {
+        ...base,
+        resultType: 'HEALTH_FLOOR',
+        valueRule: valueRule!,
+        detail: {
+          attributeKey: draft.attributeKey.trim()
+        }
+      };
     default: {
       const unexpected: never = draft.resultType;
       return unexpected;
@@ -1705,6 +2007,8 @@ function validateValueRule(
     if (formulaKey || multiplierRaw || minRaw || maxRaw) {
       if (draft.resultType === 'STATUS_OPERATION') {
         fieldErrors.valueRule = '状态操作不能携带数值规则。';
+      } else if (draft.resultType === 'DAMAGE_IMMUNITY') {
+        fieldErrors.valueRule = '伤害免疫不能携带数值规则。';
       } else if (draft.resultType === 'LIFECYCLE_OPERATION') {
         fieldErrors.valueRule = '刷新和移除不能携带数值规则。';
       } else {
@@ -1874,6 +2178,11 @@ function validateTypeSpecificFields(
         fieldErrors.attributeOperation = '请选择操作。';
       }
       validateCatalogRef(options, 'attributes', draft.attributeKey, draft.originalAttributeKey, fieldErrors, 'attributeKey');
+      if (isModifierZoneRequired(draft)) {
+        validateModifierZoneRef(draft, options, fieldErrors, 'ATTRIBUTE');
+      } else if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '该属性变化不能选择乘区。';
+      }
       validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
       break;
     case 'RESOURCE_CHANGE':
@@ -1945,10 +2254,125 @@ function validateTypeSpecificFields(
         validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
       }
       break;
+    case 'DAMAGE_MODIFIER':
+      if (draft.modifierDirection !== 'DEALT' && draft.modifierDirection !== 'TAKEN') {
+        fieldErrors.modifierDirection = '请选择作用方向。';
+      }
+      if (draft.modifierOperation !== 'INCREASE' && draft.modifierOperation !== 'DECREASE') {
+        fieldErrors.modifierOperation = '请选择修正方式。';
+      }
+      validateModifierZoneRef(draft, options, fieldErrors, 'DAMAGE');
+      validateDamageFilterFields(draft, fieldErrors, true);
+      if (draft.damageTypeKey.trim()) {
+        validateCatalogRef(
+          options,
+          'damageTypes',
+          draft.damageTypeKey,
+          draft.originalResultType === 'DAMAGE_MODIFIER' ? draft.originalDamageTypeKey : null,
+          fieldErrors,
+          'damageTypeKey'
+        );
+      }
+      validateCatalogRef(
+        options,
+        'formulas',
+        draft.formulaKey,
+        draft.formulaKey,
+        fieldErrors,
+        'formulaKey',
+        { allowDisabled: true }
+      );
+      break;
+    case 'HEALING_MODIFIER':
+      if (
+        draft.healingModifierDirection !== 'DONE'
+        && draft.healingModifierDirection !== 'RECEIVED'
+      ) {
+        fieldErrors.healingModifierDirection = '请选择作用方向。';
+      }
+      if (draft.modifierOperation !== 'INCREASE' && draft.modifierOperation !== 'DECREASE') {
+        fieldErrors.modifierOperation = '请选择修正方式。';
+      }
+      validateModifierZoneRef(draft, options, fieldErrors, 'HEALING');
+      if (draft.healingKind !== 'ANY' && draft.healingKind !== 'DIRECT' && draft.healingKind !== 'VAMP') {
+        fieldErrors.healingKind = '请选择治疗种类。';
+      }
+      validateCatalogRef(
+        options,
+        'formulas',
+        draft.formulaKey,
+        draft.formulaKey,
+        fieldErrors,
+        'formulaKey',
+        { allowDisabled: true }
+      );
+      break;
+    case 'DAMAGE_IMMUNITY':
+      validateDamageFilterFields(draft, fieldErrors, false);
+      if (draft.damageTypeKey.trim()) {
+        validateCatalogRef(
+          options,
+          'damageTypes',
+          draft.damageTypeKey,
+          draft.originalResultType === 'DAMAGE_IMMUNITY' ? draft.originalDamageTypeKey : null,
+          fieldErrors,
+          'damageTypeKey'
+        );
+      }
+      break;
+    case 'HEALTH_FLOOR':
+      requireNonEmpty(draft.attributeKey, fieldErrors, 'attributeKey', '请选择生命属性。');
+      validateCatalogRef(
+        options,
+        'attributes',
+        draft.attributeKey,
+        draft.originalResultType === 'HEALTH_FLOOR' ? draft.originalAttributeKey : null,
+        fieldErrors,
+        'attributeKey'
+      );
+      validateCatalogRef(
+        options,
+        'formulas',
+        draft.formulaKey,
+        draft.formulaKey,
+        fieldErrors,
+        'formulaKey',
+        { allowDisabled: true }
+      );
+      break;
     default: {
       const unexpected: never = draft.resultType;
       void unexpected;
     }
+  }
+}
+
+function validateDamageFilterFields(
+  draft: SkillEffectResultDraft,
+  fieldErrors: SkillEffectResultDraftErrors,
+  withCriticalFilter: boolean
+): void {
+  if (
+    draft.damageFilterDeliveryKind !== 'ANY'
+    && draft.damageFilterDeliveryKind !== 'SKILL'
+    && draft.damageFilterDeliveryKind !== 'BASIC_ATTACK'
+  ) {
+    fieldErrors.damageFilterDeliveryKind = '请选择伤害产生方式。';
+  }
+  if (
+    draft.damageFilterOriginKind !== 'ANY'
+    && draft.damageFilterOriginKind !== 'DIRECT'
+    && draft.damageFilterOriginKind !== 'REFLECTED'
+  ) {
+    fieldErrors.damageFilterOriginKind = '请选择伤害来源性质。';
+  }
+  if (
+    withCriticalFilter
+    && draft.criticalFilter !== 'ANY'
+    && draft.criticalFilter !== 'CRITICAL_ONLY'
+    && draft.criticalFilter !== 'NON_CRITICAL_ONLY'
+  ) {
+    fieldErrors.criticalFilter = '请选择暴击过滤。';
   }
 }
 
@@ -2135,6 +2559,9 @@ function validateAndBuildLifecycleBehavior(
 ): SkillEffectResultLifecycleBehavior | null {
   const behavior = draft.lifecycleBehavior;
   if (!context.lifecycleEnabled) {
+    if (isPersistentOnlyResultType(draft.resultType)) {
+      fieldErrors.lifecycleBehavior = '该结果需要先启用父效果生命周期。';
+    }
     if (
       behavior.moment
       || behavior.valueReadMode
@@ -2152,6 +2579,10 @@ function validateAndBuildLifecycleBehavior(
     return null;
   }
 
+  if (isPersistentOnlyResultType(draft.resultType) && behavior.moment !== 'PERSISTENT') {
+    fieldErrors.moment = '该结果只能持续生效。';
+  }
+
   if (behavior.moment === 'NATURAL_END' && !context.hasDuration) {
     fieldErrors.moment = '没有持续时间时不能选择自然结束。';
   }
@@ -2160,9 +2591,15 @@ function validateAndBuildLifecycleBehavior(
   }
 
   if (needsValueRule) {
-    if (behavior.moment === 'APPLICATION' || behavior.moment === 'PERSISTENT') {
+    if (behavior.moment === 'APPLICATION') {
       if (behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') {
-        fieldErrors.valueReadMode = '施加时和持续生效必须使用施加时留存。';
+        fieldErrors.valueReadMode = '施加时必须使用施加时留存。';
+      }
+    } else if (behavior.moment === 'PERSISTENT') {
+      if (!isValueReadMode(behavior.valueReadMode)) {
+        fieldErrors.valueReadMode = '请选择数值读取方式。';
+      } else if (behavior.valueReadMode === 'MOMENT_EVALUATION' && !supportsMomentEvaluation(draft)) {
+        fieldErrors.valueReadMode = '该持续结果不能按当前时点读取数值。';
       }
     } else if (!isValueReadMode(behavior.valueReadMode)) {
       fieldErrors.valueReadMode = '请选择数值读取方式。';
@@ -2174,14 +2611,22 @@ function validateAndBuildLifecycleBehavior(
   if (behavior.moment === 'PERSISTENT' && isPersistentNumericResult(draft)) {
     if (!isStackValueMode(behavior.stackValueMode)) {
       fieldErrors.stackValueMode = '请选择层数值方式。';
-    } else if (isAttributeSetPersistent(draft) && behavior.stackValueMode !== 'SHARED') {
-      fieldErrors.stackValueMode = '属性覆盖只能使用整个实例共享数值。';
+    } else if (isSharedOnlyPersistentResult(draft) && behavior.stackValueMode !== 'SHARED') {
+      fieldErrors.stackValueMode = isAttributeSetPersistent(draft)
+        ? '属性覆盖只能使用整个实例共享数值。'
+        : '该结果只能使用整个实例共享数值。';
     }
     if (behavior.stackValueMode === 'SHARED') {
-      if (!isReapplicationValueMode(behavior.reapplicationValueMode)) {
+      if (behavior.valueReadMode === 'MOMENT_EVALUATION') {
+        if (behavior.reapplicationValueMode) {
+          fieldErrors.reapplicationValueMode = '按当前时点读取时不能选择重复值方式。';
+        }
+      } else if (!isReapplicationValueMode(behavior.reapplicationValueMode)) {
         fieldErrors.reapplicationValueMode = '请选择重复值方式。';
-      } else if (isAttributeSetPersistent(draft) && behavior.reapplicationValueMode === 'ADD') {
-        fieldErrors.reapplicationValueMode = '属性覆盖不能使用相加。';
+      } else if (isSharedOnlyPersistentResult(draft) && behavior.reapplicationValueMode === 'ADD') {
+        fieldErrors.reapplicationValueMode = isAttributeSetPersistent(draft)
+          ? '属性覆盖不能使用相加。'
+          : '该结果不能使用相加。';
       }
     } else if (behavior.reapplicationValueMode) {
       fieldErrors.reapplicationValueMode = '每层分别贡献时不能选择重复值方式。';
@@ -2326,6 +2771,30 @@ function validateCatalogRef(
   fieldErrors[field] = DISABLED_CATALOG_MESSAGE;
 }
 
+function validateModifierZoneRef(
+  draft: SkillEffectResultDraft,
+  options: SkillEffectFormValidationOptions,
+  fieldErrors: SkillEffectResultDraftErrors,
+  expectedDomain: ModifierZoneDomain
+): void {
+  requireNonEmpty(draft.modifierZoneKey, fieldErrors, 'modifierZoneKey', '请选择乘区。');
+  validateCatalogRef(
+    options,
+    'modifierZones',
+    draft.modifierZoneKey,
+    draft.originalModifierZoneKey,
+    fieldErrors,
+    'modifierZoneKey'
+  );
+  if (fieldErrors.modifierZoneKey || !options.catalog) return;
+  const zone = (options.catalog.modifierZones ?? []).find(
+    (item) => item.modifierZoneKey === draft.modifierZoneKey.trim()
+  );
+  if (zone && zone.domain !== expectedDomain) {
+    fieldErrors.modifierZoneKey = '乘区作用域与结果种类不一致。';
+  }
+}
+
 function catalogEntries(
   catalog: EffectFormCatalog,
   kind: Exclude<keyof EffectCatalogLoadState, 'formulas' | 'effects'>
@@ -2338,6 +2807,9 @@ function catalogEntries(
   }
   if (kind === 'skills') {
     return catalog.skills.map((item) => ({ key: item.skillKey, status: item.status }));
+  }
+  if (kind === 'modifierZones') {
+    return (catalog.modifierZones ?? []).map((item) => ({ key: item.modifierZoneKey, status: item.status }));
   }
   return catalog.statuses.map((item) => ({ key: item.statusKey, status: item.status }));
 }
@@ -2421,6 +2893,34 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: { ...result.detail }
       };
+    case 'DAMAGE_MODIFIER':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
+    case 'HEALING_MODIFIER':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
+    case 'HEALTH_FLOOR':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
+    case 'DAMAGE_IMMUNITY':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: null,
+        detail: { ...result.detail }
+      };
     case 'ATTRIBUTE_CHANGE':
       return {
         ...result,
@@ -2476,6 +2976,21 @@ function mapResultIssueField(
   if (!nested) {
     return 'resultKey';
   }
+  if (nested === 'detail.direction') {
+    return resultType === 'HEALING_MODIFIER'
+      ? 'healingModifierDirection'
+      : 'modifierDirection';
+  }
+  if (nested === 'detail.deliveryKind' && (
+    resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY'
+  )) {
+    return 'damageFilterDeliveryKind';
+  }
+  if (nested === 'detail.originKind' && (
+    resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY'
+  )) {
+    return 'damageFilterOriginKind';
+  }
   const direct = RESULT_FIELD_BY_PATH[nested];
   if (direct) {
     return direct;
@@ -2492,6 +3007,9 @@ function mapResultIssueField(
     if (resultType === 'COOLDOWN_CHANGE') return 'cooldownOperation';
     if (resultType === 'STATUS_OPERATION') return 'statusOperation';
     if (resultType === 'LIFECYCLE_OPERATION') return 'lifecycleOperation';
+    if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+      return 'modifierOperation';
+    }
     return 'detail';
   }
   return null;

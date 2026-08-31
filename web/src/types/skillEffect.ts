@@ -6,7 +6,11 @@ export type SkillEffectResultType =
   | 'RESOURCE_CHANGE'
   | 'COOLDOWN_CHANGE'
   | 'STATUS_OPERATION'
-  | 'LIFECYCLE_OPERATION';
+  | 'LIFECYCLE_OPERATION'
+  | 'DAMAGE_MODIFIER'
+  | 'HEALING_MODIFIER'
+  | 'DAMAGE_IMMUNITY'
+  | 'HEALTH_FLOOR';
 
 export type SkillEffectTarget = 'SOURCE' | 'TARGET';
 
@@ -23,6 +27,13 @@ export type SkillEffectCriticalMode = 'DISALLOWED' | 'SOURCE_CRIT_CHANCE' | 'FOR
 export type SkillEffectVampType = 'LIFE_STEAL' | 'OMNIVAMP' | 'PHYSICAL_VAMP' | 'SPELL_VAMP';
 export type SkillEffectVampBasisOutputKind = 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
 export type SkillEffectNormalShieldDecayMode = 'NONE' | 'LINEAR_TO_ZERO';
+export type SkillEffectModifierOperation = 'INCREASE' | 'DECREASE';
+export type SkillEffectDamageModifierDirection = 'DEALT' | 'TAKEN';
+export type SkillEffectHealingModifierDirection = 'DONE' | 'RECEIVED';
+export type SkillEffectDamageFilterDeliveryKind = 'ANY' | 'SKILL' | 'BASIC_ATTACK';
+export type SkillEffectDamageFilterOriginKind = 'ANY' | 'DIRECT' | 'REFLECTED';
+export type SkillEffectCriticalFilter = 'ANY' | 'CRITICAL_ONLY' | 'NON_CRITICAL_ONLY';
+export type SkillEffectHealingKind = 'ANY' | 'DIRECT' | 'VAMP';
 
 export type SkillEffectCriticalPolicy = {
   mode: SkillEffectCriticalMode;
@@ -104,6 +115,33 @@ export type SkillEffectNormalShieldDetail = {
   decayMode: SkillEffectNormalShieldDecayMode;
 };
 
+export type SkillEffectDamageModifierDetail = {
+  modifierZoneKey: string;
+  direction: SkillEffectDamageModifierDirection;
+  operation: SkillEffectModifierOperation;
+  damageTypeKey: string | null;
+  deliveryKind: SkillEffectDamageFilterDeliveryKind;
+  originKind: SkillEffectDamageFilterOriginKind;
+  criticalFilter: SkillEffectCriticalFilter;
+};
+
+export type SkillEffectHealingModifierDetail = {
+  modifierZoneKey: string;
+  direction: SkillEffectHealingModifierDirection;
+  operation: SkillEffectModifierOperation;
+  healingKind: SkillEffectHealingKind;
+};
+
+export type SkillEffectDamageImmunityDetail = {
+  damageTypeKey: string | null;
+  deliveryKind: SkillEffectDamageFilterDeliveryKind;
+  originKind: SkillEffectDamageFilterOriginKind;
+};
+
+export type SkillEffectHealthFloorDetail = {
+  attributeKey: string;
+};
+
 export type SkillEffectEmptyDetail = {
   readonly [key: string]: never;
 };
@@ -111,6 +149,7 @@ export type SkillEffectEmptyDetail = {
 export type SkillEffectAttributeChangeDetail = {
   attributeKey: string;
   operation: AttributeChangeOperation;
+  modifierZoneKey: string | null;
 };
 
 export type SkillEffectResourceChangeDetail = {
@@ -224,6 +263,30 @@ export type SkillEffectLifecycleOperationResult =
   | SkillEffectLifecycleAdjustResult
   | SkillEffectLifecycleRefreshRemoveResult;
 
+export type SkillEffectDamageModifierResult = SkillEffectResultBase & {
+  resultType: 'DAMAGE_MODIFIER';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectDamageModifierDetail;
+};
+
+export type SkillEffectHealingModifierResult = SkillEffectResultBase & {
+  resultType: 'HEALING_MODIFIER';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectHealingModifierDetail;
+};
+
+export type SkillEffectDamageImmunityResult = SkillEffectResultBase & {
+  resultType: 'DAMAGE_IMMUNITY';
+  valueRule: null;
+  detail: SkillEffectDamageImmunityDetail;
+};
+
+export type SkillEffectHealthFloorResult = SkillEffectResultBase & {
+  resultType: 'HEALTH_FLOOR';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectHealthFloorDetail;
+};
+
 export type SkillEffectResult =
   | SkillEffectDamageResult
   | SkillEffectDirectHealResult
@@ -232,7 +295,11 @@ export type SkillEffectResult =
   | SkillEffectResourceChangeResult
   | SkillEffectCooldownChangeResult
   | SkillEffectStatusOperationResult
-  | SkillEffectLifecycleOperationResult;
+  | SkillEffectLifecycleOperationResult
+  | SkillEffectDamageModifierResult
+  | SkillEffectHealingModifierResult
+  | SkillEffectDamageImmunityResult
+  | SkillEffectHealthFloorResult;
 
 export type SkillEffectResultRequest = SkillEffectResult;
 

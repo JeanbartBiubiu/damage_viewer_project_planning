@@ -75,6 +75,20 @@ type DamageTypeRow = {
   updatedAt: string;
 };
 
+type ModifierZoneRow = {
+  gameId: string;
+  modifierZoneKey: string;
+  name: string;
+  domain: 'ATTRIBUTE' | 'DAMAGE' | 'HEALING';
+  calculationMode: 'FLAT_ADD' | 'RATIO_ADD';
+  applicationStage: 'ATTRIBUTE_FLAT' | 'ATTRIBUTE_PERCENT' | 'DAMAGE_PRE_DEFENSE' | 'DAMAGE_POST_DEFENSE' | 'HEALING_RESULT';
+  description: string | null;
+  status: 'ENABLED' | 'DISABLED';
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type StatusRow = {
   gameId: string;
   statusKey: string;
@@ -278,6 +292,7 @@ class MockApi {
   equipmentAttributes: Record<string, Record<string, number>> = {};
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
+  modifierZones: ModifierZoneRow[] = [];
   statuses: StatusRow[] = [];
   skills: SkillRow[] = [];
   skillParameters: SkillParameterRow[] = [];
@@ -1311,6 +1326,83 @@ class MockApi {
       }
     }
 
+    if (path === `/api/admin/games/${GAME_ID}/modifier-zones`) {
+      if (method === 'GET') {
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const domain = url.searchParams.get('domain');
+        const status = url.searchParams.get('status');
+        const items = this.modifierZones.filter((item) => (
+          (!keyword
+            || item.modifierZoneKey.toLocaleLowerCase().includes(keyword)
+            || item.name.toLocaleLowerCase().includes(keyword))
+          && (!domain || item.domain === domain)
+          && (!status || item.status === status)
+        ));
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const row: ModifierZoneRow = {
+          gameId: GAME_ID,
+          modifierZoneKey: String(body.modifierZoneKey),
+          name: String(body.name),
+          domain: body.domain as ModifierZoneRow['domain'],
+          calculationMode: body.calculationMode as ModifierZoneRow['calculationMode'],
+          applicationStage: body.applicationStage as ModifierZoneRow['applicationStage'],
+          description: typeof body.description === 'string' ? body.description : null,
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          createdAt: CREATED_AT,
+          updatedAt: UPDATED_AT
+        };
+        this.modifierZones.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const modifierZoneDetail = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/modifier-zones/([^/]+)$`)
+    );
+    if (modifierZoneDetail) {
+      const key = modifierZoneDetail[1]!;
+      const existing = this.modifierZones.find((item) => item.modifierZoneKey === key);
+      if (!existing) {
+        await this.error(route, 404, '404.MODIFIER_ZONE_NOT_FOUND', '乘区不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, existing);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        const next: ModifierZoneRow = {
+          ...existing,
+          name: String(body.name),
+          domain: body.domain as ModifierZoneRow['domain'],
+          calculationMode: body.calculationMode as ModifierZoneRow['calculationMode'],
+          applicationStage: body.applicationStage as ModifierZoneRow['applicationStage'],
+          description: typeof body.description === 'string' ? body.description : null,
+          status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
+          sortOrder: Number(body.sortOrder),
+          updatedAt: '2026-08-31T11:00:00Z'
+        };
+        this.modifierZones = this.modifierZones.map((item) => item.modifierZoneKey === key ? next : item);
+        await this.json(route, 200, next);
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.modifierZones = this.modifierZones.filter((item) => item.modifierZoneKey !== key);
+        await route.fulfill({ status: 204 });
+        return;
+      }
+    }
+
     if (path === `/api/admin/games/${GAME_ID}/statuses`) {
       if (method === 'GET') {
         if (this.statusListFailure) {
@@ -2139,6 +2231,12 @@ async function openDamageTypes(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('伤害类型管理', { exact: true }).first()).toBeVisible();
 }
 
+async function openModifierZones(page: Page): Promise<void> {
+  await page.goto('/#/modifier-zones');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('乘区管理', { exact: true }).first()).toBeVisible();
+}
+
 async function openSkills(page: Page): Promise<void> {
   await page.goto('/#/skills');
   await waitForGame(page);
@@ -2187,6 +2285,12 @@ function damageTypeRow(page: Page, key: string): Locator {
   });
 }
 
+function modifierZoneRow(page: Page, key: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: key, exact: true })
+  });
+}
+
 function skillRow(page: Page, key: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: key, exact: true })
@@ -2205,12 +2309,9 @@ function visibleModal(page: Page, title: string): Locator {
 
 const SKILL_EFFECT_FORBIDDEN_TERMS = [
   '斩杀',
-  '反伤',
   '过程',
   '条件',
   '事件',
-  '暴击',
-  '吸血',
   '计算预览',
   'Wasm'
 ] as const;
@@ -2422,6 +2523,16 @@ function valueRule(
   };
 }
 
+function damageResultDetail(damageTypeKey: string): Json {
+  return {
+    damageTypeKey,
+    deliveryKind: 'SKILL',
+    originKind: 'DIRECT',
+    critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+    vampRules: []
+  };
+}
+
 async function openSkillEffects(page: Page, skillKey: string, skillName: string): Promise<Locator> {
   await skillRow(page, skillKey).getByRole('button', { name: '效果与结果', exact: true }).click();
   const shell = visibleModal(page, `效果与结果 - ${skillName}`);
@@ -2507,7 +2618,7 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         description: null,
         sortOrder: 10,
         valueRule: valueRule('damage'),
-        detail: { damageTypeKey: 'physical' },
+        detail: damageResultDetail('physical'),
         lifecycleBehavior: null
       }]
     },
@@ -2652,7 +2763,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         description: null,
         sortOrder: 10,
         valueRule: valueRule('heal'),
-        detail: {},
+        detail: { absorbedDamageTypeKey: null, decayMode: 'NONE' },
         lifecycleBehavior: null
       }]
     },
@@ -2674,7 +2785,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         description: null,
         sortOrder: 10,
         valueRule: valueRule('follow_up'),
-        detail: { damageTypeKey: 'physical' },
+        detail: damageResultDetail('physical'),
         lifecycleBehavior: null
       }]
     },
@@ -3062,6 +3173,31 @@ test.describe('skill category and damage type management without Wasm', () => {
     await deleteModal.getByRole('button', { name: '删除', exact: true }).click();
     await expect(damageTypeRow(page, 'physical')).toHaveCount(0);
     diagnostics.assertClean('damage type management');
+  });
+
+  test('manages modifier zones independently', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+
+    await openModifierZones(page);
+    await expect(page.getByText('暂无乘区', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '新增乘区', exact: true }).click();
+    const createModal = visibleModal(page, '新增乘区');
+    await createModal.getByLabel('乘区标识', { exact: true }).fill('damage_pre_defense');
+    await createModal.getByLabel('乘区名称', { exact: true }).fill('伤害前修正');
+    await chooseSelectOption(page, createModal, '乘区作用域', '伤害');
+    await chooseSelectOption(page, createModal, '乘区计算方式', '比例加算');
+    await chooseSelectOption(page, createModal, '乘区应用阶段', '防御计算前伤害');
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    await expect(modifierZoneRow(page, 'damage_pre_defense')).toContainText('伤害前修正');
+
+    await modifierZoneRow(page, 'damage_pre_defense').getByRole('button', { name: '停用', exact: true }).click();
+    const disableModal = visibleModal(page, '停用乘区');
+    await disableModal.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(disableModal).toBeHidden();
+    await expect(modifierZoneRow(page, 'damage_pre_defense')).toContainText('停用');
+    diagnostics.assertClean('modifier zone management');
   });
 });
 
@@ -3531,7 +3667,7 @@ test.describe('skill management without Wasm', () => {
         sortOrder: 0,
         lifecycleBehavior: null,
         valueRule: valueRule('damage'),
-        detail: { damageTypeKey: 'physical' }
+        detail: damageResultDetail('physical')
       },
       {
         resultKey: 'self_heal',
@@ -3608,6 +3744,54 @@ test.describe('skill management without Wasm', () => {
     await expect(shell.getByText('暂无效果', { exact: true })).toBeVisible();
     expect(mock.skillEffects).toHaveLength(0);
     diagnostics.assertClean('skill effect and result management');
+  });
+
+  test('creates and selects a modifier zone inside a continuous result', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const effectModal = visibleModal(page, '新增效果');
+    await effectModal.getByLabel('效果标识', { exact: true }).fill('damage_modifier_effect');
+    await effectModal.getByLabel('效果名称', { exact: true }).fill('伤害修正效果');
+    await effectModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, effectModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '实例范围', '按来源与承受对象');
+    await chooseSelectOption(page, effectModal, '重复层数', '保留层数');
+
+    await effectModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const resultModal = visibleModal(page, '新增结果');
+    await resultModal.getByLabel('结果标识', { exact: true }).fill('damage_reduction');
+    await resultModal.getByLabel('结果名称', { exact: true }).fill('受到伤害降低');
+    await chooseSelectOption(page, resultModal, '结果种类', '伤害修正');
+    await chooseSelectOption(page, resultModal, '修正比例公式', '伤害公式');
+    await expect(resultModal.getByLabel('乘区', { exact: true })).toBeVisible();
+    await resultModal.getByRole('button', { name: '新增乘区', exact: true }).click();
+
+    const zoneModal = visibleModal(page, '新增乘区');
+    await zoneModal.getByLabel('乘区标识', { exact: true }).fill('damage_pre_defense');
+    await zoneModal.getByLabel('乘区名称', { exact: true }).fill('伤害前修正');
+    await expect(zoneModal.getByLabel('乘区作用域', { exact: true })).toContainText('伤害');
+    await chooseSelectOption(page, zoneModal, '乘区计算方式', '比例加算');
+    await chooseSelectOption(page, zoneModal, '乘区应用阶段', '防御计算前伤害');
+    await zoneModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(zoneModal).toBeHidden();
+    await expect(resultModal.getByLabel('乘区', { exact: true })).toContainText('伤害前修正');
+    await saveOpenModal(resultModal);
+    await effectModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(effectModal).toBeHidden();
+
+    const write = mock.writes.find((item) => (
+      item.method === 'POST' && item.path.endsWith('/effects')
+    ));
+    expect((write?.body.results as SkillEffectResultRow[])[0]?.detail).toMatchObject({
+      modifierZoneKey: 'damage_pre_defense'
+    });
+    diagnostics.assertClean('inline modifier zone creation');
   });
 
   test('covers seven result editors and omits the value rule for cooldown reset', async ({ page }) => {
@@ -3725,7 +3909,7 @@ test.describe('skill management without Wasm', () => {
           description: null,
           sortOrder: 0,
           valueRule: valueRule('damage'),
-          detail: { damageTypeKey: 'magic' },
+          detail: damageResultDetail('magic'),
           lifecycleBehavior: null
         },
         {
@@ -5238,6 +5422,7 @@ test.describe('attribute management without Wasm', () => {
       ['#/equipment', '装备管理'],
       ['#/skill-categories', '技能分类管理'],
       ['#/damage-types', '伤害类型管理'],
+      ['#/modifier-zones', '乘区管理'],
       ['#/skills', '技能管理'],
       ['#/statuses', '状态管理'],
       ['#/game-settings', '游戏配置'],
@@ -5268,6 +5453,7 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/equipment"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skill-categories"]').count()).toBe(1);
     expect(await page.locator('a[href="#/damage-types"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/modifier-zones"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skills"]').count()).toBe(1);
     expect(await page.locator('a[href="#/statuses"]').count()).toBe(1);
     expect(await page.locator('a[href="#/game-settings"]').count()).toBe(1);
