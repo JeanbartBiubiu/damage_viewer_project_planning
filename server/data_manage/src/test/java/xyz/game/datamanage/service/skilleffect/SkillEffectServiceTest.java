@@ -48,12 +48,26 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -72,6 +86,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
@@ -93,6 +109,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -104,6 +122,8 @@ class SkillEffectServiceTest {
     private static final String EFFECT_KEY = "on_hit_results";
     private static final String TARGET_EFFECT_KEY = "mark_effect";
     private static final String FORMULA_KEY = "base_damage";
+    private static final String DAMAGE_ZONE_KEY = "damage_ratio";
+    private static final String HEALING_ZONE_KEY = "healing_ratio";
     private static final String DURATION_FORMULA = "duration_f";
     private static final String MAX_STACKS_FORMULA = "max_stacks_f";
     private static final String APP_STACKS_FORMULA = "app_stacks_f";
@@ -192,6 +212,207 @@ class SkillEffectServiceTest {
         verify(mapper).insertStatusOperationDetail(
             GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
         );
+    }
+
+    @Test
+    void createsFourPersistentModifierAndProtectionResultsAndReadsThemBack() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        List<SkillEffectResultRow> rows = List.of(
+            resultRow("damage_reduction", SkillEffectResultType.DAMAGE_MODIFIER),
+            resultRow("healing_reduction", SkillEffectResultType.HEALING_MODIFIER),
+            resultRow("damage_immunity", SkillEffectResultType.DAMAGE_IMMUNITY),
+            resultRow("health_floor", SkillEffectResultType.HEALTH_FLOOR)
+        );
+        stubDetailRead(
+            rows,
+            List.of(
+                valueRow("damage_reduction"),
+                valueRow("healing_reduction"),
+                valueRow("health_floor")
+            ),
+            new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
+        );
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            rows.stream().map(row -> new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                row.resultKey(),
+                SkillEffectLifecycleMoment.PERSISTENT,
+                row.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+                    ? null
+                    : SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                row.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+                    ? null
+                    : SkillEffectLifecycleStackValueMode.SHARED,
+                row.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+                    ? null
+                    : SkillEffectLifecycleReapplicationValueMode.KEEP,
+                null
+            )).toList()
+        );
+        when(mapper.listDamageModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageModifierDetailRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_reduction",
+                DAMAGE_ZONE_KEY,
+                SkillEffectDamageModifierDirection.TAKEN,
+                SkillEffectModifierOperation.DECREASE,
+                "physical",
+                SkillEffectDamageFilterDeliveryKind.ANY,
+                SkillEffectDamageFilterOriginKind.DIRECT,
+                SkillEffectCriticalFilter.ANY
+            )
+        ));
+        when(mapper.listHealingModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectHealingModifierDetailRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "healing_reduction",
+                HEALING_ZONE_KEY,
+                SkillEffectHealingModifierDirection.RECEIVED,
+                SkillEffectModifierOperation.DECREASE,
+                SkillEffectHealingKind.ANY
+            )
+        ));
+        when(mapper.listDamageImmunityDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageImmunityDetailRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_immunity", null,
+                SkillEffectDamageFilterDeliveryKind.SKILL,
+                SkillEffectDamageFilterOriginKind.ANY
+            )
+        ));
+        when(mapper.listHealthFloorDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectHealthFloorDetailRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "health_floor", "hp"
+            )
+        ));
+
+        SkillEffectDetailResponse detail = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "持续修正",
+                null,
+                10,
+                timedLifecycle(),
+                List.of(
+                    persistentDamageModifierResult(),
+                    persistentHealingModifierResult(),
+                    persistentDamageImmunityResult(),
+                    persistentHealthFloorResult()
+                )
+            )
+        );
+
+        assertEquals(4, detail.results().size());
+        assertInstanceOf(SkillEffectDamageModifierDetail.class, detail.results().get(0).detail());
+        assertInstanceOf(SkillEffectHealingModifierDetail.class, detail.results().get(1).detail());
+        assertInstanceOf(SkillEffectDamageImmunityDetail.class, detail.results().get(2).detail());
+        assertInstanceOf(SkillEffectHealthFloorDetail.class, detail.results().get(3).detail());
+        assertNull(detail.results().get(2).valueRule());
+        verify(mapper).insertDamageModifierDetail(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_reduction",
+            DAMAGE_ZONE_KEY,
+            SkillEffectDamageModifierDirection.TAKEN,
+            SkillEffectModifierOperation.DECREASE,
+            "physical",
+            SkillEffectDamageFilterDeliveryKind.ANY,
+            SkillEffectDamageFilterOriginKind.DIRECT,
+            SkillEffectCriticalFilter.ANY
+        );
+        verify(mapper).insertDamageImmunityDetail(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_immunity", null,
+            SkillEffectDamageFilterDeliveryKind.SKILL,
+            SkillEffectDamageFilterOriginKind.ANY
+        );
+    }
+
+    @Test
+    void persistentModifierRequiresMatchingEnabledZone() {
+        stubParentAndNewKey();
+        SkillEffectResultRequest source = persistentDamageModifierResult();
+        SkillEffectDamageModifierDetail detail = (SkillEffectDamageModifierDetail) source.detail();
+        SkillEffectResultRequest withoutZone = new SkillEffectResultRequest(
+            source.resultKey(), source.name(), source.resultType(), source.target(), source.description(),
+            source.sortOrder(), source.valueRule(),
+            new SkillEffectDamageModifierDetail(
+                detail.direction(), detail.operation(), detail.damageTypeKey(), detail.deliveryKind(),
+                detail.originKind(), detail.criticalFilter()
+            ),
+            source.lifecycleBehavior()
+        );
+
+        ApiException missing = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "持续修正", null, 0, timedLifecycle(), List.of(withoutZone)
+                )
+            )
+        );
+        assertField(missing, "results[0].detail.modifierZoneKey", "REQUIRED");
+
+        stubParentAndNewKey();
+        when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(FORMULA_KEY));
+        when(mapper.lockDamageTypes(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectCatalogLockRow("physical", "ENABLED")
+        ));
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                DAMAGE_ZONE_KEY,
+                ModifierZoneDomain.HEALING,
+                ModifierZoneStatus.ENABLED
+            )
+        ));
+
+        ApiException mismatched = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "持续修正", null, 0, timedLifecycle(), List.of(source)
+                )
+            )
+        );
+        assertField(mismatched, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DOMAIN_MISMATCH");
+    }
+
+    @Test
+    void momentEvaluationAllowsSharedWithoutMergeAndRejectsRuntimeInputFormula() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.listRuntimeInputFormulaKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(FORMULA_KEY));
+        SkillEffectResultRequest source = persistentDamageModifierResult();
+        SkillEffectResultRequest dynamic = new SkillEffectResultRequest(
+            source.resultKey(), source.name(), source.resultType(), source.target(), source.description(),
+            source.sortOrder(), source.valueRule(), source.detail(),
+            new SkillEffectResultLifecycleBehaviorRequest(
+                SkillEffectLifecycleMoment.PERSISTENT,
+                SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION,
+                SkillEffectLifecycleStackValueMode.SHARED,
+                null,
+                null
+            )
+        );
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "动态修正", null, 0, timedLifecycle(), List.of(dynamic)
+                )
+            )
+        );
+
+        assertField(exception, "results[0].valueRule.formulaKey", "RUNTIME_INPUT_FORBIDDEN");
     }
 
     @Test
@@ -1795,11 +2016,21 @@ class SkillEffectServiceTest {
         when(mapper.insertCriticalPolicy(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertVampRule(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertNormalShieldInteraction(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertDamageModifierDetail(
+            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        )).thenReturn(1);
+        when(mapper.insertHealingModifierDetail(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertDamageImmunityDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertHealthFloorDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertCooldownChangeTarget(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
+        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(1);
     }
 
     @SuppressWarnings("unchecked")
@@ -1810,6 +2041,18 @@ class SkillEffectServiceTest {
         when(mapper.lockAttributes(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
+            @SuppressWarnings("unchecked")
+            Collection<String> keys = (Collection<String>) invocation.getArgument(1);
+            List<SkillEffectModifierZoneLockRow> rows = new ArrayList<>();
+            for (String key : keys) {
+                ModifierZoneDomain domain = HEALING_ZONE_KEY.equals(key)
+                    ? ModifierZoneDomain.HEALING
+                    : ModifierZoneDomain.DAMAGE;
+                rows.add(new SkillEffectModifierZoneLockRow(key, domain, ModifierZoneStatus.ENABLED));
+            }
+            return rows;
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -1994,6 +2237,85 @@ class SkillEffectServiceTest {
         );
     }
 
+    private static SkillEffectResultRequest persistentDamageModifierResult() {
+        return new SkillEffectResultRequest(
+            "damage_reduction",
+            "受到伤害降低",
+            SkillEffectResultType.DAMAGE_MODIFIER,
+            SkillEffectTarget.SOURCE,
+            null,
+            0,
+            valueRule(),
+            new SkillEffectDamageModifierDetail(
+                DAMAGE_ZONE_KEY,
+                SkillEffectDamageModifierDirection.TAKEN,
+                SkillEffectModifierOperation.DECREASE,
+                "physical",
+                SkillEffectDamageFilterDeliveryKind.ANY,
+                SkillEffectDamageFilterOriginKind.DIRECT,
+                SkillEffectCriticalFilter.ANY
+            ),
+            persistentShared()
+        );
+    }
+
+    private static SkillEffectResultRequest persistentHealingModifierResult() {
+        return new SkillEffectResultRequest(
+            "healing_reduction",
+            "受到治疗降低",
+            SkillEffectResultType.HEALING_MODIFIER,
+            SkillEffectTarget.SOURCE,
+            null,
+            1,
+            valueRule(),
+            new SkillEffectHealingModifierDetail(
+                HEALING_ZONE_KEY,
+                SkillEffectHealingModifierDirection.RECEIVED,
+                SkillEffectModifierOperation.DECREASE,
+                SkillEffectHealingKind.ANY
+            ),
+            persistentShared()
+        );
+    }
+
+    private static SkillEffectResultRequest persistentDamageImmunityResult() {
+        return new SkillEffectResultRequest(
+            "damage_immunity",
+            "技能伤害免疫",
+            SkillEffectResultType.DAMAGE_IMMUNITY,
+            SkillEffectTarget.SOURCE,
+            null,
+            2,
+            null,
+            new SkillEffectDamageImmunityDetail(
+                null,
+                SkillEffectDamageFilterDeliveryKind.SKILL,
+                SkillEffectDamageFilterOriginKind.ANY
+            ),
+            new SkillEffectResultLifecycleBehaviorRequest(
+                SkillEffectLifecycleMoment.PERSISTENT,
+                null,
+                null,
+                null,
+                null
+            )
+        );
+    }
+
+    private static SkillEffectResultRequest persistentHealthFloorResult() {
+        return new SkillEffectResultRequest(
+            "health_floor",
+            "生命下限",
+            SkillEffectResultType.HEALTH_FLOOR,
+            SkillEffectTarget.SOURCE,
+            null,
+            3,
+            valueRule(),
+            new SkillEffectHealthFloorDetail("hp"),
+            persistentShared()
+        );
+    }
+
     private static SkillEffectValueRuleRequest valueRule() {
         return new SkillEffectValueRuleRequest(FORMULA_KEY, BigDecimal.ONE, null, null);
     }
@@ -2026,7 +2348,7 @@ class SkillEffectServiceTest {
             )),
             List.of(new SkillEffectAttributeChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "buff_ad", "ad",
-                SkillEffectAttributeChangeOperation.INCREASE
+                SkillEffectAttributeChangeOperation.INCREASE, null
             )),
             List.of(new SkillEffectResourceChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "consume_mp", "mp",

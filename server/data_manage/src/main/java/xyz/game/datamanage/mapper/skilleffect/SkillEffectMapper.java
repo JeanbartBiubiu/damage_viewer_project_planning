@@ -15,7 +15,17 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -31,6 +41,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
@@ -275,6 +287,116 @@ public interface SkillEffectMapper {
         @Param("decayMode") SkillEffectNormalShieldDecayMode decayMode
     );
 
+    List<SkillEffectDamageModifierDetailRow> listDamageModifierDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertDamageModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("modifierZoneKey") String modifierZoneKey,
+        @Param("direction") SkillEffectDamageModifierDirection direction,
+        @Param("operation") SkillEffectModifierOperation operation,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageFilterDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageFilterOriginKind originKind,
+        @Param("criticalFilter") SkillEffectCriticalFilter criticalFilter
+    );
+
+    int updateDamageModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("modifierZoneKey") String modifierZoneKey,
+        @Param("direction") SkillEffectDamageModifierDirection direction,
+        @Param("operation") SkillEffectModifierOperation operation,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageFilterDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageFilterOriginKind originKind,
+        @Param("criticalFilter") SkillEffectCriticalFilter criticalFilter
+    );
+
+    List<SkillEffectHealingModifierDetailRow> listHealingModifierDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertHealingModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("modifierZoneKey") String modifierZoneKey,
+        @Param("direction") SkillEffectHealingModifierDirection direction,
+        @Param("operation") SkillEffectModifierOperation operation,
+        @Param("healingKind") SkillEffectHealingKind healingKind
+    );
+
+    int updateHealingModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("modifierZoneKey") String modifierZoneKey,
+        @Param("direction") SkillEffectHealingModifierDirection direction,
+        @Param("operation") SkillEffectModifierOperation operation,
+        @Param("healingKind") SkillEffectHealingKind healingKind
+    );
+
+    List<SkillEffectDamageImmunityDetailRow> listDamageImmunityDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertDamageImmunityDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageFilterDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageFilterOriginKind originKind
+    );
+
+    int updateDamageImmunityDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("deliveryKind") SkillEffectDamageFilterDeliveryKind deliveryKind,
+        @Param("originKind") SkillEffectDamageFilterOriginKind originKind
+    );
+
+    List<SkillEffectHealthFloorDetailRow> listHealthFloorDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertHealthFloorDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("attributeKey") String attributeKey
+    );
+
+    int updateHealthFloorDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("attributeKey") String attributeKey
+    );
+
     List<SkillEffectAttributeChangeDetailRow> listAttributeChangeDetails(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
@@ -287,7 +409,8 @@ public interface SkillEffectMapper {
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
         @Param("attributeKey") String attributeKey,
-        @Param("operation") SkillEffectAttributeChangeOperation operation
+        @Param("operation") SkillEffectAttributeChangeOperation operation,
+        @Param("modifierZoneKey") String modifierZoneKey
     );
 
     int updateAttributeChangeDetail(
@@ -296,7 +419,8 @@ public interface SkillEffectMapper {
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey,
         @Param("attributeKey") String attributeKey,
-        @Param("operation") SkillEffectAttributeChangeOperation operation
+        @Param("operation") SkillEffectAttributeChangeOperation operation,
+        @Param("modifierZoneKey") String modifierZoneKey
     );
 
     List<SkillEffectResourceChangeDetailRow> listResourceChangeDetails(
@@ -424,6 +548,17 @@ public interface SkillEffectMapper {
 
     List<SkillEffectCatalogLockRow> lockStatuses(
         @Param("gameId") String gameId,
+        @Param("keys") Collection<String> keys
+    );
+
+    List<SkillEffectModifierZoneLockRow> lockModifierZones(
+        @Param("gameId") String gameId,
+        @Param("keys") Collection<String> keys
+    );
+
+    List<String> listRuntimeInputFormulaKeys(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
         @Param("keys") Collection<String> keys
     );
 

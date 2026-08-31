@@ -192,7 +192,7 @@ class SkillTriggerRuleServiceTest {
     }
 
     @Test
-    void damageEventFiltersRoundTripAndPersistAsOneAggregate() {
+    void pendingDamageEventFiltersRoundTripAndPersistAsOneAggregate() {
         when(mapper.lockDamageTypes(eq(GAME_ID), any())).thenAnswer(invocation -> {
             Collection<String> keys = invocation.getArgument(1);
             return keys.stream()
@@ -202,12 +202,12 @@ class SkillTriggerRuleServiceTest {
                 .toList();
         });
         SkillTriggerRuleCreateRequest create = new SkillTriggerRuleCreateRequest(
-            "on_physical_basic_damage",
-            "受到物理普攻伤害",
+            "before_physical_basic_damage",
+            "即将受到物理普攻伤害",
             null,
             10,
             new SkillTriggerEventSource(
-                SkillTriggerEventType.DAMAGE_TAKEN,
+                SkillTriggerEventType.DAMAGE_PENDING,
                 new SkillTriggerDamageEventDetail(
                     "physical",
                     SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
@@ -221,17 +221,17 @@ class SkillTriggerRuleServiceTest {
         );
         stubAssembleExecuteEffect(
             mapper,
-            "on_physical_basic_damage",
-            "受到物理普攻伤害",
-            SkillTriggerEventType.DAMAGE_TAKEN,
+            "before_physical_basic_damage",
+            "即将受到物理普攻伤害",
+            SkillTriggerEventType.DAMAGE_PENDING,
             "deal",
             EFFECT_KEY
         );
-        when(mapper.findDamageEvent(GAME_ID, SKILL_KEY, "on_physical_basic_damage")).thenReturn(
+        when(mapper.findDamageEvent(GAME_ID, SKILL_KEY, "before_physical_basic_damage")).thenReturn(
             new SkillTriggerDamageEventRow(
                 GAME_ID,
                 SKILL_KEY,
-                "on_physical_basic_damage",
+                "before_physical_basic_damage",
                 "physical",
                 SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
                 SkillTriggerDamageOriginKind.DIRECT
@@ -247,7 +247,7 @@ class SkillTriggerRuleServiceTest {
         verify(mapper).insertDamageEvent(
             GAME_ID,
             SKILL_KEY,
-            "on_physical_basic_damage",
+            "before_physical_basic_damage",
             "physical",
             "BASIC_ATTACK",
             "DIRECT"
@@ -788,15 +788,29 @@ class SkillTriggerRuleServiceTest {
     }
 
     @Test
-    void capabilitiesTableCoversAllSeventeenEventsAndRejectsValueReached() {
-        assertEquals(17, SkillTriggerEventType.values().length);
-        assertEquals(17, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+    void capabilitiesTableCoversAllEighteenEventsAndRejectsValueReached() {
+        assertEquals(18, SkillTriggerEventType.values().length);
+        assertEquals(18, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_PENDING));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_TAKEN));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.STATUS_CHANGED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.CONTROL_RECEIVED));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+            SkillTriggerEventType.DAMAGE_PENDING,
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER,
+            null,
+            null
+        ));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+            SkillTriggerEventType.DAMAGE_TAKEN,
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER,
+            null,
+            null
+        ));
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) {
-            if (type != SkillTriggerEventType.DAMAGE_TAKEN
+            if (type != SkillTriggerEventType.DAMAGE_PENDING
+                && type != SkillTriggerEventType.DAMAGE_TAKEN
                 && type != SkillTriggerEventType.STATUS_CHANGED
                 && type != SkillTriggerEventType.CONTROL_RECEIVED) {
                 assertFalse(

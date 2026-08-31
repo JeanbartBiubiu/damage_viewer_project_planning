@@ -308,7 +308,8 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             assertTrue(schemaTable.contains("constraint pk_" + tableName)
                 || schemaTable.contains("primary key (game_id, skill_key, rule_key"));
             assertEquals(
-                schemaTable.replace("create table public." + tableName, ""),
+                removeStage762Members(schemaTable, tableName)
+                    .replace("create table public." + tableName, ""),
                 migrationTable.replace("create table public." + tableName, ""),
                 () -> tableName + " CREATE TABLE body drifted between schema and migration"
             );
@@ -319,6 +320,21 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             assertNoJsonbArraysOrPayload(migrationTable, tableName);
         }
         assertTrue(migrationNormalized.contains("position('''value_reached'''"));
+    }
+
+    private static String removeStage762Members(String tableSql, String tableName) {
+        String normalized = tableSql;
+        if (tableName.equals("skill_trigger_rules")) {
+            normalized = normalized.replace("'damage_pending', ", "");
+        }
+        if (tableName.equals("skill_trigger_rule_event_value_conditions")
+            || tableName.equals("skill_trigger_rule_event_value_bindings")) {
+            normalized = normalized.replace(
+                ", 'raw_damage', 'post_defense_damage', 'health_before', 'projected_health_after'",
+                ""
+            );
+        }
+        return normalized;
     }
 
     @Test
