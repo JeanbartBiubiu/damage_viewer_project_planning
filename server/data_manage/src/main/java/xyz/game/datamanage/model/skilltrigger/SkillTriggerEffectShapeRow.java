@@ -10,6 +10,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 
 public record SkillTriggerEffectShapeRow(
     String effectKey,
@@ -33,7 +34,8 @@ public record SkillTriggerEffectShapeRow(
     SkillEffectLifecycleExpiryMode expiryMode,
     String damageTypeKey,
     SkillEffectDamageDeliveryKind damageDeliveryKind,
-    SkillEffectDamageOriginKind damageOriginKind
+    SkillEffectDamageOriginKind damageOriginKind,
+    SkillEffectSpellShieldBlockScope spellShieldBlockScope
 ) {
     public SkillTriggerEffectShapeRow(
         String effectKey,
@@ -78,7 +80,8 @@ public record SkillTriggerEffectShapeRow(
             expiryMode,
             null,
             resultType == SkillEffectResultType.DAMAGE ? SkillEffectDamageDeliveryKind.SKILL : null,
-            resultType == SkillEffectResultType.DAMAGE ? SkillEffectDamageOriginKind.DIRECT : null
+            resultType == SkillEffectResultType.DAMAGE ? SkillEffectDamageOriginKind.DIRECT : null,
+            null
         );
     }
 }
