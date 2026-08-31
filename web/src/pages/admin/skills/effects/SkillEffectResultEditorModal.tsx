@@ -42,6 +42,7 @@ import type {
   SkillEffectResultType,
   SkillEffectNormalShieldDecayMode,
   SkillEffectStackValueMode,
+  SkillEffectSpellShieldBlockScope,
   SkillEffectSummary,
   SkillEffectTarget,
   SkillEffectValueReadMode,
@@ -76,6 +77,7 @@ import {
   SKILL_EFFECT_RESULT_TYPES,
   SKILL_EFFECT_RESULT_TYPE_LABELS,
   SKILL_EFFECT_STACK_VALUE_MODE_LABELS,
+  SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_EFFECT_VALUE_READ_MODE_LABELS,
   SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS,
@@ -97,6 +99,7 @@ import {
   isPersistentOnlyResultType,
   isReapplicationValueModeVisible,
   isSharedOnlyPersistentResult,
+  isSpellShieldBlockScopeVisible,
   isStackValueModeVisible,
   isValueReadModeFixed,
   isValueReadModeVisible,
@@ -108,6 +111,7 @@ import {
   listFormulaOptions,
   listLifecycleTargetOptions,
   listModifierZoneOptions,
+  listSpellShieldBlockScopeOptions,
   modifierZoneDomainForDraft,
   listStatusOptions,
   sortVampRuleDrafts,
@@ -832,6 +836,21 @@ export function SkillEffectResultEditorModal({
     setSaveError(null);
   };
 
+  const patchDraftWithSpellShieldCleanup = (next: SkillEffectResultDraft) => {
+    const normalized = clearHiddenLifecycleBehaviorFields(next);
+    if (draft.spellShieldBlockScope && !normalized.spellShieldBlockScope) {
+      Modal.confirm({
+        title: '清除法术护盾阻挡粒度',
+        content: '当前修改会使这个结果不再适用法术护盾阻挡粒度，已配置的值将被清除。',
+        okText: '继续',
+        cancelText: '取消',
+        onOk: () => patchDraft(normalized)
+      });
+      return;
+    }
+    patchDraft(normalized);
+  };
+
   const renderModifierZoneField = () => {
     if (!modifierZoneDomain || !isModifierZoneRequired(draft)) return null;
     return (
@@ -866,9 +885,12 @@ export function SkillEffectResultEditorModal({
   const changeResultType = (nextType: SkillEffectResultType) => {
     const nextDraft = applyResultTypeChange(draft, nextType);
     if (isPersistentOnlyResultType(nextType) && !parentDraft.lifecycleEnabled) {
+      const cleanupNotice = draft.spellShieldBlockScope && !nextDraft.spellShieldBlockScope
+        ? '已配置的法术护盾阻挡粒度也会被清除。'
+        : '';
       Modal.confirm({
         title: '启用效果生命周期',
-        content: '该结果只能持续生效。启用后还需要在效果弹窗中补齐最大层数、每次施加层数和实例范围。',
+        content: `该结果只能持续生效。启用后还需要在效果弹窗中补齐最大层数、每次施加层数和实例范围。${cleanupNotice}`,
         okText: '启用并继续',
         cancelText: '取消',
         onOk: () => {
@@ -878,7 +900,7 @@ export function SkillEffectResultEditorModal({
       });
       return;
     }
-    patchDraft(nextDraft);
+    patchDraftWithSpellShieldCleanup(nextDraft);
   };
 
   const changeShieldDecayMode = (nextMode: SkillEffectNormalShieldDecayMode) => {
@@ -892,7 +914,7 @@ export function SkillEffectResultEditorModal({
     ) {
       Modal.confirm({
         title: '调整生命周期配置',
-        content: '将当前结果的生命周期时点改为“持续生效”，层数值方式改为“整个实例共享数值”。是否继续？',
+        content: `将当前结果的生命周期时点改为“持续生效”，层数值方式改为“整个实例共享数值”。${draft.spellShieldBlockScope ? '已配置的法术护盾阻挡粒度也会被清除。' : ''}是否继续？`,
         okText: '继续',
         cancelText: '取消',
         onOk: () => patchDraft(clearHiddenLifecycleBehaviorFields({
@@ -1070,7 +1092,10 @@ export function SkillEffectResultEditorModal({
               aria-label="作用对象"
               value={draft.target}
               disabled={readOnly}
-              onChange={(value) => patchDraft({ ...draft, target: value as SkillEffectTarget })}
+              onChange={(value) => patchDraftWithSpellShieldCleanup({
+                ...draft,
+                target: value as SkillEffectTarget
+              })}
             >
               <Radio value="SOURCE">{SKILL_EFFECT_TARGET_LABELS.SOURCE}</Radio>
               <Radio value="TARGET">{SKILL_EFFECT_TARGET_LABELS.TARGET}</Radio>
@@ -1813,6 +1838,31 @@ export function SkillEffectResultEditorModal({
           ) : null}
           {errors.detail ? <Alert type="error" content={errors.detail} /> : null}
 
+          {isSpellShieldBlockScopeVisible(draft) ? (
+            <Form.Item
+              label="法术护盾阻挡粒度"
+              validateStatus={errors.spellShieldBlockScope ? 'error' : undefined}
+              help={errors.spellShieldBlockScope}
+            >
+              <Select
+                aria-label="法术护盾阻挡粒度"
+                value={draft.spellShieldBlockScope}
+                disabled={readOnly}
+                options={[
+                  { value: '', label: '不参与法术护盾阻挡' },
+                  ...listSpellShieldBlockScopeOptions(draft).map((value) => ({
+                    value,
+                    label: SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS[value]
+                  }))
+                ]}
+                onChange={(value) => patchDraft({
+                  ...draft,
+                  spellShieldBlockScope: String(value ?? '') as SkillEffectSpellShieldBlockScope | ''
+                })}
+              />
+            </Form.Item>
+          ) : null}
+
           {parentDraft.lifecycleEnabled ? (
             <>
               <Form.Item
@@ -1830,7 +1880,7 @@ export function SkillEffectResultEditorModal({
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
                   }))}
                   placeholder="请选择生命周期时点"
-                  onChange={(value) => patchDraft(
+                  onChange={(value) => patchDraftWithSpellShieldCleanup(
                     applyLifecycleMomentChange(draft, value as SkillEffectLifecycleMoment)
                   )}
                 />

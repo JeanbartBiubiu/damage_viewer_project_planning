@@ -154,6 +154,7 @@ type SkillEffectResultRow = {
   target: 'SOURCE' | 'TARGET';
   description: string | null;
   sortOrder: number;
+  spellShieldBlockScope: 'SKILL' | 'EFFECT' | 'DAMAGE_INSTANCE' | 'RESULT' | null;
   valueRule: SkillEffectValueRuleRow | null;
   detail: Json;
   lifecycleBehavior: Json | null;
@@ -1790,6 +1791,7 @@ class MockApi {
         target: item.target === 'SOURCE' ? 'SOURCE' : 'TARGET',
         description: typeof item.description === 'string' ? item.description : null,
         sortOrder: Number(item.sortOrder),
+        spellShieldBlockScope: item.spellShieldBlockScope as SkillEffectResultRow['spellShieldBlockScope'],
         valueRule,
         detail: item.detail && typeof item.detail === 'object' ? item.detail as Json : {},
         lifecycleBehavior: item.lifecycleBehavior && typeof item.lifecycleBehavior === 'object'
@@ -2508,6 +2510,47 @@ function seedSkillEffectCatalog(
       updatedAt: UPDATED_AT
     }
   ];
+  mock.modifierZones = [
+    {
+      gameId: GAME_ID,
+      modifierZoneKey: 'attribute_ratio',
+      name: '属性比例加算',
+      domain: 'ATTRIBUTE',
+      calculationMode: 'RATIO_ADD',
+      applicationStage: 'ATTRIBUTE_PERCENT',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 10,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      modifierZoneKey: 'damage_ratio',
+      name: '伤害比例加算',
+      domain: 'DAMAGE',
+      calculationMode: 'RATIO_ADD',
+      applicationStage: 'DAMAGE_PRE_DEFENSE',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 20,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    },
+    {
+      gameId: GAME_ID,
+      modifierZoneKey: 'healing_ratio',
+      name: '治疗比例加算',
+      domain: 'HEALING',
+      calculationMode: 'RATIO_ADD',
+      applicationStage: 'HEALING_RESULT',
+      description: null,
+      status: 'ENABLED',
+      sortOrder: 30,
+      createdAt: CREATED_AT,
+      updatedAt: UPDATED_AT
+    }
+  ];
 }
 
 function valueRule(
@@ -2617,6 +2660,7 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         target: 'TARGET',
         description: null,
         sortOrder: 10,
+        spellShieldBlockScope: null,
         valueRule: valueRule('damage'),
         detail: damageResultDetail('physical'),
         lifecycleBehavior: null
@@ -2639,6 +2683,7 @@ function seedSkillProcessCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         target: 'SOURCE',
         description: null,
         sortOrder: 10,
+        spellShieldBlockScope: null,
         valueRule: valueRule('heal'),
         detail: { attributeKey: 'mana', operation: 'CONSUME' },
         lifecycleBehavior: null
@@ -2762,6 +2807,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         target: 'SOURCE',
         description: null,
         sortOrder: 10,
+        spellShieldBlockScope: null,
         valueRule: valueRule('heal'),
         detail: { absorbedDamageTypeKey: null, decayMode: 'NONE' },
         lifecycleBehavior: null
@@ -2784,6 +2830,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         target: 'TARGET',
         description: null,
         sortOrder: 10,
+        spellShieldBlockScope: null,
         valueRule: valueRule('follow_up'),
         detail: damageResultDetail('physical'),
         lifecycleBehavior: null
@@ -2816,6 +2863,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
         target: 'TARGET',
         description: null,
         sortOrder: 10,
+        spellShieldBlockScope: null,
         valueRule: null,
         detail: { statusKey: 'poison', operation: 'APPLY' },
         lifecycleBehavior: {
@@ -3665,6 +3713,7 @@ test.describe('skill management without Wasm', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: null,
         valueRule: valueRule('damage'),
         detail: damageResultDetail('physical')
@@ -3676,6 +3725,7 @@ test.describe('skill management without Wasm', () => {
         target: 'SOURCE',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: null,
         valueRule: valueRule('heal'),
         detail: {}
@@ -3731,6 +3781,7 @@ test.describe('skill management without Wasm', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
       detail: { statusKey: 'poison', operation: 'APPLY' }
@@ -3880,6 +3931,7 @@ test.describe('skill management without Wasm', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
       detail: { affectedSkillKeys: ['varus_w', 'other_skill'], operation: 'RESET' }
@@ -3908,6 +3960,7 @@ test.describe('skill management without Wasm', () => {
           target: 'TARGET',
           description: null,
           sortOrder: 0,
+          spellShieldBlockScope: null,
           valueRule: valueRule('damage'),
           detail: damageResultDetail('magic'),
           lifecycleBehavior: null
@@ -3919,6 +3972,7 @@ test.describe('skill management without Wasm', () => {
           target: 'TARGET',
           description: null,
           sortOrder: 1,
+          spellShieldBlockScope: null,
           valueRule: null,
           detail: { statusKey: 'old_poison', operation: 'APPLY' },
           lifecycleBehavior: null
@@ -4191,6 +4245,7 @@ test.describe('skill management without Wasm', () => {
     await chooseSelectOption(page, slowModal, '属性', '攻击力');
     await clickArcoRadioByVisibleLabel(slowModal, '减少');
     await chooseSelectOption(page, slowModal, '生命周期时点', '持续生效');
+    await chooseSelectOption(page, slowModal, '乘区', '属性比例加算');
     await clickArcoRadioByVisibleLabel(slowModal, '整个实例共享数值');
     await slowModal.getByLabel('重复值方式', { exact: true }).locator('label.arco-radio', { hasText: /^覆盖$/ }).click();
     await saveOpenModal(slowModal);
@@ -4953,6 +5008,84 @@ test.describe('skill management without Wasm', () => {
     await expect(dirtyModal).toBeHidden();
     await expect(shell).toBeVisible();
     diagnostics.assertClean('condition and trigger entry empty state and close');
+  });
+
+  test('creates a spell shield, configures a block scope and saves the blocked event', async ({ page }) => {
+    test.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const effectShell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await effectShell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const shieldEffectModal = visibleModal(page, '新增效果');
+    await shieldEffectModal.getByLabel('效果标识', { exact: true }).fill('spell_shield_effect');
+    await shieldEffectModal.getByLabel('效果名称', { exact: true }).fill('法术护盾效果');
+    await shieldEffectModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, shieldEffectModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, shieldEffectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, shieldEffectModal, '实例范围', '当前技能');
+    await chooseSelectOption(page, shieldEffectModal, '重复层数', '保留层数');
+    await shieldEffectModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const shieldResultModal = visibleModal(page, '新增结果');
+    await shieldResultModal.getByLabel('结果标识', { exact: true }).fill('spell_shield');
+    await shieldResultModal.getByLabel('结果名称', { exact: true }).fill('法术护盾');
+    await chooseSelectOption(page, shieldResultModal, '结果种类', '法术护盾');
+    await expect(shieldResultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(shieldResultModal.getByLabel('法术护盾阻挡粒度', { exact: true })).toHaveCount(0);
+    await expect(shieldResultModal.getByLabel('生命周期时点', { exact: true })).toContainText('持续生效');
+    await saveOpenModal(shieldResultModal);
+    await shieldEffectModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(shieldEffectModal).toBeHidden();
+
+    await effectShell.locator('tr', { hasText: 'on_hit_results' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const damageEffectModal = visibleModal(page, '编辑效果');
+    await damageEffectModal.locator('tr', { hasText: 'damage' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const damageResultModal = visibleModal(page, '编辑结果');
+    await chooseSelectOption(page, damageResultModal, '法术护盾阻挡粒度', '当前效果');
+    await saveOpenModal(damageResultModal);
+    await damageEffectModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(damageEffectModal).toBeHidden();
+    await closeVisibleDialog(effectShell);
+
+    const triggerShell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await triggerShell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const ruleModal = visibleModal(page, '新增规则');
+    await ruleModal.getByLabel('规则标识', { exact: true }).fill('after_spell_shield_block');
+    await ruleModal.getByLabel('规则名称', { exact: true }).fill('法术护盾阻挡后');
+    await chooseTriggerEventType(page, ruleModal, '法术护盾成功阻挡');
+    const shieldEffectSelect = ruleModal.getByLabel('法术护盾效果', { exact: true });
+    await expect(shieldEffectSelect).toBeEnabled();
+    await shieldEffectSelect.click();
+    await expect(page.getByRole('option', { name: '法术护盾效果', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '专注标记', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '法术护盾效果', exact: true }).click();
+    await ruleModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '阻挡后执行',
+      effectName: '法力消耗'
+    });
+    await ruleModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(ruleModal).toBeHidden();
+
+    expect(mock.skillTriggerRules.at(-1)?.eventSource).toEqual({
+      eventType: 'SPELL_SHIELD_BLOCKED',
+      detail: { shieldEffectKey: 'spell_shield_effect' }
+    });
+    const createdShield = mock.skillEffects.find((item) => item.effectKey === 'spell_shield_effect');
+    expect(createdShield?.results[0]).toMatchObject({
+      resultType: 'SPELL_SHIELD',
+      spellShieldBlockScope: null,
+      valueRule: null,
+      detail: {},
+      lifecycleBehavior: { moment: 'PERSISTENT' }
+    });
+    expect(mock.skillEffects.find((item) => item.effectKey === 'on_hit_results')?.results[0])
+      .toMatchObject({ spellShieldBlockScope: 'EFFECT' });
+    diagnostics.assertClean('spell shield authoring and blocked event');
   });
 
   test('creates a low-health condition and trigger rule, blocks duplicate save, then deletes it', async ({ page }) => {

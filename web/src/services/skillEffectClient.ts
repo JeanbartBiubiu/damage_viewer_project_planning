@@ -22,7 +22,8 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
   'DAMAGE_IMMUNITY',
-  'HEALTH_FLOOR'
+  'HEALTH_FLOOR',
+  'SPELL_SHIELD'
 ]);
 
 const DAMAGE_DELIVERY_KINDS = new Set(['SKILL', 'BASIC_ATTACK']);
@@ -38,6 +39,7 @@ const DAMAGE_FILTER_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
 const DAMAGE_FILTER_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
 const CRITICAL_FILTERS = new Set(['ANY', 'CRITICAL_ONLY', 'NON_CRITICAL_ONLY']);
 const HEALING_KINDS = new Set(['ANY', 'DIRECT', 'VAMP']);
+const SPELL_SHIELD_BLOCK_SCOPES = new Set(['SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT']);
 
 export class SkillEffectProtocolError extends Error {
   constructor(message: string) {
@@ -102,11 +104,43 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   assertEnum(value.target, new Set(['SOURCE', 'TARGET']), `${path}.target`);
   assertNullableString(value.description, `${path}.description`);
   assertNumber(value.sortOrder, `${path}.sortOrder`);
+  if (value.spellShieldBlockScope !== null) {
+    assertEnum(
+      value.spellShieldBlockScope,
+      SPELL_SHIELD_BLOCK_SCOPES,
+      `${path}.spellShieldBlockScope`
+    );
+  }
   if (value.lifecycleBehavior !== null && !isRecord(value.lifecycleBehavior)) {
     protocolError(`${path}.lifecycleBehavior`);
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
+  const persistent = isRecord(value.lifecycleBehavior)
+    && value.lifecycleBehavior.moment === 'PERSISTENT';
+  const blockScopeEligible = value.target === 'TARGET'
+    && !persistent
+    && (
+      resultType === 'DAMAGE'
+      || resultType === 'ATTRIBUTE_CHANGE'
+      || resultType === 'RESOURCE_CHANGE'
+      || resultType === 'COOLDOWN_CHANGE'
+      || resultType === 'STATUS_OPERATION'
+      || resultType === 'LIFECYCLE_OPERATION'
+    );
+  if (value.spellShieldBlockScope !== null) {
+    if (!blockScopeEligible) protocolError(`${path}.spellShieldBlockScope`);
+    if (value.spellShieldBlockScope === 'DAMAGE_INSTANCE' && resultType !== 'DAMAGE') {
+      protocolError(`${path}.spellShieldBlockScope`);
+    }
+  }
+
+  if (resultType === 'SPELL_SHIELD') {
+    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+    if (!persistent) protocolError(`${path}.lifecycleBehavior`);
+    return value as SkillEffectResult;
+  }
 
   if (resultType === 'STATUS_OPERATION') {
     if (value.valueRule !== null) protocolError(`${path}.valueRule`);
@@ -225,6 +259,14 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNullableString(value.description, 'effect.description');
   assertNumber(value.sortOrder, 'effect.sortOrder');
   if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
+  if (
+    value.results.some((item) => (
+      isRecord(item) && item.resultType === 'SPELL_SHIELD'
+    ))
+    && value.lifecycle === null
+  ) {
+    protocolError('effect.lifecycle');
+  }
   assertString(value.createdAt, 'effect.createdAt');
   assertString(value.updatedAt, 'effect.updatedAt');
   return value as SkillEffect;
