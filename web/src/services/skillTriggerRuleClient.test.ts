@@ -270,6 +270,20 @@ describe('skillTriggerRuleClient', () => {
       eventType: 'DAMAGE_PENDING',
       detail: { damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'REFLECTED' }
     });
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: {
+        eventType: 'SPELL_SHIELD_BLOCKED',
+        detail: { shieldEffectKey: 'sivir_spell_shield' }
+      }
+    }).eventSource).toEqual({
+      eventType: 'SPELL_SHIELD_BLOCKED',
+      detail: { shieldEffectKey: 'sivir_spell_shield' }
+    });
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'SPELL_SHIELD_BLOCKED', detail: {} }
+    })).toThrow(/eventSource\.detail\.shieldEffectKey/);
   });
 
   it.each([

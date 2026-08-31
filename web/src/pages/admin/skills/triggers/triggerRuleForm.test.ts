@@ -41,6 +41,7 @@ import {
   fromDetail,
   groupConditionSummary,
   isFailProcessLast,
+  isSpellShieldEventEffect,
   lifecycleEventEffects,
   moveActionDrafts,
   nextDraftKey,
@@ -49,6 +50,7 @@ import {
   rebuildStatusCheckDetail,
   removeBindingsByKeys,
   resultAvailableEffects,
+  spellShieldEventEffects,
   sortActionDrafts,
   sortConditionDrafts,
   sortGroupDrafts,
@@ -209,6 +211,14 @@ const EVENT_CAPABILITY_ROWS = [
     hasEventSource: false,
     requiredCatalogs: ['processes'],
     detailFields: ['processKey']
+  },
+  {
+    eventType: 'SPELL_SHIELD_BLOCKED',
+    label: '法术护盾成功阻挡',
+    currentTargetBinding: '法术护盾承受对象（技能拥有者自身）。',
+    hasEventSource: true,
+    requiredCatalogs: ['effects'],
+    detailFields: ['shieldEffectKey']
   }
 ] as const satisfies ReadonlyArray<{
   eventType: SkillTriggerEventType;
@@ -377,8 +387,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 18 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(18);
+  it('exposes exactly 19 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(19);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -426,6 +436,10 @@ describe('trigger event member set and capability table', () => {
       eventType: 'DAMAGE_TAKEN',
       detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
     });
+    expect(createEmptyEventSource('SPELL_SHIELD_BLOCKED')).toEqual({
+      eventType: 'SPELL_SHIELD_BLOCKED',
+      detail: { shieldEffectKey: '' }
+    });
     expect(switched.detail).not.toHaveProperty('sourceSkillKey');
     expect(switched.detail).not.toHaveProperty('useKind');
     const same = createEmptyEventSource('KILL');
@@ -461,6 +475,7 @@ describe('trigger event member set and capability table', () => {
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('SPELL_SHIELD_BLOCKED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_PENDING'))).toEqual([
       'RAW_DAMAGE',
       'POST_DEFENSE_DAMAGE',
@@ -579,6 +594,60 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
     };
     expect(resultAvailableEffects([plain, marked]).map((item) => item.effectKey)).toEqual(['on_hit_damage']);
     expect(lifecycleEventEffects([plain, marked]).map((item) => item.effectKey)).toEqual(['focus_mark']);
+  });
+
+  it('selects spell-shield events from complete eligible effect details only', () => {
+    const lifecycle = {
+      durationFormulaKey: null,
+      maxStacksFormulaKey: 'one',
+      applicationStacksFormulaKey: 'one',
+      instanceScope: 'SOURCE_TARGET' as const,
+      reapplicationStackMode: 'KEEP' as const,
+      reapplicationDurationMode: null,
+      expiryMode: 'EXPLICIT_ONLY' as const,
+      periodicIntervalFormulaKey: null,
+      firstPeriodicExecution: null
+    };
+    const eligible: SkillEffect = {
+      gameId: 'lol',
+      skillKey: 'sivir_e',
+      effectKey: 'spell_shield',
+      name: '法术护盾',
+      description: null,
+      sortOrder: 0,
+      lifecycle,
+      results: [{
+        resultKey: 'shield',
+        name: '法术护盾',
+        resultType: 'SPELL_SHIELD',
+        target: 'SOURCE',
+        description: null,
+        sortOrder: 0,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: null,
+          stackValueMode: null,
+          reapplicationValueMode: null,
+          periodicExecutionMode: null
+        },
+        valueRule: null,
+        detail: {}
+      }],
+      createdAt: '2026-08-31T00:00:00Z',
+      updatedAt: '2026-08-31T00:00:00Z'
+    };
+    const lifecycleWithoutShield: SkillEffect = { ...eligible, effectKey: 'ordinary_buff', results: [] };
+    const shieldWithoutLifecycle: SkillEffect = { ...eligible, effectKey: 'broken_shield', lifecycle: null };
+
+    expect(isSpellShieldEventEffect(eligible)).toBe(true);
+    expect(isSpellShieldEventEffect(lifecycleWithoutShield)).toBe(false);
+    expect(isSpellShieldEventEffect(shieldWithoutLifecycle)).toBe(false);
+    expect(spellShieldEventEffects([
+      lifecycleWithoutShield,
+      eligible,
+      shieldWithoutLifecycle
+    ]).map((item) => item.effectKey)).toEqual(['spell_shield']);
   });
 });
 

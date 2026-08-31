@@ -42,12 +42,14 @@ import {
   listDamageTypeOptions,
   listFormulaOptions,
   listLifecycleTargetOptions,
+  listSpellShieldBlockScopeOptions,
   listStatusOptions,
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
   skillEffectResultToDraft,
   skillEffectToDraft,
   sortResultDrafts,
+  isSpellShieldBlockScopeVisible,
   validateSkillEffectDraft,
   type EffectFormCatalog,
   type SkillEffectDraft,
@@ -113,6 +115,7 @@ const EFFECT: SkillEffect = {
       target: 'TARGET',
       description: null,
       sortOrder: 10,
+      spellShieldBlockScope: null,
       lifecycleBehavior: NULL_BEHAVIOR,
       valueRule: {
         formulaKey: 'damage',
@@ -135,6 +138,7 @@ const EFFECT: SkillEffect = {
       target: 'SOURCE',
       description: null,
       sortOrder: 20,
+      spellShieldBlockScope: null,
       lifecycleBehavior: NULL_BEHAVIOR,
       valueRule: {
         formulaKey: 'cooldown_reduction_ms',
@@ -323,6 +327,7 @@ describe('skill effect form normalization and request building', () => {
           target: 'TARGET',
           description: null,
           sortOrder: 10,
+          spellShieldBlockScope: null,
           lifecycleBehavior: null,
           valueRule: {
             formulaKey: 'damage',
@@ -438,6 +443,7 @@ describe('skill effect form normalization and request building', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
         formulaKey: 'heal',
@@ -456,6 +462,7 @@ describe('skill effect form normalization and request building', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
         formulaKey: 'damage',
@@ -482,6 +489,7 @@ describe('skill effect form normalization and request building', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
       detail: { affectedSkillKeys: ['ezreal_q', 'ezreal_w'], operation: 'RESET' }
@@ -493,6 +501,7 @@ describe('skill effect form normalization and request building', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
       detail: { statusKey: 'poison', operation: 'APPLY' }
@@ -532,6 +541,68 @@ describe('skill effect form validation', () => {
     if (!missingFormula.ok) {
       expect(missingFormula.resultErrors[0]?.fieldErrors.vampRules).toBe('请选择吸血效率公式。');
     }
+  });
+
+  it('keeps spell-shield block scopes only on eligible target results', () => {
+    const damage = validDamageDraft({ spellShieldBlockScope: 'DAMAGE_INSTANCE' });
+    expect(isSpellShieldBlockScopeVisible(damage)).toBe(true);
+    expect(listSpellShieldBlockScopeOptions(damage)).toEqual([
+      'SKILL',
+      'EFFECT',
+      'DAMAGE_INSTANCE',
+      'RESULT'
+    ]);
+
+    const attribute = createEmptyResultDraft('ATTRIBUTE_CHANGE');
+    attribute.target = 'TARGET';
+    expect(listSpellShieldBlockScopeOptions(attribute)).toEqual(['SKILL', 'EFFECT', 'RESULT']);
+
+    const selfDamage = clearHiddenResultFields({ ...damage, target: 'SOURCE' });
+    expect(selfDamage.spellShieldBlockScope).toBe('');
+    expect(isSpellShieldBlockScopeVisible(selfDamage)).toBe(false);
+
+    const persistentDamage = clearHiddenResultFields({
+      ...damage,
+      lifecycleBehavior: {
+        ...damage.lifecycleBehavior,
+        moment: 'PERSISTENT'
+      }
+    });
+    expect(persistentDamage.spellShieldBlockScope).toBe('');
+
+    const heal = createEmptyResultDraft('DIRECT_HEAL');
+    heal.spellShieldBlockScope = 'RESULT';
+    expect(clearHiddenResultFields(heal).spellShieldBlockScope).toBe('');
+    expect(isSpellShieldBlockScopeVisible(heal)).toBe(false);
+  });
+
+  it('builds a persistent spell-shield result with no value or block scope', () => {
+    const shield = createEmptyResultDraft('SPELL_SHIELD');
+    shield.resultKey = 'spell_shield';
+    shield.name = '法术护盾';
+    expect(shield.lifecycleBehavior.moment).toBe('PERSISTENT');
+    expect(isValueRuleVisible(shield)).toBe(false);
+    expect(isSpellShieldBlockScopeVisible(shield)).toBe(false);
+
+    const normalized = expectValid(lifecycleEnabledDraft([shield]));
+    expect(normalized.results[0]).toEqual({
+      resultKey: 'spell_shield',
+      name: '法术护盾',
+      resultType: 'SPELL_SHIELD',
+      target: 'TARGET',
+      description: null,
+      sortOrder: 0,
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: null,
+        stackValueMode: null,
+        reapplicationValueMode: null,
+        periodicExecutionMode: null
+      },
+      spellShieldBlockScope: null,
+      valueRule: null,
+      detail: {}
+    });
   });
 
   it('accepts the frozen lowercase stable-key grammar', () => {
@@ -1323,6 +1394,7 @@ describe('skill effect lifecycle drafts', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: {
           moment: 'PERSISTENT',
           valueReadMode: 'APPLICATION_SNAPSHOT',
@@ -1353,6 +1425,7 @@ describe('skill effect lifecycle drafts', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: {
           moment: 'PERSISTENT',
           valueReadMode: 'APPLICATION_SNAPSHOT',
@@ -1380,6 +1453,7 @@ describe('skill effect lifecycle drafts', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: {
           moment: 'PERSISTENT',
           valueReadMode: null,
@@ -1401,6 +1475,7 @@ describe('skill effect lifecycle drafts', () => {
         target: 'TARGET',
         description: null,
         sortOrder: 0,
+        spellShieldBlockScope: null,
         lifecycleBehavior: {
           moment: 'PERSISTENT',
           valueReadMode: 'APPLICATION_SNAPSHOT',
@@ -1561,6 +1636,7 @@ describe('skill effect lifecycle drafts', () => {
       target: 'TARGET',
       description: null,
       sortOrder: 0,
+      spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
         formulaKey: 'one',
