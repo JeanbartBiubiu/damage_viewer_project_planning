@@ -49,6 +49,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effects",
         "skill_effect_results",
         "skill_effect_result_values",
+        "skill_effect_result_spell_shield_policies",
         "skill_effect_damage_details",
         "skill_effect_result_critical_policies",
         "skill_effect_result_vamp_rules",
@@ -97,6 +98,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_trigger_rule_internal_state_events",
         "skill_trigger_rule_subject_events",
         "skill_trigger_rule_damage_events",
+        "skill_trigger_rule_spell_shield_blocked_events",
         "skill_trigger_rule_condition_groups",
         "skill_trigger_rule_conditions",
         "skill_trigger_rule_attribute_conditions",
@@ -237,12 +239,12 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(54, KEEP_PARENTS.size());
+        assertEquals(55, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
-        assertEquals(27, STAGE_7_5_PARENTS.size());
-        assertEquals(81, expected.size());
+        assertEquals(28, STAGE_7_5_PARENTS.size());
+        assertEquals(83, expected.size());
         assertEquals(expected, created);
-        assertEquals(81, created.size());
+        assertEquals(83, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -296,6 +298,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
                 "skill_effect_result_critical_policies",
                 "skill_effect_result_vamp_rules",
                 "skill_effect_result_normal_shield_interactions",
+                "skill_effect_result_spell_shield_policies",
                 "skill_effect_damage_modifier_details",
                 "skill_effect_healing_modifier_details",
                 "skill_effect_damage_immunity_details",

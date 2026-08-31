@@ -56,6 +56,13 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -155,6 +162,71 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         ));
         assertField(hitKind, "eventSource.detail.useKind", "FORBIDDEN");
+    }
+
+    @Test
+    void spellShieldBlockedRequiresPersistentSpellShieldEffect() {
+        stubAssembleExecuteEffect(
+            mapper,
+            "shield_blocked",
+            "shield_blocked",
+            SkillTriggerEventType.SPELL_SHIELD_BLOCKED,
+            "deal",
+            EFFECT_KEY
+        );
+        when(mapper.findSpellShieldBlockedEvent(GAME_ID, SKILL_KEY, "shield_blocked")).thenReturn(
+            new SkillTriggerSpellShieldBlockedEventRow(
+                GAME_ID, SKILL_KEY, "shield_blocked", EFFECT_KEY
+            )
+        );
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, "spell_shield", SkillEffectResultType.SPELL_SHIELD,
+                SkillEffectTarget.SOURCE, false, null, null, null, null, null,
+                SkillEffectLifecycleMoment.PERSISTENT, null, null, true,
+                "duration_f", "max_stacks_f", "app_stacks_f", null,
+                SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+                null, null, null, null
+            )
+        ));
+
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "shield_blocked",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.SPELL_SHIELD_BLOCKED,
+                    new SkillTriggerSpellShieldBlockedEventDetail(EFFECT_KEY)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        );
+
+        verify(mapper).insertSpellShieldBlockedEvent(
+            GAME_ID, SKILL_KEY, "shield_blocked", EFFECT_KEY
+        );
+
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)
+        ));
+        ApiException invalid = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "shield_blocked_bad",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.SPELL_SHIELD_BLOCKED,
+                    new SkillTriggerSpellShieldBlockedEventDetail(EFFECT_KEY)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        ));
+        assertField(
+            invalid,
+            "eventSource.detail.shieldEffectKey",
+            "REFERENCE_TYPE_MISMATCH"
+        );
     }
 
     @Test

@@ -127,6 +127,15 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="spellShieldBlockedEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="shield_effect_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="conditionGroupRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -368,6 +377,7 @@
             <arg column="damage_type_key" javaType="java.lang.String"/>
             <arg column="damage_delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
             <arg column="damage_origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind"/>
+            <arg column="spell_shield_block_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope"/>
         </constructor>
     </resultMap>
 
@@ -462,7 +472,8 @@
                l.expiry_mode,
                dd.damage_type_key,
                dd.delivery_kind AS damage_delivery_kind,
-               dd.origin_kind AS damage_origin_kind
+               dd.origin_kind AS damage_origin_kind,
+               sp.block_scope AS spell_shield_block_scope
         FROM public.skill_effect_results r
         LEFT JOIN public.skill_effect_result_values v
           ON v.game_id = r.game_id
@@ -498,6 +509,11 @@
           ON l.game_id = r.game_id
          AND l.skill_key = r.skill_key
          AND l.effect_key = r.effect_key
+        LEFT JOIN public.skill_effect_result_spell_shield_policies sp
+          ON sp.game_id = r.game_id
+         AND sp.skill_key = r.skill_key
+         AND sp.effect_key = r.effect_key
+         AND sp.result_key = r.result_key
     </sql>
 
     <sql id="andKeysIn">
@@ -655,6 +671,11 @@
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
             RETURNING 1
         ),
+        deleted_spell_shield_blocked_events AS (
+            DELETE FROM public.skill_trigger_rule_spell_shield_blocked_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
         deleted_condition_groups AS (
             DELETE FROM public.skill_trigger_rule_condition_groups
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
@@ -728,6 +749,12 @@
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
     </select>
 
+    <select id="findSpellShieldBlockedEvent" resultMap="spellShieldBlockedEventRow">
+        SELECT game_id, skill_key, rule_key, shield_effect_key
+        FROM public.skill_trigger_rule_spell_shield_blocked_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
     <insert id="insertProcessEvent">
         INSERT INTO public.skill_trigger_rule_process_events (
             game_id, skill_key, rule_key, process_key, moment_type, step_key
@@ -798,6 +825,14 @@
             game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
         ) VALUES (
             #{gameId}, #{skillKey}, #{ruleKey}, #{damageTypeKey}, #{deliveryKind}, #{originKind}
+        )
+    </insert>
+
+    <insert id="insertSpellShieldBlockedEvent">
+        INSERT INTO public.skill_trigger_rule_spell_shield_blocked_events (
+            game_id, skill_key, rule_key, shield_effect_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{shieldEffectKey}
         )
     </insert>
 
@@ -1636,6 +1671,9 @@
           + (SELECT COUNT(1)
              FROM public.skill_trigger_rule_prior_result_bindings
              WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_spell_shield_blocked_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND shield_effect_key = #{effectKey})
     </select>
 
     <select id="listResultReferences" resultMap="referenceHit">
@@ -1702,9 +1740,19 @@
     </select>
 
     <select id="countLifecycleReferences" resultType="long">
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_lifecycle_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_spell_shield_blocked_events
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND shield_effect_key = #{effectKey})
+    </select>
+
+    <select id="countSpellShieldBlockedEventReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_trigger_rule_lifecycle_events
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+        FROM public.skill_trigger_rule_spell_shield_blocked_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND shield_effect_key = #{effectKey}
     </select>
 
     <select id="countProcessReferences" resultType="long">

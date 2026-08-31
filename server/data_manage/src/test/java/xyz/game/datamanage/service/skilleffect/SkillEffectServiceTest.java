@@ -101,6 +101,9 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
@@ -211,6 +214,112 @@ class SkillEffectServiceTest {
         );
         verify(mapper).insertStatusOperationDetail(
             GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
+        );
+    }
+
+    @Test
+    void createsPersistentSpellShieldAndBlockableDamage() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        SkillEffectResultRow shieldRow = new SkillEffectResultRow(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "spell_shield", "法术护盾",
+            SkillEffectResultType.SPELL_SHIELD, SkillEffectTarget.SOURCE, null, 0
+        );
+        SkillEffectResultRow damageRow = resultRow("physical_hit", SkillEffectResultType.DAMAGE);
+        stubDetailRead(
+            List.of(shieldRow, damageRow),
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical",
+                    SkillEffectDamageDeliveryKind.SKILL, SkillEffectDamageOriginKind.DIRECT
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            )
+        );
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "spell_shield",
+                SkillEffectLifecycleMoment.PERSISTENT, null, null, null, null
+            ),
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                null, null, null
+            )
+        ));
+        when(mapper.listSpellShieldPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSpellShieldPolicyRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+                SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+            )
+        ));
+
+        SkillEffectResultRequest shield = new SkillEffectResultRequest(
+            "spell_shield", "法术护盾", SkillEffectResultType.SPELL_SHIELD,
+            SkillEffectTarget.SOURCE, null, 0, null, new SkillEffectSpellShieldDetail(),
+            new SkillEffectResultLifecycleBehaviorRequest(
+                SkillEffectLifecycleMoment.PERSISTENT, null, null, null, null
+            ),
+            null
+        );
+        SkillEffectResultRequest damage = damageResult("physical_hit");
+        damage = new SkillEffectResultRequest(
+            damage.resultKey(), damage.name(), damage.resultType(), damage.target(),
+            damage.description(), damage.sortOrder(), damage.valueRule(), damage.detail(),
+            applicationSnapshot(), SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+        );
+
+        SkillEffectDetailResponse response = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY, "法术护盾", null, 10, timedLifecycle(), List.of(shield, damage)
+            )
+        );
+
+        assertInstanceOf(SkillEffectSpellShieldDetail.class, response.results().get(0).detail());
+        assertEquals(
+            SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE,
+            response.results().get(1).spellShieldBlockScope()
+        );
+        verify(mapper).insertSpellShieldPolicy(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
+            SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+        );
+        verify(mapper, never()).insertValue(
+            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("spell_shield"),
+            any(), any(), any(), any()
+        );
+    }
+
+    @Test
+    void rejectsDamageInstanceScopeForNonDamageResult() {
+        stubParentAndNewKey();
+        SkillEffectResultRequest result = new SkillEffectResultRequest(
+            "slow", "减速", SkillEffectResultType.ATTRIBUTE_CHANGE,
+            SkillEffectTarget.TARGET, null, 0, valueRule(),
+            new SkillEffectAttributeChangeDetail("move_speed", SkillEffectAttributeChangeOperation.DECREASE),
+            null,
+            SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+        );
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "减速", null, 0, List.of(result))
+            )
+        );
+
+        assertField(
+            exception,
+            "results[0].spellShieldBlockScope",
+            "INVALID_SPELL_SHIELD_SCOPE"
         );
     }
 

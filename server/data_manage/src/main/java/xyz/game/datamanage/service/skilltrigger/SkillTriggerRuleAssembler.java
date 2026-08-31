@@ -72,6 +72,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow;
 import xyz.game.datamanage.support.error.ApiException;
@@ -145,9 +147,11 @@ public class SkillTriggerRuleAssembler {
         SkillTriggerInternalStateEventRow internalStateEvent = mapper.findInternalStateEvent(gameId, skillKey, ruleKey);
         SkillTriggerSubjectEventRow subjectEvent = mapper.findSubjectEvent(gameId, skillKey, ruleKey);
         SkillTriggerDamageEventRow damageEvent = mapper.findDamageEvent(gameId, skillKey, ruleKey);
+        SkillTriggerSpellShieldBlockedEventRow spellShieldBlockedEvent =
+            mapper.findSpellShieldBlockedEvent(gameId, skillKey, ruleKey);
         int present = countPresent(
             processEvent, skillEvent, resultEvent, lifecycleEvent, statusEvent, healthEvent,
-            internalStateEvent, subjectEvent, damageEvent
+            internalStateEvent, subjectEvent, damageEvent, spellShieldBlockedEvent
         );
         return switch (eventType) {
             case PROCESS_MOMENT -> {
@@ -256,6 +260,17 @@ public class SkillTriggerRuleAssembler {
                         damageEvent.damageTypeKey(),
                         damageEvent.deliveryKind(),
                         damageEvent.originKind()
+                    )
+                );
+            }
+            case SPELL_SHIELD_BLOCKED -> {
+                if (spellShieldBlockedEvent == null || present != 1) {
+                    throw corrupt(gameId, skillKey, ruleKey, "法术护盾已阻挡事件明细形状损坏");
+                }
+                yield new SkillTriggerEventSource(
+                    eventType,
+                    new SkillTriggerSpellShieldBlockedEventDetail(
+                        spellShieldBlockedEvent.shieldEffectKey()
                     )
                 );
             }
