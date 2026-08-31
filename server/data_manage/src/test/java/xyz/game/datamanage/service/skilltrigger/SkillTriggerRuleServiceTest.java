@@ -788,14 +788,15 @@ class SkillTriggerRuleServiceTest {
     }
 
     @Test
-    void capabilitiesTableCoversAllEighteenEventsAndRejectsValueReached() {
-        assertEquals(18, SkillTriggerEventType.values().length);
-        assertEquals(18, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+    void capabilitiesTableCoversAllNineteenEventsAndRejectsValueReached() {
+        assertEquals(19, SkillTriggerEventType.values().length);
+        assertEquals(19, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_PENDING));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_TAKEN));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.STATUS_CHANGED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.CONTROL_RECEIVED));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.SPELL_SHIELD_BLOCKED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
             SkillTriggerEventType.DAMAGE_PENDING,
             xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER,
@@ -812,7 +813,8 @@ class SkillTriggerRuleServiceTest {
             if (type != SkillTriggerEventType.DAMAGE_PENDING
                 && type != SkillTriggerEventType.DAMAGE_TAKEN
                 && type != SkillTriggerEventType.STATUS_CHANGED
-                && type != SkillTriggerEventType.CONTROL_RECEIVED) {
+                && type != SkillTriggerEventType.CONTROL_RECEIVED
+                && type != SkillTriggerEventType.SPELL_SHIELD_BLOCKED) {
                 assertFalse(
                     xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(type),
                     () -> type + " must not expose EVENT_SOURCE"

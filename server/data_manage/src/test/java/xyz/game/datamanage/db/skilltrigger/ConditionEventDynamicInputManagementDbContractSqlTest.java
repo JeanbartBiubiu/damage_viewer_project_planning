@@ -326,6 +326,7 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
         String normalized = tableSql;
         if (tableName.equals("skill_trigger_rules")) {
             normalized = normalized.replace("'damage_pending', ", "");
+            normalized = normalized.replace(", 'spell_shield_blocked'", "");
         }
         if (tableName.equals("skill_trigger_rule_event_value_conditions")
             || tableName.equals("skill_trigger_rule_event_value_bindings")) {
@@ -350,6 +351,7 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
         List<String> migrationDetailTables = extractDetailTriggerTables(migrationSql);
         List<String> currentDetailTables = new ArrayList<>(DETAIL_TRIGGER_TABLES);
         currentDetailTables.add(8, "skill_trigger_rule_damage_events");
+        currentDetailTables.add(9, "skill_trigger_rule_spell_shield_blocked_events");
         assertEquals(currentDetailTables, triggerDetailTables);
         assertEquals(DETAIL_TRIGGER_TABLES, migrationDetailTables);
         assertTrue(triggersNormalized.contains("create constraint trigger trg_%i_complete_shape"));
@@ -468,7 +470,7 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             extraXml.removeAll(javaIds);
             return "mapper mismatch missingXml=" + missingXml + " extraXml=" + extraXml;
         });
-        assertEquals(110, javaIds.size());
+        assertEquals(113, javaIds.size());
     }
 
     private static String schemaRegion() {

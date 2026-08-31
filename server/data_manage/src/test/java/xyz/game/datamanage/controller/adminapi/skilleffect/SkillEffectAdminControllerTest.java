@@ -172,6 +172,7 @@ class SkillEffectAdminControllerTest {
                           "name":"物理伤害",
                           "resultType":"DAMAGE",
                           "target":"TARGET",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                           "detail":{"damageTypeKey":"physical"}
@@ -202,6 +203,7 @@ class SkillEffectAdminControllerTest {
                           "name":"物理伤害",
                           "resultType":"EXECUTE",
                           "target":"TARGET",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "detail":{"damageTypeKey":"physical"}
                         }
@@ -224,6 +226,7 @@ class SkillEffectAdminControllerTest {
                           "name":"增加攻击",
                           "resultType":"ATTRIBUTE_CHANGE",
                           "target":"SOURCE",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                           "detail":{"attributeKey":"ad","operation":"ADD"}
@@ -265,6 +268,7 @@ class SkillEffectAdminControllerTest {
                           "name":"刷新目标",
                           "resultType":"LIFECYCLE_OPERATION",
                           "target":"TARGET",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "lifecycleBehavior":{"moment":"APPLICATION"},
                           "detail":{"targetEffectKey":"mark_effect","operation":"REFRESH"}
@@ -311,6 +315,7 @@ class SkillEffectAdminControllerTest {
                           "name":"减少技能冷却",
                           "resultType":"COOLDOWN_CHANGE",
                           "target":"SOURCE",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                           "detail":{
@@ -349,6 +354,7 @@ class SkillEffectAdminControllerTest {
                           "name":"刷新目标",
                           "resultType":"LIFECYCLE_OPERATION",
                           "target":"TARGET",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "detail":{"targetEffectKey":"mark_effect","operation":"RESET"}
                         }
@@ -393,6 +399,7 @@ class SkillEffectAdminControllerTest {
                           "name":"物理伤害",
                           "resultType":"DAMAGE",
                           "target":"TARGET",
+                          "spellShieldBlockScope":null,
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                           "detail":{"damageTypeKey":"physical","attributeKey":"ad","statusKey":"poison","targetEffectKey":"mark_effect"}
@@ -465,6 +472,7 @@ class SkillEffectAdminControllerTest {
                   "name":"物理伤害",
                   "resultType":"DAMAGE",
                   "target":"TARGET",
+                  "spellShieldBlockScope":null,
                   "sortOrder":0,
                   "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                   "detail":{
@@ -492,6 +500,7 @@ class SkillEffectAdminControllerTest {
                   "name":"物理伤害",
                   "resultType":"DAMAGE",
                   "target":"TARGET",
+                  "spellShieldBlockScope":null,
                   "sortOrder":0,
                   "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                   "detail":{
