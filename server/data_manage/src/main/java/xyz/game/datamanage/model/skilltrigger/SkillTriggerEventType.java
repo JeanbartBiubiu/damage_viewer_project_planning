@@ -8,6 +8,7 @@ public enum SkillTriggerEventType {
     PROCESS_MOMENT,
     RESULT_AVAILABLE,
     LIFECYCLE_MOMENT,
+    DAMAGE_PENDING,
     DAMAGE_DEALT,
     DAMAGE_TAKEN,
     STATUS_CHANGED,

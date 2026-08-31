@@ -6,6 +6,7 @@ public record SkillEffectAttributeChangeDetailRow(
     String effectKey,
     String resultKey,
     String attributeKey,
-    SkillEffectAttributeChangeOperation operation
+    SkillEffectAttributeChangeOperation operation,
+    String modifierZoneKey
 ) {
 }

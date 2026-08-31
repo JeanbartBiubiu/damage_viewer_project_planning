@@ -39,9 +39,18 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
@@ -80,6 +89,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -375,6 +386,18 @@ public class SkillEffectService {
             effectKey,
             mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers = indexDamageModifiers(
+            gameId, skillKey, effectKey, mapper.listDamageModifierDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers = indexHealingModifiers(
+            gameId, skillKey, effectKey, mapper.listHealingModifierDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities = indexDamageImmunities(
+            gameId, skillKey, effectKey, mapper.listDamageImmunityDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectHealthFloorDetailRow> healthFloors = indexHealthFloors(
+            gameId, skillKey, effectKey, mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
             skillKey,
@@ -428,6 +451,10 @@ public class SkillEffectService {
                 criticalPolicies,
                 vampRules,
                 normalShields,
+                damageModifiers,
+                healingModifiers,
+                damageImmunities,
+                healthFloors,
                 attributes,
                 resources,
                 cooldowns,
@@ -461,6 +488,10 @@ public class SkillEffectService {
         Map<String, SkillEffectCriticalPolicyRow> criticalPolicies,
         Map<String, List<SkillEffectVampRuleRow>> vampRules,
         Map<String, SkillEffectNormalShieldInteractionRow> normalShields,
+        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers,
+        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers,
+        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities,
+        Map<String, SkillEffectHealthFloorDetailRow> healthFloors,
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
@@ -475,6 +506,10 @@ public class SkillEffectService {
         SkillEffectCriticalPolicyRow criticalRow = criticalPolicies.get(resultKey);
         List<SkillEffectVampRuleRow> vampRows = vampRules.getOrDefault(resultKey, List.of());
         SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
+        SkillEffectDamageModifierDetailRow damageModifierRow = damageModifiers.get(resultKey);
+        SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
+        SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
+        SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
         SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
@@ -484,6 +519,10 @@ public class SkillEffectService {
         int extraDetails = countPresent(
             damageRow,
             normalShieldRow,
+            damageModifierRow,
+            healingModifierRow,
+            damageImmunityRow,
+            healthFloorRow,
             attributeRow,
             resourceRow,
             cooldownRow,
@@ -549,7 +588,8 @@ public class SkillEffectService {
                     toValueRule(value),
                     new SkillEffectAttributeChangeDetail(
                         attributeRow.attributeKey(),
-                        attributeRow.operation()
+                        attributeRow.operation(),
+                        attributeRow.modifierZoneKey()
                     )
                 );
             }
@@ -628,6 +668,59 @@ public class SkillEffectService {
                     );
                 }
                 throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期操作损坏");
+            }
+            case DAMAGE_MODIFIER -> {
+                if (value == null || damageModifierRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害修正结果形状损坏");
+                }
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectDamageModifierDetail(
+                        damageModifierRow.modifierZoneKey(),
+                        damageModifierRow.direction(),
+                        damageModifierRow.operation(),
+                        damageModifierRow.damageTypeKey(),
+                        damageModifierRow.deliveryKind(),
+                        damageModifierRow.originKind(),
+                        damageModifierRow.criticalFilter()
+                    )
+                );
+            }
+            case HEALING_MODIFIER -> {
+                if (value == null || healingModifierRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "治疗修正结果形状损坏");
+                }
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectHealingModifierDetail(
+                        healingModifierRow.modifierZoneKey(),
+                        healingModifierRow.direction(),
+                        healingModifierRow.operation(),
+                        healingModifierRow.healingKind()
+                    )
+                );
+            }
+            case DAMAGE_IMMUNITY -> {
+                if (value != null || damageImmunityRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害免疫结果形状损坏");
+                }
+                yield new AssembledResultPayload(
+                    null,
+                    new SkillEffectDamageImmunityDetail(
+                        damageImmunityRow.damageTypeKey(),
+                        damageImmunityRow.deliveryKind(),
+                        damageImmunityRow.originKind()
+                    )
+                );
+            }
+            case HEALTH_FLOOR -> {
+                if (value == null || healthFloorRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "生命下限结果形状损坏");
+                }
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectHealthFloorDetail(healthFloorRow.attributeKey())
+                );
             }
         };
         return new SkillEffectResultResponse(
@@ -720,8 +813,9 @@ public class SkillEffectService {
                 issues,
                 bodyIssues
             );
-            validateLifecycleBehavior(lifecycle, result, i, issues);
+            validateLifecycleBehavior(lifecycle, result, i, refs, issues);
             validateNormalShieldLifecycle(lifecycle, result, i, issues);
+            validatePersistentSpecialResultLifecycle(lifecycle, result, i, issues);
             if (result != null && result.lifecycleBehavior() != null) {
                 if (result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERIODIC) {
                     hasPeriodic = true;
@@ -788,7 +882,149 @@ public class SkillEffectService {
                 refs,
                 issues
             );
+            case DAMAGE_MODIFIER -> validateDamageModifier(result, index, retained, refs, issues);
+            case HEALING_MODIFIER -> validateHealingModifier(result, index, retained, refs, issues);
+            case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
+            case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
         }
+    }
+
+    private void validateDamageModifier(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectDamageModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "伤害修正明细形状不合法"));
+            return;
+        }
+        if (detail.direction() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.direction"), "REQUIRED", "作用方向不能为空"));
+        }
+        if (detail.operation() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
+        }
+        collectModifierZoneRef(
+            result,
+            index,
+            detail.modifierZoneKey(),
+            ModifierZoneDomain.DAMAGE,
+            retained,
+            refs,
+            issues,
+            true
+        );
+        validateOptionalInteractionDamageType(result, index, detail.damageTypeKey(), retained, refs, issues);
+        if (detail.deliveryKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.deliveryKind"), "REQUIRED", "伤害产生方式不能为空"));
+        }
+        if (detail.originKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.originKind"), "REQUIRED", "伤害来源性质不能为空"));
+        }
+        if (detail.criticalFilter() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.criticalFilter"), "REQUIRED", "暴击过滤不能为空"));
+        }
+    }
+
+    private void validateHealingModifier(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectHealingModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "治疗修正明细形状不合法"));
+            return;
+        }
+        if (detail.direction() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.direction"), "REQUIRED", "作用方向不能为空"));
+        }
+        if (detail.operation() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
+        }
+        collectModifierZoneRef(
+            result,
+            index,
+            detail.modifierZoneKey(),
+            ModifierZoneDomain.HEALING,
+            retained,
+            refs,
+            issues,
+            true
+        );
+        if (detail.healingKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.healingKind"), "REQUIRED", "治疗种类不能为空"));
+        }
+    }
+
+    private void validateDamageImmunity(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        forbidValueRule(result, index, issues);
+        if (!(result.detail() instanceof SkillEffectDamageImmunityDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "伤害免疫明细形状不合法"));
+            return;
+        }
+        validateOptionalInteractionDamageType(result, index, detail.damageTypeKey(), retained, refs, issues);
+        if (detail.deliveryKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.deliveryKind"), "REQUIRED", "伤害产生方式不能为空"));
+        }
+        if (detail.originKind() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.originKind"), "REQUIRED", "伤害来源性质不能为空"));
+        }
+    }
+
+    private void validateOptionalInteractionDamageType(
+        SkillEffectResultRequest result,
+        int index,
+        String damageTypeKey,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        if (damageTypeKey == null || damageTypeKey.isBlank()) {
+            return;
+        }
+        refs.interactionDamageTypes.add(new CatalogRef(
+            resultPath(index, "detail.damageTypeKey"),
+            damageTypeKey,
+            isRetained(retained, result.resultKey(), CatalogKind.DAMAGE_TYPE, damageTypeKey)
+        ));
+        refs.damageTypeKeys.add(damageTypeKey);
+    }
+
+    private void validateHealthFloor(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectHealthFloorDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "生命下限明细形状不合法"));
+            return;
+        }
+        String attributeKey = detail.attributeKey();
+        if (attributeKey == null || attributeKey.isBlank()) {
+            issues.add(fieldIssue(resultPath(index, "detail.attributeKey"), "REQUIRED", "生命属性不能为空"));
+            return;
+        }
+        refs.attributes.add(new CatalogRef(
+            resultPath(index, "detail.attributeKey"),
+            attributeKey,
+            isRetained(retained, result.resultKey(), CatalogKind.ATTRIBUTE, attributeKey)
+        ));
+        refs.attributeKeys.add(attributeKey);
     }
 
     private void collectMutexFields(
@@ -999,6 +1235,19 @@ public class SkillEffectService {
         if (detail.operation() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "属性变化操作不能为空"));
         }
+        boolean persistentAdjustment = detail.operation() != SkillEffectAttributeChangeOperation.SET
+            && result.lifecycleBehavior() != null
+            && result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERSISTENT;
+        collectModifierZoneRef(
+            result,
+            index,
+            detail.modifierZoneKey(),
+            ModifierZoneDomain.ATTRIBUTE,
+            retained,
+            refs,
+            issues,
+            persistentAdjustment
+        );
         String attributeKey = detail.attributeKey();
         if (attributeKey == null || attributeKey.isBlank()) {
             issues.add(fieldIssue(resultPath(index, "detail.attributeKey"), "REQUIRED", "属性不能为空"));
@@ -1010,6 +1259,36 @@ public class SkillEffectService {
             isRetained(retained, result.resultKey(), CatalogKind.ATTRIBUTE, attributeKey)
         ));
         refs.attributeKeys.add(attributeKey);
+    }
+
+    private static void collectModifierZoneRef(
+        SkillEffectResultRequest result,
+        int index,
+        String modifierZoneKey,
+        ModifierZoneDomain expectedDomain,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues,
+        boolean required
+    ) {
+        String path = resultPath(index, "detail.modifierZoneKey");
+        if (modifierZoneKey == null || modifierZoneKey.isBlank()) {
+            if (required) {
+                issues.add(fieldIssue(path, "REQUIRED", "乘区不能为空"));
+            }
+            return;
+        }
+        if (!required) {
+            issues.add(fieldIssue(path, "FORBIDDEN", "该结果不能选择乘区"));
+            return;
+        }
+        refs.modifierZones.add(new ModifierZoneRef(
+            path,
+            modifierZoneKey,
+            expectedDomain,
+            isRetained(retained, result.resultKey(), CatalogKind.MODIFIER_ZONE, modifierZoneKey)
+        ));
+        refs.modifierZoneKeys.add(modifierZoneKey);
     }
 
     private void validateResourceChange(
@@ -1277,6 +1556,7 @@ public class SkillEffectService {
         SkillEffectLifecycleRequest lifecycle,
         SkillEffectResultRequest result,
         int index,
+        CollectedRefs refs,
         List<Map<String, String>> issues
     ) {
         if (result == null) {
@@ -1313,13 +1593,30 @@ public class SkillEffectService {
                     "REQUIRED",
                     "有数值规则时必须选择读取方式"
                 ));
-            } else if ((behavior.moment() == SkillEffectLifecycleMoment.APPLICATION
-                    || behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT)
+            } else if (behavior.moment() == SkillEffectLifecycleMoment.APPLICATION
                 && behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT) {
                 issues.add(fieldIssue(
                     resultPath(index, "lifecycleBehavior.valueReadMode"),
                     "COMBINATION_INVALID",
-                    "施加时和持续生效数值只允许施加快照"
+                    "施加时数值只允许施加快照"
+                ));
+            } else if (behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT
+                && behavior.valueReadMode() == SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION
+                && !supportsMomentEvaluation(result)) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.valueReadMode"),
+                    "COMBINATION_INVALID",
+                    "该持续结果不支持按当前时点读取数值"
+                ));
+            }
+            if (behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT
+                && behavior.valueReadMode() == SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION
+                && result.valueRule().formulaKey() != null
+                && !result.valueRule().formulaKey().isBlank()) {
+                refs.dynamicFormulas.add(new CatalogRef(
+                    resultPath(index, "valueRule.formulaKey"),
+                    result.valueRule().formulaKey(),
+                    true
                 ));
             }
         } else if (behavior.valueReadMode() != null) {
@@ -1363,6 +1660,17 @@ public class SkillEffectService {
         }
     }
 
+    private static boolean supportsMomentEvaluation(SkillEffectResultRequest result) {
+        if (result.resultType() == SkillEffectResultType.DAMAGE_MODIFIER
+            || result.resultType() == SkillEffectResultType.HEALING_MODIFIER) {
+            return true;
+        }
+        return result.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE
+            && result.detail() instanceof SkillEffectAttributeChangeDetail detail
+            && detail.operation() != null
+            && detail.operation() != SkillEffectAttributeChangeOperation.SET;
+    }
+
     private void validatePersistentBehavior(
         SkillEffectResultRequest result,
         int index,
@@ -1375,21 +1683,25 @@ public class SkillEffectService {
             && statusDetail.operation() == SkillEffectStatusOperation.APPLY;
         boolean allowed = type == SkillEffectResultType.NORMAL_SHIELD
             || type == SkillEffectResultType.ATTRIBUTE_CHANGE
+            || type == SkillEffectResultType.DAMAGE_MODIFIER
+            || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.DAMAGE_IMMUNITY
+            || type == SkillEffectResultType.HEALTH_FLOOR
             || statusApply;
         if (!allowed) {
             issues.add(fieldIssue(
                 resultPath(index, "lifecycleBehavior.moment"),
                 "COMBINATION_INVALID",
-                "持续生效只允许普通护盾、属性变化和状态施加"
+                "该结果不支持持续生效"
             ));
             return;
         }
-        if (statusApply) {
+        if (statusApply || type == SkillEffectResultType.DAMAGE_IMMUNITY) {
             if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
                 issues.add(fieldIssue(
                     resultPath(index, "lifecycleBehavior.stackValueMode"),
                     "FORBIDDEN",
-                    "持续状态施加不能设置层数和值合并"
+                    "该持续结果不能设置层数和值合并"
                 ));
             }
             return;
@@ -1402,14 +1714,27 @@ public class SkillEffectService {
             ));
             return;
         }
+        boolean momentEvaluation = behavior.valueReadMode()
+            == SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION;
+        if (momentEvaluation) {
+            if (behavior.reapplicationValueMode() != null) {
+                issues.add(fieldIssue(
+                    resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
+                    "FORBIDDEN",
+                    "按当前时点读取数值时不能设置重复施加值合并"
+                ));
+            }
+            return;
+        }
         boolean attributeSet = type == SkillEffectResultType.ATTRIBUTE_CHANGE
             && result.detail() instanceof SkillEffectAttributeChangeDetail attributeDetail
             && attributeDetail.operation() == SkillEffectAttributeChangeOperation.SET;
-        if (attributeSet && behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
+        boolean sharedOnly = attributeSet || type == SkillEffectResultType.HEALTH_FLOOR;
+        if (sharedOnly && behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
             issues.add(fieldIssue(
                 resultPath(index, "lifecycleBehavior.stackValueMode"),
                 "COMBINATION_INVALID",
-                "属性覆盖只允许共享数值"
+                "该结果只允许整个实例共享数值"
             ));
         }
         if (behavior.stackValueMode() == SkillEffectLifecycleStackValueMode.PER_STACK) {
@@ -1430,12 +1755,47 @@ public class SkillEffectService {
             ));
             return;
         }
-        if (attributeSet
+        if (sharedOnly
             && behavior.reapplicationValueMode() == SkillEffectLifecycleReapplicationValueMode.ADD) {
             issues.add(fieldIssue(
                 resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
                 "COMBINATION_INVALID",
-                "属性覆盖不能使用重复相加"
+                "该结果不能使用重复相加"
+            ));
+        }
+    }
+
+    private void validatePersistentSpecialResultLifecycle(
+        SkillEffectLifecycleRequest lifecycle,
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        if (result == null || result.resultType() == null) {
+            return;
+        }
+        SkillEffectResultType type = result.resultType();
+        boolean special = type == SkillEffectResultType.DAMAGE_MODIFIER
+            || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.DAMAGE_IMMUNITY
+            || type == SkillEffectResultType.HEALTH_FLOOR;
+        if (!special) {
+            return;
+        }
+        if (lifecycle == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior"),
+                "SPECIAL_RESULT_REQUIRES_PERSISTENT",
+                "持续修正与保护结果必须配置生命周期"
+            ));
+            return;
+        }
+        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+        if (behavior == null || behavior.moment() != SkillEffectLifecycleMoment.PERSISTENT) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.moment"),
+                "SPECIAL_RESULT_REQUIRES_PERSISTENT",
+                "持续修正与保护结果必须持续生效"
             ));
         }
     }
@@ -1494,7 +1854,8 @@ public class SkillEffectService {
         int index,
         List<Map<String, String>> issues
     ) {
-        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION
+            || result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY) {
             forbidValueRule(result, index, issues);
             return;
         }
@@ -1579,6 +1940,15 @@ public class SkillEffectService {
         Map<String, String> attributes = lockCatalog(refs.attributeKeys, keys -> mapper.lockAttributes(gameId, keys));
         Map<String, String> skills = lockCatalog(refs.skillKeys, keys -> mapper.lockSkills(gameId, keys));
         Map<String, String> statuses = lockCatalog(refs.statusKeys, keys -> mapper.lockStatuses(gameId, keys));
+        Map<String, SkillEffectModifierZoneLockRow> modifierZones = lockModifierZones(
+            gameId,
+            refs.modifierZoneKeys
+        );
+        Set<String> runtimeInputFormulaKeys = listRuntimeInputFormulaKeys(
+            gameId,
+            skillKey,
+            refs.dynamicFormulas
+        );
         Set<String> targetEffects = lockEffectKeys(gameId, skillKey, targetLockKeys(refs.targetEffectKeys, currentEffectKey));
         Map<String, SkillEffectLifecycleRow> targetLifecycles = lockTargetLifecycles(
             gameId,
@@ -1613,6 +1983,16 @@ public class SkillEffectService {
         addUnknown(unknown, refs.attributes, attributes.keySet(), "UNKNOWN_ATTRIBUTE", "属性不存在或不属于当前游戏");
         addUnknown(unknown, refs.skills, skills.keySet(), "UNKNOWN_SKILL", "技能不存在或不属于当前游戏");
         addUnknown(unknown, refs.statuses, statuses.keySet(), "UNKNOWN_STATUS", "状态不存在或不属于当前游戏");
+        addModifierZoneReferenceIssues(unknown, refs.modifierZones, modifierZones);
+        for (CatalogRef ref : refs.dynamicFormulas) {
+            if (runtimeInputFormulaKeys.contains(ref.key())) {
+                unknown.add(fieldIssue(
+                    ref.path(),
+                    "RUNTIME_INPUT_FORBIDDEN",
+                    "按当前时点读取的修正公式不能使用动态输入参数"
+                ));
+            }
+        }
         addTargetEffectIssues(unknown, refs.targetEffects, currentEffectKey, targetEffects, targetLifecycles);
         if (!unknown.isEmpty()) {
             unknown.sort(Comparator.comparing(issue -> issue.get("field")));
@@ -1636,6 +2016,7 @@ public class SkillEffectService {
         addDisabled(disabled, refs.attributes, attributes, "ATTRIBUTE_DISABLED", "不能新增停用属性引用");
         addDisabled(disabled, refs.skills, skills, "SKILL_DISABLED", "不能新增停用技能引用");
         addDisabled(disabled, refs.statuses, statuses, "STATUS_DISABLED", "不能新增停用状态引用");
+        addDisabledModifierZones(disabled, refs.modifierZones, modifierZones);
         if (!disabled.isEmpty()) {
             disabled.sort(Comparator.comparing(issue -> issue.get("field")));
             throw new ApiException(
@@ -1670,6 +2051,38 @@ public class SkillEffectService {
             found.put(row.refKey(), row.status());
         }
         return found;
+    }
+
+    private Map<String, SkillEffectModifierZoneLockRow> lockModifierZones(
+        String gameId,
+        Set<String> keys
+    ) {
+        if (keys.isEmpty()) {
+            return Map.of();
+        }
+        List<String> lockKeys = new ArrayList<>(keys);
+        lockKeys.sort(String::compareTo);
+        Map<String, SkillEffectModifierZoneLockRow> found = new LinkedHashMap<>();
+        for (SkillEffectModifierZoneLockRow row : nullToEmpty(mapper.lockModifierZones(gameId, lockKeys))) {
+            found.put(row.modifierZoneKey(), row);
+        }
+        return found;
+    }
+
+    private Set<String> listRuntimeInputFormulaKeys(
+        String gameId,
+        String skillKey,
+        List<CatalogRef> refs
+    ) {
+        if (refs.isEmpty()) {
+            return Set.of();
+        }
+        List<String> keys = refs.stream()
+            .map(CatalogRef::key)
+            .distinct()
+            .sorted()
+            .toList();
+        return new HashSet<>(nullToEmpty(mapper.listRuntimeInputFormulaKeys(gameId, skillKey, keys)));
     }
 
     private void insertResults(
@@ -1789,7 +2202,8 @@ public class SkillEffectService {
                 effectKey,
                 result.resultKey(),
                 detail.attributeKey(),
-                detail.operation()
+                detail.operation(),
+                detail.modifierZoneKey()
             );
             case SkillEffectResourceChangeDetail detail -> mapper.insertResourceChangeDetail(
                 gameId,
@@ -1834,6 +2248,22 @@ public class SkillEffectService {
                 result.resultKey(),
                 detail.absorbedDamageTypeKey(),
                 detail.decayMode()
+            );
+            case SkillEffectDamageModifierDetail detail -> mapper.insertDamageModifierDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
+                detail.direction(), detail.operation(),
+                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind(), detail.criticalFilter()
+            );
+            case SkillEffectHealingModifierDetail detail -> mapper.insertHealingModifierDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
+                detail.direction(), detail.operation(), detail.healingKind()
+            );
+            case SkillEffectDamageImmunityDetail detail -> mapper.insertDamageImmunityDetail(
+                gameId, skillKey, effectKey, result.resultKey(),
+                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind()
+            );
+            case SkillEffectHealthFloorDetail detail -> mapper.insertHealthFloorDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
@@ -1882,7 +2312,8 @@ public class SkillEffectService {
                 effectKey,
                 result.resultKey(),
                 detail.attributeKey(),
-                detail.operation()
+                detail.operation(),
+                detail.modifierZoneKey()
             );
             case SkillEffectResourceChangeDetail detail -> mapper.updateResourceChangeDetail(
                 gameId,
@@ -1928,6 +2359,22 @@ public class SkillEffectService {
                 result.resultKey(),
                 detail.absorbedDamageTypeKey(),
                 detail.decayMode()
+            );
+            case SkillEffectDamageModifierDetail detail -> mapper.updateDamageModifierDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
+                detail.direction(), detail.operation(),
+                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind(), detail.criticalFilter()
+            );
+            case SkillEffectHealingModifierDetail detail -> mapper.updateHealingModifierDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
+                detail.direction(), detail.operation(), detail.healingKind()
+            );
+            case SkillEffectDamageImmunityDetail detail -> mapper.updateDamageImmunityDetail(
+                gameId, skillKey, effectKey, result.resultKey(),
+                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind()
+            );
+            case SkillEffectHealthFloorDetail detail -> mapper.updateHealthFloorDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
@@ -1992,6 +2439,30 @@ public class SkillEffectService {
             effectKey,
             mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers = indexDamageModifiers(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listDamageModifierDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers = indexHealingModifiers(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listHealingModifierDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities = indexDamageImmunities(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listDamageImmunityDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectHealthFloorDetailRow> healthFloors = indexHealthFloors(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
             skillKey,
@@ -2033,6 +2504,10 @@ public class SkillEffectService {
             SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
             SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
             SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
+            SkillEffectDamageModifierDetailRow damageModifierRow = damageModifiers.get(resultKey);
+            SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
+            SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
+            SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
             Set<String> retainedDamageTypes = new LinkedHashSet<>();
             if (damageRow != null && damageRow.damageTypeKey() != null) {
                 retainedDamageTypes.add(damageRow.damageTypeKey());
@@ -2040,13 +2515,26 @@ public class SkillEffectService {
             if (normalShieldRow != null && normalShieldRow.absorbedDamageTypeKey() != null) {
                 retainedDamageTypes.add(normalShieldRow.absorbedDamageTypeKey());
             }
+            if (damageModifierRow != null && damageModifierRow.damageTypeKey() != null) {
+                retainedDamageTypes.add(damageModifierRow.damageTypeKey());
+            }
+            if (damageImmunityRow != null && damageImmunityRow.damageTypeKey() != null) {
+                retainedDamageTypes.add(damageImmunityRow.damageTypeKey());
+            }
             retained.put(resultKey, new RetainedCatalog(
                 Set.copyOf(retainedDamageTypes),
                 attributeRow == null
-                    ? (resourceRow == null ? null : resourceRow.attributeKey())
+                    ? (resourceRow == null
+                        ? (healthFloorRow == null ? null : healthFloorRow.attributeKey())
+                        : resourceRow.attributeKey())
                     : attributeRow.attributeKey(),
                 cooldownRow == null ? Set.of() : Set.copyOf(cooldownTargets.getOrDefault(resultKey, List.of())),
-                statusRow == null ? null : statusRow.statusKey()
+                statusRow == null ? null : statusRow.statusKey(),
+                attributeRow != null && attributeRow.modifierZoneKey() != null
+                    ? attributeRow.modifierZoneKey()
+                    : (damageModifierRow != null
+                        ? damageModifierRow.modifierZoneKey()
+                        : (healingModifierRow == null ? null : healingModifierRow.modifierZoneKey()))
             ));
         }
         return new ExistingCatalog(values, retained, behaviors);
@@ -2154,6 +2642,66 @@ public class SkillEffectService {
         for (SkillEffectNormalShieldInteractionRow row : nullToEmpty(rows)) {
             if (indexed.put(row.resultKey(), row) != null) {
                 throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "普通护盾交互重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectDamageModifierDetailRow> indexDamageModifiers(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectDamageModifierDetailRow> rows
+    ) {
+        Map<String, SkillEffectDamageModifierDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectDamageModifierDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害修正明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectHealingModifierDetailRow> indexHealingModifiers(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectHealingModifierDetailRow> rows
+    ) {
+        Map<String, SkillEffectHealingModifierDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectHealingModifierDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "治疗修正明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectDamageImmunityDetailRow> indexDamageImmunities(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectDamageImmunityDetailRow> rows
+    ) {
+        Map<String, SkillEffectDamageImmunityDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectDamageImmunityDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害免疫明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectHealthFloorDetailRow> indexHealthFloors(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectHealthFloorDetailRow> rows
+    ) {
+        Map<String, SkillEffectHealthFloorDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectHealthFloorDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命下限明细重复");
             }
         }
         return indexed;
@@ -2283,6 +2831,7 @@ public class SkillEffectService {
             case ATTRIBUTE -> Objects.equals(catalog.attributeKey(), value);
             case SKILL -> catalog.affectedSkillKeys().contains(value);
             case STATUS -> Objects.equals(catalog.statusKey(), value);
+            case MODIFIER_ZONE -> Objects.equals(catalog.modifierZoneKey(), value);
         };
     }
 
@@ -2314,6 +2863,38 @@ public class SkillEffectService {
             }
             if (DISABLED.equals(statusByKey.get(ref.key()))) {
                 issues.add(fieldIssue(ref.path(), code, message));
+            }
+        }
+    }
+
+    private static void addModifierZoneReferenceIssues(
+        List<Map<String, String>> issues,
+        List<ModifierZoneRef> refs,
+        Map<String, SkillEffectModifierZoneLockRow> zones
+    ) {
+        for (ModifierZoneRef ref : refs) {
+            SkillEffectModifierZoneLockRow zone = zones.get(ref.key());
+            if (zone == null) {
+                issues.add(fieldIssue(ref.path(), "UNKNOWN_MODIFIER_ZONE", "乘区不存在或不属于当前游戏"));
+            } else if (zone.domain() != ref.expectedDomain()) {
+                issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DOMAIN_MISMATCH", "乘区作用域与结果种类不一致"));
+            }
+        }
+    }
+
+    private static void addDisabledModifierZones(
+        List<Map<String, String>> issues,
+        List<ModifierZoneRef> refs,
+        Map<String, SkillEffectModifierZoneLockRow> zones
+    ) {
+        Set<String> reported = new HashSet<>();
+        for (ModifierZoneRef ref : refs) {
+            if (ref.retainedOrExempt() || !reported.add(ref.path())) {
+                continue;
+            }
+            SkillEffectModifierZoneLockRow zone = zones.get(ref.key());
+            if (zone != null && zone.status() == ModifierZoneStatus.DISABLED) {
+                issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DISABLED", "不能新增停用乘区引用"));
             }
         }
     }
@@ -2771,6 +3352,7 @@ public class SkillEffectService {
 
     private static final class CollectedRefs {
         private final List<CatalogRef> formulas = new ArrayList<>();
+        private final List<CatalogRef> dynamicFormulas = new ArrayList<>();
         private final List<CatalogRef> interactionFormulas = new ArrayList<>();
         private final List<CatalogRef> lifecycleFormulas = new ArrayList<>();
         private final List<CatalogRef> damageTypes = new ArrayList<>();
@@ -2778,16 +3360,26 @@ public class SkillEffectService {
         private final List<CatalogRef> attributes = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> statuses = new ArrayList<>();
+        private final List<ModifierZoneRef> modifierZones = new ArrayList<>();
         private final List<TargetEffectRef> targetEffects = new ArrayList<>();
         private final LinkedHashSet<String> formulaKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> damageTypeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> attributeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> skillKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> statusKeys = new LinkedHashSet<>();
+        private final LinkedHashSet<String> modifierZoneKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> targetEffectKeys = new LinkedHashSet<>();
     }
 
     private record CatalogRef(String path, String key, boolean retainedOrExempt) {
+    }
+
+    private record ModifierZoneRef(
+        String path,
+        String key,
+        ModifierZoneDomain expectedDomain,
+        boolean retainedOrExempt
+    ) {
     }
 
     private record TargetEffectRef(String path, String key, boolean refresh, boolean selfReference) {
@@ -2797,7 +3389,8 @@ public class SkillEffectService {
         Set<String> damageTypeKeys,
         String attributeKey,
         Set<String> affectedSkillKeys,
-        String statusKey
+        String statusKey,
+        String modifierZoneKey
     ) {
     }
 
@@ -2818,7 +3411,8 @@ public class SkillEffectService {
         DAMAGE_TYPE,
         ATTRIBUTE,
         SKILL,
-        STATUS
+        STATUS,
+        MODIFIER_ZONE
     }
 
     @FunctionalInterface

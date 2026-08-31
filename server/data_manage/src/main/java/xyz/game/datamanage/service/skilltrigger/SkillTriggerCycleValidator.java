@@ -217,7 +217,7 @@ public class SkillTriggerCycleValidator {
             case ENTITY_DIED -> subjectEvent == null
                 ? EventFilter.none(rule.eventType())
                 : EventFilter.entityDied(subjectEvent.subject());
-            case DAMAGE_DEALT, DAMAGE_TAKEN -> damageEvent == null
+            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageEvent == null
                 ? EventFilter.none(rule.eventType())
                 : EventFilter.damage(
                     rule.eventType(),
@@ -386,6 +386,12 @@ public class SkillTriggerCycleValidator {
                 produced.add(ProducedEvent.entityDied(SkillTriggerSubject.CURRENT_TARGET));
             } else if (row.target() == SkillEffectTarget.SOURCE) {
                 produced.add(ProducedEvent.damage(
+                    SkillTriggerEventType.DAMAGE_PENDING,
+                    row.damageTypeKey(),
+                    row.damageDeliveryKind(),
+                    row.damageOriginKind()
+                ));
+                produced.add(ProducedEvent.damage(
                     SkillTriggerEventType.DAMAGE_TAKEN,
                     row.damageTypeKey(),
                     row.damageDeliveryKind(),
@@ -457,7 +463,7 @@ public class SkillTriggerCycleValidator {
                 && produced.direction() == filter.direction()
                 && (produced.attributeKey() == null || Objects.equals(produced.attributeKey(), filter.attributeKey()));
             case ENTITY_DIED -> produced.subject() == filter.subject();
-            case DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
+            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
             case KILL -> true;
             default -> false;
         };

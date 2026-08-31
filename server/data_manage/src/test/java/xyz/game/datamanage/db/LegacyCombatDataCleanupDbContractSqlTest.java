@@ -44,6 +44,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_formulas",
         "skill_formula_nodes",
         "damage_types",
+        "modifier_zones",
         "statuses",
         "skill_effects",
         "skill_effect_results",
@@ -52,6 +53,10 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effect_result_critical_policies",
         "skill_effect_result_vamp_rules",
         "skill_effect_result_normal_shield_interactions",
+        "skill_effect_damage_modifier_details",
+        "skill_effect_healing_modifier_details",
+        "skill_effect_damage_immunity_details",
+        "skill_effect_health_floor_details",
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
@@ -229,15 +234,15 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     @Test
-    void schemaDefinesExactlyTheCurrentSeventySixParentTables() {
+    void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(49, KEEP_PARENTS.size());
+        assertEquals(54, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
         assertEquals(27, STAGE_7_5_PARENTS.size());
-        assertEquals(76, expected.size());
+        assertEquals(81, expected.size());
         assertEquals(expected, created);
-        assertEquals(76, created.size());
+        assertEquals(81, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -290,7 +295,12 @@ class LegacyCombatDataCleanupDbContractSqlTest {
                 "skill_effect_cooldown_change_targets",
                 "skill_effect_result_critical_policies",
                 "skill_effect_result_vamp_rules",
-                "skill_effect_result_normal_shield_interactions"
+                "skill_effect_result_normal_shield_interactions",
+                "skill_effect_damage_modifier_details",
+                "skill_effect_healing_modifier_details",
+                "skill_effect_damage_immunity_details",
+                "skill_effect_health_floor_details",
+                "modifier_zones"
             ).contains(table))
             .toList();
         assertEquals(45, historicalKeepParents.size());
