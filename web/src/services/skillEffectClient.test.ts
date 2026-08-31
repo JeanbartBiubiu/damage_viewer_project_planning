@@ -314,4 +314,102 @@ describe('skillEffectClient', () => {
       }]
     })).toThrow(/effect\.results\[0\]\.detail\.decayMode/);
   });
+
+  it('parses persistent modifiers, damage immunity and health floor as typed results', () => {
+    const lifecycleBehavior = {
+      moment: 'PERSISTENT',
+      valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: 'KEEP',
+      periodicExecutionMode: null
+    };
+    const valueRule = {
+      formulaKey: 'damage',
+      fixedMultiplier: 1,
+      fixedMinValue: null,
+      fixedMaxValue: null
+    };
+    const parsed = parseSkillEffect({
+      ...detail,
+      lifecycle: {
+        durationFormulaKey: null,
+        maxStacksFormulaKey: 'one',
+        applicationStacksFormulaKey: 'one',
+        instanceScope: 'SOURCE_TARGET',
+        reapplicationStackMode: 'KEEP',
+        reapplicationDurationMode: null,
+        expiryMode: 'EXPLICIT_ONLY',
+        periodicIntervalFormulaKey: null,
+        firstPeriodicExecution: null
+      },
+      results: [
+        {
+          ...damageResult,
+          resultKey: 'damage_modifier',
+          resultType: 'DAMAGE_MODIFIER',
+          lifecycleBehavior,
+          valueRule,
+          detail: {
+            direction: 'TAKEN',
+            operation: 'DECREASE',
+            damageTypeKey: 'physical',
+            deliveryKind: 'SKILL',
+            originKind: 'DIRECT',
+            criticalFilter: 'NON_CRITICAL_ONLY'
+          }
+        },
+        {
+          ...damageResult,
+          resultKey: 'healing_modifier',
+          resultType: 'HEALING_MODIFIER',
+          lifecycleBehavior,
+          valueRule,
+          detail: {
+            direction: 'RECEIVED',
+            operation: 'DECREASE',
+            healingKind: 'VAMP'
+          }
+        },
+        {
+          ...damageResult,
+          resultKey: 'damage_immunity',
+          resultType: 'DAMAGE_IMMUNITY',
+          lifecycleBehavior: {
+            ...lifecycleBehavior,
+            valueReadMode: null,
+            stackValueMode: null,
+            reapplicationValueMode: null
+          },
+          valueRule: null,
+          detail: {
+            damageTypeKey: null,
+            deliveryKind: 'ANY',
+            originKind: 'REFLECTED'
+          }
+        },
+        {
+          ...damageResult,
+          resultKey: 'health_floor',
+          resultType: 'HEALTH_FLOOR',
+          lifecycleBehavior,
+          valueRule,
+          detail: { attributeKey: 'hp' }
+        }
+      ]
+    });
+
+    expect(parsed.results.map((item) => item.resultType)).toEqual([
+      'DAMAGE_MODIFIER',
+      'HEALING_MODIFIER',
+      'DAMAGE_IMMUNITY',
+      'HEALTH_FLOOR'
+    ]);
+    expect(parsed.results[0]).toMatchObject({
+      detail: { criticalFilter: 'NON_CRITICAL_ONLY' }
+    });
+    expect(parsed.results[2]).toMatchObject({
+      valueRule: null,
+      detail: { originKind: 'REFLECTED' }
+    });
+  });
 });

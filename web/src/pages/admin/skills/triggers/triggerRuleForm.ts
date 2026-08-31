@@ -124,6 +124,7 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'PROCESS_MOMENT',
   'RESULT_AVAILABLE',
   'LIFECYCLE_MOMENT',
+  'DAMAGE_PENDING',
   'DAMAGE_DEALT',
   'DAMAGE_TAKEN',
   'STATUS_CHANGED',
@@ -176,7 +177,11 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'STATE_AFTER',
   'ATTRIBUTE_BEFORE',
   'ATTRIBUTE_AFTER',
-  'THRESHOLD_VALUE'
+  'THRESHOLD_VALUE',
+  'RAW_DAMAGE',
+  'POST_DEFENSE_DAMAGE',
+  'HEALTH_BEFORE',
+  'PROJECTED_HEALTH_AFTER'
 ] as const satisfies readonly SkillTriggerEventValueKey[];
 
 export const SKILL_TRIGGER_COMPARATORS = [
@@ -223,6 +228,7 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   PROCESS_MOMENT: '当前技能过程到达固定时点',
   RESULT_AVAILABLE: '当前技能某个无生命周期基础结果到达可用时点',
   LIFECYCLE_MOMENT: '当前技能生命周期到达离散时点',
+  DAMAGE_PENDING: '即将受到伤害',
   DAMAGE_DEALT: '来源对象造成伤害',
   DAMAGE_TAKEN: '来源对象受到伤害',
   STATUS_CHANGED: '指定对象的战斗状态施加或移除',
@@ -293,6 +299,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     hasEventSource: false,
     requiredCatalogs: ['effects'],
     detailFields: ['effectKey', 'moment']
+  },
+  DAMAGE_PENDING: {
+    eventType: 'DAMAGE_PENDING',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.DAMAGE_PENDING,
+    currentTargetBinding: '技能拥有者自身。',
+    hasEventSource: true,
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
   },
   DAMAGE_DEALT: {
     eventType: 'DAMAGE_DEALT',
@@ -388,7 +402,11 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   STATE_AFTER: '数值内部状态变化后值',
   ATTRIBUTE_BEFORE: '生命属性越阈值前值',
   ATTRIBUTE_AFTER: '生命属性越阈值后值',
-  THRESHOLD_VALUE: '本次阈值公式值'
+  THRESHOLD_VALUE: '本次阈值公式值',
+  RAW_DAMAGE: '原始伤害',
+  POST_DEFENSE_DAMAGE: '防御后伤害',
+  HEALTH_BEFORE: '受伤前生命',
+  PROJECTED_HEALTH_AFTER: '预计受伤后生命'
 } as const satisfies { [K in SkillTriggerEventValueKey]: string };
 
 export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
@@ -403,7 +421,11 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   STATE_AFTER: 'INTEGER',
   ATTRIBUTE_BEFORE: 'DECIMAL',
   ATTRIBUTE_AFTER: 'DECIMAL',
-  THRESHOLD_VALUE: 'DECIMAL'
+  THRESHOLD_VALUE: 'DECIMAL',
+  RAW_DAMAGE: 'DECIMAL',
+  POST_DEFENSE_DAMAGE: 'DECIMAL',
+  HEALTH_BEFORE: 'DECIMAL',
+  PROJECTED_HEALTH_AFTER: 'DECIMAL'
 } as const satisfies { [K in SkillTriggerEventValueKey]: SkillTriggerValueDomain };
 
 export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
@@ -746,6 +768,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
       return { eventType, detail: emptyEventDetail() };
     case 'BASIC_ATTACK_HIT':
       return { eventType, detail: emptyEventDetail() };
+    case 'DAMAGE_PENDING':
     case 'DAMAGE_DEALT':
     case 'DAMAGE_TAKEN':
       return {
@@ -1061,6 +1084,8 @@ export function allowedEventValuesFor(
   stepType: SkillProcessStepType | null = null
 ): SkillTriggerEventValueKey[] {
   switch (eventSource.eventType) {
+    case 'DAMAGE_PENDING':
+      return ['RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'];
     case 'BASIC_ATTACK_HIT':
     case 'SKILL_HIT':
       return ['HIT_INDEX'];
@@ -2548,7 +2573,8 @@ export function validateSkillTriggerDraft(
     }
   }
   if (
-    draft.eventSource.eventType === 'DAMAGE_DEALT'
+    draft.eventSource.eventType === 'DAMAGE_PENDING'
+    || draft.eventSource.eventType === 'DAMAGE_DEALT'
     || draft.eventSource.eventType === 'DAMAGE_TAKEN'
   ) {
     const detail = draft.eventSource.detail;
@@ -2732,8 +2758,11 @@ export function validateSkillTriggerDraft(
           )
         : false;
     if (reflected) {
-      if (draft.eventSource.eventType !== 'DAMAGE_TAKEN') {
-        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由受到伤害事件触发。');
+      if (
+        draft.eventSource.eventType !== 'DAMAGE_PENDING'
+        && draft.eventSource.eventType !== 'DAMAGE_TAKEN'
+      ) {
+        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由即将受到伤害或受到伤害事件触发。');
       }
       if (action.targetContext !== 'EVENT_SOURCE') {
         pushError(
@@ -2742,7 +2771,10 @@ export function validateSkillTriggerDraft(
           '反伤效果必须作用于事件来源对象。'
         );
       }
-      const directOnly = draft.eventSource.eventType === 'DAMAGE_TAKEN'
+      const directOnly = (
+        draft.eventSource.eventType === 'DAMAGE_PENDING'
+        || draft.eventSource.eventType === 'DAMAGE_TAKEN'
+      )
         && draft.eventSource.detail.originKind === 'DIRECT';
       if (!directOnly && !draft.perTargetCooldownEnabled) {
         pushError(

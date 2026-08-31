@@ -1761,6 +1761,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           </Form.Item>
         </>
       );
+    case 'DAMAGE_PENDING':
     case 'DAMAGE_DEALT':
     case 'DAMAGE_TAKEN': {
       const eventType = eventSource.eventType;

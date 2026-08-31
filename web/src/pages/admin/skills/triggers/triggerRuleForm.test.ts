@@ -123,6 +123,14 @@ const EVENT_CAPABILITY_ROWS = [
     detailFields: ['effectKey', 'moment']
   },
   {
+    eventType: 'DAMAGE_PENDING',
+    label: '即将受到伤害',
+    currentTargetBinding: '技能拥有者自身。',
+    hasEventSource: true,
+    requiredCatalogs: ['damageTypes'],
+    detailFields: ['damageTypeKey', 'deliveryKind', 'originKind']
+  },
+  {
     eventType: 'DAMAGE_DEALT',
     label: '来源对象造成伤害',
     currentTargetBinding: '本次伤害承受对象。',
@@ -369,8 +377,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 17 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(17);
+  it('exposes exactly 18 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(18);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -437,17 +445,28 @@ describe('trigger event member set and capability table', () => {
       'STATE_AFTER',
       'ATTRIBUTE_BEFORE',
       'ATTRIBUTE_AFTER',
-      'THRESHOLD_VALUE'
+      'THRESHOLD_VALUE',
+      'RAW_DAMAGE',
+      'POST_DEFENSE_DAMAGE',
+      'HEALTH_BEFORE',
+      'PROJECTED_HEALTH_AFTER'
     ]);
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.HIT_INDEX).toBe('INTEGER');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.CHARGE_DURATION_MS).toBe('DECIMAL');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.THRESHOLD_VALUE).toBe('DECIMAL');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.PROJECTED_HEALTH_AFTER).toBe('DECIMAL');
 
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_PENDING'))).toEqual([
+      'RAW_DAMAGE',
+      'POST_DEFENSE_DAMAGE',
+      'HEALTH_BEFORE',
+      'PROJECTED_HEALTH_AFTER'
+    ]);
     expect(allowedEventValuesFor(createEmptyEventSource('HEALTH_THRESHOLD_CROSSED'))).toEqual([
       'ATTRIBUTE_BEFORE',
       'ATTRIBUTE_AFTER',
