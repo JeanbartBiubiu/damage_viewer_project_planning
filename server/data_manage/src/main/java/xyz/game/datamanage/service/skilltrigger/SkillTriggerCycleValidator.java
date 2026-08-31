@@ -440,6 +440,9 @@ public class SkillTriggerCycleValidator {
                 ));
             }
         }
+        if (row.spellShieldBlockScope() != null) {
+            produced.add(ProducedEvent.wide(SkillTriggerEventType.SPELL_SHIELD_BLOCKED));
+        }
         return produced;
     }
 
@@ -465,6 +468,7 @@ public class SkillTriggerCycleValidator {
             case ENTITY_DIED -> produced.subject() == filter.subject();
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
             case KILL -> true;
+            case SPELL_SHIELD_BLOCKED -> true;
             default -> false;
         };
     }

@@ -12,5 +12,6 @@ public enum SkillEffectResultType {
     DAMAGE_MODIFIER,
     HEALING_MODIFIER,
     DAMAGE_IMMUNITY,
-    HEALTH_FLOOR
+    HEALTH_FLOOR,
+    SPELL_SHIELD
 }

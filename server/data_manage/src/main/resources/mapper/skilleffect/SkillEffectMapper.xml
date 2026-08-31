@@ -71,6 +71,16 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="spellShieldPolicyRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="block_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="criticalPolicyRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -411,6 +421,37 @@
 
     <delete id="deleteValue">
         DELETE FROM public.skill_effect_result_values
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </delete>
+
+    <select id="listSpellShieldPolicies" resultMap="spellShieldPolicyRow">
+        SELECT game_id, skill_key, effect_key, result_key, block_scope
+        FROM public.skill_effect_result_spell_shield_policies
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertSpellShieldPolicy">
+        INSERT INTO public.skill_effect_result_spell_shield_policies (
+            game_id, skill_key, effect_key, result_key, block_scope
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{blockScope}
+        )
+    </insert>
+
+    <update id="updateSpellShieldPolicy">
+        UPDATE public.skill_effect_result_spell_shield_policies
+        SET block_scope = #{blockScope}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <delete id="deleteSpellShieldPolicy">
+        DELETE FROM public.skill_effect_result_spell_shield_policies
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}

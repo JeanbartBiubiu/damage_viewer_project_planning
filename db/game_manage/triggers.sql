@@ -66,6 +66,9 @@ DECLARE
     v_effect_key varchar(64);
     v_result_key varchar(64);
     v_result_type varchar(24);
+    v_target varchar(16);
+    v_result_moment varchar(24);
+    v_spell_shield_block_scope varchar(24);
     v_cooldown_operation varchar(16);
     v_lifecycle_operation varchar(24);
     v_modifier_zone_domain varchar(16);
@@ -85,6 +88,7 @@ DECLARE
     v_cooldown_target_count int;
     v_status_count int;
     v_lifecycle_op_count int;
+    v_spell_shield_policy_count int;
 BEGIN
     IF TG_TABLE_NAME = 'skill_effect_results' THEN
         IF TG_OP = 'DELETE' THEN
@@ -95,6 +99,7 @@ BEGIN
         v_effect_key := NEW.effect_key;
         v_result_key := NEW.result_key;
         v_result_type := NEW.result_type;
+        v_target := NEW.target;
     ELSE
         IF TG_OP = 'DELETE' THEN
             v_game_id := OLD.game_id;
@@ -107,8 +112,8 @@ BEGIN
             v_effect_key := NEW.effect_key;
             v_result_key := NEW.result_key;
         END IF;
-        SELECT r.result_type
-          INTO v_result_type
+        SELECT r.result_type, r.target
+          INTO v_result_type, v_target
           FROM public.skill_effect_results r
          WHERE r.game_id = v_game_id
            AND r.skill_key = v_skill_key
@@ -203,6 +208,20 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
+    SELECT COUNT(*), max(p.block_scope)
+      INTO v_spell_shield_policy_count, v_spell_shield_block_scope
+      FROM public.skill_effect_result_spell_shield_policies p
+     WHERE p.game_id = v_game_id
+       AND p.skill_key = v_skill_key
+       AND p.effect_key = v_effect_key
+       AND p.result_key = v_result_key;
+    SELECT b.moment
+      INTO v_result_moment
+      FROM public.skill_effect_result_lifecycle_behaviors b
+     WHERE b.game_id = v_game_id
+       AND b.skill_key = v_skill_key
+       AND b.effect_key = v_effect_key
+       AND b.result_key = v_result_key;
 
     IF v_result_type = 'DAMAGE' THEN
         IF v_value_count <> 1
@@ -444,11 +463,37 @@ BEGIN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALTH_FLOOR shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
+    ELSIF v_result_type = 'SPELL_SHIELD' THEN
+        IF v_value_count <> 0
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count + v_special_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) SPELL_SHIELD shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
     ELSE
         RAISE EXCEPTION
             'skill_effect_results(%, %, %, %) has unsupported result_type %',
             v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
             USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF v_spell_shield_policy_count > 0 THEN
+        IF v_target IS DISTINCT FROM 'TARGET'
+            OR v_result_moment = 'PERSISTENT'
+            OR v_result_type NOT IN (
+                'DAMAGE', 'ATTRIBUTE_CHANGE', 'RESOURCE_CHANGE',
+                'COOLDOWN_CHANGE', 'STATUS_OPERATION', 'LIFECYCLE_OPERATION'
+            )
+            OR (
+                v_spell_shield_block_scope = 'DAMAGE_INSTANCE'
+                AND v_result_type <> 'DAMAGE'
+            ) THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) spell shield block scope invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
     END IF;
 
     RETURN COALESCE(NEW, OLD);
@@ -475,6 +520,7 @@ DECLARE
         'skill_effect_result_critical_policies',
         'skill_effect_result_vamp_rules',
         'skill_effect_result_normal_shield_interactions',
+        'skill_effect_result_spell_shield_policies',
         'skill_effect_damage_modifier_details',
         'skill_effect_healing_modifier_details',
         'skill_effect_damage_immunity_details',
@@ -621,7 +667,7 @@ BEGIN
                AND r.effect_key = v_effect_key
                AND r.result_type IN (
                    'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-                   'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+                   'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
                )
         ) THEN
             RAISE EXCEPTION
@@ -638,6 +684,18 @@ BEGIN
         ) THEN
             RAISE EXCEPTION
                 'skill_effects(%, %, %) lifecycle aggregate invalid at commit: behaviors without lifecycle',
+                v_game_id, v_skill_key, v_effect_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+        IF EXISTS (
+            SELECT 1
+              FROM public.skill_trigger_rule_spell_shield_blocked_events e
+             WHERE e.game_id = v_game_id
+               AND e.skill_key = v_skill_key
+               AND e.shield_effect_key = v_effect_key
+        ) THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: referenced spell shield requires lifecycle',
                 v_game_id, v_skill_key, v_effect_key
                 USING ERRCODE = 'check_violation';
         END IF;
@@ -689,7 +747,7 @@ BEGIN
 
         IF v_result.result_type IN (
                 'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-                'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+                'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
             )
             AND v_moment IS DISTINCT FROM 'PERSISTENT' THEN
             RAISE EXCEPTION
@@ -701,14 +759,15 @@ BEGIN
         IF v_moment = 'PERSISTENT' THEN
             IF v_result.result_type NOT IN (
                 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION',
-                'DAMAGE_MODIFIER', 'HEALING_MODIFIER', 'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+                'DAMAGE_MODIFIER', 'HEALING_MODIFIER', 'DAMAGE_IMMUNITY', 'HEALTH_FLOOR',
+                'SPELL_SHIELD'
             ) THEN
                 RAISE EXCEPTION
                     'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
                     v_game_id, v_skill_key, v_effect_key, v_result.result_key
                     USING ERRCODE = 'check_violation';
             END IF;
-            IF v_result.result_type IN ('STATUS_OPERATION', 'DAMAGE_IMMUNITY') THEN
+            IF v_result.result_type IN ('STATUS_OPERATION', 'DAMAGE_IMMUNITY', 'SPELL_SHIELD') THEN
                 IF v_result.result_type = 'STATUS_OPERATION' THEN
                 SELECT d.operation
                   INTO v_status_operation
@@ -841,6 +900,20 @@ BEGIN
             END IF;
         END IF;
 
+        IF v_moment = 'PERSISTENT' AND EXISTS (
+            SELECT 1
+              FROM public.skill_effect_result_spell_shield_policies p
+             WHERE p.game_id = v_game_id
+               AND p.skill_key = v_skill_key
+               AND p.effect_key = v_effect_key
+               AND p.result_key = v_result.result_key
+        ) THEN
+            RAISE EXCEPTION
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: persistent result % cannot be spell-shield blockable',
+                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+
         IF v_value_count > 0 THEN
             IF v_value_read_mode IS NULL THEN
                 RAISE EXCEPTION
@@ -942,6 +1015,32 @@ BEGIN
     ELSIF v_periodic_interval_formula_key IS NOT NULL OR v_first_periodic_execution IS NOT NULL THEN
         RAISE EXCEPTION
             'skill_effects(%, %, %) lifecycle aggregate invalid at commit: periodic fields must be empty',
+            v_game_id, v_skill_key, v_effect_key
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF EXISTS (
+        SELECT 1
+          FROM public.skill_trigger_rule_spell_shield_blocked_events e
+         WHERE e.game_id = v_game_id
+           AND e.skill_key = v_skill_key
+           AND e.shield_effect_key = v_effect_key
+    ) AND NOT EXISTS (
+        SELECT 1
+          FROM public.skill_effect_results r
+          JOIN public.skill_effect_result_lifecycle_behaviors b
+            ON b.game_id = r.game_id
+           AND b.skill_key = r.skill_key
+           AND b.effect_key = r.effect_key
+           AND b.result_key = r.result_key
+         WHERE r.game_id = v_game_id
+           AND r.skill_key = v_skill_key
+           AND r.effect_key = v_effect_key
+           AND r.result_type = 'SPELL_SHIELD'
+           AND b.moment = 'PERSISTENT'
+    ) THEN
+        RAISE EXCEPTION
+            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: referenced spell shield result missing',
             v_game_id, v_skill_key, v_effect_key
             USING ERRCODE = 'check_violation';
     END IF;
@@ -1739,6 +1838,8 @@ DECLARE
     v_istate_event_count int;
     v_subject_event_count int;
     v_damage_event_count int;
+    v_spell_shield_event_count int;
+    v_event_detail_count int;
     v_action_count int;
     v_fail_count int;
     v_group record;
@@ -1825,67 +1926,41 @@ BEGIN
     SELECT COUNT(*) INTO v_damage_event_count
     FROM public.skill_trigger_rule_damage_events
     WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_spell_shield_event_count
+    FROM public.skill_trigger_rule_spell_shield_blocked_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+
+    v_event_detail_count := v_process_event_count + v_skill_event_count + v_result_event_count
+        + v_lifecycle_event_count + v_status_event_count + v_health_event_count
+        + v_istate_event_count + v_subject_event_count + v_damage_event_count
+        + v_spell_shield_event_count;
 
     v_expected_detail := CASE
         WHEN v_event_type IN ('PROCESS_MOMENT', 'PROCESS_CANCEL_REQUESTED') THEN
-            CASE WHEN v_process_event_count = 1
-                AND v_skill_event_count + v_result_event_count + v_lifecycle_event_count
-                    + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_process_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type IN ('SKILL_USED', 'SKILL_HIT') THEN
-            CASE WHEN v_skill_event_count = 1
-                AND v_process_event_count + v_result_event_count + v_lifecycle_event_count
-                    + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_skill_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'RESULT_AVAILABLE' THEN
-            CASE WHEN v_result_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_lifecycle_event_count
-                    + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_result_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'LIFECYCLE_MOMENT' THEN
-            CASE WHEN v_lifecycle_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_status_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_lifecycle_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'STATUS_CHANGED' THEN
-            CASE WHEN v_status_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_health_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_status_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'HEALTH_THRESHOLD_CROSSED' THEN
-            CASE WHEN v_health_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_status_event_count + v_istate_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_health_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'INTERNAL_STATE_CHANGED' THEN
-            CASE WHEN v_istate_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_istate_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type IN ('ENTITY_DIED', 'ENTITY_UNTARGETABLE') THEN
-            CASE WHEN v_subject_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_istate_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_subject_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type IN ('DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN') THEN
-            CASE WHEN v_damage_event_count = 1
-                AND v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_istate_event_count + v_subject_event_count = 0
-            THEN 1 ELSE 0 END
-        ELSE
-            CASE WHEN v_process_event_count + v_skill_event_count + v_result_event_count
-                    + v_lifecycle_event_count + v_status_event_count + v_health_event_count
-                    + v_istate_event_count + v_subject_event_count + v_damage_event_count = 0
-            THEN 1 ELSE 0 END
+            CASE WHEN v_damage_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
+        WHEN v_event_type = 'SPELL_SHIELD_BLOCKED' THEN
+            CASE WHEN v_spell_shield_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
+        WHEN v_event_type IN (
+            'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'CONTROL_RECEIVED', 'KILL'
+        ) THEN
+            CASE WHEN v_event_detail_count = 0 THEN 1 ELSE 0 END
+        ELSE 0
     END;
 
     IF v_expected_detail = 0 THEN
@@ -1993,6 +2068,30 @@ BEGIN
             AND (v_lifecycle.duration_formula_key IS NULL OR v_lifecycle.expiry_mode = 'EXPLICIT_ONLY') THEN
             RAISE EXCEPTION
                 'skill_trigger_rules(%, %, %) NATURAL_END requires duration and non-explicit expiry at commit',
+                v_game_id, v_skill_key, v_skill_trigger_rule_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_event_type = 'SPELL_SHIELD_BLOCKED' THEN
+        IF NOT EXISTS (
+            SELECT 1
+              FROM public.skill_trigger_rule_spell_shield_blocked_events e
+              JOIN public.skill_effect_results r
+                ON r.game_id = e.game_id
+               AND r.skill_key = e.skill_key
+               AND r.effect_key = e.shield_effect_key
+              JOIN public.skill_effect_result_lifecycle_behaviors b
+                ON b.game_id = r.game_id
+               AND b.skill_key = r.skill_key
+               AND b.effect_key = r.effect_key
+               AND b.result_key = r.result_key
+             WHERE e.game_id = v_game_id
+               AND e.skill_key = v_skill_key
+               AND e.rule_key = v_skill_trigger_rule_key
+               AND r.result_type = 'SPELL_SHIELD'
+               AND b.moment = 'PERSISTENT'
+        ) THEN
+            RAISE EXCEPTION
+                'skill_trigger_rules(%, %, %) SPELL_SHIELD_BLOCKED requires a persistent spell shield effect at commit',
                 v_game_id, v_skill_key, v_skill_trigger_rule_key
                 USING ERRCODE = 'check_violation';
         END IF;
@@ -2362,6 +2461,7 @@ DECLARE
         'skill_trigger_rule_internal_state_events',
         'skill_trigger_rule_subject_events',
         'skill_trigger_rule_damage_events',
+        'skill_trigger_rule_spell_shield_blocked_events',
         'skill_trigger_rule_condition_groups',
         'skill_trigger_rule_conditions',
         'skill_trigger_rule_attribute_conditions',
