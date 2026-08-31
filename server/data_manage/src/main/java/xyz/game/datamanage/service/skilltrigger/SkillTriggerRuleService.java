@@ -108,6 +108,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
@@ -329,6 +330,14 @@ public class SkillTriggerRuleService {
                 "生命周期仍被触发规则引用，不能移除"
             ));
         }
+        if (mapper.countSpellShieldBlockedEventReferences(gameId, skillKey, effectKey) > 0
+            && !isEligibleSpellShieldEffect(candidateLifecycle, candidateResults)) {
+            inUse.add(fieldIssue(
+                "results",
+                "TRIGGER_RULE_SPELL_SHIELD_EVENT_IN_USE",
+                "效果仍被法术护盾已阻挡事件引用，必须保留持续生效的法术护盾结果"
+            ));
+        }
         if (!inUse.isEmpty()) {
             inUse.sort(Comparator.comparing(issue -> issue.get("field")));
             throw effectInUse(inUse);
@@ -342,6 +351,25 @@ public class SkillTriggerRuleService {
             shapeIssues.sort(Comparator.comparing(issue -> issue.get("field")));
             throw effectInUse(shapeIssues);
         }
+    }
+
+    private static boolean isEligibleSpellShieldEffect(
+        SkillEffectLifecycleRequest lifecycle,
+        List<SkillEffectResultRequest> results
+    ) {
+        if (lifecycle == null || results == null) {
+            return false;
+        }
+        return results.stream().anyMatch(result -> result != null
+            && result.resultType() == SkillEffectResultType.SPELL_SHIELD
+            && result.lifecycleBehavior() != null
+            && result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERSISTENT);
+    }
+
+    private static boolean isEligibleSpellShieldEffect(List<SkillTriggerEffectShapeRow> results) {
+        return results.stream().anyMatch(result -> result.hasLifecycle()
+            && result.resultType() == SkillEffectResultType.SPELL_SHIELD
+            && result.resultMoment() == SkillEffectLifecycleMoment.PERSISTENT);
     }
 
     private void assertInteractionFormulaCompatibility(
@@ -1076,6 +1104,15 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue("eventSource.detail.originKind", "REQUIRED", "伤害来源性质筛选不能为空"));
                 }
             }
+            case SPELL_SHIELD_BLOCKED -> {
+                if (!(detail instanceof SkillTriggerSpellShieldBlockedEventDetail shield)) {
+                    issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "法术护盾已阻挡事件明细形状不合法"));
+                    return;
+                }
+                if (shield.shieldEffectKey() == null) {
+                    issues.add(fieldIssue("eventSource.detail.shieldEffectKey", "REQUIRED", "法术护盾效果不能为空"));
+                }
+            }
             case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
                 if (!(detail instanceof SkillTriggerEmptyEventDetail)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "该事件明细必须为空对象"));
@@ -1614,6 +1651,17 @@ public class SkillTriggerRuleService {
                     ));
                 }
             }
+            case SPELL_SHIELD_BLOCKED -> {
+                SkillTriggerSpellShieldBlockedEventDetail detail =
+                    (SkillTriggerSpellShieldBlockedEventDetail) eventSource.detail();
+                if (!isEligibleSpellShieldEffect(effectShapes.getOrDefault(detail.shieldEffectKey(), List.of()))) {
+                    issues.add(fieldIssue(
+                        "eventSource.detail.shieldEffectKey",
+                        "REFERENCE_TYPE_MISMATCH",
+                        "目标效果必须包含持续生效的法术护盾结果"
+                    ));
+                }
+            }
             case INTERNAL_STATE_CHANGED -> {
                 SkillTriggerInternalStateEventDetail detail =
                     (SkillTriggerInternalStateEventDetail) eventSource.detail();
@@ -2093,6 +2141,14 @@ public class SkillTriggerRuleService {
                 SkillTriggerLifecycleEventDetail detail = (SkillTriggerLifecycleEventDetail) eventSource.detail();
                 refs.addEffect(new CatalogRef("eventSource.detail.effectKey", detail.effectKey()));
             }
+            case SPELL_SHIELD_BLOCKED -> {
+                SkillTriggerSpellShieldBlockedEventDetail detail =
+                    (SkillTriggerSpellShieldBlockedEventDetail) eventSource.detail();
+                refs.addEffect(new CatalogRef(
+                    "eventSource.detail.shieldEffectKey",
+                    detail.shieldEffectKey()
+                ));
+            }
             case STATUS_CHANGED -> {
                 SkillTriggerStatusEventDetail detail = (SkillTriggerStatusEventDetail) eventSource.detail();
                 refs.addStatus(new CatalogRef("eventSource.detail.statusKey", detail.statusKey()));
@@ -2393,6 +2449,16 @@ public class SkillTriggerRuleService {
                     detail.damageTypeKey(),
                     detail.deliveryKind().name(),
                     detail.originKind().name()
+                );
+            }
+            case SPELL_SHIELD_BLOCKED -> {
+                SkillTriggerSpellShieldBlockedEventDetail detail =
+                    (SkillTriggerSpellShieldBlockedEventDetail) eventSource.detail();
+                mapper.insertSpellShieldBlockedEvent(
+                    gameId,
+                    skillKey,
+                    ruleKey,
+                    detail.shieldEffectKey()
                 );
             }
             default -> {

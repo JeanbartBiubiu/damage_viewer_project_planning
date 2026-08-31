@@ -52,6 +52,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
@@ -184,6 +186,35 @@ public interface SkillEffectMapper {
     );
 
     int deleteValue(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey
+    );
+
+    List<SkillEffectSpellShieldPolicyRow> listSpellShieldPolicies(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertSpellShieldPolicy(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("blockScope") SkillEffectSpellShieldBlockScope blockScope
+    );
+
+    int updateSpellShieldPolicy(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("blockScope") SkillEffectSpellShieldBlockScope blockScope
+    );
+
+    int deleteSpellShieldPolicy(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
