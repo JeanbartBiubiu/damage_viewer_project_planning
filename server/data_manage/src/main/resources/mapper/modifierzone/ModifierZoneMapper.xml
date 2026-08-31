@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.modifierzone.ModifierZoneMapper">
+
+    <resultMap id="response" type="xyz.game.datamanage.model.modifierzone.ModifierZoneResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="modifier_zone_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="domain" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneDomain"/>
+            <arg column="calculation_mode" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode"/>
+            <arg column="application_stage" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneApplicationStage"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="columns">
+        game_id, modifier_zone_key, name, domain, calculation_mode, application_stage,
+        description, status, sort_order, created_at, updated_at
+    </sql>
+
+    <select id="list" resultMap="response">
+        SELECT <include refid="columns"/>
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(modifier_zone_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="domain != null">
+            AND domain = #{domain}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        ORDER BY sort_order ASC, name ASC, modifier_zone_key ASC
+    </select>
+
+    <select id="findById" resultMap="response">
+        SELECT <include refid="columns"/>
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="response">
+        SELECT <include refid="columns"/>
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+        FOR UPDATE
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeModifierZoneKey != null">
+            AND modifier_zone_key &lt;&gt; #{excludeModifierZoneKey}
+        </if>
+    </select>
+
+    <select id="countAttributeReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_attribute_change_details
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
+    <select id="countDamageReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_damage_modifier_details
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
+    <select id="countHealingReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effect_healing_modifier_details
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.modifier_zones (
+            game_id, modifier_zone_key, name, domain, calculation_mode,
+            application_stage, description, status, sort_order
+        ) VALUES (
+            #{gameId}, #{modifierZoneKey}, #{name}, #{domain}, #{calculationMode},
+            #{applicationStage}, #{description}, #{status}, #{sortOrder}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.modifier_zones
+        SET name = #{name},
+            domain = #{domain},
+            calculation_mode = #{calculationMode},
+            application_stage = #{applicationStage},
+            description = #{description},
+            status = #{status},
+            sort_order = #{sortOrder},
+            updated_at = now()
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM public.modifier_zones
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </delete>
+</mapper>

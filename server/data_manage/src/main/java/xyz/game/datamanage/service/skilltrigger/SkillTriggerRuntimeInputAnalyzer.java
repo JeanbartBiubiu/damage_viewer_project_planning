@@ -54,6 +54,28 @@ public class SkillTriggerRuntimeInputAnalyzer {
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
         Map<String, ? extends Collection<String>> interactionFormulaOverrides
     ) {
+        return reachableRuntimeParameters(
+            gameId,
+            skillKey,
+            actionType,
+            targetKey,
+            effectsByKey,
+            processesByKey,
+            interactionFormulaOverrides,
+            Map.of()
+        );
+    }
+
+    public Map<String, SkillParameterValueType> reachableRuntimeParameters(
+        String gameId,
+        String skillKey,
+        SkillTriggerActionType actionType,
+        String targetKey,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
+        Map<String, ? extends Collection<String>> resultValueFormulaOverrides
+    ) {
         Set<String> formulaKeys = new LinkedHashSet<>();
         if (actionType == SkillTriggerActionType.EXECUTE_EFFECT) {
             collectEffectFormulas(
@@ -62,6 +84,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
                 targetKey,
                 effectsByKey,
                 interactionFormulaOverrides,
+                resultValueFormulaOverrides,
                 formulaKeys
             );
         } else if (actionType == SkillTriggerActionType.START_PROCESS) {
@@ -72,6 +95,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
                 effectsByKey,
                 processesByKey,
                 interactionFormulaOverrides,
+                resultValueFormulaOverrides,
                 formulaKeys,
                 new LinkedHashSet<>()
             );
@@ -100,18 +124,26 @@ public class SkillTriggerRuntimeInputAnalyzer {
         String effectKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, ? extends Collection<String>> interactionFormulaOverrides,
+        Map<String, ? extends Collection<String>> resultValueFormulaOverrides,
         Set<String> formulaKeys
     ) {
         List<SkillTriggerEffectShapeRow> results = effectsByKey.getOrDefault(effectKey, List.of());
         boolean lifecycleFormulasCollected = false;
         for (SkillTriggerEffectShapeRow row : results) {
-            addFormula(formulaKeys, row.valueFormulaKey());
+            if (!resultValueFormulaOverrides.containsKey(effectKey)) {
+                addFormula(formulaKeys, row.valueFormulaKey());
+            }
             if (!lifecycleFormulasCollected && row.hasLifecycle()) {
                 addFormula(formulaKeys, row.durationFormulaKey());
                 addFormula(formulaKeys, row.maxStacksFormulaKey());
                 addFormula(formulaKeys, row.applicationStacksFormulaKey());
                 addFormula(formulaKeys, row.periodicIntervalFormulaKey());
                 lifecycleFormulasCollected = true;
+            }
+        }
+        if (resultValueFormulaOverrides.containsKey(effectKey)) {
+            for (String formulaKey : nullToEmpty(resultValueFormulaOverrides.get(effectKey))) {
+                addFormula(formulaKeys, formulaKey);
             }
         }
         Collection<String> interactionFormulas = interactionFormulaOverrides.containsKey(effectKey)
@@ -129,6 +161,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
         Map<String, ? extends Collection<String>> interactionFormulaOverrides,
+        Map<String, ? extends Collection<String>> resultValueFormulaOverrides,
         Set<String> formulaKeys,
         Set<String> visitedEffects
     ) {
@@ -160,6 +193,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
                     row.bindingEffectKey(),
                     effectsByKey,
                     interactionFormulaOverrides,
+                    resultValueFormulaOverrides,
                     formulaKeys
                 );
             }

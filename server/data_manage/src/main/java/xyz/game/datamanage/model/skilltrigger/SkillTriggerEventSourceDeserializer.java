@@ -28,7 +28,7 @@ public final class SkillTriggerEventSourceDeserializer extends JsonDeserializer<
                 case HEALTH_THRESHOLD_CROSSED -> SkillTriggerHealthThresholdEventDetail.class;
                 case INTERNAL_STATE_CHANGED -> SkillTriggerInternalStateEventDetail.class;
                 case ENTITY_DIED, ENTITY_UNTARGETABLE -> SkillTriggerSubjectEventDetail.class;
-                case DAMAGE_DEALT, DAMAGE_TAKEN -> SkillTriggerDamageEventDetail.class;
+                case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> SkillTriggerDamageEventDetail.class;
                 case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL ->
                     SkillTriggerEmptyEventDetail.class;
             };

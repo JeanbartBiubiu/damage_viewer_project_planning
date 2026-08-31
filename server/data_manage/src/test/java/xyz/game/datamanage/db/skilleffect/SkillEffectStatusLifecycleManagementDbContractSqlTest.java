@@ -203,7 +203,9 @@ class SkillEffectStatusLifecycleManagementDbContractSqlTest {
         assertTrue(triggersSql.contains("must have exactly one behavior"));
         assertTrue(triggersSql.contains("cannot be PERSISTENT"));
         assertTrue(triggersSql.contains("value_read_mode required"));
-        assertTrue(triggersSql.contains("APPLICATION/PERSISTENT must snapshot"));
+        assertTrue(triggersSql.contains("APPLICATION must snapshot"));
+        assertTrue(triggersSql.contains("MOMENT_EVALUATION forbids reapplication_value_mode"));
+        assertTrue(triggersSql.contains("MOMENT_EVALUATION formula uses runtime input"));
         assertTrue(triggersSql.contains("periodic fields required"));
         assertTrue(triggersSql.contains("NATURAL_END requires duration"));
 
@@ -233,7 +235,9 @@ class SkillEffectStatusLifecycleManagementDbContractSqlTest {
     void resultShapeTriggerCountsLifecycleOperationsAndIncludesNewDetailTable() {
         assertTrue(triggersNormalized.contains("v_lifecycle_op_count"));
         assertTrue(triggersNormalized.contains("from public.skill_effect_lifecycle_operation_details d"));
-        assertTrue(triggersNormalized.contains("or v_lifecycle_op_count <> 0 then"));
+        assertTrue(Pattern.compile(
+            "or v_lifecycle_op_count <> 0(?: or v_special_count <> 0)? then"
+        ).matcher(triggersNormalized).find());
         assertTrue(triggersSql.contains("LIFECYCLE_OPERATION shape invalid at commit"));
         assertTrue(triggersSql.contains("LIFECYCLE_OPERATION % requires value rule at commit"));
         assertTrue(triggersSql.contains("LIFECYCLE_OPERATION % must not have value rule at commit"));
