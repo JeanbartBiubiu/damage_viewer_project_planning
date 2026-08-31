@@ -105,6 +105,57 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="damageModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="modifier_zone_key" javaType="java.lang.String"/>
+            <arg column="direction" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind"/>
+            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind"/>
+            <arg column="critical_filter" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="healingModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="modifier_zone_key" javaType="java.lang.String"/>
+            <arg column="direction" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
+            <arg column="healing_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="damageImmunityRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind"/>
+            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="healthFloorRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="attributeChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -113,6 +164,15 @@
             <arg column="result_key" javaType="java.lang.String"/>
             <arg column="attribute_key" javaType="java.lang.String"/>
             <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation"/>
+            <arg column="modifier_zone_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="modifierZoneLock" type="xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow">
+        <constructor>
+            <arg column="modifier_zone_key" javaType="java.lang.String"/>
+            <arg column="domain" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneDomain"/>
+            <arg column="status" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneStatus"/>
         </constructor>
     </resultMap>
 
@@ -464,24 +524,114 @@
           AND result_key = #{resultKey}
     </update>
 
+    <select id="listDamageModifierDetails" resultMap="damageModifierRow">
+        SELECT game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation,
+               damage_type_key, delivery_kind, origin_kind, critical_filter
+        FROM public.skill_effect_damage_modifier_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertDamageModifierDetail">
+        INSERT INTO public.skill_effect_damage_modifier_details (
+            game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation,
+            damage_type_key, delivery_kind, origin_kind, critical_filter
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{modifierZoneKey}, #{direction}, #{operation},
+            #{damageTypeKey}, #{deliveryKind}, #{originKind}, #{criticalFilter}
+        )
+    </insert>
+
+    <update id="updateDamageModifierDetail">
+        UPDATE public.skill_effect_damage_modifier_details
+        SET modifier_zone_key = #{modifierZoneKey}, direction = #{direction},
+            operation = #{operation}, damage_type_key = #{damageTypeKey},
+            delivery_kind = #{deliveryKind}, origin_kind = #{originKind}, critical_filter = #{criticalFilter}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey} AND result_key = #{resultKey}
+    </update>
+
+    <select id="listHealingModifierDetails" resultMap="healingModifierRow">
+        SELECT game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation, healing_kind
+        FROM public.skill_effect_healing_modifier_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertHealingModifierDetail">
+        INSERT INTO public.skill_effect_healing_modifier_details (
+            game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation, healing_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{modifierZoneKey},
+            #{direction}, #{operation}, #{healingKind}
+        )
+    </insert>
+
+    <update id="updateHealingModifierDetail">
+        UPDATE public.skill_effect_healing_modifier_details
+        SET modifier_zone_key = #{modifierZoneKey}, direction = #{direction},
+            operation = #{operation}, healing_kind = #{healingKind}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey} AND result_key = #{resultKey}
+    </update>
+
+    <select id="listDamageImmunityDetails" resultMap="damageImmunityRow">
+        SELECT game_id, skill_key, effect_key, result_key, damage_type_key, delivery_kind, origin_kind
+        FROM public.skill_effect_damage_immunity_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertDamageImmunityDetail">
+        INSERT INTO public.skill_effect_damage_immunity_details (
+            game_id, skill_key, effect_key, result_key, damage_type_key, delivery_kind, origin_kind
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey}, #{deliveryKind}, #{originKind}
+        )
+    </insert>
+
+    <update id="updateDamageImmunityDetail">
+        UPDATE public.skill_effect_damage_immunity_details
+        SET damage_type_key = #{damageTypeKey}, delivery_kind = #{deliveryKind}, origin_kind = #{originKind}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey} AND result_key = #{resultKey}
+    </update>
+
+    <select id="listHealthFloorDetails" resultMap="healthFloorRow">
+        SELECT game_id, skill_key, effect_key, result_key, attribute_key
+        FROM public.skill_effect_health_floor_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertHealthFloorDetail">
+        INSERT INTO public.skill_effect_health_floor_details (
+            game_id, skill_key, effect_key, result_key, attribute_key
+        ) VALUES (#{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey})
+    </insert>
+
+    <update id="updateHealthFloorDetail">
+        UPDATE public.skill_effect_health_floor_details
+        SET attribute_key = #{attributeKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey} AND result_key = #{resultKey}
+    </update>
+
     <select id="listAttributeChangeDetails" resultMap="attributeChangeRow">
-        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation
+        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation, modifier_zone_key
         FROM public.skill_effect_attribute_change_details
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
     </select>
 
     <insert id="insertAttributeChangeDetail">
         INSERT INTO public.skill_effect_attribute_change_details (
-            game_id, skill_key, effect_key, result_key, attribute_key, operation
+            game_id, skill_key, effect_key, result_key, attribute_key, operation, modifier_zone_key
         ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}, #{modifierZoneKey}
         )
     </insert>
 
     <update id="updateAttributeChangeDetail">
         UPDATE public.skill_effect_attribute_change_details
         SET attribute_key = #{attributeKey},
-            operation = #{operation}
+            operation = #{operation},
+            modifier_zone_key = #{modifierZoneKey}
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}
@@ -662,6 +812,35 @@
         </foreach>
         ORDER BY status_key
         FOR UPDATE
+    </select>
+
+    <select id="lockModifierZones" resultMap="modifierZoneLock">
+        SELECT modifier_zone_key, domain, status
+        FROM public.modifier_zones
+        WHERE game_id = #{gameId}
+          AND modifier_zone_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY modifier_zone_key
+        FOR UPDATE
+    </select>
+
+    <select id="listRuntimeInputFormulaKeys" resultType="string">
+        SELECT DISTINCT n.formula_key
+        FROM public.skill_formula_nodes n
+        JOIN public.skill_parameters p
+          ON p.game_id = n.game_id
+         AND p.skill_key = n.skill_key
+         AND p.parameter_key = n.parameter_key
+        WHERE n.game_id = #{gameId}
+          AND n.skill_key = #{skillKey}
+          AND n.formula_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+          AND p.value_mode = 'RUNTIME_INPUT'
+        ORDER BY n.formula_key
     </select>
 
     <select id="findLifecycle" resultMap="lifecycleRow">

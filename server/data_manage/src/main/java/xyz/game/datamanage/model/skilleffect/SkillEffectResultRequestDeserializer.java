@@ -31,6 +31,10 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
                 case COOLDOWN_CHANGE -> SkillEffectCooldownChangeDetail.class;
                 case STATUS_OPERATION -> SkillEffectStatusOperationDetail.class;
                 case LIFECYCLE_OPERATION -> SkillEffectLifecycleOperationDetail.class;
+                case DAMAGE_MODIFIER -> SkillEffectDamageModifierDetail.class;
+                case HEALING_MODIFIER -> SkillEffectHealingModifierDetail.class;
+                case DAMAGE_IMMUNITY -> SkillEffectDamageImmunityDetail.class;
+                case HEALTH_FLOOR -> SkillEffectHealthFloorDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);
         }

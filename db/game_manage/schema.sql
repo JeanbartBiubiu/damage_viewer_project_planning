@@ -420,6 +420,56 @@ CREATE UNIQUE INDEX uq_damage_types_name
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
 
+CREATE TABLE public.modifier_zones (
+    game_id varchar(64) NOT NULL,
+    modifier_zone_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    domain varchar(16) NOT NULL,
+    calculation_mode varchar(16) NOT NULL,
+    application_stage varchar(32) NOT NULL,
+    description text,
+    status varchar(16) NOT NULL DEFAULT 'ENABLED',
+    sort_order integer NOT NULL DEFAULT 0,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_modifier_zones PRIMARY KEY (game_id, modifier_zone_key),
+    CONSTRAINT fk_modifier_zones_game
+        FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_modifier_zones_key
+        CHECK (modifier_zone_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_modifier_zones_name
+        CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_modifier_zones_domain
+        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING')),
+    CONSTRAINT ck_modifier_zones_calculation_mode
+        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD')),
+    CONSTRAINT ck_modifier_zones_application_stage
+        CHECK (application_stage IN (
+            'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
+            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT'
+        )),
+    CONSTRAINT ck_modifier_zones_combination
+        CHECK (
+            (domain = 'ATTRIBUTE' AND calculation_mode = 'FLAT_ADD'
+                AND application_stage = 'ATTRIBUTE_FLAT')
+            OR (domain = 'ATTRIBUTE' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage = 'ATTRIBUTE_PERCENT')
+            OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
+            OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage = 'HEALING_RESULT')
+        ),
+    CONSTRAINT ck_modifier_zones_status
+        CHECK (status IN ('ENABLED', 'DISABLED')),
+    CONSTRAINT ck_modifier_zones_sort_order
+        CHECK (sort_order >= 0)
+);
+
+CREATE UNIQUE INDEX uq_modifier_zones_name
+    ON public.modifier_zones (game_id, lower(btrim(name)));
+
+COMMENT ON TABLE public.modifier_zones IS '属性、伤害与治疗修正乘区';
+
 CREATE TABLE public.statuses (
     game_id varchar(64) NOT NULL,
     status_key varchar(64) NOT NULL,
@@ -493,7 +543,8 @@ CREATE TABLE public.skill_effect_results (
         CHECK (result_type IN (
             'DAMAGE', 'DIRECT_HEAL', 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE',
             'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION',
-            'LIFECYCLE_OPERATION'
+            'LIFECYCLE_OPERATION', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
+            'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
         )),
     CONSTRAINT ck_skill_effect_results_target
         CHECK (target IN ('SOURCE', 'TARGET')),
@@ -661,6 +712,131 @@ CREATE INDEX ix_skill_effect_normal_shield_damage_type
 
 COMMENT ON TABLE public.skill_effect_result_normal_shield_interactions IS '普通护盾伤害吸收与衰减规则';
 
+CREATE TABLE public.skill_effect_damage_modifier_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    modifier_zone_key varchar(64) NOT NULL,
+    direction varchar(16) NOT NULL,
+    operation varchar(16) NOT NULL,
+    damage_type_key varchar(64),
+    delivery_kind varchar(32) NOT NULL,
+    origin_kind varchar(32) NOT NULL,
+    critical_filter varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_effect_damage_modifier_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_damage_modifier_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_damage_modifier_damage_type
+        FOREIGN KEY (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_skill_effect_damage_modifier_zone
+        FOREIGN KEY (game_id, modifier_zone_key)
+        REFERENCES public.modifier_zones (game_id, modifier_zone_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_damage_modifier_direction CHECK (direction IN ('DEALT', 'TAKEN')),
+    CONSTRAINT ck_skill_effect_damage_modifier_operation CHECK (operation IN ('INCREASE', 'DECREASE')),
+    CONSTRAINT ck_skill_effect_damage_modifier_delivery CHECK (delivery_kind IN ('ANY', 'SKILL', 'BASIC_ATTACK')),
+    CONSTRAINT ck_skill_effect_damage_modifier_origin CHECK (origin_kind IN ('ANY', 'DIRECT', 'REFLECTED')),
+    CONSTRAINT ck_skill_effect_damage_modifier_critical CHECK (critical_filter IN ('ANY', 'CRITICAL_ONLY', 'NON_CRITICAL_ONLY'))
+);
+
+CREATE INDEX ix_skill_effect_damage_modifier_damage_type
+    ON public.skill_effect_damage_modifier_details
+    (game_id, damage_type_key, skill_key, effect_key, result_key);
+
+CREATE INDEX ix_skill_effect_damage_modifier_zone
+    ON public.skill_effect_damage_modifier_details
+    (game_id, modifier_zone_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_damage_modifier_details IS '持续伤害修正结果明细';
+
+CREATE TABLE public.skill_effect_healing_modifier_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    modifier_zone_key varchar(64) NOT NULL,
+    direction varchar(16) NOT NULL,
+    operation varchar(16) NOT NULL,
+    healing_kind varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_healing_modifier_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_healing_modifier_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_healing_modifier_zone
+        FOREIGN KEY (game_id, modifier_zone_key)
+        REFERENCES public.modifier_zones (game_id, modifier_zone_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_healing_modifier_direction CHECK (direction IN ('DONE', 'RECEIVED')),
+    CONSTRAINT ck_skill_effect_healing_modifier_operation CHECK (operation IN ('INCREASE', 'DECREASE')),
+    CONSTRAINT ck_skill_effect_healing_modifier_kind CHECK (healing_kind IN ('ANY', 'DIRECT', 'VAMP'))
+);
+
+CREATE INDEX ix_skill_effect_healing_modifier_zone
+    ON public.skill_effect_healing_modifier_details
+    (game_id, modifier_zone_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_healing_modifier_details IS '持续治疗修正结果明细';
+
+CREATE TABLE public.skill_effect_damage_immunity_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    damage_type_key varchar(64),
+    delivery_kind varchar(32) NOT NULL,
+    origin_kind varchar(32) NOT NULL,
+    CONSTRAINT pk_skill_effect_damage_immunity_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_damage_immunity_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_damage_immunity_damage_type
+        FOREIGN KEY (game_id, damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key)
+        ON DELETE RESTRICT,
+    CONSTRAINT ck_skill_effect_damage_immunity_delivery CHECK (delivery_kind IN ('ANY', 'SKILL', 'BASIC_ATTACK')),
+    CONSTRAINT ck_skill_effect_damage_immunity_origin CHECK (origin_kind IN ('ANY', 'DIRECT', 'REFLECTED'))
+);
+
+CREATE INDEX ix_skill_effect_damage_immunity_damage_type
+    ON public.skill_effect_damage_immunity_details
+    (game_id, damage_type_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_damage_immunity_details IS '持续伤害免疫结果明细';
+
+CREATE TABLE public.skill_effect_health_floor_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_health_floor_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_health_floor_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_health_floor_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key)
+        ON DELETE RESTRICT
+);
+
+CREATE INDEX ix_skill_effect_health_floor_attribute
+    ON public.skill_effect_health_floor_details
+    (game_id, attribute_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_health_floor_details IS '持续生命下限结果明细';
+
 CREATE TABLE public.skill_effect_attribute_change_details (
     game_id varchar(64) NOT NULL,
     skill_key varchar(64) NOT NULL,
@@ -668,6 +844,7 @@ CREATE TABLE public.skill_effect_attribute_change_details (
     result_key varchar(64) NOT NULL,
     attribute_key varchar(64) NOT NULL,
     operation varchar(16) NOT NULL,
+    modifier_zone_key varchar(64),
     CONSTRAINT pk_skill_effect_attribute_change_details
         PRIMARY KEY (game_id, skill_key, effect_key, result_key),
     CONSTRAINT fk_skill_effect_attribute_change_details_result
@@ -678,6 +855,10 @@ CREATE TABLE public.skill_effect_attribute_change_details (
     CONSTRAINT fk_skill_effect_attribute_change_details_attribute
         FOREIGN KEY (game_id, attribute_key)
         REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT fk_skill_effect_attribute_change_details_zone
+        FOREIGN KEY (game_id, modifier_zone_key)
+        REFERENCES public.modifier_zones (game_id, modifier_zone_key)
+        ON DELETE RESTRICT,
     CONSTRAINT ck_skill_effect_attribute_change_details_operation
         CHECK (operation IN ('INCREASE', 'DECREASE', 'SET'))
 );
@@ -685,6 +866,11 @@ CREATE TABLE public.skill_effect_attribute_change_details (
 CREATE INDEX ix_skill_effect_attribute_change_details_attribute
     ON public.skill_effect_attribute_change_details
     (game_id, attribute_key, skill_key, effect_key, result_key);
+
+CREATE INDEX ix_skill_effect_attribute_change_details_zone
+    ON public.skill_effect_attribute_change_details
+    (game_id, modifier_zone_key, skill_key, effect_key, result_key)
+    WHERE modifier_zone_key IS NOT NULL;
 
 COMMENT ON TABLE public.skill_effect_attribute_change_details IS '属性变化结果明细';
 
@@ -1636,7 +1822,7 @@ CREATE TABLE public.skill_trigger_rules (
         CHECK (event_type IN (
             'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',
             'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
-            'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
+            'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
             'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',
             'KILL', 'PROCESS_CANCEL_REQUESTED'
@@ -2191,7 +2377,8 @@ CREATE TABLE public.skill_trigger_rule_event_value_conditions (
             'STEP_EXECUTION_INDEX', 'CHARGE_DURATION_MS', 'RECAST_COUNT',
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
-            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'
+            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
         )),
     CONSTRAINT ck_skill_trigger_event_value_cond_comparator
         CHECK (comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'))
@@ -2465,7 +2652,8 @@ CREATE TABLE public.skill_trigger_rule_event_value_bindings (
             'STEP_EXECUTION_INDEX', 'CHARGE_DURATION_MS', 'RECAST_COUNT',
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
-            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'
+            'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
         ))
 );
 

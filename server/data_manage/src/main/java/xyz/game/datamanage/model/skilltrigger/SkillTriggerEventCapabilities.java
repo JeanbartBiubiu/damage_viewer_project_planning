@@ -9,6 +9,7 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 public final class SkillTriggerEventCapabilities {
 
     private static final Set<SkillTriggerEventType> EVENT_SOURCE_EVENTS = EnumSet.of(
+        SkillTriggerEventType.DAMAGE_PENDING,
         SkillTriggerEventType.DAMAGE_TAKEN,
         SkillTriggerEventType.STATUS_CHANGED,
         SkillTriggerEventType.CONTROL_RECEIVED
@@ -39,8 +40,9 @@ public final class SkillTriggerEventCapabilities {
         return switch (valueKey) {
             case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, LIFECYCLE_STACKS,
                 PERIOD_INDEX, STATE_BEFORE, STATE_AFTER -> SkillTriggerValueDomain.INTEGER;
-            case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER, THRESHOLD_VALUE
-                -> SkillTriggerValueDomain.DECIMAL;
+            case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER,
+                THRESHOLD_VALUE, RAW_DAMAGE, POST_DEFENSE_DAMAGE, HEALTH_BEFORE,
+                PROJECTED_HEALTH_AFTER -> SkillTriggerValueDomain.DECIMAL;
         };
     }
 
@@ -54,6 +56,10 @@ public final class SkillTriggerEventCapabilities {
             return false;
         }
         return switch (eventType) {
+            case DAMAGE_PENDING -> valueKey == SkillTriggerEventValueKey.RAW_DAMAGE
+                || valueKey == SkillTriggerEventValueKey.POST_DEFENSE_DAMAGE
+                || valueKey == SkillTriggerEventValueKey.HEALTH_BEFORE
+                || valueKey == SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER;
             case BASIC_ATTACK_HIT, SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
             case LIFECYCLE_MOMENT -> false;
@@ -117,6 +123,7 @@ public final class SkillTriggerEventCapabilities {
             Map.entry(SkillTriggerEventType.PROCESS_MOMENT, "目标过程实例的目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.RESULT_AVAILABLE, "目标效果执行上下文的目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.LIFECYCLE_MOMENT, "目标生命周期实例的承受对象"),
+            Map.entry(SkillTriggerEventType.DAMAGE_PENDING, "来源对象自身"),
             Map.entry(SkillTriggerEventType.DAMAGE_DEALT, "本次伤害承受对象"),
             Map.entry(SkillTriggerEventType.DAMAGE_TAKEN, "来源对象自身"),
             Map.entry(SkillTriggerEventType.STATUS_CHANGED, "subject 指定的状态变化对象"),
