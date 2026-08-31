@@ -36,6 +36,7 @@ import type {
   SkillEffectResultRequest,
   SkillEffectResultType,
   SkillEffectStackValueMode,
+  SkillEffectSpellShieldBlockScope,
   SkillEffectSummary,
   SkillEffectTarget,
   SkillEffectValueReadMode,
@@ -61,7 +62,8 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
   'DAMAGE_IMMUNITY',
-  'HEALTH_FLOOR'
+  'HEALTH_FLOOR',
+  'SPELL_SHIELD'
 ] as const satisfies readonly SkillEffectResultType[];
 
 export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
@@ -76,8 +78,16 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   DAMAGE_MODIFIER: '伤害修正',
   HEALING_MODIFIER: '治疗修正',
   DAMAGE_IMMUNITY: '伤害免疫',
-  HEALTH_FLOOR: '生命下限'
+  HEALTH_FLOOR: '生命下限',
+  SPELL_SHIELD: '法术护盾'
 } as const satisfies { [K in SkillEffectResultType]: string };
+
+export const SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS = {
+  SKILL: '整个技能',
+  EFFECT: '当前效果',
+  DAMAGE_INSTANCE: '当前伤害实例',
+  RESULT: '当前结果'
+} as const satisfies { [K in SkillEffectSpellShieldBlockScope]: string };
 
 export const SKILL_EFFECT_TARGET_LABELS = {
   SOURCE: '施法者',
@@ -336,6 +346,7 @@ export type SkillEffectResultDraft = {
   statusOperation: StatusOperation | '';
   targetEffectKey: string;
   lifecycleOperation: SkillEffectLifecycleOperation | '';
+  spellShieldBlockScope: SkillEffectSpellShieldBlockScope | '';
   lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft;
   originalResultType: SkillEffectResultType | null;
   originalDamageTypeKey: string | null;
@@ -413,6 +424,7 @@ export type SkillEffectResultDraftField =
   | 'statusOperation'
   | 'targetEffectKey'
   | 'lifecycleOperation'
+  | 'spellShieldBlockScope'
   | 'detail'
   | 'lifecycleBehavior'
   | 'moment'
@@ -552,6 +564,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.affectedSkillKeys': 'affectedSkillKeys',
   'detail.statusKey': 'statusKey',
   'detail.targetEffectKey': 'targetEffectKey',
+  spellShieldBlockScope: 'spellShieldBlockScope',
   lifecycleBehavior: 'lifecycleBehavior',
   'lifecycleBehavior.moment': 'moment',
   'lifecycleBehavior.valueReadMode': 'valueReadMode',
@@ -644,6 +657,7 @@ export function createEmptyResultDraft(
     statusOperation: resultType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: defaultLifecycleOperation(resultType),
+    spellShieldBlockScope: '',
     lifecycleBehavior: createEmptyLifecycleBehaviorDraft(),
     originalResultType: null,
     originalDamageTypeKey: null,
@@ -682,6 +696,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
   draft.sortOrder = String(result.sortOrder);
   draft.originalResultType = result.resultType;
   draft.lifecycleBehavior = lifecycleBehaviorToDraft(result.lifecycleBehavior);
+  draft.spellShieldBlockScope = result.spellShieldBlockScope ?? '';
   if (valueRule) {
     draft.formulaKey = valueRule.formulaKey;
     draft.fixedMultiplier = String(valueRule.fixedMultiplier);
@@ -759,6 +774,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.originalAttributeKey = result.detail.attributeKey;
       break;
     case 'DIRECT_HEAL':
+    case 'SPELL_SHIELD':
       break;
     default: {
       const unexpected: never = result;
@@ -777,6 +793,9 @@ export function requiresValueRule(
     return false;
   }
   if (resultType === 'DAMAGE_IMMUNITY') {
+    return false;
+  }
+  if (resultType === 'SPELL_SHIELD') {
     return false;
   }
   if (resultType === 'COOLDOWN_CHANGE') {
@@ -822,13 +841,14 @@ export function applyResultTypeChange(
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
   const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
         moment: 'PERSISTENT' as const,
-        valueReadMode: nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'APPLICATION_SNAPSHOT' as const,
-        stackValueMode: nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'SHARED' as const,
+        valueReadMode: persistentWithoutValueModes ? '' as const : 'APPLICATION_SNAPSHOT' as const,
+        stackValueMode: persistentWithoutValueModes ? '' as const : 'SHARED' as const,
         reapplicationValueMode:
-          nextType === 'DAMAGE_IMMUNITY' ? '' as const : 'KEEP' as const,
+          persistentWithoutValueModes ? '' as const : 'KEEP' as const,
         periodicExecutionMode: '' as const
       }
     : createEmptyLifecycleBehaviorDraft();
@@ -868,6 +888,7 @@ export function applyResultTypeChange(
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: nextLifecycleOperation,
+    spellShieldBlockScope: '',
     lifecycleBehavior
   });
 }
@@ -1024,7 +1045,10 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     statusOperation: draft.resultType === 'STATUS_OPERATION' ? draft.statusOperation || 'APPLY' : '',
     targetEffectKey: draft.resultType === 'LIFECYCLE_OPERATION' ? draft.targetEffectKey : '',
     lifecycleOperation:
-      draft.resultType === 'LIFECYCLE_OPERATION' ? draft.lifecycleOperation || 'INCREASE' : ''
+      draft.resultType === 'LIFECYCLE_OPERATION' ? draft.lifecycleOperation || 'INCREASE' : '',
+    spellShieldBlockScope: isSpellShieldBlockScopeVisible(draft)
+      ? draft.spellShieldBlockScope
+      : ''
   });
 }
 
@@ -1061,6 +1085,18 @@ export function clearHiddenLifecycleBehaviorFields(
   return {
     ...draft,
     modifierZoneKey: keepModifierZone ? draft.modifierZoneKey : '',
+    spellShieldBlockScope: (
+      draft.target === 'TARGET'
+      && moment !== 'PERSISTENT'
+      && (
+        draft.resultType === 'DAMAGE'
+        || draft.resultType === 'ATTRIBUTE_CHANGE'
+        || draft.resultType === 'RESOURCE_CHANGE'
+        || draft.resultType === 'COOLDOWN_CHANGE'
+        || draft.resultType === 'STATUS_OPERATION'
+        || draft.resultType === 'LIFECYCLE_OPERATION'
+      )
+    ) ? draft.spellShieldBlockScope : '',
     lifecycleBehavior: {
       moment,
       valueReadMode,
@@ -1232,7 +1268,31 @@ export function isPersistentOnlyResultType(resultType: SkillEffectResultType): b
   return resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
     || resultType === 'DAMAGE_IMMUNITY'
-    || resultType === 'HEALTH_FLOOR';
+    || resultType === 'HEALTH_FLOOR'
+    || resultType === 'SPELL_SHIELD';
+}
+
+export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): boolean {
+  if (draft.target !== 'TARGET' || draft.lifecycleBehavior.moment === 'PERSISTENT') {
+    return false;
+  }
+  return draft.resultType === 'DAMAGE'
+    || draft.resultType === 'ATTRIBUTE_CHANGE'
+    || draft.resultType === 'RESOURCE_CHANGE'
+    || draft.resultType === 'COOLDOWN_CHANGE'
+    || draft.resultType === 'STATUS_OPERATION'
+    || draft.resultType === 'LIFECYCLE_OPERATION';
+}
+
+export function listSpellShieldBlockScopeOptions(
+  draft: SkillEffectResultDraft
+): SkillEffectSpellShieldBlockScope[] {
+  if (!isSpellShieldBlockScopeVisible(draft)) {
+    return [];
+  }
+  return draft.resultType === 'DAMAGE'
+    ? ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT']
+    : ['SKILL', 'EFFECT', 'RESULT'];
 }
 
 export function isValueReadModeVisible(draft: SkillEffectResultDraft): boolean {
@@ -1797,6 +1857,12 @@ function validateAndBuildResult(
   if (draft.target !== 'SOURCE' && draft.target !== 'TARGET') {
     fieldErrors.target = '请选择作用对象。';
   }
+  if (
+    draft.spellShieldBlockScope
+    && !listSpellShieldBlockScopeOptions(draft).includes(draft.spellShieldBlockScope)
+  ) {
+    fieldErrors.spellShieldBlockScope = '当前结果不能使用该法术护盾阻挡粒度。';
+  }
 
   const sortOrder = parseNonNegativeInteger(draft.sortOrder, fieldErrors, 'sortOrder');
   const valueRule = validateValueRule(draft, fieldErrors);
@@ -1820,7 +1886,8 @@ function validateAndBuildResult(
     target: draft.target,
     description: description || null,
     sortOrder,
-    lifecycleBehavior
+    lifecycleBehavior,
+    spellShieldBlockScope: draft.spellShieldBlockScope || null
   };
 
   switch (draft.resultType) {
@@ -1986,6 +2053,13 @@ function validateAndBuildResult(
           attributeKey: draft.attributeKey.trim()
         }
       };
+    case 'SPELL_SHIELD':
+      return {
+        ...base,
+        resultType: 'SPELL_SHIELD',
+        valueRule: null,
+        detail: {}
+      };
     default: {
       const unexpected: never = draft.resultType;
       return unexpected;
@@ -2009,6 +2083,8 @@ function validateValueRule(
         fieldErrors.valueRule = '状态操作不能携带数值规则。';
       } else if (draft.resultType === 'DAMAGE_IMMUNITY') {
         fieldErrors.valueRule = '伤害免疫不能携带数值规则。';
+      } else if (draft.resultType === 'SPELL_SHIELD') {
+        fieldErrors.valueRule = '法术护盾不能携带数值规则。';
       } else if (draft.resultType === 'LIFECYCLE_OPERATION') {
         fieldErrors.valueRule = '刷新和移除不能携带数值规则。';
       } else {
@@ -2339,6 +2415,8 @@ function validateTypeSpecificFields(
         'formulaKey',
         { allowDisabled: true }
       );
+      break;
+    case 'SPELL_SHIELD':
       break;
     default: {
       const unexpected: never = draft.resultType;
@@ -2921,6 +2999,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: null,
         detail: { ...result.detail }
       };
+    case 'SPELL_SHIELD':
+      return { ...result, lifecycleBehavior, valueRule: null, detail: {} };
     case 'ATTRIBUTE_CHANGE':
       return {
         ...result,
