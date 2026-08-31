@@ -246,7 +246,7 @@ public class SkillTriggerRuleAssembler {
                     new SkillTriggerSubjectEventDetail(subjectEvent.subject())
                 );
             }
-            case DAMAGE_DEALT, DAMAGE_TAKEN -> {
+            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> {
                 if (damageEvent == null || present != 1) {
                     throw corrupt(gameId, skillKey, ruleKey, "伤害事件明细形状损坏");
                 }

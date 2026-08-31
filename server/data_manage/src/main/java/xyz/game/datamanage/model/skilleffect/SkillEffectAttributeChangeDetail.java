@@ -11,12 +11,14 @@ import java.util.Set;
 public record SkillEffectAttributeChangeDetail(
     String attributeKey,
     SkillEffectAttributeChangeOperation operation,
+    String modifierZoneKey,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
 
     public SkillEffectAttributeChangeDetail {
         attributeKey = attributeKey == null ? null : attributeKey.trim();
+        modifierZoneKey = modifierZoneKey == null ? null : modifierZoneKey.trim();
         foreignFields = SkillEffectDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillEffectDetailFieldCapture.normalize(unknownFields);
     }
@@ -25,13 +27,22 @@ public record SkillEffectAttributeChangeDetail(
         String attributeKey,
         SkillEffectAttributeChangeOperation operation
     ) {
-        this(attributeKey, operation, Set.of(), Set.of());
+        this(attributeKey, operation, null, Set.of(), Set.of());
+    }
+
+    public SkillEffectAttributeChangeDetail(
+        String attributeKey,
+        SkillEffectAttributeChangeOperation operation,
+        String modifierZoneKey
+    ) {
+        this(attributeKey, operation, modifierZoneKey, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillEffectAttributeChangeDetail fromJson(
         @JsonProperty("attributeKey") String attributeKey,
         @JsonProperty("operation") SkillEffectAttributeChangeOperation operation,
+        @JsonProperty("modifierZoneKey") String modifierZoneKey,
         @JsonProperty("damageTypeKey") JsonNode damageTypeKey,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
         @JsonProperty("statusKey") JsonNode statusKey,
@@ -41,6 +52,7 @@ public record SkillEffectAttributeChangeDetail(
         return new SkillEffectAttributeChangeDetail(
             attributeKey,
             operation,
+            modifierZoneKey,
             SkillEffectDetailFieldCapture.captureForeign(
                 "damageTypeKey", damageTypeKey,
                 "affectedSkillKey", affectedSkillKey,

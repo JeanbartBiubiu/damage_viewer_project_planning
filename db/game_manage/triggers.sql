@@ -68,11 +68,17 @@ DECLARE
     v_result_type varchar(24);
     v_cooldown_operation varchar(16);
     v_lifecycle_operation varchar(24);
+    v_modifier_zone_domain varchar(16);
     v_value_count int;
     v_damage_count int;
     v_critical_count int;
     v_vamp_count int;
     v_normal_shield_count int;
+    v_damage_modifier_count int;
+    v_healing_modifier_count int;
+    v_damage_immunity_count int;
+    v_health_floor_count int;
+    v_special_count int;
     v_attribute_count int;
     v_resource_count int;
     v_cooldown_count int;
@@ -143,6 +149,24 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_damage_modifier_count
+      FROM public.skill_effect_damage_modifier_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_healing_modifier_count
+      FROM public.skill_effect_healing_modifier_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_damage_immunity_count
+      FROM public.skill_effect_damage_immunity_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_health_floor_count
+      FROM public.skill_effect_health_floor_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
+    v_special_count := v_damage_modifier_count + v_healing_modifier_count
+        + v_damage_immunity_count + v_health_floor_count;
     SELECT COUNT(*) INTO v_attribute_count
       FROM public.skill_effect_attribute_change_details d
      WHERE d.game_id = v_game_id
@@ -190,7 +214,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) DAMAGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -206,7 +230,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) % shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
@@ -222,7 +246,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) NORMAL_SHIELD shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -238,11 +262,25 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) ATTRIBUTE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
                 USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT z.domain
+          INTO v_modifier_zone_domain
+          FROM public.skill_effect_attribute_change_details d
+          JOIN public.modifier_zones z
+            ON z.game_id = d.game_id
+           AND z.modifier_zone_key = d.modifier_zone_key
+         WHERE d.game_id = v_game_id
+           AND d.skill_key = v_skill_key
+           AND d.effect_key = v_effect_key
+           AND d.result_key = v_result_key;
+        IF FOUND AND v_modifier_zone_domain IS DISTINCT FROM 'ATTRIBUTE' THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) ATTRIBUTE_CHANGE modifier zone domain invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
     ELSIF v_result_type = 'RESOURCE_CHANGE' THEN
         IF v_value_count <> 1
@@ -254,7 +292,7 @@ BEGIN
             OR v_resource_count <> 1
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) RESOURCE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -270,7 +308,7 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -305,7 +343,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 1
-            OR v_lifecycle_op_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) STATUS_OPERATION shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -320,7 +358,7 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 THEN
+            OR v_status_count <> 0 OR v_special_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -345,6 +383,66 @@ BEGIN
                 'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION % must not have value rule at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_lifecycle_operation
                 USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'DAMAGE_MODIFIER' THEN
+        IF v_value_count <> 1 OR v_damage_modifier_count <> 1 OR v_special_count <> 1
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) DAMAGE_MODIFIER shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT z.domain
+          INTO v_modifier_zone_domain
+          FROM public.skill_effect_damage_modifier_details d
+          JOIN public.modifier_zones z
+            ON z.game_id = d.game_id
+           AND z.modifier_zone_key = d.modifier_zone_key
+         WHERE d.game_id = v_game_id
+           AND d.skill_key = v_skill_key
+           AND d.effect_key = v_effect_key
+           AND d.result_key = v_result_key;
+        IF v_modifier_zone_domain IS DISTINCT FROM 'DAMAGE' THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) DAMAGE_MODIFIER modifier zone domain invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'HEALING_MODIFIER' THEN
+        IF v_value_count <> 1 OR v_healing_modifier_count <> 1 OR v_special_count <> 1
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALING_MODIFIER shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT z.domain
+          INTO v_modifier_zone_domain
+          FROM public.skill_effect_healing_modifier_details d
+          JOIN public.modifier_zones z
+            ON z.game_id = d.game_id
+           AND z.modifier_zone_key = d.modifier_zone_key
+         WHERE d.game_id = v_game_id
+           AND d.skill_key = v_skill_key
+           AND d.effect_key = v_effect_key
+           AND d.result_key = v_result_key;
+        IF v_modifier_zone_domain IS DISTINCT FROM 'HEALING' THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALING_MODIFIER modifier zone domain invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'DAMAGE_IMMUNITY' THEN
+        IF v_value_count <> 0 OR v_damage_immunity_count <> 1 OR v_special_count <> 1
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) DAMAGE_IMMUNITY shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'HEALTH_FLOOR' THEN
+        IF v_value_count <> 1 OR v_health_floor_count <> 1 OR v_special_count <> 1
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALTH_FLOOR shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
     ELSE
         RAISE EXCEPTION
@@ -377,6 +475,10 @@ DECLARE
         'skill_effect_result_critical_policies',
         'skill_effect_result_vamp_rules',
         'skill_effect_result_normal_shield_interactions',
+        'skill_effect_damage_modifier_details',
+        'skill_effect_healing_modifier_details',
+        'skill_effect_damage_immunity_details',
+        'skill_effect_health_floor_details',
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
@@ -435,6 +537,7 @@ DECLARE
     v_periodic_execution_mode varchar(24);
     v_status_operation varchar(16);
     v_attribute_operation varchar(16);
+    v_modifier_zone_key varchar(64);
     v_normal_shield_decay_mode varchar(32);
     v_periodic_behavior_count int;
 BEGIN
@@ -516,10 +619,13 @@ BEGIN
              WHERE r.game_id = v_game_id
                AND r.skill_key = v_skill_key
                AND r.effect_key = v_effect_key
-               AND r.result_type = 'NORMAL_SHIELD'
+               AND r.result_type IN (
+                   'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
+                   'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+               )
         ) THEN
             RAISE EXCEPTION
-                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: NORMAL_SHIELD requires lifecycle',
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: persistent result requires lifecycle',
                 v_game_id, v_skill_key, v_effect_key
                 USING ERRCODE = 'check_violation';
         END IF;
@@ -581,22 +687,29 @@ BEGIN
            AND v.effect_key = v_effect_key
            AND v.result_key = v_result.result_key;
 
-        IF v_result.result_type = 'NORMAL_SHIELD'
+        IF v_result.result_type IN (
+                'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
+                'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+            )
             AND v_moment IS DISTINCT FROM 'PERSISTENT' THEN
             RAISE EXCEPTION
-                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: NORMAL_SHIELD result % must be PERSISTENT',
+                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % must be PERSISTENT',
                 v_game_id, v_skill_key, v_effect_key, v_result.result_key
                 USING ERRCODE = 'check_violation';
         END IF;
 
         IF v_moment = 'PERSISTENT' THEN
-            IF v_result.result_type NOT IN ('NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION') THEN
+            IF v_result.result_type NOT IN (
+                'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION',
+                'DAMAGE_MODIFIER', 'HEALING_MODIFIER', 'DAMAGE_IMMUNITY', 'HEALTH_FLOOR'
+            ) THEN
                 RAISE EXCEPTION
                     'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
                     v_game_id, v_skill_key, v_effect_key, v_result.result_key
                     USING ERRCODE = 'check_violation';
             END IF;
-            IF v_result.result_type = 'STATUS_OPERATION' THEN
+            IF v_result.result_type IN ('STATUS_OPERATION', 'DAMAGE_IMMUNITY') THEN
+                IF v_result.result_type = 'STATUS_OPERATION' THEN
                 SELECT d.operation
                   INTO v_status_operation
                   FROM public.skill_effect_status_operation_details d
@@ -609,6 +722,7 @@ BEGIN
                         'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
                         v_game_id, v_skill_key, v_effect_key, v_result.result_key
                         USING ERRCODE = 'check_violation';
+                END IF;
                 END IF;
                 IF v_stack_value_mode IS NOT NULL OR v_reapplication_value_mode IS NOT NULL THEN
                     RAISE EXCEPTION
@@ -630,6 +744,13 @@ BEGIN
                             v_game_id, v_skill_key, v_effect_key, v_result.result_key
                             USING ERRCODE = 'check_violation';
                     END IF;
+                ELSIF v_value_read_mode = 'MOMENT_EVALUATION' THEN
+                    IF v_reapplication_value_mode IS NOT NULL THEN
+                        RAISE EXCEPTION
+                            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % MOMENT_EVALUATION forbids reapplication_value_mode',
+                            v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                            USING ERRCODE = 'check_violation';
+                    END IF;
                 ELSIF v_reapplication_value_mode IS NULL THEN
                     RAISE EXCEPTION
                         'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % SHARED requires reapplication_value_mode',
@@ -637,14 +758,20 @@ BEGIN
                         USING ERRCODE = 'check_violation';
                 END IF;
                 IF v_result.result_type = 'ATTRIBUTE_CHANGE' THEN
-                    SELECT d.operation
-                      INTO v_attribute_operation
+                    SELECT d.operation, d.modifier_zone_key
+                      INTO v_attribute_operation, v_modifier_zone_key
                       FROM public.skill_effect_attribute_change_details d
                      WHERE d.game_id = v_game_id
                        AND d.skill_key = v_skill_key
                        AND d.effect_key = v_effect_key
                        AND d.result_key = v_result.result_key;
                     IF v_attribute_operation = 'SET' THEN
+                        IF v_modifier_zone_key IS NOT NULL THEN
+                            RAISE EXCEPTION
+                                'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % SET forbids modifier zone',
+                                v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                                USING ERRCODE = 'check_violation';
+                        END IF;
                         IF v_stack_value_mode IS DISTINCT FROM 'SHARED'
                             OR v_reapplication_value_mode NOT IN ('KEEP', 'REPLACE') THEN
                             RAISE EXCEPTION
@@ -652,7 +779,22 @@ BEGIN
                                 v_game_id, v_skill_key, v_effect_key, v_result.result_key
                                 USING ERRCODE = 'check_violation';
                         END IF;
+                    ELSIF v_modifier_zone_key IS NULL THEN
+                        RAISE EXCEPTION
+                            'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % persistent attribute adjustment requires modifier zone',
+                            v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                            USING ERRCODE = 'check_violation';
                     END IF;
+                END IF;
+                IF v_result.result_type = 'HEALTH_FLOOR'
+                    AND (
+                        v_stack_value_mode IS DISTINCT FROM 'SHARED'
+                        OR v_reapplication_value_mode NOT IN ('KEEP', 'REPLACE')
+                    ) THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % HEALTH_FLOOR stack merge invalid',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
                 END IF;
                 IF v_result.result_type = 'NORMAL_SHIELD' THEN
                     SELECT d.decay_mode
@@ -682,6 +824,21 @@ BEGIN
                     v_game_id, v_skill_key, v_effect_key, v_result.result_key
                     USING ERRCODE = 'check_violation';
             END IF;
+            IF v_result.result_type = 'ATTRIBUTE_CHANGE'
+                AND EXISTS (
+                    SELECT 1
+                      FROM public.skill_effect_attribute_change_details d
+                     WHERE d.game_id = v_game_id
+                       AND d.skill_key = v_skill_key
+                       AND d.effect_key = v_effect_key
+                       AND d.result_key = v_result.result_key
+                       AND d.modifier_zone_key IS NOT NULL
+                ) THEN
+                RAISE EXCEPTION
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % non-persistent attribute change forbids modifier zone',
+                    v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
         END IF;
 
         IF v_value_count > 0 THEN
@@ -691,12 +848,54 @@ BEGIN
                     v_game_id, v_skill_key, v_effect_key, v_result.result_key
                     USING ERRCODE = 'check_violation';
             END IF;
-            IF v_moment IN ('APPLICATION', 'PERSISTENT')
+            IF v_moment = 'APPLICATION'
                 AND v_value_read_mode IS DISTINCT FROM 'APPLICATION_SNAPSHOT' THEN
                 RAISE EXCEPTION
-                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % APPLICATION/PERSISTENT must snapshot',
+                    'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % APPLICATION must snapshot',
                     v_game_id, v_skill_key, v_effect_key, v_result.result_key
                     USING ERRCODE = 'check_violation';
+            END IF;
+            IF v_moment = 'PERSISTENT' AND v_value_read_mode = 'MOMENT_EVALUATION' THEN
+                IF v_result.result_type NOT IN ('ATTRIBUTE_CHANGE', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER')
+                    OR (
+                        v_result.result_type = 'ATTRIBUTE_CHANGE'
+                        AND EXISTS (
+                            SELECT 1
+                              FROM public.skill_effect_attribute_change_details d
+                             WHERE d.game_id = v_game_id
+                               AND d.skill_key = v_skill_key
+                               AND d.effect_key = v_effect_key
+                               AND d.result_key = v_result.result_key
+                               AND d.operation = 'SET'
+                        )
+                    ) THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot use MOMENT_EVALUATION',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+                IF EXISTS (
+                    SELECT 1
+                      FROM public.skill_effect_result_values rv
+                      JOIN public.skill_formula_nodes n
+                        ON n.game_id = rv.game_id
+                       AND n.skill_key = rv.skill_key
+                       AND n.formula_key = rv.formula_key
+                      JOIN public.skill_parameters p
+                        ON p.game_id = n.game_id
+                       AND p.skill_key = n.skill_key
+                       AND p.parameter_key = n.parameter_key
+                     WHERE rv.game_id = v_game_id
+                       AND rv.skill_key = v_skill_key
+                       AND rv.effect_key = v_effect_key
+                       AND rv.result_key = v_result.result_key
+                       AND p.value_mode = 'RUNTIME_INPUT'
+                ) THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % MOMENT_EVALUATION formula uses runtime input',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
             END IF;
         ELSIF v_value_read_mode IS NOT NULL THEN
             RAISE EXCEPTION
@@ -1676,7 +1875,7 @@ BEGIN
                     + v_lifecycle_event_count + v_status_event_count + v_health_event_count
                     + v_istate_event_count + v_damage_event_count = 0
             THEN 1 ELSE 0 END
-        WHEN v_event_type IN ('DAMAGE_DEALT', 'DAMAGE_TAKEN') THEN
+        WHEN v_event_type IN ('DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN') THEN
             CASE WHEN v_damage_event_count = 1
                 AND v_process_event_count + v_skill_event_count + v_result_event_count
                     + v_lifecycle_event_count + v_status_event_count + v_health_event_count

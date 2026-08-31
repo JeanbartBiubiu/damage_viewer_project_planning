@@ -10,7 +10,11 @@ public sealed interface SkillEffectResultDetail
         SkillEffectResourceChangeDetail,
         SkillEffectCooldownChangeDetail,
         SkillEffectStatusOperationDetail,
-        SkillEffectLifecycleOperationDetail {
+        SkillEffectLifecycleOperationDetail,
+        SkillEffectDamageModifierDetail,
+        SkillEffectHealingModifierDetail,
+        SkillEffectDamageImmunityDetail,
+        SkillEffectHealthFloorDetail {
 
     Set<String> foreignFields();
 
