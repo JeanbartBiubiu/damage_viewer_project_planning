@@ -13,21 +13,30 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
 import { listAttributes } from '../../../../services/attributeClient';
 import { listDamageTypes } from '../../../../services/damageTypeClient';
+import { listModifierZones } from '../../../../services/modifierZoneClient';
 import { listSkills } from '../../../../services/skillClient';
 import { listStatuses } from '../../../../services/statusClient';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
+import type { ModifierZone } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   AttributeChangeOperation,
   CooldownChangeOperation,
   ResourceChangeOperation,
+  SkillEffectCriticalFilter,
   SkillEffectCriticalMode,
+  SkillEffectDamageFilterDeliveryKind,
+  SkillEffectDamageFilterOriginKind,
   SkillEffectDamageDeliveryKind,
+  SkillEffectDamageModifierDirection,
   SkillEffectDamageOriginKind,
+  SkillEffectHealingKind,
+  SkillEffectHealingModifierDirection,
   SkillEffectLifecycleMoment,
   SkillEffectLifecycleOperation,
+  SkillEffectModifierOperation,
   SkillEffectPeriodicExecutionMode,
   SkillEffectReapplicationValueMode,
   SkillEffectResultType,
@@ -49,10 +58,17 @@ import {
   INCOMPLETE_CATALOG_MESSAGE,
   RESOURCE_CHANGE_OPERATION_LABELS,
   SKILL_EFFECT_CRITICAL_MODE_LABELS,
+  SKILL_EFFECT_CRITICAL_FILTER_LABELS,
   SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS,
   SKILL_EFFECT_DAMAGE_ORIGIN_KIND_LABELS,
+  SKILL_EFFECT_HEALING_KIND_LABELS,
+  SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS,
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
+  SKILL_EFFECT_MODIFIER_OPERATION_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATIONS,
   SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
   SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS,
@@ -75,10 +91,12 @@ import {
   applyStackValueModeChange,
   clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
-  isAttributeSetPersistent,
   isCatalogOptionSelectable,
+  isModifierZoneRequired,
   isPeriodicExecutionModeVisible,
+  isPersistentOnlyResultType,
   isReapplicationValueModeVisible,
+  isSharedOnlyPersistentResult,
   isStackValueModeVisible,
   isValueReadModeFixed,
   isValueReadModeVisible,
@@ -89,6 +107,8 @@ import {
   listDamageTypeOptions,
   listFormulaOptions,
   listLifecycleTargetOptions,
+  listModifierZoneOptions,
+  modifierZoneDomainForDraft,
   listStatusOptions,
   sortVampRuleDrafts,
   validateSkillEffectDraft,
@@ -99,6 +119,7 @@ import {
   type SkillEffectResultDraft,
   type SkillEffectResultDraftErrors
 } from './effectForm';
+import { ModifierZoneEditorModal } from '../../modifier-zones/ModifierZoneEditorModal';
 
 export type SkillEffectResultEditorMode = 'create' | 'view' | 'edit';
 
@@ -117,6 +138,7 @@ type SkillEffectResultEditorModalProps = {
   effectsLoadState?: 'ready' | 'failed';
   effectsError?: string | null;
   onRetryEffects?: () => void;
+  onEnableLifecycle: () => void;
   apiBaseUrl: string;
   selectedGameId: string;
   adminToken: string;
@@ -192,6 +214,87 @@ function hasUnknownOption(options: CatalogRefOption[], currentKey: string): bool
   return options.some((item) => item.key === trimmed && item.source === 'unknown');
 }
 
+function DamageFilterFields({
+  draft,
+  errors,
+  readOnly,
+  showCritical,
+  onChange
+}: {
+  draft: SkillEffectResultDraft;
+  errors: SkillEffectResultDraftErrors;
+  readOnly: boolean;
+  showCritical: boolean;
+  onChange: (next: SkillEffectResultDraft) => void;
+}) {
+  return (
+    <>
+      <Form.Item
+        label="产生方式"
+        required
+        validateStatus={errors.damageFilterDeliveryKind ? 'error' : undefined}
+        help={errors.damageFilterDeliveryKind}
+      >
+        <Radio.Group
+          aria-label="伤害过滤产生方式"
+          value={draft.damageFilterDeliveryKind}
+          disabled={readOnly}
+          onChange={(value) => onChange({
+            ...draft,
+            damageFilterDeliveryKind: value as SkillEffectDamageFilterDeliveryKind
+          })}
+        >
+          {Object.entries(SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS).map(([value, label]) => (
+            <Radio key={value} value={value}>{label}</Radio>
+          ))}
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
+        label="来源性质"
+        required
+        validateStatus={errors.damageFilterOriginKind ? 'error' : undefined}
+        help={errors.damageFilterOriginKind}
+      >
+        <Radio.Group
+          aria-label="伤害过滤来源性质"
+          value={draft.damageFilterOriginKind}
+          disabled={readOnly}
+          onChange={(value) => onChange({
+            ...draft,
+            damageFilterOriginKind: value as SkillEffectDamageFilterOriginKind
+          })}
+        >
+          {Object.entries(SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS).map(([value, label]) => (
+            <Radio key={value} value={value}>{label}</Radio>
+          ))}
+        </Radio.Group>
+      </Form.Item>
+      {showCritical ? (
+        <Form.Item
+          label="暴击过滤"
+          required
+          validateStatus={errors.criticalFilter ? 'error' : undefined}
+          help={errors.criticalFilter}
+        >
+          <Radio.Group
+            aria-label="暴击过滤"
+            value={draft.criticalFilter}
+            disabled={readOnly}
+            onChange={(value) => onChange({
+              ...draft,
+              criticalFilter: value as SkillEffectCriticalFilter
+            })}
+          >
+            {Object.entries(SKILL_EFFECT_CRITICAL_FILTER_LABELS).map(([value, label]) => (
+              <Radio key={value} value={value}>{label}</Radio>
+            ))}
+          </Radio.Group>
+        </Form.Item>
+      ) : null}
+    </>
+  );
+}
+
 export function SkillEffectResultEditorModal({
   visible,
   mode,
@@ -207,6 +310,7 @@ export function SkillEffectResultEditorModal({
   effectsLoadState,
   effectsError,
   onRetryEffects,
+  onEnableLifecycle,
   apiBaseUrl,
   selectedGameId,
   adminToken,
@@ -217,13 +321,16 @@ export function SkillEffectResultEditorModal({
   const [errors, setErrors] = useState<SkillEffectResultDraftErrors>(fieldErrors);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [damageTypes, setDamageTypes] = useState<DamageType[]>([]);
+  const [modifierZones, setModifierZones] = useState<ModifierZone[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [statuses, setStatuses] = useState<GameStatus[]>([]);
   const [catalogLoadState, setCatalogLoadState] = useState<EffectCatalogLoadState>({});
   const [catalogErrors, setCatalogErrors] = useState<Partial<Record<keyof EffectCatalogLoadState, string>>>({});
   const [catalogLoading, setCatalogLoading] = useState<Partial<Record<keyof EffectCatalogLoadState, boolean>>>({});
+  const [modifierZoneEditorVisible, setModifierZoneEditorVisible] = useState(false);
   const damageTypeSerial = useRef(0);
+  const modifierZoneSerial = useRef(0);
   const attributeSerial = useRef(0);
   const skillSerial = useRef(0);
   const statusSerial = useRef(0);
@@ -231,19 +338,28 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
+  const valueFormulaLabel = draft.resultType === 'DAMAGE_MODIFIER'
+    || draft.resultType === 'HEALING_MODIFIER'
+    ? '修正比例公式'
+    : draft.resultType === 'HEALTH_FLOOR'
+      ? '生命下限公式'
+      : '数值公式';
 
   const resetCatalogs = useCallback(() => {
     damageTypeSerial.current += 1;
+    modifierZoneSerial.current += 1;
     attributeSerial.current += 1;
     skillSerial.current += 1;
     statusSerial.current += 1;
     setDamageTypes([]);
+    setModifierZones([]);
     setAttributes([]);
     setSkills([]);
     setStatuses([]);
     setCatalogLoadState({});
     setCatalogErrors({});
     setCatalogLoading({});
+    setModifierZoneEditorVisible(false);
   }, []);
 
   useEffect(() => {
@@ -281,6 +397,35 @@ export function SkillEffectResultEditorModal({
     } finally {
       if (damageTypeSerial.current === serial) {
         setCatalogLoading((current) => ({ ...current, damageTypes: false }));
+      }
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+
+  const loadModifierZones = useCallback(async () => {
+    const serial = modifierZoneSerial.current + 1;
+    modifierZoneSerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setModifierZones([]);
+      setCatalogLoadState((current) => ({ ...current, modifierZones: token ? current.modifierZones : undefined }));
+      setCatalogLoading((current) => ({ ...current, modifierZones: false }));
+      return;
+    }
+    setCatalogLoading((current) => ({ ...current, modifierZones: true }));
+    try {
+      const result = await listModifierZones(apiBaseUrl, selectedGameId, token);
+      if (modifierZoneSerial.current !== serial) return;
+      setModifierZones(result.data.items);
+      setCatalogLoadState((current) => ({ ...current, modifierZones: 'ready' }));
+      setCatalogErrors((current) => ({ ...current, modifierZones: undefined }));
+    } catch (error) {
+      if (modifierZoneSerial.current !== serial) return;
+      setModifierZones([]);
+      setCatalogLoadState((current) => ({ ...current, modifierZones: 'failed' }));
+      setCatalogErrors((current) => ({ ...current, modifierZones: getErrorMessage(error) }));
+    } finally {
+      if (modifierZoneSerial.current === serial) {
+        setCatalogLoading((current) => ({ ...current, modifierZones: false }));
       }
     }
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
@@ -374,18 +519,31 @@ export function SkillEffectResultEditorModal({
 
   useEffect(() => {
     if (!visible) return;
-    if (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD') {
+    if (
+      draft.resultType === 'DAMAGE'
+      || draft.resultType === 'NORMAL_SHIELD'
+      || draft.resultType === 'DAMAGE_MODIFIER'
+      || draft.resultType === 'DAMAGE_IMMUNITY'
+    ) {
       void loadDamageTypes();
     }
-    if (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE') {
+    if (
+      draft.resultType === 'ATTRIBUTE_CHANGE'
+      || draft.resultType === 'RESOURCE_CHANGE'
+      || draft.resultType === 'HEALTH_FLOOR'
+    ) {
       void loadAttributes();
     }
+    if (isModifierZoneRequired(draft)) void loadModifierZones();
     if (draft.resultType === 'COOLDOWN_CHANGE') void loadSkillsCatalog();
     if (draft.resultType === 'STATUS_OPERATION') void loadStatusesCatalog();
   }, [
+    draft.attributeOperation,
+    draft.lifecycleBehavior.moment,
     draft.resultType,
     loadAttributes,
     loadDamageTypes,
+    loadModifierZones,
     loadSkillsCatalog,
     loadStatusesCatalog,
     visible
@@ -397,10 +555,11 @@ export function SkillEffectResultEditorModal({
     formulas,
     effects: effectSummaries,
     damageTypes,
+    modifierZones,
     attributes,
     skills,
     statuses
-  }), [attributes, damageTypes, effectSummaries, formulas, parentDraft.effectKey, parentSkill.skillKey, skills, statuses]);
+  }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skills, statuses]);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,
@@ -415,6 +574,18 @@ export function SkillEffectResultEditorModal({
   const damageTypeOptions = useMemo(
     () => listDamageTypeOptions(catalog, draft.damageTypeKey, draft.originalDamageTypeKey),
     [catalog, draft.damageTypeKey, draft.originalDamageTypeKey]
+  );
+  const modifierZoneDomain = modifierZoneDomainForDraft(draft);
+  const modifierZoneOptions = useMemo(
+    () => modifierZoneDomain
+      ? listModifierZoneOptions(
+          catalog,
+          modifierZoneDomain,
+          draft.modifierZoneKey,
+          draft.originalModifierZoneKey
+        )
+      : [],
+    [catalog, draft.modifierZoneKey, draft.originalModifierZoneKey, modifierZoneDomain]
   );
   const absorbedDamageTypeOptions = useMemo(
     () => listDamageTypeOptions(
@@ -470,6 +641,10 @@ export function SkillEffectResultEditorModal({
     () => namesFrom(damageTypes, (item) => item.damageTypeKey, (item) => item.name),
     [damageTypes]
   );
+  const modifierZoneNames = useMemo(
+    () => namesFrom(modifierZones, (item) => item.modifierZoneKey, (item) => item.name),
+    [modifierZones]
+  );
   const attributeNames = useMemo(
     () => namesFrom(attributes, (item) => item.attributeKey, (item) => item.name),
     [attributes]
@@ -485,7 +660,13 @@ export function SkillEffectResultEditorModal({
 
   const unknownBlocking = useMemo(() => {
     if (showValueRule && hasUnknownOption(formulaOptions, draft.formulaKey)) return true;
-    if (draft.resultType === 'DAMAGE' && hasUnknownOption(damageTypeOptions, draft.damageTypeKey)) return true;
+    if (
+      (draft.resultType === 'DAMAGE'
+        || draft.resultType === 'DAMAGE_MODIFIER'
+        || draft.resultType === 'DAMAGE_IMMUNITY')
+      && draft.damageTypeKey
+      && hasUnknownOption(damageTypeOptions, draft.damageTypeKey)
+    ) return true;
     if (
       draft.resultType === 'DAMAGE'
       && draft.criticalMultiplierFormulaKey
@@ -503,9 +684,14 @@ export function SkillEffectResultEditorModal({
       && hasUnknownOption(absorbedDamageTypeOptions, draft.absorbedDamageTypeKey)
     ) return true;
     if (
-      (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE')
+      (draft.resultType === 'ATTRIBUTE_CHANGE'
+        || draft.resultType === 'RESOURCE_CHANGE'
+        || draft.resultType === 'HEALTH_FLOOR')
       && hasUnknownOption(attributeOptions, draft.attributeKey)
     ) {
+      return true;
+    }
+    if (isModifierZoneRequired(draft) && hasUnknownOption(modifierZoneOptions, draft.modifierZoneKey)) {
       return true;
     }
     if (
@@ -532,16 +718,20 @@ export function SkillEffectResultEditorModal({
     damageTypeOptions,
     draft.affectedSkillKeys,
     draft.attributeKey,
+    draft.attributeOperation,
     draft.damageTypeKey,
     draft.absorbedDamageTypeKey,
     draft.criticalMultiplierFormulaKey,
     draft.formulaKey,
+    draft.lifecycleBehavior.moment,
+    draft.modifierZoneKey,
     draft.resultType,
     draft.vampRules,
     draft.statusKey,
     draft.targetEffectKey,
     formulaOptions,
     lifecycleTargetOptions,
+    modifierZoneOptions,
     showValueRule,
     skillOptions,
     statusOptions
@@ -552,15 +742,21 @@ export function SkillEffectResultEditorModal({
       return formulasLoadState === undefined;
     }
     if (
-      (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD')
+      (draft.resultType === 'DAMAGE'
+        || draft.resultType === 'NORMAL_SHIELD'
+        || draft.resultType === 'DAMAGE_MODIFIER'
+        || draft.resultType === 'DAMAGE_IMMUNITY')
       && catalogLoading.damageTypes
     ) return true;
     if (
-      (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE')
+      (draft.resultType === 'ATTRIBUTE_CHANGE'
+        || draft.resultType === 'RESOURCE_CHANGE'
+        || draft.resultType === 'HEALTH_FLOOR')
       && catalogLoading.attributes
     ) {
       return true;
     }
+    if (isModifierZoneRequired(draft) && catalogLoading.modifierZones) return true;
     if (draft.resultType === 'COOLDOWN_CHANGE' && catalogLoading.skills) return true;
     if (draft.resultType === 'STATUS_OPERATION' && catalogLoading.statuses) return true;
     if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsLoadState !== 'ready' && effectsLoadState !== 'failed') {
@@ -570,8 +766,11 @@ export function SkillEffectResultEditorModal({
   }, [
     catalogLoading.attributes,
     catalogLoading.damageTypes,
+    catalogLoading.modifierZones,
     catalogLoading.skills,
     catalogLoading.statuses,
+    draft.attributeOperation,
+    draft.lifecycleBehavior.moment,
     draft.resultType,
     effectsLoadState,
     formulasLoadState,
@@ -584,16 +783,24 @@ export function SkillEffectResultEditorModal({
       messages.push(INCOMPLETE_CATALOG_MESSAGE);
     }
     if (
-      (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD')
+      (draft.resultType === 'DAMAGE'
+        || draft.resultType === 'NORMAL_SHIELD'
+        || draft.resultType === 'DAMAGE_MODIFIER'
+        || draft.resultType === 'DAMAGE_IMMUNITY')
       && catalogErrors.damageTypes
     ) {
       messages.push(catalogErrors.damageTypes);
     }
     if (
-      (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE')
+      (draft.resultType === 'ATTRIBUTE_CHANGE'
+        || draft.resultType === 'RESOURCE_CHANGE'
+        || draft.resultType === 'HEALTH_FLOOR')
       && catalogErrors.attributes
     ) {
       messages.push(catalogErrors.attributes);
+    }
+    if (isModifierZoneRequired(draft) && catalogErrors.modifierZones) {
+      messages.push(catalogErrors.modifierZones);
     }
     if (draft.resultType === 'COOLDOWN_CHANGE' && catalogErrors.skills) {
       messages.push(catalogErrors.skills);
@@ -608,8 +815,11 @@ export function SkillEffectResultEditorModal({
   }, [
     catalogErrors.attributes,
     catalogErrors.damageTypes,
+    catalogErrors.modifierZones,
     catalogErrors.skills,
     catalogErrors.statuses,
+    draft.attributeOperation,
+    draft.lifecycleBehavior.moment,
     draft.resultType,
     effectsError,
     formulasLoadState,
@@ -620,6 +830,55 @@ export function SkillEffectResultEditorModal({
     setDraft(clearHiddenLifecycleBehaviorFields(next));
     setErrors({});
     setSaveError(null);
+  };
+
+  const renderModifierZoneField = () => {
+    if (!modifierZoneDomain || !isModifierZoneRequired(draft)) return null;
+    return (
+      <Form.Item
+        label="乘区"
+        required
+        validateStatus={errors.modifierZoneKey ? 'error' : undefined}
+        help={errors.modifierZoneKey}
+      >
+        <Space style={{ width: '100%' }}>
+          <Select
+            aria-label="乘区"
+            value={draft.modifierZoneKey || undefined}
+            disabled={readOnly}
+            loading={Boolean(catalogLoading.modifierZones)}
+            options={toSelectOptions(modifierZoneOptions, modifierZoneNames)}
+            placeholder="请选择乘区"
+            style={{ minWidth: 360 }}
+            onChange={(value) => patchDraft({ ...draft, modifierZoneKey: String(value ?? '') })}
+          />
+          {!readOnly ? (
+            <Button
+              disabled={!selectedGameId || !adminToken.trim()}
+              onClick={() => setModifierZoneEditorVisible(true)}
+            >新增乘区</Button>
+          ) : null}
+        </Space>
+      </Form.Item>
+    );
+  };
+
+  const changeResultType = (nextType: SkillEffectResultType) => {
+    const nextDraft = applyResultTypeChange(draft, nextType);
+    if (isPersistentOnlyResultType(nextType) && !parentDraft.lifecycleEnabled) {
+      Modal.confirm({
+        title: '启用效果生命周期',
+        content: '该结果只能持续生效。启用后还需要在效果弹窗中补齐最大层数、每次施加层数和实例范围。',
+        okText: '启用并继续',
+        cancelText: '取消',
+        onOk: () => {
+          onEnableLifecycle();
+          patchDraft(nextDraft);
+        }
+      });
+      return;
+    }
+    patchDraft(nextDraft);
   };
 
   const changeShieldDecayMode = (nextMode: SkillEffectNormalShieldDecayMode) => {
@@ -694,18 +953,29 @@ export function SkillEffectResultEditorModal({
   };
 
   const retryNeededCatalog = () => {
-    if (draft.resultType === 'DAMAGE' || draft.resultType === 'NORMAL_SHIELD') {
+    if (
+      draft.resultType === 'DAMAGE'
+      || draft.resultType === 'NORMAL_SHIELD'
+      || draft.resultType === 'DAMAGE_MODIFIER'
+      || draft.resultType === 'DAMAGE_IMMUNITY'
+    ) {
       void loadDamageTypes();
     }
-    if (draft.resultType === 'ATTRIBUTE_CHANGE' || draft.resultType === 'RESOURCE_CHANGE') {
+    if (
+      draft.resultType === 'ATTRIBUTE_CHANGE'
+      || draft.resultType === 'RESOURCE_CHANGE'
+      || draft.resultType === 'HEALTH_FLOOR'
+    ) {
       void loadAttributes();
     }
+    if (isModifierZoneRequired(draft)) void loadModifierZones();
     if (draft.resultType === 'COOLDOWN_CHANGE') void loadSkillsCatalog();
     if (draft.resultType === 'STATUS_OPERATION') void loadStatusesCatalog();
     if (draft.resultType === 'LIFECYCLE_OPERATION') onRetryEffects?.();
   };
 
   return (
+    <>
     <Modal
       title={titleFor(mode)}
       visible={visible}
@@ -741,6 +1011,9 @@ export function SkillEffectResultEditorModal({
           />
         ) : null}
         {unknownBlocking ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
+        {isPersistentOnlyResultType(draft.resultType) && !parentDraft.lifecycleEnabled ? (
+          <Alert type="error" content="该结果需要先启用父效果生命周期。" />
+        ) : null}
         <Form layout="vertical">
           <Form.Item
             label="结果标识"
@@ -751,7 +1024,7 @@ export function SkillEffectResultEditorModal({
             <Input
               aria-label="结果标识"
               value={draft.resultKey}
-              disabled={readOnly || existingResult}
+              disabled={readOnly}
               maxLength={64}
               onChange={(value) => patchDraft({ ...draft, resultKey: value })}
             />
@@ -784,7 +1057,7 @@ export function SkillEffectResultEditorModal({
                 value,
                 label: SKILL_EFFECT_RESULT_TYPE_LABELS[value]
               }))}
-              onChange={(value) => patchDraft(applyResultTypeChange(draft, value as SkillEffectResultType))}
+              onChange={(value) => changeResultType(value as SkillEffectResultType)}
             />
           </Form.Item>
           <Form.Item
@@ -838,13 +1111,13 @@ export function SkillEffectResultEditorModal({
           {showValueRule ? (
             <>
               <Form.Item
-                label="数值公式"
+                label={valueFormulaLabel}
                 required
                 validateStatus={errors.formulaKey ? 'error' : undefined}
                 help={errors.formulaKey}
               >
                 <Select
-                  aria-label="数值公式"
+                  aria-label={valueFormulaLabel}
                   value={draft.formulaKey || undefined}
                   disabled={readOnly}
                   options={toSelectOptions(formulaOptions, formulaNames)}
@@ -1183,6 +1456,191 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
 
+          {draft.resultType === 'DAMAGE_MODIFIER' ? (
+            <>
+              {renderModifierZoneField()}
+              <Form.Item
+                label="作用方向"
+                required
+                validateStatus={errors.modifierDirection ? 'error' : undefined}
+                help={errors.modifierDirection}
+              >
+                <Radio.Group
+                  aria-label="伤害修正作用方向"
+                  value={draft.modifierDirection}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    modifierDirection: value as SkillEffectDamageModifierDirection
+                  })}
+                >
+                  {Object.entries(SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="修正方式"
+                required
+                validateStatus={errors.modifierOperation ? 'error' : undefined}
+                help={errors.modifierOperation}
+              >
+                <Radio.Group
+                  aria-label="伤害修正方式"
+                  value={draft.modifierOperation}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    modifierOperation: value as SkillEffectModifierOperation
+                  })}
+                >
+                  {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="伤害类型"
+                validateStatus={errors.damageTypeKey ? 'error' : undefined}
+                help={errors.damageTypeKey}
+              >
+                <Select
+                  aria-label="伤害修正伤害类型"
+                  value={draft.damageTypeKey}
+                  disabled={readOnly}
+                  options={[
+                    { value: '', label: '全部伤害' },
+                    ...toSelectOptions(damageTypeOptions, damageTypeNames)
+                  ]}
+                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                />
+              </Form.Item>
+              <DamageFilterFields
+                draft={draft}
+                errors={errors}
+                readOnly={readOnly}
+                showCritical
+                onChange={patchDraft}
+              />
+            </>
+          ) : null}
+
+          {draft.resultType === 'HEALING_MODIFIER' ? (
+            <>
+              {renderModifierZoneField()}
+              <Form.Item
+                label="作用方向"
+                required
+                validateStatus={errors.healingModifierDirection ? 'error' : undefined}
+                help={errors.healingModifierDirection}
+              >
+                <Radio.Group
+                  aria-label="治疗修正作用方向"
+                  value={draft.healingModifierDirection}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    healingModifierDirection: value as SkillEffectHealingModifierDirection
+                  })}
+                >
+                  {Object.entries(SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="修正方式"
+                required
+                validateStatus={errors.modifierOperation ? 'error' : undefined}
+                help={errors.modifierOperation}
+              >
+                <Radio.Group
+                  aria-label="治疗修正方式"
+                  value={draft.modifierOperation}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    modifierOperation: value as SkillEffectModifierOperation
+                  })}
+                >
+                  {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="治疗种类"
+                required
+                validateStatus={errors.healingKind ? 'error' : undefined}
+                help={errors.healingKind}
+              >
+                <Radio.Group
+                  aria-label="治疗种类"
+                  value={draft.healingKind}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    healingKind: value as SkillEffectHealingKind
+                  })}
+                >
+                  {Object.entries(SKILL_EFFECT_HEALING_KIND_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </>
+          ) : null}
+
+          {draft.resultType === 'DAMAGE_IMMUNITY' ? (
+            <>
+              <Alert
+                type="info"
+                content="伤害免疫只处理匹配伤害，不等于法术护盾，也不会自动阻止其他结果。"
+              />
+              <Form.Item
+                label="伤害类型"
+                validateStatus={errors.damageTypeKey ? 'error' : undefined}
+                help={errors.damageTypeKey}
+              >
+                <Select
+                  aria-label="伤害免疫伤害类型"
+                  value={draft.damageTypeKey}
+                  disabled={readOnly}
+                  options={[
+                    { value: '', label: '全部伤害' },
+                    ...toSelectOptions(damageTypeOptions, damageTypeNames)
+                  ]}
+                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                />
+              </Form.Item>
+              <DamageFilterFields
+                draft={draft}
+                errors={errors}
+                readOnly={readOnly}
+                showCritical={false}
+                onChange={patchDraft}
+              />
+            </>
+          ) : null}
+
+          {draft.resultType === 'HEALTH_FLOOR' ? (
+            <Form.Item
+              label="生命属性"
+              required
+              validateStatus={errors.attributeKey ? 'error' : undefined}
+              help={errors.attributeKey}
+            >
+              <Select
+                aria-label="生命属性"
+                value={draft.attributeKey || undefined}
+                disabled={readOnly}
+                options={toSelectOptions(attributeOptions, attributeNames)}
+                placeholder="请选择生命属性"
+                onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
+              />
+            </Form.Item>
+          ) : null}
+
           {draft.resultType === 'ATTRIBUTE_CHANGE' ? (
             <>
               <Form.Item
@@ -1220,6 +1678,7 @@ export function SkillEffectResultEditorModal({
                   ))}
                 </Radio.Group>
               </Form.Item>
+              {renderModifierZoneField()}
             </>
           ) : null}
 
@@ -1365,7 +1824,7 @@ export function SkillEffectResultEditorModal({
                 <Select
                   aria-label="生命周期时点"
                   value={draft.lifecycleBehavior.moment || undefined}
-                  disabled={readOnly}
+                  disabled={readOnly || isPersistentOnlyResultType(draft.resultType)}
                   options={allowedMoments.map((value) => ({
                     value,
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
@@ -1411,7 +1870,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="层数值方式"
                     value={draft.lifecycleBehavior.stackValueMode}
-                    disabled={readOnly || isAttributeSetPersistent(draft)}
+                    disabled={readOnly || isSharedOnlyPersistentResult(draft)}
                     onChange={(value) => patchDraft(
                       applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
                     )}
@@ -1420,7 +1879,7 @@ export function SkillEffectResultEditorModal({
                       .filter(([value]) => !(
                         value === 'PER_STACK'
                         && (
-                          isAttributeSetPersistent(draft)
+                          isSharedOnlyPersistentResult(draft)
                           || (
                             draft.resultType === 'NORMAL_SHIELD'
                             && draft.shieldDecayMode === 'LINEAR_TO_ZERO'
@@ -1453,7 +1912,7 @@ export function SkillEffectResultEditorModal({
                     })}
                   >
                     {Object.entries(SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS)
-                      .filter(([value]) => !(isAttributeSetPersistent(draft) && value === 'ADD'))
+                      .filter(([value]) => !(isSharedOnlyPersistentResult(draft) && value === 'ADD'))
                       .map(([value, label]) => (
                         <Radio key={value} value={value}>{label}</Radio>
                       ))}
@@ -1531,5 +1990,26 @@ export function SkillEffectResultEditorModal({
         </Form>
       </Space>
     </Modal>
+    <ModifierZoneEditorModal
+      visible={modifierZoneEditorVisible}
+      mode="create"
+      modifierZone={null}
+      initialDomain={modifierZoneDomain ?? undefined}
+      apiBaseUrl={apiBaseUrl}
+      selectedGameId={selectedGameId}
+      adminToken={adminToken}
+      onClose={() => setModifierZoneEditorVisible(false)}
+      onSaved={(saved) => {
+        setModifierZones((current) => [
+          ...current.filter((item) => item.modifierZoneKey !== saved.modifierZoneKey),
+          saved
+        ]);
+        setCatalogLoadState((current) => ({ ...current, modifierZones: 'ready' }));
+        setModifierZoneEditorVisible(false);
+        patchDraft({ ...draft, modifierZoneKey: saved.modifierZoneKey });
+      }}
+      onDirtyChange={() => {}}
+    />
+    </>
   );
 }
