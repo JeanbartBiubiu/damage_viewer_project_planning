@@ -467,11 +467,12 @@
       "title": "阶段7.6.2持续修正与伤前保护共享契约",
       "module": "planning",
       "feature": "persistent_modifier_pre_damage_protection",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
-      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "owner_model": "GPT-5",
       "docs": [
-        "文档记录/详细设计/项目/持续修正与伤前保护详细设计.md"
+        "文档记录/详细设计/项目/持续修正与伤前保护详细设计.md",
+        "文档记录/测试记录/项目/持续修正与伤前保护验收记录-2026-08-31.md"
       ]
     },
     {
@@ -479,9 +480,9 @@
       "title": "阶段7.6.2持续修正与伤前保护后端实现",
       "module": "server",
       "feature": "persistent_modifier_pre_damage_protection",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
-      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "owner_model": "GPT-5",
       "docs": [
         "文档记录/详细设计/server/game_manage/持续修正与伤前保护后端详细设计.md"
       ]
@@ -491,11 +492,48 @@
       "title": "阶段7.6.2持续修正与伤前保护前端实现",
       "module": "web",
       "feature": "persistent_modifier_pre_damage_protection",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
-      "owner_model": "GPT-5 + Cursor grok-4.6",
+      "owner_model": "GPT-5",
       "docs": [
         "文档记录/详细设计/web/持续修正与伤前保护前端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "planning-modifier-zone-management",
+      "title": "阶段7.6.2补充乘区管理与修正结果共享契约",
+      "module": "planning",
+      "feature": "modifier_zone_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "docs": [
+        "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+        "文档记录/测试记录/项目/乘区管理与修正结果补充验收记录-2026-08-31.md"
+      ]
+    },
+    {
+      "task_key": "server-modifier-zone-management",
+      "title": "阶段7.6.2补充乘区管理与修正结果后端实现",
+      "module": "server",
+      "feature": "modifier_zone_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/乘区管理与修正结果补充后端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "web-modifier-zone-management",
+      "title": "阶段7.6.2补充乘区管理与修正结果前端实现",
+      "module": "web",
+      "feature": "modifier_zone_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "docs": [
+        "文档记录/详细设计/web/乘区管理与修正结果补充前端详细设计.md"
       ]
     },
     {
