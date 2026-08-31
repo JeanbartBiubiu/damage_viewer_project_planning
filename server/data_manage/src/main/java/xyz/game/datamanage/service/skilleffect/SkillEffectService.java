@@ -82,6 +82,9 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
@@ -113,7 +116,8 @@ public class SkillEffectService {
         "fk_skill_trigger_result_modifiers_result",
         "fk_skill_trigger_status_cond_source_result",
         "fk_skill_trigger_combat_status_bind_result",
-        "fk_skill_trigger_prior_result_bind_result"
+        "fk_skill_trigger_prior_result_bind_result",
+        "fk_skill_trigger_spell_shield_blocked_effect"
     );
     private static final String DISABLED = "DISABLED";
 
@@ -288,7 +292,8 @@ public class SkillEffectService {
                         effectKey,
                         result,
                         existingCatalog.values.containsKey(result.resultKey()),
-                        existingBehaviorKeys.contains(result.resultKey())
+                        existingBehaviorKeys.contains(result.resultKey()),
+                        existingCatalog.spellShieldPolicies.containsKey(result.resultKey())
                     );
                 } else {
                     insertResultAggregate(gameId, skillKey, effectKey, result);
@@ -367,6 +372,12 @@ public class SkillEffectService {
             skillKey,
             effectKey,
             mapper.listDamageDetails(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies = indexSpellShieldPolicies(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listSpellShieldPolicies(gameId, skillKey, effectKey)
         );
         Map<String, SkillEffectCriticalPolicyRow> criticalPolicies = indexCriticalPolicies(
             gameId,
@@ -448,6 +459,7 @@ public class SkillEffectService {
                 result,
                 values,
                 damage,
+                spellShieldPolicies,
                 criticalPolicies,
                 vampRules,
                 normalShields,
@@ -485,6 +497,7 @@ public class SkillEffectService {
         SkillEffectResultRow result,
         Map<String, SkillEffectResultValueRow> values,
         Map<String, SkillEffectDamageDetailRow> damage,
+        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies,
         Map<String, SkillEffectCriticalPolicyRow> criticalPolicies,
         Map<String, List<SkillEffectVampRuleRow>> vampRules,
         Map<String, SkillEffectNormalShieldInteractionRow> normalShields,
@@ -503,6 +516,7 @@ public class SkillEffectService {
         String resultKey = result.resultKey();
         SkillEffectResultValueRow value = values.get(resultKey);
         SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
+        SkillEffectSpellShieldPolicyRow spellShieldPolicy = spellShieldPolicies.get(resultKey);
         SkillEffectCriticalPolicyRow criticalRow = criticalPolicies.get(resultKey);
         List<SkillEffectVampRuleRow> vampRows = vampRules.getOrDefault(resultKey, List.of());
         SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
@@ -722,7 +736,20 @@ public class SkillEffectService {
                     new SkillEffectHealthFloorDetail(healthFloorRow.attributeKey())
                 );
             }
+            case SPELL_SHIELD -> {
+                if (value != null || extraDetails != 0) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "法术护盾结果形状损坏");
+                }
+                yield new AssembledResultPayload(null, new SkillEffectSpellShieldDetail());
+            }
         };
+        SkillEffectResultLifecycleBehaviorRow behavior = behaviors.get(resultKey);
+        SkillEffectSpellShieldBlockScope blockScope = spellShieldPolicy == null
+            ? null
+            : spellShieldPolicy.blockScope();
+        if (!isSpellShieldBlockScopeAllowed(result.resultType(), result.target(), behavior, blockScope)) {
+            throw corrupt(gameId, skillKey, effectKey, resultKey, "法术护盾阻挡粒度形状损坏");
+        }
         return new SkillEffectResultResponse(
             result.resultKey(),
             result.name(),
@@ -732,7 +759,8 @@ public class SkillEffectService {
             result.sortOrder(),
             payload.valueRule(),
             payload.detail(),
-            toBehaviorResponse(behaviors.get(resultKey))
+            toBehaviorResponse(behavior),
+            blockScope
         );
     }
 
@@ -886,7 +914,74 @@ public class SkillEffectService {
             case HEALING_MODIFIER -> validateHealingModifier(result, index, retained, refs, issues);
             case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
             case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
+            case SPELL_SHIELD -> validateSpellShield(result, index, issues);
         }
+        validateSpellShieldBlockScope(result, index, issues);
+    }
+
+    private void validateSpellShield(
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        forbidValueRule(result, index, issues);
+        if (!(result.detail() instanceof SkillEffectSpellShieldDetail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "法术护盾结果明细形状不合法"));
+        }
+    }
+
+    private void validateSpellShieldBlockScope(
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        SkillEffectSpellShieldBlockScope scope = result.spellShieldBlockScope();
+        if (scope == null) {
+            return;
+        }
+        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+        boolean persistent = behavior != null && behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT;
+        boolean allowedType = result.resultType() == SkillEffectResultType.DAMAGE
+            || result.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE
+            || result.resultType() == SkillEffectResultType.RESOURCE_CHANGE
+            || result.resultType() == SkillEffectResultType.COOLDOWN_CHANGE
+            || result.resultType() == SkillEffectResultType.STATUS_OPERATION
+            || result.resultType() == SkillEffectResultType.LIFECYCLE_OPERATION;
+        if (result.target() != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
+            || persistent
+            || !allowedType
+            || (scope == SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+                && result.resultType() != SkillEffectResultType.DAMAGE)) {
+            issues.add(fieldIssue(
+                resultPath(index, "spellShieldBlockScope"),
+                "INVALID_SPELL_SHIELD_SCOPE",
+                "当前结果不能使用该法术护盾阻挡粒度"
+            ));
+        }
+    }
+
+    private static boolean isSpellShieldBlockScopeAllowed(
+        SkillEffectResultType resultType,
+        xyz.game.datamanage.model.skilleffect.SkillEffectTarget target,
+        SkillEffectResultLifecycleBehaviorRow behavior,
+        SkillEffectSpellShieldBlockScope scope
+    ) {
+        if (scope == null) {
+            return true;
+        }
+        if (target != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
+            || (behavior != null && behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT)) {
+            return false;
+        }
+        if (resultType == SkillEffectResultType.DAMAGE) {
+            return true;
+        }
+        return scope != SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+            && (resultType == SkillEffectResultType.ATTRIBUTE_CHANGE
+                || resultType == SkillEffectResultType.RESOURCE_CHANGE
+                || resultType == SkillEffectResultType.COOLDOWN_CHANGE
+                || resultType == SkillEffectResultType.STATUS_OPERATION
+                || resultType == SkillEffectResultType.LIFECYCLE_OPERATION);
     }
 
     private void validateDamageModifier(
@@ -1687,6 +1782,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.HEALING_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
+            || type == SkillEffectResultType.SPELL_SHIELD
             || statusApply;
         if (!allowed) {
             issues.add(fieldIssue(
@@ -1696,7 +1792,9 @@ public class SkillEffectService {
             ));
             return;
         }
-        if (statusApply || type == SkillEffectResultType.DAMAGE_IMMUNITY) {
+        if (statusApply
+            || type == SkillEffectResultType.DAMAGE_IMMUNITY
+            || type == SkillEffectResultType.SPELL_SHIELD) {
             if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
                 issues.add(fieldIssue(
                     resultPath(index, "lifecycleBehavior.stackValueMode"),
@@ -1778,7 +1876,8 @@ public class SkillEffectService {
         boolean special = type == SkillEffectResultType.DAMAGE_MODIFIER
             || type == SkillEffectResultType.HEALING_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
-            || type == SkillEffectResultType.HEALTH_FLOOR;
+            || type == SkillEffectResultType.HEALTH_FLOOR
+            || type == SkillEffectResultType.SPELL_SHIELD;
         if (!special) {
             return;
         }
@@ -1855,7 +1954,8 @@ public class SkillEffectService {
         List<Map<String, String>> issues
     ) {
         if (result.resultType() == SkillEffectResultType.STATUS_OPERATION
-            || result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY) {
+            || result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+            || result.resultType() == SkillEffectResultType.SPELL_SHIELD) {
             forbidValueRule(result, index, issues);
             return;
         }
@@ -2115,6 +2215,7 @@ public class SkillEffectService {
         );
         insertValueIfPresent(gameId, skillKey, effectKey, result);
         insertDetail(gameId, skillKey, effectKey, result);
+        persistSpellShieldPolicy(gameId, skillKey, effectKey, result, false);
         insertBehaviorIfPresent(gameId, skillKey, effectKey, result);
     }
 
@@ -2124,7 +2225,8 @@ public class SkillEffectService {
         String effectKey,
         SkillEffectResultRequest result,
         boolean hadValue,
-        boolean hadBehavior
+        boolean hadBehavior,
+        boolean hadSpellShieldPolicy
     ) {
         mapper.updateResult(
             gameId,
@@ -2155,6 +2257,7 @@ public class SkillEffectService {
             mapper.deleteValue(gameId, skillKey, effectKey, result.resultKey());
         }
         updateDetail(gameId, skillKey, effectKey, result);
+        persistSpellShieldPolicy(gameId, skillKey, effectKey, result, hadSpellShieldPolicy);
         persistBehavior(gameId, skillKey, effectKey, result, hadBehavior);
     }
 
@@ -2265,6 +2368,8 @@ public class SkillEffectService {
             case SkillEffectHealthFloorDetail detail -> mapper.insertHealthFloorDetail(
                 gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
+            case SkillEffectSpellShieldDetail ignored -> {
+            }
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
             SkillEffectCriticalPolicy critical = damage.critical();
@@ -2376,6 +2481,8 @@ public class SkillEffectService {
             case SkillEffectHealthFloorDetail detail -> mapper.updateHealthFloorDetail(
                 gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
+            case SkillEffectSpellShieldDetail ignored -> {
+            }
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
             SkillEffectCriticalPolicy critical = damage.critical();
@@ -2496,6 +2603,12 @@ public class SkillEffectService {
             effectKey,
             mapper.listLifecycleBehaviors(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies = indexSpellShieldPolicies(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listSpellShieldPolicies(gameId, skillKey, effectKey)
+        );
         for (SkillEffectResultRow row : existingRows) {
             String resultKey = row.resultKey();
             SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
@@ -2537,7 +2650,7 @@ public class SkillEffectService {
                         : (healingModifierRow == null ? null : healingModifierRow.modifierZoneKey()))
             ));
         }
-        return new ExistingCatalog(values, retained, behaviors);
+        return new ExistingCatalog(values, retained, behaviors, spellShieldPolicies);
     }
 
     private void lockParentSkill(String gameId, String skillKey) {
@@ -2592,6 +2705,21 @@ public class SkillEffectService {
         for (SkillEffectDamageDetailRow row : nullToEmpty(rows)) {
             if (indexed.put(row.resultKey(), row) != null) {
                 throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectSpellShieldPolicyRow> indexSpellShieldPolicies(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectSpellShieldPolicyRow> rows
+    ) {
+        Map<String, SkillEffectSpellShieldPolicyRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectSpellShieldPolicyRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "法术护盾阻挡策略重复");
             }
         }
         return indexed;
@@ -3203,6 +3331,27 @@ public class SkillEffectService {
         persistBehavior(gameId, skillKey, effectKey, result, false);
     }
 
+    private void persistSpellShieldPolicy(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        SkillEffectResultRequest result,
+        boolean hadPolicy
+    ) {
+        SkillEffectSpellShieldBlockScope scope = result.spellShieldBlockScope();
+        if (scope == null) {
+            if (hadPolicy) {
+                mapper.deleteSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey());
+            }
+            return;
+        }
+        if (hadPolicy) {
+            mapper.updateSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey(), scope);
+            return;
+        }
+        mapper.insertSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey(), scope);
+    }
+
     private void persistBehavior(
         String gameId,
         String skillKey,
@@ -3397,7 +3546,8 @@ public class SkillEffectService {
     private record ExistingCatalog(
         Map<String, SkillEffectResultValueRow> values,
         Map<String, RetainedCatalog> retained,
-        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
+        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors,
+        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies
     ) {
     }
 

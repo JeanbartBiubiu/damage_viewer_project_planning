@@ -38,6 +38,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBindingRow
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow;
 
 @Mapper
@@ -137,6 +138,12 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
     );
 
+    SkillTriggerSpellShieldBlockedEventRow findSpellShieldBlockedEvent(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("ruleKey") String ruleKey
+    );
+
     int insertProcessEvent(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
@@ -211,6 +218,13 @@ public interface SkillTriggerRuleMapper {
         @Param("damageTypeKey") String damageTypeKey,
         @Param("deliveryKind") String deliveryKind,
         @Param("originKind") String originKind
+    );
+
+    int insertSpellShieldBlockedEvent(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("ruleKey") String ruleKey,
+        @Param("shieldEffectKey") String shieldEffectKey
     );
 
     List<SkillTriggerConditionGroupRow> listConditionGroups(
@@ -578,6 +592,12 @@ public interface SkillTriggerRuleMapper {
 
     long countLifecycleReferences(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("effectKey") String effectKey
+    );
+
+    long countSpellShieldBlockedEventReferences(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
     );
 
     long countProcessReferences(

@@ -31,7 +31,8 @@ public record SkillEffectResultRequest(
     @Valid
     SkillEffectResultDetail detail,
     @Valid
-    SkillEffectResultLifecycleBehaviorRequest lifecycleBehavior
+    SkillEffectResultLifecycleBehaviorRequest lifecycleBehavior,
+    SkillEffectSpellShieldBlockScope spellShieldBlockScope
 ) {
     public SkillEffectResultRequest {
         resultKey = resultKey == null ? null : resultKey.trim();
@@ -50,8 +51,33 @@ public record SkillEffectResultRequest(
         String description,
         Integer sortOrder,
         SkillEffectValueRuleRequest valueRule,
+        SkillEffectResultDetail detail,
+        SkillEffectResultLifecycleBehaviorRequest lifecycleBehavior
+    ) {
+        this(
+            resultKey,
+            name,
+            resultType,
+            target,
+            description,
+            sortOrder,
+            valueRule,
+            detail,
+            lifecycleBehavior,
+            null
+        );
+    }
+
+    public SkillEffectResultRequest(
+        String resultKey,
+        String name,
+        SkillEffectResultType resultType,
+        SkillEffectTarget target,
+        String description,
+        Integer sortOrder,
+        SkillEffectValueRuleRequest valueRule,
         SkillEffectResultDetail detail
     ) {
-        this(resultKey, name, resultType, target, description, sortOrder, valueRule, detail, null);
+        this(resultKey, name, resultType, target, description, sortOrder, valueRule, detail, null, null);
     }
 }
