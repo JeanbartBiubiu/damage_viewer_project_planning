@@ -66,6 +66,7 @@ import {
 import {
   DISABLED_CATALOG_LABEL,
   INCOMPLETE_CATALOG_MESSAGE,
+  MISSING_CATALOG_LABEL,
   MAX_TRIGGERS_SCOPE_HINT,
   SKILL_TRIGGER_ACTION_TYPE_LABELS,
   SKILL_TRIGGER_CONDITION_GROUP_HINT,
@@ -111,6 +112,7 @@ import {
   fromDetail,
   groupConditionSummary,
   isSkillNotFound,
+  isSpellShieldEventEffect,
   isTriggerRuleNotFound,
   mapTriggerFieldIssues,
   moveActionDrafts,
@@ -248,6 +250,7 @@ export function SkillTriggerRuleEditorModal({
   const [ruleNames, setRuleNames] = useState<Map<string, string>>(() => new Map());
   const [catalogStates, setCatalogStates] = useState<Partial<Record<SkillTriggerCatalogKind, CatalogLoadState>>>({});
   const [catalogErrors, setCatalogErrors] = useState<Partial<Record<SkillTriggerCatalogKind, string>>>({});
+  const [spellShieldCatalogState, setSpellShieldCatalogState] = useState<CatalogLoadState>('idle');
   const [effectByKey, setEffectByKey] = useState<Map<string, SkillEffect>>(() => new Map());
   const [processByKey, setProcessByKey] = useState<Map<string, SkillProcess>>(() => new Map());
   const [stateByKey, setStateByKey] = useState<Map<string, SkillInternalState>>(() => new Map());
@@ -262,6 +265,7 @@ export function SkillTriggerRuleEditorModal({
   const formulaByKeyRef = useRef(formulaByKey);
   const detailSerial = useRef(0);
   const catalogSerial = useRef(0);
+  const spellShieldSerial = useRef(0);
   effectByKeyRef.current = effectByKey;
   processByKeyRef.current = processByKey;
   stateByKeyRef.current = stateByKey;
@@ -281,6 +285,8 @@ export function SkillTriggerRuleEditorModal({
   const targetOptions = targetContextOptionsForEvent(draft.eventSource.eventType);
   const requiredCatalogs = requiredCatalogsForDraft(draft);
   const blockingCatalogs = catalogsBlockingSave(requiredCatalogs, catalogStates);
+  const spellShieldCatalogBlocked = draft.eventSource.eventType === 'SPELL_SHIELD_BLOCKED'
+    && spellShieldCatalogState !== 'ready';
   const sortedGroups = useMemo(() => sortGroupDrafts(draft.conditionGroups), [draft.conditionGroups]);
   const sortedActions = useMemo(() => sortActionDrafts(draft.actions), [draft.actions]);
 
@@ -310,6 +316,7 @@ export function SkillTriggerRuleEditorModal({
   const resetLocalState = useCallback(() => {
     detailSerial.current += 1;
     catalogSerial.current += 1;
+    spellShieldSerial.current += 1;
     const empty = createEmptyRuleDraft();
     setDraft(empty);
     setBaseline(empty);
@@ -335,6 +342,7 @@ export function SkillTriggerRuleEditorModal({
     setRuleNames(new Map());
     setCatalogStates({});
     setCatalogErrors({});
+    setSpellShieldCatalogState('idle');
     setEffectByKey(new Map());
     setProcessByKey(new Map());
     setStateByKey(new Map());
@@ -602,6 +610,45 @@ export function SkillTriggerRuleEditorModal({
     }
   }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
 
+  const refreshSpellShieldEffectDetails = useCallback(async (): Promise<boolean> => {
+    const serial = spellShieldSerial.current + 1;
+    spellShieldSerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setSpellShieldCatalogState('error');
+      return false;
+    }
+    setSpellShieldCatalogState('loading');
+    const loaded = await Promise.all(effects.map(async (summary) => {
+      try {
+        const result = await getSkillEffect(
+          apiBaseUrl,
+          selectedGameId,
+          skill.skillKey,
+          summary.effectKey,
+          token
+        );
+        return result.data;
+      } catch (error) {
+        if (!handleMissing(error)) setReferenceError(getErrorMessage(error));
+        return null;
+      }
+    }));
+    if (spellShieldSerial.current !== serial) return false;
+    if (loaded.some((item) => item === null)) {
+      setSpellShieldCatalogState('error');
+      return false;
+    }
+    const next = new Map(effectByKeyRef.current);
+    for (const effect of loaded) {
+      if (effect) next.set(effect.effectKey, effect);
+    }
+    effectByKeyRef.current = next;
+    setEffectByKey(new Map(next));
+    setSpellShieldCatalogState('ready');
+    return true;
+  }, [adminToken, apiBaseUrl, effects, handleMissing, selectedGameId, skill.skillKey, visible]);
+
   const ensureProcess = useCallback(async (processKey: string): Promise<SkillProcess | null> => {
     if (!processKey.trim()) return null;
     const cached = processByKeyRef.current.get(processKey);
@@ -710,6 +757,19 @@ export function SkillTriggerRuleEditorModal({
       void ensureInternalState(eventSource.detail.stateKey);
     }
   }, [draft.eventSource, ensureEffect, ensureInternalState, ensureProcess, visible]);
+
+  useEffect(() => {
+    if (!visible || draft.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED') {
+      spellShieldSerial.current += 1;
+      setSpellShieldCatalogState('idle');
+      return;
+    }
+    if (catalogStates.effects !== 'ready') {
+      setSpellShieldCatalogState('loading');
+      return;
+    }
+    void refreshSpellShieldEffectDetails();
+  }, [catalogStates.effects, draft.eventSource.eventType, refreshSpellShieldEffectDetails, visible]);
 
   const skillOptions = (currentKey: string | null): CatalogOption[] => (
     [
@@ -878,6 +938,9 @@ export function SkillTriggerRuleEditorModal({
     setSaveError(null);
     setCycle(null);
     try {
+      const spellShieldReferencesReady = draft.eventSource.eventType === 'SPELL_SHIELD_BLOCKED'
+        ? await refreshSpellShieldEffectDetails()
+        : true;
       const referencesReady = await ensureSaveReferences();
       const validation = validateSkillTriggerDraft(draft, {
         includeRuleKey: mode === 'create',
@@ -895,7 +958,7 @@ export function SkillTriggerRuleEditorModal({
         setNestedErrors(validation.nestedErrors);
         return;
       }
-      if (!referencesReady || blockingCatalogs.length > 0) {
+      if (!referencesReady || !spellShieldReferencesReady || blockingCatalogs.length > 0) {
         setFieldErrors({ ...fieldErrors, eventSource: INCOMPLETE_CATALOG_MESSAGE });
         return;
       }
@@ -1045,7 +1108,14 @@ export function SkillTriggerRuleEditorModal({
             <Button
               type="primary"
               loading={saving || (mode === 'edit' && loadingDetail)}
-              disabled={!detailReady || recordMissing || subEditorOpen || blockingCatalogs.length > 0 || saving}
+              disabled={
+                !detailReady
+                || recordMissing
+                || subEditorOpen
+                || blockingCatalogs.length > 0
+                || spellShieldCatalogBlocked
+                || saving
+              }
               onClick={() => void save()}
             >
               保存
@@ -1172,6 +1242,8 @@ export function SkillTriggerRuleEditorModal({
               statuses: statusOptions,
               formulas: formulaOptions,
               effects,
+              effectDetails: effectByKey,
+              spellShieldCatalogState,
               processes,
               internalStates,
               selectedProcess,
@@ -1532,6 +1604,8 @@ type EventSourceFieldProps = {
   statuses: (currentKey: string) => CatalogOption[];
   formulas: CatalogOption[];
   effects: readonly SkillEffectSummary[];
+  effectDetails: ReadonlyMap<string, SkillEffect>;
+  spellShieldCatalogState: CatalogLoadState;
   processes: readonly SkillProcessSummary[];
   internalStates: readonly SkillInternalStateSummary[];
   selectedProcess: SkillProcess | null;
@@ -2049,6 +2123,52 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           />
         </Form.Item>
       );
+    case 'SPELL_SHIELD_BLOCKED': {
+      const currentKey = eventSource.detail.shieldEffectKey;
+      const options = props.effects
+        .filter((item) => {
+          const effect = props.effectDetails.get(item.effectKey);
+          return item.effectKey === currentKey || (effect ? isSpellShieldEventEffect(effect) : false);
+        })
+        .map((item) => {
+          const effect = props.effectDetails.get(item.effectKey);
+          const eligible = effect ? isSpellShieldEventEffect(effect) : false;
+          return {
+            value: item.effectKey,
+            label: eligible
+              ? item.name || item.effectKey
+              : `${item.name || item.effectKey}（已失去法术护盾资格）`,
+            disabled: !eligible
+          };
+        });
+      if (currentKey && !props.effects.some((item) => item.effectKey === currentKey)) {
+        options.unshift({
+          value: currentKey,
+          label: `${currentKey}（${MISSING_CATALOG_LABEL}）`,
+          disabled: true
+        });
+      }
+      return (
+        <Form.Item
+          label="法术护盾效果"
+          required
+          validateStatus={props.spellShieldCatalogState === 'error' ? 'error' : undefined}
+          help={props.spellShieldCatalogState === 'error' ? INCOMPLETE_CATALOG_MESSAGE : undefined}
+        >
+          <Select
+            aria-label="法术护盾效果"
+            value={currentKey || undefined}
+            loading={props.spellShieldCatalogState === 'loading'}
+            disabled={disabled || props.spellShieldCatalogState !== 'ready'}
+            options={options}
+            onChange={(value) => onChange({
+              eventType: 'SPELL_SHIELD_BLOCKED',
+              detail: { shieldEffectKey: String(value ?? '') }
+            })}
+          />
+        </Form.Item>
+      );
+    }
     default:
       return null;
   }

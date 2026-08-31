@@ -10,9 +10,11 @@ export type SkillEffectResultType =
   | 'DAMAGE_MODIFIER'
   | 'HEALING_MODIFIER'
   | 'DAMAGE_IMMUNITY'
-  | 'HEALTH_FLOOR';
+  | 'HEALTH_FLOOR'
+  | 'SPELL_SHIELD';
 
 export type SkillEffectTarget = 'SOURCE' | 'TARGET';
+export type SkillEffectSpellShieldBlockScope = 'SKILL' | 'EFFECT' | 'DAMAGE_INSTANCE' | 'RESULT';
 
 export type SkillEffectValueRule = {
   formulaKey: string;
@@ -193,6 +195,7 @@ type SkillEffectResultBase = {
   description: string | null;
   sortOrder: number;
   lifecycleBehavior: SkillEffectResultLifecycleBehavior | null;
+  spellShieldBlockScope: SkillEffectSpellShieldBlockScope | null;
 };
 
 export type SkillEffectDamageResult = SkillEffectResultBase & {
@@ -287,6 +290,12 @@ export type SkillEffectHealthFloorResult = SkillEffectResultBase & {
   detail: SkillEffectHealthFloorDetail;
 };
 
+export type SkillEffectSpellShieldResult = SkillEffectResultBase & {
+  resultType: 'SPELL_SHIELD';
+  valueRule: null;
+  detail: SkillEffectEmptyDetail;
+};
+
 export type SkillEffectResult =
   | SkillEffectDamageResult
   | SkillEffectDirectHealResult
@@ -299,7 +308,8 @@ export type SkillEffectResult =
   | SkillEffectDamageModifierResult
   | SkillEffectHealingModifierResult
   | SkillEffectDamageImmunityResult
-  | SkillEffectHealthFloorResult;
+  | SkillEffectHealthFloorResult
+  | SkillEffectSpellShieldResult;
 
 export type SkillEffectResultRequest = SkillEffectResult;
 
