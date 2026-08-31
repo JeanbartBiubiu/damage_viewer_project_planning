@@ -12,6 +12,7 @@ import { CharacterManagementPage } from './pages/admin/characters/CharacterManag
 import { DamageTypeManagementPage } from './pages/admin/damage-types/DamageTypeManagementPage';
 import { EquipmentManagementPage } from './pages/admin/equipment/EquipmentManagementPage';
 import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
+import { ModifierZoneManagementPage } from './pages/admin/modifier-zones/ModifierZoneManagementPage';
 import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
 import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
 import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
@@ -34,6 +35,7 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'equipment',
   'skill-categories',
   'damage-types',
+  'modifier-zones',
   'skills',
   'statuses',
   'game-settings'
@@ -339,6 +341,15 @@ export default function App() {
   } else if (route === 'damage-types') {
     pageContent = (
       <DamageTypeManagementPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
+      />
+    );
+  } else if (route === 'modifier-zones') {
+    pageContent = (
+      <ModifierZoneManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
