@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { navigationGroups, navigationItems } from './navigation';
 
 describe('product navigation', () => {
-  it('exposes only the current nine management entries', () => {
+  it('exposes only the current management entries', () => {
     const dataGroup = navigationGroups.find((group) => group.id === 'data-management');
 
     expect(navigationGroups.map((group) => group.id)).toEqual(['data-management']);
@@ -12,6 +12,7 @@ describe('product navigation', () => {
       'equipment',
       'skill-categories',
       'damage-types',
+      'modifier-zones',
       'skills',
       'statuses',
       'game-settings',
@@ -23,6 +24,7 @@ describe('product navigation', () => {
       'equipment',
       'skill-categories',
       'damage-types',
+      'modifier-zones',
       'skills',
       'statuses',
       'game-settings',
@@ -47,6 +49,10 @@ describe('product navigation', () => {
     expect(dataGroup?.items.find((item) => item.id === 'damage-types')).toMatchObject({
       hashSegment: 'damage-types',
       label: '伤害类型管理'
+    });
+    expect(dataGroup?.items.find((item) => item.id === 'modifier-zones')).toMatchObject({
+      hashSegment: 'modifier-zones',
+      label: '乘区管理'
     });
     expect(dataGroup?.items.find((item) => item.id === 'skills')).toMatchObject({
       hashSegment: 'skills',
