@@ -29,6 +29,7 @@ const damageResult = {
   target: 'TARGET' as const,
   description: null,
   sortOrder: 10,
+  spellShieldBlockScope: null,
   lifecycleBehavior: null,
   valueRule: {
     formulaKey: 'damage',
@@ -213,6 +214,7 @@ describe('skillEffectClient', () => {
           target: 'TARGET',
           description: null,
           sortOrder: 10,
+          spellShieldBlockScope: null,
           lifecycleBehavior: {
             moment: 'PERIODIC',
             valueReadMode: 'MOMENT_EVALUATION',
@@ -241,6 +243,7 @@ describe('skillEffectClient', () => {
           target: 'TARGET',
           description: null,
           sortOrder: 20,
+          spellShieldBlockScope: null,
           lifecycleBehavior: null,
           valueRule: {
             formulaKey: 'damage',
@@ -313,6 +316,62 @@ describe('skillEffectClient', () => {
         detail: { absorbedDamageTypeKey: null }
       }]
     })).toThrow(/effect\.results\[0\]\.detail\.decayMode/);
+  });
+
+  it('requires an explicit legal spell-shield block scope on every result', () => {
+    const { spellShieldBlockScope: _removed, ...legacyDamage } = damageResult;
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [legacyDamage]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{ ...damageResult, spellShieldBlockScope: 'UNKNOWN' }]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+
+    expect(parseSkillEffect({
+      ...detail,
+      results: [{ ...damageResult, spellShieldBlockScope: 'DAMAGE_INSTANCE' }]
+    }).results[0]).toMatchObject({ spellShieldBlockScope: 'DAMAGE_INSTANCE' });
+  });
+
+  it('parses a persistent spell shield without a value rule', () => {
+    const parsed = parseSkillEffect({
+      ...detail,
+      lifecycle: {
+        durationFormulaKey: null,
+        maxStacksFormulaKey: 'one',
+        applicationStacksFormulaKey: 'one',
+        instanceScope: 'SOURCE_TARGET',
+        reapplicationStackMode: 'KEEP',
+        reapplicationDurationMode: null,
+        expiryMode: 'EXPLICIT_ONLY',
+        periodicIntervalFormulaKey: null,
+        firstPeriodicExecution: null
+      },
+      results: [{
+        ...damageResult,
+        resultKey: 'spell_shield',
+        resultType: 'SPELL_SHIELD',
+        spellShieldBlockScope: null,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: null,
+          stackValueMode: null,
+          reapplicationValueMode: null,
+          periodicExecutionMode: null
+        },
+        valueRule: null,
+        detail: {}
+      }]
+    });
+    expect(parsed.results[0]).toMatchObject({
+      resultType: 'SPELL_SHIELD',
+      spellShieldBlockScope: null,
+      valueRule: null,
+      detail: {}
+    });
   });
 
   it('parses persistent modifiers, damage immunity and health floor as typed results', () => {
