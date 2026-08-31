@@ -32,7 +32,8 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
-  'PROCESS_CANCEL_REQUESTED'
+  'PROCESS_CANCEL_REQUESTED',
+  'SPELL_SHIELD_BLOCKED'
 ]);
 
 const CONDITION_TYPES = new Set([
@@ -182,6 +183,11 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
       break;
     case 'PROCESS_CANCEL_REQUESTED':
       if (typeof detail.processKey !== 'string') protocolError(`${path}.detail.processKey`);
+      break;
+    case 'SPELL_SHIELD_BLOCKED':
+      if (typeof detail.shieldEffectKey !== 'string') {
+        protocolError(`${path}.detail.shieldEffectKey`);
+      }
       break;
     default:
       break;

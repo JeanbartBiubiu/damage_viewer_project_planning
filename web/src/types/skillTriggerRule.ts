@@ -19,7 +19,8 @@ export type SkillTriggerEventType =
   | 'ENTITY_DIED'
   | 'ENTITY_UNTARGETABLE'
   | 'KILL'
-  | 'PROCESS_CANCEL_REQUESTED';
+  | 'PROCESS_CANCEL_REQUESTED'
+  | 'SPELL_SHIELD_BLOCKED';
 
 export type SkillTriggerConditionType =
   | 'ATTRIBUTE_COMPARE'
@@ -169,6 +170,10 @@ export type SkillTriggerCancelProcessEventDetail = {
   processKey: string;
 };
 
+export type SkillTriggerSpellShieldBlockedEventDetail = {
+  shieldEffectKey: string;
+};
+
 export type SkillTriggerSkillUsedEventSource = {
   eventType: 'SKILL_USED';
   detail: SkillTriggerSkillUsedEventDetail;
@@ -259,6 +264,11 @@ export type SkillTriggerProcessCancelRequestedEventSource = {
   detail: SkillTriggerCancelProcessEventDetail;
 };
 
+export type SkillTriggerSpellShieldBlockedEventSource = {
+  eventType: 'SPELL_SHIELD_BLOCKED';
+  detail: SkillTriggerSpellShieldBlockedEventDetail;
+};
+
 export type SkillTriggerEventSource =
   | SkillTriggerSkillUsedEventSource
   | SkillTriggerBasicAttackStartEventSource
@@ -277,7 +287,8 @@ export type SkillTriggerEventSource =
   | SkillTriggerEntityDiedEventSource
   | SkillTriggerEntityUntargetableEventSource
   | SkillTriggerKillEventSource
-  | SkillTriggerProcessCancelRequestedEventSource;
+  | SkillTriggerProcessCancelRequestedEventSource
+  | SkillTriggerSpellShieldBlockedEventSource;
 
 export type SkillTriggerAttributeCompareDetail = {
   subject: SkillTriggerSubject;
