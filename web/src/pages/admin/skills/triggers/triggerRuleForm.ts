@@ -134,7 +134,8 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
-  'PROCESS_CANCEL_REQUESTED'
+  'PROCESS_CANCEL_REQUESTED',
+  'SPELL_SHIELD_BLOCKED'
 ] as const satisfies readonly SkillTriggerEventType[];
 
 export const SKILL_TRIGGER_CONDITION_TYPES = [
@@ -238,7 +239,8 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   ENTITY_DIED: '指定对象死亡',
   ENTITY_UNTARGETABLE: '指定对象变为不可选取',
   KILL: '来源对象完成击杀',
-  PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求'
+  PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求',
+  SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡'
 } as const satisfies { [K in SkillTriggerEventType]: string };
 
 export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
@@ -387,6 +389,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     hasEventSource: false,
     requiredCatalogs: ['processes'],
     detailFields: ['processKey']
+  },
+  SPELL_SHIELD_BLOCKED: {
+    eventType: 'SPELL_SHIELD_BLOCKED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.SPELL_SHIELD_BLOCKED,
+    currentTargetBinding: '法术护盾承受对象（技能拥有者自身）。',
+    hasEventSource: true,
+    requiredCatalogs: ['effects'],
+    detailFields: ['shieldEffectKey']
   }
 };
 
@@ -764,6 +774,8 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
       return { eventType, detail: { subject: 'CURRENT_TARGET' } };
     case 'PROCESS_CANCEL_REQUESTED':
       return { eventType, detail: { processKey: '' } };
+    case 'SPELL_SHIELD_BLOCKED':
+      return { eventType, detail: { shieldEffectKey: '' } };
     case 'BASIC_ATTACK_START':
       return { eventType, detail: emptyEventDetail() };
     case 'BASIC_ATTACK_HIT':
@@ -2517,6 +2529,17 @@ export function lifecycleEventEffects(
   return effects.filter((item) => item.lifecycle !== null);
 }
 
+export function isSpellShieldEventEffect(effect: SkillEffect): boolean {
+  return effect.lifecycle !== null && effect.results.some((result) => (
+    result.resultType === 'SPELL_SHIELD'
+    && result.lifecycleBehavior?.moment === 'PERSISTENT'
+  ));
+}
+
+export function spellShieldEventEffects(effects: readonly SkillEffect[]): SkillEffect[] {
+  return effects.filter(isSpellShieldEventEffect);
+}
+
 export function persistentStatusApplyResults(
   effect: SkillEffect,
   statusKey: string
@@ -2570,6 +2593,21 @@ export function validateSkillTriggerDraft(
     const effect = options.effectsByKey?.get(draft.eventSource.detail.effectKey);
     if (effect && !effect.lifecycle?.periodicIntervalFormulaKey) {
       pushError(nestedErrors, 'eventSource.detail.moment', '周期时点要求已配置周期间隔。');
+    }
+  }
+  if (draft.eventSource.eventType === 'SPELL_SHIELD_BLOCKED') {
+    const shieldEffectKey = draft.eventSource.detail.shieldEffectKey.trim();
+    if (!shieldEffectKey) {
+      pushError(nestedErrors, 'eventSource.detail.shieldEffectKey', '法术护盾效果不能为空。');
+    } else {
+      const effect = options.effectsByKey?.get(shieldEffectKey);
+      if (!effect || !isSpellShieldEventEffect(effect)) {
+        pushError(
+          nestedErrors,
+          'eventSource.detail.shieldEffectKey',
+          '请选择含持续法术护盾结果的生命周期效果。'
+        );
+      }
     }
   }
   if (

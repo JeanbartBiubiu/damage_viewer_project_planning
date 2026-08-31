@@ -54,6 +54,7 @@ import {
   SKILL_EFFECT_REAPPLICATION_STACK_MODE_LABELS,
   SKILL_EFFECT_RESULT_TYPE_LABELS,
   SKILL_EFFECT_STACK_VALUE_MODE_LABELS,
+  SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_EFFECT_VALUE_READ_MODE_LABELS,
   applyDurationFormulaChange,
@@ -155,6 +156,8 @@ function referenceSummary(result: SkillEffectResultDraft): string {
       return result.formulaKey || '—';
     case 'HEALTH_FLOOR':
       return result.attributeKey || '—';
+    case 'SPELL_SHIELD':
+      return '—';
     default: {
       const unexpected: never = result.resultType;
       return unexpected;
@@ -223,6 +226,9 @@ function interactionSummary(result: SkillEffectResultDraft): string {
   }
   if (result.resultType === 'HEALTH_FLOOR') {
     return '持续生命下限';
+  }
+  if (result.resultType === 'SPELL_SHIELD') {
+    return '法术护盾';
   }
   return '—';
 }
@@ -645,6 +651,14 @@ export function SkillEffectEditorModal({
       title: '作用对象',
       render: (_value, row: { item: SkillEffectResultDraft }) => (
         SKILL_EFFECT_TARGET_LABELS[row.item.target]
+      )
+    },
+    {
+      title: '法术护盾阻挡',
+      render: (_value, row: { item: SkillEffectResultDraft }) => (
+        row.item.spellShieldBlockScope
+          ? SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS[row.item.spellShieldBlockScope]
+          : '—'
       )
     },
     ...(draft.lifecycleEnabled ? [
