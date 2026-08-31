@@ -260,6 +260,16 @@ describe('skillTriggerRuleClient', () => {
       eventType: 'DAMAGE_TAKEN',
       detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT' }
     });
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: {
+        eventType: 'DAMAGE_PENDING',
+        detail: { damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'REFLECTED' }
+      }
+    }).eventSource).toEqual({
+      eventType: 'DAMAGE_PENDING',
+      detail: { damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'REFLECTED' }
+    });
   });
 
   it.each([

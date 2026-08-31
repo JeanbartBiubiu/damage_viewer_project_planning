@@ -24,6 +24,7 @@ import {
   applyStackValueModeChange,
   buildCreateSkillEffectRequest,
   buildUpdateSkillEffectRequest,
+  clearHiddenLifecycleBehaviorFields,
   clearHiddenResultFields,
   cooldownChangeAmountHint,
   createEmptyEffectDraft,
@@ -33,6 +34,8 @@ import {
   enableLifecycleDraft,
   isCatalogOptionSelectable,
   isInstanceScopeLocked,
+  isReapplicationValueModeVisible,
+  isValueReadModeFixed,
   isValueRuleVisible,
   listAffectedSkillOptions,
   listAllowedLifecycleMoments,
@@ -82,6 +85,11 @@ const CATALOG: EffectFormCatalog = {
   statuses: [
     { statusKey: 'poison', status: 'ENABLED' },
     { statusKey: 'old_poison', status: 'DISABLED' }
+  ],
+  modifierZones: [
+    { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED' },
+    { modifierZoneKey: 'damage_ratio', domain: 'DAMAGE', status: 'ENABLED' },
+    { modifierZoneKey: 'healing_ratio', domain: 'HEALING', status: 'ENABLED' }
   ]
 };
 
@@ -455,7 +463,7 @@ describe('skill effect form normalization and request building', () => {
         fixedMinValue: null,
         fixedMaxValue: null
       },
-      detail: { attributeKey: 'move_speed', operation: 'DECREASE' }
+      detail: { attributeKey: 'move_speed', operation: 'DECREASE', modifierZoneKey: null }
     });
     expect(normalized.results[4]).toMatchObject({
       resultType: 'RESOURCE_CHANGE',
@@ -587,7 +595,8 @@ describe('skill effect form validation', () => {
     });
     expect(result.ok).toBe(false);
     if (result.ok) throw new Error('expected invalid');
-    expect(result.resultErrors[0]?.fieldErrors.resultType).toBe('已有结果的种类不可修改。');
+    expect(result.resultErrors[0]?.fieldErrors.resultType)
+      .toBe('已有结果的种类不可修改。');
   });
 
   it('requires value rules for numeric results and rejects min greater than max', () => {
@@ -1236,6 +1245,7 @@ describe('skill effect lifecycle drafts', () => {
       'SHARED'
     );
     persistentAttr.lifecycleBehavior.reapplicationValueMode = 'KEEP';
+    persistentAttr.modifierZoneKey = 'attribute_percent';
 
     const status = createEmptyResultDraft('STATUS_OPERATION');
     status.resultKey = 'poison';
@@ -1257,6 +1267,235 @@ describe('skill effect lifecycle drafts', () => {
     expect(listAllowedLifecycleMoments(validDamageDraft(), false)).not.toContain('PERSISTENT');
     expect(listAllowedLifecycleMoments(status, true)).toContain('PERSISTENT');
     expect(listAllowedLifecycleMoments(status, true)).toContain('NATURAL_END');
+  });
+
+  it('builds the four persistent modifier and pre-damage protection result shapes', () => {
+    const damageModifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    damageModifier.resultKey = 'damage_taken_reduction';
+    damageModifier.name = '受到伤害降低';
+    damageModifier.formulaKey = 'damage';
+    damageModifier.modifierDirection = 'TAKEN';
+    damageModifier.modifierOperation = 'DECREASE';
+    damageModifier.damageTypeKey = 'physical';
+    damageModifier.damageFilterDeliveryKind = 'SKILL';
+    damageModifier.damageFilterOriginKind = 'DIRECT';
+    damageModifier.criticalFilter = 'NON_CRITICAL_ONLY';
+    damageModifier.modifierZoneKey = 'damage_ratio';
+    const perStackDamageModifier = applyStackValueModeChange(damageModifier, 'PER_STACK');
+
+    const healingModifier = createEmptyResultDraft('HEALING_MODIFIER');
+    healingModifier.resultKey = 'vamp_received_reduction';
+    healingModifier.name = '受到吸血治疗降低';
+    healingModifier.formulaKey = 'heal';
+    healingModifier.healingModifierDirection = 'RECEIVED';
+    healingModifier.modifierOperation = 'DECREASE';
+    healingModifier.healingKind = 'VAMP';
+    healingModifier.modifierZoneKey = 'healing_ratio';
+    const sharedHealingModifier = applyStackValueModeChange(healingModifier, 'SHARED');
+    sharedHealingModifier.lifecycleBehavior.reapplicationValueMode = 'REPLACE';
+
+    const immunity = createEmptyResultDraft('DAMAGE_IMMUNITY');
+    immunity.resultKey = 'skill_damage_immunity';
+    immunity.name = '技能伤害免疫';
+    immunity.damageFilterDeliveryKind = 'SKILL';
+    immunity.damageFilterOriginKind = 'ANY';
+
+    const healthFloor = createEmptyResultDraft('HEALTH_FLOOR');
+    healthFloor.resultKey = 'health_floor';
+    healthFloor.name = '生命下限';
+    healthFloor.formulaKey = 'heal';
+    healthFloor.attributeKey = 'move_speed';
+    const sharedHealthFloor = applyStackValueModeChange(healthFloor, 'SHARED');
+    sharedHealthFloor.lifecycleBehavior.reapplicationValueMode = 'KEEP';
+
+    const normalized = expectValid(lifecycleEnabledDraft([
+      perStackDamageModifier,
+      sharedHealingModifier,
+      immunity,
+      sharedHealthFloor
+    ]));
+
+    expect(normalized.results).toEqual([
+      {
+        resultKey: 'damage_taken_reduction',
+        name: '受到伤害降低',
+        resultType: 'DAMAGE_MODIFIER',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: 'APPLICATION_SNAPSHOT',
+          stackValueMode: 'PER_STACK',
+          reapplicationValueMode: null,
+          periodicExecutionMode: null
+        },
+        valueRule: {
+          formulaKey: 'damage',
+          fixedMultiplier: 1,
+          fixedMinValue: null,
+          fixedMaxValue: null
+        },
+        detail: {
+          modifierZoneKey: 'damage_ratio',
+          direction: 'TAKEN',
+          operation: 'DECREASE',
+          damageTypeKey: 'physical',
+          deliveryKind: 'SKILL',
+          originKind: 'DIRECT',
+          criticalFilter: 'NON_CRITICAL_ONLY'
+        }
+      },
+      {
+        resultKey: 'vamp_received_reduction',
+        name: '受到吸血治疗降低',
+        resultType: 'HEALING_MODIFIER',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: 'APPLICATION_SNAPSHOT',
+          stackValueMode: 'SHARED',
+          reapplicationValueMode: 'REPLACE',
+          periodicExecutionMode: null
+        },
+        valueRule: {
+          formulaKey: 'heal',
+          fixedMultiplier: 1,
+          fixedMinValue: null,
+          fixedMaxValue: null
+        },
+        detail: {
+          modifierZoneKey: 'healing_ratio',
+          direction: 'RECEIVED',
+          operation: 'DECREASE',
+          healingKind: 'VAMP'
+        }
+      },
+      {
+        resultKey: 'skill_damage_immunity',
+        name: '技能伤害免疫',
+        resultType: 'DAMAGE_IMMUNITY',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: null,
+          stackValueMode: null,
+          reapplicationValueMode: null,
+          periodicExecutionMode: null
+        },
+        valueRule: null,
+        detail: {
+          damageTypeKey: null,
+          deliveryKind: 'SKILL',
+          originKind: 'ANY'
+        }
+      },
+      {
+        resultKey: 'health_floor',
+        name: '生命下限',
+        resultType: 'HEALTH_FLOOR',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: 'APPLICATION_SNAPSHOT',
+          stackValueMode: 'SHARED',
+          reapplicationValueMode: 'KEEP',
+          periodicExecutionMode: null
+        },
+        valueRule: {
+          formulaKey: 'heal',
+          fixedMultiplier: 1,
+          fixedMinValue: null,
+          fixedMaxValue: null
+        },
+        detail: { attributeKey: 'move_speed' }
+      }
+    ]);
+  });
+
+  it('supports current-moment evaluation only for continuous adjustment results', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    modifier.resultKey = 'dynamic_damage';
+    modifier.name = '动态伤害修正';
+    modifier.formulaKey = 'damage';
+    modifier.modifierZoneKey = 'damage_ratio';
+    modifier.lifecycleBehavior.stackValueMode = 'SHARED';
+    modifier.lifecycleBehavior.reapplicationValueMode = 'KEEP';
+    modifier.lifecycleBehavior.valueReadMode = 'MOMENT_EVALUATION';
+    const normalizedDraft = clearHiddenLifecycleBehaviorFields(modifier);
+
+    expect(isValueReadModeFixed(normalizedDraft)).toBe(false);
+    expect(normalizedDraft.lifecycleBehavior.reapplicationValueMode).toBe('');
+    expect(isReapplicationValueModeVisible(normalizedDraft)).toBe(false);
+    const normalized = expectValid(lifecycleEnabledDraft([normalizedDraft]));
+    expect(normalized.results[0]?.lifecycleBehavior).toMatchObject({
+      valueReadMode: 'MOMENT_EVALUATION',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: null
+    });
+
+    const shield = createEmptyResultDraft('NORMAL_SHIELD');
+    shield.resultKey = 'dynamic_shield';
+    shield.name = '动态护盾';
+    shield.formulaKey = 'heal';
+    const persistentShield = withBehavior(shield, {
+      moment: 'PERSISTENT',
+      valueReadMode: 'MOMENT_EVALUATION',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: ''
+    });
+    const invalid = validateSkillEffectDraft(
+      lifecycleEnabledDraft([persistentShield]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(invalid.ok).toBe(false);
+  });
+
+  it('requires a parent lifecycle and enforces the health-floor shared value matrix', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    modifier.resultKey = 'damage_modifier';
+    modifier.name = '伤害修正';
+    modifier.formulaKey = 'damage';
+    const withoutLifecycle = validateSkillEffectDraft(
+      validEffectDraft([applyStackValueModeChange(modifier, 'PER_STACK')]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(withoutLifecycle.ok).toBe(false);
+    if (withoutLifecycle.ok) throw new Error('expected invalid');
+    expect(withoutLifecycle.resultErrors[0]?.fieldErrors.lifecycleBehavior)
+      .toBe('该结果需要先启用父效果生命周期。');
+
+    const healthFloor = createEmptyResultDraft('HEALTH_FLOOR');
+    healthFloor.resultKey = 'health_floor';
+    healthFloor.name = '生命下限';
+    healthFloor.formulaKey = 'heal';
+    healthFloor.attributeKey = 'move_speed';
+    const perStack = applyStackValueModeChange(healthFloor, 'PER_STACK');
+    const invalidPerStack = validateSkillEffectDraft(
+      lifecycleEnabledDraft([perStack]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(invalidPerStack.ok).toBe(false);
+    if (invalidPerStack.ok) throw new Error('expected invalid');
+    expect(invalidPerStack.resultErrors[0]?.fieldErrors.stackValueMode)
+      .toBe('该结果只能使用整个实例共享数值。');
+
+    const added = applyStackValueModeChange(healthFloor, 'SHARED');
+    added.lifecycleBehavior.reapplicationValueMode = 'ADD';
+    const invalidAdd = validateSkillEffectDraft(
+      lifecycleEnabledDraft([added]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(invalidAdd.ok).toBe(false);
+    if (invalidAdd.ok) throw new Error('expected invalid');
+    expect(invalidAdd.resultErrors[0]?.fieldErrors.reapplicationValueMode)
+      .toBe('该结果不能使用相加。');
   });
 
   it('rejects attribute SET with PER_STACK or ADD', () => {
