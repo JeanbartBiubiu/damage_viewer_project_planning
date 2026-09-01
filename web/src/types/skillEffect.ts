@@ -11,7 +11,10 @@ export type SkillEffectResultType =
   | 'HEALING_MODIFIER'
   | 'DAMAGE_IMMUNITY'
   | 'HEALTH_FLOOR'
-  | 'SPELL_SHIELD';
+  | 'SPELL_SHIELD'
+  | 'EXECUTE'
+  | 'HIT_LINK_APPLICATION'
+  | 'ATTACK_LINK_APPLICATION';
 
 export type SkillEffectTarget = 'SOURCE' | 'TARGET';
 export type SkillEffectSpellShieldBlockScope = 'SKILL' | 'EFFECT' | 'DAMAGE_INSTANCE' | 'RESULT';
@@ -141,6 +144,10 @@ export type SkillEffectDamageImmunityDetail = {
 };
 
 export type SkillEffectHealthFloorDetail = {
+  attributeKey: string;
+};
+
+export type SkillEffectExecuteDetail = {
   attributeKey: string;
 };
 
@@ -296,6 +303,24 @@ export type SkillEffectSpellShieldResult = SkillEffectResultBase & {
   detail: SkillEffectEmptyDetail;
 };
 
+export type SkillEffectExecuteResult = SkillEffectResultBase & {
+  resultType: 'EXECUTE';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectExecuteDetail;
+};
+
+export type SkillEffectHitLinkApplicationResult = SkillEffectResultBase & {
+  resultType: 'HIT_LINK_APPLICATION';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectEmptyDetail;
+};
+
+export type SkillEffectAttackLinkApplicationResult = SkillEffectResultBase & {
+  resultType: 'ATTACK_LINK_APPLICATION';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectEmptyDetail;
+};
+
 export type SkillEffectResult =
   | SkillEffectDamageResult
   | SkillEffectDirectHealResult
@@ -309,7 +334,10 @@ export type SkillEffectResult =
   | SkillEffectHealingModifierResult
   | SkillEffectDamageImmunityResult
   | SkillEffectHealthFloorResult
-  | SkillEffectSpellShieldResult;
+  | SkillEffectSpellShieldResult
+  | SkillEffectExecuteResult
+  | SkillEffectHitLinkApplicationResult
+  | SkillEffectAttackLinkApplicationResult;
 
 export type SkillEffectResultRequest = SkillEffectResult;
 
