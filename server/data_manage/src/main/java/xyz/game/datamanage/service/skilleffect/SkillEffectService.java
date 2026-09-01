@@ -50,6 +50,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -409,6 +413,9 @@ public class SkillEffectService {
         Map<String, SkillEffectHealthFloorDetailRow> healthFloors = indexHealthFloors(
             gameId, skillKey, effectKey, mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectExecuteDetailRow> executes = indexExecuteDetails(
+            gameId, skillKey, effectKey, mapper.listExecuteDetails(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
             skillKey,
@@ -467,6 +474,7 @@ public class SkillEffectService {
                 healingModifiers,
                 damageImmunities,
                 healthFloors,
+                executes,
                 attributes,
                 resources,
                 cooldowns,
@@ -505,6 +513,7 @@ public class SkillEffectService {
         Map<String, SkillEffectHealingModifierDetailRow> healingModifiers,
         Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities,
         Map<String, SkillEffectHealthFloorDetailRow> healthFloors,
+        Map<String, SkillEffectExecuteDetailRow> executes,
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
@@ -524,6 +533,7 @@ public class SkillEffectService {
         SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
         SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
         SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
+        SkillEffectExecuteDetailRow executeRow = executes.get(resultKey);
         SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
@@ -537,6 +547,7 @@ public class SkillEffectService {
             healingModifierRow,
             damageImmunityRow,
             healthFloorRow,
+            executeRow,
             attributeRow,
             resourceRow,
             cooldownRow,
@@ -742,6 +753,27 @@ public class SkillEffectService {
                 }
                 yield new AssembledResultPayload(null, new SkillEffectSpellShieldDetail());
             }
+            case EXECUTE -> {
+                if (value == null || executeRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "斩杀结果形状损坏");
+                }
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectExecuteDetail(executeRow.attributeKey())
+                );
+            }
+            case HIT_LINK_APPLICATION -> {
+                if (value == null || extraDetails != 0) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "命中联动应用结果形状损坏");
+                }
+                yield new AssembledResultPayload(toValueRule(value), new SkillEffectHitLinkApplicationDetail());
+            }
+            case ATTACK_LINK_APPLICATION -> {
+                if (value == null || extraDetails != 0) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "攻击联动应用结果形状损坏");
+                }
+                yield new AssembledResultPayload(toValueRule(value), new SkillEffectAttackLinkApplicationDetail());
+            }
         };
         SkillEffectResultLifecycleBehaviorRow behavior = behaviors.get(resultKey);
         SkillEffectSpellShieldBlockScope blockScope = spellShieldPolicy == null
@@ -915,6 +947,9 @@ public class SkillEffectService {
             case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
             case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
             case SPELL_SHIELD -> validateSpellShield(result, index, issues);
+            case EXECUTE -> validateExecute(result, index, retained, refs, issues);
+            case HIT_LINK_APPLICATION -> validateHitLinkApplication(result, index, refs, issues);
+            case ATTACK_LINK_APPLICATION -> validateAttackLinkApplication(result, index, refs, issues);
         }
         validateSpellShieldBlockScope(result, index, issues);
     }
@@ -946,7 +981,10 @@ public class SkillEffectService {
             || result.resultType() == SkillEffectResultType.RESOURCE_CHANGE
             || result.resultType() == SkillEffectResultType.COOLDOWN_CHANGE
             || result.resultType() == SkillEffectResultType.STATUS_OPERATION
-            || result.resultType() == SkillEffectResultType.LIFECYCLE_OPERATION;
+            || result.resultType() == SkillEffectResultType.LIFECYCLE_OPERATION
+            || result.resultType() == SkillEffectResultType.EXECUTE
+            || result.resultType() == SkillEffectResultType.HIT_LINK_APPLICATION
+            || result.resultType() == SkillEffectResultType.ATTACK_LINK_APPLICATION;
         if (result.target() != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
             || persistent
             || !allowedType
@@ -981,7 +1019,10 @@ public class SkillEffectService {
                 || resultType == SkillEffectResultType.RESOURCE_CHANGE
                 || resultType == SkillEffectResultType.COOLDOWN_CHANGE
                 || resultType == SkillEffectResultType.STATUS_OPERATION
-                || resultType == SkillEffectResultType.LIFECYCLE_OPERATION);
+                || resultType == SkillEffectResultType.LIFECYCLE_OPERATION
+                || resultType == SkillEffectResultType.EXECUTE
+                || resultType == SkillEffectResultType.HIT_LINK_APPLICATION
+                || resultType == SkillEffectResultType.ATTACK_LINK_APPLICATION);
     }
 
     private void validateDamageModifier(
@@ -1120,6 +1161,55 @@ public class SkillEffectService {
             isRetained(retained, result.resultKey(), CatalogKind.ATTRIBUTE, attributeKey)
         ));
         refs.attributeKeys.add(attributeKey);
+    }
+
+    private void validateExecute(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectExecuteDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "斩杀结果明细形状不合法"));
+            return;
+        }
+        String attributeKey = detail.attributeKey();
+        if (attributeKey == null || attributeKey.isBlank()) {
+            issues.add(fieldIssue(resultPath(index, "detail.attributeKey"), "REQUIRED", "斩杀属性不能为空"));
+            return;
+        }
+        refs.attributes.add(new CatalogRef(
+            resultPath(index, "detail.attributeKey"),
+            attributeKey,
+            isRetained(retained, result.resultKey(), CatalogKind.ATTRIBUTE, attributeKey)
+        ));
+        refs.attributeKeys.add(attributeKey);
+    }
+
+    private void validateHitLinkApplication(
+        SkillEffectResultRequest result,
+        int index,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectHitLinkApplicationDetail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "命中联动应用结果明细形状不合法"));
+        }
+    }
+
+    private void validateAttackLinkApplication(
+        SkillEffectResultRequest result,
+        int index,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectAttackLinkApplicationDetail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "攻击联动应用结果明细形状不合法"));
+        }
     }
 
     private void collectMutexFields(
@@ -1773,6 +1863,16 @@ public class SkillEffectService {
         List<Map<String, String>> issues
     ) {
         SkillEffectResultType type = result.resultType();
+        if (type == SkillEffectResultType.EXECUTE
+            || type == SkillEffectResultType.HIT_LINK_APPLICATION
+            || type == SkillEffectResultType.ATTACK_LINK_APPLICATION) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.moment"),
+                "SPECIAL_RESULT_FORBIDS_PERSISTENT",
+                "斩杀与联动结果不能持续生效"
+            ));
+            return;
+        }
         boolean statusApply = type == SkillEffectResultType.STATUS_OPERATION
             && result.detail() instanceof SkillEffectStatusOperationDetail statusDetail
             && statusDetail.operation() == SkillEffectStatusOperation.APPLY;
@@ -2368,6 +2468,13 @@ public class SkillEffectService {
             case SkillEffectHealthFloorDetail detail -> mapper.insertHealthFloorDetail(
                 gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
+            case SkillEffectExecuteDetail detail -> mapper.insertExecuteDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
+            );
+            case SkillEffectHitLinkApplicationDetail ignored -> {
+            }
+            case SkillEffectAttackLinkApplicationDetail ignored -> {
+            }
             case SkillEffectSpellShieldDetail ignored -> {
             }
         }
@@ -2481,6 +2588,13 @@ public class SkillEffectService {
             case SkillEffectHealthFloorDetail detail -> mapper.updateHealthFloorDetail(
                 gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
             );
+            case SkillEffectExecuteDetail detail -> mapper.updateExecuteDetail(
+                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
+            );
+            case SkillEffectHitLinkApplicationDetail ignored -> {
+            }
+            case SkillEffectAttackLinkApplicationDetail ignored -> {
+            }
             case SkillEffectSpellShieldDetail ignored -> {
             }
         }
@@ -2570,6 +2684,12 @@ public class SkillEffectService {
             effectKey,
             mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
         );
+        Map<String, SkillEffectExecuteDetailRow> executes = indexExecuteDetails(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listExecuteDetails(gameId, skillKey, effectKey)
+        );
         Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
             gameId,
             skillKey,
@@ -2621,6 +2741,7 @@ public class SkillEffectService {
             SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
             SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
             SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
+            SkillEffectExecuteDetailRow executeRow = executes.get(resultKey);
             Set<String> retainedDamageTypes = new LinkedHashSet<>();
             if (damageRow != null && damageRow.damageTypeKey() != null) {
                 retainedDamageTypes.add(damageRow.damageTypeKey());
@@ -2638,7 +2759,9 @@ public class SkillEffectService {
                 Set.copyOf(retainedDamageTypes),
                 attributeRow == null
                     ? (resourceRow == null
-                        ? (healthFloorRow == null ? null : healthFloorRow.attributeKey())
+                        ? (healthFloorRow == null
+                            ? (executeRow == null ? null : executeRow.attributeKey())
+                            : healthFloorRow.attributeKey())
                         : resourceRow.attributeKey())
                     : attributeRow.attributeKey(),
                 cooldownRow == null ? Set.of() : Set.copyOf(cooldownTargets.getOrDefault(resultKey, List.of())),
@@ -2830,6 +2953,21 @@ public class SkillEffectService {
         for (SkillEffectHealthFloorDetailRow row : nullToEmpty(rows)) {
             if (indexed.put(row.resultKey(), row) != null) {
                 throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命下限明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, SkillEffectExecuteDetailRow> indexExecuteDetails(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectExecuteDetailRow> rows
+    ) {
+        Map<String, SkillEffectExecuteDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectExecuteDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "斩杀明细重复");
             }
         }
         return indexed;

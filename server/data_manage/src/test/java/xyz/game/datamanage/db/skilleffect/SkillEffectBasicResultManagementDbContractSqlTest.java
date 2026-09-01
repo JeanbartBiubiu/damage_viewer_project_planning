@@ -279,7 +279,9 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             assertFalse(table.contains("event_"), () -> tableName + " must not add event columns");
             assertFalse(table.contains("crit"), () -> tableName + " must not add crit columns");
             assertFalse(table.contains("lifesteal"), () -> tableName + " must not add lifesteal columns");
-            assertFalse(table.contains("execute"), () -> tableName + " must not add execute columns");
+            if (!"skill_effect_results".equals(tableName)) {
+                assertFalse(table.contains("execute"), () -> tableName + " must not add execute columns");
+            }
             if (!"skill_effect_damage_details".equals(tableName)) {
                 assertFalse(table.contains("reflect"), () -> tableName + " must not add reflect columns");
             } else {
@@ -290,7 +292,7 @@ class SkillEffectBasicResultManagementDbContractSqlTest {
             assertFalse(table.contains("publish"), () -> tableName + " must not add publish columns");
             assertFalse(table.contains("revision"), () -> tableName + " must not add revision columns");
         }
-        assertFalse(schemaNormalized.contains("create table public.skill_effect_execute"));
+        assertFalse(schemaNormalized.contains("create table public.skill_effect_execute ("));
         assertFalse(schemaNormalized.contains("create table public.skill_effect_reflect"));
     }
 

@@ -48,6 +48,9 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventDe
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventDetail;
@@ -495,5 +498,86 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         ));
         assertField(exception, "eventSource.detail.effectKey", "UNKNOWN_FIELD");
+    }
+
+    @Test
+    void hitAndAttackLinkEventsAcceptNullableSourceSkillAndRejectEventSource() {
+        stubAssembleExecuteEffect(
+            mapper, "hit_link", "hit_link", SkillTriggerEventType.HIT_LINK_APPLIED, "deal", EFFECT_KEY
+        );
+        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_link")).thenReturn(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_link", null)
+        );
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "hit_link",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.HIT_LINK_APPLIED,
+                    new SkillTriggerLinkEventDetail((String) null)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        );
+        verify(mapper).insertLinkEvent(GAME_ID, SKILL_KEY, "hit_link", null);
+
+        stubAssembleExecuteEffect(
+            mapper, "attack_link", "attack_link", SkillTriggerEventType.ATTACK_LINK_APPLIED, "deal", EFFECT_KEY
+        );
+        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "attack_link")).thenReturn(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "attack_link", SKILL_KEY)
+        );
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "attack_link",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.ATTACK_LINK_APPLIED,
+                    new SkillTriggerLinkEventDetail(SKILL_KEY)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        );
+        verify(mapper).insertLinkEvent(GAME_ID, SKILL_KEY, "attack_link", SKILL_KEY);
+
+        ApiException eventSource = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "hit_link_source",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.HIT_LINK_APPLIED,
+                    new SkillTriggerLinkEventDetail((String) null)
+                ),
+                List.of(new xyz.game.datamanage.model.skilltrigger.SkillTriggerAction(
+                    "deal",
+                    "执行效果",
+                    xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType.EXECUTE_EFFECT,
+                    10,
+                    xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext.EVENT_SOURCE,
+                    new xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail(EFFECT_KEY),
+                    List.of(),
+                    List.of()
+                ))
+            )
+        ));
+        assertField(eventSource, "actions[0].targetContext", "EVENT_SOURCE_NOT_AVAILABLE");
+
+        when(mapper.lockSkills(eq(GAME_ID), any())).thenReturn(List.of());
+        ApiException missing = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "missing_source",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.HIT_LINK_APPLIED,
+                    new SkillTriggerLinkEventDetail("missing_skill")
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        ));
+        assertField(missing, "eventSource.detail.sourceSkillKey", "UNKNOWN_SKILL");
     }
 }

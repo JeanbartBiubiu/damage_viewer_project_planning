@@ -166,6 +166,16 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="executeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="attributeChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -649,6 +659,25 @@
 
     <update id="updateHealthFloorDetail">
         UPDATE public.skill_effect_health_floor_details
+        SET attribute_key = #{attributeKey}
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey} AND result_key = #{resultKey}
+    </update>
+
+    <select id="listExecuteDetails" resultMap="executeRow">
+        SELECT game_id, skill_key, effect_key, result_key, attribute_key
+        FROM public.skill_effect_execute_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertExecuteDetail">
+        INSERT INTO public.skill_effect_execute_details (
+            game_id, skill_key, effect_key, result_key, attribute_key
+        ) VALUES (#{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey})
+    </insert>
+
+    <update id="updateExecuteDetail">
+        UPDATE public.skill_effect_execute_details
         SET attribute_key = #{attributeKey}
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
           AND effect_key = #{effectKey} AND result_key = #{resultKey}
