@@ -65,7 +65,7 @@ DECLARE
     v_skill_key varchar(64);
     v_effect_key varchar(64);
     v_result_key varchar(64);
-    v_result_type varchar(24);
+    v_result_type varchar(32);
     v_target varchar(16);
     v_result_moment varchar(24);
     v_spell_shield_block_scope varchar(24);
@@ -81,6 +81,7 @@ DECLARE
     v_healing_modifier_count int;
     v_damage_immunity_count int;
     v_health_floor_count int;
+    v_execute_count int;
     v_special_count int;
     v_attribute_count int;
     v_resource_count int;
@@ -170,6 +171,10 @@ BEGIN
       FROM public.skill_effect_health_floor_details d
      WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_execute_count
+      FROM public.skill_effect_execute_details d
+     WHERE d.game_id = v_game_id AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key AND d.result_key = v_result_key;
     v_special_count := v_damage_modifier_count + v_healing_modifier_count
         + v_damage_immunity_count + v_health_floor_count;
     SELECT COUNT(*) INTO v_attribute_count
@@ -233,7 +238,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) DAMAGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -249,7 +254,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) % shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
@@ -265,7 +270,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) NORMAL_SHIELD shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -281,7 +286,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) ATTRIBUTE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -311,7 +316,7 @@ BEGIN
             OR v_resource_count <> 1
             OR v_cooldown_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) RESOURCE_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -327,7 +332,7 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_status_count <> 0
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) COOLDOWN_CHANGE shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -362,7 +367,7 @@ BEGIN
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
             OR v_status_count <> 1
-            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 THEN
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) STATUS_OPERATION shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -377,7 +382,7 @@ BEGIN
             OR v_attribute_count <> 0
             OR v_resource_count <> 0
             OR v_cooldown_count <> 0
-            OR v_status_count <> 0 OR v_special_count <> 0 THEN
+            OR v_status_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
             RAISE EXCEPTION
                 'skill_effect_results(%, %, %, %) LIFECYCLE_OPERATION shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key
@@ -407,7 +412,7 @@ BEGIN
         IF v_value_count <> 1 OR v_damage_modifier_count <> 1 OR v_special_count <> 1
             OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
                 + v_attribute_count + v_resource_count + v_cooldown_count
-                + v_status_count + v_lifecycle_op_count <> 0 THEN
+                + v_status_count + v_lifecycle_op_count + v_execute_count <> 0 THEN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) DAMAGE_MODIFIER shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
@@ -429,7 +434,7 @@ BEGIN
         IF v_value_count <> 1 OR v_healing_modifier_count <> 1 OR v_special_count <> 1
             OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
                 + v_attribute_count + v_resource_count + v_cooldown_count
-                + v_status_count + v_lifecycle_op_count <> 0 THEN
+                + v_status_count + v_lifecycle_op_count + v_execute_count <> 0 THEN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALING_MODIFIER shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
@@ -451,7 +456,7 @@ BEGIN
         IF v_value_count <> 0 OR v_damage_immunity_count <> 1 OR v_special_count <> 1
             OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
                 + v_attribute_count + v_resource_count + v_cooldown_count
-                + v_status_count + v_lifecycle_op_count <> 0 THEN
+                + v_status_count + v_lifecycle_op_count + v_execute_count <> 0 THEN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) DAMAGE_IMMUNITY shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
@@ -459,7 +464,7 @@ BEGIN
         IF v_value_count <> 1 OR v_health_floor_count <> 1 OR v_special_count <> 1
             OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
                 + v_attribute_count + v_resource_count + v_cooldown_count
-                + v_status_count + v_lifecycle_op_count <> 0 THEN
+                + v_status_count + v_lifecycle_op_count + v_execute_count <> 0 THEN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) HEALTH_FLOOR shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
         END IF;
@@ -467,9 +472,30 @@ BEGIN
         IF v_value_count <> 0
             OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
                 + v_attribute_count + v_resource_count + v_cooldown_count
-                + v_status_count + v_lifecycle_op_count + v_special_count <> 0 THEN
+                + v_status_count + v_lifecycle_op_count + v_special_count + v_execute_count <> 0 THEN
             RAISE EXCEPTION 'skill_effect_results(%, %, %, %) SPELL_SHIELD shape invalid at commit',
                 v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type = 'EXECUTE' THEN
+        IF v_value_count <> 1
+            OR v_execute_count <> 1
+            OR v_result_moment = 'PERSISTENT'
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count + v_special_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) EXECUTE shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_result_type IN ('HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION') THEN
+        IF v_value_count <> 1
+            OR v_execute_count <> 0
+            OR v_result_moment = 'PERSISTENT'
+            OR v_damage_count + v_critical_count + v_vamp_count + v_normal_shield_count
+                + v_attribute_count + v_resource_count + v_cooldown_count
+                + v_status_count + v_lifecycle_op_count + v_special_count <> 0 THEN
+            RAISE EXCEPTION 'skill_effect_results(%, %, %, %) % shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
+                USING ERRCODE = 'check_violation';
         END IF;
     ELSE
         RAISE EXCEPTION
@@ -483,7 +509,8 @@ BEGIN
             OR v_result_moment = 'PERSISTENT'
             OR v_result_type NOT IN (
                 'DAMAGE', 'ATTRIBUTE_CHANGE', 'RESOURCE_CHANGE',
-                'COOLDOWN_CHANGE', 'STATUS_OPERATION', 'LIFECYCLE_OPERATION'
+                'COOLDOWN_CHANGE', 'STATUS_OPERATION', 'LIFECYCLE_OPERATION',
+                'EXECUTE', 'HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION'
             )
             OR (
                 v_spell_shield_block_scope = 'DAMAGE_INSTANCE'
@@ -525,6 +552,7 @@ DECLARE
         'skill_effect_healing_modifier_details',
         'skill_effect_damage_immunity_details',
         'skill_effect_health_floor_details',
+        'skill_effect_execute_details',
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
@@ -1839,6 +1867,7 @@ DECLARE
     v_subject_event_count int;
     v_damage_event_count int;
     v_spell_shield_event_count int;
+    v_link_event_count int;
     v_event_detail_count int;
     v_action_count int;
     v_fail_count int;
@@ -1929,11 +1958,14 @@ BEGIN
     SELECT COUNT(*) INTO v_spell_shield_event_count
     FROM public.skill_trigger_rule_spell_shield_blocked_events
     WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
+    SELECT COUNT(*) INTO v_link_event_count
+    FROM public.skill_trigger_rule_link_events
+    WHERE game_id = v_game_id AND skill_key = v_skill_key AND rule_key = v_skill_trigger_rule_key;
 
     v_event_detail_count := v_process_event_count + v_skill_event_count + v_result_event_count
         + v_lifecycle_event_count + v_status_event_count + v_health_event_count
         + v_istate_event_count + v_subject_event_count + v_damage_event_count
-        + v_spell_shield_event_count;
+        + v_spell_shield_event_count + v_link_event_count;
 
     v_expected_detail := CASE
         WHEN v_event_type IN ('PROCESS_MOMENT', 'PROCESS_CANCEL_REQUESTED') THEN
@@ -1956,6 +1988,8 @@ BEGIN
             CASE WHEN v_damage_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type = 'SPELL_SHIELD_BLOCKED' THEN
             CASE WHEN v_spell_shield_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
+        WHEN v_event_type IN ('HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED') THEN
+            CASE WHEN v_link_event_count = 1 AND v_event_detail_count = 1 THEN 1 ELSE 0 END
         WHEN v_event_type IN (
             'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'CONTROL_RECEIVED', 'KILL'
         ) THEN
@@ -2462,6 +2496,7 @@ DECLARE
         'skill_trigger_rule_subject_events',
         'skill_trigger_rule_damage_events',
         'skill_trigger_rule_spell_shield_blocked_events',
+        'skill_trigger_rule_link_events',
         'skill_trigger_rule_condition_groups',
         'skill_trigger_rule_conditions',
         'skill_trigger_rule_attribute_conditions',
