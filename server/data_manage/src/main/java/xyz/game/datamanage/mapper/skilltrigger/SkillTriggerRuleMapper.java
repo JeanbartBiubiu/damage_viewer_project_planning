@@ -22,6 +22,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateCondition
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldownRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
@@ -225,6 +226,19 @@ public interface SkillTriggerRuleMapper {
         @Param("skillKey") String skillKey,
         @Param("ruleKey") String ruleKey,
         @Param("shieldEffectKey") String shieldEffectKey
+    );
+
+    SkillTriggerLinkEventRow findLinkEvent(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("ruleKey") String ruleKey
+    );
+
+    int insertLinkEvent(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("ruleKey") String ruleKey,
+        @Param("sourceSkillKey") String sourceSkillKey
     );
 
     List<SkillTriggerConditionGroupRow> listConditionGroups(
@@ -449,6 +463,10 @@ public interface SkillTriggerRuleMapper {
     );
 
     List<SkillTriggerDamageEventRow> listDamageEventsForSkill(
+        @Param("gameId") String gameId, @Param("skillKey") String skillKey
+    );
+
+    List<SkillTriggerLinkEventRow> listLinkEventsForSkill(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey
     );
 
