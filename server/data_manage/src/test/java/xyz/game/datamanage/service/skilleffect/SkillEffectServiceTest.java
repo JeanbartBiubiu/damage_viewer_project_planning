@@ -66,6 +66,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
@@ -321,6 +325,168 @@ class SkillEffectServiceTest {
             "results[0].spellShieldBlockScope",
             "INVALID_SPELL_SHIELD_SCOPE"
         );
+    }
+
+    @Test
+    void createsExecuteAndLinkResultsAndRejectsPersistentDamageInstanceAndModifierZone() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        List<SkillEffectResultRow> rows = List.of(
+            new SkillEffectResultRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", "斩杀",
+                SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET, null, 0
+            ),
+            new SkillEffectResultRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "hit_link", "命中联动",
+                SkillEffectResultType.HIT_LINK_APPLICATION, SkillEffectTarget.TARGET, null, 1
+            ),
+            new SkillEffectResultRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "attack_link", "攻击联动",
+                SkillEffectResultType.ATTACK_LINK_APPLICATION, SkillEffectTarget.TARGET, null, 2
+            )
+        );
+        stubDetailRead(
+            rows,
+            List.of(valueRow("execute"), valueRow("hit_link"), valueRow("attack_link")),
+            new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
+        );
+        when(mapper.listExecuteDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectExecuteDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", "hp")
+        ));
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "execute",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null
+            ),
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "hit_link",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null
+            ),
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "attack_link",
+                SkillEffectLifecycleMoment.APPLICATION,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null
+            )
+        ));
+        when(mapper.listSpellShieldPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSpellShieldPolicyRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", SkillEffectSpellShieldBlockScope.RESULT
+            )
+        ));
+
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY, "斩杀联动", null, 10, timedLifecycle(),
+                List.of(
+                    new SkillEffectResultRequest(
+                        "execute", "斩杀", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                        null, 0, valueRule(), new SkillEffectExecuteDetail("hp"),
+                        applicationSnapshot(), SkillEffectSpellShieldBlockScope.RESULT
+                    ),
+                    new SkillEffectResultRequest(
+                        "hit_link", "命中联动", SkillEffectResultType.HIT_LINK_APPLICATION,
+                        SkillEffectTarget.TARGET, null, 1, valueRule(),
+                        new SkillEffectHitLinkApplicationDetail(), applicationSnapshot()
+                    ),
+                    new SkillEffectResultRequest(
+                        "attack_link", "攻击联动", SkillEffectResultType.ATTACK_LINK_APPLICATION,
+                        SkillEffectTarget.TARGET, null, 2, valueRule(),
+                        new SkillEffectAttackLinkApplicationDetail(), applicationSnapshot()
+                    )
+                )
+            )
+        );
+        assertInstanceOf(SkillEffectExecuteDetail.class, created.results().get(0).detail());
+        assertEquals("hp", ((SkillEffectExecuteDetail) created.results().get(0).detail()).attributeKey());
+        assertInstanceOf(SkillEffectHitLinkApplicationDetail.class, created.results().get(1).detail());
+        assertInstanceOf(SkillEffectAttackLinkApplicationDetail.class, created.results().get(2).detail());
+        assertEquals(SkillEffectSpellShieldBlockScope.RESULT, created.results().get(0).spellShieldBlockScope());
+        verify(mapper).insertExecuteDetail(GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", "hp");
+        verify(mapper).insertValue(
+            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("hit_link"),
+            eq(FORMULA_KEY), eq(BigDecimal.ONE), isNull(), isNull()
+        );
+        verify(mapper).insertSpellShieldPolicy(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", SkillEffectSpellShieldBlockScope.RESULT
+        );
+
+        ApiException persistent = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "persist_execute", "斩杀", null, 0, timedLifecycle(),
+                    List.of(new SkillEffectResultRequest(
+                        "execute", "斩杀", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                        null, 0, valueRule(), new SkillEffectExecuteDetail("hp"),
+                        new SkillEffectResultLifecycleBehaviorRequest(
+                            SkillEffectLifecycleMoment.PERSISTENT,
+                            SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                            SkillEffectLifecycleStackValueMode.SHARED,
+                            SkillEffectLifecycleReapplicationValueMode.KEEP,
+                            null
+                        )
+                    ))
+                )
+            )
+        );
+        assertField(persistent, "results[0].lifecycleBehavior.moment", "SPECIAL_RESULT_FORBIDS_PERSISTENT");
+
+        ApiException damageInstance = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "blocked_execute", "斩杀", null, 0,
+                    List.of(new SkillEffectResultRequest(
+                        "execute", "斩杀", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                        null, 0, valueRule(), new SkillEffectExecuteDetail("hp"),
+                        null, SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+                    ))
+                )
+            )
+        );
+        assertField(damageInstance, "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+
+        ApiException sourceTarget = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "source_link", "命中联动", null, 0,
+                    List.of(new SkillEffectResultRequest(
+                        "hit_link", "命中联动", SkillEffectResultType.HIT_LINK_APPLICATION,
+                        SkillEffectTarget.SOURCE, null, 0, valueRule(),
+                        new SkillEffectHitLinkApplicationDetail(),
+                        null, SkillEffectSpellShieldBlockScope.SKILL
+                    ))
+                )
+            )
+        );
+        assertField(sourceTarget, "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+
+        ApiException modifierZone = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "zone_link", "命中联动", null, 0,
+                    List.of(new SkillEffectResultRequest(
+                        "hit_link", "命中联动", SkillEffectResultType.HIT_LINK_APPLICATION,
+                        SkillEffectTarget.TARGET, null, 0, valueRule(),
+                        new SkillEffectHitLinkApplicationDetail(Set.of("modifierZoneKey"), Set.of())
+                    ))
+                )
+            )
+        );
+        assertField(modifierZone, "results[0].detail.modifierZoneKey", "FIELD_MUTEX");
     }
 
     @Test
@@ -2131,6 +2297,7 @@ class SkillEffectServiceTest {
         when(mapper.insertHealingModifierDetail(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertDamageImmunityDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertHealthFloorDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertExecuteDetail(any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);

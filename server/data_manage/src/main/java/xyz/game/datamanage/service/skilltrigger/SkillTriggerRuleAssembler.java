@@ -47,6 +47,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDeta
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldownRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
@@ -149,9 +151,10 @@ public class SkillTriggerRuleAssembler {
         SkillTriggerDamageEventRow damageEvent = mapper.findDamageEvent(gameId, skillKey, ruleKey);
         SkillTriggerSpellShieldBlockedEventRow spellShieldBlockedEvent =
             mapper.findSpellShieldBlockedEvent(gameId, skillKey, ruleKey);
+        SkillTriggerLinkEventRow linkEvent = mapper.findLinkEvent(gameId, skillKey, ruleKey);
         int present = countPresent(
             processEvent, skillEvent, resultEvent, lifecycleEvent, statusEvent, healthEvent,
-            internalStateEvent, subjectEvent, damageEvent, spellShieldBlockedEvent
+            internalStateEvent, subjectEvent, damageEvent, spellShieldBlockedEvent, linkEvent
         );
         return switch (eventType) {
             case PROCESS_MOMENT -> {
@@ -272,6 +275,15 @@ public class SkillTriggerRuleAssembler {
                     new SkillTriggerSpellShieldBlockedEventDetail(
                         spellShieldBlockedEvent.shieldEffectKey()
                     )
+                );
+            }
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
+                if (linkEvent == null || present != 1) {
+                    throw corrupt(gameId, skillKey, ruleKey, "联动事件明细形状损坏");
+                }
+                yield new SkillTriggerEventSource(
+                    eventType,
+                    new SkillTriggerLinkEventDetail(linkEvent.sourceSkillKey())
                 );
             }
             case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
