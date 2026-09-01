@@ -415,6 +415,25 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
     expect(nestedErrorFor('actions[0].runtimeInputBindings[1]', mapped.nestedErrors)).toBe('参数不能为空。');
   });
 
+  it('maps eventSource.detail.sourceSkillKey to the event source field', () => {
+    const mapped = mapTriggerFieldIssues(new ApiRequestError(
+      '来源技能不存在',
+      400,
+      '400.VALIDATION_FAILED',
+      {
+        fieldIssues: [
+          {
+            field: 'eventSource.detail.sourceSkillKey',
+            code: 'UNKNOWN_SKILL',
+            message: '来源技能不存在'
+          }
+        ]
+      }
+    ));
+    expect(mapped.fieldErrors.eventSource).toBe('来源技能不存在');
+    expect(mapped.nestedErrors).toEqual([]);
+  });
+
   it('maps unguarded cycle paths, unknown keys and produced-event details', () => {
     const details = {
       cyclePath: ['detonate_at_full_stacks', 'reapply_mark', 'unknown_rule'],
@@ -478,6 +497,32 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
     if (invalid.ok) throw new Error('expected invalid');
     expect(invalid.fieldErrors.eventSource).toBe(INCOMPLETE_CATALOG_MESSAGE);
     expect(invalid.fieldErrors.actions).toBe(SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE);
+  });
+
+  it('blocks save when the skill catalog fails for hit-link events and keeps the draft', () => {
+    const draft = namedDraft('hit_link_rule', '命中联动', {
+      eventSource: {
+        eventType: 'HIT_LINK_APPLIED',
+        detail: { sourceSkillKey: 'ashe_q' }
+      }
+    });
+    const invalid = validateSkillTriggerDraft(draft, {
+      includeRuleKey: true,
+      catalogStates: {
+        formulas: 'ready',
+        parameters: 'ready',
+        effects: 'ready',
+        processes: 'ready',
+        skills: 'error'
+      }
+    });
+    expect(invalid.ok).toBe(false);
+    if (invalid.ok) throw new Error('expected invalid');
+    expect(invalid.fieldErrors.eventSource).toBe(INCOMPLETE_CATALOG_MESSAGE);
+    expect(draft.eventSource).toEqual({
+      eventType: 'HIT_LINK_APPLIED',
+      detail: { sourceSkillKey: 'ashe_q' }
+    });
   });
 });
 

@@ -471,4 +471,88 @@ describe('skillEffectClient', () => {
       detail: { originKind: 'REFLECTED' }
     });
   });
+
+  it('parses execute and empty-detail link results and rejects hidden fields', () => {
+    const executeResult = {
+      ...damageResult,
+      resultKey: 'collect_execute',
+      resultType: 'EXECUTE',
+      spellShieldBlockScope: 'RESULT',
+      lifecycleBehavior: {
+        moment: 'APPLICATION',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: null,
+        reapplicationValueMode: null,
+        periodicExecutionMode: null
+      },
+      valueRule: damageResult.valueRule,
+      detail: { attributeKey: 'hp' }
+    };
+    const parsed = parseSkillEffect({
+      ...detail,
+      results: [
+        executeResult,
+        {
+          ...damageResult,
+          resultKey: 'hit_link',
+          resultType: 'HIT_LINK_APPLICATION',
+          detail: {}
+        },
+        {
+          ...damageResult,
+          resultKey: 'attack_link',
+          resultType: 'ATTACK_LINK_APPLICATION',
+          spellShieldBlockScope: 'SKILL',
+          detail: {}
+        }
+      ]
+    });
+    expect(parsed.results.map((item) => item.resultType)).toEqual([
+      'EXECUTE',
+      'HIT_LINK_APPLICATION',
+      'ATTACK_LINK_APPLICATION'
+    ]);
+    expect(parsed.results[0]).toMatchObject({
+      detail: { attributeKey: 'hp' },
+      valueRule: damageResult.valueRule,
+      spellShieldBlockScope: 'RESULT'
+    });
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...executeResult,
+        detail: { attributeKey: 'hp', modifierZoneKey: 'damage_ratio' }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.modifierZoneKey/);
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'HIT_LINK_APPLICATION',
+        detail: { sourceSkillKey: 'ashe_q' }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail/);
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...executeResult,
+        spellShieldBlockScope: 'DAMAGE_INSTANCE'
+      }]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...executeResult,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: {
+          moment: 'PERSISTENT',
+          valueReadMode: 'APPLICATION_SNAPSHOT',
+          stackValueMode: 'SHARED',
+          reapplicationValueMode: 'KEEP',
+          periodicExecutionMode: null
+        }
+      }]
+    })).toThrow(/effect\.results\[0\]\.lifecycleBehavior/);
+  });
 });

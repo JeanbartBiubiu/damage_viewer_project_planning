@@ -284,6 +284,98 @@ describe('skillTriggerRuleClient', () => {
       ...detail,
       eventSource: { eventType: 'SPELL_SHIELD_BLOCKED', detail: {} }
     })).toThrow(/eventSource\.detail\.shieldEffectKey/);
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } }
+    }).eventSource).toEqual({
+      eventType: 'HIT_LINK_APPLIED',
+      detail: { sourceSkillKey: null }
+    });
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: 'ashe_q' } }
+    }).eventSource).toEqual({
+      eventType: 'ATTACK_LINK_APPLIED',
+      detail: { sourceSkillKey: 'ashe_q' }
+    });
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: {
+        eventType: 'HIT_LINK_APPLIED',
+        detail: { sourceSkillKey: null, eventValueKey: 'HIT_INDEX' }
+      }
+    })).toThrow(/eventSource\.detail/);
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: 12 } }
+    })).toThrow(/eventSource\.detail\.sourceSkillKey/);
+  });
+
+  it('rejects event-value compare conditions and EVENT_VALUE bindings on link-application events', () => {
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } },
+      conditionGroups: [{
+        groupKey: 'when_hit',
+        name: '命中条件',
+        sortOrder: 0,
+        conditions: [{
+          conditionKey: 'hit_index',
+          conditionType: 'EVENT_VALUE_COMPARE',
+          sortOrder: 0,
+          detail: {
+            eventValueKey: 'HIT_INDEX',
+            comparator: 'EQ',
+            comparisonFormulaKey: 'one'
+          }
+        }]
+      }]
+    })).toThrow(/detail\.conditionGroups\[0\]\.conditions\[0\]/);
+
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: 'ashe_q' } },
+      actions: [{
+        ...detail.actions[0],
+        runtimeInputBindings: [{
+          bindingKey: 'bind_hit_index',
+          parameterKey: 'stacks',
+          sourceType: 'EVENT_VALUE',
+          detail: { eventValueKey: 'HIT_INDEX' }
+        }]
+      }]
+    })).toThrow(/detail\.actions\[0\]\.runtimeInputBindings\[0\]/);
+
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      eventSource: { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } },
+      conditionGroups: [{
+        groupKey: 'when_marked',
+        name: '属性条件',
+        sortOrder: 0,
+        conditions: [{
+          conditionKey: 'has_focus',
+          conditionType: 'ATTRIBUTE_COMPARE',
+          sortOrder: 0,
+          detail: {
+            subject: 'CURRENT_TARGET',
+            attributeKey: 'attack_damage',
+            attributeValueKind: 'CURRENT',
+            comparator: 'GTE',
+            comparisonFormulaKey: 'one'
+          }
+        }]
+      }],
+      actions: [{
+        ...detail.actions[0],
+        runtimeInputBindings: [{
+          bindingKey: 'bind_internal',
+          parameterKey: 'stacks',
+          sourceType: 'INTERNAL_STATE',
+          detail: { stateKey: 'focus', valueKind: 'VALUE', optionKey: null }
+        }]
+      }]
+    }).eventSource.eventType).toBe('HIT_LINK_APPLIED');
   });
 
   it.each([
