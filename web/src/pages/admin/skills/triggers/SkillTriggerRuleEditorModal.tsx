@@ -72,6 +72,9 @@ import {
   SKILL_TRIGGER_CONDITION_GROUP_HINT,
   SKILL_TRIGGER_CYCLE_HINT,
   SKILL_TRIGGER_CYCLE_MESSAGE,
+  SKILL_TRIGGER_LINK_EVENT_VALUE_HINT,
+  SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
+  SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
   SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_TRIGGER_EVENT_TYPE_LABELS,
@@ -771,8 +774,8 @@ export function SkillTriggerRuleEditorModal({
     void refreshSpellShieldEffectDetails();
   }, [catalogStates.effects, draft.eventSource.eventType, refreshSpellShieldEffectDetails, visible]);
 
-  const skillOptions = (currentKey: string | null): CatalogOption[] => (
-    [
+  const skillOptions = (currentKey: string | null): CatalogOption[] => {
+    const options: CatalogOption[] = [
       { value: '', label: '任意技能' },
       ...skills
         .filter((item) => item.status === 'ENABLED' || item.skillKey === currentKey)
@@ -781,8 +784,16 @@ export function SkillTriggerRuleEditorModal({
           label: disabledName(item.name, item.skillKey, item.status === 'DISABLED'),
           disabled: item.status === 'DISABLED' && item.skillKey !== currentKey
         }))
-    ]
-  );
+    ];
+    if (currentKey && !options.some((item) => item.value === currentKey)) {
+      options.push({
+        value: currentKey,
+        label: `${currentKey}（${MISSING_CATALOG_LABEL}）`,
+        disabled: true
+      });
+    }
+    return options;
+  };
 
   const attributeOptions = (currentKey: string): CatalogOption[] => (
     attributes
@@ -1433,7 +1444,7 @@ export function SkillTriggerRuleEditorModal({
           {cycle ? (
             <Alert
               type="error"
-              content={`${cycle.message}：${formatCyclePath(cycle.pathItems, ruleNames).join(' → ') || SKILL_TRIGGER_CYCLE_MESSAGE}。${cycle.hint || SKILL_TRIGGER_CYCLE_HINT}`}
+              content={`${cycle.message}：${formatCyclePath(cycle.pathItems, ruleNames).join(' → ') || SKILL_TRIGGER_CYCLE_MESSAGE}。${cycle.hint || SKILL_TRIGGER_CYCLE_HINT} ${SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT}`}
             />
           ) : null}
           <Form layout="vertical">
@@ -1676,6 +1687,28 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             }}
           />
         </Form.Item>
+      );
+    case 'HIT_LINK_APPLIED':
+    case 'ATTACK_LINK_APPLIED':
+      return (
+        <>
+          <Alert type="info" content={SKILL_TRIGGER_LINK_EVENT_VALUE_HINT} />
+          <Form.Item label="来源技能" help={SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT}>
+            <Select
+              aria-label="联动来源技能"
+              value={eventSource.detail.sourceSkillKey ?? ''}
+              disabled={disabled}
+              options={props.skills(eventSource.detail.sourceSkillKey)}
+              onChange={(value) => {
+                const key = String(value ?? '');
+                onChange({
+                  eventType: eventSource.eventType,
+                  detail: { sourceSkillKey: key === '' ? null : key }
+                });
+              }}
+            />
+          </Form.Item>
+        </>
       );
     case 'PROCESS_MOMENT':
       return (

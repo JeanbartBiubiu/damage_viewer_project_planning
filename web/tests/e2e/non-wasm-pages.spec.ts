@@ -2310,7 +2310,6 @@ function visibleModal(page: Page, title: string): Locator {
 }
 
 const SKILL_EFFECT_FORBIDDEN_TERMS = [
-  '斩杀',
   '过程',
   '条件',
   '事件',
@@ -2954,9 +2953,10 @@ async function closeVisibleDialog(dialog: Locator): Promise<void> {
 async function fillValueRule(
   page: Page,
   modal: Locator,
-  formulaName: string
+  formulaName: string,
+  label = '数值公式'
 ): Promise<void> {
-  await chooseSelectOption(page, modal, '数值公式', formulaName);
+  await chooseSelectOption(page, modal, label, formulaName);
 }
 
 async function saveOpenModal(modal: Locator): Promise<void> {
@@ -3937,6 +3937,110 @@ test.describe('skill management without Wasm', () => {
       detail: { affectedSkillKeys: ['varus_w', 'other_skill'], operation: 'RESET' }
     });
     diagnostics.assertClean('seven result editors and omitted cooldown reset value rule');
+  });
+
+  test('authors execute and link-application results with discrete spell-shield scopes', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.attributes = [...mock.attributes, attribute('hp', '生命值')];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const createModal = visibleModal(page, '新增效果');
+    await createModal.getByLabel('效果标识', { exact: true }).fill('execute_link_pack');
+    await createModal.getByLabel('效果名称', { exact: true }).fill('斩杀与联动');
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const executeModal = visibleModal(page, '新增结果');
+    await executeModal.getByLabel('结果标识', { exact: true }).fill('collect_execute');
+    await executeModal.getByLabel('结果名称', { exact: true }).fill('斩杀');
+    await chooseSelectOption(page, executeModal, '结果种类', '斩杀');
+    await expect(executeModal.getByText('目标当前生命属性小于等于阈值时形成斩杀结果；它不是额外伤害。')).toBeVisible();
+    await expect(executeModal.getByLabel('生命属性', { exact: true })).toBeVisible();
+    await expect(executeModal.getByLabel('斩杀阈值公式', { exact: true })).toBeVisible();
+    await expect(executeModal.getByLabel('延迟毫秒', { exact: true })).toHaveCount(0);
+    await chooseSelectOption(page, executeModal, '生命属性', '生命值');
+    await fillValueRule(page, executeModal, '伤害公式', '斩杀阈值公式');
+    await executeModal.getByLabel('法术护盾阻挡粒度', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '当前伤害实例', exact: true })).toHaveCount(0);
+    await chooseVisibleOption(page, '当前结果');
+    await saveOpenModal(executeModal);
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const hitLinkModal = visibleModal(page, '新增结果');
+    await hitLinkModal.getByLabel('结果标识', { exact: true }).fill('on_hit_link');
+    await hitLinkModal.getByLabel('结果名称', { exact: true }).fill('命中联动');
+    await chooseSelectOption(page, hitLinkModal, '结果种类', '命中联动应用');
+    await expect(hitLinkModal.getByLabel('命中联动次数公式', { exact: true })).toBeVisible();
+    await expect(hitLinkModal.getByLabel('来源技能', { exact: true })).toHaveCount(0);
+    await expect(hitLinkModal.getByLabel('延迟毫秒', { exact: true })).toHaveCount(0);
+    await fillValueRule(page, hitLinkModal, '一层', '命中联动次数公式');
+    await saveOpenModal(hitLinkModal);
+
+    await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const attackLinkModal = visibleModal(page, '新增结果');
+    await attackLinkModal.getByLabel('结果标识', { exact: true }).fill('on_attack_link');
+    await attackLinkModal.getByLabel('结果名称', { exact: true }).fill('攻击联动');
+    await chooseSelectOption(page, attackLinkModal, '结果种类', '攻击联动应用');
+    await expect(attackLinkModal.getByLabel('攻击联动次数公式', { exact: true })).toBeVisible();
+    await fillValueRule(page, attackLinkModal, '一层', '攻击联动次数公式');
+    await saveOpenModal(attackLinkModal);
+
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    const write = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
+    expect(write?.body.results).toEqual([
+      {
+        resultKey: 'collect_execute',
+        name: '斩杀',
+        resultType: 'EXECUTE',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        spellShieldBlockScope: 'RESULT',
+        lifecycleBehavior: null,
+        valueRule: valueRule('damage'),
+        detail: { attributeKey: 'hp' }
+      },
+      {
+        resultKey: 'on_attack_link',
+        name: '攻击联动',
+        resultType: 'ATTACK_LINK_APPLICATION',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: null,
+        valueRule: valueRule('one'),
+        detail: {}
+      },
+      {
+        resultKey: 'on_hit_link',
+        name: '命中联动',
+        resultType: 'HIT_LINK_APPLICATION',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 0,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: null,
+        valueRule: valueRule('one'),
+        detail: {}
+      }
+    ]);
+
+    await shell.locator('tr', { hasText: 'execute_link_pack' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑效果');
+    await expect(editModal.locator('tr', { hasText: 'collect_execute' })).toContainText('斩杀');
+    await expect(editModal.locator('tr', { hasText: 'collect_execute' })).toContainText('生命值');
+    await expect(editModal.locator('tr', { hasText: 'collect_execute' })).toContainText('伤害公式');
+    await expect(editModal.locator('tr', { hasText: 'on_attack_link' })).toContainText('一层');
+    await expect(editModal.locator('tr', { hasText: 'on_hit_link' })).toContainText('命中联动应用');
+    await expect(editModal.locator('tr', { hasText: 'on_hit_link' })).toContainText('一层');
+    await editModal.getByRole('button', { name: '取消', exact: true }).click();
+    diagnostics.assertClean('execute and link application results');
   });
 
   test('retains disabled catalog refs, blocks new disabled choices, and only stops the failed catalog result', async ({ page }) => {
@@ -5008,6 +5112,37 @@ test.describe('skill management without Wasm', () => {
     await expect(dirtyModal).toBeHidden();
     await expect(shell).toBeVisible();
     diagnostics.assertClean('condition and trigger entry empty state and close');
+  });
+
+  test('configures hit-link and attack-link events with nullable source skills', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await createModal.getByLabel('规则标识', { exact: true }).fill('on_hit_link');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('应用命中联动');
+    await chooseTriggerEventType(page, createModal, '应用命中联动');
+    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toBeVisible();
+    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toBeVisible();
+    await expect(createModal.getByLabel('事件来源对象', { exact: true })).toHaveCount(0);
+    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('任意技能');
+    await chooseSelectOption(page, createModal, '联动来源技能', '枯萎箭袋');
+    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('枯萎箭袋');
+
+    await chooseTriggerEventType(page, createModal, '触发攻击联动');
+    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toBeVisible();
+    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('任意技能');
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await expect(leaveConfirm).toBeVisible();
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    diagnostics.assertClean('hit-link and attack-link events');
   });
 
   test('creates a spell shield, configures a block scope and saves the blocked event', async ({ page }) => {
