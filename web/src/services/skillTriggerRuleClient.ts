@@ -33,7 +33,9 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
   'ENTITY_UNTARGETABLE',
   'KILL',
   'PROCESS_CANCEL_REQUESTED',
-  'SPELL_SHIELD_BLOCKED'
+  'SPELL_SHIELD_BLOCKED',
+  'HIT_LINK_APPLIED',
+  'ATTACK_LINK_APPLIED'
 ]);
 
 const CONDITION_TYPES = new Set([
@@ -117,6 +119,15 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
     case 'SKILL_HIT':
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
         protocolError(`${path}.detail.sourceSkillKey`);
+      }
+      break;
+    case 'HIT_LINK_APPLIED':
+    case 'ATTACK_LINK_APPLIED':
+      if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
+        protocolError(`${path}.detail.sourceSkillKey`);
+      }
+      if (Object.keys(detail).some((key) => key !== 'sourceSkillKey')) {
+        protocolError(`${path}.detail`);
       }
       break;
     case 'PROCESS_MOMENT':
@@ -286,6 +297,32 @@ function assertGroup(value: unknown, path: string): SkillTriggerConditionGroup {
   return value as SkillTriggerConditionGroup;
 }
 
+function assertLinkEventOmitsEventValue(
+  eventType: SkillTriggerEventType,
+  conditionGroups: SkillTriggerConditionGroup[],
+  actions: SkillTriggerAction[]
+): void {
+  if (eventType !== 'HIT_LINK_APPLIED' && eventType !== 'ATTACK_LINK_APPLIED') {
+    return;
+  }
+  for (let groupIndex = 0; groupIndex < conditionGroups.length; groupIndex += 1) {
+    const conditions = conditionGroups[groupIndex]!.conditions;
+    for (let conditionIndex = 0; conditionIndex < conditions.length; conditionIndex += 1) {
+      if (conditions[conditionIndex]!.conditionType === 'EVENT_VALUE_COMPARE') {
+        protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}]`);
+      }
+    }
+  }
+  for (let actionIndex = 0; actionIndex < actions.length; actionIndex += 1) {
+    const bindings = actions[actionIndex]!.runtimeInputBindings;
+    for (let bindingIndex = 0; bindingIndex < bindings.length; bindingIndex += 1) {
+      if (bindings[bindingIndex]!.sourceType === 'EVENT_VALUE') {
+        protocolError(`detail.actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`);
+      }
+    }
+  }
+}
+
 export function parseSkillTriggerRuleSummary(value: unknown): SkillTriggerRuleSummary {
   if (!isRecord(value)) protocolError('summary');
   const eventType = value.eventType;
@@ -322,6 +359,7 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
     assertGroup(item, `detail.conditionGroups[${index}]`)
   ));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));
+  assertLinkEventOmitsEventValue(eventSource.eventType, conditionGroups, actions);
   return {
     ruleKey: assertString(value.ruleKey, 'detail.ruleKey'),
     name: assertString(value.name, 'detail.name'),

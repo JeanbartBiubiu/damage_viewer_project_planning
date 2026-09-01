@@ -20,7 +20,9 @@ export type SkillTriggerEventType =
   | 'ENTITY_UNTARGETABLE'
   | 'KILL'
   | 'PROCESS_CANCEL_REQUESTED'
-  | 'SPELL_SHIELD_BLOCKED';
+  | 'SPELL_SHIELD_BLOCKED'
+  | 'HIT_LINK_APPLIED'
+  | 'ATTACK_LINK_APPLIED';
 
 export type SkillTriggerConditionType =
   | 'ATTRIBUTE_COMPARE'
@@ -269,6 +271,16 @@ export type SkillTriggerSpellShieldBlockedEventSource = {
   detail: SkillTriggerSpellShieldBlockedEventDetail;
 };
 
+export type SkillTriggerHitLinkAppliedEventSource = {
+  eventType: 'HIT_LINK_APPLIED';
+  detail: SkillTriggerSkillHitEventDetail;
+};
+
+export type SkillTriggerAttackLinkAppliedEventSource = {
+  eventType: 'ATTACK_LINK_APPLIED';
+  detail: SkillTriggerSkillHitEventDetail;
+};
+
 export type SkillTriggerEventSource =
   | SkillTriggerSkillUsedEventSource
   | SkillTriggerBasicAttackStartEventSource
@@ -288,7 +300,9 @@ export type SkillTriggerEventSource =
   | SkillTriggerEntityUntargetableEventSource
   | SkillTriggerKillEventSource
   | SkillTriggerProcessCancelRequestedEventSource
-  | SkillTriggerSpellShieldBlockedEventSource;
+  | SkillTriggerSpellShieldBlockedEventSource
+  | SkillTriggerHitLinkAppliedEventSource
+  | SkillTriggerAttackLinkAppliedEventSource;
 
 export type SkillTriggerAttributeCompareDetail = {
   subject: SkillTriggerSubject;

@@ -83,6 +83,18 @@ export const SKILL_TRIGGER_UNSAVED_CONFIRM = '当前修改尚未保存，确定�
 export const SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE = '令过程失败必须保持为最后一个动作。';
 export const SKILL_TRIGGER_CYCLE_MESSAGE = '当前关系形成没有保护的循环';
 export const SKILL_TRIGGER_CYCLE_HINT = '可增加每目标冷却、单次过程最大触发次数或调整关系。';
+export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
+  '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
+export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
+  '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
+export const SKILL_TRIGGER_LINK_EVENT_VALUE_HINT =
+  '事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。';
+
+export const SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT = {
+  EXECUTE: ['KILL', 'ENTITY_DIED'],
+  HIT_LINK_APPLICATION: ['HIT_LINK_APPLIED'],
+  ATTACK_LINK_APPLICATION: ['ATTACK_LINK_APPLIED']
+} as const;
 export const SKILL_TRIGGER_PARAMETER_IN_USE_MESSAGE =
   '该参数正在被技能公式或条件与触发规则使用，不能删除';
 export const SKILL_TRIGGER_INTERNAL_STATE_IN_USE_MESSAGE =
@@ -135,7 +147,9 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'ENTITY_UNTARGETABLE',
   'KILL',
   'PROCESS_CANCEL_REQUESTED',
-  'SPELL_SHIELD_BLOCKED'
+  'SPELL_SHIELD_BLOCKED',
+  'HIT_LINK_APPLIED',
+  'ATTACK_LINK_APPLIED'
 ] as const satisfies readonly SkillTriggerEventType[];
 
 export const SKILL_TRIGGER_CONDITION_TYPES = [
@@ -240,7 +254,9 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   ENTITY_UNTARGETABLE: '指定对象变为不可选取',
   KILL: '来源对象完成击杀',
   PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求',
-  SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡'
+  SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡',
+  HIT_LINK_APPLIED: '应用命中联动',
+  ATTACK_LINK_APPLIED: '触发攻击联动'
 } as const satisfies { [K in SkillTriggerEventType]: string };
 
 export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
@@ -397,6 +413,22 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     hasEventSource: true,
     requiredCatalogs: ['effects'],
     detailFields: ['shieldEffectKey']
+  },
+  HIT_LINK_APPLIED: {
+    eventType: 'HIT_LINK_APPLIED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.HIT_LINK_APPLIED,
+    currentTargetBinding: '本次联动目标。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills'],
+    detailFields: ['sourceSkillKey']
+  },
+  ATTACK_LINK_APPLIED: {
+    eventType: 'ATTACK_LINK_APPLIED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.ATTACK_LINK_APPLIED,
+    currentTargetBinding: '本次联动目标。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills'],
+    detailFields: ['sourceSkillKey']
   }
 };
 
@@ -744,6 +776,10 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'SKILL_USED':
       return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY' } };
     case 'SKILL_HIT':
+      return { eventType, detail: { sourceSkillKey: null } };
+    case 'HIT_LINK_APPLIED':
+      return { eventType, detail: { sourceSkillKey: null } };
+    case 'ATTACK_LINK_APPLIED':
       return { eventType, detail: { sourceSkillKey: null } };
     case 'PROCESS_MOMENT':
       return {
