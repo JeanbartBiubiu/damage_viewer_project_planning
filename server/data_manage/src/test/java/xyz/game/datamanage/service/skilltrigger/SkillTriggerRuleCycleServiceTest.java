@@ -54,6 +54,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDeta
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldownRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow;
@@ -393,6 +394,100 @@ class SkillTriggerRuleCycleServiceTest {
             GAME_ID, SKILL_KEY,
             emptyEventExecute("aa", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY)
         );
+    }
+
+    @Test
+    void executeAndLinkResultsProduceFilteredCandidateEdges() {
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("hit_any", "hit_any", SkillTriggerEventType.HIT_LINK_APPLIED)
+        ));
+        when(mapper.listLinkEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_any", null)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("hit_any", "apply")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("hit_any", "apply", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, RESULT_KEY, SkillEffectResultType.HIT_LINK_APPLICATION,
+                SkillEffectTarget.TARGET, true, "link_f", null, null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        stubAssembleExecuteEffect(
+            mapper, "hit_any", "hit_any", SkillTriggerEventType.HIT_LINK_APPLIED, "apply", EFFECT_KEY
+        );
+        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_any")).thenReturn(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_any", null)
+        );
+        ApiException cycle = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "hit_any",
+                new xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource(
+                    SkillTriggerEventType.HIT_LINK_APPLIED,
+                    new xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail((String) null)
+                ),
+                List.of(executeAction("apply", EFFECT_KEY))
+            )
+        ));
+        assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", cycle.getCode());
+        assertEquals(
+            SKILL_KEY,
+            ((java.util.Map<?, ?>) cycle.getDetails().get("producedEvent")).get("sourceSkillKey")
+        );
+
+        when(mapper.listLinkEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_any", "other_skill")
+        ));
+        stubAssembleExecuteEffect(
+            mapper, "hit_other", "hit_other", SkillTriggerEventType.HIT_LINK_APPLIED, "apply", EFFECT_KEY
+        );
+        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_other")).thenReturn(
+            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_other", "other_skill")
+        );
+        when(mapper.lockSkills(eq(GAME_ID), any())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow("other_skill", "ENABLED", null)
+        ));
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "hit_other",
+                new xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource(
+                    SkillTriggerEventType.HIT_LINK_APPLIED,
+                    new xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail("other_skill")
+                ),
+                List.of(executeAction("apply", EFFECT_KEY))
+            )
+        );
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("kill", "kill", SkillTriggerEventType.KILL)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("kill", "execute")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("kill", "execute", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, RESULT_KEY, SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                true, "execute_f", "hp", null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        stubAssembleExecuteEffect(mapper, "kill", "kill", SkillTriggerEventType.KILL, "execute", EFFECT_KEY);
+        ApiException executeKill = thrown(() -> service.create(
+            GAME_ID, SKILL_KEY,
+            emptyEventExecute("kill", SkillTriggerEventType.KILL, "execute", EFFECT_KEY)
+        ));
+        assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", executeKill.getCode());
     }
 
     private void stubSelfResultCycle(String ruleKey) {

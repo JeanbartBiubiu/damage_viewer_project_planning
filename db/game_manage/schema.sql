@@ -525,7 +525,7 @@ CREATE TABLE public.skill_effect_results (
     effect_key varchar(64) NOT NULL,
     result_key varchar(64) NOT NULL,
     name varchar(100) NOT NULL,
-    result_type varchar(24) NOT NULL,
+    result_type varchar(32) NOT NULL,
     target varchar(16) NOT NULL,
     description varchar(2000),
     sort_order integer NOT NULL DEFAULT 0,
@@ -544,7 +544,8 @@ CREATE TABLE public.skill_effect_results (
             'DAMAGE', 'DIRECT_HEAL', 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE',
             'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION',
             'LIFECYCLE_OPERATION', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-            'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
+            'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD',
+            'EXECUTE', 'HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION'
         )),
     CONSTRAINT ck_skill_effect_results_target
         CHECK (target IN ('SOURCE', 'TARGET')),
@@ -855,6 +856,31 @@ CREATE INDEX ix_skill_effect_health_floor_attribute
     (game_id, attribute_key, skill_key, effect_key, result_key);
 
 COMMENT ON TABLE public.skill_effect_health_floor_details IS '持续生命下限结果明细';
+
+CREATE TABLE public.skill_effect_execute_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    attribute_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_execute_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_execute_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_execute_details_attribute
+        FOREIGN KEY (game_id, attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key)
+        ON DELETE RESTRICT
+);
+
+CREATE INDEX ix_skill_effect_execute_details_attribute
+    ON public.skill_effect_execute_details
+    (game_id, attribute_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_execute_details IS '斩杀结果明细';
 
 CREATE TABLE public.skill_effect_attribute_change_details (
     game_id varchar(64) NOT NULL,
@@ -1844,7 +1870,8 @@ CREATE TABLE public.skill_trigger_rules (
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
             'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',
-            'KILL', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED'
+            'KILL', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED',
+            'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED'
         ))
 );
 
@@ -2148,6 +2175,30 @@ CREATE INDEX ix_skill_trigger_spell_shield_blocked_effect
     (game_id, skill_key, shield_effect_key, rule_key);
 
 COMMENT ON TABLE public.skill_trigger_rule_spell_shield_blocked_events IS '技能触发规则法术护盾已阻挡事件明细';
+
+CREATE TABLE public.skill_trigger_rule_link_events (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    rule_key varchar(64) NOT NULL,
+    source_skill_key varchar(64),
+    CONSTRAINT pk_skill_trigger_rule_link_events
+        PRIMARY KEY (game_id, skill_key, rule_key),
+    CONSTRAINT fk_skill_trigger_link_events_rule
+        FOREIGN KEY (game_id, skill_key, rule_key)
+        REFERENCES public.skill_trigger_rules (game_id, skill_key, rule_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_trigger_link_events_source_skill
+        FOREIGN KEY (game_id, source_skill_key)
+        REFERENCES public.skills (game_id, skill_key)
+        MATCH SIMPLE
+        ON DELETE RESTRICT
+);
+
+CREATE INDEX ix_skill_trigger_link_events_source_skill
+    ON public.skill_trigger_rule_link_events
+    (game_id, source_skill_key, skill_key, rule_key);
+
+COMMENT ON TABLE public.skill_trigger_rule_link_events IS '技能触发规则命中或攻击联动事件明细';
 
 CREATE TABLE public.skill_trigger_rule_condition_groups (
     game_id varchar(64) NOT NULL,

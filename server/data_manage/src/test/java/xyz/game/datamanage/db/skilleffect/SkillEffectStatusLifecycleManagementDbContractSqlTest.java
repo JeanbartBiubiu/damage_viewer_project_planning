@@ -236,7 +236,7 @@ class SkillEffectStatusLifecycleManagementDbContractSqlTest {
         assertTrue(triggersNormalized.contains("v_lifecycle_op_count"));
         assertTrue(triggersNormalized.contains("from public.skill_effect_lifecycle_operation_details d"));
         assertTrue(Pattern.compile(
-            "or v_lifecycle_op_count <> 0(?: or v_special_count <> 0)? then"
+            "or v_lifecycle_op_count <> 0(?: or v_special_count <> 0)?(?: or v_execute_count <> 0)? then"
         ).matcher(triggersNormalized).find());
         assertTrue(triggersSql.contains("LIFECYCLE_OPERATION shape invalid at commit"));
         assertTrue(triggersSql.contains("LIFECYCLE_OPERATION % requires value rule at commit"));

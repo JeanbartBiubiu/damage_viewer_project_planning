@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -8,12 +9,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.EFFECT_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.GAME_ID;
+import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.PROCESS_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.RESULT_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.SKILL_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.assertField;
+import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.emptyEventExecute;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.executeAction;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.rule;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.runtimeParam;
+import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.startProcessAction;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubAssembleExecuteEffect;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubParentAndCatalogs;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.thrown;
@@ -34,6 +38,8 @@ import org.mockito.quality.Strictness;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
@@ -46,6 +52,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
@@ -360,6 +367,67 @@ class SkillTriggerRuleRuntimeInputServiceTest {
         order.verify(mapper).deleteChildren(GAME_ID, SKILL_KEY, "keep");
         order.verify(mapper).insertAction(eq(GAME_ID), eq(SKILL_KEY), eq("keep"), eq("deal_first"), any(), any(), any(), any());
         order.verify(mapper).forceDeferredConstraintsImmediate();
+    }
+
+    @Test
+    void executeEffectAndStartProcessCollectExecuteAndLinkValueFormulas() {
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, "execute", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                true, "execute_f", "hp", null, null, null, null, null, null,
+                false, null, null, null, null, null
+            ),
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, "hit_link", SkillEffectResultType.HIT_LINK_APPLICATION, SkillEffectTarget.TARGET,
+                true, "hit_f", null, null, null, null, null, null, null,
+                false, null, null, null, null, null
+            ),
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, "attack_link", SkillEffectResultType.ATTACK_LINK_APPLICATION, SkillEffectTarget.TARGET,
+                true, "attack_f", null, null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenAnswer(invocation -> {
+            @SuppressWarnings("unchecked")
+            Collection<String> keys = (Collection<String>) invocation.getArgument(2);
+            assertTrue(keys.contains("execute_f"));
+            assertTrue(keys.contains("hit_f"));
+            assertTrue(keys.contains("attack_f"));
+            return List.of();
+        });
+        stubAssembleExecuteEffect(mapper, "collect_exec", "collect_exec", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            emptyEventExecute("collect_exec", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY)
+        );
+
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.bindingProcess(PROCESS_KEY, EFFECT_KEY)
+        ));
+        when(mapper.findRule(GAME_ID, SKILL_KEY, "collect_proc")).thenReturn(
+            SkillTriggerRuleTestSupport.ruleRow("collect_proc", "collect_proc", SkillTriggerEventType.BASIC_ATTACK_HIT)
+        );
+        when(mapper.listActions(GAME_ID, SKILL_KEY, "collect_proc")).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
+                GAME_ID, SKILL_KEY, "collect_proc", "start", "启动过程",
+                SkillTriggerActionType.START_PROCESS, 10, SkillTriggerTargetContext.CURRENT_TARGET
+            )
+        ));
+        when(mapper.listProcessActions(GAME_ID, SKILL_KEY, "collect_proc")).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.processActionRow("collect_proc", "start", PROCESS_KEY)
+        ));
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "collect_proc",
+                new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
+                List.of(startProcessAction("start", PROCESS_KEY))
+            )
+        );
+        verify(mapper, Mockito.atLeast(2)).listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any());
     }
 
     private static SkillTriggerRuleCreateRequest bound(String ruleKey, List<SkillTriggerRuntimeInputBinding> bindings) {

@@ -38,6 +38,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
@@ -253,6 +254,59 @@ class SkillTriggerRuleAdminControllerTest {
         assertEquals("physical", submitted.damageTypeKey());
         assertEquals(SkillTriggerDamageDeliveryKind.BASIC_ATTACK, submitted.deliveryKind());
         assertEquals(SkillTriggerDamageOriginKind.DIRECT, submitted.originKind());
+    }
+
+    @Test
+    void hitLinkEventDetailDeserializesNullableSourceSkill() throws Exception {
+        SkillTriggerRuleDetailResponse response = new SkillTriggerRuleDetailResponse(
+            "on_hit_link",
+            "命中联动",
+            null,
+            10,
+            new SkillTriggerEventSource(
+                SkillTriggerEventType.HIT_LINK_APPLIED,
+                new SkillTriggerLinkEventDetail((String) null)
+            ),
+            List.of(),
+            List.of(new SkillTriggerAction(
+                "deal", "执行效果", SkillTriggerActionType.EXECUTE_EFFECT, 10,
+                SkillTriggerTargetContext.CURRENT_TARGET,
+                new SkillTriggerExecuteEffectActionDetail("burst"),
+                List.of(),
+                List.of()
+            )),
+            null,
+            null
+        );
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillTriggerRuleCreateRequest.class)))
+            .thenReturn(response);
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "ruleKey":"on_hit_link",
+                      "name":"命中联动",
+                      "sortOrder":10,
+                      "eventSource":{"eventType":"HIT_LINK_APPLIED","detail":{"sourceSkillKey":null}},
+                      "conditionGroups":[],
+                      "actions":[{
+                        "actionKey":"deal","name":"执行效果","actionType":"EXECUTE_EFFECT","sortOrder":10,
+                        "targetContext":"CURRENT_TARGET","detail":{"effectKey":"burst"},
+                        "runtimeInputBindings":[],"resultModifiers":[]
+                      }]
+                    }
+                    """))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.eventSource.eventType").value("HIT_LINK_APPLIED"));
+
+        ArgumentCaptor<SkillTriggerRuleCreateRequest> request = ArgumentCaptor.forClass(
+            SkillTriggerRuleCreateRequest.class
+        );
+        verify(service).create(eq("lol"), eq("ezreal_q"), request.capture());
+        SkillTriggerLinkEventDetail submitted =
+            (SkillTriggerLinkEventDetail) request.getValue().eventSource().detail();
+        assertEquals(null, submitted.sourceSkillKey());
     }
 
     private static SkillTriggerRuleSummaryResponse summary() {
