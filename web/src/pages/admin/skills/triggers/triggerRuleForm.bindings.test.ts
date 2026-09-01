@@ -324,6 +324,70 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
     ]);
   });
 
+  it('collects execute and link result formulas into execute-effect and start-process reachable keys', () => {
+    const special = effect('special_results', [
+      {
+        resultKey: 'execute',
+        name: '斩杀',
+        resultType: 'EXECUTE',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 10,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: null,
+        valueRule: { formulaKey: 'execute_threshold', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        detail: { attributeKey: 'hp' }
+      },
+      {
+        resultKey: 'hit_link',
+        name: '命中联动',
+        resultType: 'HIT_LINK_APPLICATION',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 20,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: null,
+        valueRule: { formulaKey: 'hit_link_count', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        detail: {}
+      },
+      {
+        resultKey: 'attack_link',
+        name: '攻击联动',
+        resultType: 'ATTACK_LINK_APPLICATION',
+        target: 'TARGET',
+        description: null,
+        sortOrder: 30,
+        spellShieldBlockScope: null,
+        lifecycleBehavior: null,
+        valueRule: { formulaKey: 'attack_link_count', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        detail: {}
+      }
+    ]);
+    expect(collectExecuteEffectFormulaKeys(special)).toEqual([
+      'execute_threshold',
+      'hit_link_count',
+      'attack_link_count'
+    ]);
+    const processWithSpecial = {
+      ...CHARGE_PROCESS,
+      effectBindings: [{
+        bindingKey: 'hit_on_release',
+        effectKey: 'special_results',
+        moment: { momentType: 'STEP_COMPLETE' as const, stepKey: 'charge' },
+        sortOrder: 10
+      }]
+    };
+    expect(collectStartProcessFormulaKeys(
+      processWithSpecial,
+      new Map([['special_results', special]]),
+      new Map([['internal_cd', COOLDOWN_STATE]])
+    )).toEqual(expect.arrayContaining([
+      'execute_threshold',
+      'hit_link_count',
+      'attack_link_count'
+    ]));
+  });
+
   it('returns only referenced RUNTIME_INPUT parameters and keeps each parameter once', () => {
     const formulas = new Map([
       ['follow_up', FOLLOW_UP],

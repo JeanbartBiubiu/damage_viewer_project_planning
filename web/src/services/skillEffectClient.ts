@@ -23,7 +23,10 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'HEALING_MODIFIER',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
-  'SPELL_SHIELD'
+  'SPELL_SHIELD',
+  'EXECUTE',
+  'HIT_LINK_APPLICATION',
+  'ATTACK_LINK_APPLICATION'
 ]);
 
 const DAMAGE_DELIVERY_KINDS = new Set(['SKILL', 'BASIC_ATTACK']);
@@ -93,6 +96,35 @@ function assertValueRule(value: unknown, path: string): void {
   if (value.fixedMaxValue !== null) assertNumber(value.fixedMaxValue, `${path}.fixedMaxValue`);
 }
 
+function assertEmptyDetail(detail: Record<string, unknown>, path: string): void {
+  if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+}
+
+function assertExactDetailKeys(
+  detail: Record<string, unknown>,
+  keys: readonly string[],
+  path: string
+): void {
+  const actual = Object.keys(detail);
+  if (actual.length !== keys.length || keys.some((key) => !(key in detail))) {
+    protocolError(`${path}.detail`);
+  }
+}
+
+function assertDiscreteLinkLifecycle(value: Record<string, unknown>, path: string): void {
+  if (value.lifecycleBehavior === null) return;
+  if (!isRecord(value.lifecycleBehavior)) protocolError(`${path}.lifecycleBehavior`);
+  if (value.lifecycleBehavior.moment === 'PERSISTENT') {
+    protocolError(`${path}.lifecycleBehavior`);
+  }
+  if (value.lifecycleBehavior.stackValueMode != null) {
+    protocolError(`${path}.lifecycleBehavior.stackValueMode`);
+  }
+  if (value.lifecycleBehavior.reapplicationValueMode != null) {
+    protocolError(`${path}.lifecycleBehavior.reapplicationValueMode`);
+  }
+}
+
 function assertResult(value: unknown, path: string): SkillEffectResult {
   if (!isRecord(value)) protocolError(path);
   const resultType = value.resultType;
@@ -127,6 +159,9 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       || resultType === 'COOLDOWN_CHANGE'
       || resultType === 'STATUS_OPERATION'
       || resultType === 'LIFECYCLE_OPERATION'
+      || resultType === 'EXECUTE'
+      || resultType === 'HIT_LINK_APPLICATION'
+      || resultType === 'ATTACK_LINK_APPLICATION'
     );
   if (value.spellShieldBlockScope !== null) {
     if (!blockScopeEligible) protocolError(`${path}.spellShieldBlockScope`);
@@ -242,6 +277,18 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertString(detail.attributeKey, `${path}.detail.attributeKey`);
       break;
     case 'DIRECT_HEAL':
+      break;
+    case 'EXECUTE':
+      if ('modifierZoneKey' in detail) protocolError(`${path}.detail.modifierZoneKey`);
+      assertString(detail.attributeKey, `${path}.detail.attributeKey`);
+      assertExactDetailKeys(detail, ['attributeKey'], path);
+      assertDiscreteLinkLifecycle(value, path);
+      break;
+    case 'HIT_LINK_APPLICATION':
+    case 'ATTACK_LINK_APPLICATION':
+      if ('modifierZoneKey' in detail) protocolError(`${path}.detail.modifierZoneKey`);
+      assertEmptyDetail(detail, path);
+      assertDiscreteLinkLifecycle(value, path);
       break;
     default:
       protocolError(`${path}.resultType`);

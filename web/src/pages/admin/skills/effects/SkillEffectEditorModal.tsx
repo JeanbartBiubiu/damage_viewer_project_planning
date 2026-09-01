@@ -15,8 +15,10 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
+import { listAttributes } from '../../../../services/attributeClient';
 import { createSkillEffect, getSkillEffect, listSkillEffects, updateSkillEffect } from '../../../../services/skillEffectClient';
 import { listSkillFormulas } from '../../../../services/skillFormulaClient';
+import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
@@ -133,7 +135,15 @@ function resultErrorSummary(errors: SkillEffectResultDraftErrors | undefined): s
   return messages.length > 0 ? messages.join('；') : null;
 }
 
-function referenceSummary(result: SkillEffectResultDraft): string {
+function catalogDisplayName(key: string, names: Map<string, string> | undefined): string {
+  if (!key) return '—';
+  return names?.get(key) || key;
+}
+
+function referenceSummary(
+  result: SkillEffectResultDraft,
+  names?: { attributes?: Map<string, string>; formulas?: Map<string, string> }
+): string {
   switch (result.resultType) {
     case 'DAMAGE':
       return result.damageTypeKey || '—';
@@ -156,6 +166,14 @@ function referenceSummary(result: SkillEffectResultDraft): string {
       return result.formulaKey || '—';
     case 'HEALTH_FLOOR':
       return result.attributeKey || '—';
+    case 'EXECUTE':
+      return [
+        catalogDisplayName(result.attributeKey, names?.attributes),
+        catalogDisplayName(result.formulaKey, names?.formulas)
+      ].join(' · ');
+    case 'HIT_LINK_APPLICATION':
+    case 'ATTACK_LINK_APPLICATION':
+      return catalogDisplayName(result.formulaKey, names?.formulas);
     case 'SPELL_SHIELD':
       return '—';
     default: {
@@ -230,6 +248,15 @@ function interactionSummary(result: SkillEffectResultDraft): string {
   if (result.resultType === 'SPELL_SHIELD') {
     return '法术护盾';
   }
+  if (result.resultType === 'EXECUTE') {
+    return '斩杀';
+  }
+  if (result.resultType === 'HIT_LINK_APPLICATION') {
+    return '命中联动应用';
+  }
+  if (result.resultType === 'ATTACK_LINK_APPLICATION') {
+    return '攻击联动应用';
+  }
   return '—';
 }
 
@@ -272,12 +299,16 @@ export function SkillEffectEditorModal({
   const [detailReady, setDetailReady] = useState(mode === 'create');
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [attributes, setAttributes] = useState<Attribute[]>([]);
+  const [attributesLoadState, setAttributesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [attributesError, setAttributesError] = useState<string | null>(null);
   const [effectSummaries, setEffectSummaries] = useState<SkillEffectSummary[]>([]);
   const [effectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [effectsError, setEffectsError] = useState<string | null>(null);
   const [resultEditor, setResultEditor] = useState<ResultEditorState | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
+  const attributeSerial = useRef(0);
   const effectsSerial = useRef(0);
   const readOnly = mode === 'view';
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
@@ -292,6 +323,7 @@ export function SkillEffectEditorModal({
   const resetLocalState = useCallback(() => {
     detailSerial.current += 1;
     formulaSerial.current += 1;
+    attributeSerial.current += 1;
     effectsSerial.current += 1;
     const empty = createEmptyEffectDraft();
     setDraft(empty);
@@ -306,6 +338,9 @@ export function SkillEffectEditorModal({
     setDetailReady(mode === 'create');
     setFormulas([]);
     setFormulasLoadState(undefined);
+    setAttributes([]);
+    setAttributesLoadState(undefined);
+    setAttributesError(null);
     setEffectSummaries([]);
     setEffectsLoadState(undefined);
     setEffectsError(null);
@@ -339,6 +374,30 @@ export function SkillEffectEditorModal({
       setFormulasError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+
+  const loadAttributesCatalog = useCallback(async () => {
+    const serial = attributeSerial.current + 1;
+    attributeSerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setAttributes([]);
+      setAttributesLoadState(undefined);
+      setAttributesError(null);
+      return;
+    }
+    try {
+      const result = await listAttributes(apiBaseUrl, selectedGameId, token);
+      if (attributeSerial.current !== serial) return;
+      setAttributes(result.data.items);
+      setAttributesLoadState('ready');
+      setAttributesError(null);
+    } catch (error) {
+      if (attributeSerial.current !== serial) return;
+      setAttributes([]);
+      setAttributesLoadState('failed');
+      setAttributesError(getErrorMessage(error));
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
   const loadEffectSummaries = useCallback(async () => {
     const serial = effectsSerial.current + 1;
@@ -450,8 +509,9 @@ export function SkillEffectEditorModal({
     setSaving(false);
     void loadDetail();
     void loadFormulas();
+    void loadAttributesCatalog();
     void loadEffectSummaries();
-  }, [loadDetail, loadEffectSummaries, loadFormulas, onDirtyChange, resetLocalState, visible]);
+  }, [loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, onDirtyChange, resetLocalState, visible]);
 
   const patchField = <K extends keyof SkillEffectDraft>(field: K, value: SkillEffectDraft[K]) => {
     const next = clearHiddenLifecycleFields({ ...draft, [field]: value });
@@ -522,13 +582,14 @@ export function SkillEffectEditorModal({
         formulas,
         effects: effectSummaries,
         damageTypes: [],
-        attributes: [],
+        attributes,
         skills: [],
         statuses: []
       },
       catalogLoadState: {
         formulas: formulasLoadState,
-        effects: effectsLoadState
+        effects: effectsLoadState,
+        attributes: attributesLoadState
       }
     });
     if (!validation.ok) {
@@ -610,6 +671,13 @@ export function SkillEffectEditorModal({
     }
     return names;
   }, [formulas]);
+  const attributeNames = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const item of attributes) {
+      names.set(item.attributeKey, item.name);
+    }
+    return names;
+  }, [attributes]);
   const showPeriodicFields = hasPeriodicResults(draft);
   const hasLinearDecayShield = draft.results.some((result) => (
     result.resultType === 'NORMAL_SHIELD' && result.shieldDecayMode === 'LINEAR_TO_ZERO'
@@ -697,7 +765,10 @@ export function SkillEffectEditorModal({
     ] : []),
     {
       title: '关键引用摘要',
-      render: (_value, row: { item: SkillEffectResultDraft }) => referenceSummary(row.item)
+      render: (_value, row: { item: SkillEffectResultDraft }) => referenceSummary(row.item, {
+        attributes: attributeNames,
+        formulas: formulaNames
+      })
     },
     {
       title: '特殊交互',
@@ -810,6 +881,15 @@ export function SkillEffectEditorModal({
               content={effectsError}
               action={
                 <Button size="mini" onClick={() => void loadEffectSummaries()}>重试</Button>
+              }
+            />
+          ) : null}
+          {attributesError ? (
+            <Alert
+              type="error"
+              content={attributesError}
+              action={
+                <Button size="mini" onClick={() => void loadAttributesCatalog()}>重试</Button>
               }
             />
           ) : null}

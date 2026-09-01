@@ -63,7 +63,10 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'HEALING_MODIFIER',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
-  'SPELL_SHIELD'
+  'SPELL_SHIELD',
+  'EXECUTE',
+  'HIT_LINK_APPLICATION',
+  'ATTACK_LINK_APPLICATION'
 ] as const satisfies readonly SkillEffectResultType[];
 
 export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
@@ -79,8 +82,26 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   HEALING_MODIFIER: '治疗修正',
   DAMAGE_IMMUNITY: '伤害免疫',
   HEALTH_FLOOR: '生命下限',
-  SPELL_SHIELD: '法术护盾'
+  SPELL_SHIELD: '法术护盾',
+  EXECUTE: '斩杀',
+  HIT_LINK_APPLICATION: '命中联动应用',
+  ATTACK_LINK_APPLICATION: '攻击联动应用'
 } as const satisfies { [K in SkillEffectResultType]: string };
+
+export function valueFormulaLabelFor(resultType: SkillEffectResultType): string {
+  if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+    return '修正比例公式';
+  }
+  if (resultType === 'HEALTH_FLOOR') return '生命下限公式';
+  if (resultType === 'EXECUTE') return '斩杀阈值公式';
+  if (resultType === 'HIT_LINK_APPLICATION') return '命中联动次数公式';
+  if (resultType === 'ATTACK_LINK_APPLICATION') return '攻击联动次数公式';
+  return '数值公式';
+}
+
+export const EXECUTE_RESULT_HINT = '目标当前生命属性小于等于阈值时形成斩杀结果；它不是额外伤害。';
+export const LINK_APPLICATION_RESULT_HINT =
+  '次数公式未来按非负整数解释。需要延迟时，请在技能过程的延迟步骤挂接该效果。';
 
 export const SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS = {
   SKILL: '整个技能',
@@ -773,8 +794,14 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.attributeKey = result.detail.attributeKey;
       draft.originalAttributeKey = result.detail.attributeKey;
       break;
+    case 'EXECUTE':
+      draft.attributeKey = result.detail.attributeKey;
+      draft.originalAttributeKey = result.detail.attributeKey;
+      break;
     case 'DIRECT_HEAL':
     case 'SPELL_SHIELD':
+    case 'HIT_LINK_APPLICATION':
+    case 'ATTACK_LINK_APPLICATION':
       break;
     default: {
       const unexpected: never = result;
@@ -816,6 +843,9 @@ export function requiresValueRule(
     || resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
     || resultType === 'HEALTH_FLOOR'
+    || resultType === 'EXECUTE'
+    || resultType === 'HIT_LINK_APPLICATION'
+    || resultType === 'ATTACK_LINK_APPLICATION'
   );
 }
 
@@ -1034,6 +1064,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
+      || draft.resultType === 'EXECUTE'
         ? draft.attributeKey
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
@@ -1088,14 +1119,7 @@ export function clearHiddenLifecycleBehaviorFields(
     spellShieldBlockScope: (
       draft.target === 'TARGET'
       && moment !== 'PERSISTENT'
-      && (
-        draft.resultType === 'DAMAGE'
-        || draft.resultType === 'ATTRIBUTE_CHANGE'
-        || draft.resultType === 'RESOURCE_CHANGE'
-        || draft.resultType === 'COOLDOWN_CHANGE'
-        || draft.resultType === 'STATUS_OPERATION'
-        || draft.resultType === 'LIFECYCLE_OPERATION'
-      )
+      && isSpellShieldBlockScopeEligibleResultType(draft.resultType)
     ) ? draft.spellShieldBlockScope : '',
     lifecycleBehavior: {
       moment,
@@ -1272,16 +1296,29 @@ export function isPersistentOnlyResultType(resultType: SkillEffectResultType): b
     || resultType === 'SPELL_SHIELD';
 }
 
+export function isExecuteOrLinkResultType(resultType: SkillEffectResultType): boolean {
+  return resultType === 'EXECUTE'
+    || resultType === 'HIT_LINK_APPLICATION'
+    || resultType === 'ATTACK_LINK_APPLICATION';
+}
+
+export function isSpellShieldBlockScopeEligibleResultType(
+  resultType: SkillEffectResultType
+): boolean {
+  return resultType === 'DAMAGE'
+    || resultType === 'ATTRIBUTE_CHANGE'
+    || resultType === 'RESOURCE_CHANGE'
+    || resultType === 'COOLDOWN_CHANGE'
+    || resultType === 'STATUS_OPERATION'
+    || resultType === 'LIFECYCLE_OPERATION'
+    || isExecuteOrLinkResultType(resultType);
+}
+
 export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): boolean {
   if (draft.target !== 'TARGET' || draft.lifecycleBehavior.moment === 'PERSISTENT') {
     return false;
   }
-  return draft.resultType === 'DAMAGE'
-    || draft.resultType === 'ATTRIBUTE_CHANGE'
-    || draft.resultType === 'RESOURCE_CHANGE'
-    || draft.resultType === 'COOLDOWN_CHANGE'
-    || draft.resultType === 'STATUS_OPERATION'
-    || draft.resultType === 'LIFECYCLE_OPERATION';
+  return isSpellShieldBlockScopeEligibleResultType(draft.resultType);
 }
 
 export function listSpellShieldBlockScopeOptions(
@@ -2060,6 +2097,29 @@ function validateAndBuildResult(
         valueRule: null,
         detail: {}
       };
+    case 'EXECUTE':
+      return {
+        ...base,
+        resultType: 'EXECUTE',
+        valueRule: valueRule!,
+        detail: {
+          attributeKey: draft.attributeKey.trim()
+        }
+      };
+    case 'HIT_LINK_APPLICATION':
+      return {
+        ...base,
+        resultType: 'HIT_LINK_APPLICATION',
+        valueRule: valueRule!,
+        detail: {}
+      };
+    case 'ATTACK_LINK_APPLICATION':
+      return {
+        ...base,
+        resultType: 'ATTACK_LINK_APPLICATION',
+        valueRule: valueRule!,
+        detail: {}
+      };
     default: {
       const unexpected: never = draft.resultType;
       return unexpected;
@@ -2417,6 +2477,44 @@ function validateTypeSpecificFields(
       );
       break;
     case 'SPELL_SHIELD':
+      break;
+    case 'EXECUTE':
+      requireNonEmpty(draft.attributeKey, fieldErrors, 'attributeKey', '请选择生命属性。');
+      validateCatalogRef(
+        options,
+        'attributes',
+        draft.attributeKey,
+        draft.originalResultType === 'EXECUTE' ? draft.originalAttributeKey : null,
+        fieldErrors,
+        'attributeKey'
+      );
+      validateCatalogRef(
+        options,
+        'formulas',
+        draft.formulaKey,
+        draft.formulaKey,
+        fieldErrors,
+        'formulaKey',
+        { allowDisabled: true }
+      );
+      if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '斩杀不能选择乘区。';
+      }
+      break;
+    case 'HIT_LINK_APPLICATION':
+    case 'ATTACK_LINK_APPLICATION':
+      validateCatalogRef(
+        options,
+        'formulas',
+        draft.formulaKey,
+        draft.formulaKey,
+        fieldErrors,
+        'formulaKey',
+        { allowDisabled: true }
+      );
+      if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '该结果不能选择乘区。';
+      }
       break;
     default: {
       const unexpected: never = draft.resultType;
@@ -2992,6 +3090,16 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: { ...result.detail }
       };
+    case 'EXECUTE':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
+    case 'HIT_LINK_APPLICATION':
+    case 'ATTACK_LINK_APPLICATION':
+      return { ...result, lifecycleBehavior, valueRule: { ...result.valueRule }, detail: {} };
     case 'DAMAGE_IMMUNITY':
       return {
         ...result,
