@@ -15,6 +15,7 @@ import {
   RESOURCE_CHANGE_OPERATION_LABELS,
   SKILL_EFFECT_KEY_PATTERN,
   SKILL_EFFECT_RESULT_TYPE_LABELS,
+  SKILL_EFFECT_RESULT_TYPES,
   STATUS_OPERATION_LABELS,
   applyCooldownOperationChange,
   applyDurationFormulaChange,
@@ -33,7 +34,9 @@ import {
   disableLifecycleDraft,
   enableLifecycleDraft,
   isCatalogOptionSelectable,
+  isExecuteOrLinkResultType,
   isInstanceScopeLocked,
+  isPersistentMomentAllowed,
   isReapplicationValueModeVisible,
   isValueReadModeFixed,
   isValueRuleVisible,
@@ -51,6 +54,7 @@ import {
   sortResultDrafts,
   isSpellShieldBlockScopeVisible,
   validateSkillEffectDraft,
+  valueFormulaLabelFor,
   type EffectFormCatalog,
   type SkillEffectDraft,
   type SkillEffectResultDraft
@@ -1711,5 +1715,211 @@ describe('skill effect lifecycle drafts', () => {
     expect(result.ok).toBe(false);
     if (result.ok) throw new Error('expected invalid');
     expect(result.fieldErrors.instanceScope).toBe('已有生命周期的实例范围不可修改。');
+  });
+});
+
+describe('execute, hit-link and attack-link results', () => {
+  it('exposes exactly sixteen result types and chinese labels', () => {
+    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(16);
+    expect(SKILL_EFFECT_RESULT_TYPE_LABELS.EXECUTE).toBe('斩杀');
+    expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
+    expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');
+    expect(valueFormulaLabelFor('EXECUTE')).toBe('斩杀阈值公式');
+    expect(valueFormulaLabelFor('HIT_LINK_APPLICATION')).toBe('命中联动次数公式');
+    expect(valueFormulaLabelFor('ATTACK_LINK_APPLICATION')).toBe('攻击联动次数公式');
+  });
+
+  it('maps execute attribute drafts and empty link details, including discrete moments', () => {
+    const execute = createEmptyResultDraft('EXECUTE');
+    execute.resultKey = 'collect_execute';
+    execute.name = '斩杀';
+    execute.formulaKey = 'heal';
+    execute.attributeKey = 'mana';
+    execute.spellShieldBlockScope = 'RESULT';
+    const normalizedExecute = expectValid(validEffectDraft([execute]));
+    expect(normalizedExecute.results[0]).toEqual({
+      resultKey: 'collect_execute',
+      name: '斩杀',
+      resultType: 'EXECUTE',
+      target: 'TARGET',
+      description: null,
+      sortOrder: 0,
+      spellShieldBlockScope: 'RESULT',
+      lifecycleBehavior: null,
+      valueRule: {
+        formulaKey: 'heal',
+        fixedMultiplier: 1,
+        fixedMinValue: null,
+        fixedMaxValue: null
+      },
+      detail: { attributeKey: 'mana' }
+    });
+    expect(skillEffectResultToDraft(normalizedExecute.results[0]!)).toMatchObject({
+      resultType: 'EXECUTE',
+      attributeKey: 'mana',
+      formulaKey: 'heal',
+      modifierZoneKey: '',
+      spellShieldBlockScope: 'RESULT'
+    });
+
+    const hitLink = createEmptyResultDraft('HIT_LINK_APPLICATION');
+    hitLink.resultKey = 'on_hit_link';
+    hitLink.name = '命中联动';
+    hitLink.formulaKey = 'one';
+    const attackLink = withBehavior(createEmptyResultDraft('ATTACK_LINK_APPLICATION'), {
+      moment: 'APPLICATION',
+      valueReadMode: 'APPLICATION_SNAPSHOT'
+    });
+    attackLink.resultKey = 'on_attack_link';
+    attackLink.name = '攻击联动';
+    attackLink.formulaKey = 'one';
+    const periodic = withBehavior(hitLink, {
+      moment: 'PERIODIC',
+      valueReadMode: 'APPLICATION_SNAPSHOT',
+      periodicExecutionMode: 'ONCE_PER_INSTANCE'
+    });
+    const normalizedLinks = expectValid(lifecycleEnabledDraft([periodic, attackLink], {
+      periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+      firstPeriodicExecution: 'AFTER_INTERVAL'
+    }));
+    expect(normalizedLinks.results[0]).toMatchObject({
+      resultType: 'HIT_LINK_APPLICATION',
+      detail: {},
+      lifecycleBehavior: {
+        moment: 'PERIODIC',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: null,
+        reapplicationValueMode: null,
+        periodicExecutionMode: 'ONCE_PER_INSTANCE'
+      },
+      valueRule: { formulaKey: 'one', fixedMultiplier: 1 }
+    });
+    expect(normalizedLinks.results[1]).toMatchObject({
+      resultType: 'ATTACK_LINK_APPLICATION',
+      detail: {},
+      valueRule: { formulaKey: 'one', fixedMultiplier: 1 }
+    });
+  });
+
+  it('clears modifier zones when switching to the new results and keeps them on other results', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    modifier.resultKey = 'taken_reduction';
+    modifier.name = '受到伤害降低';
+    modifier.formulaKey = 'damage';
+    modifier.modifierZoneKey = 'damage_ratio';
+    modifier.modifierDirection = 'TAKEN';
+    modifier.modifierOperation = 'DECREASE';
+    const switched = applyResultTypeChange(modifier, 'EXECUTE');
+    expect(switched.modifierZoneKey).toBe('');
+    expect(switched.resultType).toBe('EXECUTE');
+    expect(isPersistentMomentAllowed(switched)).toBe(false);
+    expect(listAllowedLifecycleMoments(switched, true)).not.toContain('PERSISTENT');
+    expect(listSpellShieldBlockScopeOptions(switched)).toEqual(['SKILL', 'EFFECT', 'RESULT']);
+    expect(listSpellShieldBlockScopeOptions(switched)).not.toContain('DAMAGE_INSTANCE');
+
+    const hitLink = createEmptyResultDraft('HIT_LINK_APPLICATION');
+    hitLink.resultKey = 'on_hit_link';
+    hitLink.name = '命中联动';
+    hitLink.formulaKey = 'one';
+    hitLink.spellShieldBlockScope = 'DAMAGE_INSTANCE';
+    const invalidScope = validateSkillEffectDraft(validEffectDraft([hitLink]), {
+      includeEffectKey: true,
+      catalog: CATALOG
+    });
+    expect(invalidScope.ok).toBe(false);
+    if (invalidScope.ok) throw new Error('expected invalid');
+    expect(invalidScope.resultErrors[0]?.fieldErrors.spellShieldBlockScope)
+      .toBe('当前结果不能使用该法术护盾阻挡粒度。');
+    expect(isExecuteOrLinkResultType('ATTACK_LINK_APPLICATION')).toBe(true);
+
+    const persistent = withBehavior(createEmptyResultDraft('EXECUTE'), { moment: 'PERSISTENT' });
+    const invalidPersistent = validateSkillEffectDraft(
+      lifecycleEnabledDraft([persistent]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(invalidPersistent.ok).toBe(false);
+    if (invalidPersistent.ok) throw new Error('expected invalid');
+    expect(invalidPersistent.resultErrors[0]?.fieldErrors.moment).toBe('该结果不能选择持续生效。');
+
+    const sourceExecute = createEmptyResultDraft('EXECUTE');
+    sourceExecute.target = 'SOURCE';
+    sourceExecute.spellShieldBlockScope = 'RESULT';
+    expect(clearHiddenResultFields(sourceExecute).spellShieldBlockScope).toBe('');
+    expect(isSpellShieldBlockScopeVisible(sourceExecute)).toBe(false);
+  });
+
+  it('keeps a dynamic modifier and a new result in the same effect without losing zone or read mode', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    modifier.resultKey = 'dynamic_taken';
+    modifier.name = '动态减伤';
+    modifier.formulaKey = 'damage';
+    modifier.modifierZoneKey = 'damage_ratio';
+    modifier.lifecycleBehavior.stackValueMode = 'SHARED';
+    modifier.lifecycleBehavior.valueReadMode = 'MOMENT_EVALUATION';
+    const normalizedModifier = clearHiddenLifecycleBehaviorFields(modifier);
+
+    const execute = withBehavior(createEmptyResultDraft('EXECUTE'), {
+      moment: 'APPLICATION',
+      valueReadMode: 'APPLICATION_SNAPSHOT'
+    });
+    execute.resultKey = 'execute_hp';
+    execute.name = '斩杀';
+    execute.formulaKey = 'heal';
+    execute.attributeKey = 'mana';
+    execute.spellShieldBlockScope = 'SKILL';
+
+    const normalized = expectValid(lifecycleEnabledDraft([normalizedModifier, execute]));
+    expect(normalized.results[0]).toMatchObject({
+      resultType: 'DAMAGE_MODIFIER',
+      detail: { modifierZoneKey: 'damage_ratio' },
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: 'MOMENT_EVALUATION',
+        stackValueMode: 'SHARED',
+        reapplicationValueMode: null
+      }
+    });
+    expect(normalized.results[1]).toMatchObject({
+      resultType: 'EXECUTE',
+      detail: { attributeKey: 'mana' },
+      spellShieldBlockScope: 'SKILL'
+    });
+    const roundTrip = skillEffectToDraft({
+      ...EFFECT,
+      lifecycle: validLifecycle(),
+      results: normalized.results
+    });
+    expect(roundTrip.results[0]).toMatchObject({
+      resultType: 'DAMAGE_MODIFIER',
+      modifierZoneKey: 'damage_ratio',
+      lifecycleBehavior: { valueReadMode: 'MOMENT_EVALUATION', stackValueMode: 'SHARED' }
+    });
+    expect(roundTrip.results[1]).toMatchObject({
+      resultType: 'EXECUTE',
+      attributeKey: 'mana',
+      modifierZoneKey: ''
+    });
+  });
+
+  it('maps execute attribute and value-rule field issues', () => {
+    const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
+      fieldIssues: [
+        { field: 'results[0].detail.attributeKey', code: 'UNKNOWN_ATTRIBUTE', message: '属性不存在' },
+        { field: 'results[0].valueRule.formulaKey', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
+        { field: 'results[0].spellShieldBlockScope', code: 'ENUM_INVALID', message: '阻挡范围不合法' }
+      ]
+    });
+    expect(mapSkillEffectFieldIssues(error, [{ resultType: 'EXECUTE' }])).toEqual({
+      fieldErrors: {},
+      resultErrors: [{
+        index: 0,
+        fieldErrors: {
+          attributeKey: '属性不存在',
+          formulaKey: '公式不存在',
+          spellShieldBlockScope: '阻挡范围不合法'
+        }
+      }],
+      unmappedMessages: []
+    });
   });
 });

@@ -19,8 +19,12 @@ import {
   SKILL_TRIGGER_GROUP_AND_LABEL,
   SKILL_TRIGGER_GROUP_OR_LABEL,
   SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS,
+  SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT,
+  SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
   SKILL_TRIGGER_SOURCE_TYPES,
   allowedEventValuesFor,
+  analyzeEventSwitchImpact,
+  applyEventSwitchCleanup,
   canMoveAction,
   changeKindsForInternalState,
   createEmptyActionDraft,
@@ -219,6 +223,22 @@ const EVENT_CAPABILITY_ROWS = [
     hasEventSource: true,
     requiredCatalogs: ['effects'],
     detailFields: ['shieldEffectKey']
+  },
+  {
+    eventType: 'HIT_LINK_APPLIED',
+    label: '应用命中联动',
+    currentTargetBinding: '本次联动目标。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills'],
+    detailFields: ['sourceSkillKey']
+  },
+  {
+    eventType: 'ATTACK_LINK_APPLIED',
+    label: '触发攻击联动',
+    currentTargetBinding: '本次联动目标。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills'],
+    detailFields: ['sourceSkillKey']
   }
 ] as const satisfies ReadonlyArray<{
   eventType: SkillTriggerEventType;
@@ -387,8 +407,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 19 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(19);
+  it('exposes exactly 21 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(21);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -440,6 +460,14 @@ describe('trigger event member set and capability table', () => {
       eventType: 'SPELL_SHIELD_BLOCKED',
       detail: { shieldEffectKey: '' }
     });
+    expect(createEmptyEventSource('HIT_LINK_APPLIED')).toEqual({
+      eventType: 'HIT_LINK_APPLIED',
+      detail: { sourceSkillKey: null }
+    });
+    expect(createEmptyEventSource('ATTACK_LINK_APPLIED')).toEqual({
+      eventType: 'ATTACK_LINK_APPLIED',
+      detail: { sourceSkillKey: null }
+    });
     expect(switched.detail).not.toHaveProperty('sourceSkillKey');
     expect(switched.detail).not.toHaveProperty('useKind');
     const same = createEmptyEventSource('KILL');
@@ -476,6 +504,8 @@ describe('trigger event member set and capability table', () => {
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('SPELL_SHIELD_BLOCKED'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('HIT_LINK_APPLIED'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('ATTACK_LINK_APPLIED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_PENDING'))).toEqual([
       'RAW_DAMAGE',
       'POST_DEFENSE_DAMAGE',
@@ -1095,5 +1125,65 @@ describe('process moment step lookup', () => {
       updatedAt: '2026-08-30T00:00:00Z'
     })).toBe('CHARGE');
     expect(eventStepType(createEmptyEventSource('SKILL_HIT'), null)).toBeNull();
+  });
+});
+
+describe('hit-link and attack-link events', () => {
+  it('round-trips null and explicit source skills without event values or event source', () => {
+    const anySkill = {
+      ...RICH_DETAIL,
+      eventSource: {
+        eventType: 'HIT_LINK_APPLIED' as const,
+        detail: { sourceSkillKey: null }
+      }
+    };
+    const currentSkill = {
+      ...RICH_DETAIL,
+      eventSource: {
+        eventType: 'ATTACK_LINK_APPLIED' as const,
+        detail: { sourceSkillKey: 'ashe_q' }
+      }
+    };
+    expect(fromDetail(anySkill).eventSource).toEqual({
+      eventType: 'HIT_LINK_APPLIED',
+      detail: { sourceSkillKey: null }
+    });
+    expect(toCreateRequest(fromDetail(currentSkill)).eventSource).toEqual({
+      eventType: 'ATTACK_LINK_APPLIED',
+      detail: { sourceSkillKey: 'ashe_q' }
+    });
+    expect(eventHasEventSource('HIT_LINK_APPLIED')).toBe(false);
+    expect(eventHasEventSource('ATTACK_LINK_APPLIED')).toBe(false);
+    expect(subjectOptionsForEvent('HIT_LINK_APPLIED')).not.toContain('EVENT_SOURCE');
+    expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.EXECUTE).toEqual(['KILL', 'ENTITY_DIED']);
+    expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.HIT_LINK_APPLICATION).toEqual(['HIT_LINK_APPLIED']);
+    expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.ATTACK_LINK_APPLICATION).toEqual(['ATTACK_LINK_APPLIED']);
+    expect(SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT).toContain('来源技能只缩小事件匹配范围');
+  });
+
+  it('confirms cleanup when switching from an event-value event and keeps the original draft on cancel', () => {
+    const draft = createEmptyRuleDraft();
+    draft.eventSource = createEmptyEventSource('SKILL_HIT');
+    draft.conditionGroups = [{
+      ...createEmptyGroupDraft([]),
+      conditions: [{
+        ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
+        conditionKey: 'hit_index',
+        detail: {
+          eventValueKey: 'HIT_INDEX',
+          comparator: 'EQ',
+          comparisonFormulaKey: 'one'
+        }
+      }]
+    }];
+    const next = createEmptyEventSource('HIT_LINK_APPLIED');
+    const impact = analyzeEventSwitchImpact(draft, next);
+    expect(impact.clearsEventValues).toBe(true);
+    expect(impact.summary).toContain('将清除不再可用的事件值：当前命中序号');
+    expect(draft.eventSource.eventType).toBe('SKILL_HIT');
+    expect(draft.conditionGroups[0]?.conditions[0]?.conditionType).toBe('EVENT_VALUE_COMPARE');
+    const cleaned = applyEventSwitchCleanup(draft, next);
+    expect(cleaned.eventSource.eventType).toBe('HIT_LINK_APPLIED');
+    expect(cleaned.conditionGroups[0]?.conditions).toEqual([]);
   });
 });
