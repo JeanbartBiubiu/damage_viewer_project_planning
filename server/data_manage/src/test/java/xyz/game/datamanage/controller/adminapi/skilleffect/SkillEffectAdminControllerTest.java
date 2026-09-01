@@ -201,7 +201,7 @@ class SkillEffectAdminControllerTest {
                         {
                           "resultKey":"physical_hit",
                           "name":"物理伤害",
-                          "resultType":"EXECUTE",
+                          "resultType":"UNKNOWN_RESULT",
                           "target":"TARGET",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
