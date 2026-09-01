@@ -85,6 +85,8 @@ import {
   SKILL_EFFECT_VAMP_TYPES,
   STATUS_OPERATION_LABELS,
   UNKNOWN_LIFECYCLE_TARGET_LABEL,
+  EXECUTE_RESULT_HINT,
+  LINK_APPLICATION_RESULT_HINT,
   applyCooldownOperationChange,
   applyCriticalModeChange,
   applyLifecycleMomentChange,
@@ -116,6 +118,7 @@ import {
   listStatusOptions,
   sortVampRuleDrafts,
   validateSkillEffectDraft,
+  valueFormulaLabelFor,
   type CatalogRefOption,
   type EffectCatalogLoadState,
   type EffectFormCatalog,
@@ -342,12 +345,7 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
-  const valueFormulaLabel = draft.resultType === 'DAMAGE_MODIFIER'
-    || draft.resultType === 'HEALING_MODIFIER'
-    ? '修正比例公式'
-    : draft.resultType === 'HEALTH_FLOOR'
-      ? '生命下限公式'
-      : '数值公式';
+  const valueFormulaLabel = valueFormulaLabelFor(draft.resultType);
 
   const resetCatalogs = useCallback(() => {
     damageTypeSerial.current += 1;
@@ -535,6 +533,7 @@ export function SkillEffectResultEditorModal({
       draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
+      || draft.resultType === 'EXECUTE'
     ) {
       void loadAttributes();
     }
@@ -690,7 +689,8 @@ export function SkillEffectResultEditorModal({
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
-        || draft.resultType === 'HEALTH_FLOOR')
+        || draft.resultType === 'HEALTH_FLOOR'
+        || draft.resultType === 'EXECUTE')
       && hasUnknownOption(attributeOptions, draft.attributeKey)
     ) {
       return true;
@@ -755,7 +755,8 @@ export function SkillEffectResultEditorModal({
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
-        || draft.resultType === 'HEALTH_FLOOR')
+        || draft.resultType === 'HEALTH_FLOOR'
+        || draft.resultType === 'EXECUTE')
       && catalogLoading.attributes
     ) {
       return true;
@@ -798,7 +799,8 @@ export function SkillEffectResultEditorModal({
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
-        || draft.resultType === 'HEALTH_FLOOR')
+        || draft.resultType === 'HEALTH_FLOOR'
+        || draft.resultType === 'EXECUTE')
       && catalogErrors.attributes
     ) {
       messages.push(catalogErrors.attributes);
@@ -987,6 +989,7 @@ export function SkillEffectResultEditorModal({
       draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
+      || draft.resultType === 'EXECUTE'
     ) {
       void loadAttributes();
     }
@@ -1135,6 +1138,13 @@ export function SkillEffectResultEditorModal({
 
           {showValueRule ? (
             <>
+              {draft.resultType === 'EXECUTE' ? (
+                <Alert type="info" content={EXECUTE_RESULT_HINT} />
+              ) : null}
+              {draft.resultType === 'HIT_LINK_APPLICATION'
+                || draft.resultType === 'ATTACK_LINK_APPLICATION' ? (
+                <Alert type="info" content={LINK_APPLICATION_RESULT_HINT} />
+              ) : null}
               <Form.Item
                 label={valueFormulaLabel}
                 required
@@ -1648,7 +1658,7 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
 
-          {draft.resultType === 'HEALTH_FLOOR' ? (
+          {draft.resultType === 'HEALTH_FLOOR' || draft.resultType === 'EXECUTE' ? (
             <Form.Item
               label="生命属性"
               required
