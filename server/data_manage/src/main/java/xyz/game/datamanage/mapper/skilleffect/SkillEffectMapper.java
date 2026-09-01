@@ -26,6 +26,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -421,6 +422,28 @@ public interface SkillEffectMapper {
     );
 
     int updateHealthFloorDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("attributeKey") String attributeKey
+    );
+
+    List<SkillEffectExecuteDetailRow> listExecuteDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertExecuteDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("attributeKey") String attributeKey
+    );
+
+    int updateExecuteDetail(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,

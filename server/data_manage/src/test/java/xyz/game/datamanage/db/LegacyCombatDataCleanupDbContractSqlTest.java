@@ -58,6 +58,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effect_healing_modifier_details",
         "skill_effect_damage_immunity_details",
         "skill_effect_health_floor_details",
+        "skill_effect_execute_details",
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
@@ -99,6 +100,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_trigger_rule_subject_events",
         "skill_trigger_rule_damage_events",
         "skill_trigger_rule_spell_shield_blocked_events",
+        "skill_trigger_rule_link_events",
         "skill_trigger_rule_condition_groups",
         "skill_trigger_rule_conditions",
         "skill_trigger_rule_attribute_conditions",
@@ -239,12 +241,12 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(55, KEEP_PARENTS.size());
+        assertEquals(56, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
-        assertEquals(28, STAGE_7_5_PARENTS.size());
-        assertEquals(83, expected.size());
+        assertEquals(29, STAGE_7_5_PARENTS.size());
+        assertEquals(85, expected.size());
         assertEquals(expected, created);
-        assertEquals(83, created.size());
+        assertEquals(85, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -303,6 +305,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
                 "skill_effect_healing_modifier_details",
                 "skill_effect_damage_immunity_details",
                 "skill_effect_health_floor_details",
+                "skill_effect_execute_details",
                 "modifier_zones"
             ).contains(table))
             .toList();

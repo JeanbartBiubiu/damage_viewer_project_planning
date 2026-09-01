@@ -136,6 +136,15 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="linkEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="source_skill_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="conditionGroupRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -676,6 +685,11 @@
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
             RETURNING 1
         ),
+        deleted_link_events AS (
+            DELETE FROM public.skill_trigger_rule_link_events
+            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+            RETURNING 1
+        ),
         deleted_condition_groups AS (
             DELETE FROM public.skill_trigger_rule_condition_groups
             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
@@ -752,6 +766,12 @@
     <select id="findSpellShieldBlockedEvent" resultMap="spellShieldBlockedEventRow">
         SELECT game_id, skill_key, rule_key, shield_effect_key
         FROM public.skill_trigger_rule_spell_shield_blocked_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
+    </select>
+
+    <select id="findLinkEvent" resultMap="linkEventRow">
+        SELECT game_id, skill_key, rule_key, source_skill_key
+        FROM public.skill_trigger_rule_link_events
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
     </select>
 
@@ -833,6 +853,14 @@
             game_id, skill_key, rule_key, shield_effect_key
         ) VALUES (
             #{gameId}, #{skillKey}, #{ruleKey}, #{shieldEffectKey}
+        )
+    </insert>
+
+    <insert id="insertLinkEvent">
+        INSERT INTO public.skill_trigger_rule_link_events (
+            game_id, skill_key, rule_key, source_skill_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{ruleKey}, #{sourceSkillKey}
         )
     </insert>
 
@@ -1208,6 +1236,13 @@
     <select id="listDamageEventsForSkill" resultMap="damageEventRow">
         SELECT game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
         FROM public.skill_trigger_rule_damage_events
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY rule_key ASC
+    </select>
+
+    <select id="listLinkEventsForSkill" resultMap="linkEventRow">
+        SELECT game_id, skill_key, rule_key, source_skill_key
+        FROM public.skill_trigger_rule_link_events
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
     </select>
@@ -1873,11 +1908,17 @@
     </select>
 
     <select id="countSourceSkillReferences" resultType="long">
-        SELECT COUNT(1)
-        FROM public.skill_trigger_rule_skill_events
-        WHERE game_id = #{gameId}
-          AND source_skill_key = #{sourceSkillKey}
-          AND skill_key &lt;&gt; #{sourceSkillKey}
+        SELECT
+            (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_skill_events
+             WHERE game_id = #{gameId}
+               AND source_skill_key = #{sourceSkillKey}
+               AND skill_key &lt;&gt; #{sourceSkillKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rule_link_events
+             WHERE game_id = #{gameId}
+               AND source_skill_key = #{sourceSkillKey}
+               AND skill_key &lt;&gt; #{sourceSkillKey})
     </select>
 
     <update id="forceDeferredConstraintsImmediate">

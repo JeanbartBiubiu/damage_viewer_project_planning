@@ -82,6 +82,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
@@ -1113,6 +1114,11 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue("eventSource.detail.shieldEffectKey", "REQUIRED", "法术护盾效果不能为空"));
                 }
             }
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
+                if (!(detail instanceof SkillTriggerLinkEventDetail)) {
+                    issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "联动事件明细形状不合法"));
+                }
+            }
             case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
                 if (!(detail instanceof SkillTriggerEmptyEventDetail)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "该事件明细必须为空对象"));
@@ -2133,6 +2139,12 @@ public class SkillTriggerRuleService {
                     refs.addSkill(new CatalogRef("eventSource.detail.sourceSkillKey", detail.sourceSkillKey()));
                 }
             }
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
+                SkillTriggerLinkEventDetail detail = (SkillTriggerLinkEventDetail) eventSource.detail();
+                if (detail.sourceSkillKey() != null) {
+                    refs.addSkill(new CatalogRef("eventSource.detail.sourceSkillKey", detail.sourceSkillKey()));
+                }
+            }
             case RESULT_AVAILABLE -> {
                 SkillTriggerResultEventDetail detail = (SkillTriggerResultEventDetail) eventSource.detail();
                 refs.addEffect(new CatalogRef("eventSource.detail.effectKey", detail.effectKey()));
@@ -2459,6 +2471,15 @@ public class SkillTriggerRuleService {
                     skillKey,
                     ruleKey,
                     detail.shieldEffectKey()
+                );
+            }
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
+                SkillTriggerLinkEventDetail detail = (SkillTriggerLinkEventDetail) eventSource.detail();
+                mapper.insertLinkEvent(
+                    gameId,
+                    skillKey,
+                    ruleKey,
+                    detail.sourceSkillKey()
                 );
             }
             default -> {

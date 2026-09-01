@@ -148,6 +148,8 @@ final class SkillTriggerRuleTestSupport {
         lenient().when(mapper.insertHealthEvent(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         lenient().when(mapper.insertInternalStateEvent(any(), any(), any(), any(), any())).thenReturn(1);
         lenient().when(mapper.insertSubjectEvent(any(), any(), any(), any())).thenReturn(1);
+        lenient().when(mapper.insertSpellShieldBlockedEvent(any(), any(), any(), any())).thenReturn(1);
+        lenient().when(mapper.insertLinkEvent(any(), any(), any(), any())).thenReturn(1);
         lenient().when(mapper.insertConditionGroup(any(), any(), any(), any(), any(), any())).thenReturn(1);
         lenient().when(mapper.insertCondition(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         lenient().when(mapper.insertBinding(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);

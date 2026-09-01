@@ -788,10 +788,12 @@ class SkillTriggerRuleServiceTest {
     }
 
     @Test
-    void capabilitiesTableCoversAllNineteenEventsAndRejectsValueReached() {
-        assertEquals(19, SkillTriggerEventType.values().length);
-        assertEquals(19, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+    void capabilitiesTableCoversAllTwentyOneEventsAndRejectsValueReached() {
+        assertEquals(21, SkillTriggerEventType.values().length);
+        assertEquals(21, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.HIT_LINK_APPLIED));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.ATTACK_LINK_APPLIED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_PENDING));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_TAKEN));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.STATUS_CHANGED));
@@ -806,6 +808,18 @@ class SkillTriggerRuleServiceTest {
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
             SkillTriggerEventType.DAMAGE_TAKEN,
             xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER,
+            null,
+            null
+        ));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+            SkillTriggerEventType.HIT_LINK_APPLIED,
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.RAW_DAMAGE,
+            null,
+            null
+        ));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+            SkillTriggerEventType.ATTACK_LINK_APPLIED,
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.HIT_INDEX,
             null,
             null
         ));

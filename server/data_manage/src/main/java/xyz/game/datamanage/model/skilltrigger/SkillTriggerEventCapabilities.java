@@ -135,7 +135,9 @@ public final class SkillTriggerEventCapabilities {
             Map.entry(SkillTriggerEventType.ENTITY_UNTARGETABLE, "subject 指定的不可选取对象"),
             Map.entry(SkillTriggerEventType.KILL, "本次被击杀对象"),
             Map.entry(SkillTriggerEventType.PROCESS_CANCEL_REQUESTED, "目标过程实例的目标；没有时为来源对象"),
-            Map.entry(SkillTriggerEventType.SPELL_SHIELD_BLOCKED, "法术护盾承受对象（技能拥有者自身）")
+            Map.entry(SkillTriggerEventType.SPELL_SHIELD_BLOCKED, "法术护盾承受对象（技能拥有者自身）"),
+            Map.entry(SkillTriggerEventType.HIT_LINK_APPLIED, "本次联动目标"),
+            Map.entry(SkillTriggerEventType.ATTACK_LINK_APPLIED, "本次联动目标")
         );
     }
 }
