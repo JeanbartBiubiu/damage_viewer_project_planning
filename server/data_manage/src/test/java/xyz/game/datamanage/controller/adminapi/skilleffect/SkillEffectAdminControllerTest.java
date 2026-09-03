@@ -459,6 +459,36 @@ class SkillEffectAdminControllerTest {
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
     }
 
+    @Test
+    void inboundEnrichedOutputConflictReturnsStable409Details() throws Exception {
+        when(service.update(eq("lol"), eq("ezreal_q"), eq("on_hit_results"), any(SkillEffectUpdateRequest.class)))
+            .thenThrow(new ApiException(
+                HttpStatus.CONFLICT,
+                "409.SKILL_EFFECT_IN_USE",
+                "结果形状变化会使既有前序输出失效",
+                Map.of("fieldIssues", List.of(Map.of(
+                    "field", "results[0].detail.vampRules",
+                    "code", "TRIGGER_RULE_SHAPE_IN_USE",
+                    "ruleKey", "prior",
+                    "actionKey", "follow",
+                    "bindingKey", "from_first",
+                    "outputKind", "ACTUAL_HEALING"
+                )))
+            ));
+        mockMvc.perform(put(BASE_PATH + "/on_hit_results")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson()))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.error.code").value("409.SKILL_EFFECT_IN_USE"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("TRIGGER_RULE_SHAPE_IN_USE"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("results[0].detail.vampRules"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].ruleKey").value("prior"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].actionKey").value("follow"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].bindingKey").value("from_first"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].outputKind").value("ACTUAL_HEALING"));
+        verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
     private static String createJson() {
         return """
             {
