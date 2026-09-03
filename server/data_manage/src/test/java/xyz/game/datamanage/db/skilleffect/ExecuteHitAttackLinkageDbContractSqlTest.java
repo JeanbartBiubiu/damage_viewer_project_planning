@@ -67,7 +67,14 @@ class ExecuteHitAttackLinkageDbContractSqlTest {
         assertTrue(normalizedSchema.contains("result_type varchar(32) not null"));
         assertTrue(normalizedSchema.contains("'spell_shield', 'execute', 'hit_link_application', 'attack_link_application'"));
         assertTrue(normalizedSchema.contains("'spell_shield_blocked', 'hit_link_applied', 'attack_link_applied'"));
-        assertTrue(normalizedSchema.contains("output_kind = 'configured_value'"));
+        String priorBindings = normalize(extractCreateTable(schema, "skill_trigger_rule_prior_result_bindings"));
+        assertTrue(priorBindings.contains(
+            "constraint ck_skill_trigger_prior_result_bind_output check (output_kind in ( "
+                + "'configured_value', 'raw_damage', 'post_defense_damage', "
+                + "'shield_absorbed', 'actual_hp_loss', 'actual_healing', "
+                + "'blocked', 'immune', 'status_applied', 'killed' ))"
+        ));
+        assertTrue(priorBindings.contains("'configured_value'"));
         assertTrue(normalizedSchema.contains("'application_snapshot', 'moment_evaluation'"));
         assertTrue(normalizedSchema.contains("create table public.modifier_zones"));
         assertTrue(normalizedSchema.contains("create table public.skill_effect_cooldown_change_targets"));

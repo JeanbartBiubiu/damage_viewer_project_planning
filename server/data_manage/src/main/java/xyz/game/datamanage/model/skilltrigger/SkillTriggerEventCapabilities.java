@@ -40,10 +40,11 @@ public final class SkillTriggerEventCapabilities {
         }
         return switch (valueKey) {
             case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, LIFECYCLE_STACKS,
-                PERIOD_INDEX, STATE_BEFORE, STATE_AFTER -> SkillTriggerValueDomain.INTEGER;
+                PERIOD_INDEX, STATE_BEFORE, STATE_AFTER,
+                BLOCKED, IMMUNE, KILLED, LINK_INDEX, LINK_COUNT -> SkillTriggerValueDomain.INTEGER;
             case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER,
                 THRESHOLD_VALUE, RAW_DAMAGE, POST_DEFENSE_DAMAGE, HEALTH_BEFORE,
-                PROJECTED_HEALTH_AFTER -> SkillTriggerValueDomain.DECIMAL;
+                PROJECTED_HEALTH_AFTER, SHIELD_ABSORBED, ACTUAL_HP_LOSS -> SkillTriggerValueDomain.DECIMAL;
         };
     }
 
@@ -61,6 +62,16 @@ public final class SkillTriggerEventCapabilities {
                 || valueKey == SkillTriggerEventValueKey.POST_DEFENSE_DAMAGE
                 || valueKey == SkillTriggerEventValueKey.HEALTH_BEFORE
                 || valueKey == SkillTriggerEventValueKey.PROJECTED_HEALTH_AFTER;
+            case DAMAGE_DEALT, DAMAGE_TAKEN -> valueKey == SkillTriggerEventValueKey.RAW_DAMAGE
+                || valueKey == SkillTriggerEventValueKey.POST_DEFENSE_DAMAGE
+                || valueKey == SkillTriggerEventValueKey.SHIELD_ABSORBED
+                || valueKey == SkillTriggerEventValueKey.ACTUAL_HP_LOSS
+                || valueKey == SkillTriggerEventValueKey.BLOCKED
+                || valueKey == SkillTriggerEventValueKey.IMMUNE
+                || valueKey == SkillTriggerEventValueKey.KILLED;
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> valueKey == SkillTriggerEventValueKey.LINK_INDEX
+                || valueKey == SkillTriggerEventValueKey.LINK_COUNT;
+            case SPELL_SHIELD_BLOCKED -> false;
             case BASIC_ATTACK_HIT, SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
             case LIFECYCLE_MOMENT -> false;

@@ -2278,6 +2278,76 @@ class SkillEffectServiceTest {
         );
     }
 
+    @Test
+    void stage765InboundShapeConflictDoesNotWriteAndUnreferencedUpdateSucceeds() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(null);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE",
+            "结果形状变化会使既有前序输出失效",
+            Map.of("fieldIssues", List.of(Map.of(
+                "field", "results[0].detail.vampRules",
+                "code", "TRIGGER_RULE_SHAPE_IN_USE",
+                "ruleKey", "prior",
+                "actionKey", "follow",
+                "bindingKey", "from_first",
+                "outputKind", "ACTUAL_HEALING"
+            )))
+        )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
+        ApiException blocked = assertThrows(
+            ApiException.class,
+            () -> guarded.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_IN_USE", blocked.getCode());
+        assertField(blocked, "results[0].detail.vampRules", "TRIGGER_RULE_SHAPE_IN_USE");
+        assertEquals("ACTUAL_HEALING", fieldIssues(blocked).get(0).get("outputKind"));
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).updateResult(any(), any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).deleteResults(any(), any(), any(), any());
+
+        org.mockito.Mockito.reset(triggerRuleService);
+        stubEnabledCatalogs();
+        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
+        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
+        ));
+        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+        stubDetailRead(
+            List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            )
+        );
+        guarded.update(
+            GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+        );
+        verify(mapper).updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10);
+    }
+
     private void stubParentAndNewKey() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);

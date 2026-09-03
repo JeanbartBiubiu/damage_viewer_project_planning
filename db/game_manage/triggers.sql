@@ -2393,16 +2393,18 @@ BEGIN
                     v_game_id, v_skill_key, v_skill_trigger_rule_key
                     USING ERRCODE = 'check_violation';
             END IF;
-            SELECT COUNT(*) INTO v_has_value
-            FROM public.skill_effect_result_values
-            WHERE game_id = v_game_id AND skill_key = v_skill_key
-              AND effect_key = v_prior.source_effect_key
-              AND result_key = v_prior.source_result_key;
-            IF v_has_value = 0 THEN
-                RAISE EXCEPTION
-                    'skill_trigger_rules(%, %, %) prior action result is not immediately available at commit',
-                    v_game_id, v_skill_key, v_skill_trigger_rule_key
-                    USING ERRCODE = 'check_violation';
+            IF v_prior.output_kind = 'CONFIGURED_VALUE' THEN
+                SELECT COUNT(*) INTO v_has_value
+                FROM public.skill_effect_result_values
+                WHERE game_id = v_game_id AND skill_key = v_skill_key
+                  AND effect_key = v_prior.source_effect_key
+                  AND result_key = v_prior.source_result_key;
+                IF v_has_value = 0 THEN
+                    RAISE EXCEPTION
+                        'skill_trigger_rules(%, %, %) prior action result is not immediately available at commit',
+                        v_game_id, v_skill_key, v_skill_trigger_rule_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
             END IF;
             SELECT moment INTO v_behavior_moment
             FROM public.skill_effect_result_lifecycle_behaviors

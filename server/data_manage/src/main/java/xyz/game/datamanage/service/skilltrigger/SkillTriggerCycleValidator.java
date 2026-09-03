@@ -462,6 +462,8 @@ public class SkillTriggerCycleValidator {
             produced.add(ProducedEvent.link(SkillTriggerEventType.HIT_LINK_APPLIED, skillKey));
         } else if (row.resultType() == SkillEffectResultType.ATTACK_LINK_APPLICATION) {
             produced.add(ProducedEvent.link(SkillTriggerEventType.ATTACK_LINK_APPLIED, skillKey));
+        } else if (row.resultType() == SkillEffectResultType.NORMAL_SHIELD && row.hasLifecycle()) {
+            produced.add(ProducedEvent.lifecycle(row.effectKey(), SkillTriggerLifecycleEventMoment.EARLY_REMOVE));
         }
         if (row.spellShieldBlockScope() != null) {
             produced.add(ProducedEvent.wide(SkillTriggerEventType.SPELL_SHIELD_BLOCKED));
