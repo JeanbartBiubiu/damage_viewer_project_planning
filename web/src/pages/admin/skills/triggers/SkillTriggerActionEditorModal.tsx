@@ -71,6 +71,7 @@ type SkillTriggerActionEditorModalProps = {
   onClose: () => void;
   onConfirm: (draft: SkillTriggerActionDraft) => void;
   onTargetChange?: (draft: SkillTriggerActionDraft) => void | Promise<void>;
+  onEnsureEffect?: (effectKey: string) => Promise<SkillEffect | null>;
 };
 
 function titleFor(mode: SkillTriggerActionEditorMode): string {
@@ -95,7 +96,8 @@ export function SkillTriggerActionEditorModal({
   disabled,
   onClose,
   onConfirm,
-  onTargetChange
+  onTargetChange,
+  onEnsureEffect
 }: SkillTriggerActionEditorModalProps) {
   const [current, setCurrent] = useState<SkillTriggerActionDraft>(
     draft ?? createEmptyActionDraft(existingKeys)
@@ -524,6 +526,7 @@ export function SkillTriggerActionEditorModal({
         effectsByKey={effectDetails}
         disabled={disabled}
         onClose={() => setBindingEditor(null)}
+        onEnsureEffect={onEnsureEffect}
         onConfirm={(nextBinding) => {
           if (bindingEditor?.mode === 'edit' && bindingEditor.index !== null) {
             setCurrent({
