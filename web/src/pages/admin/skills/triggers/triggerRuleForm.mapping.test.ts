@@ -306,7 +306,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     expect(cleaned.maxTriggersLimitFormulaKey).toBe('');
   });
 
-  it('falls back to the first still-allowed event value instead of dropping a remaining compare', () => {
+  it('drops stale event-value conditions and bindings instead of remapping them', () => {
     const draft = namedDraft('periodic_rule', '周期规则', {
       eventSource: {
         eventType: 'LIFECYCLE_MOMENT',
@@ -340,12 +340,8 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: { effectKey: 'focus_mark', moment: 'FULL_STACKS' as const }
     };
     const cleaned = applyEventSwitchCleanup(draft, next);
-    expect(cleaned.conditionGroups[0].conditions[0].detail).toMatchObject({
-      eventValueKey: 'LIFECYCLE_STACKS'
-    });
-    expect(cleaned.actions[0].runtimeInputBindings[0].detail).toEqual({
-      eventValueKey: 'LIFECYCLE_STACKS'
-    });
+    expect(cleaned.conditionGroups[0].conditions).toEqual([]);
+    expect(cleaned.actions[0].runtimeInputBindings).toEqual([]);
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
   });
 

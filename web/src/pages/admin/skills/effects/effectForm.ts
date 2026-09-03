@@ -1,4 +1,11 @@
 import { ApiRequestError } from '../../../../services/apiClient';
+import {
+  formatTriggerInboundDependency,
+  SKILL_TRIGGER_ADJUST_RULES_BEFORE_EFFECT_HINT,
+  SKILL_TRIGGER_RESULT_IN_USE_MESSAGE,
+  SKILL_TRIGGER_RUNTIME_INPUT_IN_USE_MESSAGE,
+  SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE
+} from '../triggers/triggerRuleForm';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { ModifierZone, ModifierZoneDomain } from '../../../../types/modifierZone';
@@ -519,10 +526,24 @@ export type CatalogRefOption = {
   source: 'enabled' | 'retained-disabled' | 'parent-skill-self-ref' | 'unknown';
 };
 
+export type SkillEffectInboundDependency = {
+  ruleKey: string;
+  actionKey: string;
+  bindingKey: string;
+  outputKind: string;
+};
+
 export type MappedSkillEffectFieldIssues = {
   fieldErrors: SkillEffectDraftErrors;
   resultErrors: SkillEffectResultIndexError[];
   unmappedMessages: string[];
+  inboundDependencies: SkillEffectInboundDependency[];
+};
+
+const TRIGGER_RULE_IN_USE_MESSAGES: Record<string, string> = {
+  TRIGGER_RULE_RESULT_IN_USE: SKILL_TRIGGER_RESULT_IN_USE_MESSAGE,
+  TRIGGER_RULE_SHAPE_IN_USE: SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE,
+  TRIGGER_RULE_RUNTIME_INPUT_IN_USE: SKILL_TRIGGER_RUNTIME_INPUT_IN_USE_MESSAGE
 };
 
 const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
@@ -1709,6 +1730,7 @@ export function mapSkillEffectFieldIssues(
   const fieldErrors: SkillEffectDraftErrors = {};
   const resultErrorMap = new Map<number, SkillEffectResultDraftErrors>();
   const unmappedMessages: string[] = [];
+  const inboundDependencies: SkillEffectInboundDependency[] = [];
   let details: unknown;
   if (source instanceof ApiRequestError) {
     details = source.details;
@@ -1718,17 +1740,32 @@ export function mapSkillEffectFieldIssues(
     details = source;
   }
   if (!isRecord(details) || !Array.isArray(details.fieldIssues)) {
-    return { fieldErrors, resultErrors: [], unmappedMessages };
+    return { fieldErrors, resultErrors: [], unmappedMessages, inboundDependencies };
   }
 
   for (const rawIssue of details.fieldIssues) {
     if (!isRecord(rawIssue)) {
       continue;
     }
+    const code = typeof rawIssue.code === 'string' ? rawIssue.code : '';
     const field = typeof rawIssue.field === 'string' ? rawIssue.field : '';
-    const message = typeof rawIssue.message === 'string' && rawIssue.message.trim()
+    const backendMessage = typeof rawIssue.message === 'string' && rawIssue.message.trim()
       ? rawIssue.message.trim()
-      : '字段值不合法。';
+      : '';
+    const message = backendMessage || TRIGGER_RULE_IN_USE_MESSAGES[code] || '字段值不合法。';
+    if (
+      typeof rawIssue.ruleKey === 'string'
+      && typeof rawIssue.actionKey === 'string'
+      && typeof rawIssue.bindingKey === 'string'
+      && typeof rawIssue.outputKind === 'string'
+    ) {
+      inboundDependencies.push({
+        ruleKey: rawIssue.ruleKey,
+        actionKey: rawIssue.actionKey,
+        bindingKey: rawIssue.bindingKey,
+        outputKind: rawIssue.outputKind
+      });
+    }
     const indexed = INDEXED_RESULT_PATH.exec(field);
     if (indexed) {
       const index = Number(indexed[1]);
@@ -1766,7 +1803,13 @@ export function mapSkillEffectFieldIssues(
   const resultErrors = [...resultErrorMap.entries()]
     .sort((left, right) => left[0] - right[0])
     .map(([index, errors]) => ({ index, fieldErrors: errors }));
-  return { fieldErrors, resultErrors, unmappedMessages };
+  if (inboundDependencies.length > 0) {
+    unmappedMessages.push(SKILL_TRIGGER_ADJUST_RULES_BEFORE_EFFECT_HINT);
+    for (const item of inboundDependencies) {
+      unmappedMessages.push(formatTriggerInboundDependency(item));
+    }
+  }
+  return { fieldErrors, resultErrors, unmappedMessages, inboundDependencies };
 }
 
 function defaultCooldownOperation(
