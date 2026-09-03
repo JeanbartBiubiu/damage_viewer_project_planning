@@ -912,7 +912,8 @@ describe('skill effect API field issue mapping', () => {
           }
         }
       ],
-      unmappedMessages: ['游戏不存在']
+      unmappedMessages: ['游戏不存在'],
+      inboundDependencies: []
     });
   });
 
@@ -920,7 +921,8 @@ describe('skill effect API field issue mapping', () => {
     expect(mapSkillEffectFieldIssues(null)).toEqual({
       fieldErrors: {},
       resultErrors: [],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
     });
     expect(
       mapSkillEffectFieldIssues({
@@ -936,7 +938,48 @@ describe('skill effect API field issue mapping', () => {
         { index: 0, fieldErrors: { resultKey: '字段值不合法。' } },
         { index: 9, fieldErrors: { damageTypeKey: '越界仍按提交下标映射' } }
       ],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
+    });
+  });
+
+  it('keeps 409 inbound shape occupancy details with rule, action, binding and output labels', () => {
+    const error = new ApiRequestError(
+      '结果形状变化会使既有前序输出失效',
+      409,
+      '409.SKILL_EFFECT_IN_USE',
+      {
+        fieldIssues: [
+          {
+            field: 'results[0].detail.vampRules',
+            code: 'TRIGGER_RULE_SHAPE_IN_USE',
+            message: '结果形状变化会使既有前序输出失效',
+            ruleKey: 'prior',
+            actionKey: 'follow',
+            bindingKey: 'from_first',
+            outputKind: 'ACTUAL_HEALING'
+          }
+        ]
+      }
+    );
+    expect(mapSkillEffectFieldIssues(error, [{ resultType: 'DAMAGE' }])).toEqual({
+      fieldErrors: {},
+      resultErrors: [{
+        index: 0,
+        fieldErrors: {
+          vampRules: '结果形状变化会使既有前序输出失效'
+        }
+      }],
+      unmappedMessages: [
+        '请先调整条件与触发规则再保存效果。',
+        'prior / follow / from_first / 实际治疗'
+      ],
+      inboundDependencies: [{
+        ruleKey: 'prior',
+        actionKey: 'follow',
+        bindingKey: 'from_first',
+        outputKind: 'ACTUAL_HEALING'
+      }]
     });
   });
 });
@@ -1696,7 +1739,8 @@ describe('skill effect lifecycle drafts', () => {
           }
         }
       ],
-      unmappedMessages: ['越界时点']
+      unmappedMessages: ['越界时点'],
+      inboundDependencies: []
     });
   });
 
@@ -1919,7 +1963,8 @@ describe('execute, hit-link and attack-link results', () => {
           spellShieldBlockScope: '阻挡范围不合法'
         }
       }],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
     });
   });
 });

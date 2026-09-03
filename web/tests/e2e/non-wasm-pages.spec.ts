@@ -251,9 +251,9 @@ type SkillTriggerRuleStored = {
   updatedAt: string;
 };
 
-type TriggerRuleWriteFailure = 'unprotected-cycle' | 'not-found' | null;
+type TriggerRuleWriteFailure = 'unprotected-cycle' | 'not-found' | 'invalid-binding' | null;
 
-type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | 'lifecycle-in-use' | 'lifecycle-field' | null;
+type WriteFailure = 'validation' | 'duplicate' | 'not-found' | 'network' | 'lifecycle-in-use' | 'lifecycle-field' | 'shape-in-use' | null;
 
 type CapturedWrite = {
   method: string;
@@ -314,6 +314,7 @@ class MockApi {
   statusWriteFailure: WriteFailure = null;
   effectWriteFailure: WriteFailure = null;
   effectWriteFieldIssues: Array<{ field: string; code: string; message: string }> = [];
+  skillEffectGetFailureKeys = new Set<string>();
   internalStateWriteFailure: WriteFailure = null;
   processWriteFailure: WriteFailure = null;
   triggerRuleWriteFailure: TriggerRuleWriteFailure = null;
@@ -985,6 +986,10 @@ class MockApi {
         return;
       }
       if (method === 'GET') {
+        if (this.skillEffectGetFailureKeys.has(effectKey)) {
+          await this.error(route, 500, '500.SKILL_EFFECT_GET_FAILED', '效果详情加载失败');
+          return;
+        }
         await this.json(route, 200, this.cloneSkillEffect(existing));
         return;
       }
@@ -1976,6 +1981,22 @@ class MockApi {
       await this.error(route, 409, '409.SKILL_EFFECT_KEY_EXISTS', '效果标识已存在');
       return true;
     }
+    if (this.effectWriteFailure === 'shape-in-use') {
+      await this.error(route, 409, '409.SKILL_EFFECT_IN_USE', '结果形状变化会使既有前序输出失效', {
+        fieldIssues: [
+          {
+            field: 'results[0].detail.vampRules',
+            code: 'TRIGGER_RULE_SHAPE_IN_USE',
+            message: '该结构仍被条件与触发规则使用',
+            ruleKey: 'follow_up_from_hit',
+            actionKey: 'apply_follow_up',
+            bindingKey: 'bind_prior_hit',
+            outputKind: 'ACTUAL_HEALING'
+          }
+        ]
+      });
+      return true;
+    }
     await this.error(route, 404, '404.SKILL_EFFECT_NOT_FOUND', '技能效果不存在');
     return true;
   }
@@ -2137,6 +2158,18 @@ class MockApi {
     }
     if (this.triggerRuleWriteFailure === 'not-found') {
       await this.error(route, 404, '404.SKILL_TRIGGER_RULE_NOT_FOUND', '触发规则不存在');
+      return true;
+    }
+    if (this.triggerRuleWriteFailure === 'invalid-binding') {
+      await this.error(route, 400, '400.INVALID_RUNTIME_INPUT_BINDING', '动态输入绑定不合法', {
+        fieldIssues: [
+          {
+            field: 'actions[1].runtimeInputBindings[0].detail.outputKind',
+            code: 'OUTPUT_KIND_NOT_AVAILABLE',
+            message: '当前结果不提供该输出'
+          }
+        ]
+      });
       return true;
     }
     return false;
@@ -2713,21 +2746,17 @@ function createDeferred(): { promise: Promise<void>; resolve: () => void } {
   return { promise, resolve };
 }
 
-const STAGE_76_PRIOR_RESULT_TERMS = [
-  '防御后伤害',
-  '护盾吸收',
-  '实际扣血',
+const STAGE_76_FORBIDDEN_OUTPUT_TERMS = [
   '实际治疗',
-  '阻挡',
-  '免疫',
-  '击杀',
-  'POST_DEFENSE_DAMAGE',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HEALTH_LOSS',
-  'ACTUAL_HEAL',
-  'BLOCKED',
-  'IMMUNE',
-  'KILL',
+  '是否被法术护盾阻挡（0/1）',
+  '乘区加算',
+  '乘区因子',
+  '最终修正值',
+  'MODIFIER_ZONE_SUM',
+  'MODIFIER_ZONE_FACTOR',
+  'FINAL_MODIFIED_VALUE',
+  'ZONE_ADDEND',
+  'FREE_OUTPUT',
   'PERSISTENT'
 ] as const;
 
@@ -2943,6 +2972,17 @@ async function fillExecuteEffectAction(
   await expect(actionModal.getByRole('button', { name: '确定', exact: true })).toBeEnabled();
   await actionModal.getByRole('button', { name: '确定', exact: true }).click();
   await expect(actionModal).toBeHidden();
+}
+
+async function bindPriorActionResult(
+  page: Page,
+  bindingModal: Locator,
+  values: { sourceAction: string; sourceResult: string; output: string }
+): Promise<void> {
+  await chooseSelectOption(page, bindingModal, '来源种类', '更早动作结果');
+  await chooseSelectOption(page, bindingModal, '来源动作', values.sourceAction);
+  await chooseSelectOption(page, bindingModal, '来源结果', values.sourceResult);
+  await chooseSelectOption(page, bindingModal, '结果输出', values.output);
 }
 
 async function closeVisibleDialog(dialog: Locator): Promise<void> {
@@ -5127,15 +5167,29 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByLabel('规则标识', { exact: true }).fill('on_hit_link');
     await createModal.getByLabel('规则名称', { exact: true }).fill('应用命中联动');
     await chooseTriggerEventType(page, createModal, '应用命中联动');
-    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toBeVisible();
+    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toHaveCount(0);
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toBeVisible();
     await expect(createModal.getByLabel('事件来源对象', { exact: true })).toHaveCount(0);
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('任意技能');
     await chooseSelectOption(page, createModal, '联动来源技能', '枯萎箭袋');
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('枯萎箭袋');
 
+    await createModal.getByRole('button', { name: '新增条件组', exact: true }).click();
+    await createModal.getByLabel('条件组名称', { exact: true }).fill('联动次数');
+    await createModal.locator('.arco-card').filter({ hasText: '联动次数' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const conditionModal = visibleModal(page, '编辑条件');
+    await chooseSelectOption(page, conditionModal, '条件种类', '事件值比较');
+    await conditionModal.getByLabel('事件值', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '本次序号（从 1 开始）', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '总次数（从 1 开始）', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '当前命中序号', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: '总次数（从 1 开始）', exact: true }).click();
+    await conditionModal.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(conditionModal).toBeHidden();
+
     await chooseTriggerEventType(page, createModal, '触发攻击联动');
-    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toBeVisible();
+    await expect(createModal.getByText('事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。')).toHaveCount(0);
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('任意技能');
     await createModal.getByRole('button', { name: '取消', exact: true }).click();
     const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
@@ -5192,6 +5246,19 @@ test.describe('skill management without Wasm', () => {
     await ruleModal.getByLabel('规则标识', { exact: true }).fill('after_spell_shield_block');
     await ruleModal.getByLabel('规则名称', { exact: true }).fill('法术护盾阻挡后');
     await chooseTriggerEventType(page, ruleModal, '法术护盾成功阻挡');
+    await ruleModal.getByRole('button', { name: '新增条件组', exact: true }).click();
+    await ruleModal.getByLabel('条件组名称', { exact: true }).fill('护盾条件');
+    await ruleModal.locator('.arco-card').filter({ hasText: '护盾条件' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const shieldCondition = visibleModal(page, '编辑条件');
+    await shieldCondition.getByLabel('条件种类', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '事件值比较', exact: true })).toHaveCount(0);
+    await page.keyboard.press('Escape');
+    await shieldCondition.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(shieldCondition).toBeHidden();
+    await ruleModal.locator('.arco-card').filter({ hasText: '护盾条件' })
+      .getByRole('button', { name: '删除', exact: true }).first().click();
+    await expect(ruleModal.getByLabel('条件组名称', { exact: true })).toHaveCount(0);
     const shieldEffectSelect = ruleModal.getByLabel('法术护盾效果', { exact: true });
     await expect(shieldEffectSelect).toBeEnabled();
     await shieldEffectSelect.click();
@@ -5367,17 +5434,26 @@ test.describe('skill management without Wasm', () => {
     const bindingModal = visibleModal(page, '新增绑定');
     await bindingModal.getByLabel('绑定标识', { exact: true }).fill('bind_prior_hit');
     await chooseSelectOption(page, bindingModal, '绑定参数', '前序命中值（prior_hit_value / 小数）');
-    await chooseSelectOption(page, bindingModal, '来源种类', '更早动作基础结果');
-    await bindingModal.getByLabel('前序基础结果', { exact: true }).click();
-    const priorOption = page.getByRole('option', { name: /基础结果值/ });
-    await expect(priorOption).toBeVisible();
-    for (const term of STAGE_76_PRIOR_RESULT_TERMS) {
+    await chooseSelectOption(page, bindingModal, '来源种类', '更早动作结果');
+    await chooseSelectOption(page, bindingModal, '来源动作', '命中伤害（action_1）');
+    await chooseSelectOption(page, bindingModal, '来源结果', '造成物理伤害（damage）');
+    await expect(bindingModal.getByRole('button', { name: '确定', exact: true })).toBeDisabled();
+    await bindingModal.getByLabel('结果输出', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '基础配置值', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '原始伤害', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '防御后伤害', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '护盾吸收', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '实际扣血', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '是否被伤害免疫（0/1）', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '是否形成击杀（0/1）', exact: true })).toBeVisible();
+    for (const term of STAGE_76_FORBIDDEN_OUTPUT_TERMS) {
       await expect(page.getByRole('option', { name: term, exact: true })).toHaveCount(0);
     }
-    await priorOption.click();
+    await page.getByRole('option', { name: '基础配置值', exact: true }).click();
+    await expect(bindingModal.getByRole('button', { name: '确定', exact: true })).toBeEnabled();
     await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
     await expect(bindingModal).toBeHidden();
-    await expect(secondAction.getByText('更早动作基础结果 / action_1 / damage / 基础结果值')).toBeVisible();
+    await expect(secondAction.getByText('更早动作结果 / action_1 / damage / 基础配置值')).toBeVisible();
     await secondAction.getByRole('button', { name: '确定', exact: true }).click();
     await expect(secondAction).toBeHidden();
 
@@ -5392,7 +5468,7 @@ test.describe('skill management without Wasm', () => {
     await expect(editModal.getByText('绑定 1')).toBeVisible();
     await editModal.getByRole('button', { name: '编辑', exact: true }).nth(1).click();
     const editSecond = visibleModal(page, '编辑动作');
-    await expect(editSecond.getByText('更早动作基础结果 / action_1 / damage / 基础结果值')).toBeVisible();
+    await expect(editSecond.getByText('更早动作结果 / action_1 / damage / 基础配置值')).toBeVisible();
     await editSecond.getByRole('button', { name: '取消', exact: true }).click();
     await expect(editSecond).toBeHidden();
     await editModal.getByRole('button', { name: '取消', exact: true }).click();
@@ -5432,6 +5508,205 @@ test.describe('skill management without Wasm', () => {
     await expect(createModal.getByText('400.TRIGGER_RULE_CYCLE_UNGUARDED')).toBeVisible();
     expect(mock.skillTriggerRules).toHaveLength(0);
     diagnostics.assertClean('condition and trigger unguarded cycle');
+  });
+
+  test('exposes dealt-damage event values including kill and actual HP loss', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await createModal.getByLabel('规则标识', { exact: true }).fill('on_damage_dealt');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('造成伤害后');
+    await chooseTriggerEventType(page, createModal, '来源对象造成伤害');
+    await createModal.getByRole('button', { name: '新增条件组', exact: true }).click();
+    await createModal.getByLabel('条件组名称', { exact: true }).fill('击杀条件');
+    await createModal.locator('.arco-card').filter({ hasText: '击杀条件' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const conditionModal = visibleModal(page, '编辑条件');
+    await chooseSelectOption(page, conditionModal, '条件种类', '事件值比较');
+    await conditionModal.getByLabel('事件值', { exact: true }).click();
+    await expect(page.getByRole('option', { name: '护盾吸收', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: '实际扣血', exact: true })).toBeVisible();
+    await expect(page.getByRole('option', { name: /是否形成击杀/ })).toBeVisible();
+    await expect(page.getByRole('option', { name: '受伤前生命', exact: true })).toHaveCount(0);
+    await page.getByRole('option', { name: /是否形成击杀/ }).click();
+    await conditionModal.getByRole('button', { name: '取消', exact: true }).click();
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    diagnostics.assertClean('damage-dealt event values');
+  });
+
+  test('confirms stale prior-result cleanup after reordering actions and can cancel', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await createModal.getByLabel('规则标识', { exact: true }).fill('reorder_prior');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('重排前序');
+    await chooseTriggerEventType(page, createModal, '技能命中');
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '命中伤害',
+      effectName: '命中结果'
+    });
+    await createModal.getByRole('button', { name: '新增动作', exact: true }).click();
+    const secondAction = visibleModal(page, '新增动作');
+    await secondAction.getByLabel('动作标识', { exact: true }).fill('apply_follow_up');
+    await secondAction.getByLabel('动作名称', { exact: true }).fill('追加伤害');
+    await secondAction.getByLabel('动作排序', { exact: true }).fill('20');
+    await chooseSelectOption(page, secondAction, '目标效果', '追加伤害');
+    await secondAction.getByRole('button', { name: '新增绑定', exact: true }).click();
+    const bindingModal = visibleModal(page, '新增绑定');
+    await bindingModal.getByLabel('绑定标识', { exact: true }).fill('bind_prior_hit');
+    await chooseSelectOption(page, bindingModal, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+    await bindPriorActionResult(page, bindingModal, {
+      sourceAction: '命中伤害（action_1）',
+      sourceResult: '造成物理伤害（damage）',
+      output: '基础配置值'
+    });
+    await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
+    await secondAction.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(createModal.getByText('1. 命中伤害')).toBeVisible();
+    await expect(createModal.getByText('2. 追加伤害')).toBeVisible();
+
+    await createModal.getByRole('button', { name: '下移', exact: true }).first().click();
+    const staleConfirm = page.getByRole('dialog').filter({ hasText: '将删除失效绑定' });
+    await expect(staleConfirm).toBeVisible();
+    await staleConfirm.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(createModal.getByText('1. 命中伤害')).toBeVisible();
+    await expect(createModal.getByText('2. 追加伤害')).toBeVisible();
+
+    await createModal.getByRole('button', { name: '下移', exact: true }).first().click();
+    await expect(staleConfirm).toBeVisible();
+    await staleConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(createModal.getByText('1. 追加伤害')).toBeVisible();
+    await expect(createModal.getByText('2. 命中伤害')).toBeVisible();
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    const editFollowUp = visibleModal(page, '编辑动作');
+    await expect(editFollowUp.getByText('更早动作结果 / action_1 / damage / 基础配置值')).toHaveCount(0);
+    await editFollowUp.getByRole('button', { name: '取消', exact: true }).click();
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    diagnostics.assertClean('prior-result reorder cleanup');
+  });
+
+  test('retries source-effect loading without dropping the prior-result draft', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    mock.skillEffectGetFailureKeys.add('on_hit_results');
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await createModal.getByLabel('规则标识', { exact: true }).fill('retry_prior');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('重试前序');
+    await chooseTriggerEventType(page, createModal, '技能命中');
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '命中伤害',
+      effectName: '命中结果'
+    });
+    await createModal.getByRole('button', { name: '新增动作', exact: true }).click();
+    const secondAction = visibleModal(page, '新增动作');
+    await secondAction.getByLabel('动作标识', { exact: true }).fill('apply_follow_up');
+    await secondAction.getByLabel('动作名称', { exact: true }).fill('追加伤害');
+    await chooseSelectOption(page, secondAction, '目标效果', '追加伤害');
+    await secondAction.getByRole('button', { name: '新增绑定', exact: true }).click();
+    const bindingModal = visibleModal(page, '新增绑定');
+    await bindingModal.getByLabel('绑定标识', { exact: true }).fill('bind_prior_hit');
+    await chooseSelectOption(page, bindingModal, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+    await chooseSelectOption(page, bindingModal, '来源种类', '更早动作结果');
+    await chooseSelectOption(page, bindingModal, '来源动作', '命中伤害（action_1）');
+    await expect(bindingModal.getByText('来源效果详情未加载，无法校验前序结果。请重试。')).toBeVisible();
+    await expect(bindingModal.getByRole('button', { name: '确定', exact: true })).toBeDisabled();
+    mock.skillEffectGetFailureKeys.clear();
+    await bindingModal.getByRole('button', { name: '重试', exact: true }).click();
+    await expect(bindingModal.getByText('来源效果详情未加载，无法校验前序结果。请重试。')).toHaveCount(0);
+    await chooseSelectOption(page, bindingModal, '来源结果', '造成物理伤害（damage）');
+    await chooseSelectOption(page, bindingModal, '结果输出', '基础配置值');
+    await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(secondAction.getByText('更早动作结果 / action_1 / damage / 基础配置值')).toBeVisible();
+    await secondAction.getByRole('button', { name: '取消', exact: true }).click();
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    diagnostics.assertClean('prior-result source-effect retry');
+  });
+
+  test('keeps trigger and effect drafts after 400 binding and 409 shape occupancy errors', async ({ page }) => {
+    test.setTimeout(120_000);
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+    const createModal = visibleModal(page, '新增规则');
+    await createModal.getByLabel('规则标识', { exact: true }).fill('invalid_prior');
+    await createModal.getByLabel('规则名称', { exact: true }).fill('非法前序');
+    await chooseTriggerEventType(page, createModal, '技能命中');
+    await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
+    await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
+      name: '命中伤害',
+      effectName: '命中结果'
+    });
+    await createModal.getByRole('button', { name: '新增动作', exact: true }).click();
+    const secondAction = visibleModal(page, '新增动作');
+    await secondAction.getByLabel('动作标识', { exact: true }).fill('apply_follow_up');
+    await secondAction.getByLabel('动作名称', { exact: true }).fill('追加伤害');
+    await chooseSelectOption(page, secondAction, '目标效果', '追加伤害');
+    await secondAction.getByRole('button', { name: '新增绑定', exact: true }).click();
+    const bindingModal = visibleModal(page, '新增绑定');
+    await bindingModal.getByLabel('绑定标识', { exact: true }).fill('bind_prior_hit');
+    await chooseSelectOption(page, bindingModal, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+    await bindPriorActionResult(page, bindingModal, {
+      sourceAction: '命中伤害（action_1）',
+      sourceResult: '造成物理伤害（damage）',
+      output: '基础配置值'
+    });
+    await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
+    await secondAction.getByRole('button', { name: '确定', exact: true }).click();
+
+    mock.triggerRuleWriteFailure = 'invalid-binding';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeVisible();
+    await expect(createModal.getByLabel('规则名称', { exact: true })).toHaveValue('非法前序');
+    await expect(createModal.getByText('当前结果不提供该输出')).toBeVisible();
+    expect(mock.skillTriggerRules).toHaveLength(0);
+    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
+    await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
+    await closeVisibleDialog(shell);
+
+    const effectShell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await effectShell.locator('tr', { hasText: 'on_hit_results' })
+      .getByRole('button', { name: '编辑', exact: true }).click();
+    const effectModal = visibleModal(page, '编辑效果');
+    mock.effectWriteFailure = 'shape-in-use';
+    await effectModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(effectModal).toBeVisible();
+    await expect(effectModal.getByLabel('效果名称', { exact: true })).toHaveValue('命中结果');
+    await expect(effectModal.getByText('该结构仍被条件与触发规则使用')).toBeVisible();
+    await expect(effectModal.getByText('请先调整条件与触发规则再保存效果。')).toBeVisible();
+    await expect(effectModal.getByText('follow_up_from_hit / apply_follow_up / bind_prior_hit / 实际治疗')).toBeVisible();
+    await effectModal.getByRole('button', { name: '取消', exact: true }).click();
+    diagnostics.assertClean('400 binding and 409 shape occupancy drafts');
   });
 });
 
