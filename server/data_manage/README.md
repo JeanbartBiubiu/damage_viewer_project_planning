@@ -1,6 +1,6 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及阶段 0～7.6.4 的属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及阶段 0～7.6.5 的属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
 
 它在整条链路里的位置是：
 
@@ -29,7 +29,7 @@
 - 启动入口：`src/main/java/xyz/game/datamanage/DataManageApplication.java`
 - 默认配置：`src/main/resources/application.yml`
 - 公共读取：`GamePublicController`（`GET /api/games`）、`ImagePublicController`
-- Admin 写入：阶段 0～7.6.4 管理控制器，以及 `ImageAdminController`
+- Admin 写入：阶段 0～7.6.5 管理控制器，以及 `ImageAdminController`
 - 游戏与图片薄 Facade：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
 - 读写存储：`PostgresReadStore` / `PostgresWriteStore`（图片与编辑日志）
 - 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
@@ -61,7 +61,7 @@
 
 **新库（fresh install）**：
 
-1. `db/game_manage/schema.sql`（85 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、冷却变化目标关系表与 `images` 列表分区）
+1. `db/game_manage/schema.sql`（85 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、冷却变化目标关系表、阶段 7.6.5 前序输出与事件值检查，以及 `images` 列表分区）
 2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
 
 不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
@@ -73,7 +73,7 @@
 
 该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
 
-当前阶段 0～7.6.4 已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+当前阶段 0～7.6.5 已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
 
 ### 属性管理
 
@@ -275,6 +275,31 @@ mvn test
 mvn package
 ```
 
+### 丰富前序结果与综合联动
+
+本阶段不增加表、列、索引或外键。最终仍是 85 张父表、13 张阶段 7.6 累计表、16 种结果、21 种事件。两处 `event_value_key` 检查扩展为 23 种；`skill_trigger_rule_prior_result_bindings.output_kind` 扩展为冻结的 10 种输出。前序结果公共形状仍是 `sourceActionKey` / `sourceResultKey` / `outputKind`，`sourceEffectKey` 由服务端从更早 `EXECUTE_EFFECT` 动作推导。只保存、校验、回读和保护引用，不执行公式、事件或结算。
+
+已有开发库按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/enriched_prior_result_integrated_linkage_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新前序结果 `CONFIGURED_VALUE` 才检查数值规则的延迟形状约束触发器）
+
+脚本先核对阶段 7.6.4 与乘区基线；三处检查同为精确前置或同为精确目标时继续，部分完成、未知值或两处事件值不一致时主动失败。既有行原样保留，不写业务数据、不 `CASCADE`。目标态可安全重复执行。不要把该 migration 当作新库必跑步骤。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```bash
+cd server/data_manage
+mvn -Dtest=EnrichedPriorResultIntegratedLinkageDbContractSqlTest,SkillTriggerRuleServiceTest,SkillTriggerRuleAdminControllerTest,SkillEffectServiceTest,SkillEffectAdminControllerTest test
+```
+
+随后：
+
+```bash
+mvn test
+mvn package
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
@@ -310,7 +335,7 @@ mvn package
 
 1. `GET /api/games`（仅 `gameId` / `gameName` / 可空 `gameImgUrl`）
 2. 图片读取与 Admin 写入
-3. 阶段 0～7.6.4 当前管理接口至少一类读写
+3. 阶段 0～7.6.5 当前管理接口至少一类读写
 4. 旧 `/combat-data/**`、`GET .../versions/current` 与旧 publish 别名返回普通 404
 
 静态数据库清理契约：

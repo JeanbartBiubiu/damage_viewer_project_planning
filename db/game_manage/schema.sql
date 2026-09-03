@@ -2471,7 +2471,9 @@ CREATE TABLE public.skill_trigger_rule_event_value_conditions (
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
             'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
-            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'BLOCKED', 'IMMUNE', 'KILLED',
+            'LINK_INDEX', 'LINK_COUNT'
         )),
     CONSTRAINT ck_skill_trigger_event_value_cond_comparator
         CHECK (comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'))
@@ -2746,7 +2748,9 @@ CREATE TABLE public.skill_trigger_rule_event_value_bindings (
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
             'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
-            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'BLOCKED', 'IMMUNE', 'KILLED',
+            'LINK_INDEX', 'LINK_COUNT'
         ))
 );
 
@@ -2780,7 +2784,11 @@ CREATE TABLE public.skill_trigger_rule_prior_result_bindings (
             (game_id, skill_key, effect_key, result_key)
         DEFERRABLE INITIALLY DEFERRED,
     CONSTRAINT ck_skill_trigger_prior_result_bind_output
-        CHECK (output_kind = 'CONFIGURED_VALUE')
+        CHECK (output_kind IN (
+            'CONFIGURED_VALUE', 'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'ACTUAL_HEALING',
+            'BLOCKED', 'IMMUNE', 'STATUS_APPLIED', 'KILLED'
+        ))
 );
 
 CREATE INDEX ix_skill_trigger_prior_result_bind_source_action
