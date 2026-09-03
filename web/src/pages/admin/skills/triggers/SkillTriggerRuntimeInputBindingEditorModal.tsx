@@ -10,25 +10,27 @@ import {
   Table
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
-import type { SkillParameter } from '../../../../types/skillParameter';
+import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
 import type { GameStatus } from '../../../../types/status';
 import type {
   SkillTriggerCombatStatusValueKind,
   SkillTriggerEventSource,
   SkillTriggerEventValueKey,
   SkillTriggerInternalStateValueKind,
+  SkillTriggerPriorResultBinding,
+  SkillTriggerPriorResultOutputKind,
   SkillTriggerRuntimeInputBinding,
   SkillTriggerRuntimeInputSourceType,
   SkillTriggerSubject
 } from '../../../../types/skillTriggerRule';
 import {
-  PRIOR_RESULT_OUTPUT_LABEL,
   SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS,
-  SKILL_TRIGGER_EVENT_VALUE_LABELS,
   SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS,
+  SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT,
+  SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE,
   SKILL_TRIGGER_SOURCE_TYPE_LABELS,
   SKILL_TRIGGER_SOURCE_TYPES,
   SKILL_TRIGGER_SUBJECT_LABELS,
@@ -36,21 +38,107 @@ import {
   allowedEventValuesFor,
   bindingSummary,
   createEmptyBinding,
+  eventValueOptionLabel,
   evaluateBindingCompleteness,
-  listImmediatePriorResults,
+  filterPriorResultOutputsForParameter,
+  isAllowedPriorResultOutputKind,
+  isBindingTypeCompatible,
+  isBooleanPriorResultOutput,
+  listAvailablePriorResultOutputs,
+  listEarlierExecuteEffectActions,
+  listImmediateSourceResults,
   patchCombatStatusBinding,
   patchCombatStatusMeasuredFields,
   patchCombatStatusValueKind,
   patchInternalStateBindingDetail,
+  patchPriorResultBinding,
   persistentStatusApplyResults,
+  priorResultOutputDomain,
+  priorResultOutputLabel,
   subjectOptionsForEvent,
   switchBindingSourceType,
   valueKindsForInternalState,
-  type ImmediatePriorResult,
+  type PriorSourceActionOption,
   type SkillTriggerActionDraft
 } from './triggerRuleForm';
 
 export type SkillTriggerRuntimeInputBindingEditorMode = 'create' | 'edit';
+
+export type PriorResultOutputSelection = SkillTriggerPriorResultOutputKind | null;
+
+export function initialPriorResultOutputSelection(
+  mode: SkillTriggerRuntimeInputBindingEditorMode,
+  binding: SkillTriggerRuntimeInputBinding | null
+): PriorResultOutputSelection {
+  if (mode !== 'edit' || binding?.sourceType !== 'PRIOR_ACTION_RESULT') return null;
+  return binding.detail.outputKind;
+}
+
+export function retainPriorResultOutputSelection(
+  selected: PriorResultOutputSelection,
+  legalOptions: readonly SkillTriggerPriorResultOutputKind[],
+  options: {
+    canEvaluateAvailability: boolean;
+    parameterValueType?: SkillParameterValueType | null;
+  }
+): PriorResultOutputSelection {
+  if (selected === null) return null;
+  const parameterType = options.parameterValueType;
+  if (parameterType === 'INTEGER' || parameterType === 'DECIMAL') {
+    if (!isBindingTypeCompatible(priorResultOutputDomain(selected), parameterType)) {
+      return null;
+    }
+  }
+  if (!options.canEvaluateAvailability) return selected;
+  return legalOptions.includes(selected) ? selected : null;
+}
+
+export function isPriorResultEditorConfirmReady(input: {
+  selectedSourceAction: PriorSourceActionOption | null;
+  sourceEffect: SkillEffect | null | undefined;
+  sourceEffectLoading: boolean;
+  sourceEffectError: string | null;
+  sourceResultKey: string;
+  immediateSourceResults: readonly { resultKey: string }[];
+  selectedOutputKind: PriorResultOutputSelection;
+  legalOutputOptions: readonly SkillTriggerPriorResultOutputKind[];
+  parameterValueType?: SkillParameterValueType | null;
+}): boolean {
+  if (input.sourceEffectLoading || input.sourceEffectError) return false;
+  if (!input.selectedSourceAction) return false;
+  if (!input.sourceEffect) return false;
+  if (!input.sourceResultKey) return false;
+  if (!input.immediateSourceResults.some((item) => item.resultKey === input.sourceResultKey)) {
+    return false;
+  }
+  if (input.parameterValueType !== 'INTEGER' && input.parameterValueType !== 'DECIMAL') {
+    return false;
+  }
+  if (input.selectedOutputKind === null) return false;
+  return input.legalOutputOptions.includes(input.selectedOutputKind);
+}
+
+export function confirmedPriorResultBinding(
+  current: SkillTriggerPriorResultBinding,
+  selectedOutputKind: PriorResultOutputSelection
+): SkillTriggerPriorResultBinding | null {
+  if (selectedOutputKind === null || !isAllowedPriorResultOutputKind(selectedOutputKind)) {
+    return null;
+  }
+  return patchPriorResultBinding(current, { outputKind: selectedOutputKind });
+}
+
+export function priorResultDraftSummary(
+  binding: SkillTriggerPriorResultBinding,
+  selectedOutputKind: PriorResultOutputSelection
+): string {
+  return [
+    SKILL_TRIGGER_SOURCE_TYPE_LABELS.PRIOR_ACTION_RESULT,
+    binding.detail.sourceActionKey,
+    binding.detail.sourceResultKey,
+    selectedOutputKind ? priorResultOutputLabel(selectedOutputKind) : ''
+  ].filter(Boolean).join(' / ');
+}
 
 type SkillTriggerRuntimeInputBindingEditorModalProps = {
   visible: boolean;
@@ -69,6 +157,7 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   disabled?: boolean;
   onClose: () => void;
   onConfirm: (binding: SkillTriggerRuntimeInputBinding) => void;
+  onEnsureEffect?: (effectKey: string) => Promise<SkillEffect | null>;
 };
 
 function titleFor(mode: SkillTriggerRuntimeInputBindingEditorMode): string {
@@ -95,26 +184,158 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   effectsByKey,
   disabled,
   onClose,
-  onConfirm
+  onConfirm,
+  onEnsureEffect
 }: SkillTriggerRuntimeInputBindingEditorModalProps) {
   const [current, setCurrent] = useState<SkillTriggerRuntimeInputBinding>(
     binding ?? emptyBinding(existingBindingKeys)
   );
+  const [selectedOutputKind, setSelectedOutputKind] = useState<PriorResultOutputSelection>(
+    initialPriorResultOutputSelection(mode, binding)
+  );
+  const [sourceEffectLoading, setSourceEffectLoading] = useState(false);
+  const [sourceEffectError, setSourceEffectError] = useState<string | null>(null);
   const allowedValues = allowedEventValuesFor(eventSource);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
-  const priorResults = useMemo(
-    () => listImmediatePriorResults(actions, currentActionIndex, effectsByKey),
-    [actions, currentActionIndex, effectsByKey]
+  const earlierActions = useMemo(
+    () => listEarlierExecuteEffectActions(actions, currentActionIndex),
+    [actions, currentActionIndex]
   );
+  const selectedParameter = reachableParameters.find((item) => item.parameterKey === current.parameterKey);
+  const selectedSourceAction = current.sourceType === 'PRIOR_ACTION_RESULT'
+    ? earlierActions.find((item) => item.sourceActionKey === current.detail.sourceActionKey) ?? null
+    : null;
+  const sourceEffect = selectedSourceAction
+    ? effectsByKey.get(selectedSourceAction.sourceEffectKey) ?? null
+    : null;
+  const sourceResults = useMemo(
+    () => listImmediateSourceResults(sourceEffect),
+    [sourceEffect]
+  );
+  const outputOptions = useMemo(() => {
+    if (current.sourceType !== 'PRIOR_ACTION_RESULT') return [];
+    const result = sourceResults.find((item) => item.resultKey === current.detail.sourceResultKey);
+    if (!result) return [];
+    return filterPriorResultOutputsForParameter(
+      listAvailablePriorResultOutputs(result),
+      selectedParameter?.valueType
+    );
+  }, [current, selectedParameter, sourceResults]);
   const completeness = evaluateBindingCompleteness(reachableParameters, currentBindings);
   const selectedState = current.sourceType === 'INTERNAL_STATE'
     ? internalStates.find((item) => item.stateKey === current.detail.stateKey) ?? null
     : null;
+  const canEvaluateOutputAvailability = Boolean(sourceEffect) && Boolean(
+    current.sourceType === 'PRIOR_ACTION_RESULT' && current.detail.sourceResultKey
+  );
+  const effectiveOutputKind = current.sourceType === 'PRIOR_ACTION_RESULT'
+    ? retainPriorResultOutputSelection(selectedOutputKind, outputOptions, {
+      canEvaluateAvailability: canEvaluateOutputAvailability,
+      parameterValueType: selectedParameter?.valueType
+    })
+    : null;
+  const priorResultConfirmReady = current.sourceType !== 'PRIOR_ACTION_RESULT' || isPriorResultEditorConfirmReady({
+    selectedSourceAction,
+    sourceEffect,
+    sourceEffectLoading,
+    sourceEffectError,
+    sourceResultKey: current.detail.sourceResultKey,
+    immediateSourceResults: sourceResults,
+    selectedOutputKind: effectiveOutputKind,
+    legalOutputOptions: outputOptions,
+    parameterValueType: selectedParameter?.valueType
+  });
 
   useEffect(() => {
     if (!visible) return;
     setCurrent(binding ?? emptyBinding(existingBindingKeys));
-  }, [binding, visible]);
+    setSelectedOutputKind(initialPriorResultOutputSelection(mode, binding));
+    setSourceEffectError(null);
+    setSourceEffectLoading(false);
+  }, [binding, mode, visible]);
+
+  useEffect(() => {
+    if (selectedOutputKind === effectiveOutputKind) return;
+    setSelectedOutputKind(effectiveOutputKind);
+  }, [effectiveOutputKind, selectedOutputKind]);
+
+  const loadSourceEffect = useCallback(async (effectKey: string) => {
+    if (!effectKey.trim() || !onEnsureEffect) return;
+    if (effectsByKey.has(effectKey)) {
+      setSourceEffectError(null);
+      return;
+    }
+    setSourceEffectLoading(true);
+    setSourceEffectError(null);
+    const loaded = await onEnsureEffect(effectKey);
+    setSourceEffectLoading(false);
+    if (!loaded) {
+      setSourceEffectError(SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE);
+    }
+  }, [effectsByKey, onEnsureEffect]);
+
+  useEffect(() => {
+    if (!visible || current.sourceType !== 'PRIOR_ACTION_RESULT') return;
+    const effectKey = selectedSourceAction?.sourceEffectKey ?? '';
+    if (!effectKey) return;
+    void loadSourceEffect(effectKey);
+  }, [current.sourceType, loadSourceEffect, selectedSourceAction, visible]);
+
+  const confirmSourceActionChange = (nextAction: PriorSourceActionOption | undefined) => {
+    if (current.sourceType !== 'PRIOR_ACTION_RESULT') return;
+    const apply = () => {
+      setSelectedOutputKind(null);
+      setCurrent(patchPriorResultBinding(current, {
+        sourceActionKey: nextAction?.sourceActionKey ?? '',
+        sourceResultKey: ''
+      }));
+      if (nextAction?.sourceEffectKey) void loadSourceEffect(nextAction.sourceEffectKey);
+    };
+    if (!current.detail.sourceResultKey && effectiveOutputKind === null) {
+      apply();
+      return;
+    }
+    const outputLabel = effectiveOutputKind ? priorResultOutputLabel(effectiveOutputKind) : '';
+    Modal.confirm({
+      content: outputLabel
+        ? `将清除来源结果和输出：${current.detail.sourceResultKey} / ${outputLabel}`
+        : `将清除来源结果：${current.detail.sourceResultKey}`,
+      okText: '确定',
+      cancelText: '取消',
+      onOk: apply
+    });
+  };
+
+  const confirmSourceResultChange = (nextResultKey: string) => {
+    if (current.sourceType !== 'PRIOR_ACTION_RESULT') return;
+    if (current.detail.sourceResultKey === nextResultKey) return;
+    const apply = () => {
+      setSelectedOutputKind(null);
+      setCurrent(patchPriorResultBinding(current, {
+        sourceResultKey: nextResultKey
+      }));
+    };
+    if (!effectiveOutputKind) {
+      apply();
+      return;
+    }
+    Modal.confirm({
+      content: `将清除结果输出：${priorResultOutputLabel(effectiveOutputKind)}`,
+      okText: '确定',
+      cancelText: '取消',
+      onOk: apply
+    });
+  };
+
+  const confirmBinding = () => {
+    if (current.sourceType === 'PRIOR_ACTION_RESULT') {
+      const confirmed = confirmedPriorResultBinding(current, effectiveOutputKind);
+      if (!confirmed) return;
+      onConfirm(confirmed);
+      return;
+    }
+    onConfirm(current);
+  };
 
   const columns: TableColumnProps[] = [
     { title: '参数', dataIndex: 'name' },
@@ -148,7 +369,13 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       footer={
         <Space>
           <Button onClick={onClose}>取消</Button>
-          <Button type="primary" disabled={disabled} onClick={() => onConfirm(current)}>确定</Button>
+          <Button
+            type="primary"
+            disabled={disabled || !priorResultConfirmReady}
+            onClick={confirmBinding}
+          >
+            确定
+          </Button>
         </Space>
       }
     >
@@ -190,11 +417,12 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               disabled={disabled}
               options={SKILL_TRIGGER_SOURCE_TYPES
                 .filter((value) => value !== 'EVENT_VALUE' || allowedValues.length > 0)
-                .filter((value) => value !== 'PRIOR_ACTION_RESULT' || priorResults.length > 0)
+                .filter((value) => value !== 'PRIOR_ACTION_RESULT' || earlierActions.length > 0)
                 .map((value) => ({ value, label: SKILL_TRIGGER_SOURCE_TYPE_LABELS[value] }))}
-              onChange={(value) => setCurrent(
-                switchBindingSourceType(current, value as SkillTriggerRuntimeInputSourceType)
-              )}
+              onChange={(value) => {
+                setSelectedOutputKind(null);
+                setCurrent(switchBindingSourceType(current, value as SkillTriggerRuntimeInputSourceType));
+              }}
             />
           </Form.Item>
 
@@ -369,7 +597,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                 disabled={disabled}
                 options={allowedValues.map((value: SkillTriggerEventValueKey) => ({
                   value,
-                  label: SKILL_TRIGGER_EVENT_VALUE_LABELS[value]
+                  label: eventValueOptionLabel(value)
                 }))}
                 onChange={(value) => setCurrent({
                   ...current,
@@ -380,35 +608,83 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
           ) : null}
 
           {current.sourceType === 'PRIOR_ACTION_RESULT' ? (
-            <Form.Item label="更早动作基础结果" required extra={PRIOR_RESULT_OUTPUT_LABEL}>
-              <Select
-                aria-label="前序基础结果"
-                value={
-                  current.detail.sourceActionKey && current.detail.sourceResultKey
-                    ? `${current.detail.sourceActionKey}::${current.detail.sourceResultKey}`
+            <>
+              <Form.Item label="来源动作" required>
+                <Select
+                  aria-label="来源动作"
+                  value={current.detail.sourceActionKey || undefined}
+                  disabled={disabled || sourceEffectLoading}
+                  options={earlierActions.map((item: PriorSourceActionOption) => ({
+                    value: item.sourceActionKey,
+                    label: `${item.sourceActionName}（${item.sourceActionKey}）`
+                  }))}
+                  onChange={(value) => {
+                    const next = earlierActions.find((item) => item.sourceActionKey === String(value ?? ''));
+                    confirmSourceActionChange(next);
+                  }}
+                />
+              </Form.Item>
+              <Form.Item label="来源结果" required>
+                <Select
+                  aria-label="来源结果"
+                  value={current.detail.sourceResultKey || undefined}
+                  disabled={disabled || sourceEffectLoading || !sourceEffect}
+                  options={sourceResults.map((item) => ({
+                    value: item.resultKey,
+                    label: `${item.name || item.resultKey}（${item.resultKey}）`
+                  }))}
+                  onChange={(value) => confirmSourceResultChange(String(value ?? ''))}
+                />
+              </Form.Item>
+              <Form.Item
+                label="结果输出"
+                required
+                extra={
+                  outputOptions.some((kind) => isBooleanPriorResultOutput(kind))
+                    ? SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT
                     : undefined
                 }
-                disabled={disabled}
-                options={priorResults.map((item: ImmediatePriorResult) => ({
-                  value: `${item.sourceActionKey}::${item.sourceResultKey}`,
-                  label: `${item.sourceActionName} / ${item.sourceResultName} / ${PRIOR_RESULT_OUTPUT_LABEL}`
-                }))}
-                onChange={(value) => {
-                  const [sourceActionKey, sourceResultKey] = String(value ?? '').split('::');
-                  setCurrent({
-                    ...current,
-                    detail: {
-                      sourceActionKey: sourceActionKey ?? '',
-                      sourceResultKey: sourceResultKey ?? '',
-                      outputKind: 'CONFIGURED_VALUE'
-                    }
-                  });
-                }}
-              />
-            </Form.Item>
+              >
+                <Select
+                  aria-label="结果输出"
+                  value={effectiveOutputKind ?? undefined}
+                  disabled={disabled || sourceEffectLoading || !current.detail.sourceResultKey}
+                  options={outputOptions.map((kind: SkillTriggerPriorResultOutputKind) => ({
+                    value: kind,
+                    label: priorResultOutputLabel(kind)
+                  }))}
+                  onChange={(value) => {
+                    if (current.sourceType !== 'PRIOR_ACTION_RESULT') return;
+                    const nextKind = value as SkillTriggerPriorResultOutputKind;
+                    setSelectedOutputKind(nextKind);
+                    setCurrent(patchPriorResultBinding(current, {
+                      outputKind: nextKind
+                    }));
+                  }}
+                />
+              </Form.Item>
+              {sourceEffectError ? (
+                <Alert
+                  type="error"
+                  content={sourceEffectError}
+                  action={
+                    <Button
+                      size="mini"
+                      onClick={() => {
+                        if (selectedSourceAction) void loadSourceEffect(selectedSourceAction.sourceEffectKey);
+                      }}
+                    >
+                      重试
+                    </Button>
+                  }
+                />
+              ) : null}
+            </>
           ) : null}
         </Form>
-        {current.sourceType ? (
+        {current.sourceType === 'PRIOR_ACTION_RESULT' ? (
+          <Alert type="info" content={priorResultDraftSummary(current, effectiveOutputKind)} />
+        ) : current.sourceType ? (
           <Alert type="info" content={bindingSummary(current)} />
         ) : null}
       </Space>
