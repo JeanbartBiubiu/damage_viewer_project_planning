@@ -545,7 +545,8 @@ CREATE TABLE public.skill_effect_results (
             'RESOURCE_CHANGE', 'COOLDOWN_CHANGE', 'STATUS_OPERATION',
             'LIFECYCLE_OPERATION', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
             'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD',
-            'EXECUTE', 'HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION'
+            'EXECUTE', 'HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION',
+            'SKILL_HASTE_MODIFIER'
         )),
     CONSTRAINT ck_skill_effect_results_target
         CHECK (target IN ('SOURCE', 'TARGET')),
@@ -965,29 +966,91 @@ CREATE TABLE public.skill_effect_cooldown_change_details (
 
 COMMENT ON TABLE public.skill_effect_cooldown_change_details IS '冷却变化结果明细';
 
-CREATE TABLE public.skill_effect_cooldown_change_targets (
+CREATE TABLE public.skill_effect_result_skill_scopes (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    mode varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_skill_scopes
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_result_skill_scopes_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_effect_result_skill_scopes_mode
+        CHECK (mode IN ('ALL', 'SKILLS', 'CATEGORIES'))
+);
+
+COMMENT ON TABLE public.skill_effect_result_skill_scopes IS '结果级公共技能作用范围';
+
+CREATE TABLE public.skill_effect_result_skill_targets (
     game_id varchar(64) NOT NULL,
     skill_key varchar(64) NOT NULL,
     effect_key varchar(64) NOT NULL,
     result_key varchar(64) NOT NULL,
     affected_skill_key varchar(64) NOT NULL,
-    CONSTRAINT pk_skill_effect_cooldown_change_targets
+    CONSTRAINT pk_skill_effect_result_skill_targets
         PRIMARY KEY (game_id, skill_key, effect_key, result_key, affected_skill_key),
-    CONSTRAINT fk_skill_effect_cooldown_change_targets_detail
+    CONSTRAINT fk_skill_effect_result_skill_targets_scope
         FOREIGN KEY (game_id, skill_key, effect_key, result_key)
-        REFERENCES public.skill_effect_cooldown_change_details
+        REFERENCES public.skill_effect_result_skill_scopes
             (game_id, skill_key, effect_key, result_key)
         ON DELETE CASCADE,
-    CONSTRAINT fk_skill_effect_cooldown_change_targets_skill
+    CONSTRAINT fk_skill_effect_result_skill_targets_skill
         FOREIGN KEY (game_id, affected_skill_key)
         REFERENCES public.skills (game_id, skill_key)
 );
 
-CREATE INDEX ix_skill_effect_cooldown_change_targets_skill
-    ON public.skill_effect_cooldown_change_targets
+CREATE INDEX ix_skill_effect_result_skill_targets_skill
+    ON public.skill_effect_result_skill_targets
     (game_id, affected_skill_key, skill_key, effect_key, result_key);
 
-COMMENT ON TABLE public.skill_effect_cooldown_change_targets IS '冷却变化结果的受影响技能';
+COMMENT ON TABLE public.skill_effect_result_skill_targets IS '公共技能作用范围的明确技能关系';
+
+CREATE TABLE public.skill_effect_result_skill_category_targets (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    skill_category_key varchar(64) NOT NULL,
+    CONSTRAINT pk_skill_effect_result_skill_category_targets
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key, skill_category_key),
+    CONSTRAINT fk_skill_effect_result_skill_category_targets_scope
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_result_skill_scopes
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_skill_effect_result_skill_category_targets_category
+        FOREIGN KEY (game_id, skill_category_key)
+        REFERENCES public.skill_categories (game_id, skill_category_key)
+);
+
+CREATE INDEX ix_skill_effect_result_skill_category_targets_category
+    ON public.skill_effect_result_skill_category_targets
+    (game_id, skill_category_key, skill_key, effect_key, result_key);
+
+COMMENT ON TABLE public.skill_effect_result_skill_category_targets IS '公共技能作用范围的技能分类关系';
+
+CREATE TABLE public.skill_effect_haste_modifier_details (
+    game_id varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    effect_key varchar(64) NOT NULL,
+    result_key varchar(64) NOT NULL,
+    operation varchar(16) NOT NULL,
+    CONSTRAINT pk_skill_effect_haste_modifier_details
+        PRIMARY KEY (game_id, skill_key, effect_key, result_key),
+    CONSTRAINT fk_skill_effect_haste_modifier_details_result
+        FOREIGN KEY (game_id, skill_key, effect_key, result_key)
+        REFERENCES public.skill_effect_results
+            (game_id, skill_key, effect_key, result_key)
+        ON DELETE CASCADE,
+    CONSTRAINT ck_skill_effect_haste_modifier_details_operation
+        CHECK (operation IN ('INCREASE', 'DECREASE'))
+);
+
+COMMENT ON TABLE public.skill_effect_haste_modifier_details IS '技能急速修正结果明细';
 
 CREATE TABLE public.skill_effect_status_operation_details (
     game_id varchar(64) NOT NULL,
@@ -2471,7 +2534,9 @@ CREATE TABLE public.skill_trigger_rule_event_value_conditions (
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
             'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
-            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'BLOCKED', 'IMMUNE', 'KILLED',
+            'LINK_INDEX', 'LINK_COUNT'
         )),
     CONSTRAINT ck_skill_trigger_event_value_cond_comparator
         CHECK (comparator IN ('LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'))
@@ -2746,7 +2811,9 @@ CREATE TABLE public.skill_trigger_rule_event_value_bindings (
             'HIT_INDEX', 'LIFECYCLE_STACKS', 'PERIOD_INDEX', 'REMAINING_MS',
             'STATE_BEFORE', 'STATE_AFTER',
             'ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE',
-            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'
+            'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'BLOCKED', 'IMMUNE', 'KILLED',
+            'LINK_INDEX', 'LINK_COUNT'
         ))
 );
 
@@ -2780,7 +2847,11 @@ CREATE TABLE public.skill_trigger_rule_prior_result_bindings (
             (game_id, skill_key, effect_key, result_key)
         DEFERRABLE INITIALLY DEFERRED,
     CONSTRAINT ck_skill_trigger_prior_result_bind_output
-        CHECK (output_kind = 'CONFIGURED_VALUE')
+        CHECK (output_kind IN (
+            'CONFIGURED_VALUE', 'RAW_DAMAGE', 'POST_DEFENSE_DAMAGE',
+            'SHIELD_ABSORBED', 'ACTUAL_HP_LOSS', 'ACTUAL_HEALING',
+            'BLOCKED', 'IMMUNE', 'STATUS_APPLIED', 'KILLED'
+        ))
 );
 
 CREATE INDEX ix_skill_trigger_prior_result_bind_source_action

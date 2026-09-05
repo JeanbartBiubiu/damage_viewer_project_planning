@@ -40,10 +40,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
@@ -100,6 +100,12 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
@@ -128,6 +134,7 @@ class SkillEffectServiceTest {
     private static final String SKILL_KEY = "ezreal_q";
     private static final String EFFECT_KEY = "on_hit_results";
     private static final String TARGET_EFFECT_KEY = "mark_effect";
+    private static final String CATEGORY_KEY = "displacement";
     private static final String FORMULA_KEY = "base_damage";
     private static final String DAMAGE_ZONE_KEY = "damage_ratio";
     private static final String HEALING_ZONE_KEY = "healing_ratio";
@@ -873,17 +880,22 @@ class SkillEffectServiceTest {
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
             List.of(new SkillEffectCooldownChangeDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
-            )),
-            List.of(new SkillEffectCooldownChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.RESET
             ))
         );
-        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectCooldownChangeTargetRow(
+        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            List.of(new SkillEffectSkillScopeRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectSkillScopeMode.SKILLS
+            )),
+            List.of(new SkillEffectSkillScopeRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectSkillScopeMode.SKILLS
+            ))
+        );
+        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
+            List.of(new SkillEffectSkillTargetRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
             )),
-            List.of(new SkillEffectCooldownChangeTargetRow(
+            List.of(new SkillEffectSkillTargetRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
             ))
         );
@@ -1183,7 +1195,7 @@ class SkillEffectServiceTest {
                 && "UNKNOWN_FORMULA".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
-            "results[2].detail.affectedSkillKeys[0]".equals(issue.get("field"))
+            "results[2].detail.affectedSkillScope.skillKeys[0]".equals(issue.get("field"))
                 && "UNKNOWN_SKILL".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
@@ -1305,7 +1317,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals(List.of(SKILL_KEY),
-            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillKeys());
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillScope().skillKeys());
 
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
         when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
@@ -1317,7 +1329,6 @@ class SkillEffectServiceTest {
         when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(),
             List.of(new SkillEffectCooldownChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
             ))
@@ -1338,7 +1349,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals(List.of(SKILL_KEY),
-            ((SkillEffectCooldownChangeDetail) updated.results().get(0).detail()).affectedSkillKeys());
+            ((SkillEffectCooldownChangeDetail) updated.results().get(0).detail()).affectedSkillScope().skillKeys());
 
         when(mapper.lockSkills(eq(GAME_ID), anyCollection()))
             .thenReturn(List.of(new SkillEffectCatalogLockRow("other_skill", "DISABLED")));
@@ -1358,7 +1369,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", other.getCode());
-        assertField(other, "results[0].detail.affectedSkillKeys[0]", "SKILL_DISABLED");
+        assertField(other, "results[0].detail.affectedSkillScope.skillKeys[0]", "SKILL_DISABLED");
     }
 
     @Test
@@ -1379,10 +1390,15 @@ class SkillEffectServiceTest {
                 List.of()
             )
         );
-        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
-            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w"),
-            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY),
-            new SkillEffectCooldownChangeTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r")
+        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSkillScopeRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectSkillScopeMode.SKILLS
+            )
+        ));
+        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w"),
+            new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY),
+            new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r")
         ));
 
         SkillEffectDetailResponse created = service.create(
@@ -1403,11 +1419,11 @@ class SkillEffectServiceTest {
         assertEquals(1, created.results().size());
         assertEquals(
             List.of("ezreal_w", SKILL_KEY, "ezreal_r"),
-            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillKeys()
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillScope().skillKeys()
         );
-        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY);
-        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w");
-        verify(mapper).insertCooldownChangeTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r");
+        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY);
+        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w");
+        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r");
     }
 
     @Test
@@ -1430,7 +1446,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.VALIDATION_FAILED", empty.getCode());
-        assertField(empty, "results[0].detail.affectedSkillKeys", "AFFECTED_SKILL_REQUIRED");
+        assertField(empty, "results[0].detail.affectedSkillScope.skillKeys", "AFFECTED_SKILL_REQUIRED");
 
         ApiException duplicate = assertThrows(
             ApiException.class,
@@ -1450,8 +1466,172 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.VALIDATION_FAILED", duplicate.getCode());
-        assertField(duplicate, "results[0].detail.affectedSkillKeys[1]", "DUPLICATE_AFFECTED_SKILL");
+        assertField(duplicate, "results[0].detail.affectedSkillScope.skillKeys[1]", "DUPLICATE_AFFECTED_SKILL");
     }
+
+    @Test
+    void cooldownAllScopePersistsEmptyRelations() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        stubDetailRead(
+            List.of(resultRow("reduce_all", SkillEffectResultType.COOLDOWN_CHANGE)),
+            List.of(valueRow("reduce_all")),
+            new DetailBundle(
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(new SkillEffectCooldownChangeDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_all", SkillEffectCooldownChangeOperation.REDUCE
+                )),
+                List.of(),
+                List.of(new SkillEffectSkillScopeRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_all", SkillEffectSkillScopeMode.ALL
+                )),
+                List.of(),
+                List.of(),
+                List.of()
+            )
+        );
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "减少全部冷却",
+                null,
+                0,
+                List.of(new SkillEffectResultRequest(
+                    "reduce_all",
+                    "减少冷却",
+                    SkillEffectResultType.COOLDOWN_CHANGE,
+                    SkillEffectTarget.SOURCE,
+                    null,
+                    0,
+                    valueRule(),
+                    new SkillEffectCooldownChangeDetail(allScope(), SkillEffectCooldownChangeOperation.REDUCE)
+                ))
+            )
+        );
+
+        SkillEffectAffectedSkillScope scope =
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillScope();
+        assertEquals(SkillEffectSkillScopeMode.ALL, scope.mode());
+        assertEquals(List.of(), scope.skillKeys());
+        assertEquals(List.of(), scope.skillCategoryKeys());
+        verify(mapper).insertSkillScope(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_all", SkillEffectSkillScopeMode.ALL
+        );
+        verify(mapper, never()).insertSkillTarget(any(), any(), any(), any(), any());
+        verify(mapper, never()).insertSkillCategoryTarget(any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void hasteCategoriesScopeRequiresPersistentSnapshotAndRejectsMomentEvaluation() {
+        stubParentAndNewKey();
+        stubAllInserts();
+        stubEnabledCatalogs();
+        SkillEffectResultRequest haste = hasteIncreaseResult("haste_move", categoriesScope(List.of(CATEGORY_KEY)));
+        ApiException missingLifecycle = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "技能急速", null, 0, List.of(haste))
+            )
+        );
+        assertField(missingLifecycle, "results[0].lifecycleBehavior", "SPECIAL_RESULT_REQUIRES_PERSISTENT");
+
+        SkillEffectResultRequest momentEval = new SkillEffectResultRequest(
+            "haste_move",
+            "增加技能急速",
+            SkillEffectResultType.SKILL_HASTE_MODIFIER,
+            SkillEffectTarget.SOURCE,
+            null,
+            0,
+            valueRule(),
+            new SkillEffectHasteModifierDetail(
+                categoriesScope(List.of(CATEGORY_KEY)),
+                SkillEffectModifierOperation.INCREASE
+            ),
+            new SkillEffectResultLifecycleBehaviorRequest(
+                SkillEffectLifecycleMoment.PERSISTENT,
+                SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION,
+                SkillEffectLifecycleStackValueMode.SHARED,
+                SkillEffectLifecycleReapplicationValueMode.KEEP,
+                null
+            )
+        );
+        ApiException moment = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY, "技能急速", null, 0, timedLifecycle(), List.of(momentEval)
+                )
+            )
+        );
+        assertField(moment, "results[0].lifecycleBehavior.valueReadMode", "COMBINATION_INVALID");
+
+        stubDetailRead(
+            List.of(resultRow("haste_move", SkillEffectResultType.SKILL_HASTE_MODIFIER)),
+            List.of(valueRow("haste_move")),
+            new DetailBundle(
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(new SkillEffectSkillScopeRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", SkillEffectSkillScopeMode.CATEGORIES
+                )),
+                List.of(),
+                List.of(new SkillEffectSkillCategoryTargetRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", CATEGORY_KEY
+                )),
+                List.of(new SkillEffectHasteModifierDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", SkillEffectModifierOperation.INCREASE
+                ))
+            )
+        );
+        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectResultLifecycleBehaviorRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move",
+                SkillEffectLifecycleMoment.PERSISTENT,
+                SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                SkillEffectLifecycleStackValueMode.SHARED,
+                SkillEffectLifecycleReapplicationValueMode.KEEP,
+                null
+            )
+        ));
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY, "技能急速", null, 0, timedLifecycle(), List.of(
+                    hasteIncreaseResult("haste_move", categoriesScope(List.of(CATEGORY_KEY)))
+                )
+            )
+        );
+        SkillEffectHasteModifierDetail detail =
+            (SkillEffectHasteModifierDetail) created.results().get(0).detail();
+        assertEquals(SkillEffectSkillScopeMode.CATEGORIES, detail.affectedSkillScope().mode());
+        assertEquals(List.of(), detail.affectedSkillScope().skillKeys());
+        assertEquals(List.of(CATEGORY_KEY), detail.affectedSkillScope().skillCategoryKeys());
+        verify(mapper).insertHasteModifierDetail(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", SkillEffectModifierOperation.INCREASE
+        );
+        verify(mapper).insertSkillCategoryTarget(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", CATEGORY_KEY
+        );
+        verify(mapper, never()).insertSkillTarget(any(), any(), any(), any(), any());
+        verify(mapper).lockSkillCategories(eq(GAME_ID), anyCollection());
+    }
+
 
     @Test
     void cooldownChangeRejectsRemovedScalarFieldAsInvalidBody() {
@@ -1502,8 +1682,13 @@ class SkillEffectServiceTest {
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectCooldownChangeOperation.REDUCE
             )
         ));
-        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
-            new SkillEffectCooldownChangeTargetRow(
+        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSkillScopeRow(
+                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectSkillScopeMode.SKILLS
+            )
+        ));
+        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectSkillTargetRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "disabled_existing"
             )
         ));
@@ -1534,7 +1719,7 @@ class SkillEffectServiceTest {
         );
 
         assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", exception.getCode());
-        assertField(exception, "results[0].detail.affectedSkillKeys[1]", "SKILL_DISABLED");
+        assertField(exception, "results[0].detail.affectedSkillScope.skillKeys[1]", "SKILL_DISABLED");
     }
 
     @Test
@@ -2278,6 +2463,76 @@ class SkillEffectServiceTest {
         );
     }
 
+    @Test
+    void stage765InboundShapeConflictDoesNotWriteAndUnreferencedUpdateSucceeds() {
+        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(null);
+        org.mockito.Mockito.doThrow(new ApiException(
+            org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE",
+            "结果形状变化会使既有前序输出失效",
+            Map.of("fieldIssues", List.of(Map.of(
+                "field", "results[0].detail.vampRules",
+                "code", "TRIGGER_RULE_SHAPE_IN_USE",
+                "ruleKey", "prior",
+                "actionKey", "follow",
+                "bindingKey", "from_first",
+                "outputKind", "ACTUAL_HEALING"
+            )))
+        )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
+        ApiException blocked = assertThrows(
+            ApiException.class,
+            () -> guarded.update(
+                GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_IN_USE", blocked.getCode());
+        assertField(blocked, "results[0].detail.vampRules", "TRIGGER_RULE_SHAPE_IN_USE");
+        assertEquals("ACTUAL_HEALING", fieldIssues(blocked).get(0).get("outputKind"));
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).updateResult(any(), any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).deleteResults(any(), any(), any(), any());
+
+        org.mockito.Mockito.reset(triggerRuleService);
+        stubEnabledCatalogs();
+        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
+        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
+        ));
+        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+        stubDetailRead(
+            List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
+            List.of(valueRow("physical_hit")),
+            new DetailBundle(
+                List.of(new SkillEffectDamageDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
+                )),
+                List.of(), List.of(), List.of(), List.of()
+            )
+        );
+        guarded.update(
+            GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
+        );
+        verify(mapper).updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10);
+    }
+
     private void stubParentAndNewKey() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
@@ -2301,7 +2556,13 @@ class SkillEffectServiceTest {
         when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCooldownChangeTarget(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertSkillScope(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertSkillTarget(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertSkillCategoryTarget(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertHasteModifierDetail(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.updateSkillScope(any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.deleteSkillTargets(any(), any(), any(), any())).thenReturn(1);
+        when(mapper.deleteSkillCategoryTargets(any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
         when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
             .thenReturn(1);
@@ -2316,6 +2577,7 @@ class SkillEffectServiceTest {
         when(mapper.lockDamageTypes(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockAttributes(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
+        when(mapper.lockSkillCategories(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
             @SuppressWarnings("unchecked")
@@ -2372,13 +2634,25 @@ class SkillEffectServiceTest {
         when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.attributes);
         when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.resources);
         when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.cooldowns);
-        when(mapper.listCooldownChangeTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            details.cooldowns.stream()
-                .map(row -> new SkillEffectCooldownChangeTargetRow(
+        List<SkillEffectSkillScopeRow> scopes = details.skillScopes;
+        List<SkillEffectSkillTargetRow> skillTargets = details.skillTargets;
+        if (scopes.isEmpty() && skillTargets.isEmpty() && !details.cooldowns.isEmpty()) {
+            scopes = details.cooldowns.stream()
+                .map(row -> new SkillEffectSkillScopeRow(
+                    row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(),
+                    SkillEffectSkillScopeMode.SKILLS
+                ))
+                .toList();
+            skillTargets = details.cooldowns.stream()
+                .map(row -> new SkillEffectSkillTargetRow(
                     row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), SKILL_KEY
                 ))
-                .toList()
-        );
+                .toList();
+        }
+        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(scopes);
+        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(skillTargets);
+        when(mapper.listSkillCategoryTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.skillCategoryTargets);
+        when(mapper.listHasteModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.hasteModifiers);
         when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.statuses);
     }
 
@@ -2483,7 +2757,10 @@ class SkillEffectServiceTest {
             null,
             5,
             valueRule(),
-            new SkillEffectCooldownChangeDetail(affectedSkillKeys, SkillEffectCooldownChangeOperation.REDUCE)
+            new SkillEffectCooldownChangeDetail(
+                skillsScope(affectedSkillKeys),
+                SkillEffectCooldownChangeOperation.REDUCE
+            )
         );
     }
 
@@ -2496,7 +2773,10 @@ class SkillEffectServiceTest {
             null,
             5,
             null,
-            new SkillEffectCooldownChangeDetail(List.of(affectedSkillKey), SkillEffectCooldownChangeOperation.RESET)
+            new SkillEffectCooldownChangeDetail(
+                skillsScope(List.of(affectedSkillKey)),
+                SkillEffectCooldownChangeOperation.RESET
+            )
         );
     }
 
@@ -2833,12 +3113,54 @@ class SkillEffectServiceTest {
         );
     }
 
+    private static SkillEffectResultRequest hasteIncreaseResult(
+        String resultKey,
+        SkillEffectAffectedSkillScope scope
+    ) {
+        return new SkillEffectResultRequest(
+            resultKey,
+            "增加技能急速",
+            SkillEffectResultType.SKILL_HASTE_MODIFIER,
+            SkillEffectTarget.SOURCE,
+            null,
+            0,
+            valueRule(),
+            new SkillEffectHasteModifierDetail(scope, SkillEffectModifierOperation.INCREASE),
+            persistentShared()
+        );
+    }
+
+    private static SkillEffectAffectedSkillScope skillsScope(List<String> skillKeys) {
+        return new SkillEffectAffectedSkillScope(SkillEffectSkillScopeMode.SKILLS, skillKeys, List.of());
+    }
+
+    private static SkillEffectAffectedSkillScope allScope() {
+        return new SkillEffectAffectedSkillScope(SkillEffectSkillScopeMode.ALL, List.of(), List.of());
+    }
+
+    private static SkillEffectAffectedSkillScope categoriesScope(List<String> categoryKeys) {
+        return new SkillEffectAffectedSkillScope(SkillEffectSkillScopeMode.CATEGORIES, List.of(), categoryKeys);
+    }
+
     private record DetailBundle(
         List<SkillEffectDamageDetailRow> damage,
         List<SkillEffectAttributeChangeDetailRow> attributes,
         List<SkillEffectResourceChangeDetailRow> resources,
         List<SkillEffectCooldownChangeDetailRow> cooldowns,
-        List<SkillEffectStatusOperationDetailRow> statuses
+        List<SkillEffectStatusOperationDetailRow> statuses,
+        List<SkillEffectSkillScopeRow> skillScopes,
+        List<SkillEffectSkillTargetRow> skillTargets,
+        List<SkillEffectSkillCategoryTargetRow> skillCategoryTargets,
+        List<SkillEffectHasteModifierDetailRow> hasteModifiers
     ) {
+        DetailBundle(
+            List<SkillEffectDamageDetailRow> damage,
+            List<SkillEffectAttributeChangeDetailRow> attributes,
+            List<SkillEffectResourceChangeDetailRow> resources,
+            List<SkillEffectCooldownChangeDetailRow> cooldowns,
+            List<SkillEffectStatusOperationDetailRow> statuses
+        ) {
+            this(damage, attributes, resources, cooldowns, statuses, List.of(), List.of(), List.of(), List.of());
+        }
     }
 }
