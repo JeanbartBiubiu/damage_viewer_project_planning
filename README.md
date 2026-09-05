@@ -21,7 +21,7 @@ These layers answer different questions; do not treat root README as overriding 
 
 1. **Nearest `AGENTS.md`** overrides broader/parent `AGENTS.md` for module-local process rules.
 2. **Module README / code / tests** describe current technical facts and commands for that module.
-3. **Root `AGENTS.md`** owns cross-worktree collaboration process, Cursor flow, and agent roles.
+3. **根 `AGENTS.md`** 定义跨工作树协作流程、按风险评审和代理职责。
 4. **`db/task_doc_governance/task_rules.json`** owns task↔doc mapping and task status.
 
 Implementation narrative lives under `文档记录/**`. Obsidian / Codex Memory are secondary memory only — never a competing task map.
@@ -33,4 +33,4 @@ node tools/task-governance/cli.mjs check
 node tools/agent-governance/cli.mjs check
 ```
 
-Cursor runner and skill ops: `.agents/skills/cursor-local-agent/SKILL.md`. Process design: `文档记录/详细设计/Cursor协同开发流程说明.md`.
+开发流程见根 `AGENTS.md` §2。Cursor 为可选工具，仅实际调用时读取 `.agents/skills/cursor-local-agent/SKILL.md`；工具说明见 `文档记录/详细设计/Cursor协同开发流程说明.md`。
