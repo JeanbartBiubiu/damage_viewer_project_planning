@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.publicapi.GamePublicController;
 import xyz.game.datamanage.controller.publicapi.ImagePublicController;
 import xyz.game.datamanage.service.GameDataService;
+import xyz.game.datamanage.service.image.ImageService;
 import xyz.game.datamanage.support.auth.AuthContext;
 import xyz.game.datamanage.support.auth.JwtVerifier;
 
@@ -49,6 +50,9 @@ class LegacyCombatDataHttpNotFoundTest {
 
     @MockitoBean
     private GameDataService gameDataService;
+
+    @MockitoBean
+    private ImageService imageService;
 
     @MockitoBean
     private JwtVerifier jwtVerifier;
