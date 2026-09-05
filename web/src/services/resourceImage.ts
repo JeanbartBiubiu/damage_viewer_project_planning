@@ -1,97 +1,49 @@
-/** Stable opaque image asset URI segment used for admin upload routing only. */
-const IMAGE_ASSET_URI_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+export const IMAGE_SOURCE_MAX_BYTES = 5_242_880;
+export const IMAGE_SOURCE_MAX_DIMENSION = 4096;
+export const IMAGE_OUTPUT_MAX_DIMENSION = 64;
+export const IMAGE_OUTPUT_MAX_BYTES = 262_144;
+export const IMAGE_JPEG_QUALITY = 0.92;
 
-/**
- * Normalize a standalone image asset URI for upload routing.
- * Accepts a single opaque path segment; never a combat-data resource relation.
- */
-export function normalizeImageAssetUri(candidate: string): string | null {
-  const trimmed = candidate.trim();
-  if (!trimmed || !IMAGE_ASSET_URI_PATTERN.test(trimmed)) {
-    return null;
-  }
-  return trimmed;
-}
+const IMAGE_KEY_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const ACCEPTED_MIME_TYPES = new Set(['image/png', 'image/jpeg']);
 
-/** Chinese validation message for UI when normalizeImageAssetUri rejects the candidate. */
-export function imageAssetUriValidationMessage(candidate: string): string | null {
-  if (normalizeImageAssetUri(candidate) !== null) {
-    return null;
-  }
-
-  const trimmed = candidate.trim();
-  if (!trimmed) {
-    return '请输入图片 URI。';
-  }
-
-  if (trimmed.includes('/') || trimmed.includes('\\')) {
-    return '图片 URI 不能包含路径分隔符，请只填写稳定的单段资源标识。';
-  }
-
-  return '图片 URI 须为稳定单段标识：以字母或数字开头，仅含字母、数字、点、下划线或连字符，最长 128 个字符。';
-}
-
-export function buildHeroImageUri(heroId: string): string | null {
-  const normalizedId = heroId.trim();
-  return normalizedId ? `character_${normalizedId}` : null;
-}
-
-export function buildItemImageUri(itemId: string): string | null {
-  const normalizedId = itemId.trim();
-  return normalizedId ? `item_${normalizedId}` : null;
-}
-
-export function buildAttributeImageUri(attrKey: string): string | null {
-  const normalizedKey = attrKey.trim();
-  return normalizedKey ? `attribute_${normalizedKey}` : null;
-}
-
-// Skill 自身无独立图片资源；当 ownerType 为 hero/item 时复用 owner 的图片 URI。
-export function buildOwnerImageUri(ownerType: string | null | undefined, ownerId: string | null | undefined): string | null {
-  const type = (ownerType ?? '').trim();
-  const id = (ownerId ?? '').trim();
-  if (!type || !id) {
-    return null;
-  }
-  if (type === 'hero') {
-    return buildHeroImageUri(id);
-  }
-  if (type === 'item') {
-    return buildItemImageUri(id);
-  }
-  return null;
-}
-
-const DEFAULT_RESOURCE_IMAGE_SIZE = 64;
-const DEFAULT_JPEG_QUALITY = 0.92;
-
-type ResourceImageTransformOptions = {
-  size?: number;
-  mimeType?: string;
-  quality?: number;
+export type PreparedResourceImage = {
+  imageBase64: string;
+  mimeType: 'image/png' | 'image/jpeg';
+  byteSize: number;
+  width: number;
+  height: number;
+  sourceWidth: number;
+  sourceHeight: number;
+  transformed: boolean;
 };
 
-function readFileAsDataUrl(file: File): Promise<string> {
-  if (!file.type.startsWith('image/')) {
-    return Promise.reject(new Error('请选择图片文件。'));
-  }
+export function normalizeImageKey(candidate: string): string | null {
+  const trimmed = candidate.trim();
+  return trimmed && IMAGE_KEY_PATTERN.test(trimmed) ? trimmed : null;
+}
 
+export function imageKeyValidationMessage(candidate: string): string | null {
+  if (normalizeImageKey(candidate) !== null) return null;
+  const trimmed = candidate.trim();
+  if (!trimmed) return '请输入图片标识。';
+  if (trimmed.includes('/') || trimmed.includes('\\')) {
+    return '图片标识不能包含路径分隔符。';
+  }
+  return '图片标识须以字母或数字开头，仅含字母、数字、点、下划线或连字符，最长 128 个字符。';
+}
+
+function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
-    reader.onerror = () => {
-      reject(reader.error ?? new Error('读取图片文件失败。'));
-    };
-
+    reader.onerror = () => reject(reader.error ?? new Error('读取图片文件失败。'));
     reader.onload = () => {
-      if (typeof reader.result !== 'string' || !reader.result.startsWith('data:image/')) {
-        reject(new Error('图片文件转换失败，请重试。'));
+      if (typeof reader.result !== 'string') {
+        reject(new Error('读取图片文件失败。'));
         return;
       }
-
       resolve(reader.result);
     };
-
     reader.readAsDataURL(file);
   });
 }
@@ -99,100 +51,155 @@ function readFileAsDataUrl(file: File): Promise<string> {
 function loadImageElement(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
-
-    image.onerror = () => {
-      reject(new Error('图片加载失败，请重试。'));
-    };
-
-    image.onload = () => {
-      resolve(image);
-    };
-
+    image.onerror = () => reject(new Error('图片内容无法解码。'));
+    image.onload = () => resolve(image);
     image.src = src;
   });
 }
 
-function resolveOutputMimeType(file: File, preferredMimeType?: string): string {
-  if (preferredMimeType) {
-    return preferredMimeType;
+function decodedDataUrlByteSize(dataUrl: string): number {
+  const comma = dataUrl.indexOf(',');
+  if (comma < 0 || !dataUrl.slice(0, comma).endsWith(';base64')) {
+    throw new Error('图片内容不是有效的 Base64 数据。');
   }
-
-  if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-    return 'image/jpeg';
+  const payload = dataUrl.slice(comma + 1).replace(/\s/g, '');
+  if (!payload || payload.length % 4 !== 0 || !/^[A-Za-z0-9+/]*={0,2}$/.test(payload)) {
+    throw new Error('图片内容不是有效的 Base64 数据。');
   }
-
-  return 'image/png';
+  const padding = payload.endsWith('==') ? 2 : payload.endsWith('=') ? 1 : 0;
+  return (payload.length / 4) * 3 - padding;
 }
 
-function toCanvasDataUrl(canvas: HTMLCanvasElement, mimeType: string, quality: number): Promise<string> {
-  return new Promise((resolve, reject) => {
-    try {
-      const supportsQuality = mimeType === 'image/jpeg' || mimeType === 'image/webp';
-      const dataUrl = supportsQuality ? canvas.toDataURL(mimeType, quality) : canvas.toDataURL(mimeType);
-      if (!dataUrl.startsWith('data:image/')) {
-        reject(new Error('图片文件转换失败，请重试。'));
-        return;
-      }
-      resolve(dataUrl);
-    } catch (error) {
-      reject(error instanceof Error ? error : new Error('图片转换失败。'));
-    }
-  });
-}
-
-/**
- * Validate an upload-route asset URI and center-crop/encode the file to a data URL.
- * Strict route-URI rules are unchanged — binding editors must not use this for combat-data imageUri.
- */
-export async function prepareResourceImageAssetUpload(
-  uriCandidate: string,
-  file: File,
-  options: ResourceImageTransformOptions = {}
-): Promise<{ uri: string; imageBase64: string }> {
-  const uri = normalizeImageAssetUri(uriCandidate);
-  if (!uri) {
-    const message = imageAssetUriValidationMessage(uriCandidate) ?? '请输入有效的图片 URI。';
-    throw new Error(message);
+function assertContentSignature(
+  dataUrl: string,
+  mimeType: 'image/png' | 'image/jpeg'
+): void {
+  const payload = dataUrl.slice(dataUrl.indexOf(',') + 1);
+  let prefix: string;
+  try {
+    prefix = atob(payload.slice(0, 16));
+  } catch {
+    throw new Error('图片内容不是有效的 Base64 数据。');
   }
-  const imageBase64 = await readImageFileAsDataUrl(file, options);
-  return { uri, imageBase64 };
+  const bytes = Array.from(prefix, (value) => value.charCodeAt(0));
+  const isPng = bytes.length >= 8
+    && bytes[0] === 137 && bytes[1] === 80 && bytes[2] === 78 && bytes[3] === 71
+    && bytes[4] === 13 && bytes[5] === 10 && bytes[6] === 26 && bytes[7] === 10;
+  const isJpeg = bytes.length >= 3 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255;
+  if ((mimeType === 'image/png' && !isPng) || (mimeType === 'image/jpeg' && !isJpeg)) {
+    throw new Error('图片文件声明类型与真实内容不一致。');
+  }
 }
 
-export async function readImageFileAsDataUrl(
-  file: File,
-  options: ResourceImageTransformOptions = {}
-): Promise<string> {
-  const sourceDataUrl = await readFileAsDataUrl(file);
-  const image = await loadImageElement(sourceDataUrl);
+function assertSourceFile(file: File): 'image/png' | 'image/jpeg' {
+  if (!ACCEPTED_MIME_TYPES.has(file.type)) {
+    throw new Error('仅支持 PNG 或 JPEG 图片。');
+  }
+  if (file.size <= 0) {
+    throw new Error('图片文件不能为空。');
+  }
+  if (file.size > IMAGE_SOURCE_MAX_BYTES) {
+    throw new Error('源图片不能超过 5 MB。');
+  }
+  return file.type as 'image/png' | 'image/jpeg';
+}
 
-  const size = options.size ?? DEFAULT_RESOURCE_IMAGE_SIZE;
-  const mimeType = resolveOutputMimeType(file, options.mimeType);
-  const quality = options.quality ?? DEFAULT_JPEG_QUALITY;
-  const sourceWidth = image.naturalWidth || image.width;
-  const sourceHeight = image.naturalHeight || image.height;
+function assertDimensions(width: number, height: number): void {
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) {
+    throw new Error('图片宽高必须大于 0。');
+  }
+  if (width > IMAGE_SOURCE_MAX_DIMENSION || height > IMAGE_SOURCE_MAX_DIMENSION) {
+    throw new Error('源图片宽高都不能超过 4096 像素。');
+  }
+}
+
+function assertOutputSize(byteSize: number): void {
+  if (byteSize < 1 || byteSize > IMAGE_OUTPUT_MAX_BYTES) {
+    throw new Error('处理后的图片不能超过 262144 字节。');
+  }
+}
+
+function encodeCanvas(
+  image: HTMLImageElement,
+  mimeType: 'image/png' | 'image/jpeg',
+  sourceWidth: number,
+  sourceHeight: number
+): { imageBase64: string; width: number; height: number } {
   const cropSize = Math.min(sourceWidth, sourceHeight);
+  const outputSize = Math.min(cropSize, IMAGE_OUTPUT_MAX_DIMENSION);
   const sourceX = Math.max(0, (sourceWidth - cropSize) / 2);
   const sourceY = Math.max(0, (sourceHeight - cropSize) / 2);
-
   const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-
+  canvas.width = outputSize;
+  canvas.height = outputSize;
   const context = canvas.getContext('2d');
-  if (!context) {
-    throw new Error('当前环境无法处理图片。');
-  }
+  if (!context) throw new Error('当前浏览器无法处理图片。');
 
   if (mimeType === 'image/jpeg') {
     context.fillStyle = '#ffffff';
-    context.fillRect(0, 0, size, size);
+    context.fillRect(0, 0, outputSize, outputSize);
   } else {
-    context.clearRect(0, 0, size, size);
+    context.clearRect(0, 0, outputSize, outputSize);
   }
-
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.drawImage(image, sourceX, sourceY, cropSize, cropSize, 0, 0, size, size);
+  context.drawImage(
+    image,
+    sourceX,
+    sourceY,
+    cropSize,
+    cropSize,
+    0,
+    0,
+    outputSize,
+    outputSize
+  );
 
-  return toCanvasDataUrl(canvas, mimeType, quality);
+  const imageBase64 = mimeType === 'image/jpeg'
+    ? canvas.toDataURL(mimeType, IMAGE_JPEG_QUALITY)
+    : canvas.toDataURL(mimeType);
+  if (!imageBase64.startsWith(`data:${mimeType};base64,`)) {
+    throw new Error('浏览器未能生成要求的图片格式。');
+  }
+  return { imageBase64, width: outputSize, height: outputSize };
+}
+
+export async function prepareResourceImage(file: File): Promise<PreparedResourceImage> {
+  const mimeType = assertSourceFile(file);
+  const sourceDataUrl = await readFileAsDataUrl(file);
+  if (!sourceDataUrl.startsWith(`data:${mimeType};base64,`)) {
+    throw new Error('图片文件类型与读取结果不一致。');
+  }
+  assertContentSignature(sourceDataUrl, mimeType);
+  const image = await loadImageElement(sourceDataUrl);
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  assertDimensions(sourceWidth, sourceHeight);
+
+  if (sourceWidth <= IMAGE_OUTPUT_MAX_DIMENSION && sourceHeight <= IMAGE_OUTPUT_MAX_DIMENSION) {
+    const byteSize = decodedDataUrlByteSize(sourceDataUrl);
+    assertOutputSize(byteSize);
+    return {
+      imageBase64: sourceDataUrl,
+      mimeType,
+      byteSize,
+      width: sourceWidth,
+      height: sourceHeight,
+      sourceWidth,
+      sourceHeight,
+      transformed: false
+    };
+  }
+
+  const output = encodeCanvas(image, mimeType, sourceWidth, sourceHeight);
+  const byteSize = decodedDataUrlByteSize(output.imageBase64);
+  assertOutputSize(byteSize);
+  return {
+    ...output,
+    mimeType,
+    byteSize,
+    sourceWidth,
+    sourceHeight,
+    transformed: true
+  };
 }

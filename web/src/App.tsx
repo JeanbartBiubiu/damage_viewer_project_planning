@@ -16,7 +16,7 @@ import { ModifierZoneManagementPage } from './pages/admin/modifier-zones/Modifie
 import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
 import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
 import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
-import { ImagesPage } from './pages/ImagesPage';
+import { ImageManagementPage } from './pages/admin/images/ImageManagementPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -384,11 +384,12 @@ export default function App() {
     );
   } else if (route === 'images') {
     pageContent = (
-      <ImagesPage
+      <ImageManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         selectedGameName={selectedGameName}
         adminToken={adminToken}
+        onDirtyChange={handleAttributeDirtyChange}
       />
     );
   }
