@@ -40,9 +40,11 @@ import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -298,7 +300,58 @@ class SkillEffectAdminControllerTest {
     }
 
     @Test
-    void cooldownTargetArrayIsAcceptedByDeserializerWithoutScalarFallback() throws Exception {
+    void oldCooldownAffectedSkillKeysIsRejectedAsForeignField() throws Exception {
+        GamesMapper gamesMapper = Mockito.mock(GamesMapper.class);
+        SkillMapper skillMapper = Mockito.mock(SkillMapper.class);
+        SkillEffectMapper effectMapper = Mockito.mock(SkillEffectMapper.class);
+        when(gamesMapper.countGames("lol")).thenReturn(1L);
+        when(skillMapper.findByIdForUpdate("lol", "ezreal_q")).thenReturn(new SkillRow(
+            "lol", "ezreal_q", "秘术射击", null, 5, SkillStatus.ENABLED, 10, TS, TS
+        ));
+        when(effectMapper.countByKey("lol", "ezreal_q", "reduce_cooldowns")).thenReturn(0L);
+        SkillEffectService realService = new SkillEffectService(gamesMapper, skillMapper, effectMapper);
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
+            .thenAnswer(invocation -> realService.create(
+                invocation.getArgument(0),
+                invocation.getArgument(1),
+                invocation.getArgument(2)
+            ));
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "effectKey":"reduce_cooldowns",
+                      "name":"减少技能冷却",
+                      "sortOrder":20,
+                      "results":[
+                        {
+                          "resultKey":"reduce_abilities",
+                          "name":"减少技能冷却",
+                          "resultType":"COOLDOWN_CHANGE",
+                          "target":"SOURCE",
+                          "spellShieldBlockScope":null,
+                          "sortOrder":0,
+                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "detail":{
+                            "affectedSkillKeys":["ezreal_q","ezreal_w"],
+                            "operation":"REDUCE"
+                          }
+                        }
+                      ]
+                    }
+                    """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field")
+                .value("results[0].detail.affectedSkillKeys"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("FIELD_MUTEX"));
+
+        verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @Test
+    void publicSkillScopeIsAcceptedAndNormalizedByDeserializer() throws Exception {
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenReturn(detail());
 
@@ -319,7 +372,11 @@ class SkillEffectAdminControllerTest {
                           "sortOrder":0,
                           "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
                           "detail":{
-                            "affectedSkillKeys":["ezreal_q","ezreal_w","ezreal_e","ezreal_r"],
+                            "affectedSkillScope":{
+                              "mode":"SKILLS",
+                              "skillKeys":["ezreal_q","ezreal_w","ezreal_e","ezreal_r"],
+                              "skillCategoryKeys":[]
+                            },
                             "operation":"REDUCE"
                           }
                         }
@@ -335,7 +392,10 @@ class SkillEffectAdminControllerTest {
             SkillEffectCooldownChangeDetail.class,
             captor.getValue().results().get(0).detail()
         );
-        assertEquals(List.of("ezreal_q", "ezreal_w", "ezreal_e", "ezreal_r"), cooldown.affectedSkillKeys());
+        SkillEffectAffectedSkillScope scope = cooldown.affectedSkillScope();
+        assertEquals(SkillEffectSkillScopeMode.SKILLS, scope.mode());
+        assertEquals(List.of("ezreal_q", "ezreal_w", "ezreal_e", "ezreal_r"), scope.skillKeys());
+        assertEquals(List.of(), scope.skillCategoryKeys());
         assertEquals(SkillEffectCooldownChangeOperation.REDUCE, cooldown.operation());
     }
 

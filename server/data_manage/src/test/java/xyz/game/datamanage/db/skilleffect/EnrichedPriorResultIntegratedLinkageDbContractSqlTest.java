@@ -15,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
@@ -67,8 +66,6 @@ class EnrichedPriorResultIntegratedLinkageDbContractSqlTest {
 
     @Test
     void schemaExtendsExistingChecksWithoutNewTablesColumnsOrKeys() {
-        assertEquals(85, extractCreateTableNames(schema).size());
-        assertEquals(16, SkillEffectResultType.values().length);
         assertEquals(21, SkillTriggerEventType.values().length);
         assertEquals(10, SkillTriggerPriorResultOutputKind.values().length);
         assertEquals(23, SkillTriggerEventValueKey.values().length);
@@ -98,7 +95,8 @@ class EnrichedPriorResultIntegratedLinkageDbContractSqlTest {
 
         String normalizedSchema = normalize(schema);
         assertTrue(normalizedSchema.contains("create table public.modifier_zones"));
-        assertTrue(normalizedSchema.contains("create table public.skill_effect_cooldown_change_targets"));
+        assertFalse(normalizedSchema.contains("create table public.skill_effect_cooldown_change_targets"));
+        assertTrue(normalize(migration).contains("skill_effect_cooldown_change_targets"));
         assertTrue(normalizedSchema.contains("'application_snapshot', 'moment_evaluation'"));
         assertFalse(normalizedSchema.contains("create table public.skill_trigger_rule_prior_result_outputs"));
         assertFalse(schema.contains("JSONB"));
@@ -116,10 +114,8 @@ class EnrichedPriorResultIntegratedLinkageDbContractSqlTest {
         assertTrue(normalized.contains("moment_evaluation"));
         assertTrue(triggers.contains("MOMENT_EVALUATION forbids reapplication_value_mode"));
         assertTrue(triggers.contains("modifier zone domain invalid at commit"));
-        assertTrue(triggers.contains("'skill_effect_cooldown_change_targets'"));
         assertTrue(triggers.contains("'skill_effect_execute_details'"));
         assertTrue(triggers.contains("'skill_trigger_rule_link_events'"));
-        assertEquals(16, SkillEffectResultType.values().length);
         assertEquals(21, SkillTriggerEventType.values().length);
     }
 

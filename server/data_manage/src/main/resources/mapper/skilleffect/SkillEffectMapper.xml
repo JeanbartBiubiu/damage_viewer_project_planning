@@ -217,13 +217,43 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="cooldownChangeTargetRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow">
+    <resultMap id="skillScopeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="skillTargetRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="effect_key" javaType="java.lang.String"/>
             <arg column="result_key" javaType="java.lang.String"/>
             <arg column="affected_skill_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="skillCategoryTargetRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="skill_category_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="hasteModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="effect_key" javaType="java.lang.String"/>
+            <arg column="result_key" javaType="java.lang.String"/>
+            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
         </constructor>
     </resultMap>
 
@@ -738,18 +768,6 @@
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
     </select>
 
-    <select id="listCooldownChangeTargets" resultMap="cooldownChangeTargetRow">
-        SELECT t.game_id, t.skill_key, t.effect_key, t.result_key, t.affected_skill_key
-        FROM public.skill_effect_cooldown_change_targets t
-        JOIN public.skills s
-          ON s.game_id = t.game_id
-         AND s.skill_key = t.affected_skill_key
-        WHERE t.game_id = #{gameId}
-          AND t.skill_key = #{skillKey}
-          AND t.effect_key = #{effectKey}
-        ORDER BY s.sort_order, t.affected_skill_key
-    </select>
-
     <insert id="insertCooldownChangeDetail">
         INSERT INTO public.skill_effect_cooldown_change_details (
             game_id, skill_key, effect_key, result_key, operation
@@ -767,21 +785,107 @@
           AND result_key = #{resultKey}
     </update>
 
-    <insert id="insertCooldownChangeTarget">
-        INSERT INTO public.skill_effect_cooldown_change_targets (
+    <select id="listSkillScopes" resultMap="skillScopeRow">
+        SELECT game_id, skill_key, effect_key, result_key, mode
+        FROM public.skill_effect_result_skill_scopes
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <select id="listSkillTargets" resultMap="skillTargetRow">
+        SELECT t.game_id, t.skill_key, t.effect_key, t.result_key, t.affected_skill_key
+        FROM public.skill_effect_result_skill_targets t
+        JOIN public.skills s
+          ON s.game_id = t.game_id
+         AND s.skill_key = t.affected_skill_key
+        WHERE t.game_id = #{gameId}
+          AND t.skill_key = #{skillKey}
+          AND t.effect_key = #{effectKey}
+        ORDER BY s.sort_order, t.affected_skill_key
+    </select>
+
+    <select id="listSkillCategoryTargets" resultMap="skillCategoryTargetRow">
+        SELECT t.game_id, t.skill_key, t.effect_key, t.result_key, t.skill_category_key
+        FROM public.skill_effect_result_skill_category_targets t
+        JOIN public.skill_categories c
+          ON c.game_id = t.game_id
+         AND c.skill_category_key = t.skill_category_key
+        WHERE t.game_id = #{gameId}
+          AND t.skill_key = #{skillKey}
+          AND t.effect_key = #{effectKey}
+        ORDER BY c.sort_order, t.skill_category_key
+    </select>
+
+    <insert id="insertSkillScope">
+        INSERT INTO public.skill_effect_result_skill_scopes (
+            game_id, skill_key, effect_key, result_key, mode
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{mode}
+        )
+    </insert>
+
+    <update id="updateSkillScope">
+        UPDATE public.skill_effect_result_skill_scopes
+        SET mode = #{mode}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
+
+    <insert id="insertSkillTarget">
+        INSERT INTO public.skill_effect_result_skill_targets (
             game_id, skill_key, effect_key, result_key, affected_skill_key
         ) VALUES (
             #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{affectedSkillKey}
         )
     </insert>
 
-    <delete id="deleteCooldownChangeTargets">
-        DELETE FROM public.skill_effect_cooldown_change_targets
+    <delete id="deleteSkillTargets">
+        DELETE FROM public.skill_effect_result_skill_targets
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}
           AND result_key = #{resultKey}
     </delete>
+
+    <insert id="insertSkillCategoryTarget">
+        INSERT INTO public.skill_effect_result_skill_category_targets (
+            game_id, skill_key, effect_key, result_key, skill_category_key
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{skillCategoryKey}
+        )
+    </insert>
+
+    <delete id="deleteSkillCategoryTargets">
+        DELETE FROM public.skill_effect_result_skill_category_targets
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </delete>
+
+    <select id="listHasteModifierDetails" resultMap="hasteModifierRow">
+        SELECT game_id, skill_key, effect_key, result_key, operation
+        FROM public.skill_effect_haste_modifier_details
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
+    <insert id="insertHasteModifierDetail">
+        INSERT INTO public.skill_effect_haste_modifier_details (
+            game_id, skill_key, effect_key, result_key, operation
+        ) VALUES (
+            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{operation}
+        )
+    </insert>
+
+    <update id="updateHasteModifierDetail">
+        UPDATE public.skill_effect_haste_modifier_details
+        SET operation = #{operation}
+        WHERE game_id = #{gameId}
+          AND skill_key = #{skillKey}
+          AND effect_key = #{effectKey}
+          AND result_key = #{resultKey}
+    </update>
 
     <select id="listStatusOperationDetails" resultMap="statusOperationRow">
         SELECT game_id, skill_key, effect_key, result_key, status_key, operation
@@ -807,9 +911,9 @@
           AND result_key = #{resultKey}
     </update>
 
-    <select id="countExternalCooldownReferences" resultType="long">
+    <select id="countExternalSkillScopeReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_cooldown_change_targets
+        FROM public.skill_effect_result_skill_targets
         WHERE game_id = #{gameId}
           AND affected_skill_key = #{skillKey}
           AND skill_key &lt;&gt; #{skillKey}
@@ -869,6 +973,18 @@
             #{key}
         </foreach>
         ORDER BY skill_key
+        FOR UPDATE
+    </select>
+
+    <select id="lockSkillCategories" resultMap="catalogLock">
+        SELECT skill_category_key AS ref_key, status
+        FROM public.skill_categories
+        WHERE game_id = #{gameId}
+          AND skill_category_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+        ORDER BY skill_category_key
         FOR UPDATE
     </select>
 
