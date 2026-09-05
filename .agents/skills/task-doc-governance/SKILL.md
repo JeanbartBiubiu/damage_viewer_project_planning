@@ -5,7 +5,7 @@ description: Use when work needs SQLite-based local task and document governance
 
 # Task Doc Governance
 
-Use this skill when the work includes task tracking, document classification, or local governance updates in addition to code changes.
+Use this skill when the task includes task-state or document-mapping changes, or an explicit governance check. Routine code edits and internal implementation steps do not each require task entries, document headers, or index rebuilds.
 
 The planning/master copy under `.agents/skills/task-doc-governance` is canonical for the shared skill. The CLI resolves the repository from its script location and stays portable across worktrees. Prefer merge/cherry-pick over hand-copied divergent variants.
 
@@ -54,7 +54,7 @@ Local document directories:
 3. Update `<repo-root>/db/task_doc_governance/task_rules.json` first when the task/doc mapping changes.
 4. Keep local Markdown headers minimal and parseable per `document_header.schema.json`.
 5. Run read-only validation: `node tools/task-governance/cli.mjs check` (or `doctor`).
-6. Only when approved: `node tools/task-governance/cli.mjs rebuild` (writes SQLite only).
+6. When a fresh query index is needed within the authorized task, explicitly run `node tools/task-governance/cli.mjs rebuild` (writes SQLite only); do not request approval again for an already authorized rebuild.
 7. Only with explicit intent: `node tools/task-governance/cli.mjs rebuild --fix-headers` (may update Markdown headers; fills missing/empty/`pending` `LAST_TRACKED_AT`, preserves real prior timestamps).
 8. Verify with `node tools/task-governance/cli.mjs tasks` and `node tools/task-governance/cli.mjs docs <task_key>` (these fail clearly if the derived SQLite file is missing).
 

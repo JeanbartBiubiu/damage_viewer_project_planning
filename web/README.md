@@ -87,6 +87,8 @@ npm run dev
 
 ## 常用验证
 
+开发中先运行受影响的类型或测试检查；以下完整检查在功能收尾执行。阶段提交前再执行非 Wasm 端到端测试。已有结果对应最终代码时，不因代理交接重复执行。
+
 ```powershell
 cd web
 npm run lint
@@ -111,12 +113,7 @@ npm run test:e2e:non-wasm
 
 聚焦条件与触发：`npx vitest run --config vitest.config.ts src/services/skillTriggerRuleClient.test.ts src/pages/admin/skills/triggers`，以及 `npx playwright test --config playwright.non-wasm.config.ts -g "condition and trigger"`。
 
-涉及页面或联调行为改动时，按固定顺序至少回归：
-
-1. 静态：`npm run lint` → `typecheck` → `test` → `build` → `test:e2e:non-wasm`
-2. `#/attributes`
-3. `#/characters`、`#/equipment`、`#/skill-categories`、`#/damage-types`、`#/skills`、`#/statuses`、`#/game-settings`
-4. `#/images`
+页面或联调行为变化时，浏览器验证覆盖受影响的路径和关键操作。共享路由、API 基址、认证或缓存变化再扩大相关回归；普通字段修改无需人工逐页遍历。完整阶段检查保持上面的命令顺序。
 
 ## 常见问题
 
