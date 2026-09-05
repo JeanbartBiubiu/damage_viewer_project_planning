@@ -1,6 +1,6 @@
 ---
 name: design-pattern-refactor
-description: Use when reviewing, planning, or implementing behavior-preserving refactors that split large source files or reorganize modules by design-pattern roles, especially TinyGo/Wasm generic compile/session/run, provider/ability/operation pipelines, Strategy, Command, State, Facade, Adapter, Builder, Observer, Mediator, Chain of Responsibility, SOLID, god files, or architecture debt. Legacy DPS/step-loop is compatibility only.
+description: Use when reviewing, planning, or implementing behavior-preserving refactors that split large source files or reorganize modules by design-pattern roles, especially TinyGo/Wasm generic compile/session/run, provider/ability/operation pipelines, Strategy, Command, State, Facade, Adapter, Builder, Observer, Mediator, Chain of Responsibility, SOLID, god files, or architecture debt. Do not restore removed legacy DPS/step-loop paths.
 ---
 
 # Design Pattern Refactor
@@ -9,7 +9,7 @@ description: Use when reviewing, planning, or implementing behavior-preserving r
 
 Use design patterns as names for real variation points, not as decoration. The goal is not smaller files; the goal is deeper modules whose public surface hides runtime complexity and makes the next mechanic land in one obvious place.
 
-This skill supports both read-only architecture review and bounded implementation planning. It is not permission to edit code directly: for code/script/config changes in this repo, first converge scope, then follow the Cursor workflow in the root `AGENTS.md`.
+This skill supports architecture review and authorized behavior-preserving implementation. Follow root `AGENTS.md` §2 for scope, risk review and execution ownership. A review-only request does not authorize code changes.
 
 ## First Pass
 
@@ -100,7 +100,7 @@ Before implementation, define:
 5. Verification: exact commands and contract checks.
 6. Stop conditions: ambiguous behavior, failing baseline, unexpected dirty overlap, or scope creep.
 
-If the boundary is not clear, use `grill-me` with one question at a time. Ask about the responsibility cut, not about implementation trivia.
+Resolve unclear boundaries from repository evidence first. Ask the user only for unresolved scope or behavior choices. Use `grill-me` only when the user explicitly requests that interview.
 
 ## Implementation Slices
 
@@ -121,16 +121,13 @@ For generic runtime, likely file boundaries are:
 - `generic_provider.go` / `generic_provider_tick.go`: provider lifecycle and ticks.
 - `session.go`: compile/run/release ABI + registry only.
 
-For legacy DPS (compat-only refactors when explicitly requested):
+Legacy DPS and step-loop paths have been removed from the current TinyGo module. Do not recreate them for compatibility.
 
-- Keep `dps_*.go` ownership explicit; do not merge DPS into `RunGeneric`.
-- Prefer isolating DPS-owned state/schedule/passive handlers without changing public DPS payloads.
+Treat these names as starting hypotheses. Confirm with current source before implementation or delegation.
 
-Treat these names as starting hypotheses. Confirm with current source before using them in a Cursor prompt.
+## 实现与交接
 
-## Cursor Handoff
-
-For code edits, produce a bounded Cursor prompt with:
+主负责人可直接实现；仅在实际委派时提供以下必要信息：
 
 - target repo and branch
 - goal
@@ -141,7 +138,7 @@ For code edits, produce a bounded Cursor prompt with:
 - validation commands
 - stop conditions
 
-Use `cursor-local-agent` rules: `grok-4.6` with explicit `apiKey`, then GPT reviews Cursor artifacts, event logs, `git diff`, and tests before acceptance.
+按根规则选择允许编码的执行角色。仅选择 Cursor 时加载其工具 skill。主负责人检查最终改动及对应验证证据，不要求每个角色重复全量检查。
 
 ## Verification
 
@@ -164,5 +161,5 @@ When build/smoke tools are missing, report the missing prerequisite separately f
 | Creating one-method interfaces | Prefer package-private functions or handler tables until real variability exists. |
 | Mixing behavior changes with moves | First move/extract with tests green; change behavior in a later slice. |
 | Replacing the scheduler before proving it is the bottleneck | Target adapter/runtime contracts or provider indexing first unless evidence points to the heap. |
-| Treating legacy DPS/step ABI as the current new-feature path | Name `CompileGeneric` / `RunGeneric` / release; keep DPS as compatibility only. |
+| Restoring removed legacy DPS/step ABI | Use the current compile/run/release path and preserve behavior in scope. |
 | Trusting docs over code | Verify current code, tests, and scripts every time. |
