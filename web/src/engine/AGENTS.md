@@ -18,7 +18,7 @@
 
 ## 最小验证
 
-1. 改 engine 代码后至少运行 `cd web; npm run test` 与 `npm run build`。
+1. 开发中先验证受影响适配逻辑；功能收尾按 `web/AGENTS.md` 完成检查，包含 `npm run test` 与 `npm run build`（在 `web/` 执行）。
 2. 改 bridge 时核对 `requiredExports` 与 TinyGo 导出函数一致。
 
 ## 常见陷阱

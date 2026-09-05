@@ -107,12 +107,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\pa
 
 ## 9. 完成定义
 
+开发中先验证受影响部分；下列检查在功能收尾执行。已有证据对应最终代码时不因角色交接重复；修改影响原证据时重跑相应项。
+
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍存在。
 2. 改 ABI、frame、outbox 或 session 生命周期：至少运行 `go test -count=1 ./...` 和 `node .\scripts\smoke-node.mjs`。
 3. 改 runtime、scheduler、attribute、resource、formula、pipeline 或机制子系统：至少运行 `go test -count=1 ./...` 和 `go run ./cmd/bench`。
 4. 改 TinyGo 构建脚本、target 或 Wasm 导出：额外运行 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`。
 5. 改 Node smoke/bench：额外运行对应 `node .\scripts\*.mjs`（含 `--mode generic-run`）。
-6. 改任务文档映射：运行 `node tools/task-governance/cli.mjs rebuild`。
+6. 改任务文档映射：运行 `node tools/task-governance/cli.mjs check`；需要刷新查询索引时才显式 `rebuild`。
 
 ## 10. 常见陷阱
 
