@@ -19,14 +19,3 @@ export type GameSummary = {
   gameName: string;
   gameImgUrl: string | null;
 };
-
-export type ImageAsset = {
-  uri: string;
-  imageBase64: string;
-  updatedAt: string;
-};
-
-export type ImageCollectionResponse = {
-  gameId: string;
-  images: ImageAsset[];
-};

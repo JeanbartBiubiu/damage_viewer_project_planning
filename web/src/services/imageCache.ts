@@ -1,202 +1,201 @@
-import type { ImageAsset } from '../types/api';
+import type { ManagedImage, PublicImage } from '../types/image';
 
 export type CachedImageRecord = {
-  uri: string;
-  create_time: string;
-  update_time: string;
-  image: string;
+  cacheKey: string;
+  gameId: string;
+  imageKey: string;
+  enabled: boolean;
+  imageBase64: string | null;
+  updatedAt: string;
 };
 
 export type GameImageCacheSummary = {
   count: number;
+  enabledCount: number;
   latestUpdate: string | null;
+};
+
+export type FullSyncPlan = {
+  deleteKeys: string[];
+  putRows: CachedImageRecord[];
 };
 
 export const imageCacheDescriptor = {
   dbName: 'image_db',
-  dbVersion: 1,
+  dbVersion: 2,
   storeName: 'images'
 } as const;
 
-export function toLocalUri(gameId: string, uri: string): string {
-  return `${gameId}_${uri}`;
+export function toImageCacheKey(gameId: string, imageKey: string): string {
+  return `${gameId}:${imageKey}`;
 }
 
-export function toRemoteUri(gameId: string, localUri: string): string {
-  const prefix = `${gameId}_`;
-  return localUri.startsWith(prefix) ? localUri.slice(prefix.length) : localUri;
-}
-
-export async function listCachedImages(gameId: string): Promise<CachedImageRecord[]> {
-  const prefix = `${gameId}_`;
-  const rows = await getAllRows();
-  return rows
-    .filter((row) => row.uri.startsWith(prefix))
-    .sort((left, right) => right.update_time.localeCompare(left.update_time));
-}
-
-export async function getCachedImage(gameId: string, uri: string): Promise<CachedImageRecord | null> {
-  const rows = await listCachedImages(gameId);
-  const key = toLocalUri(gameId, uri);
-  return rows.find((row) => row.uri === key) ?? null;
-}
-
-export async function getCacheSummary(gameId: string): Promise<GameImageCacheSummary> {
-  const rows = await listCachedImages(gameId);
+export function toCachedImageRecord(gameId: string, image: PublicImage): CachedImageRecord {
   return {
-    count: rows.length,
-    latestUpdate: rows[0]?.update_time ?? null
+    cacheKey: toImageCacheKey(gameId, image.imageKey),
+    gameId,
+    imageKey: image.imageKey,
+    enabled: image.enabled,
+    imageBase64: image.enabled ? image.imageBase64 : null,
+    updatedAt: image.updatedAt
   };
 }
 
-export async function upsertRemoteImages(gameId: string, remoteImages: ImageAsset[]): Promise<GameImageCacheSummary> {
-  if (remoteImages.length === 0) {
-    return getCacheSummary(gameId);
-  }
-
-  const existingRows = await listCachedImages(gameId);
-  const createTimeMap = new Map(existingRows.map((row) => [row.uri, row.create_time]));
-  const now = new Date().toISOString();
-
-  const nextRows = remoteImages.map<CachedImageRecord>((entry) => {
-    const localUri = toLocalUri(gameId, entry.uri);
-
-    return {
-      uri: localUri,
-      create_time: createTimeMap.get(localUri) ?? now,
-      update_time: entry.updatedAt,
-      image: entry.imageBase64
-    };
+export function toCachedAdminImage(image: ManagedImage): CachedImageRecord {
+  return toCachedImageRecord(image.gameId, {
+    imageKey: image.imageKey,
+    enabled: image.enabled,
+    imageBase64: image.enabled ? image.imageBase64 : null,
+    updatedAt: image.updatedAt
   });
+}
 
-  await putRows(nextRows);
+export function latestCachedUpdate(rows: CachedImageRecord[]): string | null {
+  return rows.reduce<string | null>(
+    (latest, row) => {
+      if (latest === null) return row.updatedAt;
+      return Date.parse(row.updatedAt) > Date.parse(latest) ? row.updatedAt : latest;
+    },
+    null
+  );
+}
+
+export function summarizeCachedImages(rows: CachedImageRecord[]): GameImageCacheSummary {
+  return {
+    count: rows.length,
+    enabledCount: rows.filter((row) => row.enabled && row.imageBase64).length,
+    latestUpdate: latestCachedUpdate(rows)
+  };
+}
+
+export function buildFullSyncPlan(
+  existingRows: CachedImageRecord[],
+  gameId: string,
+  remoteImages: PublicImage[]
+): FullSyncPlan {
+  return {
+    deleteKeys: existingRows
+      .filter((row) => row.gameId === gameId)
+      .map((row) => row.cacheKey),
+    putRows: remoteImages.map((image) => toCachedImageRecord(gameId, image))
+  };
+}
+
+export async function listCachedImages(gameId: string): Promise<CachedImageRecord[]> {
+  const rows = await getAllRows();
+  return rows
+    .filter((row) => row.gameId === gameId)
+    .sort((left, right) => Date.parse(right.updatedAt) - Date.parse(left.updatedAt));
+}
+
+export async function getCachedImage(
+  gameId: string,
+  imageKey: string
+): Promise<CachedImageRecord | null> {
+  const row = await getRow(toImageCacheKey(gameId, imageKey));
+  return row?.enabled && row.imageBase64 ? row : null;
+}
+
+export async function getCacheSummary(gameId: string): Promise<GameImageCacheSummary> {
+  return summarizeCachedImages(await listCachedImages(gameId));
+}
+
+export async function replaceGameImageCache(
+  gameId: string,
+  remoteImages: PublicImage[]
+): Promise<GameImageCacheSummary> {
+  const allRows = await getAllRows();
+  const plan = buildFullSyncPlan(allRows, gameId, remoteImages);
+  await mutateRows(plan.deleteKeys, plan.putRows);
   return getCacheSummary(gameId);
 }
 
-export async function upsertRemoteImage(gameId: string, remoteImage: ImageAsset): Promise<GameImageCacheSummary> {
-  return upsertRemoteImages(gameId, [remoteImage]);
+export async function applyIncrementalImageCache(
+  gameId: string,
+  remoteImages: PublicImage[]
+): Promise<GameImageCacheSummary> {
+  if (remoteImages.length > 0) {
+    await mutateRows([], remoteImages.map((image) => toCachedImageRecord(gameId, image)));
+  }
+  return getCacheSummary(gameId);
+}
+
+export async function upsertManagedImage(image: ManagedImage): Promise<GameImageCacheSummary> {
+  await mutateRows([], [toCachedAdminImage(image)]);
+  return getCacheSummary(image.gameId);
 }
 
 export async function clearGameImageCache(gameId: string): Promise<number> {
   const rows = await listCachedImages(gameId);
-  if (rows.length === 0) {
-    return 0;
-  }
-
-  await deleteRows(rows.map((row) => row.uri));
+  await mutateRows(rows.map((row) => row.cacheKey), []);
   return rows.length;
 }
 
 function openDatabase(): Promise<IDBDatabase> {
   if (typeof indexedDB === 'undefined') {
-    return Promise.reject(new Error('当前运行环境不支持 IndexedDB。'));
+    return Promise.reject(new Error('当前运行环境不支持浏览器本地数据库。'));
   }
-
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(imageCacheDescriptor.dbName, imageCacheDescriptor.dbVersion);
-
-    request.onerror = () => {
-      reject(request.error ?? new Error('无法打开图片缓存数据库。'));
-    };
-
+    request.onerror = () => reject(request.error ?? new Error('无法打开图片缓存数据库。'));
     request.onupgradeneeded = () => {
       const database = request.result;
-
-      if (!database.objectStoreNames.contains(imageCacheDescriptor.storeName)) {
-        const store = database.createObjectStore(imageCacheDescriptor.storeName, {
-          keyPath: 'uri'
-        });
-        store.createIndex('uri', 'uri', { unique: true });
-        store.createIndex('create_time', 'create_time', { unique: false });
-        store.createIndex('update_time', 'update_time', { unique: false });
+      if (database.objectStoreNames.contains(imageCacheDescriptor.storeName)) {
+        database.deleteObjectStore(imageCacheDescriptor.storeName);
       }
+      const store = database.createObjectStore(imageCacheDescriptor.storeName, { keyPath: 'cacheKey' });
+      store.createIndex('gameId', 'gameId', { unique: false });
+      store.createIndex('updatedAt', 'updatedAt', { unique: false });
     };
-
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
+    request.onsuccess = () => resolve(request.result);
   });
 }
 
-function getAllRows(): Promise<CachedImageRecord[]> {
-  return new Promise(async (resolve, reject) => {
-    const db = await openDatabase().catch(reject);
-    if (!db) {
-      return;
-    }
-
-    const transaction = db.transaction(imageCacheDescriptor.storeName, 'readonly');
-    const store = transaction.objectStore(imageCacheDescriptor.storeName);
-    const request = store.getAll();
-
-    request.onerror = () => {
-      reject(request.error ?? new Error('读取图片缓存失败。'));
-      db.close();
-    };
-
-    request.onsuccess = () => {
-      resolve((request.result as CachedImageRecord[]) ?? []);
-    };
-
-    transaction.oncomplete = () => {
-      db.close();
-    };
-
+async function getAllRows(): Promise<CachedImageRecord[]> {
+  const database = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(imageCacheDescriptor.storeName, 'readonly');
+    const request = transaction.objectStore(imageCacheDescriptor.storeName).getAll();
+    request.onerror = () => reject(request.error ?? new Error('读取图片缓存失败。'));
+    request.onsuccess = () => resolve((request.result as CachedImageRecord[]) ?? []);
+    transaction.oncomplete = () => database.close();
     transaction.onerror = () => {
       reject(transaction.error ?? new Error('读取图片缓存事务失败。'));
-      db.close();
+      database.close();
     };
   });
 }
 
-function putRows(rows: CachedImageRecord[]): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    const db = await openDatabase().catch(reject);
-    if (!db) {
-      return;
-    }
-
-    const transaction = db.transaction(imageCacheDescriptor.storeName, 'readwrite');
-    const store = transaction.objectStore(imageCacheDescriptor.storeName);
-
-    for (const row of rows) {
-      store.put(row);
-    }
-
-    transaction.oncomplete = () => {
-      db.close();
-      resolve();
-    };
-
+async function getRow(cacheKey: string): Promise<CachedImageRecord | null> {
+  const database = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(imageCacheDescriptor.storeName, 'readonly');
+    const request = transaction.objectStore(imageCacheDescriptor.storeName).get(cacheKey);
+    request.onerror = () => reject(request.error ?? new Error('读取图片缓存失败。'));
+    request.onsuccess = () => resolve((request.result as CachedImageRecord | undefined) ?? null);
+    transaction.oncomplete = () => database.close();
     transaction.onerror = () => {
-      reject(transaction.error ?? new Error('写入图片缓存失败。'));
-      db.close();
+      reject(transaction.error ?? new Error('读取图片缓存事务失败。'));
+      database.close();
     };
   });
 }
 
-function deleteRows(keys: string[]): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    const db = await openDatabase().catch(reject);
-    if (!db) {
-      return;
-    }
-
-    const transaction = db.transaction(imageCacheDescriptor.storeName, 'readwrite');
+async function mutateRows(deleteKeys: string[], putRows: CachedImageRecord[]): Promise<void> {
+  if (deleteKeys.length === 0 && putRows.length === 0) return;
+  const database = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(imageCacheDescriptor.storeName, 'readwrite');
     const store = transaction.objectStore(imageCacheDescriptor.storeName);
-
-    for (const key of keys) {
-      store.delete(key);
-    }
-
+    for (const key of deleteKeys) store.delete(key);
+    for (const row of putRows) store.put(row);
     transaction.oncomplete = () => {
-      db.close();
+      database.close();
       resolve();
     };
-
     transaction.onerror = () => {
-      reject(transaction.error ?? new Error('清理图片缓存失败。'));
-      db.close();
+      reject(transaction.error ?? new Error('更新图片缓存失败。'));
+      database.close();
     };
   });
 }
