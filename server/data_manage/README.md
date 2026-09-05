@@ -1,6 +1,6 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及阶段 0～7.6.4 的属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及当前属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
 
 它在整条链路里的位置是：
 
@@ -29,7 +29,7 @@
 - 启动入口：`src/main/java/xyz/game/datamanage/DataManageApplication.java`
 - 默认配置：`src/main/resources/application.yml`
 - 公共读取：`GamePublicController`（`GET /api/games`）、`ImagePublicController`
-- Admin 写入：阶段 0～7.6.4 管理控制器，以及 `ImageAdminController`
+- Admin 写入：当前业务管理控制器，以及 `ImageAdminController`
 - 游戏与图片薄 Facade：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
 - 读写存储：`PostgresReadStore` / `PostgresWriteStore`（图片与编辑日志）
 - 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
@@ -54,7 +54,7 @@
 | 命令 | 用途 | 备注 |
 | --- | --- | --- |
 | `mvn spring-boot:run` | 启动本地开发服务 | 默认读取 `src/main/resources/application.yml` |
-| `mvn test` | 运行测试与基础回归 | 改 `controller/service/mapper/support` 时默认至少执行 |
+| `mvn test` | 运行测试与基础回归 | 开发中先跑受影响测试，功能收尾完整执行 |
 | `mvn package` | 打包校验 | 改 `pom.xml`、配置或依赖时建议执行 |
 
 ### SQL 初始化与兼容迁移
@@ -73,7 +73,7 @@
 
 该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
 
-当前阶段 0～7.6.4 已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+当前已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
 
 ### 属性管理
 
