@@ -54,6 +54,47 @@ const SOURCE_TYPES = new Set([
   'PRIOR_ACTION_RESULT'
 ]);
 
+const EVENT_VALUE_KEYS = new Set([
+  'STEP_EXECUTION_INDEX',
+  'CHARGE_DURATION_MS',
+  'RECAST_COUNT',
+  'HIT_INDEX',
+  'LIFECYCLE_STACKS',
+  'PERIOD_INDEX',
+  'REMAINING_MS',
+  'STATE_BEFORE',
+  'STATE_AFTER',
+  'ATTRIBUTE_BEFORE',
+  'ATTRIBUTE_AFTER',
+  'THRESHOLD_VALUE',
+  'RAW_DAMAGE',
+  'POST_DEFENSE_DAMAGE',
+  'HEALTH_BEFORE',
+  'PROJECTED_HEALTH_AFTER',
+  'SHIELD_ABSORBED',
+  'ACTUAL_HP_LOSS',
+  'BLOCKED',
+  'IMMUNE',
+  'KILLED',
+  'LINK_INDEX',
+  'LINK_COUNT'
+]);
+
+const PRIOR_RESULT_OUTPUT_KINDS = new Set([
+  'CONFIGURED_VALUE',
+  'RAW_DAMAGE',
+  'POST_DEFENSE_DAMAGE',
+  'SHIELD_ABSORBED',
+  'ACTUAL_HP_LOSS',
+  'ACTUAL_HEALING',
+  'BLOCKED',
+  'IMMUNE',
+  'STATUS_APPLIED',
+  'KILLED'
+]);
+
+const PRIOR_RESULT_DETAIL_KEYS = new Set(['sourceActionKey', 'sourceResultKey', 'outputKind']);
+
 const DAMAGE_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
 const DAMAGE_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
 
@@ -239,6 +280,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
     case 'EVENT_VALUE_COMPARE':
       if (
         typeof detail.eventValueKey !== 'string'
+        || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
         || typeof detail.comparisonFormulaKey !== 'string'
       ) {
@@ -258,6 +300,26 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
     protocolError(`${path}.sourceType`);
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
+  const detail = value.detail;
+  if (sourceType === 'EVENT_VALUE') {
+    if (typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
+      protocolError(`${path}.detail.eventValueKey`);
+    }
+  }
+  if (sourceType === 'PRIOR_ACTION_RESULT') {
+    if (
+      typeof detail.sourceActionKey !== 'string'
+      || typeof detail.sourceResultKey !== 'string'
+      || typeof detail.outputKind !== 'string'
+      || !PRIOR_RESULT_OUTPUT_KINDS.has(detail.outputKind)
+    ) {
+      protocolError(`${path}.detail`);
+    }
+    const extraKeys = Object.keys(detail).filter((key) => !PRIOR_RESULT_DETAIL_KEYS.has(key));
+    if (extraKeys.length > 0) {
+      protocolError(`${path}.detail`);
+    }
+  }
   return value as SkillTriggerRuntimeInputBinding;
 }
 
@@ -297,32 +359,6 @@ function assertGroup(value: unknown, path: string): SkillTriggerConditionGroup {
   return value as SkillTriggerConditionGroup;
 }
 
-function assertLinkEventOmitsEventValue(
-  eventType: SkillTriggerEventType,
-  conditionGroups: SkillTriggerConditionGroup[],
-  actions: SkillTriggerAction[]
-): void {
-  if (eventType !== 'HIT_LINK_APPLIED' && eventType !== 'ATTACK_LINK_APPLIED') {
-    return;
-  }
-  for (let groupIndex = 0; groupIndex < conditionGroups.length; groupIndex += 1) {
-    const conditions = conditionGroups[groupIndex]!.conditions;
-    for (let conditionIndex = 0; conditionIndex < conditions.length; conditionIndex += 1) {
-      if (conditions[conditionIndex]!.conditionType === 'EVENT_VALUE_COMPARE') {
-        protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}]`);
-      }
-    }
-  }
-  for (let actionIndex = 0; actionIndex < actions.length; actionIndex += 1) {
-    const bindings = actions[actionIndex]!.runtimeInputBindings;
-    for (let bindingIndex = 0; bindingIndex < bindings.length; bindingIndex += 1) {
-      if (bindings[bindingIndex]!.sourceType === 'EVENT_VALUE') {
-        protocolError(`detail.actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`);
-      }
-    }
-  }
-}
-
 export function parseSkillTriggerRuleSummary(value: unknown): SkillTriggerRuleSummary {
   if (!isRecord(value)) protocolError('summary');
   const eventType = value.eventType;
@@ -359,7 +395,6 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
     assertGroup(item, `detail.conditionGroups[${index}]`)
   ));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));
-  assertLinkEventOmitsEventValue(eventSource.eventType, conditionGroups, actions);
   return {
     ruleKey: assertString(value.ruleKey, 'detail.ruleKey'),
     name: assertString(value.name, 'detail.name'),

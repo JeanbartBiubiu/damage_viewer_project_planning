@@ -72,7 +72,6 @@ import {
   SKILL_TRIGGER_CONDITION_GROUP_HINT,
   SKILL_TRIGGER_CYCLE_HINT,
   SKILL_TRIGGER_CYCLE_MESSAGE,
-  SKILL_TRIGGER_LINK_EVENT_VALUE_HINT,
   SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
   SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
@@ -110,7 +109,7 @@ import {
   ensureFailProcessLast,
   eventHasEventSource,
   eventStepType,
-  findSourceActionCleanupImpact,
+  findStalePriorResultBindings,
   formatCyclePath,
   fromDetail,
   groupConditionSummary,
@@ -605,6 +604,7 @@ export function SkillTriggerRuleEditorModal({
       const result = await getSkillEffect(apiBaseUrl, selectedGameId, skill.skillKey, effectKey, token);
       effectByKeyRef.current.set(effectKey, result.data);
       setEffectByKey(new Map(effectByKeyRef.current));
+      setReferenceError(null);
       return result.data;
     } catch (error) {
       if (handleMissing(error)) return null;
@@ -910,6 +910,13 @@ export function SkillTriggerRuleEditorModal({
     actionDraft: SkillTriggerActionDraft
   ) => {
     await refreshActionReferences(actionDraft);
+    const sorted = sortActionDrafts(draft.actions);
+    const priorCount = index === null ? sorted.length : index;
+    for (const action of sorted.slice(0, priorCount)) {
+      if (action.actionType === 'EXECUTE_EFFECT') {
+        await ensureEffect(action.detail.effectKey);
+      }
+    }
     setActionEditor({ mode: editorMode, index, draft: actionDraft });
   };
 
@@ -935,7 +942,20 @@ export function SkillTriggerRuleEditorModal({
       for (const key of keys) formulaKeys.add(key);
     }
     const loaded = await Promise.all([...formulaKeys].map((key) => ensureFormula(key)));
-    return loaded.every((item) => item !== null);
+    const priorEffects = draft.actions.flatMap((action) => {
+      if (action.actionType === 'EXECUTE_EFFECT') return [ensureEffect(action.detail.effectKey)];
+      return action.runtimeInputBindings
+        .filter((item) => item.sourceType === 'PRIOR_ACTION_RESULT')
+        .map((binding) => {
+          const source = draft.actions.find((item) => (
+            item.actionType === 'EXECUTE_EFFECT' && item.actionKey === binding.detail.sourceActionKey
+          ));
+          if (!source || source.actionType !== 'EXECUTE_EFFECT') return Promise.resolve(null);
+          return ensureEffect(source.detail.effectKey);
+        });
+    });
+    const loadedEffects = await Promise.all(priorEffects);
+    return loaded.every((item) => item !== null) && loadedEffects.every((item) => item !== null);
   };
 
   const save = async () => {
@@ -1023,15 +1043,17 @@ export function SkillTriggerRuleEditorModal({
     const sorted = sortActionDrafts(draft.actions);
     const target = sorted[index];
     if (!target) return;
-    const impact = findSourceActionCleanupImpact(draft.actions, [target.actionKey]);
     const apply = () => {
       const without = draft.actions.filter((item) => item.actionKey !== target.actionKey);
+      const impact = findStalePriorResultBindings(without, effectByKeyRef.current);
       const cleaned = removeBindingsByKeys(
         without,
         impact.flatMap((item) => item.bindingKeys)
       );
       patchDraft({ ...draft, actions: ensureFailProcessLast(cleaned) });
     };
+    const previewWithout = draft.actions.filter((item) => item.actionKey !== target.actionKey);
+    const impact = findStalePriorResultBindings(previewWithout, effectByKeyRef.current);
     if (impact.length === 0) {
       apply();
       return;
@@ -1051,20 +1073,7 @@ export function SkillTriggerRuleEditorModal({
       return;
     }
     const next = moveActionDrafts(sortedActions, index, direction);
-    const invalidSources = new Set<string>();
-    const ordered = sortActionDrafts(next);
-    for (let actionIndex = 0; actionIndex < ordered.length; actionIndex += 1) {
-      const earlier = new Set(ordered.slice(0, actionIndex).map((item) => item.actionKey));
-      for (const binding of ordered[actionIndex].runtimeInputBindings) {
-        if (
-          binding.sourceType === 'PRIOR_ACTION_RESULT'
-          && !earlier.has(binding.detail.sourceActionKey)
-        ) {
-          invalidSources.add(binding.detail.sourceActionKey);
-        }
-      }
-    }
-    const impact = findSourceActionCleanupImpact(next, [...invalidSources]);
+    const impact = findStalePriorResultBindings(next, effectByKeyRef.current);
     const apply = () => {
       patchDraft({
         ...draft,
@@ -1593,13 +1602,34 @@ export function SkillTriggerRuleEditorModal({
         fieldErrors={nestedErrors}
         disabled={saving}
         onTargetChange={(next) => refreshActionReferences(next)}
+        onEnsureEffect={ensureEffect}
         onClose={() => setActionEditor(null)}
         onConfirm={(nextAction) => {
           const nextActions = actionEditor?.mode === 'edit' && actionEditor.index !== null
             ? sortedActions.map((item, index) => (index === actionEditor.index ? nextAction : item))
             : [...draft.actions, nextAction];
-          patchDraft({ ...draft, actions: ensureFailProcessLast(nextActions) });
-          setActionEditor(null);
+          const normalized = ensureFailProcessLast(nextActions);
+          const impact = findStalePriorResultBindings(normalized, effectByKeyRef.current);
+          const apply = () => {
+            patchDraft({
+              ...draft,
+              actions: ensureFailProcessLast(
+                removeBindingsByKeys(nextActions, impact.flatMap((item) => item.bindingKeys))
+              )
+            });
+            setActionEditor(null);
+          };
+          if (impact.length === 0) {
+            patchDraft({ ...draft, actions: normalized });
+            setActionEditor(null);
+            return;
+          }
+          Modal.confirm({
+            content: `将删除失效绑定：${impact.flatMap((item) => item.summaries).join('；')}`,
+            okText: '确定',
+            cancelText: '取消',
+            onOk: apply
+          });
         }}
       />
     </>
@@ -1691,9 +1721,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
     case 'HIT_LINK_APPLIED':
     case 'ATTACK_LINK_APPLIED':
       return (
-        <>
-          <Alert type="info" content={SKILL_TRIGGER_LINK_EVENT_VALUE_HINT} />
-          <Form.Item label="来源技能" help={SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT}>
+        <Form.Item label="来源技能" help={SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT}>
             <Select
               aria-label="联动来源技能"
               value={eventSource.detail.sourceSkillKey ?? ''}
@@ -1708,7 +1736,6 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               }}
             />
           </Form.Item>
-        </>
       );
     case 'PROCESS_MOMENT':
       return (
