@@ -54,7 +54,7 @@
 | 命令 | 用途 | 备注 |
 | --- | --- | --- |
 | `mvn spring-boot:run` | 启动本地开发服务 | 默认读取 `src/main/resources/application.yml` |
-| `mvn test` | 运行测试与基础回归 | 改 `controller/service/mapper/support` 时默认至少执行 |
+| `mvn test` | 运行测试与基础回归 | 开发中先跑受影响测试，功能收尾完整执行 |
 | `mvn package` | 打包校验 | 改 `pom.xml`、配置或依赖时建议执行 |
 
 ### SQL 初始化与兼容迁移

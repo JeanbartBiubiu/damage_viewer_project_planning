@@ -17,7 +17,7 @@
 
 ## 最小验证
 
-1. 改 mapper XML 后至少运行 `mvn test`。
+1. 开发中先跑受影响映射测试；mapper XML 功能收尾时运行 `mvn test`，按模块规则复用对应最终代码的证据。
 2. 改 `application.yml`、cache、Redis、JWT 或 mapper location 后补跑 `mvn package`。
 3. 改游戏或图片 SQL 时回归 `GET /api/games` 与图片读写。
 

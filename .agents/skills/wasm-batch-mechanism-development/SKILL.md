@@ -1,91 +1,45 @@
 ---
 name: wasm-batch-mechanism-development
-description: Use when planning, implementing, validating, or handing off Damage Viewer TinyGo V2 Wasm mechanisms on the canonical generic ABI (compile/session/run/release, provider/ability/operation), including Web adapter checks or task governance. Legacy single-attacker DPS is compatibility/regression only.
+description: Use when planning, implementing, or validating Damage Viewer TinyGo V2 compile/session/run/release mechanisms or their host adapter. Do not use for ordinary management-form authoring, task bookkeeping alone, or removed legacy DPS paths.
 ---
 
-# Wasm Batch Mechanism Development
+# Wasm 机制开发
 
-## Scope
+## 范围与入口
 
-Use this skill for Batch-style mechanism work across `C:\project\damage_wasm_dev`, `C:\project\damage_web_dev`, backend data checks, and planning docs. It complements `design-pattern-refactor`: use this for mechanism execution and evidence workflow; use `design-pattern-refactor` for behavior-preserving architecture splits.
+本技能用于 TinyGo V2 机制和直接相关的宿主集成。普通管理页保存数据结构，不因此启动运行时、旧发布或批次开发流程。行为保持的模块重构另见 `design-pattern-refactor`。
 
-## First Pass
+1. 确认工作树、分支和修改状态，读取根规则及目标模块 `AGENTS.md` / `README.md`。
+2. TinyGo V2 继续读取 `wasm/tinygo_engine_v2/ARCHITECTURE.md`，按需查询 CodeGraph 并定点核对源码。
+3. 当前唯一业务入口为 `engine_compile` / `engine_run` / `engine_release_session`，对应编译、会话运行和释放。机制落在 provider / ability / operation 及相应编译和运行层。
+4. 旧单攻 DPS、step-loop 和对应导出已经删除，不恢复兼容实现，也不把旧文档路径当作当前代码入口。
 
-1. Identify the target worktree and branch.
-2. Read root `AGENTS.md`, then the nearest module `AGENTS.md` and `README.md`.
-3. For TinyGo V2, read `wasm/tinygo_engine_v2/AGENTS.md`, `README.md`, and `ARCHITECTURE.md`.
-4. Keep lanes separate:
-   - **Canonical generic**: `CompileGeneric -> CompiledSession` registry via `engine_compile`; `RunGeneric` via `engine_run` (`sessionId` + `expectedRulesHash`); `engine_release_session`. Mechanism landing zone is provider / ability / operation + gate/execution (`generic_run.go`, `generic_execution.go`, `generic_gate.go`, `generic_provider*.go`).
-   - **Legacy DPS (compat/regression only)**: `runSingleAttackerDPS` / `dps_*.go` and old `engine_init` / `engine_begin_run` / `engine_step`. Do not route new mechanism work here.
-5. Use CodeGraph for symbol and call-chain questions, then confirm final claims with source reads.
+## 责任与交接
 
-## Ownership Split
+- 后端拥有源数据和持久化契约；当前管理接口不提供旧战斗数据发布链路。
+- Wasm 拥有编译、会话、执行、动作限制和确定性计算。
+- Web 拥有输入映射、宿主桥接和用户界面；管理配置存在不等于运行时已经执行。
+- 规划文档保存当前契约和范围，任务状态由 `task_rules.json` 唯一维护。
 
-Always state which side owns each value or behavior:
+主负责人可直接实现关键部分。实际委派时，交接目标、有效契约、允许写入范围、参考实现、验收和升级条件；不固定执行工具。只在选择 Cursor 时读取 `cursor-local-agent`。重要运行时协议和业务语义按根规则做独立评审。
 
-- Data owns numeric knobs, ids, owner roles, trigger kinds, thresholds, caps, proc scope, and published bundle contents.
-- Wasm owns generic compile/session/run/release, provider/ability/operation execution, gates, safety budgets, and evidence/summary output.
-- Web owns adapter projection, editor UX, readiness gates, page defaults, assertions, and exported JSON display.
-- Backend owns source data, persistence contracts, publish/preflight checks, and live DB compatibility.
-- Planning owns detailed design, Cursor prompts, task governance mapping, and validation records.
+按一个可独立验收的机制组织任务，不强制沿用旧批次编号或旧里程碑任务键。文档按复杂度拆分，定义只有一个来源；当前方案与历史执行记录分开。
 
-Do not describe a data-driven value as hardcoded runtime behavior unless source reads prove that.
+## 验证
 
-## Cursor Handoff Checklist
+开发中先验证受影响部分；功能收尾按模块 `AGENTS.md` 完成下列必要检查。已有证据有效且代码未受后续改动影响时不重复执行。
 
-For coding tasks, produce a bounded Cursor prompt with:
-
-- target repo and branch
-- goal and non-goals
-- allowed write scope
-- data contract and evidence contract
-- runtime lane being changed: **generic compile/run**, Web adapter, backend, planning only, or **legacy DPS regression**
-- validation commands
-- stop conditions
-
-Use `cursor-local-agent`: `grok-4.6`, explicit API key, event logs, diff review, and GPT-owned final validation.
-
-## Planning Doc Conventions
-
-For planning-first Batch work:
-
-- detailed design path usually belongs under `文档记录/详细设计/最小验证/` or `文档记录/详细设计/wasm/`
-- testing evidence belongs under `文档记录/测试记录/wasm/` or the nearest existing test-record directory
-- file names should include the Batch id and the mechanism name, such as `V2-BatchU-0-...计划.md`
-- existing V2 Batch planning docs often map to `planning-validation-milestones`; verify `db/task_doc_governance/task_rules.json` before reusing or adding a task key
-- Cursor prompt sections should be titled clearly, for example `Cursor Prompt: Wasm Gate`, `Cursor Prompt: Web Gate`, or `Cursor Prompt: Backend Gate`
-
-Evidence names should be stable enough for final reports:
-
-- exported page JSON: include batch id, page, and `proof` or `smoke`
-- screenshot: pair with the JSON using the same stem when possible
-- wasm artifact: include the path and SHA256 when the final built artifact matters
-- governance proof: include the rebuild command and the task key lookup result
-- Node smoke/bench: prefer `scripts/smoke-node.mjs` and `bench-node.mjs --mode generic-run` against `generic_p0_basic_damage.json`
-
-## Validation Matrix
-
-Pick the smallest set that proves the changed surface:
-
-| Surface | Minimum validation |
+| 改动 | 收尾验证（在相应模块目录执行） |
 | --- | --- |
-| TinyGo V2 Go logic | `go test -count=1 ./...` |
-| compile/runtime/scheduler/formula/pipeline/provider behavior | add `go run ./cmd/bench` (default generic-run) |
-| Wasm export or ABI behavior | build wasm, then `node .\scripts\smoke-node.mjs` |
-| Node generic run latency | `node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2` |
-| Web adapter or page behavior | `npm run build` plus browser or Playwright smoke of the relevant page |
-| planning docs or task mapping | update `db/task_doc_governance/task_rules.json`, then `node tools/task-governance/cli.mjs rebuild` |
-| docs only without mapping changes | `git diff --check` and path existence checks |
+| TinyGo V2 Go 逻辑 | `go test -count=1 ./...` |
+| 编译、运行、调度、公式、数值管道 | 加 `go run ./cmd/bench` |
+| Wasm 导出、协议、会话生命周期 | 构建最终 Wasm 后执行 `node .\scripts\smoke-node.mjs` |
+| TinyGo 构建、target | `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1` |
+| Node 性能脚本 | `node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2` |
+| Web 适配或页面 | 按 `web/AGENTS.md` 的检查及受影响路径浏览器验证 |
+| 任务状态或文档映射 | 更新相关条目后 `node tools/task-governance/cli.mjs check`；需要查询索引时才显式 `rebuild` |
+| 纯文档 | 检查路径、命令存在性和 `git diff --check` |
 
-For final reports, include exact evidence paths, page URLs or routes, pass/fail state, and whether user-side verification remains.
+报告实际命令、退出结果、代码状态及关键断言。真实 Wasm 验证记录最终产物路径和摘要；浏览器验证记录路径与操作。Node 单测不代替浏览器或真实 Wasm 证明，静态文档不证明数据库或运行时支持。
 
-## Common Mistakes
-
-| Mistake | Fix |
-| --- | --- |
-| Routing new mechanisms through legacy `BeginRunJSON -> NewRunContext/Step` or DPS | Name canonical `CompileGeneric` / `RunGeneric` / release and cite actual files. |
-| Treating item presence as readiness | Gate on the full published-contract readiness check. |
-| Omitting governance after new planning docs | Update `task_rules.json`, rebuild, and verify docs by task key. |
-| Handing off conceptual plans to Cursor | Write file-backed detailed design with scope, validation, and stop rules. |
-| Reporting stale evidence | Prefer final Playwright JSON/PNG and final wasm hash over intermediate artifacts. |
-| Mutating or duplicating `generic_p0_basic_damage.json` | Reuse the canonical fixture; assert `expectedSummarySubset` only. |
+复用当前 `internal/testkit/fixtures/generic_p0_basic_damage.json`，不要修改或复制它来迁就实现。工具缺失与产品错误分开说明，不虚报通过。
