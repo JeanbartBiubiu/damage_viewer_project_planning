@@ -311,7 +311,7 @@ mvn package
 1. `db/game_manage/migrations/compatibility/skill_scope_management_migration.sql`
 2. `db/game_manage/triggers.sql`（刷新十七种结果延迟形状与生命周期约束触发器）
 
-脚本先精确核对阶段 7.6.5 的 85 张父表、十六种结果和旧冷却目标表；四张新表全部缺失时创建并按冷却结果无损复制为 `mode=SKILLS`，全部结构正确时幂等通过，部分存在或结构漂移时主动失败。不回填技能急速业务记录、不写种子、不 `DROP CASCADE`。不要把该 migration 当作新库必跑步骤。本实现阶段只生成并静态校验脚本，不连接真实数据库。
+脚本先精确核对阶段 7.6.5 的 85 张父表、十六种结果和旧冷却目标表；四张新表全部缺失时创建并按冷却结果无损复制为 `mode=SKILLS`，全部结构正确时幂等通过，部分存在或结构漂移时主动失败。不回填技能急速业务记录、不写种子、不 `DROP CASCADE`。不要把该 migration 当作新库必跑步骤；仓库内实现和静态检查不能替代目标数据库执行后的结构与数据读回。
 
 静态契约与聚焦回归（不连 live DB）：
 
