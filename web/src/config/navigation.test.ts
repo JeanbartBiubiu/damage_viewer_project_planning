@@ -69,7 +69,7 @@ describe('product navigation', () => {
     });
     expect(dataGroup?.items.find((item) => item.id === 'images')).toMatchObject({
       hashSegment: 'images',
-      label: '图片缓存'
+      label: '图片管理'
     });
   });
 

@@ -1,12 +1,12 @@
 # Damage Viewer Web
 
-`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
+`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～8 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
 
 它在整条链路里的位置是：
 
-1. 读取后端游戏列表、当前管理接口和 images。
-2. 提供属性、角色、装备、技能分类、伤害类型、技能、状态和游戏配置管理页。
-3. 在浏览器侧缓存并同步图片资源。
+1. 读取后端游戏列表和当前管理接口。
+2. 提供属性、角色、装备、技能分类、伤害类型、技能、状态、游戏配置和图片管理页。
+3. 在浏览器侧处理上传图片，并缓存、同步公开图片资源。
 
 ## 当前主要页面
 
@@ -21,13 +21,15 @@
   - 效果结果共十七种，含技能急速修正、斩杀、命中联动应用和攻击联动应用；条件与触发含应用命中联动、触发攻击联动
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/admin/game-settings/`：游戏配置（`#/game-settings`）
-- `src/pages/ImagesPage.tsx`：图片缓存与同步（`#/images`）
+- `src/pages/admin/images/`：图片管理、浏览器侧图片处理与缓存工具（`#/images`）
 
 ## 关键入口地图
 
 - `src/App.tsx`：应用壳层、页面切换和全局本地状态
 - `src/config/navigation.ts`：导航项
-- `src/services/apiClient.ts`：API 基址、games/images
+- `src/services/apiClient.ts`：API 基址、游戏列表和统一错误处理
+- `src/types/image.ts`、`src/services/imageClient.ts`：图片管理详情与写入、公开同步接口
+- `src/services/resourceImage.ts`、`src/services/imageCache.ts`：上传前处理与浏览器本地缓存
 - `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
@@ -83,7 +85,7 @@ npm run dev
 | `npm run test` | Vitest 单元测试 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
-| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 9 类管理页；仅 Desktop Chrome，不覆盖移动端；无需 `E2E_*` |
+| `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 10 类管理页；仅桌面版 Chrome，不覆盖移动端；无需 `E2E_*` |
 
 ## 常用验证
 
@@ -102,6 +104,8 @@ npm run build
 阶段 7.5 在技能行提供「条件与触发」入口，不新增导航或路由。配置范围为 21 种固定事件、4 种条件、3 种动作和 4 种动态输入来源；只保存规则聚合，不执行事件/公式，也不含运行时或 Wasm。效果结果共十七种，含技能急速修正、斩杀、命中联动应用和攻击联动应用。
 
 阶段 7.6.5 已完成桌面编写 UI：事件值最终 23 项，前序结果输出最终 10 项；条件与绑定共用一张事件能力表；前序结果按更早执行效果动作、即时来源结果、合法输出三级选择。未知字符串按协议错误拒绝，不从列表摘要推断输出，也不提供自由输出、跨规则引用、移动端或运行预览。
+
+阶段 8 图片管理位于 `#/images`。本地缓存工具在图片列表上方；列表直接读取当前游戏的浏览器本地数据库，不请求后端管理列表，缓存为空时由维护者执行全量同步。浏览器只接受不超过 5 MB、宽高不超过 4096 像素的 PNG/JPEG：宽高都不超过 64 像素时保持原内容，任一边超过 64 时按短边居中裁切并缩小到最大 64×64；后端不代为处理。浏览器本地数据库 `image_db` 使用版本 2，停用图片保留更新时间但不保留可展示内容。
 
 阶段提交前在 `web/` 运行：
 
