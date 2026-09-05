@@ -311,10 +311,62 @@ describe('skillTriggerRuleClient', () => {
     })).toThrow(/eventSource\.detail\.sourceSkillKey/);
   });
 
-  it('rejects event-value compare conditions and EVENT_VALUE bindings on link-application events', () => {
-    expect(() => parseSkillTriggerRuleDetail({
+  it('accepts final event values and prior outputs, and rejects unknown strings or extra prior-result fields', () => {
+    expect(parseSkillTriggerRuleDetail({
       ...detail,
       eventSource: { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } },
+      conditionGroups: [{
+        groupKey: 'when_link',
+        name: '联动条件',
+        sortOrder: 0,
+        conditions: [{
+          conditionKey: 'link_count',
+          conditionType: 'EVENT_VALUE_COMPARE',
+          sortOrder: 0,
+          detail: {
+            eventValueKey: 'LINK_COUNT',
+            comparator: 'EQ',
+            comparisonFormulaKey: 'one'
+          }
+        }]
+      }],
+      actions: [{
+        ...detail.actions[0],
+        runtimeInputBindings: [{
+          bindingKey: 'bind_link_index',
+          parameterKey: 'stacks',
+          sourceType: 'EVENT_VALUE',
+          detail: { eventValueKey: 'LINK_INDEX' }
+        }]
+      }]
+    }).conditionGroups[0]?.conditions[0]).toMatchObject({
+      conditionType: 'EVENT_VALUE_COMPARE',
+      detail: { eventValueKey: 'LINK_COUNT' }
+    });
+
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      actions: [{
+        ...detail.actions[0],
+        runtimeInputBindings: [{
+          bindingKey: 'bind_killed',
+          parameterKey: 'stacks',
+          sourceType: 'PRIOR_ACTION_RESULT',
+          detail: {
+            sourceActionKey: 'first_hit',
+            sourceResultKey: 'damage',
+            outputKind: 'KILLED'
+          }
+        }]
+      }]
+    }).actions[0]?.runtimeInputBindings[0]?.detail).toEqual({
+      sourceActionKey: 'first_hit',
+      sourceResultKey: 'damage',
+      outputKind: 'KILLED'
+    });
+
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
       conditionGroups: [{
         groupKey: 'when_hit',
         name: '命中条件',
@@ -324,7 +376,7 @@ describe('skillTriggerRuleClient', () => {
           conditionType: 'EVENT_VALUE_COMPARE',
           sortOrder: 0,
           detail: {
-            eventValueKey: 'HIT_INDEX',
+            eventValueKey: 'FREE_OUTPUT',
             comparator: 'EQ',
             comparisonFormulaKey: 'one'
           }
@@ -334,48 +386,51 @@ describe('skillTriggerRuleClient', () => {
 
     expect(() => parseSkillTriggerRuleDetail({
       ...detail,
-      eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: 'ashe_q' } },
       actions: [{
         ...detail.actions[0],
         runtimeInputBindings: [{
-          bindingKey: 'bind_hit_index',
+          bindingKey: 'bind_unknown',
           parameterKey: 'stacks',
           sourceType: 'EVENT_VALUE',
-          detail: { eventValueKey: 'HIT_INDEX' }
+          detail: { eventValueKey: 'FREE_EVENT_VALUE' }
         }]
       }]
-    })).toThrow(/detail\.actions\[0\]\.runtimeInputBindings\[0\]/);
+    })).toThrow(/runtimeInputBindings\[0\]\.detail\.eventValueKey/);
 
-    expect(parseSkillTriggerRuleDetail({
+    expect(() => parseSkillTriggerRuleDetail({
       ...detail,
-      eventSource: { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } },
-      conditionGroups: [{
-        groupKey: 'when_marked',
-        name: '属性条件',
-        sortOrder: 0,
-        conditions: [{
-          conditionKey: 'has_focus',
-          conditionType: 'ATTRIBUTE_COMPARE',
-          sortOrder: 0,
-          detail: {
-            subject: 'CURRENT_TARGET',
-            attributeKey: 'attack_damage',
-            attributeValueKind: 'CURRENT',
-            comparator: 'GTE',
-            comparisonFormulaKey: 'one'
-          }
-        }]
-      }],
       actions: [{
         ...detail.actions[0],
         runtimeInputBindings: [{
-          bindingKey: 'bind_internal',
+          bindingKey: 'bind_unknown_output',
           parameterKey: 'stacks',
-          sourceType: 'INTERNAL_STATE',
-          detail: { stateKey: 'focus', valueKind: 'VALUE', optionKey: null }
+          sourceType: 'PRIOR_ACTION_RESULT',
+          detail: {
+            sourceActionKey: 'first_hit',
+            sourceResultKey: 'damage',
+            outputKind: 'FREE_OUTPUT'
+          }
         }]
       }]
-    }).eventSource.eventType).toBe('HIT_LINK_APPLIED');
+    })).toThrow(/runtimeInputBindings\[0\]\.detail/);
+
+    expect(() => parseSkillTriggerRuleDetail({
+      ...detail,
+      actions: [{
+        ...detail.actions[0],
+        runtimeInputBindings: [{
+          bindingKey: 'bind_extra',
+          parameterKey: 'stacks',
+          sourceType: 'PRIOR_ACTION_RESULT',
+          detail: {
+            sourceActionKey: 'first_hit',
+            sourceResultKey: 'damage',
+            outputKind: 'CONFIGURED_VALUE',
+            sourceEffectKey: 'on_hit_damage'
+          }
+        }]
+      }]
+    })).toThrow(/runtimeInputBindings\[0\]\.detail/);
   });
 
   it.each([

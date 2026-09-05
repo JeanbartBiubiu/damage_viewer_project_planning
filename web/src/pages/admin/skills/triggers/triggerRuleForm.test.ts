@@ -491,21 +491,50 @@ describe('trigger event member set and capability table', () => {
       'RAW_DAMAGE',
       'POST_DEFENSE_DAMAGE',
       'HEALTH_BEFORE',
-      'PROJECTED_HEALTH_AFTER'
+      'PROJECTED_HEALTH_AFTER',
+      'SHIELD_ABSORBED',
+      'ACTUAL_HP_LOSS',
+      'BLOCKED',
+      'IMMUNE',
+      'KILLED',
+      'LINK_INDEX',
+      'LINK_COUNT'
     ]);
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.HIT_INDEX).toBe('INTEGER');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.CHARGE_DURATION_MS).toBe('DECIMAL');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.THRESHOLD_VALUE).toBe('DECIMAL');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.PROJECTED_HEALTH_AFTER).toBe('DECIMAL');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.SHIELD_ABSORBED).toBe('DECIMAL');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.ACTUAL_HP_LOSS).toBe('DECIMAL');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.BLOCKED).toBe('INTEGER');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.KILLED).toBe('INTEGER');
+    expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.LINK_INDEX).toBe('INTEGER');
 
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
-    expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([
+      'RAW_DAMAGE',
+      'POST_DEFENSE_DAMAGE',
+      'SHIELD_ABSORBED',
+      'ACTUAL_HP_LOSS',
+      'BLOCKED',
+      'IMMUNE',
+      'KILLED'
+    ]);
+    expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_DEALT'))).toEqual(
+      allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))
+    );
     expect(allowedEventValuesFor(createEmptyEventSource('SPELL_SHIELD_BLOCKED'))).toEqual([]);
-    expect(allowedEventValuesFor(createEmptyEventSource('HIT_LINK_APPLIED'))).toEqual([]);
-    expect(allowedEventValuesFor(createEmptyEventSource('ATTACK_LINK_APPLIED'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('HIT_LINK_APPLIED'))).toEqual([
+      'LINK_INDEX',
+      'LINK_COUNT'
+    ]);
+    expect(allowedEventValuesFor(createEmptyEventSource('ATTACK_LINK_APPLIED'))).toEqual([
+      'LINK_INDEX',
+      'LINK_COUNT'
+    ]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_PENDING'))).toEqual([
       'RAW_DAMAGE',
       'POST_DEFENSE_DAMAGE',
@@ -1064,12 +1093,12 @@ describe('action ordering, FAIL_PROCESS last and source-action binding cleanup',
       {
         actionKey: 'second_hit',
         bindingKeys: ['bind_first_hit'],
-        summaries: ['第二段 → prior_hit_value']
+        summaries: ['second_hit / bind_first_hit / damage / 基础配置值']
       },
       {
         actionKey: 'third_hit',
         bindingKeys: ['bind_first_hit'],
-        summaries: ['第三段 → bonus']
+        summaries: ['third_hit / bind_first_hit / damage / 基础配置值']
       }
     ]);
     const cleaned = removeBindingsByKeys(

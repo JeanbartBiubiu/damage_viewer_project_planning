@@ -18,8 +18,11 @@ import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient
 import { listAttributes } from '../../../../services/attributeClient';
 import { createSkillEffect, getSkillEffect, listSkillEffects, updateSkillEffect } from '../../../../services/skillEffectClient';
 import { listSkillFormulas } from '../../../../services/skillFormulaClient';
+import { listSkillCategories } from '../../../../services/skillCategoryClient';
+import { listSkills } from '../../../../services/skillClient';
 import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';
+import type { SkillCategory } from '../../../../types/skillCategory';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   SkillEffect,
@@ -35,6 +38,7 @@ import {
   type SkillEffectResultEditorMode
 } from './SkillEffectResultEditorModal';
 import {
+  COOLDOWN_CHANGE_OPERATION_LABELS,
   LIFECYCLE_PENDING_BEHAVIOR_LABEL,
   SKILL_EFFECT_CRITICAL_MODE_LABELS,
   SKILL_EFFECT_CRITICAL_FILTER_LABELS,
@@ -59,6 +63,8 @@ import {
   SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_EFFECT_VALUE_READ_MODE_LABELS,
+  SKILL_HASTE_MODIFIER_OPERATION_LABELS,
+  affectedSkillScopeSummary,
   applyDurationFormulaChange,
   applyExpiryModeChange,
   applyReapplicationDurationModeChange,
@@ -142,8 +148,20 @@ function catalogDisplayName(key: string, names: Map<string, string> | undefined)
 
 function referenceSummary(
   result: SkillEffectResultDraft,
-  names?: { attributes?: Map<string, string>; formulas?: Map<string, string> }
+  names?: {
+    attributes?: Map<string, string>;
+    formulas?: Map<string, string>;
+    skills?: Map<string, string>;
+    skillCategories?: Map<string, string>;
+    categoryStatuses?: Map<string, 'ENABLED' | 'DISABLED' | null>;
+  }
 ): string {
+  const scope = affectedSkillScopeSummary(result.affectedSkillScope, {
+    skills: names?.skills,
+    skillCategories: names?.skillCategories,
+    categoryStatuses: names?.categoryStatuses
+  });
+  const formula = catalogDisplayName(result.formulaKey, names?.formulas);
   switch (result.resultType) {
     case 'DAMAGE':
       return result.damageTypeKey || '—';
@@ -153,8 +171,19 @@ function referenceSummary(
     case 'ATTRIBUTE_CHANGE':
     case 'RESOURCE_CHANGE':
       return result.attributeKey || '—';
-    case 'COOLDOWN_CHANGE':
-      return result.affectedSkillKeys.length > 0 ? result.affectedSkillKeys.join('、') : '—';
+    case 'COOLDOWN_CHANGE': {
+      const operation = result.cooldownOperation
+        ? COOLDOWN_CHANGE_OPERATION_LABELS[result.cooldownOperation]
+        : '—';
+      const value = result.cooldownOperation === 'RESET' ? '无数值规则' : formula;
+      return `${operation} · ${value} · ${scope}`;
+    }
+    case 'SKILL_HASTE_MODIFIER': {
+      const operation = result.skillHasteOperation
+        ? SKILL_HASTE_MODIFIER_OPERATION_LABELS[result.skillHasteOperation]
+        : '—';
+      return `${operation} · ${formula} · ${scope}`;
+    }
     case 'STATUS_OPERATION':
       return result.statusKey || '—';
     case 'LIFECYCLE_OPERATION':
@@ -257,6 +286,11 @@ function interactionSummary(result: SkillEffectResultDraft): string {
   if (result.resultType === 'ATTACK_LINK_APPLICATION') {
     return '攻击联动应用';
   }
+  if (result.resultType === 'SKILL_HASTE_MODIFIER') {
+    return result.skillHasteOperation
+      ? SKILL_HASTE_MODIFIER_OPERATION_LABELS[result.skillHasteOperation]
+      : '技能急速修正';
+  }
   return '—';
 }
 
@@ -305,11 +339,15 @@ export function SkillEffectEditorModal({
   const [effectSummaries, setEffectSummaries] = useState<SkillEffectSummary[]>([]);
   const [effectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [effectsError, setEffectsError] = useState<string | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
   const [resultEditor, setResultEditor] = useState<ResultEditorState | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const attributeSerial = useRef(0);
   const effectsSerial = useRef(0);
+  const skillSerial = useRef(0);
+  const skillCategorySerial = useRef(0);
   const readOnly = mode === 'view';
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
 
@@ -325,6 +363,8 @@ export function SkillEffectEditorModal({
     formulaSerial.current += 1;
     attributeSerial.current += 1;
     effectsSerial.current += 1;
+    skillSerial.current += 1;
+    skillCategorySerial.current += 1;
     const empty = createEmptyEffectDraft();
     setDraft(empty);
     setBaseline(empty);
@@ -344,6 +384,8 @@ export function SkillEffectEditorModal({
     setEffectSummaries([]);
     setEffectsLoadState(undefined);
     setEffectsError(null);
+    setSkills([]);
+    setSkillCategories([]);
     setResultEditor(null);
   }, [mode]);
 
@@ -396,6 +438,42 @@ export function SkillEffectEditorModal({
       setAttributes([]);
       setAttributesLoadState('failed');
       setAttributesError(getErrorMessage(error));
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+
+  const loadSkillsCatalog = useCallback(async () => {
+    const serial = skillSerial.current + 1;
+    skillSerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setSkills([]);
+      return;
+    }
+    try {
+      const result = await listSkills(apiBaseUrl, selectedGameId, token);
+      if (skillSerial.current !== serial) return;
+      setSkills(result.data.items);
+    } catch {
+      if (skillSerial.current !== serial) return;
+      setSkills([]);
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+
+  const loadSkillCategoriesCatalog = useCallback(async () => {
+    const serial = skillCategorySerial.current + 1;
+    skillCategorySerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setSkillCategories([]);
+      return;
+    }
+    try {
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
+      if (skillCategorySerial.current !== serial) return;
+      setSkillCategories(result.data.items);
+    } catch {
+      if (skillCategorySerial.current !== serial) return;
+      setSkillCategories([]);
     }
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
@@ -510,8 +588,10 @@ export function SkillEffectEditorModal({
     void loadDetail();
     void loadFormulas();
     void loadAttributesCatalog();
+    void loadSkillsCatalog();
+    void loadSkillCategoriesCatalog();
     void loadEffectSummaries();
-  }, [loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, onDirtyChange, resetLocalState, visible]);
+  }, [loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, loadSkillCategoriesCatalog, loadSkillsCatalog, onDirtyChange, resetLocalState, visible]);
 
   const patchField = <K extends keyof SkillEffectDraft>(field: K, value: SkillEffectDraft[K]) => {
     const next = clearHiddenLifecycleFields({ ...draft, [field]: value });
@@ -583,7 +663,8 @@ export function SkillEffectEditorModal({
         effects: effectSummaries,
         damageTypes: [],
         attributes,
-        skills: [],
+        skills,
+        skillCategories,
         statuses: []
       },
       catalogLoadState: {
@@ -660,6 +741,7 @@ export function SkillEffectEditorModal({
       damageTypes: [],
       attributes: [],
       skills: [],
+      skillCategories: [],
       statuses: []
     }),
     [effectSummaries, formulas, skill.skillKey]
@@ -678,6 +760,27 @@ export function SkillEffectEditorModal({
     }
     return names;
   }, [attributes]);
+  const skillNames = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const item of skills) {
+      names.set(item.skillKey, item.name);
+    }
+    return names;
+  }, [skills]);
+  const skillCategoryNames = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const item of skillCategories) {
+      names.set(item.skillCategoryKey, item.name);
+    }
+    return names;
+  }, [skillCategories]);
+  const skillCategoryStatuses = useMemo(() => {
+    const statuses = new Map<string, 'ENABLED' | 'DISABLED' | null>();
+    for (const item of skillCategories) {
+      statuses.set(item.skillCategoryKey, item.status);
+    }
+    return statuses;
+  }, [skillCategories]);
   const showPeriodicFields = hasPeriodicResults(draft);
   const hasLinearDecayShield = draft.results.some((result) => (
     result.resultType === 'NORMAL_SHIELD' && result.shieldDecayMode === 'LINEAR_TO_ZERO'
@@ -767,7 +870,10 @@ export function SkillEffectEditorModal({
       title: '关键引用摘要',
       render: (_value, row: { item: SkillEffectResultDraft }) => referenceSummary(row.item, {
         attributes: attributeNames,
-        formulas: formulaNames
+        formulas: formulaNames,
+        skills: skillNames,
+        skillCategories: skillCategoryNames,
+        categoryStatuses: skillCategoryStatuses
       })
     },
     {
@@ -1243,6 +1349,8 @@ export function SkillEffectEditorModal({
             setResultErrors((current) => current.filter((item) => item.index !== index));
           }
           setResultEditor(null);
+          void loadSkillsCatalog();
+          void loadSkillCategoriesCatalog();
         }}
       />
     </>

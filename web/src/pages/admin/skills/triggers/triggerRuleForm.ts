@@ -5,8 +5,8 @@ import type { SkillInternalState, SkillInternalStateType } from '../../../../typ
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
 import type {
   SkillEffect,
-  SkillEffectLifecycleMoment,
-  SkillEffectResult
+  SkillEffectResult,
+  SkillEffectResultType
 } from '../../../../types/skillEffect';
 import type {
   SkillProcess,
@@ -87,8 +87,13 @@ export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
   '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
-export const SKILL_TRIGGER_LINK_EVENT_VALUE_HINT =
-  '事件序号和值将在阶段 7.6.5 开放；当前没有可用事件值。';
+export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
+export const SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT = '以 0/1 供值';
+export const SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE = '该结构仍被条件与触发规则使用';
+export const SKILL_TRIGGER_RESULT_IN_USE_MESSAGE = '该结果仍被条件与触发规则使用';
+export const SKILL_TRIGGER_RUNTIME_INPUT_IN_USE_MESSAGE = '该公式参数仍被条件与触发规则使用';
+export const SKILL_TRIGGER_ADJUST_RULES_BEFORE_EFFECT_HINT = '请先调整条件与触发规则再保存效果。';
+export const SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE = '来源效果详情未加载，无法校验前序结果。请重试。';
 
 export const SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT = {
   EXECUTE: ['KILL', 'ENTITY_DIED'],
@@ -104,7 +109,71 @@ export const MISSING_CATALOG_LABEL = '目录缺失';
 export const INCOMPLETE_CATALOG_MESSAGE = '缺少当前表单必需目录，无法保存。';
 export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
 export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数公式，不执行计数。';
-export const PRIOR_RESULT_OUTPUT_LABEL = '基础结果值';
+
+export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS = [
+  'CONFIGURED_VALUE',
+  'RAW_DAMAGE',
+  'POST_DEFENSE_DAMAGE',
+  'SHIELD_ABSORBED',
+  'ACTUAL_HP_LOSS',
+  'ACTUAL_HEALING',
+  'BLOCKED',
+  'IMMUNE',
+  'STATUS_APPLIED',
+  'KILLED'
+] as const satisfies readonly SkillTriggerPriorResultOutputKind[];
+
+export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS = {
+  CONFIGURED_VALUE: '基础配置值',
+  RAW_DAMAGE: '原始伤害',
+  POST_DEFENSE_DAMAGE: '防御后伤害',
+  SHIELD_ABSORBED: '护盾吸收',
+  ACTUAL_HP_LOSS: '实际扣血',
+  ACTUAL_HEALING: '实际治疗',
+  BLOCKED: '是否被法术护盾阻挡（0/1）',
+  IMMUNE: '是否被伤害免疫（0/1）',
+  STATUS_APPLIED: '是否成功施加状态（0/1）',
+  KILLED: '是否形成击杀（0/1）'
+} as const satisfies { [K in SkillTriggerPriorResultOutputKind]: string };
+
+export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS = {
+  CONFIGURED_VALUE: 'DECIMAL',
+  RAW_DAMAGE: 'DECIMAL',
+  POST_DEFENSE_DAMAGE: 'DECIMAL',
+  SHIELD_ABSORBED: 'DECIMAL',
+  ACTUAL_HP_LOSS: 'DECIMAL',
+  ACTUAL_HEALING: 'DECIMAL',
+  BLOCKED: 'INTEGER',
+  IMMUNE: 'INTEGER',
+  STATUS_APPLIED: 'INTEGER',
+  KILLED: 'INTEGER'
+} as const satisfies { [K in SkillTriggerPriorResultOutputKind]: SkillTriggerValueDomain };
+
+export const SKILL_TRIGGER_BOOLEAN_PRIOR_RESULT_OUTPUT_KINDS = [
+  'BLOCKED',
+  'IMMUNE',
+  'STATUS_APPLIED',
+  'KILLED'
+] as const satisfies readonly SkillTriggerPriorResultOutputKind[];
+
+const BLOCKABLE_PRIOR_RESULT_TYPES = new Set<SkillEffectResultType>([
+  'DAMAGE',
+  'ATTRIBUTE_CHANGE',
+  'RESOURCE_CHANGE',
+  'COOLDOWN_CHANGE',
+  'STATUS_OPERATION',
+  'LIFECYCLE_OPERATION',
+  'EXECUTE',
+  'HIT_LINK_APPLICATION',
+  'ATTACK_LINK_APPLICATION'
+]);
+
+export const FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS = [
+  'MODIFIER_ZONE_SUM',
+  'MODIFIER_ZONE_FACTOR',
+  'FINAL_MODIFIED_VALUE',
+  'ZONE_ADDEND'
+] as const;
 
 export const SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS = {
   ANY: '任意',
@@ -117,16 +186,6 @@ export const SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS = {
   DIRECT: '直接伤害',
   REFLECTED: '反伤'
 } as const satisfies { [K in SkillTriggerDamageOriginKind]: string };
-
-export const FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS = [
-  'POST_DEFENSE_DAMAGE',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HEALTH_LOSS',
-  'ACTUAL_HEAL',
-  'BLOCKED',
-  'IMMUNE',
-  'KILL'
-] as const;
 
 export const SKILL_TRIGGER_EVENT_TYPES = [
   'SKILL_USED',
@@ -196,7 +255,14 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'RAW_DAMAGE',
   'POST_DEFENSE_DAMAGE',
   'HEALTH_BEFORE',
-  'PROJECTED_HEALTH_AFTER'
+  'PROJECTED_HEALTH_AFTER',
+  'SHIELD_ABSORBED',
+  'ACTUAL_HP_LOSS',
+  'BLOCKED',
+  'IMMUNE',
+  'KILLED',
+  'LINK_INDEX',
+  'LINK_COUNT'
 ] as const satisfies readonly SkillTriggerEventValueKey[];
 
 export const SKILL_TRIGGER_COMPARATORS = [
@@ -448,7 +514,14 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   RAW_DAMAGE: '原始伤害',
   POST_DEFENSE_DAMAGE: '防御后伤害',
   HEALTH_BEFORE: '受伤前生命',
-  PROJECTED_HEALTH_AFTER: '预计受伤后生命'
+  PROJECTED_HEALTH_AFTER: '预计受伤后生命',
+  SHIELD_ABSORBED: '护盾吸收',
+  ACTUAL_HP_LOSS: '实际扣血',
+  BLOCKED: '是否被法术护盾阻挡（0/1）',
+  IMMUNE: '是否被伤害免疫（0/1）',
+  KILLED: '是否形成击杀（0/1）',
+  LINK_INDEX: '本次序号（从 1 开始）',
+  LINK_COUNT: '总次数（从 1 开始）'
 } as const satisfies { [K in SkillTriggerEventValueKey]: string };
 
 export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
@@ -467,7 +540,14 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   RAW_DAMAGE: 'DECIMAL',
   POST_DEFENSE_DAMAGE: 'DECIMAL',
   HEALTH_BEFORE: 'DECIMAL',
-  PROJECTED_HEALTH_AFTER: 'DECIMAL'
+  PROJECTED_HEALTH_AFTER: 'DECIMAL',
+  SHIELD_ABSORBED: 'DECIMAL',
+  ACTUAL_HP_LOSS: 'DECIMAL',
+  BLOCKED: 'INTEGER',
+  IMMUNE: 'INTEGER',
+  KILLED: 'INTEGER',
+  LINK_INDEX: 'INTEGER',
+  LINK_COUNT: 'INTEGER'
 } as const satisfies { [K in SkillTriggerEventValueKey]: SkillTriggerValueDomain };
 
 export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
@@ -487,7 +567,7 @@ export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
   INTERNAL_STATE: '技能内部状态',
   COMBAT_STATUS: '战斗状态',
   EVENT_VALUE: '当前事件值',
-  PRIOR_ACTION_RESULT: '更早动作基础结果'
+  PRIOR_ACTION_RESULT: '更早动作结果'
 } as const satisfies { [K in SkillTriggerRuntimeInputSourceType]: string };
 
 export const SKILL_TRIGGER_SUBJECT_LABELS = {
@@ -730,9 +810,15 @@ export type BindingCompleteness = {
 export type ImmediatePriorResult = {
   sourceActionKey: string;
   sourceActionName: string;
+  sourceEffectKey: string;
   sourceResultKey: string;
   sourceResultName: string;
-  outputKind: SkillTriggerPriorResultOutputKind;
+};
+
+export type PriorSourceActionOption = {
+  sourceActionKey: string;
+  sourceActionName: string;
+  sourceEffectKey: string;
 };
 
 export type FormulaSessionCache = {
@@ -1127,16 +1213,53 @@ export function eventStepType(
   return process.steps.find((item) => item.stepKey === stepKey)?.stepType ?? null;
 }
 
+export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
+  readonly [K in SkillTriggerEventType]: readonly SkillTriggerEventValueKey[];
+} = {
+  SKILL_USED: [],
+  BASIC_ATTACK_START: [],
+  BASIC_ATTACK_HIT: ['HIT_INDEX'],
+  SKILL_HIT: ['HIT_INDEX'],
+  PROCESS_MOMENT: [],
+  RESULT_AVAILABLE: [],
+  LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
+  DAMAGE_PENDING: ['RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'],
+  DAMAGE_DEALT: [
+    'RAW_DAMAGE',
+    'POST_DEFENSE_DAMAGE',
+    'SHIELD_ABSORBED',
+    'ACTUAL_HP_LOSS',
+    'BLOCKED',
+    'IMMUNE',
+    'KILLED'
+  ],
+  DAMAGE_TAKEN: [
+    'RAW_DAMAGE',
+    'POST_DEFENSE_DAMAGE',
+    'SHIELD_ABSORBED',
+    'ACTUAL_HP_LOSS',
+    'BLOCKED',
+    'IMMUNE',
+    'KILLED'
+  ],
+  STATUS_CHANGED: [],
+  HEALTH_THRESHOLD_CROSSED: ['ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'],
+  INTERNAL_STATE_CHANGED: ['STATE_BEFORE', 'STATE_AFTER'],
+  CONTROL_RECEIVED: [],
+  ENTITY_DIED: [],
+  ENTITY_UNTARGETABLE: [],
+  KILL: [],
+  PROCESS_CANCEL_REQUESTED: [],
+  SPELL_SHIELD_BLOCKED: [],
+  HIT_LINK_APPLIED: ['LINK_INDEX', 'LINK_COUNT'],
+  ATTACK_LINK_APPLIED: ['LINK_INDEX', 'LINK_COUNT']
+};
+
 export function allowedEventValuesFor(
   eventSource: SkillTriggerEventSource,
   stepType: SkillProcessStepType | null = null
 ): SkillTriggerEventValueKey[] {
   switch (eventSource.eventType) {
-    case 'DAMAGE_PENDING':
-      return ['RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'];
-    case 'BASIC_ATTACK_HIT':
-    case 'SKILL_HIT':
-      return ['HIT_INDEX'];
     case 'PROCESS_MOMENT': {
       const momentType = eventSource.detail.moment.momentType;
       const values: SkillTriggerEventValueKey[] = [];
@@ -1151,18 +1274,18 @@ export function allowedEventValuesFor(
       return values;
     }
     case 'LIFECYCLE_MOMENT': {
-      const values: SkillTriggerEventValueKey[] = ['LIFECYCLE_STACKS', 'REMAINING_MS'];
+      const values: SkillTriggerEventValueKey[] = [
+        ...SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES.LIFECYCLE_MOMENT
+      ];
       if (eventSource.detail.moment === 'PERIODIC') values.push('PERIOD_INDEX');
       return values;
     }
-    case 'HEALTH_THRESHOLD_CROSSED':
-      return ['ATTRIBUTE_BEFORE', 'ATTRIBUTE_AFTER', 'THRESHOLD_VALUE'];
     case 'INTERNAL_STATE_CHANGED':
       return eventSource.detail.changeKind === 'VALUE_CHANGED'
-        ? ['STATE_BEFORE', 'STATE_AFTER']
+        ? [...SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES.INTERNAL_STATE_CHANGED]
         : [];
     default:
-      return [];
+      return [...SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES[eventSource.eventType]];
   }
 }
 
@@ -1170,8 +1293,30 @@ export function eventValueDomain(key: SkillTriggerEventValueKey): SkillTriggerVa
   return SKILL_TRIGGER_EVENT_VALUE_DOMAINS[key];
 }
 
+export function eventValueOptionLabel(key: SkillTriggerEventValueKey): string {
+  const label = SKILL_TRIGGER_EVENT_VALUE_LABELS[key];
+  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED') {
+    return `${label}（${SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT}）`;
+  }
+  return label;
+}
+
+export function priorResultOutputLabel(kind: SkillTriggerPriorResultOutputKind): string {
+  return SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS[kind];
+}
+
+export function priorResultOutputDomain(
+  kind: SkillTriggerPriorResultOutputKind
+): SkillTriggerValueDomain {
+  return SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS[kind];
+}
+
+export function isBooleanPriorResultOutput(kind: SkillTriggerPriorResultOutputKind): boolean {
+  return (SKILL_TRIGGER_BOOLEAN_PRIOR_RESULT_OUTPUT_KINDS as readonly string[]).includes(kind);
+}
+
 export function isAllowedPriorResultOutputKind(kind: string): kind is SkillTriggerPriorResultOutputKind {
-  return kind === 'CONFIGURED_VALUE';
+  return (SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS as readonly string[]).includes(kind);
 }
 
 export function switchEventType(
@@ -1491,6 +1636,25 @@ export function patchInternalStateBindingDetail(
   patch: Partial<SkillTriggerInternalStateBindingDetail>
 ): SkillTriggerInternalStateBinding {
   return { ...current, detail: { ...current.detail, ...patch } };
+}
+
+export function patchPriorResultBinding(
+  current: SkillTriggerPriorResultBinding,
+  patch: Partial<SkillTriggerPriorResultBindingDetail>
+): SkillTriggerPriorResultBinding {
+  return { ...current, detail: { ...current.detail, ...patch } };
+}
+
+export function formatTriggerInboundDependency(item: {
+  ruleKey: string;
+  actionKey: string;
+  bindingKey: string;
+  outputKind: string;
+}): string {
+  const output = isAllowedPriorResultOutputKind(item.outputKind)
+    ? priorResultOutputLabel(item.outputKind)
+    : item.outputKind;
+  return [item.ruleKey, item.actionKey, item.bindingKey, output].join(' / ');
 }
 
 function parseSortOrder(raw: string): number | null {
@@ -1914,14 +2078,6 @@ function fallbackTargetContext(
   return context;
 }
 
-function fallbackEventValue(
-  key: SkillTriggerEventValueKey,
-  allowed: readonly SkillTriggerEventValueKey[]
-): SkillTriggerEventValueKey {
-  if (allowed.includes(key)) return key;
-  return allowed[0] ?? key;
-}
-
 function cleanupConditionForEventSwitch(
   condition: SkillTriggerConditionDraft,
   hasEventSource: boolean,
@@ -1929,11 +2085,8 @@ function cleanupConditionForEventSwitch(
 ): SkillTriggerConditionDraft | null {
   switch (condition.conditionType) {
     case 'EVENT_VALUE_COMPARE': {
-      if (allowed.length === 0) return null;
-      if (allowed.includes(condition.detail.eventValueKey)) return condition;
-      return patchEventValueCompareDetail(condition, {
-        eventValueKey: fallbackEventValue(condition.detail.eventValueKey, allowed)
-      });
+      if (!allowed.includes(condition.detail.eventValueKey)) return null;
+      return condition;
     }
     case 'ATTRIBUTE_COMPARE':
       return patchAttributeCompareDetail(condition, {
@@ -1956,12 +2109,8 @@ function cleanupBindingForEventSwitch(
 ): SkillTriggerRuntimeInputBinding | null {
   switch (binding.sourceType) {
     case 'EVENT_VALUE': {
-      if (allowed.length === 0) return null;
-      if (allowed.includes(binding.detail.eventValueKey)) return binding;
-      return {
-        ...binding,
-        detail: { eventValueKey: fallbackEventValue(binding.detail.eventValueKey, allowed) }
-      };
+      if (!allowed.includes(binding.detail.eventValueKey)) return null;
+      return binding;
     }
     case 'COMBAT_STATUS':
       return patchCombatStatusBinding(binding, {
@@ -2044,7 +2193,7 @@ export function findSourceActionCleanupImpact(
         && removed.has(binding.detail.sourceActionKey)
       ) {
         bindingKeys.push(binding.bindingKey);
-        summaries.push(`${action.name || action.actionKey} → ${binding.parameterKey}`);
+        summaries.push(priorResultBindingCleanupSummary(action, binding));
       }
     }
     if (bindingKeys.length > 0) {
@@ -2052,6 +2201,45 @@ export function findSourceActionCleanupImpact(
     }
   }
   return impacts;
+}
+
+export function findStalePriorResultBindings(
+  actions: readonly SkillTriggerActionDraft[],
+  effectsByKey: ReadonlyMap<string, SkillEffect>
+): SourceActionCleanupImpact[] {
+  const sorted = sortActionDrafts(actions);
+  const impacts: SourceActionCleanupImpact[] = [];
+  for (let actionIndex = 0; actionIndex < sorted.length; actionIndex += 1) {
+    const action = sorted[actionIndex];
+    const bindingKeys: string[] = [];
+    const summaries: string[] = [];
+    for (const binding of action.runtimeInputBindings) {
+      if (binding.sourceType !== 'PRIOR_ACTION_RESULT') continue;
+      const legal = isLegalPriorResultBinding(binding, sorted, actionIndex, effectsByKey);
+      if (legal.ok || legal.reason === 'missing-effect') continue;
+      bindingKeys.push(binding.bindingKey);
+      summaries.push(priorResultBindingCleanupSummary(action, binding));
+    }
+    if (bindingKeys.length > 0) {
+      impacts.push({ actionKey: action.actionKey, bindingKeys, summaries });
+    }
+  }
+  return impacts;
+}
+
+function priorResultBindingCleanupSummary(
+  action: SkillTriggerActionDraft,
+  binding: SkillTriggerPriorResultBinding
+): string {
+  const output = isAllowedPriorResultOutputKind(binding.detail.outputKind)
+    ? priorResultOutputLabel(binding.detail.outputKind)
+    : binding.detail.outputKind;
+  return [
+    action.actionKey,
+    binding.bindingKey,
+    binding.detail.sourceResultKey,
+    output
+  ].join(' / ');
 }
 
 export function removeBindingsByKeys(
@@ -2154,7 +2342,9 @@ export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.PRIOR_ACTION_RESULT,
         binding.detail.sourceActionKey,
         binding.detail.sourceResultKey,
-        PRIOR_RESULT_OUTPUT_LABEL
+        isAllowedPriorResultOutputKind(binding.detail.outputKind)
+          ? priorResultOutputLabel(binding.detail.outputKind)
+          : binding.detail.outputKind
       ].join(' / ');
   }
 }
@@ -2295,7 +2485,9 @@ export function sourceValueDomain(
     case 'EVENT_VALUE':
       return eventValueDomain(binding.detail.eventValueKey);
     case 'PRIOR_ACTION_RESULT':
-      return 'DECIMAL';
+      return isAllowedPriorResultOutputKind(binding.detail.outputKind)
+        ? priorResultOutputDomain(binding.detail.outputKind)
+        : null;
   }
 }
 
@@ -2352,23 +2544,114 @@ export function evaluateBindingCompleteness(
   return rows;
 }
 
-const NON_IMMEDIATE_MOMENTS: ReadonlySet<SkillEffectLifecycleMoment> = new Set([
-  'PERSISTENT',
-  'FULL_STACKS',
-  'PERIODIC',
-  'NATURAL_END',
-  'EARLY_REMOVE'
-]);
-
 export function hasNumericValueRule(result: SkillEffectResult): boolean {
   return result.valueRule !== null;
 }
 
-export function isImmediateNumericResult(result: SkillEffectResult): boolean {
-  if (!hasNumericValueRule(result)) return false;
-  const moment = result.lifecycleBehavior?.moment;
-  if (!moment) return true;
-  return moment === 'APPLICATION' && !NON_IMMEDIATE_MOMENTS.has(moment);
+export function isImmediateResult(result: SkillEffectResult, hasLifecycle?: boolean): boolean {
+  const scoped = hasLifecycle ?? result.lifecycleBehavior !== null;
+  if (!scoped) return true;
+  return result.lifecycleBehavior?.moment === 'APPLICATION';
+}
+
+export function isImmediateNumericResult(result: SkillEffectResult, hasLifecycle?: boolean): boolean {
+  return hasNumericValueRule(result) && isImmediateResult(result, hasLifecycle);
+}
+
+export function cooldownOperationOf(
+  result: SkillEffectResult
+): 'REDUCE' | 'INCREASE' | 'RESET' | null {
+  return result.resultType === 'COOLDOWN_CHANGE' ? result.detail.operation : null;
+}
+
+export function listAvailablePriorResultOutputs(
+  result: SkillEffectResult
+): SkillTriggerPriorResultOutputKind[] {
+  const outputs: SkillTriggerPriorResultOutputKind[] = [];
+  const cooldownOperation = cooldownOperationOf(result);
+  if (hasNumericValueRule(result) && cooldownOperation !== 'RESET') {
+    outputs.push('CONFIGURED_VALUE');
+  }
+  if (result.resultType === 'DAMAGE') {
+    outputs.push(
+      'RAW_DAMAGE',
+      'POST_DEFENSE_DAMAGE',
+      'SHIELD_ABSORBED',
+      'ACTUAL_HP_LOSS',
+      'IMMUNE',
+      'KILLED'
+    );
+    if (result.detail.vampRules.length > 0) {
+      outputs.push('ACTUAL_HEALING');
+    }
+  } else if (result.resultType === 'DIRECT_HEAL') {
+    outputs.push('ACTUAL_HEALING');
+  } else if (result.resultType === 'EXECUTE') {
+    outputs.push('KILLED');
+  }
+  if (
+    result.resultType === 'STATUS_OPERATION'
+    && result.detail.operation === 'APPLY'
+  ) {
+    outputs.push('STATUS_APPLIED');
+  }
+  if (
+    result.spellShieldBlockScope !== null
+    && BLOCKABLE_PRIOR_RESULT_TYPES.has(result.resultType)
+    && result.resultType !== 'DIRECT_HEAL'
+    && result.resultType !== 'NORMAL_SHIELD'
+  ) {
+    outputs.push('BLOCKED');
+  }
+  return outputs;
+}
+
+export function filterPriorResultOutputsForParameter(
+  outputs: readonly SkillTriggerPriorResultOutputKind[],
+  parameterType: SkillParameterValueType | null | undefined
+): SkillTriggerPriorResultOutputKind[] {
+  if (parameterType !== 'INTEGER' && parameterType !== 'DECIMAL') {
+    return [...outputs];
+  }
+  return outputs.filter((kind) => (
+    isBindingTypeCompatible(priorResultOutputDomain(kind), parameterType)
+  ));
+}
+
+export function listEarlierExecuteEffectActions(
+  actions: readonly SkillTriggerActionDraft[],
+  currentIndex: number
+): PriorSourceActionOption[] {
+  const sorted = sortActionDrafts(actions);
+  const priorCount = Math.min(Math.max(currentIndex, 0), sorted.length);
+  const earlier: PriorSourceActionOption[] = [];
+  for (let index = 0; index < priorCount; index += 1) {
+    const action = sorted[index];
+    if (action.actionType !== 'EXECUTE_EFFECT') continue;
+    earlier.push({
+      sourceActionKey: action.actionKey,
+      sourceActionName: action.name || action.actionKey,
+      sourceEffectKey: action.detail.effectKey
+    });
+  }
+  return earlier;
+}
+
+export function listImmediateSourceResults(
+  effect: SkillEffect | null | undefined
+): SkillEffectResult[] {
+  if (!effect) return [];
+  const hasLifecycle = effect.lifecycle !== null;
+  const seen = new Set<string>();
+  const results: SkillEffectResult[] = [];
+  for (const result of effect.results) {
+    if (seen.has(result.resultKey)) continue;
+    if (!isImmediateResult(result, hasLifecycle)) continue;
+    if (listAvailablePriorResultOutputs(result).length === 0) continue;
+    seen.add(result.resultKey);
+    results.push(result);
+  }
+  return results;
 }
 
 export function listImmediatePriorResults(
@@ -2376,26 +2659,45 @@ export function listImmediatePriorResults(
   currentIndex: number,
   effectsByKey: ReadonlyMap<string, SkillEffect>
 ): ImmediatePriorResult[] {
-  const sorted = sortActionDrafts(actions);
-  const priorCount = Math.min(Math.max(currentIndex, 0), sorted.length);
   const results: ImmediatePriorResult[] = [];
-  for (let index = 0; index < priorCount; index += 1) {
-    const action = sorted[index];
-    if (action.actionType !== 'EXECUTE_EFFECT') continue;
-    const effect = effectsByKey.get(action.detail.effectKey);
+  for (const action of listEarlierExecuteEffectActions(actions, currentIndex)) {
+    const effect = effectsByKey.get(action.sourceEffectKey);
     if (!effect) continue;
-    for (const result of effect.results) {
-      if (!isImmediateNumericResult(result)) continue;
+    for (const result of listImmediateSourceResults(effect)) {
       results.push({
-        sourceActionKey: action.actionKey,
-        sourceActionName: action.name || action.actionKey,
+        sourceActionKey: action.sourceActionKey,
+        sourceActionName: action.sourceActionName,
+        sourceEffectKey: action.sourceEffectKey,
         sourceResultKey: result.resultKey,
-        sourceResultName: result.name || result.resultKey,
-        outputKind: 'CONFIGURED_VALUE'
+        sourceResultName: result.name || result.resultKey
       });
     }
   }
   return results;
+}
+
+export function isLegalPriorResultBinding(
+  binding: SkillTriggerPriorResultBinding,
+  actions: readonly SkillTriggerActionDraft[],
+  currentIndex: number,
+  effectsByKey: ReadonlyMap<string, SkillEffect>
+): { ok: true } | { ok: false; reason: 'missing-effect' | 'illegal' } {
+  const earlier = listEarlierExecuteEffectActions(actions, currentIndex);
+  const sourceAction = earlier.find((item) => item.sourceActionKey === binding.detail.sourceActionKey);
+  if (!sourceAction) return { ok: false, reason: 'illegal' };
+  const effect = effectsByKey.get(sourceAction.sourceEffectKey);
+  if (!effect) return { ok: false, reason: 'missing-effect' };
+  const result = listImmediateSourceResults(effect).find((item) => (
+    item.resultKey === binding.detail.sourceResultKey
+  ));
+  if (!result) return { ok: false, reason: 'illegal' };
+  if (!isAllowedPriorResultOutputKind(binding.detail.outputKind)) {
+    return { ok: false, reason: 'illegal' };
+  }
+  if (!listAvailablePriorResultOutputs(result).includes(binding.detail.outputKind)) {
+    return { ok: false, reason: 'illegal' };
+  }
+  return { ok: true };
 }
 
 export function validateResultModifier(
@@ -2790,19 +3092,26 @@ export function validateSkillTriggerDraft(
           pushError(
             nestedErrors,
             `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].detail.outputKind`,
-            '前序结果只允许基础结果值。'
+            '前序结果输出种类不合法。'
           );
         }
-        const prior = listImmediatePriorResults(sortedActions, actionIndex, options.effectsByKey ?? new Map());
-        const matched = prior.some((item) => (
-          item.sourceActionKey === binding.detail.sourceActionKey
-          && item.sourceResultKey === binding.detail.sourceResultKey
-        ));
-        if (!matched) {
+        const legality = isLegalPriorResultBinding(
+          binding,
+          sortedActions,
+          actionIndex,
+          options.effectsByKey ?? new Map()
+        );
+        if (!legality.ok && legality.reason === 'missing-effect') {
           pushError(
             nestedErrors,
             `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].detail.sourceActionKey`,
-            '前序结果必须来自更早的执行效果动作及其即时数值结果。'
+            SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE
+          );
+        } else if (!legality.ok) {
+          pushError(
+            nestedErrors,
+            `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].detail.sourceActionKey`,
+            '前序结果必须来自更早的执行效果动作及其即时合法输出。'
           );
         }
       }
