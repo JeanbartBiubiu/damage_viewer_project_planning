@@ -31,13 +31,29 @@ class SkillCooldownMultiSelectDbContractSqlTest {
     }
 
     @Test
-    void currentSchemaSeparatesOperationFromTargetSet() {
+    void currentSchemaRemovesDedicatedTargetTableAndKeepsCooldownOperation() {
         String detail = normalize(extractCreateTable(schema, "skill_effect_cooldown_change_details"));
-        String targets = normalize(extractCreateTable(schema, "skill_effect_cooldown_change_targets"));
-
         assertFalse(detail.contains("affected_skill_key"));
         assertTrue(detail.contains("constraint pk_skill_effect_cooldown_change_details"));
         assertTrue(detail.contains("operation in ('reduce', 'increase', 'reset')"));
+        assertFalse(schema.contains("CREATE TABLE public.skill_effect_cooldown_change_targets"));
+        assertTrue(schema.contains("CREATE TABLE public.skill_effect_result_skill_scopes"));
+    }
+
+    @Test
+    void currentTriggersUsePublicSkillScopeInsteadOfUnconditionalSkillTargets() {
+        String normalized = normalize(triggers);
+        assertFalse(normalized.contains("v_cooldown_target_count int"));
+        assertFalse(normalized.contains("from public.skill_effect_cooldown_change_targets t"));
+        assertFalse(normalized.contains("or v_cooldown_target_count < 1"));
+        assertFalse(triggers.contains("'skill_effect_cooldown_change_targets'"));
+        assertTrue(triggers.contains("'skill_effect_result_skill_scopes'"));
+        assertTrue(normalized.contains("all skill scope must not have targets at commit"));
+    }
+
+    @Test
+    void historicalMigrationCreatesDedicatedTargetTableBeforePublicScope() {
+        String targets = normalize(extractCreateTable(migration, "skill_effect_cooldown_change_targets"));
         assertTrue(targets.contains(
             "primary key (game_id, skill_key, effect_key, result_key, affected_skill_key)"
         ));
@@ -47,21 +63,15 @@ class SkillCooldownMultiSelectDbContractSqlTest {
         assertFalse(Pattern.compile(
             "(?is)fk_skill_effect_cooldown_change_targets_skill[^,]*on delete cascade"
         ).matcher(targets).find());
-        assertTrue(normalize(schema).contains(
-            "create index ix_skill_effect_cooldown_change_targets_skill "
+        assertTrue(normalize(migration).contains(
+            "create index if not exists ix_skill_effect_cooldown_change_targets_skill "
                 + "on public.skill_effect_cooldown_change_targets "
                 + "(game_id, affected_skill_key, skill_key, effect_key, result_key)"
         ));
+        assertTrue(normalize(migration).contains("or v_cooldown_target_count < 1"));
+        assertTrue(migration.contains("'skill_effect_cooldown_change_targets'"));
     }
 
-    @Test
-    void deferredShapeRequiresAtLeastOneTargetAndWatchesTargetRows() {
-        String normalized = normalize(triggers);
-        assertTrue(normalized.contains("v_cooldown_target_count int"));
-        assertTrue(normalized.contains("from public.skill_effect_cooldown_change_targets t"));
-        assertTrue(normalized.contains("or v_cooldown_target_count < 1"));
-        assertTrue(triggers.contains("'skill_effect_cooldown_change_targets'"));
-    }
 
     @Test
     void migrationBackfillsBeforeDroppingOldColumnAndIsFailClosedAndIdempotent() {
@@ -98,7 +108,7 @@ class SkillCooldownMultiSelectDbContractSqlTest {
 
     private static String extractCreateTable(String sql, String tableName) {
         MatcherWithMessage match = new MatcherWithMessage(Pattern.compile(
-            "(?is)CREATE\\s+TABLE\\s+public\\." + Pattern.quote(tableName) + "\\s*\\((.*?)\\n\\);"
+            "(?is)CREATE\\s+TABLE(?:\\s+IF\\s+NOT\\s+EXISTS)?\\s+public\\." + Pattern.quote(tableName) + "\\s*\\((.*?)\\n\\);"
         ).matcher(sql), tableName);
         return match.group();
     }

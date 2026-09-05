@@ -387,6 +387,8 @@
             <arg column="damage_delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
             <arg column="damage_origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind"/>
             <arg column="spell_shield_block_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope"/>
+            <arg column="vamp_count" javaType="_int"/>
+            <arg column="cooldown_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation"/>
         </constructor>
     </resultMap>
 
@@ -482,7 +484,16 @@
                dd.damage_type_key,
                dd.delivery_kind AS damage_delivery_kind,
                dd.origin_kind AS damage_origin_kind,
-               sp.block_scope AS spell_shield_block_scope
+               sp.block_scope AS spell_shield_block_scope,
+               COALESCE((
+                   SELECT COUNT(*)
+                   FROM public.skill_effect_result_vamp_rules vr
+                   WHERE vr.game_id = r.game_id
+                     AND vr.skill_key = r.skill_key
+                     AND vr.effect_key = r.effect_key
+                     AND vr.result_key = r.result_key
+               ), 0) AS vamp_count,
+               cd.operation AS cooldown_operation
         FROM public.skill_effect_results r
         LEFT JOIN public.skill_effect_result_values v
           ON v.game_id = r.game_id
@@ -523,6 +534,11 @@
          AND sp.skill_key = r.skill_key
          AND sp.effect_key = r.effect_key
          AND sp.result_key = r.result_key
+        LEFT JOIN public.skill_effect_cooldown_change_details cd
+          ON cd.game_id = r.game_id
+         AND cd.skill_key = r.skill_key
+         AND cd.effect_key = r.effect_key
+         AND cd.result_key = r.result_key
     </sql>
 
     <sql id="andKeysIn">

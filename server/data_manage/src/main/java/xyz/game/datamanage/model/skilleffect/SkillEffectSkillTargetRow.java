@@ -1,6 +1,6 @@
 package xyz.game.datamanage.model.skilleffect;
 
-public record SkillEffectCooldownChangeTargetRow(
+public record SkillEffectSkillTargetRow(
     String gameId,
     String skillKey,
     String effectKey,
