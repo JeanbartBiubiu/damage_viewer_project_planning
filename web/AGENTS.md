@@ -28,7 +28,7 @@
 1. `src/App.tsx`：应用壳层、页面切换、游戏选择、API 基址和本地状态。默认与未知 Hash 落到 `#/attributes`。
 2. `src/config/navigation.ts`：当前管理页导航。
 3. `src/services/apiClient.ts`：API 基址解析、请求封装、错误模型、games/images。
-4. `src/pages/admin/attributes/**`、`characters/**`、`equipment/**`、`skill-categories/**`、`damage-types/**`、`skills/**`、`statuses/**`、`game-settings/**`：阶段 0～7.4 管理页。
+4. `src/pages/admin/attributes/**`、`characters/**`、`equipment/**`、`skill-categories/**`、`damage-types/**`、`skills/**`、`statuses/**`、`game-settings/**`：当前业务管理页。
 5. `src/pages/ImagesPage.tsx`：图片缓存与同步。
 6. `src/engine/tinygoV2Bridge.ts`：TinyGo V2 Wasm ABI 桥接层。
 7. `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release。
@@ -52,7 +52,7 @@
 2. 可通过 `VITE_API_BASE_URL` 提供默认 API 基址。
 3. 页面内切换后的 API 基址与 Admin Token 会持久化到浏览器本地存储。
 4. 不要把机器本地绝对路径硬编码进前端业务源码。
-5. 当前管理页只访问阶段 0～7.4 业务接口与图片接口；不要恢复 `/combat-data/**`、旧 versions/current 或旧发布请求。
+5. 当前管理页只访问当前业务接口与图片接口；不要恢复 `/combat-data/**`、旧 versions/current 或旧发布请求。
 
 ## 6. 实现边界
 
@@ -64,9 +64,9 @@
 ## 7. 完成定义
 
 1. 只改文档：无需构建，但要核对提到的入口文件、脚本和命令仍然存在。
-2. 改 `web/**` 代码：默认至少运行 `npm run lint`、`npm run typecheck`、`npm run test`、`npm run build`。
+2. 开发中先运行受影响的类型和测试检查；一个功能收尾时运行 `npm run lint`、`npm run typecheck`、`npm run test`、`npm run build`。阶段提交前再运行 `npm run test:e2e:non-wasm`。已有有效结果不因角色交接重复执行，后续相关改动需重跑。
 3. 改 Wasm 桥接或 `tinygoV2Bridge.ts`：至少核对 `src/engine/wasm/tinygo_engine_v2.wasm` 与 ABI 导出函数仍匹配（当前通用路径：`engine_compile` / `engine_run` / `engine_release_session`）。
-4. 改页面、交互或服务层时，至少按影响范围做浏览器 smoke：属性、角色、装备、技能分类、伤害类型、技能、状态、游戏配置、图片管理。
+4. 改页面、交互或服务层时，验证受影响的浏览器路径。只有共享路由、API 基址、认证或缓存等公共行为变化时才扩大到相关页面；普通字段修改不要求人工遍历全部管理页。
 
 ## 8. Obsidian 回写边界
 

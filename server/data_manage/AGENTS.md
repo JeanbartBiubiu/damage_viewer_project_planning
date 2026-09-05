@@ -30,13 +30,13 @@
 2. `src/main/resources/application.yml`：数据库、Redis、缓存、JWT 与启动探测配置。
 3. `controller/publicapi/GamePublicController.java`：游戏列表公共读取（`gameId` / `gameName` / 可空 `gameImgUrl`）。
 4. `controller/publicapi/ImagePublicController.java`、`controller/adminapi/ImageAdminController.java`：图片读取与写入。
-5. `controller/adminapi/attribute|character|equipment|skill*|status|damagetype|skillprocess|skilleffect|skillinternalstate/**`：阶段 0～7.4 当前管理接口。
+5. `controller/adminapi/attribute|character|equipment|skill*|status|damagetype|skillprocess|skilleffect|skillinternalstate/**`：当前业务管理接口。
 6. `service/GameDataService.java`：games / images 薄聚合。
 7. `service/PostgresReadStore.java`、`service/PostgresWriteStore.java`：游戏读取与图片/编辑日志写入。
 8. `mapper/**` + `src/main/resources/mapper/**`：当前业务表与图片访问。
 9. `config/StartupDependencyVerifier.java`：依赖探测。
 
-当前数据面：阶段 0～7.4 业务表 + 独立 `images` 分区。旧 `/combat-data/**`、旧版本发布和旧 `*_log` 拷贝链路已经删除。
+当前数据面：当前业务表 + 独立 `images` 分区。旧 `/combat-data/**`、旧版本发布和旧 `*_log` 拷贝链路已经删除。
 
 ## 默认运行与验证
 
@@ -56,9 +56,9 @@
 
 ## 完成定义
 
-1. 改 `controller/**`、`service/**`、`mapper/**`、`support/**`：至少跑 `mvn test`。
+1. 开发中先运行受影响的测试；涉及 `controller/**`、`service/**`、`mapper/**`、`support/**` 的功能收尾时运行 `mvn test`。后续相关改动使结果失效才重跑，不因代理交接重复整套检查。
 2. 改 `pom.xml`、`application.yml`、缓存/JWT/启动配置：再补 `mvn package`。
-3. 改公共读取、缓存或数据库结构：至少验证 `GET /api/games`、图片接口，以及至少一类阶段 0～7.4 管理读写；旧 combat-data / versions 路径应返回普通 404。
+3. 改公共读取、缓存或数据库结构：至少验证 `GET /api/games`、图片接口，以及至少一类当前受影响的管理读写；旧 combat-data / versions 路径应返回普通 404。
 4. 改 SQL 或接口契约：同步检查 `db/**`、`接口/**`、README/设计文档口径。
 
 ## 常见陷阱

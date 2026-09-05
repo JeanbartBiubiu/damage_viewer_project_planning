@@ -18,7 +18,7 @@
 
 ## 最小验证
 
-1. 改 services 代码后至少运行 `cd web; npm run test` 与 `npm run build`。
+1. 开发中先验证受影响客户端；功能收尾按 `web/AGENTS.md` 完成检查，包含 `npm run test` 与 `npm run build`（在 `web/` 执行）。
 2. 改 API base URL、token 或错误模型时 smoke 属性管理页和图片页。
 3. 当前客户端不得请求 `/combat-data/**`、`versions/current` 或旧发布接口。
 
