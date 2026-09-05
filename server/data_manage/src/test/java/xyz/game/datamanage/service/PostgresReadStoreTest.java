@@ -2,7 +2,6 @@ package xyz.game.datamanage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,20 +19,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.GamesMapper;
-import xyz.game.datamanage.mapper.ImagesMapper;
 
 @ExtendWith(MockitoExtension.class)
 class PostgresReadStoreTest {
 
     @Mock private GamesMapper gamesMapper;
-    @Mock private ImagesMapper imagesMapper;
 
     private PostgresReadStore store;
 
     @BeforeEach
     void setUp() {
         ObjectMapper objectMapper = new ObjectMapper();
-        store = new PostgresReadStore(gamesMapper, imagesMapper, objectMapper, new PostgresJsonSupport(objectMapper));
+        store = new PostgresReadStore(gamesMapper, objectMapper);
     }
 
     @Test
@@ -61,11 +58,9 @@ class PostgresReadStoreTest {
     @Test
     void constructorDoesNotDependOnLegacyMappers() {
         Class<?>[] params = PostgresReadStore.class.getDeclaredConstructors()[0].getParameterTypes();
-        assertEquals(4, params.length);
+        assertEquals(2, params.length);
         assertEquals(GamesMapper.class, params[0]);
-        assertEquals(ImagesMapper.class, params[1]);
-        assertEquals(ObjectMapper.class, params[2]);
-        assertEquals(PostgresJsonSupport.class, params[3]);
+        assertEquals(ObjectMapper.class, params[1]);
     }
 
     @Test
@@ -75,21 +70,6 @@ class PostgresReadStoreTest {
         when(gamesMapper.countGames("missing")).thenReturn(0L);
         assertFalse(store.gameExists("missing"));
     }
-
-    @Test
-    void getImagesMapsStoredRows() {
-        when(imagesMapper.listImages("lol")).thenReturn(List.of(
-            Map.of("uri", "icon", "imageBase64", "data:image/png;base64,abc")
-        ));
-
-        ObjectNode response = store.getImages("lol", null);
-
-        assertEquals("lol", response.get("gameId").asText());
-        assertEquals("icon", response.get("images").get(0).get("uri").asText());
-        when(imagesMapper.findImageByUri("lol", "missing")).thenReturn(null);
-        assertNull(store.loadImage("lol", "missing"));
-    }
-
     private static Set<String> fieldNames(ObjectNode node) {
         LinkedHashSet<String> names = new LinkedHashSet<>();
         node.fieldNames().forEachRemaining(names::add);
