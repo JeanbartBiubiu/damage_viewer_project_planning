@@ -5,7 +5,7 @@
 它在整条链路里的位置是：
 
 1. 从 `db/game_manage` 定义的 PostgreSQL 结构中读取和写入当前业务表。
-2. 对外提供 `GET /api/games`、图片读取，以及对内提供图片写入与当前管理接口。
+2. 对外提供 `GET /api/games`、公开图片同步，以及图片和当前业务的管理接口。
 3. 不再提供旧 `/combat-data/**`、旧当前版本查询或旧 `versions:publish` 发布链路。
 4. 不组装 Bundle / Wasm Catalog，不为已删除的旧实体、Provider、Ability 或效果步骤保留兼容入口。
 
@@ -30,8 +30,9 @@
 - 默认配置：`src/main/resources/application.yml`
 - 公共读取：`GamePublicController`（`GET /api/games`）、`ImagePublicController`
 - Admin 写入：当前业务管理控制器，以及 `ImageAdminController`
-- 游戏与图片薄 Facade：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
-- 读写存储：`PostgresReadStore` / `PostgresWriteStore`（图片与编辑日志）
+- 游戏列表与编辑日志服务：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
+- 图片服务：`src/main/java/xyz/game/datamanage/service/image/ImageService.java`
+- 通用读写存储：`PostgresReadStore` / `PostgresWriteStore`（游戏列表与编辑日志）
 - 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
 
 当前管理接口契约仍以各阶段详细设计为准。旧通用 1v1 combat-data 链路已经从现行代码中删除。
@@ -61,7 +62,7 @@
 
 **新库（fresh install）**：
 
-1. `db/game_manage/schema.sql`（88 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查，以及 `images` 列表分区）
+1. `db/game_manage/schema.sql`（88 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查，以及阶段 8 `images` 列表分区）
 2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
 
 不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
@@ -74,6 +75,21 @@
 该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
 
 当前已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+
+### 图片管理
+
+`public.images` 使用 `(game_id, image_key)` 主键，保存名称、说明、原始 Base64 数据地址、真实格式、字节数、宽高、启停状态与审计时间。管理接口位于 `/api/admin/games/{gameId}/images`，提供列表、详情、新建和全量修改；公开同步接口位于 `/api/games/{gameId}/images`，可按 `updatedAfter` 增量读取，停用项只返回标识、状态和更新时间。
+
+后端只接受 PNG/JPEG，解码后大小为 1～262144 字节，宽高分别为 1～64 像素。服务端核对真实格式、签名和尺寸后原样保存提交内容，不裁切、不缩放、不压缩、不重新编码；直接提交超限图片返回 `400.IMAGE_CONTENT_INVALID`。
+
+已有库执行 `db/game_manage/migrations/compatibility/image_management_migration.sql`。脚本会先完整预检旧表结构和全部图片内容，再锁表并迁移；不删除或改写图片内容。发现格式不支持、内容不可解码或宽高超过 64 像素时会主动停止，由负责人先决定如何处理数据后再执行。
+
+静态契约与聚焦回归（不修改真实数据库）：
+
+```powershell
+cd server/data_manage
+mvn -Dtest=ImageManagementDbContractSqlTest,ImageContentValidatorTest,ImageServiceTest,ImageAdminControllerTest,ImagePublicControllerTest test
+```
 
 ### 属性管理
 
@@ -361,7 +377,7 @@ mvn package
 涉及接口、缓存或数据库结构时，至少回归：
 
 1. `GET /api/games`（仅 `gameId` / `gameName` / 可空 `gameImgUrl`）
-2. 图片读取与 Admin 写入
+2. 图片公开同步与 Admin 列表、详情、新建、修改、启停
 3. 阶段 0～7.6.5 及技能作用范围当前管理接口至少一类读写
 4. 旧 `/combat-data/**`、`GET .../versions/current` 与旧 publish 别名返回普通 404
 
@@ -385,6 +401,7 @@ mvn test
 3. **Admin 接口返回 401 / 403**：检查 `APP_AUTH_JWT_DISABLED` 是否已关闭，以及是否同时提供了 `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM`。
 4. **改了 SQL 或 Mapper 后查询异常**：同步检查 `db/game_manage/schema.sql`、`triggers.sql` 与 `src/main/resources/mapper/**/*.xml`。
 5. **旧 combat-data / versions/current / versions:publish 返回 404**：预期行为；请改用当前管理接口。
+6. **图片迁移因内容预检停止**：先读取脚本报告的图片标识并由负责人决定离线处理或删除；不要在后端请求链路增加压缩。
 
 ## 协作说明
 
