@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.image.ImageMapper">
+
+    <resultMap id="adminResponse" type="xyz.game.datamanage.model.image.ImageResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="image_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="image_base64" javaType="java.lang.String"/>
+            <arg column="mime_type" javaType="java.lang.String"/>
+            <arg column="byte_size" javaType="java.lang.Integer"/>
+            <arg column="width" javaType="java.lang.Integer"/>
+            <arg column="height" javaType="java.lang.Integer"/>
+            <arg column="enabled" javaType="java.lang.Boolean"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="publicResponse" type="xyz.game.datamanage.model.image.ImagePublicItemResponse">
+        <constructor>
+            <arg column="image_key" javaType="java.lang.String"/>
+            <arg column="enabled" javaType="java.lang.Boolean"/>
+            <arg column="image_base64" javaType="java.lang.String"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="adminColumns">
+        game_id, image_key, name, description, image_base64, mime_type,
+        byte_size, width, height, enabled, created_at, updated_at
+    </sql>
+
+    <select id="list" resultMap="adminResponse">
+        SELECT <include refid="adminColumns"/>
+        FROM public.images
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (
+                strpos(lower(image_key), lower(#{keyword})) &gt; 0
+                OR strpos(lower(name), lower(#{keyword})) &gt; 0
+            )
+        </if>
+        <if test="enabled != null">
+            AND enabled = #{enabled}
+        </if>
+        ORDER BY image_key ASC
+    </select>
+
+    <select id="findById" resultMap="adminResponse">
+        SELECT <include refid="adminColumns"/>
+        FROM public.images
+        WHERE game_id = #{gameId} AND image_key = #{imageKey}
+    </select>
+
+    <select id="findByIdForUpdate" resultMap="adminResponse">
+        SELECT <include refid="adminColumns"/>
+        FROM public.images
+        WHERE game_id = #{gameId} AND image_key = #{imageKey}
+        FOR UPDATE
+    </select>
+
+    <select id="listPublic" resultMap="publicResponse">
+        SELECT image_key,
+               enabled,
+               CASE WHEN enabled THEN image_base64 ELSE NULL END AS image_base64,
+               updated_at
+        FROM public.images
+        WHERE game_id = #{gameId}
+        <if test="updatedAfter != null">
+            AND updated_at &gt; #{updatedAfter}
+        </if>
+        ORDER BY image_key ASC
+    </select>
+
+    <select id="countByKey" resultType="long">
+        SELECT COUNT(1)
+        FROM public.images
+        WHERE game_id = #{gameId} AND image_key = #{imageKey}
+    </select>
+
+    <select id="countByNormalizedName" resultType="long">
+        SELECT COUNT(1)
+        FROM public.images
+        WHERE game_id = #{gameId}
+          AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeImageKey != null">
+            AND image_key &lt;&gt; #{excludeImageKey}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO public.images (
+            game_id,
+            image_key,
+            name,
+            description,
+            image_base64,
+            mime_type,
+            byte_size,
+            width,
+            height,
+            enabled
+        ) VALUES (
+            #{gameId},
+            #{imageKey},
+            #{name},
+            #{description},
+            #{imageBase64},
+            #{mimeType},
+            #{byteSize},
+            #{width},
+            #{height},
+            TRUE
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE public.images
+        SET name = #{name},
+            description = #{description},
+            enabled = #{enabled},
+            <if test="replaceContent">
+                image_base64 = #{imageBase64},
+                mime_type = #{mimeType},
+                byte_size = #{byteSize},
+                width = #{width},
+                height = #{height},
+            </if>
+            updated_at = now()
+        WHERE game_id = #{gameId} AND image_key = #{imageKey}
+    </update>
+</mapper>
