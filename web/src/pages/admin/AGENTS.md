@@ -29,7 +29,7 @@
 
 ## 最小验证
 
-1. 改 Admin 代码后至少运行 `cd web; npm run build`。
+1. 开发中先验证受影响表单；功能收尾按 `web/AGENTS.md` 完成完整检查，包含 `npm run build`（在 `web/` 执行）。
 2. 改页面行为时，对受影响的当前管理 Hash 做浏览器 smoke。
 3. 当前页面不得请求 `/combat-data/**`、`versions/current` 或旧发布接口。
 
