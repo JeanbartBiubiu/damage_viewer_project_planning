@@ -53,6 +53,21 @@ type EquipmentRow = {
   updatedAt: string;
 };
 
+type ImageRow = {
+  gameId: string;
+  imageKey: string;
+  name: string;
+  description: string | null;
+  imageBase64: string;
+  mimeType: 'image/png' | 'image/jpeg';
+  byteSize: number;
+  width: number;
+  height: number;
+  enabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type SkillCategoryRow = {
   gameId: string;
   skillCategoryKey: string;
@@ -290,6 +305,7 @@ class MockApi {
   characters: CharacterRow[] = [];
   characterAttributes: Record<string, Record<string, Record<string, number>>> = {};
   equipment: EquipmentRow[] = [];
+  images: ImageRow[] = [];
   equipmentAttributes: Record<string, Record<string, number>> = {};
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
@@ -324,6 +340,9 @@ class MockApi {
   minLevel = 1;
   maxLevel = 2;
   writeFailure: WriteFailure = null;
+  imageWriteFailure: 'validation' | 'duplicate' | null = null;
+  imageClock = 0;
+  imageAdminListRequests = 0;
   listQueries: Array<{ keyword: string | null; status: string | null }> = [];
   writes: CapturedWrite[] = [];
   unmockedRequests: string[] = [];
@@ -361,8 +380,112 @@ class MockApi {
     }
 
     if (method === 'GET' && path === `/api/games/${GAME_ID}/images`) {
-      await this.json(route, 200, { gameId: GAME_ID, images: [] });
+      const updatedAfter = url.searchParams.get('updatedAfter');
+      const images = this.images
+        .filter((item) => !updatedAfter || item.updatedAt > updatedAfter)
+        .map((item) => ({
+          imageKey: item.imageKey,
+          enabled: item.enabled,
+          imageBase64: item.enabled ? item.imageBase64 : null,
+          updatedAt: item.updatedAt
+        }));
+      await this.json(route, 200, { gameId: GAME_ID, images });
       return;
+    }
+
+    const adminImagesPath = `/api/admin/games/${GAME_ID}/images`;
+    if (path === adminImagesPath) {
+      if (method === 'GET') {
+        this.imageAdminListRequests += 1;
+        const keyword = url.searchParams.get('keyword')?.toLocaleLowerCase() ?? '';
+        const enabled = url.searchParams.get('enabled');
+        const items = this.images.filter((item) => (
+          (!keyword
+            || item.imageKey.toLocaleLowerCase().includes(keyword)
+            || item.name.toLocaleLowerCase().includes(keyword))
+          && (enabled === null || item.enabled === (enabled === 'true'))
+        ));
+        await this.json(route, 200, { items, total: items.length });
+        return;
+      }
+      if (method === 'POST') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (this.imageWriteFailure === 'validation') {
+          await this.error(route, 400, '400.VALIDATION_FAILED', '服务端图片名称校验失败', {
+            fieldIssues: [{ field: 'name', code: 'INVALID', message: '服务端图片名称校验失败' }]
+          });
+          return;
+        }
+        if (this.imageWriteFailure === 'duplicate') {
+          await this.error(route, 409, '409.IMAGE_KEY_EXISTS', '图片标识已存在', {
+            fieldIssues: [{ field: 'imageKey', code: 'CONFLICT', message: '图片标识已存在' }]
+          });
+          return;
+        }
+        const imageBase64 = String(body.imageBase64);
+        const metadata = this.readImageMetadata(imageBase64);
+        const timestamp = this.nextImageTimestamp();
+        const row: ImageRow = {
+          gameId: GAME_ID,
+          imageKey: String(body.imageKey),
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          imageBase64,
+          ...metadata,
+          enabled: true,
+          createdAt: timestamp,
+          updatedAt: timestamp
+        };
+        this.images.push(row);
+        await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    if (path.startsWith(`${adminImagesPath}/`)) {
+      const imageKey = path.slice(adminImagesPath.length + 1);
+      const index = this.images.findIndex((item) => item.imageKey === imageKey);
+      if (index < 0) {
+        await this.error(route, 404, '404.IMAGE_NOT_FOUND', '图片不存在');
+        return;
+      }
+      if (method === 'GET') {
+        await this.json(route, 200, this.images[index]);
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        if (this.imageWriteFailure === 'validation') {
+          await this.error(route, 400, '400.VALIDATION_FAILED', '服务端图片名称校验失败', {
+            fieldIssues: [{ field: 'name', code: 'INVALID', message: '服务端图片名称校验失败' }]
+          });
+          return;
+        }
+        const current = this.images[index]!;
+        const imageBase64 = typeof body.imageBase64 === 'string' ? body.imageBase64 : current.imageBase64;
+        const metadata = typeof body.imageBase64 === 'string'
+          ? this.readImageMetadata(imageBase64)
+          : {
+              mimeType: current.mimeType,
+              byteSize: current.byteSize,
+              width: current.width,
+              height: current.height
+            };
+        const row: ImageRow = {
+          ...current,
+          name: String(body.name),
+          description: typeof body.description === 'string' ? body.description : null,
+          enabled: Boolean(body.enabled),
+          imageBase64,
+          ...metadata,
+          updatedAt: this.nextImageTimestamp()
+        };
+        this.images[index] = row;
+        await this.json(route, 200, row);
+        return;
+      }
     }
 
     if (path === `/api/admin/games/${GAME_ID}/level-config`) {
@@ -2175,6 +2298,26 @@ class MockApi {
     return false;
   }
 
+  private nextImageTimestamp(): string {
+    this.imageClock += 1;
+    return new Date(Date.UTC(2026, 8, 5, 12, 0, this.imageClock)).toISOString();
+  }
+
+  private readImageMetadata(imageBase64: string): Pick<ImageRow, 'mimeType' | 'byteSize' | 'width' | 'height'> {
+    const match = /^data:(image\/(?:png|jpeg));base64,(.+)$/.exec(imageBase64);
+    if (!match) throw new Error('invalid mocked image data URL');
+    const bytes = Buffer.from(match[2]!, 'base64');
+    if (match[1] === 'image/png' && bytes.length >= 24) {
+      return {
+        mimeType: 'image/png',
+        byteSize: bytes.length,
+        width: bytes.readUInt32BE(16),
+        height: bytes.readUInt32BE(20)
+      };
+    }
+    return { mimeType: 'image/jpeg', byteSize: bytes.length, width: 64, height: 64 };
+  }
+
   private async body(request: Request): Promise<Json> {
     const raw = request.postData();
     return raw ? JSON.parse(raw) as Json : {};
@@ -2226,6 +2369,30 @@ async function prepare(page: Page, mock: MockApi): Promise<Diagnostics> {
       expect(pageErrors, `${label}: uncaught page errors`).toEqual([]);
       expect(mock.unmockedRequests, `${label}: unmocked API calls`).toEqual([]);
     }
+  };
+}
+
+async function pngUpload(
+  page: Page,
+  width: number,
+  height: number,
+  name = `image-${width}x${height}.png`
+): Promise<{ name: string; mimeType: string; buffer: Buffer }> {
+  const dataUrl = await page.evaluate(({ width: imageWidth, height: imageHeight }) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = imageWidth;
+    canvas.height = imageHeight;
+    const context = canvas.getContext('2d')!;
+    context.fillStyle = '#2563eb';
+    context.fillRect(0, 0, imageWidth, imageHeight);
+    context.fillStyle = '#ffffff';
+    context.fillRect(Math.floor(imageWidth / 4), Math.floor(imageHeight / 4), Math.max(1, Math.floor(imageWidth / 2)), Math.max(1, Math.floor(imageHeight / 2)));
+    return canvas.toDataURL('image/png');
+  }, { width, height });
+  return {
+    name,
+    mimeType: 'image/png',
+    buffer: Buffer.from(dataUrl.split(',')[1]!, 'base64')
   };
 }
 
@@ -2290,6 +2457,12 @@ async function openGameSettings(page: Page): Promise<void> {
   await expect(page.locator('.app-main').getByText('游戏配置', { exact: true }).first()).toBeVisible();
 }
 
+async function openImages(page: Page): Promise<void> {
+  await page.goto('/#/images');
+  await waitForGame(page);
+  await expect(page.locator('.app-main').getByText('图片管理', { exact: true }).first()).toBeVisible();
+}
+
 function attributeRow(page: Page, attributeKey: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: attributeKey, exact: true })
@@ -2305,6 +2478,12 @@ function characterRow(page: Page, characterKey: string): Locator {
 function equipmentRow(page: Page, equipmentKey: string): Locator {
   return page.getByRole('row').filter({
     has: page.getByRole('cell', { name: equipmentKey, exact: true })
+  });
+}
+
+function imageRow(page: Page, imageKey: string): Locator {
+  return page.getByRole('row').filter({
+    has: page.getByRole('cell', { name: imageKey, exact: true })
   });
 }
 
@@ -5813,6 +5992,161 @@ test.describe('skill management without Wasm', () => {
   });
 });
 
+test.describe('image management without Wasm', () => {
+  test('reads the image list from local cache and fills it through full sync', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await openImages(page);
+
+    await expect(page.locator('.page-images .panel-title')).toHaveText(['本地缓存工具', '图片管理']);
+    await expect(page.getByText('本地缓存暂无图片，请先全量同步', { exact: true })).toBeVisible();
+    expect(mock.imageAdminListRequests).toBe(0);
+
+    const cachedUpload = await pngUpload(page, 32, 20, 'cached.png');
+    mock.images = [{
+      gameId: GAME_ID,
+      imageKey: 'cached_icon',
+      name: '已同步图片',
+      description: null,
+      imageBase64: `data:image/png;base64,${cachedUpload.buffer.toString('base64')}`,
+      mimeType: 'image/png',
+      byteSize: cachedUpload.buffer.length,
+      width: 32,
+      height: 20,
+      enabled: true,
+      createdAt: '2026-09-05T12:00:00.000Z',
+      updatedAt: '2026-09-05T12:00:00.000Z'
+    }];
+
+    await page.getByRole('button', { name: '全量同步', exact: true }).click();
+    await expect(page.getByText('全量同步完成，本次接收 1 条变化。', { exact: true })).toBeVisible();
+    await expect(imageRow(page, 'cached_icon')).toBeVisible();
+    expect(mock.imageAdminListRequests).toBe(0);
+
+    await page.reload();
+    await waitForGame(page);
+    await expect(imageRow(page, 'cached_icon')).toBeVisible();
+    expect(mock.imageAdminListRequests).toBe(0);
+    diagnostics.assertClean('image cache list');
+  });
+
+  test('creates, edits, replaces, filters, disables, syncs and retains failed drafts', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await openImages(page);
+    await expect(page.getByText('本地缓存暂无图片，请先全量同步', { exact: true })).toBeVisible();
+    expect(mock.imageAdminListRequests).toBe(0);
+
+    await page.getByRole('button', { name: '新建图片', exact: true }).click();
+    let modal = visibleModal(page, '新建图片');
+    await modal.getByLabel('图片标识', { exact: true }).fill('hero_icon');
+    await modal.getByLabel('图片名称', { exact: true }).fill('英雄头像');
+    await modal.getByLabel('图片说明', { exact: true }).fill('初始说明');
+    await modal.getByLabel('选择图片文件', { exact: true }).setInputFiles(await pngUpload(page, 160, 96));
+    await expect(modal.getByText(/原图 160 × 96；已在浏览器处理为 PNG，64 × 64/)).toBeVisible();
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(page.getByText('图片“英雄头像”已保存。', { exact: true })).toBeVisible();
+
+    let row = imageRow(page, 'hero_icon');
+    await expect(row).toBeVisible();
+    await expect.poll(() => row.getByRole('img', { name: 'hero_icon', exact: true }).evaluate(
+      (image: HTMLImageElement) => `${image.naturalWidth} × ${image.naturalHeight}`
+    )).toBe('64 × 64');
+    const createWrite = mock.writes.find((write) => write.method === 'POST' && write.path.endsWith('/images'))!;
+    const createBytes = Buffer.from(String(createWrite.body.imageBase64).split(',')[1]!, 'base64');
+    expect(createBytes.readUInt32BE(16)).toBe(64);
+    expect(createBytes.readUInt32BE(20)).toBe(64);
+
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    modal = visibleModal(page, '编辑图片');
+    await modal.getByLabel('图片说明', { exact: true }).fill('编辑后的说明');
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(page.getByText('图片“英雄头像”已保存。', { exact: true })).toBeVisible();
+    const metadataWrite = mock.writes.filter((write) => write.method === 'PUT').at(-1)!;
+    expect(metadataWrite.body).not.toHaveProperty('imageBase64');
+
+    row = imageRow(page, 'hero_icon');
+    await row.getByRole('button', { name: '替换图片', exact: true }).click();
+    modal = visibleModal(page, '编辑图片');
+    const smallUpload = await pngUpload(page, 32, 20, 'small.png');
+    await modal.getByLabel('选择图片文件', { exact: true }).setInputFiles(smallUpload);
+    await expect(modal.getByText(/小图保持原内容：PNG，32 × 20/)).toBeVisible();
+    await expect(modal.getByText('将替换图片内容', { exact: false })).toBeVisible();
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    row = imageRow(page, 'hero_icon');
+    await expect.poll(() => row.getByRole('img', { name: 'hero_icon', exact: true }).evaluate(
+      (image: HTMLImageElement) => `${image.naturalWidth} × ${image.naturalHeight}`
+    )).toBe('32 × 20');
+    const replacementWrite = mock.writes.filter((write) => write.method === 'PUT').at(-1)!;
+    expect(Buffer.from(String(replacementWrite.body.imageBase64).split(',')[1]!, 'base64')).toEqual(smallUpload.buffer);
+
+    await page.getByLabel('图片标识关键词', { exact: true }).fill('hero');
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    await expect(imageRow(page, 'hero_icon')).toBeVisible();
+    await page.getByLabel('图片标识关键词', { exact: true }).fill('missing');
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    await expect(page.getByText('本地缓存中没有符合筛选条件的图片', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '重置', exact: true }).click();
+    row = imageRow(page, 'hero_icon');
+
+    await page.getByRole('button', { name: '全量同步', exact: true }).click();
+    await expect(page.getByText('全量同步完成，本次接收 1 条变化。', { exact: true })).toBeVisible();
+    await expect(page.getByText('其中可展示 1 条', { exact: true })).toBeVisible();
+
+    await row.getByRole('button', { name: '停用', exact: true }).click();
+    const disableModal = visibleModal(page, '停用图片');
+    await disableModal.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(page.getByText('图片“英雄头像”已停用。', { exact: true })).toBeVisible();
+    await expect(page.getByText('其中可展示 0 条', { exact: true })).toBeVisible();
+    await page.getByLabel('图片状态筛选', { exact: true }).getByText('停用', { exact: true }).click();
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    row = imageRow(page, 'hero_icon');
+    await expect(row).toBeVisible();
+    await row.getByRole('button', { name: '启用', exact: true }).click();
+    await expect(page.getByText('图片“英雄头像”已启用。', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '增量同步', exact: true }).click();
+    await expect(page.getByText('增量同步完成，本次接收 0 条变化。', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新建图片', exact: true }).click();
+    modal = visibleModal(page, '新建图片');
+    await modal.getByLabel('图片标识', { exact: true }).fill('draft_icon');
+    await modal.getByLabel('图片名称', { exact: true }).fill('保留草稿');
+    await modal.getByLabel('选择图片文件', { exact: true }).setInputFiles(await pngUpload(page, 20, 20));
+    mock.imageWriteFailure = 'validation';
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(modal.getByText('服务端图片名称校验失败', { exact: true }).first()).toBeVisible();
+    await expect(modal.getByLabel('图片标识', { exact: true })).toHaveValue('draft_icon');
+    await expect(modal.getByLabel('图片名称', { exact: true })).toHaveValue('保留草稿');
+    mock.imageWriteFailure = 'duplicate';
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(modal.getByText('图片标识已存在', { exact: true }).first()).toBeVisible();
+    await expect(modal.getByLabel('图片标识', { exact: true })).toHaveValue('draft_icon');
+    mock.imageWriteFailure = null;
+
+    const oversized = {
+      name: 'too-large.png',
+      mimeType: 'image/png',
+      buffer: Buffer.alloc(5_242_881)
+    };
+    await modal.getByLabel('选择图片文件', { exact: true }).setInputFiles(oversized);
+    await expect(modal.getByText('源图片不能超过 5 MB。', { exact: true })).toBeVisible();
+    const writesBeforeBlockedSave = mock.writes.length;
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    expect(mock.writes).toHaveLength(writesBeforeBlockedSave);
+    await modal.getByLabel('选择图片文件', { exact: true }).setInputFiles({
+      name: 'fake.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not a png')
+    });
+    await expect(modal.getByText('图片文件声明类型与真实内容不一致。', { exact: true })).toBeVisible();
+    await modal.getByRole('button', { name: '保存', exact: true }).click();
+    expect(mock.writes).toHaveLength(writesBeforeBlockedSave);
+
+    expect(mock.imageAdminListRequests).toBe(0);
+    diagnostics.assertClean('image management');
+  });
+});
+
 test.describe('attribute management without Wasm', () => {
   test('empty state, normalized query filtering and reset', async ({ page }) => {
     const mock = new MockApi();
@@ -6072,7 +6406,7 @@ test.describe('attribute management without Wasm', () => {
       ['#/skills', '技能管理'],
       ['#/statuses', '状态管理'],
       ['#/game-settings', '游戏配置'],
-      ['#/images', '同步动作']
+      ['#/images', '图片管理']
     ];
 
     for (const [hash, title] of currentPages) {
