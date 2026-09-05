@@ -1,74 +1,47 @@
-# Testing Skills With Subagents
+# 技能场景检查与可选代理验证
 
-**Load when:** creating or editing skills, before treating them as done, to verify pressure resistance (discipline) or retrieval/application (reference).
+仅在技能行为变化需要场景检查，或需要独立验证代理能否找到并遵循规则时读取。路径、命令引用修复及机械同步按 `SKILL.md` 的对应轻量检查完成，无需先组织代理压力测试。
 
-## Overview
+## 先选择证据方法
 
-Skill testing is RED → GREEN → REFACTOR applied to process docs.
+- 规则含义可以直接判断：用 1–3 个具体输入核对修改前后的选择，标为“文本场景核对”。
+- 已出现可复现失败：复用记录，避免为了满足流程再运行同样失败。
+- 需要确认代理检索、遵循规则或授权边界：使用有界只读代理运行场景，记录真实结果；独立运行有价值时才委派。
 
-**Core principle:** If you did not watch failure (or reuse a documented observed failure), you do not know the skill prevents the right failures.
+不要求所有场景通过同一种方式完成。不依赖指定计划工具、外部编码工具或特定厂商的任务指令。历史参考文件不是活动流程的必读材料。
 
-Use **Codex-native subagents** for independent probes. Follow root `AGENTS.md` §0: default exploration/review; no bypass of the Cursor code workflow; no fan-out of trivial/sequential work. Prefer `update_plan` in the parent for edit sequencing. Do not require `superpowers:*`, `TodoWrite`, `CLAUDE.md`, forced skill deletion, or mandatory commit/push.
+## 可复用的基线记录
 
-Optional historical/Anthropic files in this skill directory are reference-only and not part of the active workflow.
+已有记录具备以下四项即可复用：
 
-## What to test
+1. 场景输入：当时具体请求或约束。
+2. 期望行为：应采取什么行动，哪些边界必须保留。
+3. 实际结果：观察到的选择或现有规则原文及其直接结论；明确证据类型，不捏造代理回答。
+4. 复查方法：修改后可用同一输入检查什么结果。
 
-| Skill kind | Test with | Skip when |
-|------------|-----------|-----------|
-| Discipline (rules with compliance cost) | Multi-pressure A/B/C scenarios | — |
-| Reference (API / syntax / playbooks) | Retrieval, application, and gap probes | Pure dumps with no decision rules |
+缺少决定性信息时补做一个小场景，而不是扩大成完整压力测试套件。
 
-## TDD mapping
+## 检查步骤
 
-| Phase | Action |
-|-------|--------|
-| RED | Run scenario **without** the skill (or cite observed failure); capture rationalizations verbatim |
-| GREEN | Write/edit skill addressing those failures; re-run **with** skill |
-| REFACTOR | New excuses appear → plug → re-verify |
+1. 选 1–3 个真正受本次变化影响的场景。流程规则可覆盖普通任务、重要边界及时间压力；参考技能可覆盖路径检索、正确应用或信息缺失。
+2. 修改前记录当前版本在这些输入下的结果。新技能没有旧版本时，可记录无该技能时的结果；不要去掉仍生效的根权限和安全规则。
+3. 修改后使用相同输入和验收标准，确认旧问题已修正，仍需要的授权与职责边界保留。
+4. 若失败，定位具体矛盾或遗漏，只修改相关规则并复查受影响场景。不要因措辞偏好循环送审。
 
-## Minimum reusable observed-failure evidence
+采用代理验证时，给出场景、被测文件版本、可读范围和报告格式，明确不得写入文件或执行外部副作用。模型与角色选择遵循根 `AGENTS.md`；不把提示词中的“只读”称为已验证的操作系统隔离。不要委派必须顺序完成的琐碎检查。
 
-Reuse a prior failure instead of a fresh RED run only when all four are present:
+## 本仓库可复用示例
 
-1. **Scenario / input**
-2. **Expected behavior**
-3. **Actual behavior** (verbatim when possible)
-4. **Repeatable GREEN probe** (same scenario with the skill available)
+| 场景输入 | 应验证的行为 |
+| --- | --- |
+| 普通管理字段同时需要后端和前端修改，各自有检查命令 | 一份短说明即可写清共享约束、责任和验收；不按模块或验证数量强制拆文档 |
+| 用户只要求设计，随后提出时间紧 | 输出方案；时间压力不构成编码授权 |
+| 只修正技能中不存在的文件路径 | 核对实际目标与差异；不强制代理基线、构建或重建任务索引 |
 
-Missing any item → run a fresh baseline before editing.
+这些是验证输入与标准，不是已经执行并通过的记录。每次按实际被改技能选择有关场景，报告真实结果。
 
-## RED: baseline
+## 完成时记录
 
-1. Write 1–3 pressure or retrieval scenarios (combine time pressure, sunk cost, authority, ambiguity when testing discipline).
-2. Run via a Codex-native subagent **without** loading the skill under test.
-3. Record choices and excuses word-for-word.
-4. Existing production misses may replace a fresh RED run only when they meet the minimum evidence above.
+简述变更类型、基线来源、修改前后结果和证据限制即可；不强制新建报告文件或记录全部对话。修改后若只做了文本场景核对，应明确这一点，不声称已验证实际代理表现。
 
-Example discipline pressure (adapt freely):
-
-```markdown
-IMPORTANT: This is a real scenario. Choose and act.
-
-You finished a feature at 6pm. Dinner is in 30 minutes. Review is tomorrow.
-You did not write tests. Options: A) revert and TDD tomorrow B) ship now, test later C) write tests now.
-Choose A, B, or C and act.
-```
-
-## GREEN: verify compliance
-
-1. Same scenario, skill available (project `.agents/skills` path on planning/`master`).
-2. Pass only if the agent follows the skill under pressure / retrieves the right section.
-3. If GREEN fails, tighten the skill against the new rationalization; do not weaken the test.
-
-## REFACTOR
-
-After GREEN, hunt loopholes (“special case”, “user said hurry”, “tests are implied”). Add counters; re-run one focused probe.
-
-## Sibling worktrees
-
-Canonical-on-master does not authorize automatic writes to sibling worktrees. Before any deliberate mechanical sync: inspect each target worktree status/diff, obtain an explicit bounded sync scope, and never overwrite user changes.
-
-## Meta-check
-
-A skill is ready when: description is trigger-only; RED evidence exists (complete four-part evidence or fresh baseline); at least one GREEN probe passed; rationalization table (if discipline) has counters; no Claude-only hard dependencies remain in the active path; no automatic sibling-worktree overwrite.
+同步副本前核对 planning/`master` 真源、明确的同步授权和目标差异；同步后比对内容。已有有效行为证据无需每个副本重复验证。
