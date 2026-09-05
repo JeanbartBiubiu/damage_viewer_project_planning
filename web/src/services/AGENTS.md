@@ -12,9 +12,9 @@
 
 ## 关键入口
 
-1. `apiClient.ts`：API base URL、Bearer token、games/images、错误模型。`GET /api/games` 只解析 `gameId`、`gameName`、`gameImgUrl`。
+1. `apiClient.ts`：接口基址、Bearer token、游戏列表与错误模型。`GET /api/games` 只解析 `gameId`、`gameName`、`gameImgUrl`。
 2. `attributeClient.ts` / `characterClient.ts` / `equipmentClient.ts` / `skillCategoryClient.ts` / `damageTypeClient.ts` / `skillClient.ts` / `statusClient.ts`：当前管理客户端。
-3. `imageCache.ts` / `resourceImage.ts`：图片缓存与上传前处理。
+3. `imageClient.ts` / `imageCache.ts` / `resourceImage.ts`：图片管理接口、图片缓存与上传前处理。
 
 ## 最小验证
 

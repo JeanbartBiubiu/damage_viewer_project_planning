@@ -1,9 +1,4 @@
-import type {
-  ApiErrorResponse,
-  GameSummary,
-  ImageAsset,
-  ImageCollectionResponse
-} from '../types/api';
+import type { ApiErrorResponse, GameSummary } from '../types/api';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8080';
 
@@ -53,32 +48,6 @@ export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSumma
     ...result,
     data: normalizeGameSummaries(result.data)
   };
-}
-
-export async function getImages(
-  apiBaseUrl: string,
-  gameId: string,
-  updatedAfter?: string
-): Promise<ApiResult<ImageCollectionResponse>> {
-  const url = new URL(`/api/games/${encodePathSegment(gameId)}/images`, `${resolveApiBaseUrl(apiBaseUrl)}/`);
-  if (updatedAfter) {
-    url.searchParams.set('updatedAfter', updatedAfter);
-  }
-  return requestJson<ImageCollectionResponse>(apiBaseUrl, `${url.pathname}${url.search}`);
-}
-
-export async function putImage(
-  apiBaseUrl: string,
-  gameId: string,
-  uri: string,
-  token: string,
-  imageBase64: string
-): Promise<ApiResult<ImageAsset>> {
-  return requestJson<ImageAsset>(apiBaseUrl, adminPath(gameId, 'images', uri), {
-    method: 'PUT',
-    token,
-    body: JSON.stringify({ imageBase64 })
-  });
 }
 
 export async function requestJson<T>(
@@ -133,11 +102,6 @@ function normalizeGameSummary(value: unknown): GameSummary {
     gameName: typeof record.gameName === 'string' ? record.gameName : '',
     gameImgUrl: typeof record.gameImgUrl === 'string' ? record.gameImgUrl : null
   };
-}
-
-function adminPath(gameId: string, ...segments: string[]): string {
-  const encodedSegments = segments.map(encodePathSegment).join('/');
-  return `/api/admin/games/${encodePathSegment(gameId)}/${encodedSegments}`;
 }
 
 function buildUrl(apiBaseUrl: string, path: string): string {
