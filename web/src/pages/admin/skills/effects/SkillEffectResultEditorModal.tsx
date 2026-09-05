@@ -15,11 +15,13 @@ import { listAttributes } from '../../../../services/attributeClient';
 import { listDamageTypes } from '../../../../services/damageTypeClient';
 import { listModifierZones } from '../../../../services/modifierZoneClient';
 import { listSkills } from '../../../../services/skillClient';
+import { listSkillCategories } from '../../../../services/skillCategoryClient';
 import { listStatuses } from '../../../../services/statusClient';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { ModifierZone } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
+import type { SkillCategory } from '../../../../types/skillCategory';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   AttributeChangeOperation,
@@ -83,6 +85,7 @@ import {
   SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS,
   SKILL_EFFECT_VAMP_TYPE_LABELS,
   SKILL_EFFECT_VAMP_TYPES,
+  SKILL_HASTE_MODIFIER_OPERATION_LABELS,
   STATUS_OPERATION_LABELS,
   UNKNOWN_LIFECYCLE_TARGET_LABEL,
   EXECUTE_RESULT_HINT,
@@ -96,6 +99,7 @@ import {
   clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
   isCatalogOptionSelectable,
+  isFixedPersistentSnapshotResult,
   isModifierZoneRequired,
   isPeriodicExecutionModeVisible,
   isPersistentOnlyResultType,
@@ -106,6 +110,7 @@ import {
   isValueReadModeFixed,
   isValueReadModeVisible,
   isValueRuleVisible,
+  listAffectedSkillCategoryOptions,
   listAffectedSkillOptions,
   listAllowedLifecycleMoments,
   listAttributeOptions,
@@ -117,6 +122,7 @@ import {
   modifierZoneDomainForDraft,
   listStatusOptions,
   sortVampRuleDrafts,
+  usesAffectedSkillScope,
   validateSkillEffectDraft,
   valueFormulaLabelFor,
   type CatalogRefOption,
@@ -126,7 +132,9 @@ import {
   type SkillEffectResultDraft,
   type SkillEffectResultDraftErrors
 } from './effectForm';
+import { SkillEffectAffectedSkillScopeFields } from './SkillEffectAffectedSkillScopeFields';
 import { ModifierZoneEditorModal } from '../../modifier-zones/ModifierZoneEditorModal';
+import { SkillCategoryEditorModal } from '../../skill-categories/SkillCategoryEditorModal';
 
 export type SkillEffectResultEditorMode = 'create' | 'view' | 'edit';
 
@@ -331,15 +339,18 @@ export function SkillEffectResultEditorModal({
   const [modifierZones, setModifierZones] = useState<ModifierZone[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
   const [statuses, setStatuses] = useState<GameStatus[]>([]);
   const [catalogLoadState, setCatalogLoadState] = useState<EffectCatalogLoadState>({});
   const [catalogErrors, setCatalogErrors] = useState<Partial<Record<keyof EffectCatalogLoadState, string>>>({});
   const [catalogLoading, setCatalogLoading] = useState<Partial<Record<keyof EffectCatalogLoadState, boolean>>>({});
   const [modifierZoneEditorVisible, setModifierZoneEditorVisible] = useState(false);
+  const [skillCategoryEditorVisible, setSkillCategoryEditorVisible] = useState(false);
   const damageTypeSerial = useRef(0);
   const modifierZoneSerial = useRef(0);
   const attributeSerial = useRef(0);
   const skillSerial = useRef(0);
+  const skillCategorySerial = useRef(0);
   const statusSerial = useRef(0);
   const readOnly = mode === 'view';
   const existingResult = draft.originalResultType !== null;
@@ -352,16 +363,19 @@ export function SkillEffectResultEditorModal({
     modifierZoneSerial.current += 1;
     attributeSerial.current += 1;
     skillSerial.current += 1;
+    skillCategorySerial.current += 1;
     statusSerial.current += 1;
     setDamageTypes([]);
     setModifierZones([]);
     setAttributes([]);
     setSkills([]);
+    setSkillCategories([]);
     setStatuses([]);
     setCatalogLoadState({});
     setCatalogErrors({});
     setCatalogLoading({});
     setModifierZoneEditorVisible(false);
+    setSkillCategoryEditorVisible(false);
   }, []);
 
   useEffect(() => {
@@ -490,6 +504,38 @@ export function SkillEffectResultEditorModal({
     }
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
+  const loadSkillCategoriesCatalog = useCallback(async () => {
+    const serial = skillCategorySerial.current + 1;
+    skillCategorySerial.current = serial;
+    const token = adminToken.trim();
+    if (!visible || !token) {
+      setSkillCategories([]);
+      setCatalogLoadState((current) => ({
+        ...current,
+        skillCategories: token ? current.skillCategories : undefined
+      }));
+      setCatalogLoading((current) => ({ ...current, skillCategories: false }));
+      return;
+    }
+    setCatalogLoading((current) => ({ ...current, skillCategories: true }));
+    try {
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
+      if (skillCategorySerial.current !== serial) return;
+      setSkillCategories(result.data.items);
+      setCatalogLoadState((current) => ({ ...current, skillCategories: 'ready' }));
+      setCatalogErrors((current) => ({ ...current, skillCategories: undefined }));
+    } catch (error) {
+      if (skillCategorySerial.current !== serial) return;
+      setSkillCategories([]);
+      setCatalogLoadState((current) => ({ ...current, skillCategories: 'failed' }));
+      setCatalogErrors((current) => ({ ...current, skillCategories: getErrorMessage(error) }));
+    } finally {
+      if (skillCategorySerial.current === serial) {
+        setCatalogLoading((current) => ({ ...current, skillCategories: false }));
+      }
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+
   const loadStatusesCatalog = useCallback(async () => {
     const serial = statusSerial.current + 1;
     statusSerial.current = serial;
@@ -538,15 +584,29 @@ export function SkillEffectResultEditorModal({
       void loadAttributes();
     }
     if (isModifierZoneRequired(draft)) void loadModifierZones();
-    if (draft.resultType === 'COOLDOWN_CHANGE') void loadSkillsCatalog();
+    if (usesAffectedSkillScope(draft.resultType)) void loadSkillsCatalog();
+    if (
+      usesAffectedSkillScope(draft.resultType)
+      && (
+        draft.affectedSkillScope.mode === 'CATEGORIES'
+        || draft.affectedSkillScope.skillCategoryKeys.length > 0
+        || draft.originalSkillCategoryKeys.length > 0
+      )
+    ) {
+      void loadSkillCategoriesCatalog();
+    }
     if (draft.resultType === 'STATUS_OPERATION') void loadStatusesCatalog();
   }, [
+    draft.affectedSkillScope.mode,
+    draft.affectedSkillScope.skillCategoryKeys.length,
     draft.attributeOperation,
     draft.lifecycleBehavior.moment,
+    draft.originalSkillCategoryKeys.length,
     draft.resultType,
     loadAttributes,
     loadDamageTypes,
     loadModifierZones,
+    loadSkillCategoriesCatalog,
     loadSkillsCatalog,
     loadStatusesCatalog,
     visible
@@ -561,8 +621,9 @@ export function SkillEffectResultEditorModal({
     modifierZones,
     attributes,
     skills,
+    skillCategories,
     statuses
-  }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skills, statuses]);
+  }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skillCategories, skills, statuses]);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,
@@ -607,8 +668,20 @@ export function SkillEffectResultEditorModal({
     [catalog, draft.attributeKey, draft.originalAttributeKey]
   );
   const skillOptions = useMemo(
-    () => listAffectedSkillOptions(catalog, draft.affectedSkillKeys, draft.originalAffectedSkillKeys),
-    [catalog, draft.affectedSkillKeys, draft.originalAffectedSkillKeys]
+    () => listAffectedSkillOptions(
+      catalog,
+      draft.affectedSkillScope.skillKeys,
+      draft.originalAffectedSkillKeys
+    ),
+    [catalog, draft.affectedSkillScope.skillKeys, draft.originalAffectedSkillKeys]
+  );
+  const skillCategoryOptions = useMemo(
+    () => listAffectedSkillCategoryOptions(
+      catalog,
+      draft.affectedSkillScope.skillCategoryKeys,
+      draft.originalSkillCategoryKeys
+    ),
+    [catalog, draft.affectedSkillScope.skillCategoryKeys, draft.originalSkillCategoryKeys]
   );
   const statusOptions = useMemo(
     () => listStatusOptions(catalog, draft.statusKey, draft.originalStatusKey),
@@ -656,6 +729,10 @@ export function SkillEffectResultEditorModal({
     () => namesFrom(skills, (item) => item.skillKey, (item) => item.name),
     [skills]
   );
+  const skillCategoryNames = useMemo(
+    () => namesFrom(skillCategories, (item) => item.skillCategoryKey, (item) => item.name),
+    [skillCategories]
+  );
   const statusNames = useMemo(
     () => namesFrom(statuses, (item) => item.statusKey, (item) => item.name),
     [statuses]
@@ -699,8 +776,18 @@ export function SkillEffectResultEditorModal({
       return true;
     }
     if (
-      draft.resultType === 'COOLDOWN_CHANGE'
-      && draft.affectedSkillKeys.some((skillKey) => hasUnknownOption(skillOptions, skillKey))
+      usesAffectedSkillScope(draft.resultType)
+      && draft.affectedSkillScope.mode === 'SKILLS'
+      && draft.affectedSkillScope.skillKeys.some((skillKey) => hasUnknownOption(skillOptions, skillKey))
+    ) {
+      return true;
+    }
+    if (
+      usesAffectedSkillScope(draft.resultType)
+      && draft.affectedSkillScope.mode === 'CATEGORIES'
+      && draft.affectedSkillScope.skillCategoryKeys.some((categoryKey) => (
+        hasUnknownOption(skillCategoryOptions, categoryKey)
+      ))
     ) {
       return true;
     }
@@ -720,7 +807,9 @@ export function SkillEffectResultEditorModal({
     catalog,
     criticalFormulaOptions,
     damageTypeOptions,
-    draft.affectedSkillKeys,
+    draft.affectedSkillScope.mode,
+    draft.affectedSkillScope.skillCategoryKeys,
+    draft.affectedSkillScope.skillKeys,
     draft.attributeKey,
     draft.attributeOperation,
     draft.damageTypeKey,
@@ -737,6 +826,7 @@ export function SkillEffectResultEditorModal({
     lifecycleTargetOptions,
     modifierZoneOptions,
     showValueRule,
+    skillCategoryOptions,
     skillOptions,
     statusOptions
   ]);
@@ -762,7 +852,12 @@ export function SkillEffectResultEditorModal({
       return true;
     }
     if (isModifierZoneRequired(draft) && catalogLoading.modifierZones) return true;
-    if (draft.resultType === 'COOLDOWN_CHANGE' && catalogLoading.skills) return true;
+    if (usesAffectedSkillScope(draft.resultType) && catalogLoading.skills) return true;
+    if (
+      usesAffectedSkillScope(draft.resultType)
+      && draft.affectedSkillScope.mode === 'CATEGORIES'
+      && catalogLoading.skillCategories
+    ) return true;
     if (draft.resultType === 'STATUS_OPERATION' && catalogLoading.statuses) return true;
     if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsLoadState !== 'ready' && effectsLoadState !== 'failed') {
       return effectsLoadState === undefined;
@@ -772,8 +867,10 @@ export function SkillEffectResultEditorModal({
     catalogLoading.attributes,
     catalogLoading.damageTypes,
     catalogLoading.modifierZones,
+    catalogLoading.skillCategories,
     catalogLoading.skills,
     catalogLoading.statuses,
+    draft.affectedSkillScope.mode,
     draft.attributeOperation,
     draft.lifecycleBehavior.moment,
     draft.resultType,
@@ -808,8 +905,15 @@ export function SkillEffectResultEditorModal({
     if (isModifierZoneRequired(draft) && catalogErrors.modifierZones) {
       messages.push(catalogErrors.modifierZones);
     }
-    if (draft.resultType === 'COOLDOWN_CHANGE' && catalogErrors.skills) {
+    if (usesAffectedSkillScope(draft.resultType) && catalogErrors.skills) {
       messages.push(catalogErrors.skills);
+    }
+    if (
+      usesAffectedSkillScope(draft.resultType)
+      && draft.affectedSkillScope.mode === 'CATEGORIES'
+      && catalogErrors.skillCategories
+    ) {
+      messages.push(catalogErrors.skillCategories);
     }
     if (draft.resultType === 'STATUS_OPERATION' && catalogErrors.statuses) {
       messages.push(catalogErrors.statuses);
@@ -822,8 +926,10 @@ export function SkillEffectResultEditorModal({
     catalogErrors.attributes,
     catalogErrors.damageTypes,
     catalogErrors.modifierZones,
+    catalogErrors.skillCategories,
     catalogErrors.skills,
     catalogErrors.statuses,
+    draft.affectedSkillScope.mode,
     draft.attributeOperation,
     draft.lifecycleBehavior.moment,
     draft.resultType,
@@ -994,7 +1100,17 @@ export function SkillEffectResultEditorModal({
       void loadAttributes();
     }
     if (isModifierZoneRequired(draft)) void loadModifierZones();
-    if (draft.resultType === 'COOLDOWN_CHANGE') void loadSkillsCatalog();
+    if (usesAffectedSkillScope(draft.resultType)) void loadSkillsCatalog();
+    if (
+      usesAffectedSkillScope(draft.resultType)
+      && (
+        draft.affectedSkillScope.mode === 'CATEGORIES'
+        || draft.affectedSkillScope.skillCategoryKeys.length > 0
+        || draft.originalSkillCategoryKeys.length > 0
+      )
+    ) {
+      void loadSkillCategoriesCatalog();
+    }
     if (draft.resultType === 'STATUS_OPERATION') void loadStatusesCatalog();
     if (draft.resultType === 'LIFECYCLE_OPERATION') onRetryEffects?.();
   };
@@ -1759,32 +1875,17 @@ export function SkillEffectResultEditorModal({
 
           {draft.resultType === 'COOLDOWN_CHANGE' ? (
             <>
-              <Form.Item
-                label="受影响技能"
-                required
-                validateStatus={errors.affectedSkillKeys ? 'error' : undefined}
-                help={errors.affectedSkillKeys}
-              >
-                <Select
-                  aria-label="受影响技能"
-                  mode="multiple"
-                  value={draft.affectedSkillKeys}
-                  disabled={readOnly}
-                  options={toSelectOptions(skillOptions, skillNames, parentSkill)}
-                  placeholder="请选择一个或多个受影响技能"
-                  renderFormat={(_option, value) => {
-                    const key = typeof value === 'object' && value !== null && 'value' in value
-                      ? String(value.value)
-                      : String(value);
-                    const catalogOption = skillOptions.find((item) => item.key === key);
-                    return catalogOption ? catalogLabel(catalogOption, skillNames, parentSkill) : key;
-                  }}
-                  onChange={(value) => patchDraft({
-                    ...draft,
-                    affectedSkillKeys: Array.isArray(value) ? value.map(String) : []
-                  })}
-                />
-              </Form.Item>
+              <SkillEffectAffectedSkillScopeFields
+                draft={draft}
+                errors={errors}
+                readOnly={readOnly}
+                skillOptions={toSelectOptions(skillOptions, skillNames, parentSkill)}
+                categoryOptions={toSelectOptions(skillCategoryOptions, skillCategoryNames)}
+                skillsLoading={catalogLoading.skills}
+                categoriesLoading={catalogLoading.skillCategories}
+                onChange={patchDraft}
+                onCreateCategory={() => setSkillCategoryEditorVisible(true)}
+              />
               <Form.Item
                 label="操作"
                 required
@@ -1804,6 +1905,42 @@ export function SkillEffectResultEditorModal({
                   ))}
                 </Radio.Group>
               </Form.Item>
+            </>
+          ) : null}
+
+          {draft.resultType === 'SKILL_HASTE_MODIFIER' ? (
+            <>
+              <Form.Item
+                label="操作"
+                required
+                validateStatus={errors.skillHasteOperation ? 'error' : undefined}
+                help={errors.skillHasteOperation}
+              >
+                <Radio.Group
+                  aria-label="技能急速操作"
+                  value={draft.skillHasteOperation}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    skillHasteOperation: value as SkillEffectModifierOperation
+                  })}
+                >
+                  {Object.entries(SKILL_HASTE_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+              <SkillEffectAffectedSkillScopeFields
+                draft={draft}
+                errors={errors}
+                readOnly={readOnly}
+                skillOptions={toSelectOptions(skillOptions, skillNames, parentSkill)}
+                categoryOptions={toSelectOptions(skillCategoryOptions, skillCategoryNames)}
+                skillsLoading={catalogLoading.skills}
+                categoriesLoading={catalogLoading.skillCategories}
+                onChange={patchDraft}
+                onCreateCategory={() => setSkillCategoryEditorVisible(true)}
+              />
             </>
           ) : null}
 
@@ -1914,9 +2051,13 @@ export function SkillEffectResultEditorModal({
                       }
                     })}
                   >
-                    {Object.entries(SKILL_EFFECT_VALUE_READ_MODE_LABELS).map(([value, label]) => (
-                      <Radio key={value} value={value}>{label}</Radio>
-                    ))}
+                    {Object.entries(SKILL_EFFECT_VALUE_READ_MODE_LABELS)
+                      .filter(([value]) => !(
+                        isFixedPersistentSnapshotResult(draft) && value === 'MOMENT_EVALUATION'
+                      ))
+                      .map(([value, label]) => (
+                        <Radio key={value} value={value}>{label}</Radio>
+                      ))}
                   </Radio.Group>
                 </Form.Item>
               ) : null}
@@ -1930,7 +2071,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="层数值方式"
                     value={draft.lifecycleBehavior.stackValueMode}
-                    disabled={readOnly || isSharedOnlyPersistentResult(draft)}
+                    disabled={readOnly || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft(
                       applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
                     )}
@@ -1940,6 +2081,7 @@ export function SkillEffectResultEditorModal({
                         value === 'PER_STACK'
                         && (
                           isSharedOnlyPersistentResult(draft)
+                          || isFixedPersistentSnapshotResult(draft)
                           || (
                             draft.resultType === 'NORMAL_SHIELD'
                             && draft.shieldDecayMode === 'LINEAR_TO_ZERO'
@@ -1962,7 +2104,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="重复值方式"
                     value={draft.lifecycleBehavior.reapplicationValueMode}
-                    disabled={readOnly}
+                    disabled={readOnly || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft({
                       ...draft,
                       lifecycleBehavior: {
@@ -1972,7 +2114,10 @@ export function SkillEffectResultEditorModal({
                     })}
                   >
                     {Object.entries(SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS)
-                      .filter(([value]) => !(isSharedOnlyPersistentResult(draft) && value === 'ADD'))
+                      .filter(([value]) => !(
+                        (isSharedOnlyPersistentResult(draft) && value === 'ADD')
+                        || (isFixedPersistentSnapshotResult(draft) && value !== 'KEEP')
+                      ))
                       .map(([value, label]) => (
                         <Radio key={value} value={value}>{label}</Radio>
                       ))}
@@ -2067,6 +2212,32 @@ export function SkillEffectResultEditorModal({
         setCatalogLoadState((current) => ({ ...current, modifierZones: 'ready' }));
         setModifierZoneEditorVisible(false);
         patchDraft({ ...draft, modifierZoneKey: saved.modifierZoneKey });
+      }}
+      onDirtyChange={() => {}}
+    />
+    <SkillCategoryEditorModal
+      visible={skillCategoryEditorVisible}
+      mode="create"
+      category={null}
+      apiBaseUrl={apiBaseUrl}
+      selectedGameId={selectedGameId}
+      adminToken={adminToken}
+      onClose={() => setSkillCategoryEditorVisible(false)}
+      onSaved={async (saved) => {
+        setSkillCategoryEditorVisible(false);
+        await loadSkillCategoriesCatalog();
+        const selected = draft.affectedSkillScope.skillCategoryKeys;
+        patchDraft({
+          ...draft,
+          affectedSkillScope: {
+            ...draft.affectedSkillScope,
+            mode: 'CATEGORIES',
+            skillKeys: [],
+            skillCategoryKeys: selected.includes(saved.skillCategoryKey)
+              ? selected
+              : [...selected, saved.skillCategoryKey]
+          }
+        });
       }}
       onDirtyChange={() => {}}
     />

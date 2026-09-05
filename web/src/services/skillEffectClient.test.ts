@@ -555,4 +555,157 @@ describe('skillEffectClient', () => {
       }]
     })).toThrow(/effect\.results\[0\]\.lifecycleBehavior/);
   });
+
+  it('parses cooldown and skill-haste public skill scopes and reports nested protocol paths', () => {
+    const allScope = { mode: 'ALL', skillKeys: [], skillCategoryKeys: [] };
+    const parsedCooldown = parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultKey: 'reset_cd',
+        resultType: 'COOLDOWN_CHANGE',
+        valueRule: null,
+        detail: { operation: 'RESET', affectedSkillScope: allScope }
+      }]
+    });
+    expect(parsedCooldown.results[0]).toMatchObject({
+      resultType: 'COOLDOWN_CHANGE',
+      detail: { operation: 'RESET', affectedSkillScope: allScope }
+    });
+    expect(parsedCooldown.results[0]?.detail).not.toHaveProperty('affectedSkillKeys');
+
+    const hasteLifecycle = {
+      moment: 'PERSISTENT',
+      valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: 'KEEP',
+      periodicExecutionMode: null
+    };
+    const parsedHaste = parseSkillEffect({
+      ...detail,
+      lifecycle: {
+        durationFormulaKey: null,
+        maxStacksFormulaKey: 'one',
+        applicationStacksFormulaKey: 'one',
+        instanceScope: 'SOURCE_TARGET',
+        reapplicationStackMode: 'KEEP',
+        reapplicationDurationMode: null,
+        expiryMode: 'EXPLICIT_ONLY',
+        periodicIntervalFormulaKey: null,
+        firstPeriodicExecution: null
+      },
+      results: [{
+        ...damageResult,
+        resultKey: 'haste',
+        resultType: 'SKILL_HASTE_MODIFIER',
+        spellShieldBlockScope: null,
+        lifecycleBehavior: hasteLifecycle,
+        valueRule: damageResult.valueRule,
+        detail: {
+          operation: 'INCREASE',
+          affectedSkillScope: {
+            mode: 'CATEGORIES',
+            skillKeys: [],
+            skillCategoryKeys: ['displacement']
+          }
+        }
+      }]
+    });
+    expect(parsedHaste.results[0]).toMatchObject({
+      resultType: 'SKILL_HASTE_MODIFIER',
+      lifecycleBehavior: hasteLifecycle,
+      detail: {
+        operation: 'INCREASE',
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['displacement']
+        }
+      }
+    });
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'COOLDOWN_CHANGE',
+        valueRule: null,
+        detail: { operation: 'RESET', affectedSkillKeys: ['ezreal_q'] }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.affectedSkillScope/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'COOLDOWN_CHANGE',
+        valueRule: null,
+        detail: {
+          operation: 'RESET',
+          affectedSkillKeys: ['ezreal_q'],
+          affectedSkillScope: allScope
+        }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.affectedSkillKeys/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'COOLDOWN_CHANGE',
+        valueRule: null,
+        detail: {
+          operation: 'RESET',
+          affectedSkillScope: { mode: 'MIXED', skillKeys: [], skillCategoryKeys: [] }
+        }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.affectedSkillScope\.mode/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'COOLDOWN_CHANGE',
+        valueRule: damageResult.valueRule,
+        detail: {
+          operation: 'REDUCE',
+          affectedSkillScope: { mode: 'SKILLS', skillKeys: ['q', 1], skillCategoryKeys: [] }
+        }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.affectedSkillScope\.skillKeys\[1\]/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'SKILL_HASTE_MODIFIER',
+        spellShieldBlockScope: null,
+        lifecycleBehavior: hasteLifecycle,
+        valueRule: damageResult.valueRule,
+        detail: {
+          operation: 'INCREASE',
+          affectedSkillScope: {
+            mode: 'CATEGORIES',
+            skillKeys: [],
+            skillCategoryKeys: [null]
+          }
+        }
+      }]
+    })).toThrow(/effect\.results\[0\]\.detail\.affectedSkillScope\.skillCategoryKeys\[0\]/);
+
+    expect(() => parseSkillEffect({
+      ...detail,
+      results: [{
+        ...damageResult,
+        resultType: 'SKILL_HASTE_MODIFIER',
+        spellShieldBlockScope: null,
+        lifecycleBehavior: {
+          ...hasteLifecycle,
+          moment: 'APPLICATION'
+        },
+        valueRule: damageResult.valueRule,
+        detail: { operation: 'INCREASE', affectedSkillScope: allScope }
+      }]
+    })).toThrow(/effect\.results\[0\]\.lifecycleBehavior\.moment/);
+  });
 });
