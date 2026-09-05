@@ -1,33 +1,16 @@
 # TinyGo Runtime AGENTS.md
 
-## 适用范围
+本文件适用于 `internal/runtime/**`，负责通用会话、运行循环、门禁、供值器和操作执行。
 
-本文件适用于 `wasm/tinygo_engine_v2/internal/runtime/**`。
+## 约束
 
-## 默认读写边界
+- `session.go` 只接线 compile/run/release、会话注册和 rules hash 校验；`generic_run.go` 管理单次确定性运行。
+- DTO 语义先在 model 定义，编译形态先在 compile 定义；运行时不得隐式发明共享契约。
+- ability attempt 条件集中经过 gate；生命值等数值变化经过 operation/pipeline，禁止直接写值。
+- provider 生命周期和 tick 保持确定顺序；热路径遵守上层 TinyGo 内存和并发限制。
+- 必须校验 `sessionId` 与 `expectedRulesHash`，按当前契约返回 `hash_mismatch` 或 `session_not_found`。
+- 不恢复旧 `NewRunContext`、`Step`、DPS 文件或 step ABI。
 
-1. 默认可写：generic session、`RunGeneric`、gate/provider/execution 与 runtime 测试。
-2. `internal/model/generic*.go`、`internal/compile/generic.go`、`internal/abi`、`internal/scheduler`、`internal/formula`、`internal/pipeline` 为协作边界。
-3. DTO 字段语义变化先改 model，不要在 runtime 内隐式发明新契约。
-4. 旧 `NewRunContext`/`Step` 与 `dps_*.go` 已从本目录移除；不要重新引入。
+## 验证
 
-## 关键入口
-
-1. `session.go`：`CompileFrame`/`CompileJSON`、`RunFrame`/`RunJSON`、`ReleaseSessionFrame`/`ReleaseSessionJSON`、session registry 与 hash 校验。
-2. `generic_run.go`：`RunGeneric` 单次 deterministic run。
-3. `generic_execution.go`：operation 执行。
-4. `generic_gate.go`：ability attempt gate。
-5. `generic_provider.go` / `generic_provider_tick.go`：provider 生命周期与 tick。
-
-## 最小验证
-
-1. 改 runtime 行为后运行 `go test -count=1 ./...` 和 `go run ./cmd/bench`。
-2. 改 session/frame/outbox 交互时额外运行 `node .\scripts\smoke-node.mjs`（需先构建 wasm）。
-
-## 常见陷阱
-
-1. run 必须校验 `sessionId` + `expectedRulesHash`；错配写 `hash_mismatch` / `session_not_found`。
-2. 不要绕过 gate 分散 ability attempt 条件。
-3. HP 变化必须经 operation/pipeline，禁止 raw set。
-4. 热路径不要引入 goroutine、channel、lock、反射或 panic/recover 控制流。
-5. 不要把已删除的 legacy step ABI 描述成当前仍存在的路径。
+运行时行为变化按模块规则运行全量 Go 测试和原生 benchmark；会话、frame 或 outbox 交互变化还需构建最终 Wasm 并运行 Node smoke。

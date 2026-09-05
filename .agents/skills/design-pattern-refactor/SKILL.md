@@ -1,165 +1,70 @@
 ---
 name: design-pattern-refactor
-description: Use when reviewing, planning, or implementing behavior-preserving refactors that split large source files or reorganize modules by design-pattern roles, especially TinyGo/Wasm generic compile/session/run, provider/ability/operation pipelines, Strategy, Command, State, Facade, Adapter, Builder, Observer, Mediator, Chain of Responsibility, SOLID, god files, or architecture debt. Do not restore removed legacy DPS/step-loop paths.
+description: "审查、规划或实施保持行为不变的模块拆分与设计模式重构时使用，重点适用于 TinyGo V2 通用执行链；普通功能开发和旧 DPS 路径不使用。"
 ---
 
-# Design Pattern Refactor
+# 设计模式重构
 
-## Principle
+目标是让公开接口隐藏复杂度，并让下一项同类行为只有一个明确落点；不是追求更小文件或更多接口。本技能可用于只读审查、方案和已授权实现。只要求审查或方案时不得修改代码。
 
-Use design patterns as names for real variation points, not as decoration. The goal is not smaller files; the goal is deeper modules whose public surface hides runtime complexity and makes the next mechanic land in one obvious place.
+## 先查事实
 
-This skill supports architecture review and authorized behavior-preserving implementation. Follow root `AGENTS.md` §2 for scope, risk review and execution ownership. A review-only request does not authorize code changes.
+1. 确认工作树、分支和既有改动，读取最近的 `AGENTS.md`、模块 `README.md` 与验证入口。TinyGo V2 另读 `ARCHITECTURE.md`。
+2. 符号、调用链和影响面先查 CodeGraph，再定点读取源码；精确字面量、结构化文本和最终残留检查使用 `rg`。
+3. 记录当前入口、调用者、状态所有者、测试边界和必须保持的公开契约。索引与源码冲突时以当前源码和可运行验证为准。
 
-## First Pass
+## 采用条件
 
-1. Identify the worktree root and branch.
-2. Read the nearest `AGENTS.md`, relevant `README.md`, and validation scripts. For TinyGo V2, read `wasm/tinygo_engine_v2/AGENTS.md`, `README.md`, and `ARCHITECTURE.md`.
-3. Use CodeGraph before broad source scans for symbol/call-chain work:
-   - `npx @colbymchenry/codegraph status`
-   - `npx @colbymchenry/codegraph sync` when pending source changes make the index stale
-   - `npx @colbymchenry/codegraph query|callers|callees|impact <symbol>`
-4. Return from CodeGraph candidates to source lines with targeted reads. Use `rg` for exact text, JSON, Markdown, scripts, and final literal checks.
-5. Preserve existing user changes. Do not revert unrelated dirty files.
+只有候选边界同时满足以下条件才引入设计模式：
 
-Use subagents for independent read-only slices when the review is broad: one agent can inspect runtime boundaries, another can inspect tests/contract coverage. Give each agent a concrete read scope and ask for file/line evidence.
+- 隔离了反复出现的变化点或状态迁移；
+- 减少调用方必须知道的细节，并给新行为一个明确所有者；
+- 能分成保持行为不变的小步骤；
+- 现有测试或成本合理的新测试能证明等价；
+- 不破坏 TinyGo 热路径、内存和确定性约束。
 
-## Pattern Fit Test
+若只是按行数拆文件、生成没有第二个实现的一方法接口、给简单代码增加转发层，或用模式名称替代责任划分，则不采用。
 
-Only recommend a pattern when all of these are true:
+## 当前 TinyGo 边界
 
-- It isolates a recurring variation point or state transition.
-- It reduces caller knowledge, not just line count.
-- It gives a clear owner for new behavior.
-- It can be introduced in behavior-preserving slices.
-- It has existing or cheap-to-add tests that prove equivalence.
+- 正式路径是 `CompileGeneric -> CompiledSession -> RunGeneric -> engine_release_session`；新机制进入 provider（供值器）、ability（能力）或 operation（操作）及其编译、门禁和执行层。
+- `cmd/engine_wasm/main.go` 只负责 ABI（应用二进制接口）和会话接线，业务逻辑留在内部包。
+- 已删除的 Rust、旧 DPS 和 step-loop（分步循环）路径不恢复为兼容层，也不作为新功能落点。
+- 运行时数值变化经过 operation 和 pipeline（数值管道）；监听器产出操作，不直接改状态。
 
-Reject the pattern when it creates a one-method interface with no real variability, hides simple code behind ceremony, weakens TinyGo hot-path constraints, or splits a file without changing responsibility boundaries.
-
-## Pattern Map For This Wasm Project
-
-| Pattern role | Use it for | Local targets |
+| 变化点 | 可选角色 | 典型落点 |
 | --- | --- | --- |
-| Facade / Adapter | Keep host and ABI glue thin; translate external calls into session compile/run/release. | `cmd/engine_wasm/main.go`, ABI frame/outbox, JS Worker / Node host helpers |
-| State | Make session registry and run lifecycle explicit, with guarded transitions. | `Session` genericSessions, `genericRunState`, stopReason |
-| Command | Represent mutations before applying them through one resolver. | generic operations: damage, heal, shield, resource, attribute, provider apply |
-| Strategy | Replace expanding switches where algorithms vary by type/policy. | operation handlers, formula ops, gate policies |
-| Chain of Responsibility / Pipeline | Run ordered gates or transformations with stable evidence. | ability gates, damage pipeline, shield absorption, attribute modifiers |
-| Observer / Mediator | Dispatch events to interested listeners without runtime-wide scanning. | provider listeners, emitted events, type matchers |
-| Builder / Factory | Build compiled or output structures without mixing execution logic. | `CompileGeneric` → `CompiledSession`, snapshots, `DoneResult` builders |
-| Memento | Capture state for inspection without advancing simulation. | initial/final snapshot, series points, evidence |
+| 宿主与内部协议转换 | 外观或适配器 | Wasm 导出、frame、宿主桥接 |
+| 会话及运行阶段迁移 | 状态 | `session.go`、运行状态 |
+| 多类操作应用 | 命令或策略 | `generic_execution.go` |
+| 有顺序的门禁或数值处理 | 责任链或管道 | gate、damage pipeline |
+| 事件分发与监听 | 观察者或中介者 | provider listener、事件匹配 |
 
-Use the Refactoring Guru catalog as vocabulary, not as a checklist. Do not introduce every pattern; choose the smallest pattern that names the actual change axis.
+这些名称只是候选词汇；先证明变化轴，再选择最小结构。
 
-## Wasm-Specific Heuristics
+## 审查与方案
 
-Current architecture facts to verify before acting:
+审查先按“问题、文件行证据、实际影响、最小修复、验证”报告，再给候选优先级。方案至少明确：
 
-- The formal implementation lane is `wasm/tinygo_engine_v2`; do not revive old Rust/Katarina/demo lanes.
-- `cmd/engine_wasm/main.go` should remain a thin ABI/session adapter.
-- Canonical call chain: `CompileGeneric -> CompiledSession` (session registry) -> `RunGeneric` / `generic_execution` -> `engine_release_session`.
-- New mechanisms land in provider / ability / operation + gate/provider/execution files, not in legacy action/effect DPS files.
-- `single_attacker_dps` and `NewRunContext -> Step` remain **compatibility/regression** surfaces only; do not recommend refactoring them as if they were the current new-feature path.
+1. 要抽离的一项责任或变化点；
+2. 非目标，尤其是不改业务语义、DTO、调度器或无关格式；
+3. 允许写入的包和文件；
+4. 必须保持的函数、JSON 字段、ABI 导出及错误行为；
+5. 基线和完成验证；
+6. 遇到语义不明、基线失败、脏改重叠或范围扩大时的停止条件。
 
-Common design smells in this project:
+## 实施
 
-- Treating legacy `engine_begin_run` / step-loop as the place for new generic features.
-- `generic_run.go` / `generic_execution.go` growing by adding another switch branch without a named variation point.
-- Skeleton packages existing without being on the actual generic runtime path.
-- DPS string-map interpretation where generic runtime already has compiled IDs, type sets, or indexes.
-- Tests covering helper-level success but missing ABI/session/host contract boundaries (`smoke-node.mjs`, session hash checks).
+优先按以下顺序切分：移动同包纯函数或类型并保持行为；补足能锁定边界的测试；在稳定基线上抽出分发或处理器；只有存在真实多实现或测试缝时才加接口；最后清理已证明无调用的骨架。行为变化与结构移动分开提交或至少分开差异。
 
-## Review Output
+共享契约、权限、数据处置或运行语义发生变化时，停止按“保持行为重构”处理，返回主负责人重新定性。委派时只给目标、写入范围、保持项、验证和停止条件，写入范围不得重叠。
 
-For read-only review, report findings before redesign ideas. Use this shape:
+## 验证
 
-```text
-Finding: <risk title>
-Evidence: <file:line>...
-Pattern diagnosis: <current smell> -> <candidate pattern role>
-Impact: <why this makes future mechanics harder or riskier>
-Recommendation: <smallest behavior-preserving next step>
-Validation: <existing or needed tests>
-```
+- TinyGo V2 的 Go 重构：`go test -count=1 ./...`。
+- 运行时、调度、公式、管道或 provider 变化：另跑 `go run ./cmd/bench`。
+- ABI、frame、outbox 或会话变化：构建最终 Wasm 后跑 `node .\scripts\smoke-node.mjs`。
+- 构建脚本、target 或导出变化：跑 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`。
+- 前端适配变化：按 `web/AGENTS.md` 验证受影响浏览器路径。
 
-Then provide a candidate table:
-
-| Candidate | Pattern role | Files now | Proposed boundary | Invariants to preserve | First safe slice |
-| --- | --- | --- | --- | --- | --- |
-
-Rank candidates by leverage and risk. Prefer boundaries that reduce future branching in `generic_execution.go` and gate/provider files—not in legacy `dps_driver.go` unless the task is explicitly DPS regression.
-
-## Planning A Split
-
-Before implementation, define:
-
-1. Goal: the one responsibility or variation point being extracted.
-2. Non-goals: no semantic mechanic changes, no DTO changes, no scheduler redesign, no unrelated formatting churn.
-3. Allowed write scope: narrow package/file list.
-4. Public API compatibility: what names, JSON fields, ABI exports, and tests must stay stable.
-5. Verification: exact commands and contract checks.
-6. Stop conditions: ambiguous behavior, failing baseline, unexpected dirty overlap, or scope creep.
-
-Resolve unclear boundaries from repository evidence first. Ask the user only for unresolved scope or behavior choices. Use `grill-me` only when the user explicitly requests that interview.
-
-## Implementation Slices
-
-Prefer these behavior-preserving slices:
-
-1. Move pure helper types/functions into a file with a pattern-role name inside the same Go package. Do not change behavior.
-2. Add focused tests only when the current tests do not lock the boundary.
-3. Extract a dispatcher/handler table only after the current switch has a stable test baseline.
-4. Introduce interfaces only when multiple implementations or a test seam already exist.
-5. Move construction/output building after execution behavior is stable.
-6. Remove or connect skeleton packages only after callers prove the boundary is real.
-
-For generic runtime, likely file boundaries are:
-
-- `generic_run.go`: run loop, stop policy, sampling/done assembly facade.
-- `generic_gate.go`: ability attempt gates.
-- `generic_execution.go`: operation dispatch and application.
-- `generic_provider.go` / `generic_provider_tick.go`: provider lifecycle and ticks.
-- `session.go`: compile/run/release ABI + registry only.
-
-Legacy DPS and step-loop paths have been removed from the current TinyGo module. Do not recreate them for compatibility.
-
-Treat these names as starting hypotheses. Confirm with current source before implementation or delegation.
-
-## 实现与交接
-
-主负责人可直接实现；仅在实际委派时提供以下必要信息：
-
-- target repo and branch
-- goal
-- allowed write scope
-- pattern boundary being introduced
-- non-goals
-- behavior invariants
-- validation commands
-- stop conditions
-
-按根规则选择允许编码的执行角色。仅选择 Cursor 时加载其工具 skill。主负责人检查最终改动及对应验证证据，不要求每个角色重复全量检查。
-
-## Verification
-
-Choose the narrowest meaningful verification:
-
-- Any Go refactor in TinyGo V2: `go test -count=1 ./...`
-- Runtime/scheduler/attribute/resource/formula/pipeline/provider changes: also `go run ./cmd/bench`
-- ABI/frame/outbox/session lifecycle changes: `go test -count=1 ./...` plus `node .\scripts\smoke-node.mjs` when a wasm artifact exists
-- TinyGo build/export/script changes: `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`
-- Frontend adapter changes: follow `web/AGENTS.md` and verify the browser flow
-
-When build/smoke tools are missing, report the missing prerequisite separately from code correctness.
-
-## Common Mistakes
-
-| Mistake | Fix |
-| --- | --- |
-| Splitting by line count | Split by pattern role and variation point. |
-| Adding pattern names without changing ownership | Show which future behavior now lands in one obvious place. |
-| Creating one-method interfaces | Prefer package-private functions or handler tables until real variability exists. |
-| Mixing behavior changes with moves | First move/extract with tests green; change behavior in a later slice. |
-| Replacing the scheduler before proving it is the bottleneck | Target adapter/runtime contracts or provider indexing first unless evidence points to the heap. |
-| Restoring removed legacy DPS/step ABI | Use the current compile/run/release path and preserve behavior in scope. |
-| Trusting docs over code | Verify current code, tests, and scripts every time. |
+缺少工具或产物时分别报告，不把文档检查、Node 单测或静态差异写成真实 Wasm 或浏览器证明。

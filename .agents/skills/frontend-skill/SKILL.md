@@ -1,193 +1,54 @@
 ---
 name: frontend-skill
-description: Use when the user requests a visual redesign, art direction, landing page, visual prototype, or game UI. Do not use for routine Damage Viewer management forms, API wiring, or field maintenance.
+description: "用户要求视觉重设计、艺术方向、落地页、视觉原型或游戏界面时使用；普通管理表单、接口接线和字段维护不使用。"
 ---
 
-# Frontend Skill
+# 前端视觉设计
 
-Use this skill when the quality of the work depends on art direction, hierarchy, restraint, imagery, and motion rather than component count.
+本技能只处理视觉方向明显影响结果的界面工作。用户给定的品牌、参考图、设计系统和功能目标优先；不要把本技能的默认偏好写成对所有页面的硬限制。
 
-Goal: ship interfaces that feel deliberate, premium, and current. Default toward award-level composition: one big idea, strong imagery, sparse copy, rigorous spacing, and a small number of memorable motions.
+## 开始前
 
-## Working Model
+1. 读取最近的 `AGENTS.md`、现有页面、组件、样式、字体和可复用素材，确认技术栈与响应式边界。
+2. 判断目标是落地页、产品工作区还是游戏界面；三者的信息密度、文案和交互重点不同。
+3. 用三句话收敛：视觉主张（气质、材质、节奏）、内容结构、关键交互。若用户已有明确方向，直接转成可验收标准，不另造主题。
 
-Before building, write three things:
+## 通用原则
 
-- visual thesis: one sentence describing mood, material, and energy
-- content plan: hero, support, detail, final CTA
-- interaction thesis: 2-3 motion ideas that change the feel of the page
+- 先组织层级、留白、比例、对齐、裁切和对比，再增加边框、阴影或装饰。
+- 每个区块只承担一个主要信息或动作，第一屏要能说明产品、当前任务或核心价值。
+- 默认控制字体和强调色数量；已有设计系统时沿用现有变量与组件。
+- 卡片只用于确有独立交互或分组语义的内容，不把所有区域都包成卡片。
+- 文案使用产品语言，标题负责定位，辅助文字解释范围、状态或下一步，删除重复和设计自述。
 
-Each section gets one job, one dominant visual idea, and one primary takeaway or action.
+## 按界面类型选择
 
-## Beautiful Defaults
+### 落地页
 
-- Start with composition, not components.
-- Prefer a full-bleed hero or full-canvas visual anchor.
-- Make the brand or product name the loudest text.
-- Keep copy short enough to scan in seconds.
-- Use whitespace, alignment, scale, cropping, and contrast before adding chrome.
-- Limit the system: two typefaces max, one accent color by default.
-- Default to cardless layouts. Use sections, columns, dividers, lists, and media blocks instead.
-- Treat the first viewport as a poster, not a document.
+默认顺序为主视觉、一个有力证明或功能点、细节或故事、最终行动。主视觉可铺满页面宽度，文字放在画面稳定区域；固定页头与主视觉共同计入首屏高度。品牌、标题、说明和行动之间要有清楚层级，不默认添加统计条、徽标墙或悬浮仪表盘。
 
-## Landing Pages
+图片应承担叙事或产品展示功能。优先使用仓库已有高质量素材；需要搜索或生成图片时，先确认版权、用途和裁切空间，不把文字、商标或界面框直接烘焙进生成图。
 
-Default sequence:
+### 产品工作区
 
-1. Hero: brand or product, promise, CTA, and one dominant visual
-2. Support: one concrete feature, offer, or proof point
-3. Detail: atmosphere, workflow, product depth, or story
-4. Final CTA: convert, start, visit, or contact
+优先呈现筛选、状态、表格、图表、任务上下文和主要操作，不添加营销式主视觉。围绕主工作区、导航和必要的次级上下文组织布局；标题、标签和数字应让用户快速判断当前对象与状态。
 
-Hero rules:
+### 游戏界面
 
-- One composition only.
-- Full-bleed image or dominant visual plane.
-- Canonical full-bleed rule: on branded landing pages, the hero itself must run edge-to-edge with no inherited page gutters, framed container, or shared max-width; constrain only the inner text/action column.
-- Brand first, headline second, body third, CTA fourth.
-- No hero cards, stat strips, logo clouds, pill soup, or floating dashboards by default.
-- Keep headlines to roughly 2-3 lines on desktop and readable in one glance on mobile.
-- Keep the text column narrow and anchored to a calm area of the image.
-- All text over imagery must maintain strong contrast and clear tap targets.
+优先保证战斗信息层级、即时反馈、可读距离和输入效率。装饰不得遮盖数值、冷却、目标状态或主要操作；颜色同时提供形状、文字或图标等非颜色线索。
 
-If the first viewport still works after removing the image, the image is too weak. If the brand disappears after hiding the nav, the hierarchy is too weak.
+## 动效与适配
 
-Viewport budget:
+- 动效用于进入层级、状态转换或操作反馈；只选择能明显改善理解的少量动作，不为满足数量添加动画。
+- 动画短、节奏一致，并支持 `prefers-reduced-motion: reduce`。
+- 同时检查常见桌面和移动宽度；使用视口高度时扣除固定页头，避免首屏内容被裁切。
+- 所有交互可用键盘完成，焦点样式清楚，文字与背景有足够对比，点击目标尺寸合理。
 
-- If the first screen includes a sticky/fixed header, that header counts against the hero. The combined header + hero content must fit within the initial viewport at common desktop and mobile sizes.
-- When using `100vh`/`100svh` heroes, subtract persistent UI chrome (`calc(100svh - header-height)`) or overlay the header instead of stacking it in normal flow.
+## 验收
 
-## Apps
-
-Default to Linear-style restraint:
-
-- calm surface hierarchy
-- strong typography and spacing
-- few colors
-- dense but readable information
-- minimal chrome
-- cards only when the card is the interaction
-
-For app UI, organize around:
-
-- primary workspace
-- navigation
-- secondary context or inspector
-- one clear accent for action or state
-
-Avoid:
-
-- dashboard-card mosaics
-- thick borders on every region
-- decorative gradients behind routine product UI
-- multiple competing accent colors
-- ornamental icons that do not improve scanning
-
-If a panel can become plain layout without losing meaning, remove the card treatment.
-
-## Imagery
-
-Imagery must do narrative work.
-
-- Use at least one strong, real-looking image for brands, venues, editorial pages, and lifestyle products.
-- Prefer in-situ photography over abstract gradients or fake 3D objects.
-- Choose or crop images with a stable tonal area for text.
-- Do not use images with embedded signage, logos, or typographic clutter fighting the UI.
-- Do not generate images with built-in UI frames, splits, cards, or panels.
-- If multiple moments are needed, use multiple images, not one collage.
-
-The first viewport needs a real visual anchor. Decorative texture is not enough.
-
-## Copy
-
-- Write in product language, not design commentary.
-- Let the headline carry the meaning.
-- Supporting copy should usually be one short sentence.
-- Cut repetition between sections.
-- Do not include prompt language or design commentary into the UI.
-- Give every section one responsibility: explain, prove, deepen, or convert.
-
-If deleting 30 percent of the copy improves the page, keep deleting.
-
-## Utility Copy For Product UI
-
-When the work is a dashboard, app surface, admin tool, or operational workspace, default to utility copy over marketing copy.
-
-- Prioritize orientation, status, and action over promise, mood, or brand voice.
-- Start with the working surface itself: KPIs, charts, filters, tables, status, or task context. Do not introduce a hero section unless the user explicitly asks for one.
-- Section headings should say what the area is or what the user can do there.
-- Good: "Selected KPIs", "Plan status", "Search metrics", "Top segments", "Last sync".
-- Avoid aspirational hero lines, metaphors, campaign-style language, and executive-summary banners on product surfaces unless specifically requested.
-- Supporting text should explain scope, behavior, freshness, or decision value in one sentence.
-- If a sentence could appear in a homepage hero or ad, rewrite it until it sounds like product UI.
-- If a section does not help someone operate, monitor, or decide, remove it.
-- Litmus check: if an operator scans only headings, labels, and numbers, can they understand the page immediately?
-
-## Motion
-
-Use motion to create presence and hierarchy, not noise.
-
-Ship at least 2-3 intentional motions for visually led work:
-
-- one entrance sequence in the hero
-- one scroll-linked, sticky, or depth effect
-- one hover, reveal, or layout transition that sharpens affordance
-
-Prefer Framer Motion when available for:
-
-- section reveals
-- shared layout transitions
-- scroll-linked opacity, translate, or scale shifts
-- sticky storytelling
-- carousels that advance narrative, not just fill space
-- menus, drawers, and modal presence effects
-
-Motion rules:
-
-- noticeable in a quick recording
-- smooth on mobile
-- fast and restrained
-- consistent across the page
-- removed if ornamental only
-- respect `prefers-reduced-motion: reduce` (disable or replace non-essential motion)
-
-## Accessibility (always)
-
-Without a broad visual redesign, product and marketing UIs must still:
-
-- be fully operable by keyboard
-- show a clear `:focus-visible` style on interactive controls
-- honor reduced-motion preferences for decorative animation
-
-## Hard Rules
-
-- No cards by default.
-- No hero cards by default.
-- No boxed or center-column hero when the brief calls for full bleed.
-- No more than one dominant idea per section.
-- No section should need many tiny UI devices to explain itself.
-- No headline should overpower the brand on branded pages.
-- No filler copy.
-- No split-screen hero unless text sits on a calm, unified side.
-- No more than two typefaces without a clear reason.
-- No more than one accent color unless the product already has a strong system.
-
-## Reject These Failures
-
-- Generic SaaS card grid as the first impression
-- Beautiful image with weak brand presence
-- Strong headline with no clear action
-- Busy imagery behind text
-- Sections that repeat the same mood statement
-- Carousel with no narrative purpose
-- App UI made of stacked cards instead of layout
-
-## Litmus Checks
-
-- Is the brand or product unmistakable in the first screen?
-- Is there one strong visual anchor?
-- Can the page be understood by scanning headlines only?
-- Does each section have one job?
-- Are cards actually necessary?
-- Does motion improve hierarchy or atmosphere?
-- Would the design still feel premium if all decorative shadows were removed?
+- 第一屏能否在一次扫视中说明对象、状态或行动？
+- 每个区块是否只有一个主要职责，删除装饰后层级仍成立？
+- 视觉素材、文案和动效是否服务同一方向？
+- 关键布局在目标宽度下无溢出、遮挡或不可达控件？
+- 键盘、焦点、对比度和减弱动效是否可用？
+- 按模块规则完成静态检查、构建，并对受影响页面做真实浏览器验证。

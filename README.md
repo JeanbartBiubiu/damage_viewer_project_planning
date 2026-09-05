@@ -11,9 +11,9 @@ Monorepo planning root and cross-worktree collaboration hub. Module commands liv
 | Web | `C:\project\damage_web_dev` | `web/README.md`, `web/AGENTS.md` |
 | Wasm / TinyGo V2 | `C:\project\damage_wasm_dev` | `wasm/tinygo_engine_v2/README.md`, `wasm/tinygo_engine_v2/AGENTS.md` |
 
-Route by **worktree root first**, then branch prefix. Details: root `AGENTS.md` §3.
+先按工作树根目录路由，再参考分支前缀。细则见根 `AGENTS.md` §4。
 
-**Canonical checkout:** planning/`master` is the canonical home for shared governance (root `AGENTS.md`, `.agents/skills/**`, task/agent CLIs, `task_rules.json`), independent of whichever worktree the current session is using. Long-lived module branches should merge or cherry-pick it rather than hand-copy divergent variants.
+**共享真源：** planning/`master` 保存根 `AGENTS.md`、`.agents/skills/**`、治理工具和 `task_rules.json`。共享变更在该分支验证、提交并推送；模块分支自行 `fetch` 后按既定策略合入，不跨工作树手工复制。
 
 ## Rule precedence
 
@@ -26,7 +26,9 @@ These layers answer different questions; do not treat root README as overriding 
 
 Implementation narrative lives under `文档记录/**`. Obsidian / Codex Memory are secondary memory only — never a competing task map.
 
-## Quick governance commands
+## 治理检查
+
+任务状态、文档映射或文档头变化时运行第一项；共享规则发布前可运行第二项查看其他分支尚未合入的漂移。两项命令都不复制共享文件。
 
 ```powershell
 node tools/task-governance/cli.mjs check
