@@ -2971,14 +2971,36 @@ COMMENT ON TABLE public.skill_trigger_rule_process_limits IS '技能触发规则
 -- -----------------------------------------------------------------------------
 
 CREATE TABLE public.images (
-    game_id varchar(64) NOT NULL REFERENCES public.games(game_id),
-    uri varchar(255) NOT NULL,
+    game_id varchar(64) NOT NULL,
+    image_key varchar(128) NOT NULL,
+    name varchar(100) NOT NULL,
+    description varchar(2000),
     image_base64 text NOT NULL,
-    created_at timestamp DEFAULT NOW(),
-    updated_at timestamp DEFAULT NOW(),
-    CONSTRAINT pk_images PRIMARY KEY (game_id, uri)
+    mime_type varchar(32) NOT NULL,
+    byte_size integer NOT NULL,
+    width smallint NOT NULL,
+    height smallint NOT NULL,
+    enabled boolean NOT NULL DEFAULT TRUE,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_images PRIMARY KEY (game_id, image_key),
+    CONSTRAINT fk_images_game FOREIGN KEY (game_id) REFERENCES public.games(game_id),
+    CONSTRAINT ck_images_key CHECK (
+        image_key ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$'
+    ),
+    CONSTRAINT ck_images_name CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_images_mime_type CHECK (mime_type IN ('image/png', 'image/jpeg')),
+    CONSTRAINT ck_images_byte_size CHECK (byte_size BETWEEN 1 AND 262144),
+    CONSTRAINT ck_images_width CHECK (width BETWEEN 1 AND 64),
+    CONSTRAINT ck_images_height CHECK (height BETWEEN 1 AND 64)
 ) PARTITION BY LIST (game_id);
 
-COMMENT ON TABLE public.images IS '图片资源表（存 base64，小图标；不纳入版本管理）';
-COMMENT ON COLUMN public.images.uri IS '资源标识（通常为前端引用路径或逻辑 key）';
-COMMENT ON COLUMN public.images.image_base64 IS '图片 base64 内容（建议为 64x64 小图标）';
+CREATE UNIQUE INDEX uq_images_name
+    ON public.images (game_id, lower(btrim(name)));
+
+COMMENT ON TABLE public.images IS '图片资源表（保存最大64x64的Base64图片，不纳入版本管理）';
+COMMENT ON COLUMN public.images.image_key IS '同一游戏内稳定且不可修改的图片标识';
+COMMENT ON COLUMN public.images.name IS '同一游戏内忽略大小写唯一的图片名称';
+COMMENT ON COLUMN public.images.image_base64 IS '已由客户端处理且通过后端校验的PNG或JPEG数据地址';
+COMMENT ON COLUMN public.images.mime_type IS '后端从图片内容识别的真实媒体类型';
+COMMENT ON COLUMN public.images.byte_size IS 'Base64解码后的文件字节数';
