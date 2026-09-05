@@ -7,7 +7,7 @@ import type { SkillProcess } from '../../../../types/skillProcess';
 import type { SkillTriggerResultModifier } from '../../../../types/skillTriggerRule';
 import {
   FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS,
-  PRIOR_RESULT_OUTPUT_LABEL,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS,
   collectDirectFormulaKeys,
   collectExecuteEffectFormulaKeys,
   collectFormulaParameterKeys,
@@ -520,7 +520,7 @@ describe('binding completeness missing, duplicate, extra and type compatibility'
       extra: false,
       typeCompatible: true
     });
-    expect(compatible[0].summary).toContain(PRIOR_RESULT_OUTPUT_LABEL);
+    expect(compatible[0].summary).toContain(SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS.CONFIGURED_VALUE);
 
     const duplicate = evaluateBindingCompleteness([RUNTIME_HIT], [hitBinding, integerEventForDecimal]);
     expect(duplicate[0].duplicate).toBe(true);
@@ -604,9 +604,9 @@ describe('prior results: earlier EXECUTE_EFFECT immediate configured value only'
       {
         sourceActionKey: 'first_hit',
         sourceActionName: 'first_hit',
+        sourceEffectKey: 'on_hit_damage',
         sourceResultKey: 'damage',
-        sourceResultName: 'damage',
-        outputKind: 'CONFIGURED_VALUE'
+        sourceResultName: 'damage'
       }
     ]);
     const forThird = listImmediatePriorResults(actions, 3, effectsByKey);
@@ -615,23 +615,21 @@ describe('prior results: earlier EXECUTE_EFFECT immediate configured value only'
       'second_hit:damage'
     ]);
     expect(listImmediatePriorResults(actions, 0, effectsByKey)).toEqual([]);
-    expect(forThird.every((item) => item.outputKind === 'CONFIGURED_VALUE')).toBe(true);
   });
 
   it('excludes lifecycle non-application results and Stage 7.6 output kinds', () => {
     expect(FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS).toEqual([
-      'POST_DEFENSE_DAMAGE',
-      'SHIELD_ABSORBED',
-      'ACTUAL_HEALTH_LOSS',
-      'ACTUAL_HEAL',
-      'BLOCKED',
-      'IMMUNE',
-      'KILL'
+      'MODIFIER_ZONE_SUM',
+      'MODIFIER_ZONE_FACTOR',
+      'FINAL_MODIFIED_VALUE',
+      'ZONE_ADDEND'
     ]);
     for (const kind of FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS) {
       expect(isAllowedPriorResultOutputKind(kind)).toBe(false);
     }
     expect(isAllowedPriorResultOutputKind('CONFIGURED_VALUE')).toBe(true);
+    expect(isAllowedPriorResultOutputKind('KILLED')).toBe(true);
+    expect(isAllowedPriorResultOutputKind('ACTUAL_HP_LOSS')).toBe(true);
 
     const actions = [
       executeAction('mark_action', 'focus_mark', '10'),
@@ -677,7 +675,7 @@ describe('prior results: earlier EXECUTE_EFFECT immediate configured value only'
     if (invalid.ok) throw new Error('expected invalid prior result');
     expect(invalid.nestedErrors).toContainEqual({
       path: 'actions[1].runtimeInputBindings[0].detail.sourceActionKey',
-      message: '前序结果必须来自更早的执行效果动作及其即时数值结果。'
+      message: '前序结果必须来自更早的执行效果动作及其即时合法输出。'
     });
   });
 });

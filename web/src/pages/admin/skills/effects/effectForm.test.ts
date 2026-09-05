@@ -19,6 +19,7 @@ import {
   STATUS_OPERATION_LABELS,
   applyCooldownOperationChange,
   applyDurationFormulaChange,
+  applyAffectedSkillScopeModeChange,
   applyLifecycleMomentChange,
   applyLifecycleOperationChange,
   applyResultTypeChange,
@@ -35,11 +36,15 @@ import {
   enableLifecycleDraft,
   isCatalogOptionSelectable,
   isExecuteOrLinkResultType,
+  isFixedPersistentSnapshotResult,
   isInstanceScopeLocked,
   isPersistentMomentAllowed,
+  isPersistentNumericResult,
+  isPersistentOnlyResultType,
   isReapplicationValueModeVisible,
   isValueReadModeFixed,
   isValueRuleVisible,
+  listAffectedSkillCategoryOptions,
   listAffectedSkillOptions,
   listAllowedLifecycleMoments,
   listDamageTypeOptions,
@@ -53,6 +58,8 @@ import {
   skillEffectToDraft,
   sortResultDrafts,
   isSpellShieldBlockScopeVisible,
+  supportsMomentEvaluation,
+  usesAffectedSkillScope,
   validateSkillEffectDraft,
   valueFormulaLabelFor,
   type EffectFormCatalog,
@@ -87,6 +94,10 @@ const CATALOG: EffectFormCatalog = {
     { skillKey: 'ezreal_q', status: 'DISABLED' },
     { skillKey: 'ezreal_w', status: 'ENABLED' },
     { skillKey: 'retired_skill', status: 'DISABLED' }
+  ],
+  skillCategories: [
+    { skillCategoryKey: 'displacement', status: 'ENABLED' },
+    { skillCategoryKey: 'retired_category', status: 'DISABLED' }
   ],
   statuses: [
     { statusKey: 'poison', status: 'ENABLED' },
@@ -150,7 +161,14 @@ const EFFECT: SkillEffect = {
         fixedMinValue: 0,
         fixedMaxValue: null
       },
-      detail: { affectedSkillKeys: ['ezreal_q'], operation: 'REDUCE' }
+      detail: {
+        affectedSkillScope: {
+          mode: 'SKILLS',
+          skillKeys: ['ezreal_q'],
+          skillCategoryKeys: []
+        },
+        operation: 'REDUCE'
+      }
     }
   ]
 };
@@ -293,12 +311,16 @@ describe('skill effect form defaults and conversion', () => {
       originalResultType: 'DAMAGE',
       originalDamageTypeKey: 'physical',
       statusKey: '',
-      affectedSkillKeys: []
+      affectedSkillScope: { mode: 'ALL', skillKeys: [], skillCategoryKeys: [] }
     });
     expect(draft.results[1]).toMatchObject({
       resultType: 'COOLDOWN_CHANGE',
       cooldownOperation: 'REDUCE',
-      affectedSkillKeys: ['ezreal_q'],
+      affectedSkillScope: {
+        mode: 'SKILLS',
+        skillKeys: ['ezreal_q'],
+        skillCategoryKeys: []
+      },
       originalAffectedSkillKeys: ['ezreal_q'],
       formulaKey: 'cooldown_reduction_ms',
       fixedMinValue: '0'
@@ -400,7 +422,11 @@ describe('skill effect form normalization and request building', () => {
     cooldown.resultKey = 'cdr';
     cooldown.name = '减少冷却';
     cooldown.formulaKey = 'cooldown_reduction_ms';
-    cooldown.affectedSkillKeys = ['ezreal_q', 'ezreal_w'];
+    cooldown.affectedSkillScope = {
+      mode: 'SKILLS',
+      skillKeys: ['ezreal_q', 'ezreal_w'],
+      skillCategoryKeys: []
+    };
     cooldown.cooldownOperation = 'REDUCE';
     cooldown.damageTypeKey = 'physical';
 
@@ -483,7 +509,14 @@ describe('skill effect form normalization and request building', () => {
     expect(normalized.results[5]).toMatchObject({
       resultType: 'COOLDOWN_CHANGE',
       valueRule: { formulaKey: 'cooldown_reduction_ms', fixedMultiplier: 1 },
-      detail: { affectedSkillKeys: ['ezreal_q', 'ezreal_w'], operation: 'REDUCE' }
+      detail: {
+        affectedSkillScope: {
+          mode: 'SKILLS',
+          skillKeys: ['ezreal_q', 'ezreal_w'],
+          skillCategoryKeys: []
+        },
+        operation: 'REDUCE'
+      }
     });
     expect(normalized.results[5]).not.toHaveProperty('damageTypeKey');
     expect(normalized.results[6]).toEqual({
@@ -496,7 +529,14 @@ describe('skill effect form normalization and request building', () => {
       spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
-      detail: { affectedSkillKeys: ['ezreal_q', 'ezreal_w'], operation: 'RESET' }
+      detail: {
+        affectedSkillScope: {
+          mode: 'SKILLS',
+          skillKeys: ['ezreal_q', 'ezreal_w'],
+          skillCategoryKeys: []
+        },
+        operation: 'RESET'
+      }
     });
     expect(normalized.results[7]).toEqual({
       resultKey: 'poison',
@@ -638,27 +678,39 @@ describe('skill effect form validation', () => {
     ]);
   });
 
-  it('requires at least one cooldown target and rejects normalized duplicates', () => {
+  it('allows ALL cooldown scope and rejects empty, duplicate or mixed SKILLS targets', () => {
     const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
     cooldown.resultKey = 'reduce_abilities';
     cooldown.name = '减少技能冷却';
     cooldown.formulaKey = 'cooldown_reduction_ms';
 
-    const empty = validateSkillEffectDraft(validEffectDraft([cooldown]), {
+    const all = validateSkillEffectDraft(validEffectDraft([cooldown]), {
       includeEffectKey: true,
       catalog: CATALOG
     });
-    expect(empty.ok).toBe(false);
-    if (empty.ok) throw new Error('expected invalid');
-    expect(empty.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('请至少选择一个受影响技能。');
+    expect(all.ok).toBe(true);
+
+    const emptySkills = validateSkillEffectDraft(
+      validEffectDraft([{
+        ...cooldown,
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] }
+      }]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(emptySkills.ok).toBe(false);
+    if (emptySkills.ok) throw new Error('expected invalid');
+    expect(emptySkills.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('请至少选择一个技能。');
 
     const duplicate = validateSkillEffectDraft(
-      validEffectDraft([{ ...cooldown, affectedSkillKeys: ['ezreal_w', ' ezreal_w '] }]),
+      validEffectDraft([{
+        ...cooldown,
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: ['ezreal_w', ' ezreal_w '], skillCategoryKeys: [] }
+      }]),
       { includeEffectKey: true, catalog: CATALOG }
     );
     expect(duplicate.ok).toBe(false);
     if (duplicate.ok) throw new Error('expected invalid');
-    expect(duplicate.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('受影响技能不能重复。');
+    expect(duplicate.resultErrors[0]?.fieldErrors.affectedSkillKeys).toBe('指定技能不能重复。');
   });
 
   it('rejects changing the original result type', () => {
@@ -757,7 +809,11 @@ describe('skill effect catalog refs', () => {
     newParentCooldown.resultKey = 'self_cd';
     newParentCooldown.name = '自身冷却';
     newParentCooldown.formulaKey = 'cooldown_reduction_ms';
-    newParentCooldown.affectedSkillKeys = ['ezreal_q'];
+    newParentCooldown.affectedSkillScope = {
+      mode: 'SKILLS',
+      skillKeys: ['ezreal_q'],
+      skillCategoryKeys: []
+    };
     expect(
       validateSkillEffectDraft(validEffectDraft([newParentCooldown]), {
         includeEffectKey: true,
@@ -778,7 +834,10 @@ describe('skill effect catalog refs', () => {
     ).toBe(true);
 
     const otherDisabled = validateSkillEffectDraft(
-      validEffectDraft([{ ...newParentCooldown, affectedSkillKeys: ['retired_skill'] }]),
+      validEffectDraft([{
+        ...newParentCooldown,
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: ['retired_skill'], skillCategoryKeys: [] }
+      }]),
       { includeEffectKey: true, catalog: CATALOG }
     );
     expect(otherDisabled.ok).toBe(false);
@@ -789,7 +848,7 @@ describe('skill effect catalog refs', () => {
       validEffectDraft([
         {
           ...newParentCooldown,
-          affectedSkillKeys: ['retired_skill'],
+          affectedSkillScope: { mode: 'SKILLS', skillKeys: ['retired_skill'], skillCategoryKeys: [] },
           originalResultType: 'COOLDOWN_CHANGE',
           originalAffectedSkillKeys: ['retired_skill']
         }
@@ -870,7 +929,7 @@ describe('skill effect API field issue mapping', () => {
         { field: 'results[0].detail.vampRules[1].efficiencyFormulaKey', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
         { field: 'results[1].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' },
         { field: 'results[1].resultType', code: 'IMMUTABLE', message: '结果种类不可修改' },
-        { field: 'results[2].detail.affectedSkillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
+        { field: 'results[2].detail.affectedSkillScope.skillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
         { field: 'results[3].detail.decayMode', code: 'ENUM_INVALID', message: '护盾衰减不合法' },
         { field: 'gameId', code: 'NOT_FOUND', message: '游戏不存在' }
       ]
@@ -912,7 +971,8 @@ describe('skill effect API field issue mapping', () => {
           }
         }
       ],
-      unmappedMessages: ['游戏不存在']
+      unmappedMessages: ['游戏不存在'],
+      inboundDependencies: []
     });
   });
 
@@ -920,7 +980,8 @@ describe('skill effect API field issue mapping', () => {
     expect(mapSkillEffectFieldIssues(null)).toEqual({
       fieldErrors: {},
       resultErrors: [],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
     });
     expect(
       mapSkillEffectFieldIssues({
@@ -936,7 +997,48 @@ describe('skill effect API field issue mapping', () => {
         { index: 0, fieldErrors: { resultKey: '字段值不合法。' } },
         { index: 9, fieldErrors: { damageTypeKey: '越界仍按提交下标映射' } }
       ],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
+    });
+  });
+
+  it('keeps 409 inbound shape occupancy details with rule, action, binding and output labels', () => {
+    const error = new ApiRequestError(
+      '结果形状变化会使既有前序输出失效',
+      409,
+      '409.SKILL_EFFECT_IN_USE',
+      {
+        fieldIssues: [
+          {
+            field: 'results[0].detail.vampRules',
+            code: 'TRIGGER_RULE_SHAPE_IN_USE',
+            message: '结果形状变化会使既有前序输出失效',
+            ruleKey: 'prior',
+            actionKey: 'follow',
+            bindingKey: 'from_first',
+            outputKind: 'ACTUAL_HEALING'
+          }
+        ]
+      }
+    );
+    expect(mapSkillEffectFieldIssues(error, [{ resultType: 'DAMAGE' }])).toEqual({
+      fieldErrors: {},
+      resultErrors: [{
+        index: 0,
+        fieldErrors: {
+          vampRules: '结果形状变化会使既有前序输出失效'
+        }
+      }],
+      unmappedMessages: [
+        '请先调整条件与触发规则再保存效果。',
+        'prior / follow / from_first / 实际治疗'
+      ],
+      inboundDependencies: [{
+        ruleKey: 'prior',
+        actionKey: 'follow',
+        bindingKey: 'from_first',
+        outputKind: 'ACTUAL_HEALING'
+      }]
     });
   });
 });
@@ -953,12 +1055,20 @@ describe('skill effect draft sorting', () => {
 
   it('treats cooldown target order as a set for dirty comparison', () => {
     const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
-    cooldown.affectedSkillKeys = ['ezreal_w', 'ezreal_q'];
+    cooldown.affectedSkillScope = {
+      mode: 'SKILLS',
+      skillKeys: ['ezreal_w', 'ezreal_q'],
+      skillCategoryKeys: []
+    };
     cooldown.originalAffectedSkillKeys = ['ezreal_w', 'ezreal_q'];
     const left = validEffectDraft([cooldown]);
     const right = validEffectDraft([{
       ...cooldown,
-      affectedSkillKeys: ['ezreal_q', 'ezreal_w'],
+      affectedSkillScope: {
+        mode: 'SKILLS',
+        skillKeys: ['ezreal_q', 'ezreal_w'],
+        skillCategoryKeys: []
+      },
       originalAffectedSkillKeys: ['ezreal_q', 'ezreal_w']
     }]);
 
@@ -1093,7 +1203,10 @@ describe('skill effect result conversion coverage', () => {
         sortOrder: 5,
         lifecycleBehavior: null,
         valueRule: null,
-        detail: { affectedSkillKeys: ['ezreal_w'], operation: 'RESET' }
+        detail: {
+          affectedSkillScope: { mode: 'SKILLS', skillKeys: ['ezreal_w'], skillCategoryKeys: [] },
+          operation: 'RESET'
+        }
       },
       {
         resultKey: 'cc',
@@ -1696,7 +1809,8 @@ describe('skill effect lifecycle drafts', () => {
           }
         }
       ],
-      unmappedMessages: ['越界时点']
+      unmappedMessages: ['越界时点'],
+      inboundDependencies: []
     });
   });
 
@@ -1719,11 +1833,12 @@ describe('skill effect lifecycle drafts', () => {
 });
 
 describe('execute, hit-link and attack-link results', () => {
-  it('exposes exactly sixteen result types and chinese labels', () => {
-    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(16);
+  it('exposes seventeen result types and chinese labels', () => {
+    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(17);
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.EXECUTE).toBe('斩杀');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');
+    expect(SKILL_EFFECT_RESULT_TYPE_LABELS.SKILL_HASTE_MODIFIER).toBe('技能急速修正');
     expect(valueFormulaLabelFor('EXECUTE')).toBe('斩杀阈值公式');
     expect(valueFormulaLabelFor('HIT_LINK_APPLICATION')).toBe('命中联动次数公式');
     expect(valueFormulaLabelFor('ATTACK_LINK_APPLICATION')).toBe('攻击联动次数公式');
@@ -1919,7 +2034,251 @@ describe('execute, hit-link and attack-link results', () => {
           spellShieldBlockScope: '阻挡范围不合法'
         }
       }],
-      unmappedMessages: []
+      unmappedMessages: [],
+      inboundDependencies: []
+    });
+  });
+});
+
+describe('affected skill scope and skill haste', () => {
+  it('clears hidden collections on mode switch and does not leak scope onto other results', () => {
+    const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
+    cooldown.resultKey = 'cdr';
+    cooldown.name = '冷却';
+    cooldown.formulaKey = 'cooldown_reduction_ms';
+    cooldown.affectedSkillScope = {
+      mode: 'SKILLS',
+      skillKeys: ['ezreal_w', 'ezreal_w'],
+      skillCategoryKeys: ['displacement']
+    };
+    const skillsOnly = applyAffectedSkillScopeModeChange(cooldown, 'SKILLS');
+    expect(skillsOnly.affectedSkillScope).toEqual({
+      mode: 'SKILLS',
+      skillKeys: ['ezreal_w', 'ezreal_w'],
+      skillCategoryKeys: []
+    });
+    const all = applyAffectedSkillScopeModeChange(skillsOnly, 'ALL');
+    expect(all.affectedSkillScope).toEqual({
+      mode: 'ALL',
+      skillKeys: [],
+      skillCategoryKeys: []
+    });
+    const categories = applyAffectedSkillScopeModeChange({
+      ...all,
+      affectedSkillScope: {
+        mode: 'CATEGORIES',
+        skillKeys: ['ezreal_w'],
+        skillCategoryKeys: ['displacement']
+      }
+    }, 'CATEGORIES');
+    expect(categories.affectedSkillScope).toEqual({
+      mode: 'CATEGORIES',
+      skillKeys: [],
+      skillCategoryKeys: ['displacement']
+    });
+
+    const damage = applyResultTypeChange(categories, 'DAMAGE');
+    expect(damage.affectedSkillScope).toEqual({
+      mode: 'ALL',
+      skillKeys: [],
+      skillCategoryKeys: []
+    });
+    const normalizedDamage = expectValid(validEffectDraft([validDamageDraft({
+      affectedSkillScope: {
+        mode: 'SKILLS',
+        skillKeys: ['ezreal_w'],
+        skillCategoryKeys: ['displacement']
+      }
+    })]));
+    expect(normalizedDamage.results[0]?.detail).not.toHaveProperty('affectedSkillScope');
+  });
+
+  it('round-trips three scope modes and retains disabled category refs', () => {
+    const all = createEmptyResultDraft('COOLDOWN_CHANGE');
+    all.resultKey = 'all_cd';
+    all.name = '全部冷却';
+    all.formulaKey = 'cooldown_reduction_ms';
+    expect(expectValid(validEffectDraft([all])).results[0]?.detail).toMatchObject({
+      affectedSkillScope: { mode: 'ALL', skillKeys: [], skillCategoryKeys: [] }
+    });
+
+    const categories = createEmptyResultDraft('COOLDOWN_CHANGE');
+    categories.resultKey = 'cat_cd';
+    categories.name = '分类冷却';
+    categories.formulaKey = 'cooldown_reduction_ms';
+    categories.affectedSkillScope = {
+      mode: 'CATEGORIES',
+      skillKeys: [],
+      skillCategoryKeys: ['displacement']
+    };
+    expect(expectValid(validEffectDraft([categories])).results[0]?.detail).toMatchObject({
+      affectedSkillScope: {
+        mode: 'CATEGORIES',
+        skillKeys: [],
+        skillCategoryKeys: ['displacement']
+      }
+    });
+
+    const retained = validateSkillEffectDraft(
+      validEffectDraft([{
+        ...categories,
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['retired_category']
+        },
+        originalResultType: 'COOLDOWN_CHANGE',
+        originalSkillCategoryKeys: ['retired_category']
+      }]),
+      { includeEffectKey: false, catalog: CATALOG }
+    );
+    expect(retained.ok).toBe(true);
+
+    const newDisabled = validateSkillEffectDraft(
+      validEffectDraft([{
+        ...categories,
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['retired_category']
+        }
+      }]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(newDisabled.ok).toBe(false);
+    if (newDisabled.ok) throw new Error('expected invalid');
+    expect(newDisabled.resultErrors[0]?.fieldErrors.skillCategoryKeys).toBe(DISABLED_CATALOG_MESSAGE);
+
+    const unknown = validateSkillEffectDraft(
+      validEffectDraft([{
+        ...categories,
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['missing_category']
+        }
+      }]),
+      { includeEffectKey: true, catalog: CATALOG }
+    );
+    expect(unknown.ok).toBe(false);
+    if (unknown.ok) throw new Error('expected invalid');
+    expect(unknown.resultErrors[0]?.fieldErrors.skillCategoryKeys).toBe(INCOMPLETE_CATALOG_MESSAGE);
+
+    const options = listAffectedSkillCategoryOptions(CATALOG, ['retired_category'], ['retired_category']);
+    expect(options.some((item) => item.key === 'retired_category' && item.source === 'retained-disabled')).toBe(true);
+  });
+
+  it('builds skill haste with fixed lifecycle and rejects it without a parent lifecycle', () => {
+    const haste = createEmptyResultDraft('SKILL_HASTE_MODIFIER');
+    expect(usesAffectedSkillScope(haste.resultType)).toBe(true);
+    expect(isPersistentOnlyResultType(haste.resultType)).toBe(true);
+    expect(isPersistentNumericResult(haste)).toBe(true);
+    expect(isFixedPersistentSnapshotResult(haste)).toBe(true);
+    expect(supportsMomentEvaluation(haste)).toBe(false);
+    expect(haste.lifecycleBehavior).toMatchObject({
+      moment: 'PERSISTENT',
+      valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: 'KEEP'
+    });
+    expect(haste.skillHasteOperation).toBe('INCREASE');
+    expect(haste.modifierZoneKey).toBe('');
+    expect(haste.spellShieldBlockScope).toBe('');
+
+    haste.resultKey = 'displacement_haste';
+    haste.name = '位移急速';
+    haste.formulaKey = 'one';
+    haste.affectedSkillScope = {
+      mode: 'CATEGORIES',
+      skillKeys: [],
+      skillCategoryKeys: ['displacement']
+    };
+
+    const missingLifecycle = validateSkillEffectDraft(validEffectDraft([haste]), {
+      includeEffectKey: true,
+      catalog: CATALOG
+    });
+    expect(missingLifecycle.ok).toBe(false);
+    if (missingLifecycle.ok) throw new Error('expected invalid');
+    expect(missingLifecycle.resultErrors[0]?.fieldErrors.lifecycleBehavior)
+      .toBe('该结果需要先启用父效果生命周期。');
+
+    const normalized = expectValid(lifecycleEnabledDraft([haste]));
+    expect(normalized.results[0]).toEqual({
+      resultKey: 'displacement_haste',
+      name: '位移急速',
+      resultType: 'SKILL_HASTE_MODIFIER',
+      target: 'TARGET',
+      description: null,
+      sortOrder: 0,
+      spellShieldBlockScope: null,
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: 'SHARED',
+        reapplicationValueMode: 'KEEP',
+        periodicExecutionMode: null
+      },
+      valueRule: {
+        formulaKey: 'one',
+        fixedMultiplier: 1,
+        fixedMinValue: null,
+        fixedMaxValue: null
+      },
+      detail: {
+        operation: 'INCREASE',
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['displacement']
+        }
+      }
+    });
+    expect(normalized.results[0]?.detail).not.toHaveProperty('affectedSkillKeys');
+    expect(normalized.results[0]?.detail).not.toHaveProperty('modifierZoneKey');
+
+    const switched = applyResultTypeChange(validDamageDraft({
+      lifecycleBehavior: {
+        moment: 'APPLICATION',
+        valueReadMode: 'MOMENT_EVALUATION',
+        stackValueMode: 'PER_STACK',
+        reapplicationValueMode: 'ADD',
+        periodicExecutionMode: ''
+      }
+    }), 'SKILL_HASTE_MODIFIER');
+    expect(switched.lifecycleBehavior).toMatchObject({
+      moment: 'PERSISTENT',
+      valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED',
+      reapplicationValueMode: 'KEEP'
+    });
+    expect(listAllowedLifecycleMoments(switched, true)).toEqual(['PERSISTENT']);
+  });
+
+  it('maps nested affectedSkillScope and lifecycle moment field issues', () => {
+    const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
+      fieldIssues: [
+        { field: 'results[0].detail.affectedSkillScope.mode', code: 'ENUM_INVALID', message: '范围模式不合法' },
+        { field: 'results[0].detail.affectedSkillScope.skillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
+        { field: 'results[0].detail.affectedSkillScope.skillCategoryKeys[0]', code: 'UNKNOWN_SKILL_CATEGORY', message: '分类不存在' },
+        { field: 'results[0].lifecycleBehavior.moment', code: 'ENUM_INVALID', message: '时点不合法' },
+        { field: 'results[0].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' }
+      ]
+    });
+    expect(mapSkillEffectFieldIssues(error, [{ resultType: 'SKILL_HASTE_MODIFIER' }])).toEqual({
+      fieldErrors: {},
+      resultErrors: [{
+        index: 0,
+        fieldErrors: {
+          affectedSkillScopeMode: '范围模式不合法',
+          affectedSkillKeys: '技能不存在',
+          skillCategoryKeys: '分类不存在',
+          moment: '时点不合法',
+          skillHasteOperation: '操作不合法'
+        }
+      }],
+      unmappedMessages: [],
+      inboundDependencies: []
     });
   });
 });

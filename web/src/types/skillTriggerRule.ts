@@ -81,7 +81,14 @@ export type SkillTriggerEventValueKey =
   | 'RAW_DAMAGE'
   | 'POST_DEFENSE_DAMAGE'
   | 'HEALTH_BEFORE'
-  | 'PROJECTED_HEALTH_AFTER';
+  | 'PROJECTED_HEALTH_AFTER'
+  | 'SHIELD_ABSORBED'
+  | 'ACTUAL_HP_LOSS'
+  | 'BLOCKED'
+  | 'IMMUNE'
+  | 'KILLED'
+  | 'LINK_INDEX'
+  | 'LINK_COUNT';
 
 export type SkillTriggerComparator = 'LT' | 'LTE' | 'EQ' | 'NE' | 'GTE' | 'GT';
 
@@ -108,7 +115,17 @@ export type SkillTriggerProcessFailureReason =
 
 export type SkillTriggerCombatStatusValueKind = 'PRESENT' | 'STACKS' | 'REMAINING_MS';
 
-export type SkillTriggerPriorResultOutputKind = 'CONFIGURED_VALUE';
+export type SkillTriggerPriorResultOutputKind =
+  | 'CONFIGURED_VALUE'
+  | 'RAW_DAMAGE'
+  | 'POST_DEFENSE_DAMAGE'
+  | 'SHIELD_ABSORBED'
+  | 'ACTUAL_HP_LOSS'
+  | 'ACTUAL_HEALING'
+  | 'BLOCKED'
+  | 'IMMUNE'
+  | 'STATUS_APPLIED'
+  | 'KILLED';
 
 export type SkillTriggerValueDomain = 'INTEGER' | 'DECIMAL';
 
