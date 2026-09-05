@@ -53,7 +53,7 @@ FOR EACH ROW
 EXECUTE FUNCTION public.trg_games_after_insert_create_partitions();
 
 -- -----------------------------------------------------------------------------
--- skill_effect_results：事务提交时必须满足八种结果完整形状
+-- skill_effect_results：事务提交时必须满足十七种结果完整形状
 -- -----------------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION public.trg_skill_effect_result_complete_shape()
@@ -86,7 +86,15 @@ DECLARE
     v_attribute_count int;
     v_resource_count int;
     v_cooldown_count int;
-    v_cooldown_target_count int;
+    v_skill_scope_count int;
+    v_skill_target_count int;
+    v_skill_category_target_count int;
+    v_haste_count int;
+    v_scope_mode varchar(16);
+    v_value_read_mode varchar(32);
+    v_stack_value_mode varchar(16);
+    v_reapplication_value_mode varchar(16);
+    v_periodic_execution_mode varchar(16);
     v_status_count int;
     v_lifecycle_op_count int;
     v_spell_shield_policy_count int;
@@ -195,12 +203,30 @@ BEGIN
        AND d.skill_key = v_skill_key
        AND d.effect_key = v_effect_key
        AND d.result_key = v_result_key;
-    SELECT COUNT(*) INTO v_cooldown_target_count
-      FROM public.skill_effect_cooldown_change_targets t
+    SELECT COUNT(*) INTO v_skill_scope_count
+      FROM public.skill_effect_result_skill_scopes s
+     WHERE s.game_id = v_game_id
+       AND s.skill_key = v_skill_key
+       AND s.effect_key = v_effect_key
+       AND s.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_skill_target_count
+      FROM public.skill_effect_result_skill_targets t
      WHERE t.game_id = v_game_id
        AND t.skill_key = v_skill_key
        AND t.effect_key = v_effect_key
        AND t.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_skill_category_target_count
+      FROM public.skill_effect_result_skill_category_targets t
+     WHERE t.game_id = v_game_id
+       AND t.skill_key = v_skill_key
+       AND t.effect_key = v_effect_key
+       AND t.result_key = v_result_key;
+    SELECT COUNT(*) INTO v_haste_count
+      FROM public.skill_effect_haste_modifier_details d
+     WHERE d.game_id = v_game_id
+       AND d.skill_key = v_skill_key
+       AND d.effect_key = v_effect_key
+       AND d.result_key = v_result_key;
     SELECT COUNT(*) INTO v_status_count
       FROM public.skill_effect_status_operation_details d
      WHERE d.game_id = v_game_id
@@ -220,8 +246,16 @@ BEGIN
        AND p.skill_key = v_skill_key
        AND p.effect_key = v_effect_key
        AND p.result_key = v_result_key;
-    SELECT b.moment
-      INTO v_result_moment
+    SELECT b.moment,
+           b.value_read_mode,
+           b.stack_value_mode,
+           b.reapplication_value_mode,
+           b.periodic_execution_mode
+      INTO v_result_moment,
+           v_value_read_mode,
+           v_stack_value_mode,
+           v_reapplication_value_mode,
+           v_periodic_execution_mode
       FROM public.skill_effect_result_lifecycle_behaviors b
      WHERE b.game_id = v_game_id
        AND b.skill_key = v_skill_key
@@ -324,7 +358,8 @@ BEGIN
         END IF;
     ELSIF v_result_type = 'COOLDOWN_CHANGE' THEN
         IF v_cooldown_count <> 1
-            OR v_cooldown_target_count < 1
+            OR v_skill_scope_count <> 1
+            OR v_haste_count <> 0
             OR v_damage_count <> 0
             OR v_critical_count <> 0
             OR v_vamp_count <> 0
@@ -497,9 +532,75 @@ BEGIN
                 v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
                 USING ERRCODE = 'check_violation';
         END IF;
+    ELSIF v_result_type = 'SKILL_HASTE_MODIFIER' THEN
+        IF v_value_count <> 1
+            OR v_skill_scope_count <> 1
+            OR v_haste_count <> 1
+            OR v_result_moment IS DISTINCT FROM 'PERSISTENT'
+            OR v_value_read_mode IS DISTINCT FROM 'APPLICATION_SNAPSHOT'
+            OR v_stack_value_mode IS DISTINCT FROM 'SHARED'
+            OR v_reapplication_value_mode IS DISTINCT FROM 'KEEP'
+            OR v_periodic_execution_mode IS NOT NULL
+            OR v_spell_shield_policy_count <> 0
+            OR v_damage_count <> 0
+            OR v_critical_count <> 0
+            OR v_vamp_count <> 0
+            OR v_normal_shield_count <> 0
+            OR v_attribute_count <> 0
+            OR v_resource_count <> 0
+            OR v_cooldown_count <> 0
+            OR v_status_count <> 0
+            OR v_lifecycle_op_count <> 0 OR v_special_count <> 0 OR v_execute_count <> 0 THEN
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) SKILL_HASTE_MODIFIER shape invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
     ELSE
         RAISE EXCEPTION
             'skill_effect_results(%, %, %, %) has unsupported result_type %',
+            v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF v_result_type IN ('COOLDOWN_CHANGE', 'SKILL_HASTE_MODIFIER') THEN
+        SELECT s.mode
+          INTO v_scope_mode
+          FROM public.skill_effect_result_skill_scopes s
+         WHERE s.game_id = v_game_id
+           AND s.skill_key = v_skill_key
+           AND s.effect_key = v_effect_key
+           AND s.result_key = v_result_key;
+        IF v_scope_mode = 'ALL' THEN
+            IF v_skill_target_count <> 0 OR v_skill_category_target_count <> 0 THEN
+                RAISE EXCEPTION
+                    'skill_effect_results(%, %, %, %) ALL skill scope must not have targets at commit',
+                    v_game_id, v_skill_key, v_effect_key, v_result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_scope_mode = 'SKILLS' THEN
+            IF v_skill_target_count < 1 OR v_skill_category_target_count <> 0 THEN
+                RAISE EXCEPTION
+                    'skill_effect_results(%, %, %, %) SKILLS scope requires explicit skills at commit',
+                    v_game_id, v_skill_key, v_effect_key, v_result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSIF v_scope_mode = 'CATEGORIES' THEN
+            IF v_skill_target_count <> 0 OR v_skill_category_target_count < 1 THEN
+                RAISE EXCEPTION
+                    'skill_effect_results(%, %, %, %) CATEGORIES scope requires skill categories at commit',
+                    v_game_id, v_skill_key, v_effect_key, v_result_key
+                    USING ERRCODE = 'check_violation';
+            END IF;
+        ELSE
+            RAISE EXCEPTION
+                'skill_effect_results(%, %, %, %) skill scope mode invalid at commit',
+                v_game_id, v_skill_key, v_effect_key, v_result_key
+                USING ERRCODE = 'check_violation';
+        END IF;
+    ELSIF v_skill_scope_count <> 0 OR v_haste_count <> 0 THEN
+        RAISE EXCEPTION
+            'skill_effect_results(%, %, %, %) % must not have skill scope or haste detail at commit',
             v_game_id, v_skill_key, v_effect_key, v_result_key, v_result_type
             USING ERRCODE = 'check_violation';
     END IF;
@@ -556,7 +657,10 @@ DECLARE
         'skill_effect_attribute_change_details',
         'skill_effect_resource_change_details',
         'skill_effect_cooldown_change_details',
-        'skill_effect_cooldown_change_targets',
+        'skill_effect_result_skill_scopes',
+        'skill_effect_result_skill_targets',
+        'skill_effect_result_skill_category_targets',
+        'skill_effect_haste_modifier_details',
         'skill_effect_status_operation_details',
         'skill_effect_lifecycle_operation_details'
     ];
@@ -695,7 +799,8 @@ BEGIN
                AND r.effect_key = v_effect_key
                AND r.result_type IN (
                    'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-                   'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
+                   'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD',
+                   'SKILL_HASTE_MODIFIER'
                )
         ) THEN
             RAISE EXCEPTION
@@ -775,7 +880,8 @@ BEGIN
 
         IF v_result.result_type IN (
                 'NORMAL_SHIELD', 'DAMAGE_MODIFIER', 'HEALING_MODIFIER',
-                'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD'
+                'DAMAGE_IMMUNITY', 'HEALTH_FLOOR', 'SPELL_SHIELD',
+                'SKILL_HASTE_MODIFIER'
             )
             AND v_moment IS DISTINCT FROM 'PERSISTENT' THEN
             RAISE EXCEPTION
@@ -788,7 +894,7 @@ BEGIN
             IF v_result.result_type NOT IN (
                 'NORMAL_SHIELD', 'ATTRIBUTE_CHANGE', 'STATUS_OPERATION',
                 'DAMAGE_MODIFIER', 'HEALING_MODIFIER', 'DAMAGE_IMMUNITY', 'HEALTH_FLOOR',
-                'SPELL_SHIELD'
+                'SPELL_SHIELD', 'SKILL_HASTE_MODIFIER'
             ) THEN
                 RAISE EXCEPTION
                     'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % cannot be PERSISTENT',
@@ -880,6 +986,17 @@ BEGIN
                     ) THEN
                     RAISE EXCEPTION
                         'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % HEALTH_FLOOR stack merge invalid',
+                        v_game_id, v_skill_key, v_effect_key, v_result.result_key
+                        USING ERRCODE = 'check_violation';
+                END IF;
+                IF v_result.result_type = 'SKILL_HASTE_MODIFIER'
+                    AND (
+                        v_value_read_mode IS DISTINCT FROM 'APPLICATION_SNAPSHOT'
+                        OR v_stack_value_mode IS DISTINCT FROM 'SHARED'
+                        OR v_reapplication_value_mode IS DISTINCT FROM 'KEEP'
+                    ) THEN
+                    RAISE EXCEPTION
+                        'skill_effects(%, %, %) lifecycle aggregate invalid at commit: result % SKILL_HASTE_MODIFIER snapshot merge invalid',
                         v_game_id, v_skill_key, v_effect_key, v_result.result_key
                         USING ERRCODE = 'check_violation';
                 END IF;

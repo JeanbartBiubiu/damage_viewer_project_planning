@@ -51,6 +51,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
@@ -66,6 +67,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
@@ -1087,6 +1089,17 @@ class SkillTriggerRuleServiceTest {
         assertFalse(SkillTriggerPriorResultOutputs.available(persistentModifier).contains(
             SkillTriggerPriorResultOutputKind.RAW_DAMAGE
         ));
+        SkillTriggerPriorResultOutputs.Shape haste = SkillTriggerPriorResultOutputs.Shape.from(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, "haste", SkillEffectResultType.SKILL_HASTE_MODIFIER, SkillEffectTarget.SOURCE,
+                true, "haste_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            )
+        );
+        assertFalse(SkillTriggerPriorResultOutputs.immediatelyAvailable(haste));
+        assertFalse(SkillTriggerPriorResultOutputs.available(haste).contains(
+            SkillTriggerPriorResultOutputKind.RAW_DAMAGE
+        ));
 
         stubPriorFollow(damageShape(EFFECT_KEY, RESULT_KEY, 1, null), SkillParameterValueType.DECIMAL);
         stubPriorSuccessAssemble("ok_raw", EFFECT_KEY);
@@ -1471,7 +1484,14 @@ class SkillTriggerRuleServiceTest {
             List.of(new SkillEffectResultRequest(
                 RESULT_KEY, "冷却", SkillEffectResultType.COOLDOWN_CHANGE, SkillEffectTarget.SOURCE, null, 0,
                 new SkillEffectValueRuleRequest("cd_f", BigDecimal.ONE, null, null),
-                new SkillEffectCooldownChangeDetail(List.of("other_skill"), SkillEffectCooldownChangeOperation.REDUCE)
+                new SkillEffectCooldownChangeDetail(
+                    new SkillEffectAffectedSkillScope(
+                        SkillEffectSkillScopeMode.SKILLS,
+                        List.of("other_skill"),
+                        List.of()
+                    ),
+                    SkillEffectCooldownChangeOperation.REDUCE
+                )
             )),
             List.of()
         );

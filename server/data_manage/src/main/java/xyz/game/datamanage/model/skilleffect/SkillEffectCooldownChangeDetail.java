@@ -5,42 +5,33 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public record SkillEffectCooldownChangeDetail(
-    List<String> affectedSkillKeys,
+    SkillEffectAffectedSkillScope affectedSkillScope,
     SkillEffectCooldownChangeOperation operation,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
 
     public SkillEffectCooldownChangeDetail {
-        if (affectedSkillKeys != null) {
-            List<String> normalized = new ArrayList<>(affectedSkillKeys.size());
-            for (String affectedSkillKey : affectedSkillKeys) {
-                normalized.add(affectedSkillKey == null ? null : affectedSkillKey.trim());
-            }
-            affectedSkillKeys = Collections.unmodifiableList(normalized);
-        }
         foreignFields = SkillEffectDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillEffectDetailFieldCapture.normalize(unknownFields);
     }
 
     public SkillEffectCooldownChangeDetail(
-        List<String> affectedSkillKeys,
+        SkillEffectAffectedSkillScope affectedSkillScope,
         SkillEffectCooldownChangeOperation operation
     ) {
-        this(affectedSkillKeys, operation, Set.of(), Set.of());
+        this(affectedSkillScope, operation, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillEffectCooldownChangeDetail fromJson(
-        @JsonProperty("affectedSkillKeys") List<String> affectedSkillKeys,
+        @JsonProperty("affectedSkillScope") SkillEffectAffectedSkillScope affectedSkillScope,
         @JsonProperty("operation") SkillEffectCooldownChangeOperation operation,
+        @JsonProperty("affectedSkillKeys") JsonNode affectedSkillKeys,
         @JsonProperty("damageTypeKey") JsonNode damageTypeKey,
         @JsonProperty("attributeKey") JsonNode attributeKey,
         @JsonProperty("statusKey") JsonNode statusKey,
@@ -48,9 +39,10 @@ public record SkillEffectCooldownChangeDetail(
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillEffectCooldownChangeDetail(
-            affectedSkillKeys,
+            affectedSkillScope,
             operation,
             SkillEffectDetailFieldCapture.captureForeign(
+                "affectedSkillKeys", affectedSkillKeys,
                 "damageTypeKey", damageTypeKey,
                 "attributeKey", attributeKey,
                 "statusKey", statusKey,
