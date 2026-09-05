@@ -1,6 +1,6 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及阶段 0～7.6.5 的属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及阶段 0～7.6.5 与技能作用范围管理补项的属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
 
 它在整条链路里的位置是：
 
@@ -29,7 +29,7 @@
 - 启动入口：`src/main/java/xyz/game/datamanage/DataManageApplication.java`
 - 默认配置：`src/main/resources/application.yml`
 - 公共读取：`GamePublicController`（`GET /api/games`）、`ImagePublicController`
-- Admin 写入：阶段 0～7.6.5 管理控制器，以及 `ImageAdminController`
+- Admin 写入：阶段 0～7.6.5 及技能作用范围管理控制器，以及 `ImageAdminController`
 - 游戏与图片薄 Facade：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
 - 读写存储：`PostgresReadStore` / `PostgresWriteStore`（图片与编辑日志）
 - 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
@@ -61,7 +61,7 @@
 
 **新库（fresh install）**：
 
-1. `db/game_manage/schema.sql`（85 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、冷却变化目标关系表、阶段 7.6.5 前序输出与事件值检查，以及 `images` 列表分区）
+1. `db/game_manage/schema.sql`（88 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查，以及 `images` 列表分区）
 2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
 
 不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
@@ -73,7 +73,7 @@
 
 该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
 
-当前阶段 0～7.6.5 已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+当前阶段 0～7.6.5 及技能作用范围补项已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
 
 ### 属性管理
 
@@ -145,7 +145,7 @@ mvn -Dtest=StatusBasicManagementSchemaSqlTest,StatusServiceTest,StatusAdminContr
 
 ### 技能效果结构与基础结果管理
 
-`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作五张类型明细表。冷却变化的操作保存在 `public.skill_effect_cooldown_change_details`，受影响技能集合保存在 `public.skill_effect_cooldown_change_targets`；接口使用 `detail.affectedSkillKeys`。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
+`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作等类型明细表。冷却变化的操作仍保存在 `public.skill_effect_cooldown_change_details`；受影响技能集合已迁入结果级公共技能作用范围，不再使用 `skill_effect_cooldown_change_targets` 或 `detail.affectedSkillKeys`。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
 
 管理接口位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：GET 列表摘要或详情，POST 新建，PUT 全量替换结果集合，DELETE 删除。`effectKey` / `resultKey` 创建后不可改；已有结果的 `resultType` 不可改。
 
@@ -300,6 +300,33 @@ mvn test
 mvn package
 ```
 
+### 技能作用范围与技能急速修正
+
+结果级公共技能作用范围保存在 `public.skill_effect_result_skill_scopes`，明确技能与分类关系分别保存在 `public.skill_effect_result_skill_targets` 与 `public.skill_effect_result_skill_category_targets`。技能急速修正保存在 `public.skill_effect_haste_modifier_details`。只有 `COOLDOWN_CHANGE` 与 `SKILL_HASTE_MODIFIER` 可携带范围；接口使用规范化 `detail.affectedSkillScope`，三种模式固定为 `ALL / SKILLS / CATEGORIES`。新库目标为 88 张父表、17 种结果；21 种事件、10 种前序输出、23 种事件值不变。旧冷却目标表已删除，不双写、不接受 `detail.affectedSkillKeys`。
+
+管理接口仍位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects` 聚合 GET/POST/PUT/DELETE，不增加范围子接口。
+
+已有开发库按顺序执行：
+
+1. `db/game_manage/migrations/compatibility/skill_scope_management_migration.sql`
+2. `db/game_manage/triggers.sql`（刷新十七种结果延迟形状与生命周期约束触发器）
+
+脚本先精确核对阶段 7.6.5 的 85 张父表、十六种结果和旧冷却目标表；四张新表全部缺失时创建并按冷却结果无损复制为 `mode=SKILLS`，全部结构正确时幂等通过，部分存在或结构漂移时主动失败。不回填技能急速业务记录、不写种子、不 `DROP CASCADE`。不要把该 migration 当作新库必跑步骤。本实现阶段只生成并静态校验脚本，不连接真实数据库。
+
+静态契约与聚焦回归（不连 live DB）：
+
+```powershell
+cd server/data_manage
+mvn -Dtest=SkillScopeManagementDbContractSqlTest,SkillCooldownMultiSelectDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillServiceTest,SkillCategoryServiceTest,SkillTriggerRuleServiceTest,SkillTriggerRuleRuntimeInputServiceTest,SkillTriggerRuleCycleServiceTest,LegacyCombatDataCleanupDbContractSqlTest,ExecuteHitAttackLinkageDbContractSqlTest,EnrichedPriorResultIntegratedLinkageDbContractSqlTest test
+```
+
+随后：
+
+```powershell
+mvn test
+mvn package
+```
+
 ## 配置与环境变量
 
 当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
@@ -335,7 +362,7 @@ mvn package
 
 1. `GET /api/games`（仅 `gameId` / `gameName` / 可空 `gameImgUrl`）
 2. 图片读取与 Admin 写入
-3. 阶段 0～7.6.5 当前管理接口至少一类读写
+3. 阶段 0～7.6.5 及技能作用范围当前管理接口至少一类读写
 4. 旧 `/combat-data/**`、`GET .../versions/current` 与旧 publish 别名返回普通 404
 
 静态数据库清理契约：
