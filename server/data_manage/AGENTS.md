@@ -1,70 +1,27 @@
-# AGENTS.md
+# Backend AGENTS.md
 
-## 适用范围
+## 范围与入口
 
-- 本文件适用于 `server/data_manage/**`。
-- 如果与仓库根 `AGENTS.md` 冲突，以更近的本文件为准；未覆盖部分沿用上层规则。
-- 根 `AGENTS.md` 只负责 worktree 路由和治理摘要；后端入口、命令、验证和常见陷阱以本文件和同目录 `README.md` 为准。
+本文件适用于 `server/data_manage/**`。先读同目录 `README.md` 和 `src/main/resources/application.yml`，再读目标路径更近的 `AGENTS.md`；依赖、初始化顺序、接口清单和命令以 README、`pom.xml` 与当前源码为准。
 
-## 当前目录的主写入范围
+默认只写后端模块及任务明确包含的 `db/**`、接口文档和后端文档或工具。`web/**` 与 `wasm/**` 默认只读；共享契约变化返回主负责人统一处理。
 
-1. `server/data_manage/**`
-2. 为支撑当前后端任务所必需的 `db/**`、`接口/**`、后端相关 `文档记录/**`
-3. 与后端构建、数据导入、验证直接相关的 `tools/**`
+## 当前边界
 
-默认只读参考：
+- 当前数据面是现行业务表和独立 `images` 分区。旧 `/combat-data/**`、版本发布和旧日志复制链路已删除，不恢复兼容。
+- 公共游戏和图片读取位于 `controller/publicapi/**`；管理接口位于 `controller/adminapi/**`；图片管理实现位于 `controller/adminapi/image/**` 与 `service/image/**`。
+- Java mapper 与 `src/main/resources/mapper/**` 的 XML statement id 必须一致。改 SQL 时同时核对实际 DDL、结果别名和调用链。
+- `application.yml` 中的值是默认配置，环境变量和私有配置可能覆盖。不得提交真实数据库、Redis、JWT 或其他凭据。
+- CORS 当前只覆盖 `/api/**`；认证或路径异常先确认请求与配置，不直接扩大放行范围。
 
-1. `web/**`
-2. `wasm/**`
-3. 非后端专题的 `文档记录/**`
+## 验证
 
-## 启动时优先读取
+| 改动 | 最低证据 |
+| --- | --- |
+| 文档 | 核对入口、命令和链接，检查差异 |
+| controller、service、mapper、support | 受影响测试；功能收尾运行 `mvn test` |
+| `pom.xml`、`application.yml`、缓存、JWT 或启动装配 | `mvn test` 加 `mvn package` |
+| 公共读取、缓存或数据库结构 | 对最终服务验证 `GET /api/games`、受影响图片接口和至少一类相关管理读写 |
+| SQL 或接口契约 | 同步核对 `db/**`、接口文档和 README，并用对应层面的读回证明 |
 
-1. `README.md`
-2. `src/main/resources/application.yml`
-3. 目标改动涉及的 `controller/**`、`service/**`、`mapper/**`、`config/**`
-
-## 关键入口地图
-
-1. `src/main/java/xyz/game/datamanage/DataManageApplication.java`：应用启动入口。
-2. `src/main/resources/application.yml`：数据库、Redis、缓存、JWT 与启动探测配置。
-3. `controller/publicapi/GamePublicController.java`：游戏列表公共读取（`gameId` / `gameName` / 可空 `gameImgUrl`）。
-4. `controller/publicapi/ImagePublicController.java`、`controller/adminapi/ImageAdminController.java`：图片读取与写入。
-5. `controller/adminapi/attribute|character|equipment|skill*|status|damagetype|skillprocess|skilleffect|skillinternalstate/**`：当前业务管理接口。
-6. `service/GameDataService.java`：games / images 薄聚合。
-7. `service/PostgresReadStore.java`、`service/PostgresWriteStore.java`：游戏读取与图片/编辑日志写入。
-8. `mapper/**` + `src/main/resources/mapper/**`：当前业务表与图片访问。
-9. `config/StartupDependencyVerifier.java`：依赖探测。
-
-当前数据面：当前业务表 + 独立 `images` 分区。旧 `/combat-data/**`、旧版本发布和旧 `*_log` 拷贝链路已经删除。
-
-## 默认运行与验证
-
-前置要求：
-
-1. JDK `21`
-2. Maven `3.9+`
-3. PostgreSQL
-4. Redis
-
-常用命令：
-
-1. 本地启动：`mvn spring-boot:run`
-2. 默认测试：`mvn test`
-3. 打包校验：`mvn package`
-4. 文档-only 修改可不跑构建，但要核对命令、入口和验证说明仍有效。
-
-## 完成定义
-
-1. 开发中先运行受影响的测试；涉及 `controller/**`、`service/**`、`mapper/**`、`support/**` 的功能收尾时运行 `mvn test`。后续相关改动使结果失效才重跑，不因代理交接重复整套检查。
-2. 改 `pom.xml`、`application.yml`、缓存/JWT/启动配置：再补 `mvn package`。
-3. 改公共读取、缓存或数据库结构：至少验证 `GET /api/games`、图片接口，以及至少一类当前受影响的管理读写；旧 combat-data / versions 路径应返回普通 404。
-4. 改 SQL 或接口契约：同步检查 `db/**`、`接口/**`、README/设计文档口径。
-
-## 常见陷阱
-
-1. `application.yml` 仍保留示例直连配置；本地请优先用环境变量或私有配置覆盖，不要把真实凭据提交回仓库。
-2. `app.startup.fail-fast` 默认是 `false`；如需在启动阶段立即暴露 PostgreSQL / Redis 问题，可显式设为 `true`。
-3. `APP_AUTH_JWT_DISABLED` 默认允许本地关闭 Admin JWT；若改为启用，记得同时提供公钥配置并回归 Admin 接口。
-4. CORS 当前只放开 `/api/**`；若联调异常，先确认请求路径而不是直接扩大放行范围。
-5. 不要把已删除的 `/combat-data/**`、`versions/current` 或 `versions:publish` 当成当前能力；图片分区只由 `ensure_game_partitions` 维护。
+仓库 SQL、单测或应用启动不能替代实库结构验证；需要访问 PostgreSQL 实库时使用 `backend-db-access`。已有证据只在对应最终代码未变化时复用。

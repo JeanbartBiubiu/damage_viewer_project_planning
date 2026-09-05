@@ -1,6 +1,6 @@
 ---
 name: document-layering
-description: Use when creating, splitting, reviewing, or updating project documentation whose requirements, design, execution, validation evidence, or session memory need clearer ownership; especially 文档记录 docs and cross-module shared contracts.
+description: "创建、拆分或更新文档记录中的需求、设计、任务和验证文档，且需要明确唯一来源与责任边界时使用；简单文字修正不使用。"
 ---
 
 # 文档分层与唯一来源

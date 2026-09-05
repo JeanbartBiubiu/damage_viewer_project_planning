@@ -1,6 +1,6 @@
 ---
 name: wasm-batch-mechanism-development
-description: Use when planning, implementing, or validating Damage Viewer TinyGo V2 compile/session/run/release mechanisms or their host adapter. Do not use for ordinary management-form authoring, task bookkeeping alone, or removed legacy DPS paths.
+description: "规划、实现或验证 Damage Viewer TinyGo V2 运行机制或直接宿主适配时使用；管理录入、任务记账和旧 DPS 路径不使用。"
 ---
 
 # Wasm 机制开发
