@@ -86,8 +86,8 @@ const dataManagementNavigationItems: NavigationItem[] = [
   {
     id: 'images',
     hashSegment: 'images',
-    label: '图片缓存',
-    summary: '查看并同步图片缓存资源。'
+    label: '图片管理',
+    summary: '维护图片内容、状态和本地缓存。'
   }
 ];
 
