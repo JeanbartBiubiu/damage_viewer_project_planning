@@ -43,6 +43,7 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
                 case EXECUTE -> SkillEffectExecuteDetail.class;
                 case HIT_LINK_APPLICATION -> SkillEffectHitLinkApplicationDetail.class;
                 case ATTACK_LINK_APPLICATION -> SkillEffectAttackLinkApplicationDetail.class;
+                case SKILL_HASTE_MODIFIER -> SkillEffectHasteModifierDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);
         }

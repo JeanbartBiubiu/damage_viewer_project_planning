@@ -432,7 +432,7 @@ class SkillServiceTest {
     @Test
     void deleteSkillRemovesOwnEffectsThenFormulasThenParametersThenSkill() {
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
-        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
+        when(effectMapper.countExternalSkillScopeReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
         when(processMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(effectMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(internalStateMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
@@ -444,7 +444,7 @@ class SkillServiceTest {
 
         InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
-        order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).countExternalSkillScopeReferences(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -457,7 +457,7 @@ class SkillServiceTest {
     @Test
     void deleteSkillRejectsExternalCooldownReferencesWithStableConflict() {
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
-        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(1L);
+        when(effectMapper.countExternalSkillScopeReferences(GAME_ID, SKILL_KEY)).thenReturn(1L);
 
         ApiException exception = assertThrows(ApiException.class, () -> service.delete(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", exception.getCode());
@@ -496,7 +496,7 @@ class SkillServiceTest {
         org.mockito.Mockito.clearInvocations(
             mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
         );
-        when(effectMapper.countExternalCooldownReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
+        when(effectMapper.countExternalSkillScopeReferences(GAME_ID, SKILL_KEY)).thenReturn(0L);
         when(processMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(effectMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
         when(internalStateMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(1);
@@ -509,7 +509,7 @@ class SkillServiceTest {
         );
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
-        order.verify(effectMapper).countExternalCooldownReferences(GAME_ID, SKILL_KEY);
+        order.verify(effectMapper).countExternalSkillScopeReferences(GAME_ID, SKILL_KEY);
         order.verify(triggerRuleService).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);

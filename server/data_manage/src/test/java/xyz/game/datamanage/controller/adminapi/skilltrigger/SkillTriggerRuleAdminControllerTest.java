@@ -37,8 +37,12 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
@@ -307,6 +311,100 @@ class SkillTriggerRuleAdminControllerTest {
         SkillTriggerLinkEventDetail submitted =
             (SkillTriggerLinkEventDetail) request.getValue().eventSource().detail();
         assertEquals(null, submitted.sourceSkillKey());
+    }
+
+    @Test
+    void unknownOutputKindAndEventValueKeyReturnInvalidBody() throws Exception {
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(priorResultJson("NOT_A_KIND")))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(eventValueJson("NOT_A_VALUE")))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        verify(service, never()).create(any(), any(), any());
+        verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @Test
+    void newOutputKindAndEventValueKeyDeserialize() throws Exception {
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillTriggerRuleCreateRequest.class))).thenReturn(detail());
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(priorResultJson("RAW_DAMAGE")))
+            .andExpect(status().isCreated());
+        ArgumentCaptor<SkillTriggerRuleCreateRequest> prior = ArgumentCaptor.forClass(SkillTriggerRuleCreateRequest.class);
+        verify(service).create(eq("lol"), eq("ezreal_q"), prior.capture());
+        SkillTriggerPriorResultBindingDetail priorDetail = (SkillTriggerPriorResultBindingDetail)
+            prior.getValue().actions().get(1).runtimeInputBindings().get(0).detail();
+        assertEquals(SkillTriggerPriorResultOutputKind.RAW_DAMAGE, priorDetail.outputKind());
+        assertEquals("deal_first", priorDetail.sourceActionKey());
+        assertEquals("damage", priorDetail.sourceResultKey());
+
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(eventValueJson("SHIELD_ABSORBED")))
+            .andExpect(status().isCreated());
+        ArgumentCaptor<SkillTriggerRuleCreateRequest> event = ArgumentCaptor.forClass(SkillTriggerRuleCreateRequest.class);
+        verify(service, org.mockito.Mockito.times(2)).create(eq("lol"), eq("ezreal_q"), event.capture());
+        SkillTriggerEventValueBindingDetail eventDetail = (SkillTriggerEventValueBindingDetail)
+            event.getValue().actions().get(0).runtimeInputBindings().get(0).detail();
+        assertEquals(SkillTriggerEventValueKey.SHIELD_ABSORBED, eventDetail.eventValueKey());
+    }
+
+    private static String priorResultJson(String outputKind) {
+        return """
+            {
+              "ruleKey":"prior_result",
+              "name":"前序供值",
+              "sortOrder":10,
+              "eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},
+              "conditionGroups":[],
+              "actions":[
+                {
+                  "actionKey":"deal_first","name":"执行效果","actionType":"EXECUTE_EFFECT","sortOrder":10,
+                  "targetContext":"CURRENT_TARGET","detail":{"effectKey":"burst"},
+                  "runtimeInputBindings":[],"resultModifiers":[]
+                },
+                {
+                  "actionKey":"follow","name":"后续","actionType":"EXECUTE_EFFECT","sortOrder":20,
+                  "targetContext":"CURRENT_TARGET","detail":{"effectKey":"follow_up"},
+                  "runtimeInputBindings":[{
+                    "bindingKey":"from_first","parameterKey":"ratio","sourceType":"PRIOR_ACTION_RESULT",
+                    "detail":{"sourceActionKey":"deal_first","sourceResultKey":"damage","outputKind":"%s"}
+                  }],
+                  "resultModifiers":[]
+                }
+              ]
+            }
+            """.formatted(outputKind);
+    }
+
+    private static String eventValueJson(String eventValueKey) {
+        return """
+            {
+              "ruleKey":"on_damage_dealt",
+              "name":"造成伤害",
+              "sortOrder":10,
+              "eventSource":{
+                "eventType":"DAMAGE_DEALT",
+                "detail":{"damageTypeKey":"physical","deliveryKind":"SKILL","originKind":"DIRECT"}
+              },
+              "conditionGroups":[],
+              "actions":[{
+                "actionKey":"deal","name":"执行效果","actionType":"EXECUTE_EFFECT","sortOrder":10,
+                "targetContext":"CURRENT_TARGET","detail":{"effectKey":"burst"},
+                "runtimeInputBindings":[{
+                  "bindingKey":"from_event","parameterKey":"ratio","sourceType":"EVENT_VALUE",
+                  "detail":{"eventValueKey":"%s"}
+                }],
+                "resultModifiers":[]
+              }]
+            }
+            """.formatted(eventValueKey);
     }
 
     private static SkillTriggerRuleSummaryResponse summary() {

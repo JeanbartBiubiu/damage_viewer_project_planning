@@ -87,7 +87,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimit;
@@ -349,7 +349,12 @@ public class SkillTriggerRuleService {
             gameId, skillKey, effectKey, candidateLifecycle, candidateResults
         );
         if (!shapeIssues.isEmpty()) {
-            shapeIssues.sort(Comparator.comparing(issue -> issue.get("field")));
+            shapeIssues.sort(Comparator
+                .comparing((Map<String, String> issue) -> issue.getOrDefault("ruleKey", ""))
+                .thenComparing(issue -> issue.getOrDefault("actionKey", ""))
+                .thenComparing(issue -> issue.getOrDefault("bindingKey", ""))
+                .thenComparing(issue -> issue.getOrDefault("outputKind", ""))
+                .thenComparing(issue -> issue.getOrDefault("field", "")));
             throw effectInUse(shapeIssues);
         }
     }
@@ -1987,13 +1992,6 @@ public class SkillTriggerRuleService {
                     ));
                     return;
                 }
-                if (detail.outputKind() != SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE) {
-                    bindingIssues.add(fieldIssue(
-                        bindingPath(actionIndex, bindingIndex, "detail.outputKind"),
-                        "REFERENCE_TYPE_MISMATCH",
-                        "本阶段只允许 CONFIGURED_VALUE"
-                    ));
-                }
                 SkillTriggerAction sourceAction = actionByKey.get(detail.sourceActionKey());
                 if (sourceAction == null
                     || sourceAction.actionType() != SkillTriggerActionType.EXECUTE_EFFECT
@@ -2006,8 +2004,8 @@ public class SkillTriggerRuleService {
                     return;
                 }
                 String sourceEffectKey = ((SkillTriggerExecuteEffectActionDetail) sourceAction.detail()).effectKey();
-                SkillTriggerEffectShapeRow shape = findResult(effectShapes, sourceEffectKey, detail.sourceResultKey());
-                if (shape == null) {
+                SkillTriggerEffectShapeRow shapeRow = findResult(effectShapes, sourceEffectKey, detail.sourceResultKey());
+                if (shapeRow == null) {
                     referenceIssues.add(fieldIssue(
                         bindingPath(actionIndex, bindingIndex, "detail.sourceResultKey"),
                         "UNKNOWN_RESULT",
@@ -2015,14 +2013,24 @@ public class SkillTriggerRuleService {
                     ));
                     return;
                 }
-                if (!shape.hasValueRule() || !immediatelyAvailable(shape)) {
+                SkillTriggerPriorResultOutputs.Shape shape = SkillTriggerPriorResultOutputs.Shape.from(shapeRow);
+                if (!SkillTriggerPriorResultOutputs.immediatelyAvailable(shape)) {
                     bindingIssues.add(fieldIssue(
                         bindingPath(actionIndex, bindingIndex, "detail.sourceResultKey"),
-                        "RESULT_NOT_IMMEDIATELY_AVAILABLE",
-                        "前序结果必须是即时可用的数值结果"
+                        "SOURCE_RESULT_NOT_IMMEDIATE",
+                        "前序结果必须是即时可用的结果"
                     ));
+                    return;
                 }
-                sourceDomain = SkillTriggerValueDomain.DECIMAL;
+                if (!SkillTriggerPriorResultOutputs.available(shape, detail.outputKind())) {
+                    bindingIssues.add(fieldIssue(
+                        bindingPath(actionIndex, bindingIndex, "detail.outputKind"),
+                        "OUTPUT_KIND_NOT_AVAILABLE",
+                        "来源结果不提供该前序输出"
+                    ));
+                    return;
+                }
+                sourceDomain = SkillTriggerPriorResultOutputs.valueDomain(detail.outputKind());
             }
         }
         if (sourceDomain != null && !compatible(sourceDomain, parameterType)) {
@@ -2750,13 +2758,29 @@ public class SkillTriggerRuleService {
                 if (result == null || index == null) {
                     continue;
                 }
-                if (result.valueRule() == null || !immediatelyAvailable(result, hasLifecycle)) {
-                    issues.add(fieldIssue(
-                        resultPath(index, result.valueRule() == null ? "valueRule" : "lifecycleBehavior.moment"),
-                        "TRIGGER_RULE_SHAPE_IN_USE",
-                        "结果不再是即时可用的数值结果"
-                    ));
+                SkillTriggerPriorResultOutputs.Shape shape = SkillTriggerPriorResultOutputs.Shape.from(
+                    result,
+                    hasLifecycle
+                );
+                boolean immediate = SkillTriggerPriorResultOutputs.immediatelyAvailable(shape);
+                boolean outputAvailable = SkillTriggerPriorResultOutputs.available(shape, binding.outputKind());
+                if (immediate && outputAvailable) {
+                    continue;
                 }
+                String changedField = SkillTriggerPriorResultOutputs.unavailableField(shape, binding.outputKind());
+                if (changedField == null) {
+                    changedField = immediate ? "resultType" : "lifecycleBehavior.moment";
+                }
+                Map<String, String> issue = fieldIssue(
+                    resultPath(index, changedField),
+                    "TRIGGER_RULE_SHAPE_IN_USE",
+                    "结果形状变化会使既有前序输出失效"
+                );
+                issue.put("ruleKey", binding.ruleKey());
+                issue.put("actionKey", binding.actionKey());
+                issue.put("bindingKey", binding.bindingKey());
+                issue.put("outputKind", binding.outputKind() == null ? "" : binding.outputKind().name());
+                issues.add(issue);
             }
             for (var modifier : nullToEmpty(mapper.listModifiers(gameId, skillKey, rule.ruleKey()))) {
                 if (!effectKey.equals(modifier.effectKey())) {
@@ -2794,18 +2818,6 @@ public class SkillTriggerRuleService {
         }
         return result.lifecycleBehavior() != null
             && result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERSISTENT;
-    }
-
-    private static boolean immediatelyAvailable(SkillTriggerEffectShapeRow shape) {
-        return !shape.hasLifecycle() || shape.resultMoment() == SkillEffectLifecycleMoment.APPLICATION;
-    }
-
-    private static boolean immediatelyAvailable(SkillEffectResultRequest result, boolean hasLifecycle) {
-        if (!hasLifecycle) {
-            return true;
-        }
-        return result.lifecycleBehavior() != null
-            && result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.APPLICATION;
     }
 
     private static String actionTargetKey(SkillTriggerAction action) {

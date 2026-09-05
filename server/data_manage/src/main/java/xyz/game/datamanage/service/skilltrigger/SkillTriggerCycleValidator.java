@@ -387,81 +387,102 @@ public class SkillTriggerCycleValidator {
     private static List<ProducedEvent> produceResultSideEffects(SkillTriggerEffectShapeRow row, String skillKey) {
         List<ProducedEvent> produced = new ArrayList<>();
         SkillTriggerSubject subject = subjectOf(row.target());
-        if (row.resultType() == SkillEffectResultType.DAMAGE) {
-            if (row.target() == SkillEffectTarget.TARGET) {
-                produced.add(ProducedEvent.damage(
-                    SkillTriggerEventType.DAMAGE_DEALT,
-                    row.damageTypeKey(),
-                    row.damageDeliveryKind(),
-                    row.damageOriginKind()
-                ));
-                produced.add(ProducedEvent.health(SkillTriggerSubject.CURRENT_TARGET, SkillTriggerHealthDirection.DOWNWARD, null));
+        if (row.resultType() != null) {
+            switch (row.resultType()) {
+            case DAMAGE -> {
+                if (row.target() == SkillEffectTarget.TARGET) {
+                    produced.add(ProducedEvent.damage(
+                        SkillTriggerEventType.DAMAGE_DEALT,
+                        row.damageTypeKey(),
+                        row.damageDeliveryKind(),
+                        row.damageOriginKind()
+                    ));
+                    produced.add(ProducedEvent.health(SkillTriggerSubject.CURRENT_TARGET, SkillTriggerHealthDirection.DOWNWARD, null));
+                    produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
+                    produced.add(ProducedEvent.entityDied(SkillTriggerSubject.CURRENT_TARGET));
+                } else if (row.target() == SkillEffectTarget.SOURCE) {
+                    produced.add(ProducedEvent.damage(
+                        SkillTriggerEventType.DAMAGE_PENDING,
+                        row.damageTypeKey(),
+                        row.damageDeliveryKind(),
+                        row.damageOriginKind()
+                    ));
+                    produced.add(ProducedEvent.damage(
+                        SkillTriggerEventType.DAMAGE_TAKEN,
+                        row.damageTypeKey(),
+                        row.damageDeliveryKind(),
+                        row.damageOriginKind()
+                    ));
+                    produced.add(ProducedEvent.health(SkillTriggerSubject.SOURCE, SkillTriggerHealthDirection.DOWNWARD, null));
+                    produced.add(ProducedEvent.entityDied(SkillTriggerSubject.SOURCE));
+                }
+            }
+            case DIRECT_HEAL -> {
+                if (subject != null) {
+                    produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.UPWARD, null));
+                }
+            }
+            case ATTRIBUTE_CHANGE -> {
+                if (subject != null) {
+                    if (row.attributeOperation() == SkillEffectAttributeChangeOperation.INCREASE
+                        || row.attributeOperation() == SkillEffectAttributeChangeOperation.SET) {
+                        produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.UPWARD, row.resultAttributeKey()));
+                    }
+                    if (row.attributeOperation() == SkillEffectAttributeChangeOperation.DECREASE
+                        || row.attributeOperation() == SkillEffectAttributeChangeOperation.SET) {
+                        produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.DOWNWARD, row.resultAttributeKey()));
+                    }
+                }
+            }
+            case STATUS_OPERATION -> {
+                if (row.statusKey() != null) {
+                    if (row.statusOperation() == SkillEffectStatusOperation.APPLY) {
+                        produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.APPLY));
+                    } else if (row.statusOperation() == SkillEffectStatusOperation.REMOVE) {
+                        produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.REMOVE));
+                    }
+                    if (row.hasLifecycle() && row.statusOperation() == SkillEffectStatusOperation.APPLY) {
+                        produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.REMOVE));
+                    }
+                }
+            }
+            case LIFECYCLE_OPERATION -> {
+                if (row.lifecycleTargetEffectKey() != null && row.lifecycleOperation() != null) {
+                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
+                        || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET) {
+                        produced.add(ProducedEvent.lifecycle(
+                            row.lifecycleTargetEffectKey(),
+                            SkillTriggerLifecycleEventMoment.FULL_STACKS
+                        ));
+                    }
+                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.DECREASE
+                        || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET
+                        || row.lifecycleOperation() == SkillEffectLifecycleOperation.CONSUME
+                        || row.lifecycleOperation() == SkillEffectLifecycleOperation.REMOVE) {
+                        produced.add(ProducedEvent.lifecycle(
+                            row.lifecycleTargetEffectKey(),
+                            SkillTriggerLifecycleEventMoment.EARLY_REMOVE
+                        ));
+                    }
+                }
+            }
+            case EXECUTE -> {
                 produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
-                produced.add(ProducedEvent.entityDied(SkillTriggerSubject.CURRENT_TARGET));
-            } else if (row.target() == SkillEffectTarget.SOURCE) {
-                produced.add(ProducedEvent.damage(
-                    SkillTriggerEventType.DAMAGE_PENDING,
-                    row.damageTypeKey(),
-                    row.damageDeliveryKind(),
-                    row.damageOriginKind()
-                ));
-                produced.add(ProducedEvent.damage(
-                    SkillTriggerEventType.DAMAGE_TAKEN,
-                    row.damageTypeKey(),
-                    row.damageDeliveryKind(),
-                    row.damageOriginKind()
-                ));
-                produced.add(ProducedEvent.health(SkillTriggerSubject.SOURCE, SkillTriggerHealthDirection.DOWNWARD, null));
-                produced.add(ProducedEvent.entityDied(SkillTriggerSubject.SOURCE));
+                if (subject != null) {
+                    produced.add(ProducedEvent.entityDied(subject));
+                }
             }
-        } else if (row.resultType() == SkillEffectResultType.DIRECT_HEAL && subject != null) {
-            produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.UPWARD, null));
-        } else if (row.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE && subject != null) {
-            if (row.attributeOperation() == SkillEffectAttributeChangeOperation.INCREASE
-                || row.attributeOperation() == SkillEffectAttributeChangeOperation.SET) {
-                produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.UPWARD, row.resultAttributeKey()));
+            case HIT_LINK_APPLICATION -> produced.add(ProducedEvent.link(SkillTriggerEventType.HIT_LINK_APPLIED, skillKey));
+            case ATTACK_LINK_APPLICATION -> produced.add(ProducedEvent.link(SkillTriggerEventType.ATTACK_LINK_APPLIED, skillKey));
+            case NORMAL_SHIELD -> {
+                if (row.hasLifecycle()) {
+                    produced.add(ProducedEvent.lifecycle(row.effectKey(), SkillTriggerLifecycleEventMoment.EARLY_REMOVE));
+                }
             }
-            if (row.attributeOperation() == SkillEffectAttributeChangeOperation.DECREASE
-                || row.attributeOperation() == SkillEffectAttributeChangeOperation.SET) {
-                produced.add(ProducedEvent.health(subject, SkillTriggerHealthDirection.DOWNWARD, row.resultAttributeKey()));
+            case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER,
+                DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER -> {
             }
-        } else if (row.resultType() == SkillEffectResultType.STATUS_OPERATION && row.statusKey() != null) {
-            if (row.statusOperation() == SkillEffectStatusOperation.APPLY) {
-                produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.APPLY));
-            } else if (row.statusOperation() == SkillEffectStatusOperation.REMOVE) {
-                produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.REMOVE));
             }
-            if (row.hasLifecycle() && row.statusOperation() == SkillEffectStatusOperation.APPLY) {
-                produced.add(ProducedEvent.statusChanged(row.statusKey(), SkillTriggerStatusChangeKind.REMOVE));
-            }
-        } else if (row.resultType() == SkillEffectResultType.LIFECYCLE_OPERATION
-            && row.lifecycleTargetEffectKey() != null
-            && row.lifecycleOperation() != null) {
-            if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
-                || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET) {
-                produced.add(ProducedEvent.lifecycle(
-                    row.lifecycleTargetEffectKey(),
-                    SkillTriggerLifecycleEventMoment.FULL_STACKS
-                ));
-            }
-            if (row.lifecycleOperation() == SkillEffectLifecycleOperation.DECREASE
-                || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET
-                || row.lifecycleOperation() == SkillEffectLifecycleOperation.CONSUME
-                || row.lifecycleOperation() == SkillEffectLifecycleOperation.REMOVE) {
-                produced.add(ProducedEvent.lifecycle(
-                    row.lifecycleTargetEffectKey(),
-                    SkillTriggerLifecycleEventMoment.EARLY_REMOVE
-                ));
-            }
-        } else if (row.resultType() == SkillEffectResultType.EXECUTE) {
-            produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
-            if (subject != null) {
-                produced.add(ProducedEvent.entityDied(subject));
-            }
-        } else if (row.resultType() == SkillEffectResultType.HIT_LINK_APPLICATION) {
-            produced.add(ProducedEvent.link(SkillTriggerEventType.HIT_LINK_APPLIED, skillKey));
-        } else if (row.resultType() == SkillEffectResultType.ATTACK_LINK_APPLICATION) {
-            produced.add(ProducedEvent.link(SkillTriggerEventType.ATTACK_LINK_APPLIED, skillKey));
         }
         if (row.spellShieldBlockScope() != null) {
             produced.add(ProducedEvent.wide(SkillTriggerEventType.SPELL_SHIELD_BLOCKED));
