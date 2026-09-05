@@ -62,7 +62,10 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "skill_effect_attribute_change_details",
         "skill_effect_resource_change_details",
         "skill_effect_cooldown_change_details",
-        "skill_effect_cooldown_change_targets",
+        "skill_effect_result_skill_scopes",
+        "skill_effect_result_skill_targets",
+        "skill_effect_result_skill_category_targets",
+        "skill_effect_haste_modifier_details",
         "skill_effect_status_operation_details",
         "skill_effect_lifecycles",
         "skill_effect_result_lifecycle_behaviors",
@@ -241,12 +244,12 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(56, KEEP_PARENTS.size());
+        assertEquals(59, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
         assertEquals(29, STAGE_7_5_PARENTS.size());
-        assertEquals(85, expected.size());
+        assertEquals(88, expected.size());
         assertEquals(expected, created);
-        assertEquals(85, created.size());
+        assertEquals(88, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -296,7 +299,10 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void breakingMigrationCoversExactDropSetWithoutCascade() {
         List<String> historicalKeepParents = KEEP_PARENTS.stream()
             .filter(table -> !Set.of(
-                "skill_effect_cooldown_change_targets",
+                "skill_effect_result_skill_scopes",
+                "skill_effect_result_skill_targets",
+                "skill_effect_result_skill_category_targets",
+                "skill_effect_haste_modifier_details",
                 "skill_effect_result_critical_policies",
                 "skill_effect_result_vamp_rules",
                 "skill_effect_result_normal_shield_interactions",

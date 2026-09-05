@@ -10,7 +10,6 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
@@ -27,6 +26,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -55,6 +55,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
@@ -507,12 +511,6 @@ public interface SkillEffectMapper {
         @Param("effectKey") String effectKey
     );
 
-    List<SkillEffectCooldownChangeTargetRow> listCooldownChangeTargets(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("effectKey") String effectKey
-    );
-
     int insertCooldownChangeDetail(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
@@ -529,7 +527,41 @@ public interface SkillEffectMapper {
         @Param("operation") SkillEffectCooldownChangeOperation operation
     );
 
-    int insertCooldownChangeTarget(
+    List<SkillEffectSkillScopeRow> listSkillScopes(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    List<SkillEffectSkillTargetRow> listSkillTargets(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    List<SkillEffectSkillCategoryTargetRow> listSkillCategoryTargets(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertSkillScope(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("mode") SkillEffectSkillScopeMode mode
+    );
+
+    int updateSkillScope(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("mode") SkillEffectSkillScopeMode mode
+    );
+
+    int insertSkillTarget(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
@@ -537,11 +569,48 @@ public interface SkillEffectMapper {
         @Param("affectedSkillKey") String affectedSkillKey
     );
 
-    int deleteCooldownChangeTargets(
+    int deleteSkillTargets(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey,
         @Param("resultKey") String resultKey
+    );
+
+    int insertSkillCategoryTarget(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("skillCategoryKey") String skillCategoryKey
+    );
+
+    int deleteSkillCategoryTargets(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey
+    );
+
+    List<SkillEffectHasteModifierDetailRow> listHasteModifierDetails(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey
+    );
+
+    int insertHasteModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("operation") SkillEffectModifierOperation operation
+    );
+
+    int updateHasteModifierDetail(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("effectKey") String effectKey,
+        @Param("resultKey") String resultKey,
+        @Param("operation") SkillEffectModifierOperation operation
     );
 
     List<SkillEffectStatusOperationDetailRow> listStatusOperationDetails(
@@ -568,7 +637,7 @@ public interface SkillEffectMapper {
         @Param("operation") SkillEffectStatusOperation operation
     );
 
-    long countExternalCooldownReferences(
+    long countExternalSkillScopeReferences(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey
     );
@@ -596,6 +665,11 @@ public interface SkillEffectMapper {
     );
 
     List<SkillEffectCatalogLockRow> lockSkills(
+        @Param("gameId") String gameId,
+        @Param("keys") Collection<String> keys
+    );
+
+    List<SkillEffectCatalogLockRow> lockSkillCategories(
         @Param("gameId") String gameId,
         @Param("keys") Collection<String> keys
     );

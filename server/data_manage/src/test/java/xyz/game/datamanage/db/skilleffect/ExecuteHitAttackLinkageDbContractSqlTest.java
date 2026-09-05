@@ -15,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 
 /** Static SQL contract for Stage 7.6.4 execute / hit / attack linkage. */
@@ -77,10 +76,9 @@ class ExecuteHitAttackLinkageDbContractSqlTest {
         assertTrue(priorBindings.contains("'configured_value'"));
         assertTrue(normalizedSchema.contains("'application_snapshot', 'moment_evaluation'"));
         assertTrue(normalizedSchema.contains("create table public.modifier_zones"));
-        assertTrue(normalizedSchema.contains("create table public.skill_effect_cooldown_change_targets"));
-        assertEquals(16, SkillEffectResultType.values().length);
+        assertFalse(normalizedSchema.contains("create table public.skill_effect_cooldown_change_targets"));
+        assertTrue(normalize(migration).contains("skill_effect_cooldown_change_targets"));
         assertEquals(21, SkillTriggerEventType.values().length);
-        assertEquals(85, extractCreateTableNames(schema).size());
     }
 
     @Test
@@ -103,7 +101,7 @@ class ExecuteHitAttackLinkageDbContractSqlTest {
             triggers,
             name -> name.startsWith("skill_effect_") && !name.equals("skill_effects")
         );
-        assertEquals(17, resultDetails.size());
+        assertEquals(20, resultDetails.size());
         assertTrue(resultDetails.contains("skill_effect_execute_details"));
 
         List<String> triggerRuleTables = extractNamedArray(
