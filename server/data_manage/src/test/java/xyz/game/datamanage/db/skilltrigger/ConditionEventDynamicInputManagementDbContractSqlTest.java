@@ -186,6 +186,34 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
         "PROCESS_CANCEL_REQUESTED"
     );
 
+    private static final List<String> STAGE_75_EVENT_VALUE_KEYS = List.of(
+        "STEP_EXECUTION_INDEX",
+        "CHARGE_DURATION_MS",
+        "RECAST_COUNT",
+        "HIT_INDEX",
+        "LIFECYCLE_STACKS",
+        "PERIOD_INDEX",
+        "REMAINING_MS",
+        "STATE_BEFORE",
+        "STATE_AFTER",
+        "ATTRIBUTE_BEFORE",
+        "ATTRIBUTE_AFTER",
+        "THRESHOLD_VALUE"
+    );
+
+    private static final List<String> FINAL_OUTPUT_KINDS = List.of(
+        "CONFIGURED_VALUE",
+        "RAW_DAMAGE",
+        "POST_DEFENSE_DAMAGE",
+        "SHIELD_ABSORBED",
+        "ACTUAL_HP_LOSS",
+        "ACTUAL_HEALING",
+        "BLOCKED",
+        "IMMUNE",
+        "STATUS_APPLIED",
+        "KILLED"
+    );
+
     private static final List<String> DETAIL_TRIGGER_TABLES = TARGET_TABLES.subList(1, TARGET_TABLES.size());
 
     private static String schemaSql;
@@ -259,7 +287,20 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
         assertTrue(prior.contains("deferrable initially deferred"));
         assertTrue(prior.contains("constraint fk_skill_trigger_prior_result_bind_source_action"));
         assertTrue(prior.contains("constraint fk_skill_trigger_prior_result_bind_result"));
-        assertTrue(prior.contains("output_kind = 'configured_value'"));
+        assertEquals(10, FINAL_OUTPUT_KINDS.size());
+        for (String outputKind : FINAL_OUTPUT_KINDS) {
+            assertTrue(
+                prior.contains("'" + outputKind.toLowerCase() + "'"),
+                () -> "current schema missing output kind " + outputKind
+            );
+        }
+        assertTrue(prior.contains(
+            "constraint ck_skill_trigger_prior_result_bind_output check (output_kind in ( "
+                + "'configured_value', 'raw_damage', 'post_defense_damage', "
+                + "'shield_absorbed', 'actual_hp_loss', 'actual_healing', "
+                + "'blocked', 'immune', 'status_applied', 'killed' ))"
+        ));
+        assertTrue(prior.contains("'configured_value'"));
 
         String modifiers = normalize(extractCreateTable(schemaSql, "skill_trigger_rule_result_modifiers"));
         assertTrue(modifiers.contains("constraint ck_skill_trigger_result_modifiers_present")
@@ -308,7 +349,7 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             assertTrue(schemaTable.contains("constraint pk_" + tableName)
                 || schemaTable.contains("primary key (game_id, skill_key, rule_key"));
             assertEquals(
-                removeStage762Members(schemaTable, tableName)
+                removePostStage75Members(schemaTable, tableName)
                     .replace("create table public." + tableName, ""),
                 migrationTable.replace("create table public." + tableName, ""),
                 () -> tableName + " CREATE TABLE body drifted between schema and migration"
@@ -319,10 +360,38 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             assertNoJsonbArraysOrPayload(schemaTable, tableName);
             assertNoJsonbArraysOrPayload(migrationTable, tableName);
         }
+
+        String migrationPrior = normalize(extractCreateTable(migrationSql, "skill_trigger_rule_prior_result_bindings"));
+        assertTrue(migrationPrior.contains("output_kind = 'configured_value'"));
+        assertFalse(migrationPrior.contains("output_kind in ("));
+
+        assertEquals(12, STAGE_75_EVENT_VALUE_KEYS.size());
+        for (String tableName : List.of(
+            "skill_trigger_rule_event_value_conditions",
+            "skill_trigger_rule_event_value_bindings"
+        )) {
+            String migrationEventValues = normalize(extractCreateTable(migrationSql, tableName));
+            for (String eventValueKey : STAGE_75_EVENT_VALUE_KEYS) {
+                assertTrue(
+                    migrationEventValues.contains("'" + eventValueKey.toLowerCase() + "'"),
+                    () -> tableName + " migration missing original event value " + eventValueKey
+                );
+            }
+            for (String laterEventValue : List.of(
+                "raw_damage", "post_defense_damage", "health_before", "projected_health_after",
+                "shield_absorbed", "actual_hp_loss", "blocked", "immune", "killed",
+                "link_index", "link_count"
+            )) {
+                assertFalse(
+                    migrationEventValues.contains("'" + laterEventValue + "'"),
+                    () -> tableName + " migration must keep the original 12 event values, not " + laterEventValue
+                );
+            }
+        }
         assertTrue(migrationNormalized.contains("position('''value_reached'''"));
     }
 
-    private static String removeStage762Members(String tableSql, String tableName) {
+    private static String removePostStage75Members(String tableSql, String tableName) {
         String normalized = tableSql;
         if (tableName.equals("skill_trigger_rules")) {
             normalized = normalized.replace("'damage_pending', ", "");
@@ -334,6 +403,22 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
             normalized = normalized.replace(
                 ", 'raw_damage', 'post_defense_damage', 'health_before', 'projected_health_after'",
                 ""
+            );
+            normalized = normalized.replace(
+                ", 'shield_absorbed', 'actual_hp_loss', 'blocked', 'immune', 'killed', "
+                    + "'link_index', 'link_count'",
+                ""
+            );
+        }
+        if (tableName.equals("skill_trigger_rule_prior_result_bindings")) {
+            normalized = normalized.replace(
+                ", 'raw_damage', 'post_defense_damage', 'shield_absorbed', 'actual_hp_loss', "
+                    + "'actual_healing', 'blocked', 'immune', 'status_applied', 'killed'",
+                ""
+            );
+            normalized = normalized.replace(
+                "output_kind in ( 'configured_value' )",
+                "output_kind = 'configured_value'"
             );
         }
         return normalized;

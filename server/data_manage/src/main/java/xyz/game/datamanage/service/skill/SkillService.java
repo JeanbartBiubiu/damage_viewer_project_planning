@@ -198,7 +198,7 @@ public class SkillService {
         if (triggerRuleService != null) {
             triggerRuleService.assertSourceSkillNotReferenced(gameId, skillKey);
         }
-        if (effectMapper.countExternalCooldownReferences(gameId, skillKey) > 0) {
+        if (effectMapper.countExternalSkillScopeReferences(gameId, skillKey) > 0) {
             throw inUse();
         }
         if (triggerRuleService != null) {
@@ -532,7 +532,7 @@ public class SkillService {
     }
 
     private static ApiException inUse() {
-        return conflict("409.SKILL_IN_USE", "技能已被其他技能的冷却变化结果引用，不能删除", "skillKey");
+        return conflict("409.SKILL_IN_USE", "技能已被其他技能的冷却变化或其他技能范围引用，不能删除", "skillKey");
     }
 
     private static ApiException unknownCategory(int index) {

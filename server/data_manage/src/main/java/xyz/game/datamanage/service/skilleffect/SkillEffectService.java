@@ -25,13 +25,13 @@ import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
@@ -52,8 +52,11 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -89,6 +92,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
@@ -434,8 +441,23 @@ public class SkillEffectService {
             effectKey,
             mapper.listCooldownChangeDetails(gameId, skillKey, effectKey)
         );
-        Map<String, List<String>> cooldownTargets = indexCooldownChangeTargets(
-            mapper.listCooldownChangeTargets(gameId, skillKey, effectKey)
+        Map<String, SkillEffectSkillScopeRow> skillScopes = indexSkillScopes(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listSkillScopes(gameId, skillKey, effectKey)
+        );
+        Map<String, List<String>> skillTargets = indexSkillTargets(
+            mapper.listSkillTargets(gameId, skillKey, effectKey)
+        );
+        Map<String, List<String>> skillCategoryTargets = indexSkillCategoryTargets(
+            mapper.listSkillCategoryTargets(gameId, skillKey, effectKey)
+        );
+        Map<String, SkillEffectHasteModifierDetailRow> hasteModifiers = indexHasteModifiers(
+            gameId,
+            skillKey,
+            effectKey,
+            mapper.listHasteModifierDetails(gameId, skillKey, effectKey)
         );
         Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
             gameId,
@@ -478,7 +500,10 @@ public class SkillEffectService {
                 attributes,
                 resources,
                 cooldowns,
-                cooldownTargets,
+                skillScopes,
+                skillTargets,
+                skillCategoryTargets,
+                hasteModifiers,
                 statuses,
                 operations,
                 behaviors
@@ -517,7 +542,10 @@ public class SkillEffectService {
         Map<String, SkillEffectAttributeChangeDetailRow> attributes,
         Map<String, SkillEffectResourceChangeDetailRow> resources,
         Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
-        Map<String, List<String>> cooldownTargets,
+        Map<String, SkillEffectSkillScopeRow> skillScopes,
+        Map<String, List<String>> skillTargets,
+        Map<String, List<String>> skillCategoryTargets,
+        Map<String, SkillEffectHasteModifierDetailRow> hasteModifiers,
         Map<String, SkillEffectStatusOperationDetailRow> statuses,
         Map<String, SkillEffectLifecycleOperationDetailRow> operations,
         Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
@@ -537,7 +565,10 @@ public class SkillEffectService {
         SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
         SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
         SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
-        List<String> affectedSkillKeys = cooldownTargets.getOrDefault(resultKey, List.of());
+        SkillEffectSkillScopeRow skillScopeRow = skillScopes.get(resultKey);
+        List<String> affectedSkillKeys = skillTargets.getOrDefault(resultKey, List.of());
+        List<String> skillCategoryKeys = skillCategoryTargets.getOrDefault(resultKey, List.of());
+        SkillEffectHasteModifierDetailRow hasteRow = hasteModifiers.get(resultKey);
         SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
         SkillEffectLifecycleOperationDetailRow operationRow = operations.get(resultKey);
         int extraDetails = countPresent(
@@ -551,12 +582,18 @@ public class SkillEffectService {
             attributeRow,
             resourceRow,
             cooldownRow,
+            hasteRow,
             statusRow,
             operationRow
         );
         SkillEffectResultType type = result.resultType();
         if (type == null) {
             throw corrupt(gameId, skillKey, effectKey, resultKey, "结果种类缺失");
+        }
+        if (type != SkillEffectResultType.COOLDOWN_CHANGE
+            && type != SkillEffectResultType.SKILL_HASTE_MODIFIER
+            && (skillScopeRow != null || !affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty())) {
+            throw corrupt(gameId, skillKey, effectKey, resultKey, "结果携带了不允许的技能范围");
         }
         if (type != SkillEffectResultType.DAMAGE && (criticalRow != null || !vampRows.isEmpty())) {
             throw corrupt(gameId, skillKey, effectKey, resultKey, "非伤害结果存在暴击或吸血明细");
@@ -631,7 +668,16 @@ public class SkillEffectService {
                 );
             }
             case COOLDOWN_CHANGE -> {
-                if (cooldownRow == null || affectedSkillKeys.isEmpty() || extraDetails != 1) {
+                SkillEffectAffectedSkillScope scope = assembleSkillScope(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    resultKey,
+                    skillScopeRow,
+                    affectedSkillKeys,
+                    skillCategoryKeys
+                );
+                if (cooldownRow == null || extraDetails != 1) {
                     throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化结果形状损坏");
                 }
                 SkillEffectCooldownChangeOperation operation = cooldownRow.operation();
@@ -641,7 +687,7 @@ public class SkillEffectService {
                     }
                     yield new AssembledResultPayload(
                         null,
-                        new SkillEffectCooldownChangeDetail(affectedSkillKeys, operation)
+                        new SkillEffectCooldownChangeDetail(scope, operation)
                     );
                 }
                 if (operation == SkillEffectCooldownChangeOperation.REDUCE
@@ -651,7 +697,7 @@ public class SkillEffectService {
                     }
                     yield new AssembledResultPayload(
                         toValueRule(value),
-                        new SkillEffectCooldownChangeDetail(affectedSkillKeys, operation)
+                        new SkillEffectCooldownChangeDetail(scope, operation)
                     );
                 }
                 throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化操作损坏");
@@ -773,6 +819,28 @@ public class SkillEffectService {
                     throw corrupt(gameId, skillKey, effectKey, resultKey, "攻击联动应用结果形状损坏");
                 }
                 yield new AssembledResultPayload(toValueRule(value), new SkillEffectAttackLinkApplicationDetail());
+            }
+            case SKILL_HASTE_MODIFIER -> {
+                SkillEffectAffectedSkillScope scope = assembleSkillScope(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    resultKey,
+                    skillScopeRow,
+                    affectedSkillKeys,
+                    skillCategoryKeys
+                );
+                if (value == null || hasteRow == null || extraDetails != 1) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "技能急速修正结果形状损坏");
+                }
+                SkillEffectModifierOperation operation = hasteRow.operation();
+                if (operation == null) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "技能急速操作损坏");
+                }
+                yield new AssembledResultPayload(
+                    toValueRule(value),
+                    new SkillEffectHasteModifierDetail(scope, operation)
+                );
             }
         };
         SkillEffectResultLifecycleBehaviorRow behavior = behaviors.get(resultKey);
@@ -950,6 +1018,7 @@ public class SkillEffectService {
             case EXECUTE -> validateExecute(result, index, retained, refs, issues);
             case HIT_LINK_APPLICATION -> validateHitLinkApplication(result, index, refs, issues);
             case ATTACK_LINK_APPLICATION -> validateAttackLinkApplication(result, index, refs, issues);
+            case SKILL_HASTE_MODIFIER -> validateHasteModifier(result, index, retained, pathSkillKey, refs, issues);
         }
         validateSpellShieldBlockScope(result, index, issues);
     }
@@ -1526,19 +1595,144 @@ public class SkillEffectService {
         } else {
             requireValueRule(result, index, refs, issues);
         }
-        List<String> affectedSkillKeys = detail.affectedSkillKeys();
-        if (affectedSkillKeys == null || affectedSkillKeys.isEmpty()) {
+        collectAffectedSkillScope(
+            result,
+            index,
+            detail.affectedSkillScope(),
+            retained,
+            pathSkillKey,
+            refs,
+            issues
+        );
+    }
+
+    private void validateHasteModifier(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        String pathSkillKey,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectHasteModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "技能急速修正明细形状不合法"));
+            return;
+        }
+        if (detail.operation() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "技能急速操作不能为空"));
+        } else if (detail.operation() != SkillEffectModifierOperation.INCREASE
+            && detail.operation() != SkillEffectModifierOperation.DECREASE) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "INVALID", "技能急速操作只能是增加或减少"));
+        }
+        collectAffectedSkillScope(
+            result,
+            index,
+            detail.affectedSkillScope(),
+            retained,
+            pathSkillKey,
+            refs,
+            issues
+        );
+    }
+
+    private void collectAffectedSkillScope(
+        SkillEffectResultRequest result,
+        int index,
+        SkillEffectAffectedSkillScope scope,
+        Map<String, RetainedCatalog> retained,
+        String pathSkillKey,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        if (scope == null) {
             issues.add(fieldIssue(
-                resultPath(index, "detail.affectedSkillKeys"),
-                "AFFECTED_SKILL_REQUIRED",
-                "至少选择一个受影响技能"
+                resultPath(index, "detail.affectedSkillScope"),
+                "REQUIRED",
+                "技能作用范围不能为空"
             ));
             return;
         }
-        Set<String> seenAffectedSkillKeys = new HashSet<>();
-        for (int targetIndex = 0; targetIndex < affectedSkillKeys.size(); targetIndex++) {
-            String affectedSkillKey = affectedSkillKeys.get(targetIndex);
-            String path = resultPath(index, "detail.affectedSkillKeys[" + targetIndex + "]");
+        if (scope.mode() == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "detail.affectedSkillScope.mode"),
+                "REQUIRED",
+                "技能作用范围模式不能为空"
+            ));
+            return;
+        }
+        List<String> skillKeys = scope.skillKeys();
+        List<String> skillCategoryKeys = scope.skillCategoryKeys();
+        if (skillKeys == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "detail.affectedSkillScope.skillKeys"),
+                "REQUIRED",
+                "技能标识列表不能缺失"
+            ));
+            skillKeys = List.of();
+        }
+        if (skillCategoryKeys == null) {
+            issues.add(fieldIssue(
+                resultPath(index, "detail.affectedSkillScope.skillCategoryKeys"),
+                "REQUIRED",
+                "技能分类标识列表不能缺失"
+            ));
+            skillCategoryKeys = List.of();
+        }
+        switch (scope.mode()) {
+            case ALL -> {
+                if (!skillKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillKeys"),
+                        "COMBINATION_INVALID",
+                        "全部技能范围不能选择明确技能"
+                    ));
+                }
+                if (!skillCategoryKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillCategoryKeys"),
+                        "COMBINATION_INVALID",
+                        "全部技能范围不能选择技能分类"
+                    ));
+                }
+            }
+            case SKILLS -> {
+                if (skillKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillKeys"),
+                        "AFFECTED_SKILL_REQUIRED",
+                        "指定技能范围至少选择一个技能"
+                    ));
+                }
+                if (!skillCategoryKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillCategoryKeys"),
+                        "COMBINATION_INVALID",
+                        "指定技能范围不能选择技能分类"
+                    ));
+                }
+            }
+            case CATEGORIES -> {
+                if (!skillKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillKeys"),
+                        "COMBINATION_INVALID",
+                        "指定分类范围不能选择明确技能"
+                    ));
+                }
+                if (skillCategoryKeys.isEmpty()) {
+                    issues.add(fieldIssue(
+                        resultPath(index, "detail.affectedSkillScope.skillCategoryKeys"),
+                        "AFFECTED_CATEGORY_REQUIRED",
+                        "指定分类范围至少选择一个技能分类"
+                    ));
+                }
+            }
+        }
+        Set<String> seenSkills = new HashSet<>();
+        for (int targetIndex = 0; targetIndex < skillKeys.size(); targetIndex++) {
+            String affectedSkillKey = skillKeys.get(targetIndex);
+            String path = resultPath(index, "detail.affectedSkillScope.skillKeys[" + targetIndex + "]");
             if (affectedSkillKey == null || affectedSkillKey.isBlank()) {
                 issues.add(fieldIssue(path, "AFFECTED_SKILL_REQUIRED", "受影响技能不能为空"));
                 continue;
@@ -1547,8 +1741,11 @@ public class SkillEffectService {
                 issues.add(fieldIssue(path, "FORMAT_INVALID", "受影响技能标识格式不合法"));
                 continue;
             }
-            if (!seenAffectedSkillKeys.add(affectedSkillKey)) {
+            if (!seenSkills.add(affectedSkillKey)) {
                 issues.add(fieldIssue(path, "DUPLICATE_AFFECTED_SKILL", "受影响技能不能重复"));
+                continue;
+            }
+            if (scope.mode() != SkillEffectSkillScopeMode.SKILLS) {
                 continue;
             }
             boolean selfReference = affectedSkillKey.equals(pathSkillKey);
@@ -1559,6 +1756,32 @@ public class SkillEffectService {
                     || isRetained(retained, result.resultKey(), CatalogKind.SKILL, affectedSkillKey)
             ));
             refs.skillKeys.add(affectedSkillKey);
+        }
+        Set<String> seenCategories = new HashSet<>();
+        for (int targetIndex = 0; targetIndex < skillCategoryKeys.size(); targetIndex++) {
+            String skillCategoryKey = skillCategoryKeys.get(targetIndex);
+            String path = resultPath(index, "detail.affectedSkillScope.skillCategoryKeys[" + targetIndex + "]");
+            if (skillCategoryKey == null || skillCategoryKey.isBlank()) {
+                issues.add(fieldIssue(path, "AFFECTED_CATEGORY_REQUIRED", "技能分类不能为空"));
+                continue;
+            }
+            if (!STABLE_KEY_PATTERN.matcher(skillCategoryKey).matches()) {
+                issues.add(fieldIssue(path, "FORMAT_INVALID", "技能分类标识格式不合法"));
+                continue;
+            }
+            if (!seenCategories.add(skillCategoryKey)) {
+                issues.add(fieldIssue(path, "DUPLICATE_AFFECTED_CATEGORY", "技能分类不能重复"));
+                continue;
+            }
+            if (scope.mode() != SkillEffectSkillScopeMode.CATEGORIES) {
+                continue;
+            }
+            refs.skillCategories.add(new CatalogRef(
+                path,
+                skillCategoryKey,
+                isRetained(retained, result.resultKey(), CatalogKind.SKILL_CATEGORY, skillCategoryKey)
+            ));
+            refs.skillCategoryKeys.add(skillCategoryKey);
         }
     }
 
@@ -1883,6 +2106,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
+            || type == SkillEffectResultType.SKILL_HASTE_MODIFIER
             || statusApply;
         if (!allowed) {
             issues.add(fieldIssue(
@@ -1927,7 +2151,9 @@ public class SkillEffectService {
         boolean attributeSet = type == SkillEffectResultType.ATTRIBUTE_CHANGE
             && result.detail() instanceof SkillEffectAttributeChangeDetail attributeDetail
             && attributeDetail.operation() == SkillEffectAttributeChangeOperation.SET;
-        boolean sharedOnly = attributeSet || type == SkillEffectResultType.HEALTH_FLOOR;
+        boolean sharedOnly = attributeSet
+            || type == SkillEffectResultType.HEALTH_FLOOR
+            || type == SkillEffectResultType.SKILL_HASTE_MODIFIER;
         if (sharedOnly && behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
             issues.add(fieldIssue(
                 resultPath(index, "lifecycleBehavior.stackValueMode"),
@@ -1961,6 +2187,15 @@ public class SkillEffectService {
                 "该结果不能使用重复相加"
             ));
         }
+        if (type == SkillEffectResultType.SKILL_HASTE_MODIFIER
+            && behavior.reapplicationValueMode() != null
+            && behavior.reapplicationValueMode() != SkillEffectLifecycleReapplicationValueMode.KEEP) {
+            issues.add(fieldIssue(
+                resultPath(index, "lifecycleBehavior.reapplicationValueMode"),
+                "COMBINATION_INVALID",
+                "技能急速修正必须保留已有数值"
+            ));
+        }
     }
 
     private void validatePersistentSpecialResultLifecycle(
@@ -1977,7 +2212,8 @@ public class SkillEffectService {
             || type == SkillEffectResultType.HEALING_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
-            || type == SkillEffectResultType.SPELL_SHIELD;
+            || type == SkillEffectResultType.SPELL_SHIELD
+            || type == SkillEffectResultType.SKILL_HASTE_MODIFIER;
         if (!special) {
             return;
         }
@@ -2139,6 +2375,10 @@ public class SkillEffectService {
         Map<String, String> damageTypes = lockCatalog(refs.damageTypeKeys, keys -> mapper.lockDamageTypes(gameId, keys));
         Map<String, String> attributes = lockCatalog(refs.attributeKeys, keys -> mapper.lockAttributes(gameId, keys));
         Map<String, String> skills = lockCatalog(refs.skillKeys, keys -> mapper.lockSkills(gameId, keys));
+        Map<String, String> skillCategories = lockCatalog(
+            refs.skillCategoryKeys,
+            keys -> mapper.lockSkillCategories(gameId, keys)
+        );
         Map<String, String> statuses = lockCatalog(refs.statusKeys, keys -> mapper.lockStatuses(gameId, keys));
         Map<String, SkillEffectModifierZoneLockRow> modifierZones = lockModifierZones(
             gameId,
@@ -2182,6 +2422,13 @@ public class SkillEffectService {
         );
         addUnknown(unknown, refs.attributes, attributes.keySet(), "UNKNOWN_ATTRIBUTE", "属性不存在或不属于当前游戏");
         addUnknown(unknown, refs.skills, skills.keySet(), "UNKNOWN_SKILL", "技能不存在或不属于当前游戏");
+        addUnknown(
+            unknown,
+            refs.skillCategories,
+            skillCategories.keySet(),
+            "UNKNOWN_SKILL_CATEGORY",
+            "技能分类不存在或不属于当前游戏"
+        );
         addUnknown(unknown, refs.statuses, statuses.keySet(), "UNKNOWN_STATUS", "状态不存在或不属于当前游戏");
         addModifierZoneReferenceIssues(unknown, refs.modifierZones, modifierZones);
         for (CatalogRef ref : refs.dynamicFormulas) {
@@ -2215,6 +2462,13 @@ public class SkillEffectService {
         );
         addDisabled(disabled, refs.attributes, attributes, "ATTRIBUTE_DISABLED", "不能新增停用属性引用");
         addDisabled(disabled, refs.skills, skills, "SKILL_DISABLED", "不能新增停用技能引用");
+        addDisabled(
+            disabled,
+            refs.skillCategories,
+            skillCategories,
+            "SKILL_CATEGORY_DISABLED",
+            "不能新增停用技能分类引用"
+        );
         addDisabled(disabled, refs.statuses, statuses, "STATUS_DISABLED", "不能新增停用状态引用");
         addDisabledModifierZones(disabled, refs.modifierZones, modifierZones);
         if (!disabled.isEmpty()) {
@@ -2424,7 +2678,7 @@ public class SkillEffectService {
                     result.resultKey(),
                     detail.operation()
                 );
-                insertCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillKeys());
+                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), false);
             }
             case SkillEffectStatusOperationDetail detail -> mapper.insertStatusOperationDetail(
                 gameId,
@@ -2476,6 +2730,16 @@ public class SkillEffectService {
             case SkillEffectAttackLinkApplicationDetail ignored -> {
             }
             case SkillEffectSpellShieldDetail ignored -> {
+            }
+            case SkillEffectHasteModifierDetail detail -> {
+                mapper.insertHasteModifierDetail(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    detail.operation()
+                );
+                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), false);
             }
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
@@ -2543,8 +2807,7 @@ public class SkillEffectService {
                     result.resultKey(),
                     detail.operation()
                 );
-                mapper.deleteCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey());
-                insertCooldownChangeTargets(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillKeys());
+                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), true);
             }
             case SkillEffectStatusOperationDetail detail -> mapper.updateStatusOperationDetail(
                 gameId,
@@ -2597,6 +2860,16 @@ public class SkillEffectService {
             }
             case SkillEffectSpellShieldDetail ignored -> {
             }
+            case SkillEffectHasteModifierDetail detail -> {
+                mapper.updateHasteModifierDetail(
+                    gameId,
+                    skillKey,
+                    effectKey,
+                    result.resultKey(),
+                    detail.operation()
+                );
+                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), true);
+            }
         }
         if (result.detail() instanceof SkillEffectDamageDetail damage) {
             SkillEffectCriticalPolicy critical = damage.critical();
@@ -2623,15 +2896,29 @@ public class SkillEffectService {
         }
     }
 
-    private void insertCooldownChangeTargets(
+    private void persistSkillScope(
         String gameId,
         String skillKey,
         String effectKey,
         String resultKey,
-        List<String> affectedSkillKeys
+        SkillEffectAffectedSkillScope scope,
+        boolean updateExisting
     ) {
-        for (String affectedSkillKey : affectedSkillKeys) {
-            mapper.insertCooldownChangeTarget(gameId, skillKey, effectKey, resultKey, affectedSkillKey);
+        if (updateExisting) {
+            mapper.updateSkillScope(gameId, skillKey, effectKey, resultKey, scope.mode());
+            mapper.deleteSkillTargets(gameId, skillKey, effectKey, resultKey);
+            mapper.deleteSkillCategoryTargets(gameId, skillKey, effectKey, resultKey);
+        } else {
+            mapper.insertSkillScope(gameId, skillKey, effectKey, resultKey, scope.mode());
+        }
+        if (scope.mode() == SkillEffectSkillScopeMode.SKILLS) {
+            for (String affectedSkillKey : scope.skillKeys()) {
+                mapper.insertSkillTarget(gameId, skillKey, effectKey, resultKey, affectedSkillKey);
+            }
+        } else if (scope.mode() == SkillEffectSkillScopeMode.CATEGORIES) {
+            for (String skillCategoryKey : scope.skillCategoryKeys()) {
+                mapper.insertSkillCategoryTarget(gameId, skillKey, effectKey, resultKey, skillCategoryKey);
+            }
         }
     }
 
@@ -2702,14 +2989,11 @@ public class SkillEffectService {
             effectKey,
             mapper.listResourceChangeDetails(gameId, skillKey, effectKey)
         );
-        Map<String, SkillEffectCooldownChangeDetailRow> cooldowns = indexCooldownChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listCooldownChangeDetails(gameId, skillKey, effectKey)
+        Map<String, List<String>> skillTargets = indexSkillTargets(
+            mapper.listSkillTargets(gameId, skillKey, effectKey)
         );
-        Map<String, List<String>> cooldownTargets = indexCooldownChangeTargets(
-            mapper.listCooldownChangeTargets(gameId, skillKey, effectKey)
+        Map<String, List<String>> skillCategoryTargets = indexSkillCategoryTargets(
+            mapper.listSkillCategoryTargets(gameId, skillKey, effectKey)
         );
         Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
             gameId,
@@ -2734,7 +3018,6 @@ public class SkillEffectService {
             SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
             SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
             SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
-            SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
             SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
             SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
             SkillEffectDamageModifierDetailRow damageModifierRow = damageModifiers.get(resultKey);
@@ -2764,7 +3047,8 @@ public class SkillEffectService {
                             : healthFloorRow.attributeKey())
                         : resourceRow.attributeKey())
                     : attributeRow.attributeKey(),
-                cooldownRow == null ? Set.of() : Set.copyOf(cooldownTargets.getOrDefault(resultKey, List.of())),
+                Set.copyOf(skillTargets.getOrDefault(resultKey, List.of())),
+                Set.copyOf(skillCategoryTargets.getOrDefault(resultKey, List.of())),
                 statusRow == null ? null : statusRow.statusKey(),
                 attributeRow != null && attributeRow.modifierZoneKey() != null
                     ? attributeRow.modifierZoneKey()
@@ -3018,20 +3302,108 @@ public class SkillEffectService {
         return indexed;
     }
 
-    private Map<String, List<String>> indexCooldownChangeTargets(
-        List<SkillEffectCooldownChangeTargetRow> rows
+    private Map<String, SkillEffectSkillScopeRow> indexSkillScopes(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectSkillScopeRow> rows
+    ) {
+        Map<String, SkillEffectSkillScopeRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectSkillScopeRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "技能作用范围重复");
+            }
+        }
+        return indexed;
+    }
+
+    private Map<String, List<String>> indexSkillTargets(
+        List<SkillEffectSkillTargetRow> rows
     ) {
         Map<String, List<String>> indexed = new LinkedHashMap<>();
-        for (SkillEffectCooldownChangeTargetRow row : nullToEmpty(rows)) {
+        for (SkillEffectSkillTargetRow row : nullToEmpty(rows)) {
             List<String> targets = indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>());
             if (targets.contains(row.affectedSkillKey())) {
-                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "冷却变化目标重复");
+                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "技能作用范围明确技能重复");
             }
             targets.add(row.affectedSkillKey());
         }
         Map<String, List<String>> immutable = new LinkedHashMap<>();
         indexed.forEach((resultKey, targets) -> immutable.put(resultKey, List.copyOf(targets)));
         return immutable;
+    }
+
+    private Map<String, List<String>> indexSkillCategoryTargets(
+        List<SkillEffectSkillCategoryTargetRow> rows
+    ) {
+        Map<String, List<String>> indexed = new LinkedHashMap<>();
+        for (SkillEffectSkillCategoryTargetRow row : nullToEmpty(rows)) {
+            List<String> targets = indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>());
+            if (targets.contains(row.skillCategoryKey())) {
+                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "技能作用范围分类重复");
+            }
+            targets.add(row.skillCategoryKey());
+        }
+        Map<String, List<String>> immutable = new LinkedHashMap<>();
+        indexed.forEach((resultKey, targets) -> immutable.put(resultKey, List.copyOf(targets)));
+        return immutable;
+    }
+
+    private Map<String, SkillEffectHasteModifierDetailRow> indexHasteModifiers(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        List<SkillEffectHasteModifierDetailRow> rows
+    ) {
+        Map<String, SkillEffectHasteModifierDetailRow> indexed = new LinkedHashMap<>();
+        for (SkillEffectHasteModifierDetailRow row : nullToEmpty(rows)) {
+            if (indexed.put(row.resultKey(), row) != null) {
+                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "技能急速明细重复");
+            }
+        }
+        return indexed;
+    }
+
+    private SkillEffectAffectedSkillScope assembleSkillScope(
+        String gameId,
+        String skillKey,
+        String effectKey,
+        String resultKey,
+        SkillEffectSkillScopeRow skillScopeRow,
+        List<String> affectedSkillKeys,
+        List<String> skillCategoryKeys
+    ) {
+        if (skillScopeRow == null || skillScopeRow.mode() == null) {
+            throw corrupt(gameId, skillKey, effectKey, resultKey, "技能作用范围缺失");
+        }
+        return switch (skillScopeRow.mode()) {
+            case ALL -> {
+                if (!affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty()) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "全部技能范围不能有目标关系");
+                }
+                yield new SkillEffectAffectedSkillScope(SkillEffectSkillScopeMode.ALL, List.of(), List.of());
+            }
+            case SKILLS -> {
+                if (affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty()) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "指定技能范围关系数量冲突");
+                }
+                yield new SkillEffectAffectedSkillScope(
+                    SkillEffectSkillScopeMode.SKILLS,
+                    affectedSkillKeys,
+                    List.of()
+                );
+            }
+            case CATEGORIES -> {
+                if (!affectedSkillKeys.isEmpty() || skillCategoryKeys.isEmpty()) {
+                    throw corrupt(gameId, skillKey, effectKey, resultKey, "指定分类范围关系数量冲突");
+                }
+                yield new SkillEffectAffectedSkillScope(
+                    SkillEffectSkillScopeMode.CATEGORIES,
+                    List.of(),
+                    skillCategoryKeys
+                );
+            }
+        };
     }
 
     private Map<String, SkillEffectStatusOperationDetailRow> indexStatusOperation(
@@ -3096,6 +3468,7 @@ public class SkillEffectService {
             case DAMAGE_TYPE -> catalog.damageTypeKeys().contains(value);
             case ATTRIBUTE -> Objects.equals(catalog.attributeKey(), value);
             case SKILL -> catalog.affectedSkillKeys().contains(value);
+            case SKILL_CATEGORY -> catalog.skillCategoryKeys().contains(value);
             case STATUS -> Objects.equals(catalog.statusKey(), value);
             case MODIFIER_ZONE -> Objects.equals(catalog.modifierZoneKey(), value);
         };
@@ -3646,6 +4019,7 @@ public class SkillEffectService {
         private final List<CatalogRef> interactionDamageTypes = new ArrayList<>();
         private final List<CatalogRef> attributes = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
+        private final List<CatalogRef> skillCategories = new ArrayList<>();
         private final List<CatalogRef> statuses = new ArrayList<>();
         private final List<ModifierZoneRef> modifierZones = new ArrayList<>();
         private final List<TargetEffectRef> targetEffects = new ArrayList<>();
@@ -3653,6 +4027,7 @@ public class SkillEffectService {
         private final LinkedHashSet<String> damageTypeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> attributeKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> skillKeys = new LinkedHashSet<>();
+        private final LinkedHashSet<String> skillCategoryKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> statusKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> modifierZoneKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> targetEffectKeys = new LinkedHashSet<>();
@@ -3676,6 +4051,7 @@ public class SkillEffectService {
         Set<String> damageTypeKeys,
         String attributeKey,
         Set<String> affectedSkillKeys,
+        Set<String> skillCategoryKeys,
         String statusKey,
         String modifierZoneKey
     ) {
@@ -3699,6 +4075,7 @@ public class SkillEffectService {
         DAMAGE_TYPE,
         ATTRIBUTE,
         SKILL,
+        SKILL_CATEGORY,
         STATUS,
         MODIFIER_ZONE
     }
