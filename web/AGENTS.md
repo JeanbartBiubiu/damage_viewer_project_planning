@@ -27,9 +27,9 @@
 
 1. `src/App.tsx`：应用壳层、页面切换、游戏选择、API 基址和本地状态。默认与未知 Hash 落到 `#/attributes`。
 2. `src/config/navigation.ts`：当前管理页导航。
-3. `src/services/apiClient.ts`：API 基址解析、请求封装、错误模型、games/images。
+3. `src/services/apiClient.ts`：API 基址解析、请求封装、错误模型和游戏列表。
 4. `src/pages/admin/attributes/**`、`characters/**`、`equipment/**`、`skill-categories/**`、`damage-types/**`、`skills/**`、`statuses/**`、`game-settings/**`：当前业务管理页。
-5. `src/pages/ImagesPage.tsx`：图片缓存与同步。
+5. `src/pages/admin/images/**`：图片管理、浏览器上传前处理和本地缓存同步；图片列表直接读取当前游戏缓存。
 6. `src/engine/tinygoV2Bridge.ts`：TinyGo V2 Wasm ABI 桥接层。
 7. `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release。
 
