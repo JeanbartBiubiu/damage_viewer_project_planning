@@ -32,7 +32,7 @@ Run from `server\data_manage`:
 mvn -q -DincludeScope=runtime "-Dmdep.outputFile=target\codex-runtime-classpath.txt" dependency:build-classpath
 ```
 
-Then read:
+Then return to the repository root and read:
 
 ```powershell
 $cp = Get-Content -Raw server\data_manage\target\codex-runtime-classpath.txt
@@ -76,37 +76,29 @@ $script | jshell -q --class-path "$cp"
 
 Set `CODEX_DB_URL`, `CODEX_DB_USER`, and `CODEX_DB_PASSWORD` only when intentionally overriding the checked-in default datasource in the same PowerShell process. Do not paste resolved secrets into the final answer.
 
-## db/game_manage Setup Checks
+## 当前初始化与结构核对
 
-For a full backend game-management schema check, verify parent tables and game partitions instead of assuming the repo SQL already ran.
+先读后端工作树 `server/data_manage/README.md` 的 SQL 初始化及目标功能迁移小节，核对文件存在。仓库 SQL 只证明定义存在，不能证明目标数据库已经执行。
 
-**Fresh install** (in order):
+新库入口仅按顺序使用：
 
-1. `db\game_manage\schema.sql`
-2. `db\game_manage\triggers.sql`
-3. `db\game_manage\seeds\reserved_types_seed.sql`
+1. `db/game_manage/schema.sql`
+2. `db/game_manage/triggers.sql`
 
-**Existing DB generic combat-data switch** (in order):
+当前没有新库必跑的业务种子；`migrations/**` 不是新库初始化步骤。不要恢复旧战斗数据模型或不存在的种子文件。
 
-1. `db\game_manage\migrations\compatibility\generic_combat_data_model_compatibility_migration.sql`
-2. `db\game_manage\triggers.sql`（刷新 `ensure_game_partitions`、effect-detail 约束与 state backfill）
-3. `db\game_manage\migrations\compatibility\generic_combat_data_model_final_drop_legacy_tables_migration.sql`
-4. `db\game_manage\seeds\reserved_types_seed.sql`
+已有库先检查实际表、列、约束和数据，再按目标功能的后端 README 选择存在的迁移文件；不批量运行迁移目录，也不把 `CREATE TABLE IF NOT EXISTS` 当作列和约束升级器。当前 MVP 不要求额外开发旧模型兼容层。清理真实旧数据前确认数据库目标、待删范围和用户授权；文档检查不授权执行数据库变更。
 
-After final-drop succeeds, rerunning current `triggers.sql` is recommended to refresh the partition list.
+可用的只读检查：
 
-Do not treat deleted standalone coefficient / status / catalog schema files or old partition-only scripts as current setup inputs; use only the fresh-install and generic-compatibility paths above.
+- 目标数据库与用户：`select current_database(), current_user`
+- 表存在性：`select to_regclass('public.<table_name>')`
+- 列、约束：`information_schema.columns`、`pg_constraint`
+- 分区挂接：`pg_inherits`
 
-Useful checks:
+分区父表清单以当前 `triggers.sql` 的 `ensure_game_partitions` 为准；目前只有 `images`，普通管理表不是按游戏分区。只读查询不调用创建函数。只有任务已授权创建目标游戏图片分区时，才调用 `select public.ensure_game_partitions('lol')` 并读回 `images_lol` 的挂接；实际游戏键以任务为准。
 
-- parent table exists: `select to_regclass('public.<table_name>')`
-- partition exists: `select to_regclass('public.<parent>_lol')`
-- partition attachment: inspect `pg_inherits` for parent/child relations
-- create missing game partitions: `select public.ensure_game_partitions('lol')`
-
-Partition parents must match the live list in `db\game_manage\triggers.sql` `ensure_game_partitions` (examples: `game_entities`, `ability_definitions`, `effect_steps`, and their `*_log` parents, plus revision baseline tables such as `attribute_definitions` / `types` / `type_relations` and images). Do not check against removed hero/item/skill/coefficient/status/catalog parent names.
-
-If direct DDL execution is allowed by the user, run the fresh-install or compatibility sequence above, then call `public.ensure_game_partitions('lol')`, then re-check expected generic parent tables and `lol` partitions.
+执行初始化或迁移后，以目标库读回结果验证，不以脚本退出成功或静态测试替代真实结构证据。
 
 ## Reporting
 
