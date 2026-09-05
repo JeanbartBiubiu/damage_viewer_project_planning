@@ -197,12 +197,18 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
 
     const reduce = baseResult('cdr', 'COOLDOWN_CHANGE', {
       valueRule: VALUE_RULE,
-      detail: { affectedSkillKeys: ['q', 'w', 'e'], operation: 'REDUCE' }
+      detail: {
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: ['q', 'w', 'e'], skillCategoryKeys: [] },
+        operation: 'REDUCE'
+      }
     });
     expect(listAvailablePriorResultOutputs(reduce)).toEqual(['CONFIGURED_VALUE']);
     const reset = baseResult('reset', 'COOLDOWN_CHANGE', {
       valueRule: null,
-      detail: { affectedSkillKeys: ['q', 'w'], operation: 'RESET' }
+      detail: {
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: ['q', 'w'], skillCategoryKeys: [] },
+        operation: 'RESET'
+      }
     });
     expect(listAvailablePriorResultOutputs(reset)).toEqual([]);
 
@@ -309,7 +315,10 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
 
     const cooldown = baseResult('cdr', 'COOLDOWN_CHANGE', {
       valueRule: VALUE_RULE,
-      detail: { affectedSkillKeys: ['q', 'w'], operation: 'REDUCE' }
+      detail: {
+        affectedSkillScope: { mode: 'SKILLS', skillKeys: ['q', 'w'], skillCategoryKeys: [] },
+        operation: 'REDUCE'
+      }
     });
     expect(listImmediateSourceResults(effect('cdr_effect', [cooldown, cooldown])).map((item) => item.resultKey))
       .toEqual(['cdr']);
@@ -365,6 +374,40 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
       path: 'actions[1].runtimeInputBindings[0].detail.sourceActionKey',
       message: SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE
     });
+  });
+
+  it('keeps skill haste out of immediate prior-result outputs', () => {
+    const haste = baseResult('haste', 'SKILL_HASTE_MODIFIER', {
+      valueRule: VALUE_RULE,
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: 'SHARED',
+        reapplicationValueMode: 'KEEP',
+        periodicExecutionMode: null
+      },
+      detail: {
+        operation: 'INCREASE',
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['displacement']
+        }
+      }
+    });
+    expect(isImmediateResult(haste, true)).toBe(false);
+    expect(listImmediateSourceResults(effect('haste_effect', [haste], {
+      durationFormulaKey: 'ms',
+      maxStacksFormulaKey: 'one',
+      applicationStacksFormulaKey: 'one',
+      instanceScope: 'SOURCE',
+      reapplicationStackMode: 'KEEP',
+      reapplicationDurationMode: 'REFRESH_ALL',
+      expiryMode: 'ALL_AT_ONCE',
+      periodicIntervalFormulaKey: null,
+      firstPeriodicExecution: null
+    }))).toEqual([]);
+    expect(listAvailablePriorResultOutputs(haste)).toEqual(['CONFIGURED_VALUE']);
   });
 
   it('does not expose event values for pending damage actual HP loss or kill', () => {

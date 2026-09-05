@@ -14,7 +14,16 @@ export type SkillEffectResultType =
   | 'SPELL_SHIELD'
   | 'EXECUTE'
   | 'HIT_LINK_APPLICATION'
-  | 'ATTACK_LINK_APPLICATION';
+  | 'ATTACK_LINK_APPLICATION'
+  | 'SKILL_HASTE_MODIFIER';
+
+export type SkillEffectAffectedSkillScopeMode = 'ALL' | 'SKILLS' | 'CATEGORIES';
+
+export interface SkillEffectAffectedSkillScope {
+  mode: SkillEffectAffectedSkillScopeMode;
+  skillKeys: string[];
+  skillCategoryKeys: string[];
+}
 
 export type SkillEffectTarget = 'SOURCE' | 'TARGET';
 export type SkillEffectSpellShieldBlockScope = 'SKILL' | 'EFFECT' | 'DAMAGE_INSTANCE' | 'RESULT';
@@ -167,13 +176,18 @@ export type SkillEffectResourceChangeDetail = {
 };
 
 export type SkillEffectCooldownAdjustDetail = {
-  affectedSkillKeys: string[];
+  affectedSkillScope: SkillEffectAffectedSkillScope;
   operation: 'REDUCE' | 'INCREASE';
 };
 
 export type SkillEffectCooldownResetDetail = {
-  affectedSkillKeys: string[];
+  affectedSkillScope: SkillEffectAffectedSkillScope;
   operation: 'RESET';
+};
+
+export type SkillEffectSkillHasteModifierDetail = {
+  operation: SkillEffectModifierOperation;
+  affectedSkillScope: SkillEffectAffectedSkillScope;
 };
 
 export type SkillEffectStatusOperationDetail = {
@@ -321,6 +335,12 @@ export type SkillEffectAttackLinkApplicationResult = SkillEffectResultBase & {
   detail: SkillEffectEmptyDetail;
 };
 
+export type SkillEffectSkillHasteModifierResult = SkillEffectResultBase & {
+  resultType: 'SKILL_HASTE_MODIFIER';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectSkillHasteModifierDetail;
+};
+
 export type SkillEffectResult =
   | SkillEffectDamageResult
   | SkillEffectDirectHealResult
@@ -337,7 +357,8 @@ export type SkillEffectResult =
   | SkillEffectSpellShieldResult
   | SkillEffectExecuteResult
   | SkillEffectHitLinkApplicationResult
-  | SkillEffectAttackLinkApplicationResult;
+  | SkillEffectAttackLinkApplicationResult
+  | SkillEffectSkillHasteModifierResult;
 
 export type SkillEffectResultRequest = SkillEffectResult;
 
