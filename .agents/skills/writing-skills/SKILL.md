@@ -3,71 +3,55 @@ name: writing-skills
 description: Use when creating, editing, or verifying Codex/project skills under .agents/skills.
 ---
 
-# Writing Skills (Codex-native)
+# 编写与验证技能
 
-Writing a skill is TDD for process docs: observe baseline behavior, write the smallest skill that corrects it, verify compliance, then close loopholes.
+技能应保存需要判断、可重复使用的项目方法。一次性操作不必建技能；通用协作底线放在 `AGENTS.md`，可由脚本可靠检查的规则不要只靠长篇提示词。
 
-**Core principle:** If you did not watch failure (or reuse a documented observed failure) before editing, you do not know the skill teaches the right thing.
+## 按变更选择验证
 
-## When to create
+| 变更 | 修改前 | 修改后 |
+| --- | --- | --- |
+| 行为变化：新增判断、授权边界或执行步骤 | 选择 1–3 个有界场景，记录当前规则下的结果；可复用可复现的既有失败 | 用相同场景核对新规则，确认纠正问题且未损坏保留的边界 |
+| 引用修复：路径、命令或失效链接，未改变流程含义 | 核对当前引用与实际文件、命令入口 | 检查目标存在、命令准确以及本次差异，无需代理压力测试 |
+| 机械同步：把同一版本应用到已授权副本 | 确认真源、目标状态和允许同步范围 | 比对副本内容及差异，确认未覆盖无关修改，无需重复行为测试 |
 
-**Create when:** the technique is non-obvious, reusable across sessions, and needs judgment (not a regex/CI check).
+修改命令时若改变权限、数据写入或执行顺序，按行为变化验证，不能按“改了一行”归为引用修复。
 
-**Do not create for:** one-offs, well-documented standards, or project conventions that belong in `AGENTS.md`.
+## 行为变化的轻量检查
 
-## Skill types
+1. 读当前技能、最近的 `AGENTS.md` 和相关活动入口，限定写入范围。
+2. 选 1–3 个能区分旧规则和目标行为的场景。记录输入、期望、实际结果，以及修改后可用同一输入复查的方法。可复用具备这些信息的既有失败，不必重新制造失败。
+3. 没有既有记录时做一次小范围基线检查。明确区分规则文本推演和实际代理运行，不把预想的回答写成已观察到的行为。
+4. 只修改解决已确认问题所需的内容；`description` 以 `Use when...` 开头且只写触发条件，正文用简明中文说明判断与动作。
+5. 用相同场景复查，保留结果摘要。发现新的实质问题才修订并复查相关场景，不扩展成无限评审。
 
-| Type | RED evidence | GREEN check |
-|------|--------------|-------------|
-| **Discipline** | Pressure scenarios (time, sunk cost, “just this once”) | Agent complies under the same pressures |
-| **Reference** | Retrieval / application / gap probes | Agent finds and applies the right section |
+普通规则调整可以直接做场景核对。行为取决于代理是否能检索并遵循规则，或授权、安全边界需要独立检验时，可使用有界只读子代理；不要把所有技能编辑都变成多代理压力测试。具体方法见 `testing-skills-with-subagents.md`。
 
-## Minimum reusable observed-failure evidence
+步骤用简短清单即可，不依赖特定计划工具。技能不得扩大用户授权；不要强制外部执行工具、提交、推送或删除既有技能。目录中的历史参考文件不构成活动流程要求。
 
-An existing failure may replace a fresh RED baseline **only** when all four are recorded and reusable:
+## 真源与副本
 
-1. **Scenario / input** — what the agent was asked to do (concrete prompt or situation)
-2. **Expected behavior** — what the skill should enforce
-3. **Actual behavior** — what happened (verbatim rationalizations when possible)
-4. **Repeatable GREEN probe** — the same scenario re-runnable with the skill available
+共享项目技能以 planning/`master` 的 `.agents/skills` 为真源。真源身份不自动授权修改其他工作树。
 
-If any item is missing or too vague to re-run, run a **fresh baseline** before editing. Do not invent ceremony baselines when a complete observed failure already exists.
+有界同步已由用户或主负责人授权时，先查看目标工作树的状态和差异，再应用同一版本，保留无关修改；已获得授权无需重复询问。发现目标有不同基线或重叠修改时交主负责人处理，不覆盖。交付说明真源和实际同步范围。
 
-## Workflow (RED → GREEN → REFACTOR)
-
-1. **Baseline before edit** — Read the current skill (if any), `AGENTS.md`, and nearby related skills. Capture failing behavior via a Codex-native subagent probe, or cite a prior failure that meets the minimum evidence above.
-2. **Plan** — Use `update_plan` for the skill edit steps. Keep write scope to the skill tree you own.
-3. **Write minimal skill** — Address the recorded failures only. `description` is trigger-only (start with `Use when...`); body stays compact and actionable.
-4. **GREEN** — Re-run the same probe with the skill available; confirm compliance or correct retrieval.
-5. **REFACTOR** — Plug new rationalizations; re-verify. Do not broaden into unrelated polish.
-
-## Codecs / tools
-
-- Prefer **Codex-native subagents** for independent baseline/GREEN probes. Do not fan out trivial sequential checks.
-- Subagents default to exploration/review; give an explicit non-overlapping write set only when the parent must let them edit, and only if repo workflow allows that artifact type.
-- Do **not** depend on `superpowers:*`, `TodoWrite`, `CLAUDE.md`, forced deletion of existing/user-modified skills, or mandatory commit/push.
-- Optional Anthropic/historical files under this skill directory may remain for reference; they are **not** required by the active workflow. Active companion: `testing-skills-with-subagents.md`.
-
-## Canonical copy vs sibling worktrees
-
-- Project `.agents/skills` on **planning/`master`** is the canonical shared copy.
-- Canonical-on-master does **not** authorize automatic writes into sibling worktrees.
-- Before any deliberate mechanical sync, inspect each target worktree `git status` / `git diff`, obtain an **explicit bounded sync scope** from the user/driving model, and never overwrite user changes outside that scope.
-
-## SKILL.md shape
+## 文件结构
 
 ```text
 ---
 name: skill-name
 description: Use when <trigger conditions only>
 ---
-# Title
-## Rules / Workflow  (short)
-## Verification       (how to know it worked)
+# 中文标题
+## 判断与步骤
+## 验证方法
 ```
 
-Flat layout: `SKILL.md` plus supporting files only when heavy reference or scripts are needed.
+优先只保留 `SKILL.md`。需要较多参考资料、示例或复用脚本时再增加配套文件；只修改本次负责的路径。
 
-## Verification
+## 完成标准
 
-Before finishing: description is trigger-only; body matches RED findings; GREEN evidence recorded; minimum observed-failure evidence complete (or a fresh baseline was run); no hard dependency on Claude-only tooling; no automatic sibling-worktree overwrite.
+- 描述能准确触发技能，正文可执行且与当前仓库权限一致。
+- 已按变更类型完成相应检查；行为变化记录修改前后同场景结果，并标明是文本核对还是实际运行。
+- 变更涉及的路径、命令和配套文件一致；差异检查通过。
+- 没有引入不可用工具依赖、自动同步副本、额外审批或无关修改。

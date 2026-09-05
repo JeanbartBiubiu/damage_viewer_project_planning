@@ -1,5 +1,8 @@
 # Damage Viewer 数据库设计导览
 
+> 当前入口：以 [后端 README](../server/data_manage/README.md) 和现行 `game_manage/schema.sql`、`game_manage/triggers.sql` 为准。新库仅按顺序执行这两份 SQL，没有必跑业务种子；已有库按目标功能选择实际存在的迁移。普通管理表不按游戏分区，当前分区函数只维护 `images`。
+> 下文通用战斗模型、发布和旧实体链路为历史设计参考，不代表当前后端能力，不作为新开发或初始化依据；第 11 节给出当前初始化入口。
+
 本文面向第一次接手 Damage Viewer 数据层的开发者，回答三个问题：`db` 下各目录分别负责什么、`game_manage/schema.sql` 为什么会拆成这些表、数据怎样从编辑态进入 Web 和 Wasm。
 
 本文是架构导览，不替代 DDL。字段、约束和默认值以当前仓库中的 [`game_manage/schema.sql`](game_manage/schema.sql) 与 [`game_manage/triggers.sql`](game_manage/triggers.sql) 为准；已部署数据库还可能受历史迁移影响，不能只凭本文判断线上结构。
@@ -346,23 +349,11 @@ node tools/task-governance/cli.mjs check
 
 只有明确要重建索引时才运行 `rebuild`；不要手改 SQLite 文件，也不要仅为了修一篇普通 README 执行 `--fix-headers`。
 
-## 11. 初始化与升级时怎么读这些 SQL
+## 11. 当前初始化与升级入口
 
-### 新建 game database
+新库按顺序执行 [`game_manage/schema.sql`](game_manage/schema.sql) 和 [`game_manage/triggers.sql`](game_manage/triggers.sql)，没有必跑业务种子，迁移目录不属于新库初始化。
 
-按顺序执行：
-
-1. [`game_manage/schema.sql`](game_manage/schema.sql)：当前完整基线表结构。
-2. [`game_manage/triggers.sql`](game_manage/triggers.sql)：分区/state 自动化与 effect detail 约束。
-3. [`game_manage/seeds/reserved_types_seed.sql`](game_manage/seeds/reserved_types_seed.sql)：Backend/Web/Wasm 共同使用的稳定词表。
-
-`game_manage/seeds/lol_*.sql` 是具体数据集，不是建库基线。应根据目标数据批次和前置依赖选择执行。
-
-### 升级已有 database
-
-不要把 `schema.sql` 当成自动迁移器：`CREATE TABLE` 或 `CREATE TABLE IF NOT EXISTS` 无法替你修改已存在的列、约束和历史数据。已有库必须按 [Backend README 的迁移说明](../server/data_manage/README.md#sql-初始化与兼容迁移) 选择 `migrations/compatibility/**`，并在需要时刷新 `triggers.sql` 和 reserved type seed。
-
-`migrations/legacy/**` 只服务明确的旧数据回填场景；遇到未知依赖时不要使用 `CASCADE` 猜测性清理。
+已有库先检查实际结构，再按 [后端 README 的迁移说明](../server/data_manage/README.md#sql-初始化与兼容迁移) 选择存在的目标功能脚本。不要批量执行旧迁移或把 `CREATE TABLE IF NOT EXISTS` 当作列与约束升级器；破坏性数据处理须在已确认的目标和授权内执行。
 
 ## 12. 接手者的推荐阅读路径
 
