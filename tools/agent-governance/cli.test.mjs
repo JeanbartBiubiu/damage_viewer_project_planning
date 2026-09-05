@@ -18,6 +18,8 @@ assert.deepEqual(manifest.canonicalCheckoutDirectoryNames, [
   "damage_wasm_dev",
 ]);
 assert.ok(manifest.files.includes("AGENTS.md"));
+assert.ok(manifest.files.includes(".codex/config.toml"));
+assert.ok(manifest.files.includes(".codex/agents/solution_architect.toml"));
 
 assert.equal(
   checkoutDirectoryName("C:\\project\\damage_wasm_dev"),
