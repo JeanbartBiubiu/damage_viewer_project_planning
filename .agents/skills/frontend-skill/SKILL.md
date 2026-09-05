@@ -1,6 +1,6 @@
 ---
 name: frontend-skill
-description: Use when the task asks for a visually strong landing page, website, app, prototype, demo, or game UI.
+description: Use when the user requests a visual redesign, art direction, landing page, visual prototype, or game UI. Do not use for routine Damage Viewer management forms, API wiring, or field maintenance.
 ---
 
 # Frontend Skill
