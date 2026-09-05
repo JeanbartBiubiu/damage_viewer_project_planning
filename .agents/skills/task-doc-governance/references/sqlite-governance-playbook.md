@@ -26,7 +26,7 @@ Obsidian notes may store project context, decisions, or session memory, but they
 node tools/task-governance/cli.mjs check
 ```
 
-5. Rebuild SQLite only when mapping changes are approved:
+5. Rebuild SQLite only when a fresh query index is needed within the authorized task. Reuse existing authorization; a mapping edit alone does not require rebuilding:
 
 ```powershell
 node tools/task-governance/cli.mjs rebuild

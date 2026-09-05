@@ -1,180 +1,53 @@
 ---
 name: document-layering
-description: Use when creating, splitting, reviewing, or updating project documentation that may mix requirements, architecture, detailed design, task execution, validation records, or Obsidian/session memory; especially for 文档记录 docs and 需求澄清/概要设计/详细设计 separation.
+description: Use when creating, splitting, reviewing, or updating project documentation whose requirements, design, execution, validation evidence, or session memory need clearer ownership; especially 文档记录 docs and cross-module shared contracts.
 ---
 
-# Document Layering
+# 文档分层与唯一来源
 
-Use this skill to keep project documents single-purpose. A document should have one primary layer: why, where, how, execution, evidence, or memory. If a draft mixes layers, split it before polishing wording.
+文档结构服务于读者和任务复杂度。普通功能可以用一份短说明写清目标、行为、实现边界和验收；不要仅因涉及两个模块、有多项验证或同时包含简短背景与实现说明就拆文档。
 
-`REPO_ROOT` = current Git repository root (not this skill directory). Repo artifacts are written as `<repo-root>/...`; skill-local files stay relative.
+`REPO_ROOT` 表示当前 Git 仓库根目录。以下仓库路径均相对该目录。
 
-## Core Rule
+## 先决定需要几份文档
 
-Do not hide different decisions in one document.
+1. 先读最近的 `AGENTS.md`、相关 README 和现有文档，确认用户需要的是需求澄清、方案、实现交接还是验证记录。只要求方案时，不据此开始编码。
+2. 沿用成熟模式的普通功能，包括简单跨端功能，优先一份短说明：目标与非目标、可观察行为、共享字段及约束、模块责任、验收。按内容选现有 `DOC_TYPE`，无需为了混合少量背景另开文件。
+3. 存在复杂共享语义，或模块设计需要独立维护时，使用一份共享契约及必要的模块设计。是否拆分取决于读者、复杂度和维护需要，不按工作树、目录或验证数量自动判断，也不要求每个模块必有子文档。
+4. 当前有效方案与历史评审、执行证据分开。当前方案直接写最终决定；历史意见和命令输出放在测试记录、会话记录或明确分开的历史附录中。不要让已废弃方案与当前方案并列生效。
+5. 拆分时保留明确的主入口和交叉链接，迁移原文后将旧入口标为已替代并链接新文档，避免两个来源同时定义同一行为。
 
-- **需求澄清** answers why this work exists and what success means.
-- **概要设计** answers where the capability sits in the system and how modules relate.
-- **详细设计** answers exactly how to implement it.
-- **任务单 / subagent task** answers who changes which files in what order.
-- **测试记录** answers what was verified and what evidence remains.
-- **会话记录 / Obsidian memory** records traceable session outcomes, not full design content.
+## 各类内容的职责
 
-When a document contains both high-level motivation and code-level implementation steps, split it. When the user says “sub agent 看到后直接就能编码”, the target is detailed design, not overview. A substantive cross-module feature uses one shared contract plus one implementation detailed design per module; shared definitions have one owner and are never copied into child documents.
+| 内容 | 应回答的问题 | 适合单独成文的情况 |
+| --- | --- | --- |
+| 需求澄清 | 用户要解决什么、范围是什么、怎样算完成 | 需求或重要业务含义尚需独立讨论 |
+| 概要设计 | 能力放在哪里、谁生产和消费数据、模块如何关联 | 架构关系本身复杂，需供多个实现长期参考 |
+| 详细设计 | 改哪里、遵守什么约束、怎样验证 | 实现有独立维护价值或需要明确交接 |
+| 任务单 | 谁负责哪些写入、依赖是什么、交付什么 | 存在独立委派任务；不为每张表或每个接口自动建任务 |
+| 测试记录 | 在何时、何环境验证了什么、结果和限制是什么 | 需要保存可追溯的验证证据 |
+| 会话记录 | 稳定决定、验证摘要、未完成项和关联文档是什么 | 需要长期追溯；不复制整份设计或维护第二份任务状态 |
 
-## Workflow
+已有明确分层的文档继续保持主旨。需求文档里的未决实现选项不能写成已冻结决定；实现文档也不重复大段需求和架构背景。
 
-1. Identify the requested audience and layer before writing. Detect substantive implementation audiences (modules/worktrees with material write scope or independent validation) and, when two or more exist, choose one shared contract plus one implementation detailed design per module.
-2. Classify existing draft paragraphs into layer buckets.
-3. If more than one bucket is substantial, create separate linked documents instead of one larger document.
-4. Put cross-links near the top of sibling documents so readers can move between clarification, overview, and implementation, and, for cross-module work, between the shared contract and each module implementation document.
-5. Keep each document's body focused on its layer; move stray content to the correct sibling.
-6. For repo docs under `<repo-root>/文档记录/**`, preserve the header contract (`<repo-root>/db/task_doc_governance/document_header.schema.json`) and update `<repo-root>/db/task_doc_governance/task_rules.json` if mappings change; prefer `check` before any `rebuild`.
-7. If persistent memory is required, write a short session/task record; do not copy the whole design into Obsidian.
+## 共享契约只定义一次
 
-## Layer Definitions
+- 一份短说明可以同时承载共享契约和少量模块说明，无需额外写“单文档例外”证明。
+- 拆分后，共享契约独占跨模块字段、接口、约束、错误含义、必要实施顺序和跨端验收。模块文档链接该定义，不复制或重新定义它。
+- 模块文档拥有模块文件、内部实现、写入范围、局部测试和必要数据处理步骤。模块测试可以引用共享行为，不另造一套契约。
+- 共享设计和模块设计使用现有 `task_rules.json` 中对应的任务关系；确需独立任务时再维护映射，不因多一份文档就自动多建任务，不引入新的 `DOC_TYPE`。
 
-### 需求澄清
+## 实现说明写到足够执行
 
-Use for product and requirement clarity.
+交接至少给出目标与非目标、当前基线和参考实现、共享约束、允许修改范围、真实依赖、验收方法，以及需要返回主负责人决策的条件。有并行执行者时，明确互不重叠的写入责任，并提醒不得覆盖他人修改。
 
-Include:
+冻结影响协作的共享契约和范围；内部函数命名、文件内组织等由实现者按仓库模式决定，不要求逐函数提前冻结。重要数据处置、权限或运行语义按根规则评审，文档数量不能代替评审。
 
-- User problem, target scenario, and reason to implement.
-- Scope, non-goals, assumptions, and terminology.
-- Expected behavior, acceptance criteria, and unresolved questions.
-- External constraints that shape the work.
+当前项目为 MVP，允许破坏式更新。只记录本次确实需要的数据处理、部署或恢复措施，不把旧设计兼容、功能开关或未来扩展当作必填设计。真实数据删除仍须核对目标及已有授权。
 
-Avoid:
+## 文档头与任务映射
 
-- File paths, function signatures, database migration steps, or implementation sequencing.
-- Long architecture explanation beyond what is needed to clarify scope.
-
-Typical path:
-
-- `<repo-root>/文档记录/需求澄清/<module>/<topic>.md`
-
-### 概要设计
-
-Use for system placement and module boundaries.
-
-Include:
-
-- The capability's role in the overall architecture.
-- Producer/consumer relationships, data flow, lifecycle, ownership boundaries, and dependencies.
-- Compatibility strategy and integration points across backend, web, wasm, database, or tooling.
-- Key design decisions with short rationale.
-
-Avoid:
-
-- Detailed coding instructions, exact edit lists, test command transcripts, or subagent ownership assignment.
-- Repeating requirement motivation except a short link back to the clarification doc.
-
-Typical path:
-
-- `<repo-root>/文档记录/概要设计/<module>/<topic>.md`
-
-### 详细设计
-
-Use for implementable engineering instructions.
-
-For **module implementation** detailed designs, include:
-
-- Concrete write scope: files, packages, modules, schemas, APIs, DTOs, generated assets, and ownership boundaries.
-- Read-only references and existing patterns to follow.
-- Exact data contracts, type shapes, function names/signatures where known, validation rules, edge cases, and error handling.
-- Ordered implementation steps that can be executed independently by a subagent.
-- Backward compatibility, migration, feature flag, fallback, or rollout notes.
-- Tests to add or update, validation commands, expected results, and residual risks.
-
-Shared-contract completeness is defined in **Cross-Module Implementation Split**, not by the list above.
-
-Avoid:
-
-- “为什么要做” paragraphs except one short trace to the requirement doc.
-- Vague verbs such as “完善”, “支持”, or “打通” without naming the target files, data shape, and observable behavior.
-- In module implementation documents: architecture prose that does not tell the implementer what to edit. Shared-contract prose is allowed only for frozen cross-module fields, interfaces, error semantics, implementation ordering, cross-end acceptance, and ownership boundaries.
-
-Ready gates:
-
-- A **module implementation** detailed design is ready when another coding agent knows which files to edit, how the module uses the shared contract internally, the write scope, and how to test.
-- A **shared contract** is ready when cross-module fields, interfaces, error semantics, implementation ordering, cross-end acceptance, child owners, and links are complete, without duplicating module internals.
-
-Typical path:
-
-- `<repo-root>/文档记录/详细设计/<module>/<topic>.md`
-
-### 任务单 / Subagent Task
-
-Use for execution decomposition.
-
-Include:
-
-- Task goal, write ownership, read-only references, dependencies, ordered steps, and deliverables.
-- Explicit warning that the worker is not alone in the codebase and must not revert unrelated changes.
-- Verification commands and expected reporting format.
-
-Avoid:
-
-- Re-explaining requirements or architecture in full.
-- Assigning overlapping write sets to parallel workers unless integration ownership is clear.
-
-### 测试记录
-
-Use for evidence.
-
-Include:
-
-- Date, environment, command, result, relevant output summary, and unresolved failure.
-- What changed since the previous run.
-
-Avoid:
-
-- Design decisions that should live in clarification, overview, or detailed design.
-
-### 会话记录 / Obsidian Memory
-
-Use for traceability after work.
-
-Include:
-
-- Date, goal, changed paths, key decisions, validation result, risk, next step, and related `TASK_KEY`.
-
-Avoid:
-
-- Full copies of design docs.
-- Updating shared memory pages unless the current session is explicitly the summarizing/closing session.
-
-## Cross-Module Implementation Split
-
-Trigger: two or more implementation modules/worktrees each have material writes or independent validation.
-
-Default structure: one shared contract + one implementation detailed design per module.
-
-Exclusive ownership:
-
-- The **shared contract** exclusively owns cross-module fields, interfaces, error semantics, implementation ordering, and cross-end acceptance. It does not carry DDL/SQL, module paths, transactions, or module test commands.
-- **Child/module documents** own module files, internal implementation, write scope, and tests. They link to the shared contract and do not copy or redefine it. They may state that tests cover shared behavior, but must not redefine the shared field/API/error contract.
-
-Mechanical exception: at most one module has substantive work; all other modules only mechanically connect an already-frozen contract and add no new fields, error semantics, or ordering. The document must record why this exception applies. The exception cannot apply when two or more modules each have substantive writes or independent validation.
-
-Mapping: the planning/shared contract uses planning task ownership; each implementation child uses its module-specific `TASK_KEY` in `task_rules`. Do not introduce a new `DOC_TYPE`.
-
-## Split Triggers
-
-Split the draft when any of these are true:
-
-- It explains why the feature matters and also lists concrete file edits.
-- It describes cross-module architecture and also assigns subagent write ownership.
-- Two or more substantive implementation audiences/worktrees are present.
-- It contains test evidence and future design decisions.
-- It has many “should/need to” statements but no concrete implementation contract.
-- A detailed design spends more space on justification than on edit instructions.
-- A requirement doc includes schema, API, or function-level choices as if already decided.
-
-## Required Headers
-
-`REPO_ROOT` = current Git repository root (not this skill directory). For `<repo-root>/文档记录/**/*.md`, keep the project header per `<repo-root>/db/task_doc_governance/document_header.schema.json`:
+`文档记录/**/*.md` 的文档头遵守 `db/task_doc_governance/document_header.schema.json`：
 
 ```text
 TASK_KEY: <task-key>
@@ -185,45 +58,21 @@ EXECUTION_MODEL: <actual-model-or-agent-route>
 LAST_TRACKED_AT: <YYYY-MM-DD>
 ```
 
-`EXECUTION_MODEL` must be the actual route/value for the document, never a hardcoded stale default. Document `STATUS` does not replace task status in `<repo-root>/db/task_doc_governance/task_rules.json`.
+文档头标识文档，`STATUS` 仅描述该文档；`EXECUTION_MODEL` 如实记录实际路线，不硬编码旧模型。`db/task_doc_governance/task_rules.json` 是任务状态和文档映射的唯一来源，SQLite 仅为派生查询索引，不直接手改。
 
-If splitting an existing document for requirement/overview/detail layering, or for splits that stay on the same implementation task, copy the relevant `TASK_KEY` and update `DOC_TYPE` per file. A substantive cross-module split uses a planning/shared-contract task plus separate module implementation task keys according to `task_rules`; do not introduce a new `DOC_TYPE`. Do not leave the old mixed document as a competing source unless it is explicitly marked superseded and linked to the new documents.
+- 普通内容或路径小改：核对链接、命令及目标文件，检查本次差异，不要求构建或重建索引。
+- 新增、移动、拆分文档，或任务状态、映射变化：按授权范围维护规则，先运行只读检查 `node tools/task-governance/cli.mjs check`。
+- 仅需要刷新查询索引且已在任务授权范围内时，显式运行 `node tools/task-governance/cli.mjs rebuild`；仅明确需要批量修复文档头时使用 `rebuild --fix-headers`。不要为文档小改自动执行。
+- 既有缺失、未映射文档和其他治理问题单独报告，不借机扩大本次修改。
 
-## Governance Checklist
+Obsidian 只按需记录稳定决定和会话摘要；Codex Memory 仅在用户明确要求时更新。二者不能成为第二份设计或任务真源。
 
-For docs under `<repo-root>/文档记录/**`:
+## 完成前自检
 
-1. Check the nearest `AGENTS.md`, local README, and existing directory pattern.
-2. If task-to-doc mappings changed, update `<repo-root>/db/task_doc_governance/task_rules.json` (sole mapping and task-status source).
-3. Validate read-only, then rebuild only when approved:
+- 普通功能能否从一个入口读懂目标、责任和验收，而无需追逐多份重复说明？
+- 复杂共享行为是否只有一个定义来源，必要模块设计是否链接它？
+- 当前方案与历史意见、验证证据是否清楚分开，未执行的验证是否如实标明？
+- 实现者是否有足够边界自主完成工作，且没有为未来扩展额外设计？
+- 文档头、现有链接和任务映射是否按本次实际变更处理？
 
-```powershell
-node tools/task-governance/cli.mjs check
-node tools/task-governance/cli.mjs rebuild
-# only with explicit intent:
-node tools/task-governance/cli.mjs rebuild --fix-headers
-```
-
-4. Report any pre-existing missing or unassigned docs separately from the current change. Markdown headers identify documents; they do not replace mapping.
-
-## Final Self-Review
-
-Before finishing, verify:
-
-- Each document has one primary layer.
-- Sibling documents cross-link to each other.
-- Module implementation detailed designs contain enough concrete information for direct implementation; shared contracts satisfy the shared-contract ready gate without duplicating module internals.
-- The shared owner of any cross-module contract is unique; module docs link to it and do not copy it.
-- If a single document is retained across modules, mechanical-exception evidence is recorded.
-- Requirement and overview docs do not contain accidental coding task lists.
-- Governance mappings and persistent memory expectations are handled when applicable.
-
-## Verification
-
-Repeatable GREEN probe:
-
-- **Scenario:** a design has substantive backend storage/API writes and substantive frontend UI/client writes.
-- **Expected:** propose one shared contract + backend design + frontend design; name shared fields/interfaces/errors/ordering/acceptance as the unique shared owner; keep module files/tests in children.
-- **Failure:** one monolith, two independent copied API contracts, or a mechanical exception claimed while both sides have substantive work.
-
-Exception probe: only backend changes the contract and frontend mechanically wires the frozen contract with no new field, error, or order; one document is allowed only with a recorded reason.
+可重复场景：普通后端字段与前端表单接线允许一份短说明，即使两端各需验证；复杂跨技能引用与循环保护采用唯一共享定义及必要模块设计；只修文档路径时核对目标与差异，不自动编码、建任务或重建索引。
