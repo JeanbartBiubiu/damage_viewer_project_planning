@@ -155,7 +155,7 @@
       "title": "技能与装备效果、状态本地 Wiki 机制盘点",
       "module": "planning",
       "feature": "skill_equipment_effect_status_inventory",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
       "docs": [
@@ -167,11 +167,12 @@
       "title": "技能效果、状态与过程管理概要拆解",
       "module": "planning",
       "feature": "skill_effect_status_process_overview",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
       "docs": [
-        "文档记录/概要设计/项目/技能效果状态与过程管理分阶段拆解.md"
+        "文档记录/概要设计/项目/技能效果状态与过程管理分阶段拆解.md",
+        "文档记录/测试记录/项目/阶段7技能效果状态与过程管理收口记录-2026-09-05.md"
       ]
     },
     {
@@ -179,7 +180,7 @@
       "title": "状态基本管理共享契约",
       "module": "planning",
       "feature": "status_basic_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
@@ -191,7 +192,7 @@
       "title": "状态基本管理后端实现",
       "module": "server",
       "feature": "status_basic_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
@@ -203,7 +204,7 @@
       "title": "状态基本管理前端实现",
       "module": "web",
       "feature": "status_basic_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
@@ -395,7 +396,7 @@
       "title": "特殊交互与前序结果联动管理总契约",
       "module": "planning",
       "feature": "special_interaction_prior_result_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
       "docs": [
@@ -407,7 +408,7 @@
       "title": "特殊交互与前序结果联动管理后端总设计",
       "module": "server",
       "feature": "special_interaction_prior_result_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
       "docs": [
@@ -419,7 +420,7 @@
       "title": "特殊交互与前序结果联动管理前端总设计",
       "module": "web",
       "feature": "special_interaction_prior_result_management",
-      "status": "未开始",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
       "docs": [
@@ -649,7 +650,7 @@
       "title": "阶段7技能作用范围管理共享契约",
       "module": "planning",
       "feature": "skill_scope_management",
-      "status": "开发中",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
@@ -661,7 +662,7 @@
       "title": "阶段7技能作用范围管理后端实现",
       "module": "server",
       "feature": "skill_scope_management",
-      "status": "开发中",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
@@ -673,11 +674,54 @@
       "title": "阶段7技能作用范围管理前端实现",
       "module": "web",
       "feature": "skill_scope_management",
-      "status": "开发中",
+      "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
       "docs": [
         "文档记录/详细设计/web/技能作用范围管理前端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "planning-image-management",
+      "title": "阶段8图片管理共享契约",
+      "module": "planning",
+      "feature": "image_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "completion_note": "项目负责人于2026-09-05确认共享契约并授权开发；阶段8后端、前端、真实数据库、真实接口和真实页面技术验收均已完成，等待负责人决定是否进入阶段9。",
+      "completed_at": "2026-09-05",
+      "docs": [
+        "文档记录/详细设计/项目/图片管理详细设计.md",
+        "文档记录/测试记录/项目/阶段8图片管理收口记录-2026-09-05.md"
+      ]
+    },
+    {
+      "task_key": "server-image-management",
+      "title": "阶段8图片管理后端实现",
+      "module": "server",
+      "feature": "image_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "completion_note": "图片最终表结构、专用接口和校验已完成；目标测试库完成获准的数据修正与迁移，2127条记录和键集合保持不变，真实接口及重启回读通过。",
+      "completed_at": "2026-09-05",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/图片管理后端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "web-image-management",
+      "title": "阶段8图片管理前端实现",
+      "module": "web",
+      "feature": "image_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-5",
+      "completion_note": "图片管理页面、浏览器图片处理和第二版本地缓存已完成；静态、单元、构建、隔离桌面端及真实后端浏览器验收通过。",
+      "completed_at": "2026-09-05",
+      "docs": [
+        "文档记录/详细设计/web/图片管理前端详细设计.md"
       ]
     },
     {
@@ -788,8 +832,10 @@
       "title": "Web 图片资源 IndexDB 缓存",
       "module": "web",
       "feature": "idb_cache",
-      "status": "进行中",
+      "status": "完成",
       "priority": 2,
+      "completion_note": "既有全量与增量同步、本地缓存和清理能力保留为阶段8基线；未实施的自动清理等历史候选已退出当前范围，后续图片缓存改造归入 web-image-management。",
+      "completed_at": "2026-09-05",
       "docs": [
         "文档记录/需求澄清/web/图片资源IndexDB缓存方案.md"
       ]

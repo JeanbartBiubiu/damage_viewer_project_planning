@@ -1,6 +1,6 @@
 # Damage Viewer Web
 
-`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7.5 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
+`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～7 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
 
 它在整条链路里的位置是：
 
