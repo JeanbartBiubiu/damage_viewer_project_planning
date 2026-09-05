@@ -1,65 +1,38 @@
 ---
 name: secret-safe-local-file-processing
-description: Use when transforming, extracting, cleaning, counting, or rewriting local files that may contain API keys, bearer tokens, cookies, refresh_token values, RT wrappers, credentials, or other secrets.
+description: "处理可能含密钥、令牌、Cookie 或凭据的本地文件，且需要抽取、清洗、统计或重写时使用。"
 ---
 
-# Secret Safe Local File Processing
+# 含密钥文件的安全处理
 
-## Core Rule
+把这类任务视为“文件到文件”的转换：密钥值只进入用户指定的本地输出，不进入聊天、命令输出、日志、文档、截图或记忆。回复只给路径、数量和非敏感校验。
 
-Treat token-bearing local files as file-to-file work. Produce artifacts and counts, not secret values in chat, logs, memory, or docs.
+## 工作流
 
-## Workflow
+1. 确认明确的输入文件和输出路径，不从一个文件推断要扫描整个目录。
+2. 先查看结构：字段名、分隔符、记录数和已隐藏值的字段路径，不打印样本密钥。
+3. 结构化格式优先用对应解析器；分隔文本先切分字段，只处理已确认的密钥字段。
+4. 覆盖或清洗源文件属于破坏性操作，修改前在源文件旁创建备份；抽取到新文件无需改源文件。
+5. 按用户要求写入输出，未指定格式时每行一个值。跳过空值；默认保留重复值和输入顺序。
+6. 用数量和结构检查验证：扫描文件数、解析成功数、写入数、空值数、错误数和残留包装符，不回显内容。
+7. 回复说明输入与输出路径、备份、计数、解析错误和未处理项。
 
-1. Confirm the target paths and output path. Do not infer broad directories when the user names specific files.
-2. Inspect only schema or shape first: field names, delimiters, counts, and sample key paths. Do not print secret values.
-3. For destructive rewrites, create a backup beside the source file before changing it.
-4. Parse with structured tools when possible, such as `ConvertFrom-Json` for JSON. For delimited text, split fields first and operate only on the token field.
-5. Write extracted secrets to the requested output file, one value per line unless the user requested another format.
-6. Verify with counts and non-secret checks, such as files scanned, rows written, parse errors, empty values skipped, and wrapper delimiters remaining.
-7. Final response reports paths, counts, backups, and parse errors only.
+## 限量抽取
 
-## Count-Limited Extraction
+用户要求前 `N` 个值时，按完整路径稳定排序文件，逐文件解析，写满 `N` 个后立即停止。解析错误计入失败并继续，除非用户明确要求全有或全无。
 
-When the user asks for the first `N` values:
+建议报告字段：`files_scanned`、`files_with_secret`、`written`、`skipped_empty`、`parse_errors`。
 
-- sort candidate files deterministically by full path unless the user gives an order
-- parse one file at a time and stop immediately after writing `N` values
-- skip empty or missing fields
-- preserve duplicates unless the user explicitly asks for de-duplication
-- treat parse errors as counted failures; continue unless the user asked for strict all-or-nothing behavior
-- report `files_scanned`, `files_with_secret`, `written`, `skipped_empty`, and `parse_errors`
+## 包装清理
 
-## Wrapper Cleanup
+示例只能使用占位符：
 
-Common wrapper examples must use placeholders, never real values:
+- `account----rt----<secret>`：按分隔符拆分，只保留密钥侧字段。
+- `<prefix>----rt----<secret>`：只去除令牌字段的包装。
+- `{ "refresh_token": "<secret>" }`：解析 JSON 后读取指定字段。
 
-- `account----rt----<secret>`: split on the delimiter, keep only the secret-side field
-- `<prefix>----rt----<secret>`: remove the wrapper from the token-side field only
-- JSON wrappers such as `{ "refresh_token": "<secret>" }`: parse JSON and write only the field value
+包装结构不明确时，先查看一个已隐藏值的结构，不猜测字段并直接重写。
 
-If the wrapper shape is ambiguous, inspect one redacted shape first and avoid rewriting until the token field is identified.
+## 禁止输出
 
-## Safe Outputs
-
-- output file path
-- number of records scanned, written, skipped, and failed
-- field path used, such as `accounts[*].credentials.refresh_token`
-- whether backup files were created
-- whether known wrappers or delimiters remain
-
-## Unsafe Outputs
-
-- full tokens, cookies, API keys, passwords, or bearer strings
-- copied source lines that contain secrets
-- screenshots or logs containing secret values
-- Codex Memory or Obsidian entries containing secret material
-
-## Common Mistakes
-
-| Mistake | Fix |
-| --- | --- |
-| Searching the whole line for `rt` | Split into fields, then inspect the token side only. |
-| Guessing JSON layout | Read one representative schema shape first, with values redacted. |
-| Rewriting without backup | Create a `.bak` before destructive cleanup. |
-| Answering with extracted tokens | Write them to a file and report count/path only. |
+不得输出完整令牌、Cookie、API key、密码、Bearer 字符串，或包含这些值的源行、截图和日志。也不得把密钥材料写入 Codex Memory 或 Obsidian。

@@ -1,13 +1,13 @@
 ---
 name: backend-db-access
-description: Use when Codex needs to inspect or modify the Damage Viewer backend PostgreSQL database from c:\project\damage_backend_dev, verify db/game_manage DDL, create/check game partitions such as lol, or run controlled DB queries through the repo's JDBC/jshell path when psql is unavailable.
+description: "读取或变更 Damage Viewer 后端 PostgreSQL 实库、核对结构或游戏图片分区时使用；静态 SQL 审查不使用。"
 ---
 
-# Backend DB Access
+# 后端数据库访问
 
-Use this skill when the task requires live PostgreSQL access for the backend repo, especially schema checks, partition checks, controlled DDL, or data repair.
+本技能处理后端 PostgreSQL 实库的结构核对、分区检查、已授权 DDL 和数据修复。仓库 SQL 的静态审查不等于实库访问。
 
-## Scope
+## 范围
 
 - repo root: `c:\project\damage_backend_dev`
 - backend module: `server\data_manage`
@@ -15,34 +15,32 @@ Use this skill when the task requires live PostgreSQL access for the backend rep
 - default datasource config: `server\data_manage\src\main\resources\application.yml`
 - preferred access path when `psql` is missing: Maven runtime classpath plus `jshell` JDBC
 
-## Guardrails
+## 安全边界
 
-- Read the nearest applicable `AGENTS.md` before changing backend code, SQL, or docs.
-- Never print database passwords, API keys, tokens, cookies, or full config files in chat or committed files.
-- Report the DB target as host/database/user only when useful; redact credentials.
-- Treat live DB schema drift as real. Verify current schema before broad DDL.
-- Prefer idempotent DDL for repeated setup work: `CREATE TABLE IF NOT EXISTS`, `CREATE INDEX IF NOT EXISTS`, and `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`.
-- Do not hand-edit generated governance SQLite files. `tools\task-governance` is separate from live PostgreSQL access.
+- 修改后端代码、SQL 或文档前读取最近的 `AGENTS.md`。
+- 不在聊天、提交文件或日志中打印数据库密码、API key、令牌、Cookie 或完整配置；需要说明目标时只给主机、数据库和用户并隐藏凭据。
+- 实库可能与仓库定义漂移。执行范围较大的 DDL 前先读实际表、列、约束和分区；重复初始化优先使用幂等语句。
+- 真实数据删除或修复前核对数据库目标、影响行和用户授权。任务文档治理 SQLite 不属于本技能。
 
-## Build The JDBC Classpath
+## 构建 JDBC 类路径
 
-Run from `server\data_manage`:
+在 `server\data_manage` 执行：
 
 ```powershell
 mvn -q -DincludeScope=runtime "-Dmdep.outputFile=target\codex-runtime-classpath.txt" dependency:build-classpath
 ```
 
-Then return to the repository root and read:
+回到仓库根目录读取：
 
 ```powershell
 $cp = Get-Content -Raw server\data_manage\target\codex-runtime-classpath.txt
 ```
 
-If Maven dependencies are already present, this is usually enough for `org.postgresql.Driver`.
+已有 Maven 依赖时即可加载 `org.postgresql.Driver`。
 
-## JShell JDBC Pattern
+## JShell JDBC 模板
 
-Run from the repo root unless noted. Use `application.yml` only as the default source of `spring.datasource` values. Environment or profile overrides may exist, so confirm the target when the exact DB matters. Do not echo passwords.
+除特别说明外在仓库根目录执行。`application.yml` 只提供 `spring.datasource` 默认值；环境变量和运行配置可能覆盖它，目标库重要时应先确认。不要回显密码。
 
 ```powershell
 $cp = Get-Content -Raw server\data_manage\target\codex-runtime-classpath.txt
@@ -74,7 +72,7 @@ try (Connection c = DriverManager.getConnection(url, user, pass)) {
 $script | jshell -q --class-path "$cp"
 ```
 
-Set `CODEX_DB_URL`, `CODEX_DB_USER`, and `CODEX_DB_PASSWORD` only when intentionally overriding the checked-in default datasource in the same PowerShell process. Do not paste resolved secrets into the final answer.
+只有明确要覆盖仓库默认数据源时，才在同一 PowerShell 进程设置 `CODEX_DB_URL`、`CODEX_DB_USER` 和 `CODEX_DB_PASSWORD`。最终回复不得包含解析后的密钥。
 
 ## 当前初始化与结构核对
 
@@ -100,26 +98,6 @@ Set `CODEX_DB_URL`, `CODEX_DB_USER`, and `CODEX_DB_PASSWORD` only when intention
 
 执行初始化或迁移后，以目标库读回结果验证，不以脚本退出成功或静态测试替代真实结构证据。
 
-## Reporting
+## 交付
 
-In the final response, include:
-
-- whether live DB access succeeded
-- the database target, with credentials redacted
-- missing parent tables or partitions before and after, if checked
-- DDL files or explicit statements executed, if any
-- verification commands or endpoints checked, if any
-
-Keep command output concise; do not dump full query results unless the user asks for raw output.
-
-## Task Governance Note
-
-For local task/doc governance, use `tools\task-governance` instead of this skill:
-
-```powershell
-node tools\task-governance\cli.mjs rebuild
-node tools\task-governance\cli.mjs tasks
-node tools\task-governance\cli.mjs docs <task_key>
-```
-
-If `sql.js` is missing, install dependencies under `tools\task-governance` before rerunning the CLI.
+说明实库访问是否成功、已隐藏凭据的目标库、检查前后的缺失表或分区、实际执行的 DDL 文件或语句，以及读回验证。除非用户要求原始数据，不转储完整查询结果。
