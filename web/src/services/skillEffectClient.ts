@@ -26,8 +26,10 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'SPELL_SHIELD',
   'EXECUTE',
   'HIT_LINK_APPLICATION',
-  'ATTACK_LINK_APPLICATION'
+  'ATTACK_LINK_APPLICATION',
+  'SKILL_HASTE_MODIFIER'
 ]);
+const AFFECTED_SKILL_SCOPE_MODES = new Set(['ALL', 'SKILLS', 'CATEGORIES']);
 
 const DAMAGE_DELIVERY_KINDS = new Set(['SKILL', 'BASIC_ATTACK']);
 const DAMAGE_ORIGIN_KINDS = new Set(['DIRECT', 'REFLECTED']);
@@ -105,10 +107,47 @@ function assertExactDetailKeys(
   keys: readonly string[],
   path: string
 ): void {
-  const actual = Object.keys(detail);
-  if (actual.length !== keys.length || keys.some((key) => !(key in detail))) {
-    protocolError(`${path}.detail`);
+  assertExactKeys(detail, keys, `${path}.detail`);
+}
+
+function assertExactKeys(
+  record: Record<string, unknown>,
+  keys: readonly string[],
+  path: string
+): void {
+  const actual = Object.keys(record);
+  if (actual.length !== keys.length || keys.some((key) => !(key in record))) {
+    protocolError(path);
   }
+}
+
+function assertStringArray(value: unknown, path: string): void {
+  if (!Array.isArray(value)) protocolError(path);
+  value.forEach((item, index) => {
+    assertString(item, `${path}[${index}]`);
+  });
+}
+
+function assertAffectedSkillScope(value: unknown, path: string): void {
+  if (!isRecord(value)) protocolError(path);
+  assertExactKeys(value, ['mode', 'skillKeys', 'skillCategoryKeys'], path);
+  const mode = assertEnum(value.mode, AFFECTED_SKILL_SCOPE_MODES, `${path}.mode`);
+  assertStringArray(value.skillKeys, `${path}.skillKeys`);
+  assertStringArray(value.skillCategoryKeys, `${path}.skillCategoryKeys`);
+  const skillKeys = value.skillKeys as unknown[];
+  const skillCategoryKeys = value.skillCategoryKeys as unknown[];
+  if (mode === 'ALL') {
+    if (skillKeys.length !== 0) protocolError(`${path}.skillKeys`);
+    if (skillCategoryKeys.length !== 0) protocolError(`${path}.skillCategoryKeys`);
+    return;
+  }
+  if (mode === 'SKILLS') {
+    if (skillKeys.length === 0) protocolError(`${path}.skillKeys`);
+    if (skillCategoryKeys.length !== 0) protocolError(`${path}.skillCategoryKeys`);
+    return;
+  }
+  if (skillCategoryKeys.length === 0) protocolError(`${path}.skillCategoryKeys`);
+  if (skillKeys.length !== 0) protocolError(`${path}.skillKeys`);
 }
 
 function assertDiscreteLinkLifecycle(value: Record<string, unknown>, path: string): void {
@@ -195,16 +234,43 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     return value as SkillEffectResult;
   }
   if (resultType === 'COOLDOWN_CHANGE') {
+    if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
+    if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
+    assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
     assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET']), `${path}.detail.operation`);
-    if (!Array.isArray(detail.affectedSkillKeys)) protocolError(`${path}.detail.affectedSkillKeys`);
-    detail.affectedSkillKeys.forEach((item, index) => {
-      assertString(item, `${path}.detail.affectedSkillKeys[${index}]`);
-    });
+    assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
     if (detail.operation === 'RESET') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
     }
+    return value as SkillEffectResult;
+  }
+  if (resultType === 'SKILL_HASTE_MODIFIER') {
+    if (value.spellShieldBlockScope !== null) protocolError(`${path}.spellShieldBlockScope`);
+    if (!isRecord(value.lifecycleBehavior)) protocolError(`${path}.lifecycleBehavior`);
+    if (value.lifecycleBehavior.moment !== 'PERSISTENT') {
+      protocolError(`${path}.lifecycleBehavior.moment`);
+    }
+    if (value.lifecycleBehavior.valueReadMode !== 'APPLICATION_SNAPSHOT') {
+      protocolError(`${path}.lifecycleBehavior.valueReadMode`);
+    }
+    if (value.lifecycleBehavior.stackValueMode !== 'SHARED') {
+      protocolError(`${path}.lifecycleBehavior.stackValueMode`);
+    }
+    if (value.lifecycleBehavior.reapplicationValueMode !== 'KEEP') {
+      protocolError(`${path}.lifecycleBehavior.reapplicationValueMode`);
+    }
+    if (value.lifecycleBehavior.periodicExecutionMode != null) {
+      protocolError(`${path}.lifecycleBehavior.periodicExecutionMode`);
+    }
+    assertValueRule(value.valueRule, `${path}.valueRule`);
+    if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
+    if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
+    if ('modifierZoneKey' in detail) protocolError(`${path}.detail.modifierZoneKey`);
+    assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
+    assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
+    assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
     return value as SkillEffectResult;
   }
   if (resultType === 'LIFECYCLE_OPERATION') {
@@ -308,7 +374,8 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
   if (
     value.results.some((item) => (
-      isRecord(item) && item.resultType === 'SPELL_SHIELD'
+      isRecord(item)
+      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER')
     ))
     && value.lifecycle === null
   ) {

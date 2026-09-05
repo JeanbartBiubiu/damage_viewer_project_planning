@@ -10,6 +10,7 @@ import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { ModifierZone, ModifierZoneDomain } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
+import type { SkillCategory } from '../../../../types/skillCategory';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   AttributeChangeOperation,
@@ -17,6 +18,8 @@ import type {
   CreateSkillEffectRequest,
   ResourceChangeOperation,
   SkillEffect,
+  SkillEffectAffectedSkillScope,
+  SkillEffectAffectedSkillScopeMode,
   SkillEffectCriticalFilter,
   SkillEffectCriticalMode,
   SkillEffectDamageFilterDeliveryKind,
@@ -73,7 +76,8 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'SPELL_SHIELD',
   'EXECUTE',
   'HIT_LINK_APPLICATION',
-  'ATTACK_LINK_APPLICATION'
+  'ATTACK_LINK_APPLICATION',
+  'SKILL_HASTE_MODIFIER'
 ] as const satisfies readonly SkillEffectResultType[];
 
 export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
@@ -92,7 +96,8 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   SPELL_SHIELD: '法术护盾',
   EXECUTE: '斩杀',
   HIT_LINK_APPLICATION: '命中联动应用',
-  ATTACK_LINK_APPLICATION: '攻击联动应用'
+  ATTACK_LINK_APPLICATION: '攻击联动应用',
+  SKILL_HASTE_MODIFIER: '技能急速修正'
 } as const satisfies { [K in SkillEffectResultType]: string };
 
 export function valueFormulaLabelFor(resultType: SkillEffectResultType): string {
@@ -219,6 +224,23 @@ export const COOLDOWN_CHANGE_OPERATION_LABELS = {
   RESET: '重置为可用'
 } as const satisfies { [K in CooldownChangeOperation]: string };
 
+export const SKILL_HASTE_MODIFIER_OPERATION_LABELS = {
+  INCREASE: '增加',
+  DECREASE: '减少'
+} as const satisfies { [K in SkillEffectModifierOperation]: string };
+
+export const AFFECTED_SKILL_SCOPE_MODE_LABELS = {
+  ALL: '全部技能',
+  SKILLS: '指定技能',
+  CATEGORIES: '指定技能分类'
+} as const satisfies { [K in SkillEffectAffectedSkillScopeMode]: string };
+
+export const AFFECTED_SKILL_SCOPE_MODES = [
+  'ALL',
+  'SKILLS',
+  'CATEGORIES'
+] as const satisfies readonly SkillEffectAffectedSkillScopeMode[];
+
 export const STATUS_OPERATION_LABELS = {
   APPLY: '施加',
   REMOVE: '移除'
@@ -338,6 +360,12 @@ export type SkillEffectVampRuleDraft = {
   efficiencyFormulaKey: string;
 };
 
+export type AffectedSkillScopeDraft = {
+  mode: SkillEffectAffectedSkillScopeMode;
+  skillKeys: string[];
+  skillCategoryKeys: string[];
+};
+
 export type SkillEffectResultDraft = {
   resultKey: string;
   name: string;
@@ -368,8 +396,9 @@ export type SkillEffectResultDraft = {
   attributeKey: string;
   attributeOperation: AttributeChangeOperation | '';
   resourceOperation: ResourceChangeOperation | '';
-  affectedSkillKeys: string[];
+  affectedSkillScope: AffectedSkillScopeDraft;
   cooldownOperation: CooldownChangeOperation | '';
+  skillHasteOperation: SkillEffectModifierOperation | '';
   statusKey: string;
   statusOperation: StatusOperation | '';
   targetEffectKey: string;
@@ -382,6 +411,7 @@ export type SkillEffectResultDraft = {
   originalAbsorbedDamageTypeKey: string | null;
   originalAttributeKey: string | null;
   originalAffectedSkillKeys: string[];
+  originalSkillCategoryKeys: string[];
   originalStatusKey: string | null;
   originalTargetEffectKey: string | null;
 };
@@ -446,8 +476,12 @@ export type SkillEffectResultDraftField =
   | 'attributeKey'
   | 'attributeOperation'
   | 'resourceOperation'
+  | 'affectedSkillScope'
+  | 'affectedSkillScopeMode'
   | 'affectedSkillKeys'
+  | 'skillCategoryKeys'
   | 'cooldownOperation'
+  | 'skillHasteOperation'
   | 'statusKey'
   | 'statusOperation'
   | 'targetEffectKey'
@@ -497,6 +531,7 @@ export type EffectCatalogLoadState = {
   damageTypes?: 'ready' | 'failed';
   attributes?: 'ready' | 'failed';
   skills?: 'ready' | 'failed';
+  skillCategories?: 'ready' | 'failed';
   statuses?: 'ready' | 'failed';
   modifierZones?: 'ready' | 'failed';
 };
@@ -509,6 +544,7 @@ export type EffectFormCatalog = {
   damageTypes: ReadonlyArray<Pick<DamageType, 'damageTypeKey' | 'status'>>;
   attributes: ReadonlyArray<Pick<Attribute, 'attributeKey' | 'status'>>;
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
+  skillCategories: ReadonlyArray<Pick<SkillCategory, 'skillCategoryKey' | 'status'>>;
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status'>>;
   modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status'>>;
 };
@@ -603,7 +639,10 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.healingKind': 'healingKind',
   'detail.modifierZoneKey': 'modifierZoneKey',
   'detail.attributeKey': 'attributeKey',
-  'detail.affectedSkillKeys': 'affectedSkillKeys',
+  'detail.affectedSkillScope': 'affectedSkillScope',
+  'detail.affectedSkillScope.mode': 'affectedSkillScopeMode',
+  'detail.affectedSkillScope.skillKeys': 'affectedSkillKeys',
+  'detail.affectedSkillScope.skillCategoryKeys': 'skillCategoryKeys',
   'detail.statusKey': 'statusKey',
   'detail.targetEffectKey': 'targetEffectKey',
   spellShieldBlockScope: 'spellShieldBlockScope',
@@ -616,6 +655,14 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
 };
 
 const INDEXED_RESULT_PATH = /^results\[(\d+)\](?:\.(.*))?$/;
+
+export function createEmptyAffectedSkillScopeDraft(): AffectedSkillScopeDraft {
+  return {
+    mode: 'ALL',
+    skillKeys: [],
+    skillCategoryKeys: []
+  };
+}
 
 export function createEmptyLifecycleDraft(): SkillEffectLifecycleDraft {
   return {
@@ -693,8 +740,9 @@ export function createEmptyResultDraft(
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillKeys: [],
+    affectedSkillScope: createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: defaultCooldownOperation(resultType),
+    skillHasteOperation: defaultSkillHasteOperation(resultType),
     statusKey: '',
     statusOperation: resultType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
@@ -707,6 +755,7 @@ export function createEmptyResultDraft(
     originalAbsorbedDamageTypeKey: null,
     originalAttributeKey: null,
     originalAffectedSkillKeys: [],
+    originalSkillCategoryKeys: [],
     originalStatusKey: null,
     originalTargetEffectKey: null
   });
@@ -768,9 +817,16 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.originalAttributeKey = result.detail.attributeKey;
       break;
     case 'COOLDOWN_CHANGE':
-      draft.affectedSkillKeys = [...result.detail.affectedSkillKeys];
+      draft.affectedSkillScope = copyAffectedSkillScope(result.detail.affectedSkillScope);
       draft.cooldownOperation = result.detail.operation;
-      draft.originalAffectedSkillKeys = [...result.detail.affectedSkillKeys];
+      draft.originalAffectedSkillKeys = [...result.detail.affectedSkillScope.skillKeys];
+      draft.originalSkillCategoryKeys = [...result.detail.affectedSkillScope.skillCategoryKeys];
+      break;
+    case 'SKILL_HASTE_MODIFIER':
+      draft.affectedSkillScope = copyAffectedSkillScope(result.detail.affectedSkillScope);
+      draft.skillHasteOperation = result.detail.operation;
+      draft.originalAffectedSkillKeys = [...result.detail.affectedSkillScope.skillKeys];
+      draft.originalSkillCategoryKeys = [...result.detail.affectedSkillScope.skillCategoryKeys];
       break;
     case 'STATUS_OPERATION':
       draft.statusKey = result.detail.statusKey;
@@ -867,6 +923,7 @@ export function requiresValueRule(
     || resultType === 'EXECUTE'
     || resultType === 'HIT_LINK_APPLICATION'
     || resultType === 'ATTACK_LINK_APPLICATION'
+    || resultType === 'SKILL_HASTE_MODIFIER'
   );
 }
 
@@ -933,8 +990,9 @@ export function applyResultTypeChange(
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillKeys: [],
+    affectedSkillScope: createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: nextCooldown,
+    skillHasteOperation: defaultSkillHasteOperation(nextType),
     statusKey: '',
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
@@ -1090,9 +1148,13 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
     resourceOperation: draft.resultType === 'RESOURCE_CHANGE' ? draft.resourceOperation || 'RESTORE' : '',
-    affectedSkillKeys: draft.resultType === 'COOLDOWN_CHANGE' ? [...draft.affectedSkillKeys] : [],
+    affectedSkillScope: usesAffectedSkillScope(draft.resultType)
+      ? normalizeAffectedSkillScopeDraft(draft.affectedSkillScope)
+      : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation:
       draft.resultType === 'COOLDOWN_CHANGE' ? draft.cooldownOperation || 'REDUCE' : '',
+    skillHasteOperation:
+      draft.resultType === 'SKILL_HASTE_MODIFIER' ? draft.skillHasteOperation || 'INCREASE' : '',
     statusKey: draft.resultType === 'STATUS_OPERATION' ? draft.statusKey : '',
     statusOperation: draft.resultType === 'STATUS_OPERATION' ? draft.statusOperation || 'APPLY' : '',
     targetEffectKey: draft.resultType === 'LIFECYCLE_OPERATION' ? draft.targetEffectKey : '',
@@ -1134,21 +1196,32 @@ export function clearHiddenLifecycleBehaviorFields(
       && draft.attributeOperation !== ''
       && draft.attributeOperation !== 'SET'
     );
+  const lifecycleBehavior = draft.resultType === 'SKILL_HASTE_MODIFIER'
+    ? {
+        moment: 'PERSISTENT' as const,
+        valueReadMode: 'APPLICATION_SNAPSHOT' as const,
+        stackValueMode: 'SHARED' as const,
+        reapplicationValueMode: 'KEEP' as const,
+        periodicExecutionMode: '' as const
+      }
+    : {
+        moment,
+        valueReadMode,
+        stackValueMode: showStackValue ? behavior.stackValueMode : '',
+        reapplicationValueMode: showReapplicationValue ? behavior.reapplicationValueMode : '',
+        periodicExecutionMode: showPeriodicExecution ? behavior.periodicExecutionMode : ''
+      };
   return {
     ...draft,
-    modifierZoneKey: keepModifierZone ? draft.modifierZoneKey : '',
+    modifierZoneKey: keepModifierZone && draft.resultType !== 'SKILL_HASTE_MODIFIER'
+      ? draft.modifierZoneKey
+      : '',
     spellShieldBlockScope: (
       draft.target === 'TARGET'
       && moment !== 'PERSISTENT'
       && isSpellShieldBlockScopeEligibleResultType(draft.resultType)
     ) ? draft.spellShieldBlockScope : '',
-    lifecycleBehavior: {
-      moment,
-      valueReadMode,
-      stackValueMode: showStackValue ? behavior.stackValueMode : '',
-      reapplicationValueMode: showReapplicationValue ? behavior.reapplicationValueMode : '',
-      periodicExecutionMode: showPeriodicExecution ? behavior.periodicExecutionMode : ''
-    }
+    lifecycleBehavior
   };
 }
 
@@ -1306,7 +1379,8 @@ export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolea
     || draft.resultType === 'ATTRIBUTE_CHANGE'
     || draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
-    || draft.resultType === 'HEALTH_FLOOR';
+    || draft.resultType === 'HEALTH_FLOOR'
+    || draft.resultType === 'SKILL_HASTE_MODIFIER';
 }
 
 export function isPersistentOnlyResultType(resultType: SkillEffectResultType): boolean {
@@ -1314,7 +1388,41 @@ export function isPersistentOnlyResultType(resultType: SkillEffectResultType): b
     || resultType === 'HEALING_MODIFIER'
     || resultType === 'DAMAGE_IMMUNITY'
     || resultType === 'HEALTH_FLOOR'
-    || resultType === 'SPELL_SHIELD';
+    || resultType === 'SPELL_SHIELD'
+    || resultType === 'SKILL_HASTE_MODIFIER';
+}
+
+export function usesAffectedSkillScope(resultType: SkillEffectResultType): boolean {
+  return resultType === 'COOLDOWN_CHANGE' || resultType === 'SKILL_HASTE_MODIFIER';
+}
+
+export function isFixedPersistentSnapshotResult(draft: SkillEffectResultDraft): boolean {
+  return draft.resultType === 'SKILL_HASTE_MODIFIER';
+}
+
+export function affectedSkillScopeSummary(
+  scope: AffectedSkillScopeDraft,
+  names?: {
+    skills?: Map<string, string>;
+    skillCategories?: Map<string, string>;
+    categoryStatuses?: Map<string, 'ENABLED' | 'DISABLED' | null>;
+  }
+): string {
+  if (scope.mode === 'ALL') {
+    return AFFECTED_SKILL_SCOPE_MODE_LABELS.ALL;
+  }
+  if (scope.mode === 'SKILLS') {
+    if (scope.skillKeys.length === 0) return '—';
+    return scope.skillKeys.map((key) => names?.skills?.get(key) || key).join('、');
+  }
+  if (scope.skillCategoryKeys.length === 0) return '—';
+  return scope.skillCategoryKeys.map((key) => {
+    const name = names?.skillCategories?.get(key);
+    const status = names?.categoryStatuses?.get(key);
+    if (status == null && !name) return `${key}（缺失）`;
+    if (status === 'DISABLED') return `${name ?? key}（${DISABLED_CATALOG_LABEL}）`;
+    return name ?? key;
+  }).join('、');
 }
 
 export function isExecuteOrLinkResultType(resultType: SkillEffectResultType): boolean {
@@ -1452,10 +1560,17 @@ export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft):
     ...draft,
     results: draft.results.map((result) => ({
       ...result,
-      affectedSkillKeys: result.resultType === 'COOLDOWN_CHANGE'
-        ? [...result.affectedSkillKeys].map((item) => item.trim()).sort()
-        : [],
-      originalAffectedSkillKeys: [...result.originalAffectedSkillKeys].sort()
+      affectedSkillScope: usesAffectedSkillScope(result.resultType)
+        ? {
+            mode: result.affectedSkillScope.mode,
+            skillKeys: [...result.affectedSkillScope.skillKeys].map((item) => item.trim()).sort(),
+            skillCategoryKeys: [...result.affectedSkillScope.skillCategoryKeys]
+              .map((item) => item.trim())
+              .sort()
+          }
+        : createEmptyAffectedSkillScopeDraft(),
+      originalAffectedSkillKeys: [...result.originalAffectedSkillKeys].sort(),
+      originalSkillCategoryKeys: [...result.originalSkillCategoryKeys].sort()
     }))
   };
 }
@@ -1525,6 +1640,19 @@ export function listModifierZoneOptions(
   return listStatusKeyedOptions(entries, currentKey, originalKey);
 }
 
+export function applyAffectedSkillScopeModeChange(
+  draft: SkillEffectResultDraft,
+  nextMode: SkillEffectAffectedSkillScopeMode
+): SkillEffectResultDraft {
+  return clearHiddenResultFields({
+    ...draft,
+    affectedSkillScope: normalizeAffectedSkillScopeDraft({
+      ...draft.affectedSkillScope,
+      mode: nextMode
+    })
+  });
+}
+
 export function listAffectedSkillOptions(
   catalog: EffectFormCatalog,
   currentKeys: ReadonlyArray<string> = [],
@@ -1551,6 +1679,34 @@ export function listAffectedSkillOptions(
     const trimmed = originalKey.trim();
     if (!trimmed || seen.has(trimmed)) continue;
     const original = catalog.skills.find((item) => item.skillKey === trimmed);
+    if (original?.status === 'DISABLED') {
+      options.push({ key: trimmed, status: 'DISABLED', source: 'retained-disabled' });
+      seen.add(trimmed);
+    }
+  }
+  for (const currentKey of currentKeys) {
+    appendUnknownOption(options, currentKey);
+  }
+  return options;
+}
+
+export function listAffectedSkillCategoryOptions(
+  catalog: EffectFormCatalog,
+  currentKeys: ReadonlyArray<string> = [],
+  originalKeys: ReadonlyArray<string> = []
+): CatalogRefOption[] {
+  const options: CatalogRefOption[] = [];
+  const seen = new Set<string>();
+  for (const item of catalog.skillCategories) {
+    if (item.status === 'ENABLED') {
+      options.push({ key: item.skillCategoryKey, status: 'ENABLED', source: 'enabled' });
+      seen.add(item.skillCategoryKey);
+    }
+  }
+  for (const originalKey of originalKeys) {
+    const trimmed = originalKey.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    const original = catalog.skillCategories.find((item) => item.skillCategoryKey === trimmed);
     if (original?.status === 'DISABLED') {
       options.push({ key: trimmed, status: 'DISABLED', source: 'retained-disabled' });
       seen.add(trimmed);
@@ -1818,6 +1974,39 @@ function defaultCooldownOperation(
   return resultType === 'COOLDOWN_CHANGE' ? 'REDUCE' : '';
 }
 
+function defaultSkillHasteOperation(
+  resultType: SkillEffectResultType
+): SkillEffectModifierOperation | '' {
+  return resultType === 'SKILL_HASTE_MODIFIER' ? 'INCREASE' : '';
+}
+
+function copyAffectedSkillScope(scope: SkillEffectAffectedSkillScope): AffectedSkillScopeDraft {
+  return {
+    mode: scope.mode,
+    skillKeys: [...scope.skillKeys],
+    skillCategoryKeys: [...scope.skillCategoryKeys]
+  };
+}
+
+function normalizeAffectedSkillScopeDraft(scope: AffectedSkillScopeDraft): AffectedSkillScopeDraft {
+  if (scope.mode === 'ALL') {
+    return { mode: 'ALL', skillKeys: [], skillCategoryKeys: [] };
+  }
+  if (scope.mode === 'SKILLS') {
+    return { mode: 'SKILLS', skillKeys: [...scope.skillKeys], skillCategoryKeys: [] };
+  }
+  return { mode: 'CATEGORIES', skillKeys: [], skillCategoryKeys: [...scope.skillCategoryKeys] };
+}
+
+function buildAffectedSkillScope(draft: SkillEffectResultDraft): SkillEffectAffectedSkillScope {
+  const scope = normalizeAffectedSkillScopeDraft(draft.affectedSkillScope);
+  return {
+    mode: scope.mode,
+    skillKeys: scope.skillKeys.map((item) => item.trim()),
+    skillCategoryKeys: scope.skillCategoryKeys.map((item) => item.trim())
+  };
+}
+
 function defaultLifecycleOperation(
   resultType: SkillEffectResultType
 ): SkillEffectLifecycleOperation | '' {
@@ -2038,7 +2227,7 @@ function validateAndBuildResult(
           resultType: 'COOLDOWN_CHANGE',
           valueRule: null,
           detail: {
-            affectedSkillKeys: draft.affectedSkillKeys.map((item) => item.trim()),
+            affectedSkillScope: buildAffectedSkillScope(draft),
             operation: 'RESET'
           }
         };
@@ -2048,7 +2237,7 @@ function validateAndBuildResult(
         resultType: 'COOLDOWN_CHANGE',
         valueRule: valueRule!,
         detail: {
-          affectedSkillKeys: draft.affectedSkillKeys.map((item) => item.trim()),
+          affectedSkillScope: buildAffectedSkillScope(draft),
           operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE'
         }
       };
@@ -2162,6 +2351,16 @@ function validateAndBuildResult(
         resultType: 'ATTACK_LINK_APPLICATION',
         valueRule: valueRule!,
         detail: {}
+      };
+    case 'SKILL_HASTE_MODIFIER':
+      return {
+        ...base,
+        resultType: 'SKILL_HASTE_MODIFIER',
+        valueRule: valueRule!,
+        detail: {
+          operation: draft.skillHasteOperation as SkillEffectModifierOperation,
+          affectedSkillScope: buildAffectedSkillScope(draft)
+        }
       };
     default: {
       const unexpected: never = draft.resultType;
@@ -2377,9 +2576,7 @@ function validateTypeSpecificFields(
       validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
       break;
     case 'COOLDOWN_CHANGE':
-      if (draft.affectedSkillKeys.length === 0) {
-        fieldErrors.affectedSkillKeys = '请至少选择一个受影响技能。';
-      }
+      validateAffectedSkillScope(draft, options, fieldErrors);
       if (
         draft.cooldownOperation !== 'REDUCE'
         && draft.cooldownOperation !== 'INCREASE'
@@ -2387,33 +2584,18 @@ function validateTypeSpecificFields(
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }
-      {
-        const seenAffectedSkillKeys = new Set<string>();
-        for (const affectedSkillKey of draft.affectedSkillKeys) {
-          const trimmed = affectedSkillKey.trim();
-          if (!trimmed) {
-            fieldErrors.affectedSkillKeys = '受影响技能不能为空。';
-            break;
-          }
-          if (seenAffectedSkillKeys.has(trimmed)) {
-            fieldErrors.affectedSkillKeys = '受影响技能不能重复。';
-            break;
-          }
-          seenAffectedSkillKeys.add(trimmed);
-          validateCatalogRef(
-            options,
-            'skills',
-            trimmed,
-            draft.originalAffectedSkillKeys.includes(trimmed) ? trimmed : null,
-            fieldErrors,
-            'affectedSkillKeys',
-            { parentSkillKey: options.catalog?.parentSkillKey }
-          );
-          if (fieldErrors.affectedSkillKeys) break;
-        }
-      }
       if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
         validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      }
+      break;
+    case 'SKILL_HASTE_MODIFIER':
+      if (draft.skillHasteOperation !== 'INCREASE' && draft.skillHasteOperation !== 'DECREASE') {
+        fieldErrors.skillHasteOperation = '请选择操作。';
+      }
+      validateAffectedSkillScope(draft, options, fieldErrors);
+      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '该结果不能选择乘区。';
       }
       break;
     case 'STATUS_OPERATION':
@@ -2834,6 +3016,8 @@ function validateAndBuildLifecycleBehavior(
       fieldErrors.stackValueMode = isAttributeSetPersistent(draft)
         ? '属性覆盖只能使用整个实例共享数值。'
         : '该结果只能使用整个实例共享数值。';
+    } else if (isFixedPersistentSnapshotResult(draft) && behavior.stackValueMode !== 'SHARED') {
+      fieldErrors.stackValueMode = '该结果只能使用整个实例共享数值。';
     }
     if (behavior.stackValueMode === 'SHARED') {
       if (behavior.valueReadMode === 'MOMENT_EVALUATION') {
@@ -2846,6 +3030,8 @@ function validateAndBuildLifecycleBehavior(
         fieldErrors.reapplicationValueMode = isAttributeSetPersistent(draft)
           ? '属性覆盖不能使用相加。'
           : '该结果不能使用相加。';
+      } else if (isFixedPersistentSnapshotResult(draft) && behavior.reapplicationValueMode !== 'KEEP') {
+        fieldErrors.reapplicationValueMode = '该结果只能保留重复值。';
       }
     } else if (behavior.reapplicationValueMode) {
       fieldErrors.reapplicationValueMode = '每层分别贡献时不能选择重复值方式。';
@@ -2917,6 +3103,98 @@ function validateLifecycleFormula(
   }
   if (!catalog.formulas.some((item) => item.formulaKey === formulaKey)) {
     fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
+  }
+}
+
+function validateAffectedSkillScope(
+  draft: SkillEffectResultDraft,
+  options: SkillEffectFormValidationOptions,
+  fieldErrors: SkillEffectResultDraftErrors
+): void {
+  const scope = draft.affectedSkillScope;
+  if (scope.mode !== 'ALL' && scope.mode !== 'SKILLS' && scope.mode !== 'CATEGORIES') {
+    fieldErrors.affectedSkillScopeMode = '请选择技能范围。';
+    return;
+  }
+  if (scope.mode === 'ALL') {
+    if (scope.skillKeys.length > 0 || scope.skillCategoryKeys.length > 0) {
+      fieldErrors.affectedSkillScope = '全部技能不能携带指定目标。';
+    }
+    return;
+  }
+  if (scope.mode === 'SKILLS') {
+    if (scope.skillCategoryKeys.length > 0) {
+      fieldErrors.skillCategoryKeys = '指定技能不能同时携带技能分类。';
+    }
+    validateScopeKeys(
+      scope.skillKeys,
+      fieldErrors,
+      'affectedSkillKeys',
+      {
+        empty: '请至少选择一个技能。',
+        blank: '指定技能不能为空。',
+        duplicate: '指定技能不能重复。'
+      },
+      (trimmed) => validateCatalogRef(
+        options,
+        'skills',
+        trimmed,
+        draft.originalAffectedSkillKeys.includes(trimmed) ? trimmed : null,
+        fieldErrors,
+        'affectedSkillKeys',
+        { parentSkillKey: options.catalog?.parentSkillKey }
+      )
+    );
+    return;
+  }
+  if (scope.skillKeys.length > 0) {
+    fieldErrors.affectedSkillKeys = '指定技能分类不能同时携带技能。';
+  }
+  validateScopeKeys(
+    scope.skillCategoryKeys,
+    fieldErrors,
+    'skillCategoryKeys',
+    {
+      empty: '请至少选择一个技能分类。',
+      blank: '指定技能分类不能为空。',
+      duplicate: '指定技能分类不能重复。'
+    },
+    (trimmed) => validateCatalogRef(
+      options,
+      'skillCategories',
+      trimmed,
+      draft.originalSkillCategoryKeys.includes(trimmed) ? trimmed : null,
+      fieldErrors,
+      'skillCategoryKeys'
+    )
+  );
+}
+
+function validateScopeKeys(
+  keys: ReadonlyArray<string>,
+  fieldErrors: SkillEffectResultDraftErrors,
+  field: 'affectedSkillKeys' | 'skillCategoryKeys',
+  messages: { empty: string; blank: string; duplicate: string },
+  validateKey: (trimmed: string) => void
+): void {
+  if (keys.length === 0) {
+    fieldErrors[field] = messages.empty;
+    return;
+  }
+  const seen = new Set<string>();
+  for (const key of keys) {
+    const trimmed = key.trim();
+    if (!trimmed) {
+      fieldErrors[field] = messages.blank;
+      return;
+    }
+    if (seen.has(trimmed)) {
+      fieldErrors[field] = messages.duplicate;
+      return;
+    }
+    seen.add(trimmed);
+    validateKey(trimmed);
+    if (fieldErrors[field]) return;
   }
 }
 
@@ -3026,6 +3304,12 @@ function catalogEntries(
   }
   if (kind === 'skills') {
     return catalog.skills.map((item) => ({ key: item.skillKey, status: item.status }));
+  }
+  if (kind === 'skillCategories') {
+    return catalog.skillCategories.map((item) => ({
+      key: item.skillCategoryKey,
+      status: item.status
+    }));
   }
   if (kind === 'modifierZones') {
     return (catalog.modifierZones ?? []).map((item) => ({ key: item.modifierZoneKey, status: item.status }));
@@ -3172,14 +3456,30 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
           ...result,
           lifecycleBehavior,
           valueRule: null,
-          detail: { ...result.detail, affectedSkillKeys: [...result.detail.affectedSkillKeys] }
+          detail: {
+            ...result.detail,
+            affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope)
+          }
         };
       }
       return {
         ...result,
         lifecycleBehavior,
         valueRule: { ...result.valueRule },
-        detail: { ...result.detail, affectedSkillKeys: [...result.detail.affectedSkillKeys] }
+        detail: {
+          ...result.detail,
+          affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope)
+        }
+      };
+    case 'SKILL_HASTE_MODIFIER':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: {
+          ...result.detail,
+          affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope)
+        }
       };
     case 'STATUS_OPERATION':
       return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
@@ -3226,8 +3526,14 @@ function mapResultIssueField(
   if (direct) {
     return direct;
   }
-  if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
+  if (/^detail\.affectedSkillScope\.skillKeys(?:\[\d+\])?$/.test(nested)) {
     return 'affectedSkillKeys';
+  }
+  if (/^detail\.affectedSkillScope\.skillCategoryKeys(?:\[\d+\])?$/.test(nested)) {
+    return 'skillCategoryKeys';
+  }
+  if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
+    return null;
   }
   if (/^detail\.vampRules\[\d+\](?:\.(?:vampType|basisOutputKind|efficiencyFormulaKey))?$/.test(nested)) {
     return 'vampRules';
@@ -3236,6 +3542,7 @@ function mapResultIssueField(
     if (resultType === 'ATTRIBUTE_CHANGE') return 'attributeOperation';
     if (resultType === 'RESOURCE_CHANGE') return 'resourceOperation';
     if (resultType === 'COOLDOWN_CHANGE') return 'cooldownOperation';
+    if (resultType === 'SKILL_HASTE_MODIFIER') return 'skillHasteOperation';
     if (resultType === 'STATUS_OPERATION') return 'statusOperation';
     if (resultType === 'LIFECYCLE_OPERATION') return 'lifecycleOperation';
     if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {

@@ -3925,10 +3925,19 @@ test.describe('skill management without Wasm', () => {
     await expect(resultModal.getByLabel('资源变化操作', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, resultModal, '结果种类', '冷却变化');
-    await expect(resultModal.getByLabel('受影响技能', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('技能范围', { exact: true })).toBeVisible();
+    await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toHaveCount(0);
+    await expect(resultModal.getByRole('combobox', { name: '指定技能分类', exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('冷却变化操作', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
     await expect(resultModal.getByText('变化量按毫秒解释')).toBeVisible();
+    await clickArcoRadioByVisibleLabel(resultModal, '指定技能');
+    await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toBeVisible();
+    await clickArcoRadioByVisibleLabel(resultModal, '指定技能分类');
+    await expect(resultModal.getByRole('combobox', { name: '指定技能分类', exact: true })).toBeVisible();
+    await expect(resultModal.getByRole('button', { name: '新增技能分类', exact: true })).toBeVisible();
+    await clickArcoRadioByVisibleLabel(resultModal, '全部技能');
+    await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toHaveCount(0);
     await clickArcoRadioByVisibleLabel(resultModal, '重置为可用');
     await expect(resultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
@@ -3950,12 +3959,13 @@ test.describe('skill management without Wasm', () => {
     await resetModal.getByLabel('结果标识', { exact: true }).fill('reset_cd');
     await resetModal.getByLabel('结果名称', { exact: true }).fill('重置冷却');
     await chooseSelectOption(page, resetModal, '结果种类', '冷却变化');
-    await resetModal.getByLabel('受影响技能', { exact: true }).click();
+    await clickArcoRadioByVisibleLabel(resetModal, '指定技能');
+    await resetModal.getByRole('combobox', { name: '指定技能', exact: true }).click();
     await page.getByRole('option', { name: '枯萎箭袋', exact: true }).click();
     await page.getByRole('option', { name: '其他技能', exact: true }).click();
     await page.keyboard.press('Escape');
-    await expect(resetModal.getByLabel('受影响技能', { exact: true })).toContainText('枯萎箭袋');
-    await expect(resetModal.getByLabel('受影响技能', { exact: true })).toContainText('其他技能');
+    await expect(resetModal.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('枯萎箭袋');
+    await expect(resetModal.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('其他技能');
     await clickArcoRadioByVisibleLabel(resetModal, '重置为可用');
     await expect(resetModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
     await saveOpenModal(resetModal);
@@ -3974,9 +3984,101 @@ test.describe('skill management without Wasm', () => {
       spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: null,
-      detail: { affectedSkillKeys: ['varus_w', 'other_skill'], operation: 'RESET' }
+      detail: {
+        affectedSkillScope: {
+          mode: 'SKILLS',
+          skillKeys: ['varus_w', 'other_skill'],
+          skillCategoryKeys: []
+        },
+        operation: 'RESET'
+      }
     });
     diagnostics.assertClean('seven result editors and omitted cooldown reset value rule');
+  });
+
+  test('authors skill haste and shared skill scopes including inline category create', async ({ page }) => {
+    test.setTimeout(90_000);
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.skillFormulas = [
+      ...mock.skillFormulas,
+      {
+        gameId: GAME_ID,
+        skillKey: 'varus_w',
+        formulaKey: 'skill_haste_180',
+        name: '技能急速180',
+        description: null,
+        sortOrder: 20,
+        expression: { nodeType: 'PARAMETER', parameterKey: 'skill_haste_180' },
+        createdAt: CREATED_AT,
+        updatedAt: UPDATED_AT
+      }
+    ];
+    const diagnostics = await prepare(page, mock);
+
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+    const effectModal = visibleModal(page, '新增效果');
+    await effectModal.getByLabel('效果标识', { exact: true }).fill('haste_pack');
+    await effectModal.getByLabel('效果名称', { exact: true }).fill('急速效果');
+    await effectModal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, effectModal, '最大层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '实例范围', '按来源与承受对象');
+    await chooseSelectOption(page, effectModal, '重复层数', '保留层数');
+
+    await effectModal.getByRole('button', { name: '新增结果', exact: true }).click();
+    const hasteModal = visibleModal(page, '新增结果');
+    await hasteModal.getByLabel('结果标识', { exact: true }).fill('displacement_haste');
+    await hasteModal.getByLabel('结果名称', { exact: true }).fill('位移急速');
+    await chooseSelectOption(page, hasteModal, '结果种类', '技能急速修正');
+    await expect(hasteModal.getByLabel('技能急速操作', { exact: true })).toBeVisible();
+    await expect(hasteModal.getByLabel('技能范围', { exact: true })).toBeVisible();
+    await expect(hasteModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(hasteModal.getByLabel('乘区', { exact: true })).toHaveCount(0);
+    await expect(hasteModal.getByLabel('法术护盾阻挡粒度', { exact: true })).toHaveCount(0);
+    await fillValueRule(page, hasteModal, '技能急速180');
+    await clickArcoRadioByVisibleLabel(hasteModal, '指定技能分类');
+    await hasteModal.getByRole('button', { name: '新增技能分类', exact: true }).click();
+    const categoryModal = visibleModal(page, '新增技能分类');
+    await categoryModal.getByLabel('技能分类标识', { exact: true }).fill('displacement');
+    await categoryModal.getByLabel('技能分类名称', { exact: true }).fill('位移');
+    await categoryModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(categoryModal).toBeHidden();
+    await expect(hasteModal.getByRole('combobox', { name: '指定技能分类', exact: true })).toContainText('位移');
+    await saveOpenModal(hasteModal);
+    await expect(effectModal).toBeVisible();
+    await expect(effectModal.getByText('技能急速修正')).toBeVisible();
+    await expect(effectModal.getByText('增加 · 技能急速180 · 位移')).toBeVisible();
+    await expect(effectModal.getByText('增加', { exact: true })).toBeVisible();
+
+    await effectModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(effectModal).toBeHidden();
+    const write = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
+    expect((write?.body.results as SkillEffectResultRow[])[0]).toMatchObject({
+      resultKey: 'displacement_haste',
+      resultType: 'SKILL_HASTE_MODIFIER',
+      valueRule: { formulaKey: 'skill_haste_180', fixedMultiplier: 1 },
+      lifecycleBehavior: {
+        moment: 'PERSISTENT',
+        valueReadMode: 'APPLICATION_SNAPSHOT',
+        stackValueMode: 'SHARED',
+        reapplicationValueMode: 'KEEP',
+        periodicExecutionMode: null
+      },
+      spellShieldBlockScope: null,
+      detail: {
+        operation: 'INCREASE',
+        affectedSkillScope: {
+          mode: 'CATEGORIES',
+          skillKeys: [],
+          skillCategoryKeys: ['displacement']
+        }
+      }
+    });
+    expect((write?.body.results as SkillEffectResultRow[])[0]?.detail).not.toHaveProperty('affectedSkillKeys');
+    diagnostics.assertClean('skill haste categories and inline skill category create');
   });
 
   test('authors execute and link-application results with discrete spell-shield scopes', async ({ page }) => {
@@ -4181,7 +4283,8 @@ test.describe('skill management without Wasm', () => {
     await page.getByRole('option', { name: '中毒', exact: true }).click();
 
     await chooseSelectOption(page, createDamage, '结果种类', '冷却变化');
-    await createDamage.getByLabel('受影响技能', { exact: true }).click();
+    await clickArcoRadioByVisibleLabel(createDamage, '指定技能');
+    await createDamage.getByRole('combobox', { name: '指定技能', exact: true }).click();
     await expect(page.getByRole('option', { name: '其他技能', exact: true })).toBeVisible();
     await expect(page.getByRole('option', { name: '退役技能', exact: true })).toHaveCount(0);
     await expect(page.getByRole('option', { name: '退役技能（已停用）', exact: true })).toHaveCount(0);
