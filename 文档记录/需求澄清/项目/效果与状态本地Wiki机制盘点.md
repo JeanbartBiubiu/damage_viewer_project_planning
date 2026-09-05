@@ -1,13 +1,15 @@
 TASK_KEY: planning-skill-equipment-effect-status-inventory
 DOC_TYPE: 需求澄清
 WORKSTREAM: planning
-STATUS: draft
+STATUS: done
 EXECUTION_MODEL: GPT-5
-LAST_TRACKED_AT: 2026-08-28
+LAST_TRACKED_AT: 2026-09-05
 
 # 技能与装备效果、状态本地 Wiki 机制盘点
 
 盘点版本：0.4
+
+盘点状态：阶段 7 后续六个子阶段及技能作用范围验收补项已经据此完成；本文继续作为需求事实和范围边界记录，不承担当前任务状态。
 
 关联文档：
 
