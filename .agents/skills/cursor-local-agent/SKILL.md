@@ -1,15 +1,19 @@
 ---
 name: cursor-local-agent
-description: Use when calling Cursor's TypeScript SDK or local agent from the driving model (GPT/opus/glm) for read-only design review, development automation, SDK smoke tests, local agent runs, or Grok 4.6 non-fast model selection.
+description: Use when the user or task explicitly selects the optional Cursor SDK/local-agent route, or when diagnosing that route. Do not use for ordinary Codex implementation or review.
 ---
 
 # Cursor Local Agent
+
+## Optional route
+
+Cursor is an optional execution tool. Root `AGENTS.md` §2 decides task scope, review need and acceptance. Selecting this skill does not make Cursor a prerequisite for other work. The fixed model below is the supported contract of this existing runner only; it does not constrain Codex or other tools.
 
 ## Overview
 
 Use Cursor as a local execution engine through `@cursor/sdk`, not as a visible Cursor IDE chat. SDK local agent transcripts may be written under `~/.cursor/projects/...`, but they are not guaranteed to appear in the Cursor IDE Agent history dropdown.
 
-**Terminology (see root `AGENTS.md` §0):**
+**Cursor-specific terminology:**
 
 - **Top-level Cursor local agent**: the agent this skill creates via SDK/runner. It must run in either `DESIGN_REVIEW_ONLY` or `IMPLEMENTATION` mode. Fixed model contract applies here only.
 - **Cursor internal task/subagent/explore**: optional bounded delegation inside that top-level agent; the top-level agent owns the output. Internal model choice is not the fixed grok contract.
@@ -35,7 +39,7 @@ const model = {
 - Never use `composer-latest`, `composer`, `composer-2.5`, `composer-2.5-fast`, or bare `{ id: "grok-4.6" }` for current top-level Cursor local agent development runs.
 - Only change Grok params after `Cursor.models.list()` proves the exact contract.
 - Pass `apiKey` explicitly to `Agent.create(...)`; do not rely only on `process.env.CURSOR_API_KEY`.
-- Do not print API keys. It is acceptable to print whether a key is present, its length, or a short prefix.
+- Do not print API keys or key fragments. Report only whether a key is available.
 - Real SDK runs request `settingSources: ["project"]` so repository-local Cursor project settings load. That includes supported `.cursor` assets and this repository's `.agents/skills`, as well as future project file-defined agents. Smoke intentionally requests `settingSources: []` for isolation.
 - `summary.settingSources` and the console line `SETTING_SOURCES=<json>` are the stable requested-source evidence. They record what was requested, not proof the SDK applied them when `runtimeUsed` is not `sdk`. Fallback runtime reporting must stay distinguishable from SDK; dry-run wiring evidence does not prove live skill discovery.
 - Pin and resolve `@cursor/sdk@1.0.24`. Shared temp-cache install is re-synced when missing or version-mismatched. Preflight records resolved path, source (`repo-local` | `shared-cache`), actual version, expected version, and `versionMatch`. A repo-local mismatch warns but is still used.
@@ -45,7 +49,7 @@ const model = {
 - `DESIGN_REVIEW_ONLY` must not create, edit, or delete files. The review is valid only when the run audit is available and `summary.writeAllowlistAudit.runDeltaCount === 0`; an allowlist pass alone is insufficient because in-scope writes are still writes.
 - For `DESIGN_REVIEW_ONLY`, inspect `events.jsonl` as well as final signatures. Missing/unparseable event evidence, a truncated file-operation tool event, or any file write/delete/rename/write-then-restore evidence invalidates the review even when final `runDeltaCount === 0`.
 - Keep review `--out-dir` under the repository's gitignored `/.agents/artifacts/` default, or prove a custom directory is ignored with `git check-ignore` before the run. Runner-generated evidence artifacts are not task writes; never let the agent use that directory for work product.
-- `IMPLEMENTATION` must receive a frozen plan version and run in a new Cursor run. Do not carry unresolved review discussion or superseded plan versions into the coding run.
+- `IMPLEMENTATION` receives the current authorized task and contract. If a design was reviewed, identify its accepted version and start a separate coding run. Ordinary tasks do not require a preceding review or long design. Do not include superseded proposals or unresolved blocking decisions.
 - After the run, snapshot per-path status+content signatures and classify the **run delta** (paths whose signature changed) against the allowlist. Untouched pre-existing dirt does not fail the run; outside-scope paths changed during the run set `writeAllowlistAudit.failClosed` and force a **non-zero** exit while preserving artifacts. If after-state capture/parse/classify fails, treat that as audit failure (fail-closed). Exit precedence: when `writeAllowlistAudit.failClosed` is true, exit `2` takes precedence over ordinary runtime/task failure; otherwise any runtime/task failure exits non-zero; only `finished` SDK (or allowed CLI fallback) plus clean audit exits `0`.
 - Only `RunResult.status=finished` is success. `error` / `cancelled` / `expired` / unknown become `failurePhase=run` and non-zero after artifacts/audit finalize. Do not assume `status=error` means no code landed — review the worktree diff before deciding the next action.
 - Startup retry is authoritative and bounded: `--startup-max-attempts` (`1..3`, default `3`) and `--startup-backoff-ms` (default `1000`) cover only `Agent.create` + `send` until a `Run` is returned. Retry only when `error.isRetryable === true`, excluding `AuthenticationError` / `ConfigurationError`. Delay is `base * 2^(attempt-1) + jitter[0,base]`; retryable `RateLimitError` waits at least `30000` ms. Dispose every failed candidate before sleeping. Never retry or CLI-fallback after a `Run` is returned.
@@ -60,7 +64,7 @@ const model = {
 
 ### `DESIGN_REVIEW_ONLY`
 
-Use this mode after the driving model has produced a versioned candidate plan and before any non-mechanical development task starts coding. The prompt must include the full latest plan, `PLAN_REV`, repository evidence, expected write scope, validation, stop conditions, and any assumptions needing review.
+Use this mode only when the task needs independent design review and Cursor is the selected reviewer. Include the current plan, `PLAN_REV`, repository evidence, expected write scope, validation, stop conditions, and the specific risks to review.
 
 Require Cursor to return:
 
@@ -69,11 +73,11 @@ Require Cursor to return:
 - non-blocking suggestions kept separate from blockers;
 - readiness checks for goals/non-goals, contracts, write scope, compatibility/errors, validation, and stop conditions.
 
-The driving model resolves every blocker as `ACCEPT | REJECT | NEED_USER`, updates the full plan, and re-runs review until the consensus gate in `文档记录/详细设计/Cursor协同开发流程说明.md` passes. A custom SDK caller may reuse one agent for multiple `send` calls; the current `cursor_local_agent_run.mjs` performs one run per invocation, so every review round must carry the complete latest plan, change summary, and issue dispositions. High-risk plans may add a fresh-session cold review. Any worktree run delta invalidates the review even when it is inside `--allowed-path`.
+The main owner resolves evidence-backed blockers and follows root `AGENTS.md` §2 for bounded review. Non-blocking preferences do not require another round. When another review is needed, send the current complete plan and the changed decisions; do not require the reviewer to reconstruct old discussions. Any task-file mutation invalidates this read-only review under the audit rules above.
 
 ### `IMPLEMENTATION`
 
-Use this mode only after the latest reviewed plan is frozen. Start a new run and provide only the frozen plan, allowed write paths, non-goals, validation commands, and stop conditions. If Cursor discovers a new fact that contradicts the frozen plan, it must stop and report the conflict instead of silently redesigning the task.
+Use this mode for an authorized coding task after any required risk review has closed. Provide the current task, shared contract, allowed write paths, non-goals, validation and stop conditions. Internal implementation may adapt within those boundaries. If new facts change shared semantics, permissions, data handling or authorized scope, return the decision to the main owner.
 
 ## Minimal Pattern
 
