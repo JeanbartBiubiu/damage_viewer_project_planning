@@ -309,6 +309,27 @@ class GameConfigurationWriteGuardTest {
         verify(connection, never()).commit();
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_USED", "BASIC_ATTACK_START"})
+    void finalTargetCategoryEventChangeRollsBackBeforeReferenceReplacement(String event) throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        var rule = SkillTargetCategoryConditionSemanticsTest.rule(event, "{\"categories\":[\"CHAMPION\"]}");
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "TRIGGER", "skill_key", rule.skillKey(), "source_key", rule.key(), "data", rule.data().toString())));
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE category event for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
+        assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
+        verify(jdbc).update("UPDATE category event for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
     private static Map<String, Object> formulaRow() {
         return Map.of("source_type", "FORMULA", "skill_key", "ez_q", "source_key", "damage",
             "data", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"damage\"}}");

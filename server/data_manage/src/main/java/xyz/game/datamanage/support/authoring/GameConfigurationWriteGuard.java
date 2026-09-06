@@ -94,6 +94,7 @@ public class GameConfigurationWriteGuard {
         }
         List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, aggregates, catalog);
         SkillLifecycleConditionSemantics.validate(aggregates);
+        SkillTargetCategoryConditionSemantics.validate(aggregates);
         numericSemantics.validate(gameId, aggregates);
         jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
         if (!references.isEmpty()) {
