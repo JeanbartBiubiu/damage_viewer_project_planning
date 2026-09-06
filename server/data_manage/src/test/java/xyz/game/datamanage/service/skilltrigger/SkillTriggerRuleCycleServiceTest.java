@@ -439,6 +439,21 @@ class SkillTriggerRuleCycleServiceTest {
         assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", executeKill.getCode());
     }
 
+    @Test
+    void lifecyclePresenceConditionDoesNotProtectAResultSelfCycle() {
+        stubSelfResultCycle("loop");
+        when(mapper.findLifecycleScope(GAME_ID, SKILL_KEY, "mark"))
+            .thenReturn(xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope.SOURCE_TARGET);
+        var condition = new xyz.game.datamanage.model.skilltrigger.SkillTriggerCondition("mark_present",
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType.LIFECYCLE_CHECK, 0,
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleConditionDetail("mark", SkillTriggerSubject.CURRENT_TARGET,
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleCheckKind.PRESENT, null, null));
+        var group = new xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup("g", "条件", 0, List.of(condition));
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED", () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillTriggerRuleCreateRequest("loop", "loop", null, 0, resultAvailable(EFFECT_KEY, RESULT_KEY),
+                List.of(group), List.of(executeAction("deal", EFFECT_KEY)), null, null)));
+    }
+
     private void stubSelfResultCycle(String ruleKey) {
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             ruleRow(ruleKey, ruleKey, SkillTriggerEventType.RESULT_AVAILABLE)

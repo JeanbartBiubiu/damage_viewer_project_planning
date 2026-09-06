@@ -80,6 +80,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDeta
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow;
@@ -114,6 +115,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 
 @Service
 @Validated
@@ -1199,6 +1201,13 @@ public class SkillTriggerRuleService {
                     }
                 }
             }
+            case LIFECYCLE_CHECK -> {
+                if (!(condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "生命周期检查条件明细形状不合法"));
+                    return;
+                }
+                issues.addAll(SkillLifecycleConditionSemantics.shapeIssues(detail, prefix + ".detail"));
+            }
             case INTERNAL_STATE_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail)) {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态检查条件明细形状不合法"));
@@ -1709,6 +1718,11 @@ public class SkillTriggerRuleService {
         Map<String, SkillTriggerInternalStateLockRow> states,
         List<Map<String, String>> issues
     ) {
+        if (condition.conditionType() == SkillTriggerConditionType.LIFECYCLE_CHECK
+            && condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail) {
+            issues.addAll(SkillLifecycleConditionSemantics.subjectIssues(detail,
+                mapper.findLifecycleScope(gameId, skillKey, detail.effectKey()), eventSource.eventType(), prefix + ".detail"));
+        }
         if (condition.conditionType() == SkillTriggerConditionType.STATUS_CHECK
             && condition.detail() instanceof SkillTriggerStatusConditionDetail detail
             && (detail.checkKind() == SkillTriggerStatusCheckKind.STACKS_COMPARE
@@ -2254,6 +2268,13 @@ public class SkillTriggerRuleService {
                 if (detail.sourceEffectKey() != null) {
                     refs.addEffect(new CatalogRef(prefix + ".detail.sourceEffectKey", detail.sourceEffectKey()));
                 }
+                if (detail.comparisonValue() != null) {
+                    refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
+                }
+            }
+            case LIFECYCLE_CHECK -> {
+                SkillTriggerLifecycleConditionDetail detail = (SkillTriggerLifecycleConditionDetail) condition.detail();
+                refs.addEffect(new CatalogRef(prefix + ".detail.effectKey", detail.effectKey()));
                 if (detail.comparisonValue() != null) {
                     refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }

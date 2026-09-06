@@ -298,6 +298,10 @@ public final class SkillObjectReferences {
                     child(detail, dp, "optionKey", TargetType.OPTION, text(detail, "stateKey"));
                     formulas(detail, dp, "comparisonValue");
                 }
+                case "LIFECYCLE_CHECK" -> {
+                    local(detail, dp, "effectKey", TargetType.LIFECYCLE);
+                    formulas(detail, dp, "comparisonValue");
+                }
                 case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
                 default -> throw shape(path, "未知触发条件类型");
             }

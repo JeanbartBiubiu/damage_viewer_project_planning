@@ -251,6 +251,30 @@ class GameConfigurationWriteGuardTest {
         verify(connection, never()).commit();
     }
 
+    @Test
+    void finalLifecycleScopeMismatchRollsBackBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(
+            Map.of("source_type", "EFFECT", "skill_key", "ez_q", "source_key", "mark", "data",
+                "{\"results\":[],\"lifecycle\":{\"instanceScope\":\"SKILL\"}}"),
+            Map.of("source_type", "TRIGGER", "skill_key", "ez_q", "source_key", "rule", "data", """
+                {"eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},"actions":[],
+                 "conditionGroups":[{"conditions":[{"conditionType":"LIFECYCLE_CHECK","detail":{
+                  "effectKey":"mark","subject":"CURRENT_TARGET","checkKind":"PRESENT"}}]}]}
+                """)));
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE lifecycle scope for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("conditionGroups[0].conditions[0].detail.subject"));
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
     private static Map<String, Object> formulaRow() {
         return Map.of("source_type", "FORMULA", "skill_key", "ez_q", "source_key", "damage",
             "data", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"damage\"}}");

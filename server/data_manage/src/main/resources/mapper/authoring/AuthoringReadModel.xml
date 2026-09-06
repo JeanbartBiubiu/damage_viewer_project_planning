@@ -627,6 +627,16 @@
         WHERE r.event_type IN ('SPELL_SHIELD_BLOCKED')
     </sql>
 
+    <sql id="triggerRuleLifecycleConditions">
+        SELECT r.game_id, r.skill_key, r.rule_key,
+               g->>'groupKey' AS group_key, c->>'conditionKey' AS condition_key,
+               c->'detail'->>'effectKey' AS effect_key
+        FROM public.skill_trigger_rules r
+        CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g
+        CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
+        WHERE c->>'conditionType' = 'LIFECYCLE_CHECK'
+    </sql>
+
     <sql id="triggerRuleStatusConditions">
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
