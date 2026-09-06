@@ -1,0 +1,21 @@
+{
+  "gameId": "lol",
+  "method": "真实浏览器页面填写、保存、关闭后重新打开逐项核对",
+  "date": "2026-09-06",
+  "records": [{
+    "characterKey": "ez",
+    "sourceChampionId": "Ezreal",
+    "name": "伊泽瑞尔",
+    "operation": "修正已有攻击力等级曲线，并补充角色资料来源说明",
+    "source": "英雄/等级属性候选/Ezreal.json",
+    "sourceVersion": "客户端 16.17.8104348+branch.releases-16-17.content.release",
+    "attributeKey": "attack_damage",
+    "previousValues": "1～18 级均为 60",
+    "levelValues": [60,62.7,65.53125,68.49375,71.5875,74.8125,78.16875,81.65625,85.275,89.025,92.90625,96.91875,101.0625,105.3375,109.74375,114.28125,118.95,123.75],
+    "savedAndReadBack": true,
+    "otherAttributeRowsUnchanged": 26,
+    "uiValidation": "两个数值被拒绝；重新编辑默认逐级录入，未修改应用未改变原值",
+    "overallStatus": "部分录入；已有技能尚未完成本轮版本核对",
+    "runtimeValidation": "未执行"
+  }]
+}
