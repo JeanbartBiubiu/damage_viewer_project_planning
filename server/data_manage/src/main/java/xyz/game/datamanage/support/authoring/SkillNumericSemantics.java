@@ -147,6 +147,9 @@ public final class SkillNumericSemantics {
                                 case "ATTRIBUTE_COMPARE", "STATUS_CHECK", "INTERNAL_STATE_CHECK", "EVENT_VALUE_COMPARE" ->
                                     use(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail",
                                         "comparisonValue", Bound.ANY, true);
+                                case "LIFECYCLE_CHECK" ->
+                                    use(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail",
+                                        "comparisonValue", Bound.NON_NEGATIVE_INTEGER, true);
                                 default -> { }
                             }
                             c++;
