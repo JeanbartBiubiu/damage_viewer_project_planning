@@ -1,5 +1,6 @@
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
+import { SKILL_TRIGGER_TARGET_CATEGORIES } from '../types/skillTriggerRule';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -44,6 +45,7 @@ const CONDITION_TYPES = new Set([
   'ATTRIBUTE_COMPARE',
   'STATUS_CHECK',
   'LIFECYCLE_CHECK',
+  'TARGET_CATEGORY_CHECK',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ]);
@@ -260,6 +262,13 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   switch (conditionType) {
+    case 'TARGET_CATEGORY_CHECK':
+      if (Object.keys(detail).length !== 1 || !Array.isArray(detail.categories) || detail.categories.length === 0
+        || new Set(detail.categories).size !== detail.categories.length
+        || detail.categories.some((category) => typeof category !== 'string' || !(SKILL_TRIGGER_TARGET_CATEGORIES as readonly string[]).includes(category))) {
+        protocolError(`${path}.detail`);
+      }
+      break;
     case 'ATTRIBUTE_COMPARE':
       if (
         typeof detail.subject !== 'string'
