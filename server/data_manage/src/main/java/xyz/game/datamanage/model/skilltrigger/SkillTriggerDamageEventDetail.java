@@ -44,7 +44,7 @@ public record SkillTriggerDamageEventDetail(
         @JsonProperty("subject") JsonNode subject,
         @JsonProperty("statusKey") JsonNode statusKey,
         @JsonProperty("attributeKey") JsonNode attributeKey,
-        @JsonProperty("thresholdFormulaKey") JsonNode thresholdFormulaKey,
+        @JsonProperty("thresholdValue") JsonNode thresholdValue,
         @JsonProperty("direction") JsonNode direction,
         @JsonProperty("stateKey") JsonNode stateKey,
         @JsonProperty("changeKind") JsonNode changeKind,
@@ -64,7 +64,7 @@ public record SkillTriggerDamageEventDetail(
                 "subject", subject,
                 "statusKey", statusKey,
                 "attributeKey", attributeKey,
-                "thresholdFormulaKey", thresholdFormulaKey,
+                "thresholdValue", thresholdValue,
                 "direction", direction,
                 "stateKey", stateKey,
                 "changeKind", changeKind

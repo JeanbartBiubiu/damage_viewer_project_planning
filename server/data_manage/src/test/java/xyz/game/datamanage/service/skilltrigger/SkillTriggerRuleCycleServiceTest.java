@@ -58,6 +58,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -89,7 +90,7 @@ class SkillTriggerRuleCycleServiceTest {
 
         when(mapper.listCooldownsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerPerTargetCooldownRow(
-                GAME_ID, SKILL_KEY, "loop", "cd_f", SkillTriggerTargetContext.CURRENT_TARGET
+                GAME_ID, SKILL_KEY, "loop", SkillNumericValue.formula("cd_f"), SkillTriggerTargetContext.CURRENT_TARGET
             )
         ));
         service.create(
@@ -100,7 +101,7 @@ class SkillTriggerRuleCycleServiceTest {
                 resultAvailable(EFFECT_KEY, RESULT_KEY),
                 List.of(),
                 List.of(executeAction("deal", EFFECT_KEY)),
-                new SkillTriggerPerTargetCooldown("cd_f", SkillTriggerTargetContext.CURRENT_TARGET),
+                new SkillTriggerPerTargetCooldown(SkillNumericValue.formula("cd_f"), SkillTriggerTargetContext.CURRENT_TARGET),
                 null
             )
         );
@@ -374,7 +375,7 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, RESULT_KEY, SkillEffectResultType.HIT_LINK_APPLICATION,
-                SkillEffectTarget.TARGET, true, "link_f", null, null, null, null, null, null, null,
+                SkillEffectTarget.TARGET, true, SkillNumericValue.formula("link_f"), null, null, null, null, null, null, null,
                 false, null, null, null, null, null
             )
         ));
@@ -427,7 +428,7 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, RESULT_KEY, SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
-                true, "execute_f", "hp", null, null, null, null, null, null,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
                 false, null, null, null, null, null
             )
         ));
@@ -477,7 +478,7 @@ class SkillTriggerRuleCycleServiceTest {
 
     private static SkillTriggerHealthThresholdEventRow healthRow(String ruleKey, SkillTriggerHealthDirection direction) {
         return new SkillTriggerHealthThresholdEventRow(
-            GAME_ID, SKILL_KEY, ruleKey, SkillTriggerSubject.CURRENT_TARGET, "hp", "threshold_f", direction
+            GAME_ID, SKILL_KEY, ruleKey, SkillTriggerSubject.CURRENT_TARGET, "hp", SkillNumericValue.formula("threshold_f"), direction
         );
     }
 
@@ -485,7 +486,7 @@ class SkillTriggerRuleCycleServiceTest {
         return new SkillTriggerEventSource(
             SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
             new SkillTriggerHealthThresholdEventDetail(
-                SkillTriggerSubject.CURRENT_TARGET, "hp", "threshold_f", direction
+                SkillTriggerSubject.CURRENT_TARGET, "hp", SkillNumericValue.formula("threshold_f"), direction
             )
         );
     }

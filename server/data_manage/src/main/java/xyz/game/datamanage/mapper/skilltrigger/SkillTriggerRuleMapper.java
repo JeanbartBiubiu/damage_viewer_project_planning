@@ -189,7 +189,7 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("skillKey") String skillKey
     );
 
-    List<String> listEffectInteractionFormulaKeys(
+    List<String> listEffectInteractionValues(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("effectKey") String effectKey
@@ -205,7 +205,7 @@ public interface SkillTriggerRuleMapper {
         @Param("formulaKeys") Collection<String> formulaKeys
     );
 
-    List<String> listInternalStateFormulaKeys(
+    List<String> listInternalStateValues(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
         @Param("stateKey") String stateKey

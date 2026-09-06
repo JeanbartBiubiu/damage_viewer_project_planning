@@ -1,6 +1,7 @@
 package xyz.game.datamanage.support.authoring;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -133,13 +134,13 @@ public final class SkillObjectReferences {
 
         private void effect() {
             JsonNode data = source.data();
-            formulas(data.path("lifecycle"), "lifecycle", "durationFormulaKey", "maxStacksFormulaKey",
-                "applicationStacksFormulaKey", "periodicIntervalFormulaKey");
+            formulas(data.path("lifecycle"), "lifecycle", "durationValue", "maxStacksValue",
+                "applicationStacksValue", "periodicIntervalValue");
             JsonNode results = array(data, "results");
             for (int i = 0; i < results.size(); i++) {
                 JsonNode result = results.get(i);
                 String path = "results[" + i + "]";
-                formulas(result.path("valueRule"), path + ".valueRule", "formulaKey");
+                formulas(result.path("valueRule"), path + ".valueRule", "value");
                 if (present(result.get("lifecycleBehavior"))) {
                     add(path + ".lifecycleBehavior", TargetType.LIFECYCLE, source.skillKey(), source.key(), "");
                 }
@@ -148,9 +149,9 @@ public final class SkillObjectReferences {
                 switch (required(result, "resultType", path)) {
                     case "DAMAGE" -> {
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
-                        formulas(detail.path("critical"), dp + ".critical", "multiplierFormulaKey");
+                        formulas(detail.path("critical"), dp + ".critical", "multiplierValue");
                         JsonNode rules = array(detail, "vampRules");
-                        for (int v = 0; v < rules.size(); v++) formulas(rules.get(v), dp + ".vampRules[" + v + "]", "efficiencyFormulaKey");
+                        for (int v = 0; v < rules.size(); v++) formulas(rules.get(v), dp + ".vampRules[" + v + "]", "efficiencyValue");
                     }
                     case "NORMAL_SHIELD" -> dictionary(detail, dp, "absorbedDamageTypeKey", TargetType.DAMAGE_TYPE);
                     case "ATTRIBUTE_CHANGE" -> {
@@ -185,9 +186,9 @@ public final class SkillObjectReferences {
         private void state() {
             JsonNode detail = source.data().path("detail");
             switch (required(source.data(), "stateType", "stateType")) {
-                case "COUNTER" -> formulas(detail, "detail", "initialValueFormulaKey", "maxValueFormulaKey");
-                case "AMMO" -> formulas(detail, "detail", "initialValueFormulaKey", "maxValueFormulaKey", "recoveryIntervalFormulaKey");
-                case "INTERNAL_COOLDOWN" -> formulas(detail, "detail", "durationFormulaKey");
+                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue");
+                case "AMMO" -> formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue");
+                case "INTERNAL_COOLDOWN" -> formulas(detail, "detail", "durationValue");
                 case "MODE", "FLAG" -> { }
                 default -> throw shape("stateType", "未知内部状态类型");
             }
@@ -202,18 +203,18 @@ public final class SkillObjectReferences {
                 JsonNode detail = step.path("detail");
                 String dp = path + ".detail";
                 switch (required(step, "stepType", path)) {
-                    case "DELAY" -> formulas(detail, dp, "delayFormulaKey");
-                    case "MULTI_HIT", "PERIODIC" -> formulas(detail, dp, "repeatCountFormulaKey", "intervalFormulaKey");
-                    case "CHANNEL" -> formulas(detail, dp, "durationFormulaKey", "executionCountFormulaKey");
-                    case "CHARGE" -> formulas(detail, dp, "minimumChargeFormulaKey", "maximumChargeFormulaKey");
-                    case "RECAST" -> formulas(detail, dp, "windowFormulaKey", "maximumRecastCountFormulaKey");
-                    case "EMPOWERED_BASIC_ATTACK" -> formulas(detail, dp, "windowFormulaKey");
+                    case "DELAY" -> formulas(detail, dp, "delayValue");
+                    case "MULTI_HIT", "PERIODIC" -> formulas(detail, dp, "repeatCountValue", "intervalValue");
+                    case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue");
+                    case "CHARGE" -> formulas(detail, dp, "minimumChargeValue", "maximumChargeValue");
+                    case "RECAST" -> formulas(detail, dp, "windowValue", "maximumRecastCountValue");
+                    case "EMPOWERED_BASIC_ATTACK" -> formulas(detail, dp, "windowValue");
                     case "IMMEDIATE" -> { }
                     default -> throw shape(path, "未知过程步骤类型");
                 }
             }
             JsonNode cooldown = data.path("cooldown");
-            formulas(cooldown, "cooldown", "durationFormulaKey");
+            formulas(cooldown, "cooldown", "durationValue");
             moment(cooldown.path("startMoment"), "cooldown.startMoment", source.key());
             JsonNode bindings = array(data, "effectBindings");
             for (int i = 0; i < bindings.size(); i++) {
@@ -227,7 +228,7 @@ public final class SkillObjectReferences {
                 JsonNode operation = operations.get(i);
                 String path = "stateOperations[" + i + "]";
                 local(operation, path, "stateKey", TargetType.STATE);
-                formulas(operation, path, "valueFormulaKey");
+                formulas(operation, path, "value");
                 child(operation, path, "optionKey", TargetType.OPTION, text(operation, "stateKey"));
                 moment(operation.path("moment"), path + ".moment", source.key());
             }
@@ -246,10 +247,10 @@ public final class SkillObjectReferences {
             for (JsonNode action : actions) actionsByKey.put(text(action, "actionKey"), action);
             for (int i = 0; i < actions.size(); i++) action(actions.get(i), "actions[" + i + "]", actionsByKey);
             JsonNode limits = data.path("limits");
-            formulas(limits.path("perTargetCooldown"), "limits.perTargetCooldown", "durationFormulaKey");
+            formulas(limits.path("perTargetCooldown"), "limits.perTargetCooldown", "durationValue");
             JsonNode processLimit = limits.path("maxTriggersPerProcess");
             local(processLimit, "limits.maxTriggersPerProcess", "processKey", TargetType.PROCESS);
-            formulas(processLimit, "limits.maxTriggersPerProcess", "limitFormulaKey");
+            formulas(processLimit, "limits.maxTriggersPerProcess", "limitValue");
         }
 
         private void event(JsonNode event) {
@@ -271,7 +272,7 @@ public final class SkillObjectReferences {
                 case "STATUS_CHANGED" -> dictionary(detail, path, "statusKey", TargetType.STATUS);
                 case "HEALTH_THRESHOLD_CROSSED" -> {
                     dictionary(detail, path, "attributeKey", TargetType.ATTRIBUTE);
-                    formulas(detail, path, "thresholdFormulaKey");
+                    formulas(detail, path, "thresholdValue");
                 }
                 case "INTERNAL_STATE_CHANGED" -> local(detail, path, "stateKey", TargetType.STATE);
                 case "SPELL_SHIELD_BLOCKED" -> local(detail, path, "shieldEffectKey", TargetType.EFFECT);
@@ -286,18 +287,18 @@ public final class SkillObjectReferences {
             switch (required(condition, "conditionType", path)) {
                 case "ATTRIBUTE_COMPARE" -> {
                     dictionary(detail, dp, "attributeKey", TargetType.ATTRIBUTE);
-                    formulas(detail, dp, "comparisonFormulaKey");
+                    formulas(detail, dp, "comparisonValue");
                 }
                 case "STATUS_CHECK" -> {
                     statusSource(detail, dp);
-                    formulas(detail, dp, "comparisonFormulaKey");
+                    formulas(detail, dp, "comparisonValue");
                 }
                 case "INTERNAL_STATE_CHECK" -> {
                     local(detail, dp, "stateKey", TargetType.STATE);
                     child(detail, dp, "optionKey", TargetType.OPTION, text(detail, "stateKey"));
-                    formulas(detail, dp, "comparisonFormulaKey");
+                    formulas(detail, dp, "comparisonValue");
                 }
-                case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonFormulaKey");
+                case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
                 default -> throw shape(path, "未知触发条件类型");
             }
         }
@@ -355,7 +356,15 @@ public final class SkillObjectReferences {
         }
 
         private void formulas(JsonNode node, String path, String... fields) {
-            for (String field : fields) local(node, path, field, TargetType.FORMULA);
+            for (String field : fields) {
+                JsonNode raw = node.get(field);
+                if (raw == null || raw.isNull()) continue;
+                SkillNumericValue value;
+                try { value = SkillNumericValue.fromJson(raw); }
+                catch (IllegalArgumentException ex) { throw shape(path + "." + field, "数值取值形状不合法"); }
+                if (value.kind() == SkillNumericValue.Kind.FORMULA) add(path + "." + field + ".formulaKey", TargetType.FORMULA, source.skillKey(), value.formulaKey(), "");
+                if (value.kind() == SkillNumericValue.Kind.PARAMETER) add(path + "." + field + ".parameterKey", TargetType.PARAMETER, source.skillKey(), value.parameterKey(), "");
+            }
         }
 
         private void local(JsonNode node, String path, String field, TargetType type) {

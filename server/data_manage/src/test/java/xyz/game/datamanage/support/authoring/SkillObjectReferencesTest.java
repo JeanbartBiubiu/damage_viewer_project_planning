@@ -29,12 +29,30 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void directParameterCreatesItsOwnEdgeWhileFixedZeroCreatesNone() {
+        Aggregate effect = aggregate(SourceType.EFFECT, "s1", "direct_values", """
+            {"results":[
+                {"resultKey":"fixed","resultType":"DIRECT_HEAL","valueRule":{"value":{"kind":"FIXED","value":0}}},
+                {"resultKey":"parameter","resultType":"DIRECT_HEAL","valueRule":{"value":{"kind":"PARAMETER","parameterKey":"p"}}}
+            ]}
+            """);
+        Target parameter = new Target(TargetType.PARAMETER, "s1", "p", "");
+        List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of(parameter));
+        assertEquals(List.of(new Reference("lol", "s1", SourceType.EFFECT, "direct_values",
+            "results[1].valueRule.value.parameterKey", parameter)), refs);
+
+        ApiException removed = assertThrows(ApiException.class,
+            () -> SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of()));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", removed.getCode());
+    }
+
+    @Test
     void everyContractReferenceFieldIsIncluded() {
         List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", fixture(), catalog());
         assertPaths(refs, "effects", """
-            lifecycle.durationFormulaKey lifecycle.maxStacksFormulaKey lifecycle.applicationStacksFormulaKey lifecycle.periodicIntervalFormulaKey
-            results[0].valueRule.formulaKey results[0].detail.damageTypeKey results[0].detail.critical.multiplierFormulaKey
-            results[0].detail.vampRules[0].efficiencyFormulaKey results[1].valueRule.formulaKey results[2].detail.absorbedDamageTypeKey
+            lifecycle.durationValue.formulaKey lifecycle.maxStacksValue.formulaKey lifecycle.applicationStacksValue.formulaKey lifecycle.periodicIntervalValue.formulaKey
+            results[0].valueRule.value.formulaKey results[0].detail.damageTypeKey results[0].detail.critical.multiplierValue.formulaKey
+            results[0].detail.vampRules[0].efficiencyValue.formulaKey results[1].valueRule.value.formulaKey results[2].detail.absorbedDamageTypeKey
             results[3].detail.attributeKey results[3].detail.modifierZoneKey results[4].detail.attributeKey results[5].detail.statusKey
             results[6].detail.affectedSkillScope.skillKeys[0] results[6].detail.affectedSkillScope.skillKeys[1]
             results[7].detail.targetEffectKey results[8].detail.modifierZoneKey results[8].detail.damageTypeKey
@@ -42,23 +60,23 @@ class SkillObjectReferencesTest {
             results[13].detail.attributeKey results[16].detail.affectedSkillScope.skillCategoryKeys[0]
             """);
         assertPaths(refs, "process", """
-            steps[1].detail.delayFormulaKey steps[2].detail.repeatCountFormulaKey steps[2].detail.intervalFormulaKey
-            steps[3].detail.repeatCountFormulaKey steps[3].detail.intervalFormulaKey steps[4].detail.durationFormulaKey
-            steps[4].detail.executionCountFormulaKey steps[5].detail.minimumChargeFormulaKey steps[5].detail.maximumChargeFormulaKey
-            steps[6].detail.windowFormulaKey steps[6].detail.maximumRecastCountFormulaKey steps[7].detail.windowFormulaKey
-            cooldown.durationFormulaKey cooldown.startMoment.stepKey effectBindings[0].effectKey effectBindings[0].moment.stepKey
-            stateOperations[0].stateKey stateOperations[0].valueFormulaKey stateOperations[0].optionKey stateOperations[0].moment.stepKey
+            steps[1].detail.delayValue.formulaKey steps[2].detail.repeatCountValue.formulaKey steps[2].detail.intervalValue.formulaKey
+            steps[3].detail.repeatCountValue.formulaKey steps[3].detail.intervalValue.formulaKey steps[4].detail.durationValue.formulaKey
+            steps[4].detail.executionCountValue.formulaKey steps[5].detail.minimumChargeValue.formulaKey steps[5].detail.maximumChargeValue.formulaKey
+            steps[6].detail.windowValue.formulaKey steps[6].detail.maximumRecastCountValue.formulaKey steps[7].detail.windowValue.formulaKey
+            cooldown.durationValue.formulaKey cooldown.startMoment.stepKey effectBindings[0].effectKey effectBindings[0].moment.stepKey
+            stateOperations[0].stateKey stateOperations[0].value.formulaKey stateOperations[0].optionKey stateOperations[0].moment.stepKey
             """);
-        assertPaths(refs, "counter", "detail.initialValueFormulaKey detail.maxValueFormulaKey");
-        assertPaths(refs, "ammo", "detail.initialValueFormulaKey detail.maxValueFormulaKey detail.recoveryIntervalFormulaKey");
-        assertPaths(refs, "internal_cd", "detail.durationFormulaKey");
+        assertPaths(refs, "counter", "detail.initialValue.formulaKey detail.maxValue.formulaKey");
+        assertPaths(refs, "ammo", "detail.initialValue.formulaKey detail.maxValue.formulaKey detail.recoveryIntervalValue.formulaKey");
+        assertPaths(refs, "internal_cd", "detail.durationValue.formulaKey");
         assertPaths(refs, "complex", """
             eventSource.detail.effectKey eventSource.detail.resultKey
-            conditionGroups[0].conditions[0].detail.attributeKey conditionGroups[0].conditions[0].detail.comparisonFormulaKey
+            conditionGroups[0].conditions[0].detail.attributeKey conditionGroups[0].conditions[0].detail.comparisonValue.formulaKey
             conditionGroups[0].conditions[1].detail.statusKey conditionGroups[0].conditions[1].detail.sourceEffectKey
-            conditionGroups[0].conditions[1].detail.sourceResultKey conditionGroups[0].conditions[1].detail.comparisonFormulaKey
+            conditionGroups[0].conditions[1].detail.sourceResultKey conditionGroups[0].conditions[1].detail.comparisonValue.formulaKey
             conditionGroups[0].conditions[2].detail.stateKey conditionGroups[0].conditions[2].detail.optionKey
-            conditionGroups[0].conditions[2].detail.comparisonFormulaKey conditionGroups[0].conditions[3].detail.comparisonFormulaKey
+            conditionGroups[0].conditions[2].detail.comparisonValue.formulaKey conditionGroups[0].conditions[3].detail.comparisonValue.formulaKey
             actions[0].detail.effectKey actions[1].detail.effectKey actions[1].resultModifiers[0].resultKey
             actions[1].runtimeInputBindings[0].parameterKey actions[1].runtimeInputBindings[1].parameterKey
             actions[1].runtimeInputBindings[1].detail.stateKey actions[1].runtimeInputBindings[1].detail.optionKey
@@ -66,7 +84,7 @@ class SkillObjectReferencesTest {
             actions[1].runtimeInputBindings[2].detail.sourceEffectKey actions[1].runtimeInputBindings[2].detail.sourceResultKey
             actions[1].runtimeInputBindings[3].parameterKey actions[1].runtimeInputBindings[3].detail.sourceActionKey
             actions[1].runtimeInputBindings[3].detail.sourceResultKey actions[2].detail.processKey actions[3].detail.processKey
-            limits.perTargetCooldown.durationFormulaKey limits.maxTriggersPerProcess.processKey limits.maxTriggersPerProcess.limitFormulaKey
+            limits.perTargetCooldown.durationValue.formulaKey limits.maxTriggersPerProcess.processKey limits.maxTriggersPerProcess.limitValue.formulaKey
             """);
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) {
             String fields = switch (type) {
@@ -77,7 +95,7 @@ class SkillObjectReferencesTest {
                 case LIFECYCLE_MOMENT -> "effectKey";
                 case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> "damageTypeKey";
                 case STATUS_CHANGED -> "statusKey";
-                case HEALTH_THRESHOLD_CROSSED -> "attributeKey thresholdFormulaKey";
+                case HEALTH_THRESHOLD_CROSSED -> "attributeKey thresholdValue.formulaKey";
                 case INTERNAL_STATE_CHANGED -> "stateKey";
                 case SPELL_SHIELD_BLOCKED -> "shieldEffectKey";
                 case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL -> "";
@@ -96,8 +114,8 @@ class SkillObjectReferencesTest {
         assertEquals(Set.of(TargetType.values()), refs.stream().map(ref -> ref.target().type()).collect(Collectors.toSet()));
         assertEquals(Set.of(SourceType.values()), refs.stream().map(Reference::sourceType).collect(Collectors.toSet()));
         assertReference(refs, SourceType.FORMULA, "f", "expression.operands[0].parameterKey", TargetType.PARAMETER, "s1", "p", "");
-        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.critical.multiplierFormulaKey", TargetType.FORMULA, "s1", "f", "");
-        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.vampRules[0].efficiencyFormulaKey", TargetType.FORMULA, "s1", "f", "");
+        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.critical.multiplierValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
+        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.vampRules[0].efficiencyValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[6].detail.affectedSkillScope.skillKeys[1]", TargetType.SKILL, "", "s2", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[16].detail.affectedSkillScope.skillCategoryKeys[0]", TargetType.CATEGORY, "", "magic", "");
         assertReference(refs, SourceType.TRIGGER, "complex", "actions[1].runtimeInputBindings[3].detail.sourceActionKey", TargetType.ACTION, "s1", "complex", "first");
@@ -106,7 +124,7 @@ class SkillObjectReferencesTest {
         assertReference(refs, SourceType.PROCESS, "process", "stateOperations[0].optionKey", TargetType.OPTION, "s1", "mode", "on");
         assertReference(refs, SourceType.PROCESS, "process", "cooldown.startMoment.stepKey", TargetType.STEP, "s1", "process", "step0");
         assertReference(refs, SourceType.TRIGGER, "event_SKILL_HIT", "eventSource.detail.sourceSkillKey", TargetType.SKILL, "", "s2", "");
-        assertReference(refs, SourceType.TRIGGER, "complex", "limits.maxTriggersPerProcess.limitFormulaKey", TargetType.FORMULA, "s1", "f", "");
+        assertReference(refs, SourceType.TRIGGER, "complex", "limits.maxTriggersPerProcess.limitValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
         assertFalse(refs.stream().anyMatch(ref -> ref.fieldPath().contains("description") || ref.fieldPath().contains("unrelatedKey")));
 
         Aggregate effects = find(aggregates, SourceType.EFFECT, "effects");
@@ -207,10 +225,10 @@ class SkillObjectReferencesTest {
                 {"nodeType":"ATTRIBUTE","attributeOwner":"SOURCE","attributeKey":"hp","attributeValueKind":"TOTAL"}]}}
             """));
         result.add(aggregate(SourceType.EFFECT, "s1", "effects", """
-            {"lifecycle":{"durationFormulaKey":"f","maxStacksFormulaKey":"f","applicationStacksFormulaKey":"f","periodicIntervalFormulaKey":"f"},
+            {"lifecycle":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"maxStacksValue":{"kind":"FORMULA","formulaKey":"f"},"applicationStacksValue":{"kind":"FORMULA","formulaKey":"f"},"periodicIntervalValue":{"kind":"FORMULA","formulaKey":"f"}},
              "results":[
-                {"resultKey":"damage","resultType":"DAMAGE","valueRule":{"formulaKey":"f"},"detail":{"damageTypeKey":"magic","critical":{"multiplierFormulaKey":"f"},"vampRules":[{"efficiencyFormulaKey":"f"}]}},
-                {"resultKey":"heal","resultType":"DIRECT_HEAL","valueRule":{"formulaKey":"f"},"detail":{}},
+                {"resultKey":"damage","resultType":"DAMAGE","valueRule":{"value":{"kind":"FORMULA","formulaKey":"f"}},"detail":{"damageTypeKey":"magic","critical":{"multiplierValue":{"kind":"FORMULA","formulaKey":"f"}},"vampRules":[{"efficiencyValue":{"kind":"FORMULA","formulaKey":"f"}}]}},
+                {"resultKey":"heal","resultType":"DIRECT_HEAL","valueRule":{"value":{"kind":"FORMULA","formulaKey":"f"}},"detail":{}},
                 {"resultKey":"shield","resultType":"NORMAL_SHIELD","detail":{"absorbedDamageTypeKey":"magic"}},
                 {"resultKey":"attribute","resultType":"ATTRIBUTE_CHANGE","detail":{"attributeKey":"hp","modifierZoneKey":"zone"}},
                 {"resultKey":"resource","resultType":"RESOURCE_CHANGE","detail":{"attributeKey":"hp"}},
@@ -228,32 +246,32 @@ class SkillObjectReferencesTest {
                 {"resultKey":"haste","resultType":"SKILL_HASTE_MODIFIER","detail":{"affectedSkillScope":{"mode":"CATEGORIES","skillCategoryKeys":["magic"]}}}
              ],"description":"example parameterKey missing is plain text","unrelatedKey":"missing"}
             """));
-        result.add(aggregate(SourceType.STATE, "s1", "counter", "{\"stateType\":\"COUNTER\",\"detail\":{\"initialValueFormulaKey\":\"f\",\"maxValueFormulaKey\":\"f\"}}"));
-        result.add(aggregate(SourceType.STATE, "s1", "ammo", "{\"stateType\":\"AMMO\",\"detail\":{\"initialValueFormulaKey\":\"f\",\"maxValueFormulaKey\":\"f\",\"recoveryIntervalFormulaKey\":\"f\"}}"));
-        result.add(aggregate(SourceType.STATE, "s1", "internal_cd", "{\"stateType\":\"INTERNAL_COOLDOWN\",\"detail\":{\"durationFormulaKey\":\"f\"}}"));
+        result.add(aggregate(SourceType.STATE, "s1", "counter", "{\"stateType\":\"COUNTER\",\"detail\":{\"initialValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"maxValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));
+        result.add(aggregate(SourceType.STATE, "s1", "ammo", "{\"stateType\":\"AMMO\",\"detail\":{\"initialValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"maxValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"recoveryIntervalValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));
+        result.add(aggregate(SourceType.STATE, "s1", "internal_cd", "{\"stateType\":\"INTERNAL_COOLDOWN\",\"detail\":{\"durationValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));
         result.add(aggregate(SourceType.STATE, "s1", "mode", "{\"stateType\":\"MODE\",\"detail\":{\"options\":[{\"optionKey\":\"on\",\"initial\":true}]}}"));
         result.add(aggregate(SourceType.STATE, "s1", "flag", "{\"stateType\":\"FLAG\",\"detail\":{\"initialEnabled\":false}}"));
         result.add(aggregate(SourceType.PROCESS, "s1", "process", """
             {"steps":[
                 {"stepKey":"step0","stepType":"IMMEDIATE","detail":{}},
-                {"stepKey":"delay","stepType":"DELAY","detail":{"delayFormulaKey":"f"}},
-                {"stepKey":"multi","stepType":"MULTI_HIT","detail":{"repeatCountFormulaKey":"f","intervalFormulaKey":"f"}},
-                {"stepKey":"periodic","stepType":"PERIODIC","detail":{"repeatCountFormulaKey":"f","intervalFormulaKey":"f"}},
-                {"stepKey":"channel","stepType":"CHANNEL","detail":{"durationFormulaKey":"f","executionCountFormulaKey":"f"}},
-                {"stepKey":"charge","stepType":"CHARGE","detail":{"minimumChargeFormulaKey":"f","maximumChargeFormulaKey":"f"}},
-                {"stepKey":"recast","stepType":"RECAST","detail":{"windowFormulaKey":"f","maximumRecastCountFormulaKey":"f"}},
-                {"stepKey":"empowered","stepType":"EMPOWERED_BASIC_ATTACK","detail":{"windowFormulaKey":"f"}}],
-             "cooldown":{"durationFormulaKey":"f","startMoment":{"momentType":"STEP_START","stepKey":"step0"}},
+                {"stepKey":"delay","stepType":"DELAY","detail":{"delayValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"multi","stepType":"MULTI_HIT","detail":{"repeatCountValue":{"kind":"FORMULA","formulaKey":"f"},"intervalValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"periodic","stepType":"PERIODIC","detail":{"repeatCountValue":{"kind":"FORMULA","formulaKey":"f"},"intervalValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"channel","stepType":"CHANNEL","detail":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"executionCountValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"charge","stepType":"CHARGE","detail":{"minimumChargeValue":{"kind":"FORMULA","formulaKey":"f"},"maximumChargeValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"recast","stepType":"RECAST","detail":{"windowValue":{"kind":"FORMULA","formulaKey":"f"},"maximumRecastCountValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"stepKey":"empowered","stepType":"EMPOWERED_BASIC_ATTACK","detail":{"windowValue":{"kind":"FORMULA","formulaKey":"f"}}}],
+             "cooldown":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"startMoment":{"momentType":"STEP_START","stepKey":"step0"}},
              "effectBindings":[{"effectKey":"effects","moment":{"stepKey":"step0"}}],
-             "stateOperations":[{"stateKey":"mode","optionKey":"on","valueFormulaKey":"f","moment":{"stepKey":"step0"}}]}
+             "stateOperations":[{"stateKey":"mode","optionKey":"on","value":{"kind":"FORMULA","formulaKey":"f"},"moment":{"stepKey":"step0"}}]}
             """));
         result.add(aggregate(SourceType.TRIGGER, "s1", "complex", """
             {"eventSource":{"eventType":"RESULT_AVAILABLE","detail":{"effectKey":"effects","resultKey":"damage"}},
              "conditionGroups":[{"conditions":[
-                {"conditionType":"ATTRIBUTE_COMPARE","detail":{"attributeKey":"hp","comparisonFormulaKey":"f"}},
-                {"conditionType":"STATUS_CHECK","detail":{"statusKey":"poison","sourceEffectKey":"effects","sourceResultKey":"status","comparisonFormulaKey":"f"}},
-                {"conditionType":"INTERNAL_STATE_CHECK","detail":{"stateKey":"mode","optionKey":"on","comparisonFormulaKey":"f"}},
-                {"conditionType":"EVENT_VALUE_COMPARE","detail":{"comparisonFormulaKey":"f"}}]}],
+                {"conditionType":"ATTRIBUTE_COMPARE","detail":{"attributeKey":"hp","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"conditionType":"STATUS_CHECK","detail":{"statusKey":"poison","sourceEffectKey":"effects","sourceResultKey":"status","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"conditionType":"INTERNAL_STATE_CHECK","detail":{"stateKey":"mode","optionKey":"on","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"conditionType":"EVENT_VALUE_COMPARE","detail":{"comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}}]}],
              "actions":[
                 {"actionKey":"first","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"effects"}},
                 {"actionKey":"second","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"effects"},
@@ -265,7 +283,7 @@ class SkillObjectReferencesTest {
                     {"parameterKey":"p","sourceType":"PRIOR_ACTION_RESULT","detail":{"sourceActionKey":"first","sourceResultKey":"damage"}}]},
                 {"actionKey":"start","actionType":"START_PROCESS","detail":{"processKey":"process"}},
                 {"actionKey":"fail","actionType":"FAIL_PROCESS","detail":{"processKey":"process"}}],
-             "limits":{"perTargetCooldown":{"durationFormulaKey":"f"},"maxTriggersPerProcess":{"processKey":"process","limitFormulaKey":"f"}}}
+             "limits":{"perTargetCooldown":{"durationValue":{"kind":"FORMULA","formulaKey":"f"}},"maxTriggersPerProcess":{"processKey":"process","limitValue":{"kind":"FORMULA","formulaKey":"f"}}}}
             """));
         Map<String, String> details = Map.ofEntries(
             Map.entry("SKILL_USED", "{\"sourceSkillKey\":\"s2\"}"), Map.entry("SKILL_HIT", "{\"sourceSkillKey\":\"s2\"}"),
@@ -276,7 +294,7 @@ class SkillObjectReferencesTest {
             Map.entry("LIFECYCLE_MOMENT", "{\"effectKey\":\"effects\"}"),
             Map.entry("DAMAGE_PENDING", "{\"damageTypeKey\":\"magic\"}"), Map.entry("DAMAGE_DEALT", "{\"damageTypeKey\":\"magic\"}"), Map.entry("DAMAGE_TAKEN", "{\"damageTypeKey\":\"magic\"}"),
             Map.entry("STATUS_CHANGED", "{\"statusKey\":\"poison\"}"),
-            Map.entry("HEALTH_THRESHOLD_CROSSED", "{\"attributeKey\":\"hp\",\"thresholdFormulaKey\":\"f\"}"),
+            Map.entry("HEALTH_THRESHOLD_CROSSED", "{\"attributeKey\":\"hp\",\"thresholdValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}"),
             Map.entry("INTERNAL_STATE_CHANGED", "{\"stateKey\":\"counter\"}"),
             Map.entry("SPELL_SHIELD_BLOCKED", "{\"shieldEffectKey\":\"effects\"}"));
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) result.add(aggregate(SourceType.TRIGGER, "s1", "event_" + type,
