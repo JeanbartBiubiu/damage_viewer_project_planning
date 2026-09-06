@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.character.CharacterAuthoringCheckMapper">
+    <resultMap id="attachedSkill" type="xyz.game.datamanage.model.character.CharacterAuthoringCheckRows$AttachedSkill">
+        <constructor>
+            <arg column="skill_key" javaType="string"/>
+            <arg column="name" javaType="string"/>
+            <arg column="status" javaType="string"/>
+            <arg column="max_level" javaType="java.lang.Integer"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="skill_exists" javaType="_boolean"/>
+            <arg column="effect_count" javaType="_int"/>
+            <arg column="process_count" javaType="_int"/>
+            <arg column="trigger_rule_count" javaType="_int"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="objectRow" type="xyz.game.datamanage.model.character.CharacterAuthoringCheckRows$ObjectRow">
+        <constructor>
+            <arg column="skill_key" javaType="string"/>
+            <arg column="object_type" javaType="string"/>
+            <arg column="object_key" javaType="string"/>
+            <arg column="name" javaType="string"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="data_json" javaType="string"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="referenceRow" type="xyz.game.datamanage.model.character.CharacterAuthoringCheckRows$ReferenceRow">
+        <constructor>
+            <arg column="source_skill_key" javaType="string"/>
+            <arg column="source_type" javaType="string"/>
+            <arg column="source_key" javaType="string"/>
+            <arg column="field_path" javaType="string"/>
+            <arg column="target_type" javaType="string"/>
+            <arg column="target_skill_key" javaType="string"/>
+            <arg column="target_key" javaType="string"/>
+            <arg column="target_sub_key" javaType="string"/>
+            <arg column="target_exists" javaType="_boolean"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="attached">
+        SELECT game_id, skill_key FROM public.character_skill_relations
+        WHERE game_id = #{gameId} AND character_key = #{characterKey}
+    </sql>
+
+    <select id="listAttachedSkills" resultMap="attachedSkill">
+        SELECT r.skill_key, s.name, s.status, s.max_level, r.sort_order,
+               (s.skill_key IS NOT NULL) AS skill_exists,
+               (SELECT count(*)::integer FROM public.skill_effects e
+                WHERE e.game_id = r.game_id AND e.skill_key = r.skill_key) AS effect_count,
+               (SELECT count(*)::integer FROM public.skill_processes p
+                WHERE p.game_id = r.game_id AND p.skill_key = r.skill_key) AS process_count,
+               (SELECT count(*)::integer FROM public.skill_trigger_rules t
+                WHERE t.game_id = r.game_id AND t.skill_key = r.skill_key) AS trigger_rule_count
+        FROM public.character_skill_relations r
+        LEFT JOIN public.skills s ON s.game_id = r.game_id AND s.skill_key = r.skill_key
+        WHERE r.game_id = #{gameId} AND r.character_key = #{characterKey}
+        ORDER BY r.sort_order, s.name NULLS LAST, r.skill_key
+    </select>
+
+    <select id="listObjects" resultMap="objectRow">
+        WITH attached AS (<include refid="attached"/>), objects AS (
+            SELECT o.skill_key, 'FORMULA'::text AS object_type, o.formula_key AS object_key,
+                   o.name, o.sort_order, jsonb_build_object('expression', o.expression)::text AS data_json
+            FROM public.skill_formulas o JOIN attached a USING (game_id, skill_key)
+            UNION ALL
+            SELECT o.skill_key, 'EFFECT', o.effect_key, o.name, o.sort_order,
+                   jsonb_build_object('results', o.results, 'lifecycle', o.lifecycle)::text
+            FROM public.skill_effects o JOIN attached a USING (game_id, skill_key)
+            UNION ALL
+            SELECT o.skill_key, 'STATE', o.state_key, o.name, o.sort_order,
+                   jsonb_build_object('stateType', o.state_type, 'detail', o.detail)::text
+            FROM public.skill_internal_states o JOIN attached a USING (game_id, skill_key)
+            UNION ALL
+            SELECT o.skill_key, 'PROCESS', o.process_key, o.name, o.sort_order,
+                   jsonb_build_object('activationType', o.activation_type, 'steps', o.steps, 'cooldown', o.cooldown,
+                                      'effectBindings', o.effect_bindings, 'stateOperations', o.state_operations)::text
+            FROM public.skill_processes o JOIN attached a USING (game_id, skill_key)
+            UNION ALL
+            SELECT o.skill_key, 'TRIGGER', o.rule_key, o.name, o.sort_order,
+                   jsonb_build_object('eventSource', o.event_source, 'conditionGroups', o.condition_groups,
+                                      'actions', o.actions, 'limits', o.limits)::text
+            FROM public.skill_trigger_rules o JOIN attached a USING (game_id, skill_key)
+        )
+        SELECT skill_key, object_type, object_key, name, sort_order, data_json
+        FROM objects ORDER BY skill_key, object_type, sort_order, object_key
+    </select>
+
+    <select id="listReferences" resultMap="referenceRow">
+        WITH attached AS (<include refid="attached"/>)
+        SELECT r.source_skill_key, r.source_type, r.source_key, r.field_path,
+               r.target_type, r.target_skill_key, r.target_key, r.target_sub_key,
+               CASE
+                 WHEN r.target_type IN ('ATTRIBUTE', 'SKILL', 'CATEGORY', 'DAMAGE_TYPE', 'MODIFIER_ZONE', 'STATUS')
+                 THEN r.target_skill_key = '' AND r.target_sub_key = '' AND CASE r.target_type
+                   WHEN 'ATTRIBUTE' THEN EXISTS (SELECT 1 FROM public.attributes t WHERE t.game_id = r.game_id AND t.attribute_key = r.target_key)
+                   WHEN 'SKILL' THEN EXISTS (SELECT 1 FROM public.skills t WHERE t.game_id = r.game_id AND t.skill_key = r.target_key)
+                   WHEN 'CATEGORY' THEN EXISTS (SELECT 1 FROM public.skill_categories t WHERE t.game_id = r.game_id AND t.skill_category_key = r.target_key)
+                   WHEN 'DAMAGE_TYPE' THEN EXISTS (SELECT 1 FROM public.damage_types t WHERE t.game_id = r.game_id AND t.damage_type_key = r.target_key)
+                   WHEN 'MODIFIER_ZONE' THEN EXISTS (SELECT 1 FROM public.modifier_zones t WHERE t.game_id = r.game_id AND t.modifier_zone_key = r.target_key)
+                   WHEN 'STATUS' THEN EXISTS (SELECT 1 FROM public.statuses t WHERE t.game_id = r.game_id AND t.status_key = r.target_key)
+                   ELSE false END
+                 WHEN r.target_type IN ('PARAMETER', 'FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'LIFECYCLE')
+                 THEN r.target_sub_key = '' AND CASE r.target_type
+                   WHEN 'PARAMETER' THEN EXISTS (SELECT 1 FROM public.skill_parameters t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.parameter_key = r.target_key)
+                   WHEN 'FORMULA' THEN EXISTS (SELECT 1 FROM public.skill_formulas t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.formula_key = r.target_key)
+                   WHEN 'EFFECT' THEN EXISTS (SELECT 1 FROM public.skill_effects t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.effect_key = r.target_key)
+                   WHEN 'STATE' THEN EXISTS (SELECT 1 FROM public.skill_internal_states t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.state_key = r.target_key)
+                   WHEN 'PROCESS' THEN EXISTS (SELECT 1 FROM public.skill_processes t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.process_key = r.target_key)
+                   WHEN 'LIFECYCLE' THEN EXISTS (SELECT 1 FROM public.skill_effects t
+                     WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.effect_key = r.target_key
+                       AND jsonb_typeof(t.lifecycle) = 'object')
+                   ELSE false END
+                 WHEN r.target_type = 'RESULT' THEN EXISTS (
+                   SELECT 1 FROM public.skill_effects t,
+                     jsonb_array_elements(CASE WHEN jsonb_typeof(t.results) = 'array' THEN t.results ELSE '[]'::jsonb END) child
+                   WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.effect_key = r.target_key
+                     AND child->>'resultKey' = r.target_sub_key)
+                 WHEN r.target_type = 'STEP' THEN EXISTS (
+                   SELECT 1 FROM public.skill_processes t,
+                     jsonb_array_elements(CASE WHEN jsonb_typeof(t.steps) = 'array' THEN t.steps ELSE '[]'::jsonb END) child
+                   WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.process_key = r.target_key
+                     AND child->>'stepKey' = r.target_sub_key)
+                 WHEN r.target_type = 'OPTION' THEN EXISTS (
+                   SELECT 1 FROM public.skill_internal_states t,
+                     jsonb_array_elements(CASE WHEN jsonb_typeof(t.detail->'options') = 'array' THEN t.detail->'options' ELSE '[]'::jsonb END) child
+                   WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.state_key = r.target_key
+                     AND t.state_type = 'MODE' AND child->>'optionKey' = r.target_sub_key)
+                 WHEN r.target_type = 'ACTION' THEN EXISTS (
+                   SELECT 1 FROM public.skill_trigger_rules t,
+                     jsonb_array_elements(CASE WHEN jsonb_typeof(t.actions) = 'array' THEN t.actions ELSE '[]'::jsonb END) child
+                   WHERE t.game_id = r.game_id AND t.skill_key = r.target_skill_key AND t.rule_key = r.target_key
+                     AND child->>'actionKey' = r.target_sub_key)
+                 ELSE false
+               END AS target_exists
+        FROM public.skill_object_references r
+        JOIN attached a ON a.game_id = r.game_id AND a.skill_key = r.source_skill_key
+        ORDER BY r.source_skill_key, r.source_type, r.source_key, r.field_path,
+                 r.target_type, r.target_skill_key, r.target_key, r.target_sub_key
+    </select>
+</mapper>
