@@ -36,6 +36,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skill.SkillRow;
@@ -309,7 +311,10 @@ class SkillEffectAdminControllerTest {
             "lol", "ezreal_q", "秘术射击", null, 5, SkillStatus.ENABLED, 10, TS, TS
         ));
         when(effectMapper.countByKey("lol", "ezreal_q", "reduce_cooldowns")).thenReturn(0L);
-        SkillEffectService realService = new SkillEffectService(gamesMapper, skillMapper, effectMapper);
+        SkillEffectService realService = new SkillEffectService(
+            gamesMapper, skillMapper, effectMapper,
+            Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
+        );
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),
@@ -438,7 +443,10 @@ class SkillEffectAdminControllerTest {
             "lol", "ezreal_q", "秘术射击", null, 5, SkillStatus.ENABLED, 10, TS, TS
         ));
         when(effectMapper.countByKey("lol", "ezreal_q", "on_hit_results")).thenReturn(0L);
-        SkillEffectService realService = new SkillEffectService(gamesMapper, skillMapper, effectMapper);
+        SkillEffectService realService = new SkillEffectService(
+            gamesMapper, skillMapper, effectMapper,
+            Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
+        );
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

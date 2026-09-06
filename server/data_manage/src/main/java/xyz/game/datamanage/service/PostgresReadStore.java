@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.support.error.ApiException;
 
 @Component
 public class PostgresReadStore {
@@ -24,14 +26,29 @@ public class PostgresReadStore {
     public ArrayNode listGames() {
         ArrayNode array = objectMapper.createArrayNode();
         for (Map<String, Object> row : gamesMapper.listGames()) {
+            String gameId = text(row, "gameId");
+            String imageKey = text(row, "representativeImageKey");
+            if (Boolean.TRUE.equals(row.get("representativeImageDangling"))) {
+                throw new ApiException(
+                    HttpStatus.CONFLICT,
+                    "409.RELATION_DANGLING",
+                    "游戏代表图片关系指向不存在的图片",
+                    Map.of(
+                        "gameId", gameId,
+                        "sourceType", "GAME",
+                        "sourceParentKey", "",
+                        "sourceKey", gameId,
+                        "imageKey", imageKey
+                    )
+                );
+            }
             ObjectNode node = objectMapper.createObjectNode();
-            node.put("gameId", text(row, "gameId"));
+            node.put("gameId", gameId);
             node.put("gameName", text(row, "gameName"));
-            String gameImgUrl = text(row, "gameImgUrl");
-            if (gameImgUrl == null) {
-                node.putNull("gameImgUrl");
+            if (imageKey == null) {
+                node.putNull("representativeImageKey");
             } else {
-                node.put("gameImgUrl", gameImgUrl);
+                node.put("representativeImageKey", imageKey);
             }
             array.add(node);
         }

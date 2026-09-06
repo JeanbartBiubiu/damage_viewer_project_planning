@@ -50,9 +50,9 @@ class SkillScopeManagementDbContractSqlTest {
     }
 
     @Test
-    void currentSchemaOwnsFinalEightyEightParentsAndSeventeenResults() {
+    void currentSchemaOwnsCurrentParentsAndSeventeenResults() {
         List<String> created = extractCreateTableNames(schema);
-        assertEquals(88, created.size());
+        assertEquals(91, created.size());
         assertEquals(17, SkillEffectResultType.values().length);
         assertEquals(21, SkillTriggerEventType.values().length);
         assertEquals(10, SkillTriggerPriorResultOutputKind.values().length);

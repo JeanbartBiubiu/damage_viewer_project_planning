@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.character.CharacterMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.character.CharacterAttributeDefinition;
@@ -51,19 +52,22 @@ public class CharacterService {
     private final SkillParameterMapper parameterMapper;
     private final SkillParameterLevelService levelService;
     private final ObjectMapper objectMapper;
+    private final ImageRelationMapper imageRelationMapper;
 
     public CharacterService(
         GamesMapper gamesMapper,
         CharacterMapper characterMapper,
         SkillParameterMapper parameterMapper,
         SkillParameterLevelService levelService,
-        ObjectMapper objectMapper
+        ObjectMapper objectMapper,
+        ImageRelationMapper imageRelationMapper
     ) {
         this.gamesMapper = gamesMapper;
         this.characterMapper = characterMapper;
         this.parameterMapper = parameterMapper;
         this.levelService = levelService;
         this.objectMapper = objectMapper;
+        this.imageRelationMapper = imageRelationMapper;
     }
 
     @Transactional(readOnly = true)
@@ -234,6 +238,7 @@ public class CharacterService {
         if (characterMapper.deleteCharacter(gameId, characterKey) == 0) {
             throw characterNotFound(characterKey);
         }
+        imageRelationMapper.deleteForSource(gameId, "CHARACTER", "", characterKey);
     }
 
     @Transactional(readOnly = true)

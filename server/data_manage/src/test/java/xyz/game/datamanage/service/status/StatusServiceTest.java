@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.status.StatusMapper;
 import xyz.game.datamanage.model.status.StatusCreateRequest;
 import xyz.game.datamanage.model.status.StatusListQuery;
@@ -29,6 +30,7 @@ import xyz.game.datamanage.model.status.StatusRecordStatus;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 
 @ExtendWith(MockitoExtension.class)
 class StatusServiceTest {
@@ -37,13 +39,15 @@ class StatusServiceTest {
     private static final String KEY = "poison";
 
     @Mock private GamesMapper gamesMapper;
+    @Mock private SkillTriggerRuleService triggerRuleService;
+    @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private StatusMapper mapper;
 
     private StatusService service;
 
     @BeforeEach
     void setUp() {
-        service = new StatusService(gamesMapper, mapper);
+        service = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper);
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -199,6 +203,7 @@ class StatusServiceTest {
         );
 
         assertCode("409.STATUS_IN_USE", () -> service.delete(GAME_ID, KEY));
+        verifyNoInteractions(imageRelationMapper);
     }
 
     @Test
@@ -259,7 +264,7 @@ class StatusServiceTest {
     void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService);
+        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper);
         when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
@@ -269,6 +274,7 @@ class StatusServiceTest {
         )).when(triggerRuleService).assertStatusDeletable(GAME_ID, KEY);
         assertCode("409.STATUS_IN_USE", () -> guarded.delete(GAME_ID, KEY));
         verify(mapper, never()).delete(GAME_ID, KEY);
+        verifyNoInteractions(imageRelationMapper);
     }
 
     private static StatusResponse status() {

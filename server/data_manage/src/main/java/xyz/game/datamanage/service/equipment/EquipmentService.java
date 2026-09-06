@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.equipment.EquipmentMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.equipment.EquipmentAttributeDefinition;
 import xyz.game.datamanage.model.equipment.EquipmentAttributesRequest;
@@ -42,11 +43,18 @@ public class EquipmentService {
     private final GamesMapper gamesMapper;
     private final EquipmentMapper equipmentMapper;
     private final ObjectMapper objectMapper;
+    private final ImageRelationMapper imageRelationMapper;
 
-    public EquipmentService(GamesMapper gamesMapper, EquipmentMapper equipmentMapper, ObjectMapper objectMapper) {
+    public EquipmentService(
+        GamesMapper gamesMapper,
+        EquipmentMapper equipmentMapper,
+        ObjectMapper objectMapper,
+        ImageRelationMapper imageRelationMapper
+    ) {
         this.gamesMapper = gamesMapper;
         this.equipmentMapper = equipmentMapper;
         this.objectMapper = objectMapper;
+        this.imageRelationMapper = imageRelationMapper;
     }
 
     @Transactional(readOnly = true)
@@ -123,6 +131,7 @@ public class EquipmentService {
         if (equipmentMapper.deleteEquipment(gameId, equipmentKey) == 0) {
             throw equipmentNotFound(equipmentKey);
         }
+        imageRelationMapper.deleteForSource(gameId, "EQUIPMENT", "", equipmentKey);
     }
 
     @Transactional(readOnly = true)

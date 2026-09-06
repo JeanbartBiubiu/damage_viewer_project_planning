@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper">
+    <resultMap id="image" type="xyz.game.datamanage.model.imagerelation.RepresentativeImageResponse$Image">
+        <constructor>
+            <arg column="image_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="enabled" javaType="java.lang.Boolean"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="option" type="xyz.game.datamanage.model.imagerelation.ImageOptionResponse$Item">
+        <constructor>
+            <arg column="image_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="usage" type="xyz.game.datamanage.model.imagerelation.ImageUsageRow">
+        <constructor>
+            <arg column="source_type" javaType="java.lang.String"/>
+            <arg column="source_parent_key" javaType="java.lang.String"/>
+            <arg column="source_key" javaType="java.lang.String"/>
+            <arg column="source_name" javaType="java.lang.String"/>
+            <arg column="source_status" javaType="java.lang.String"/>
+            <arg column="parent_name" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="countSource" resultType="long">
+        <choose>
+            <when test="sourceType == 'GAME'">
+                SELECT COUNT(*) FROM public.games
+                WHERE game_id = #{gameId} AND game_id = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'CHARACTER'">
+                SELECT COUNT(*) FROM public.characters
+                WHERE game_id = #{gameId} AND character_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'ATTRIBUTE'">
+                SELECT COUNT(*) FROM public.attributes
+                WHERE game_id = #{gameId} AND attribute_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'EQUIPMENT'">
+                SELECT COUNT(*) FROM public.equipment
+                WHERE game_id = #{gameId} AND equipment_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'SKILL'">
+                SELECT COUNT(*) FROM public.skills
+                WHERE game_id = #{gameId} AND skill_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'SKILL_EFFECT'">
+                SELECT COUNT(*) FROM public.skill_effects e
+                JOIN public.skills s ON s.game_id = e.game_id AND s.skill_key = e.skill_key
+                WHERE e.game_id = #{gameId} AND e.skill_key = #{sourceParentKey} AND e.effect_key = #{sourceKey}
+            </when>
+            <when test="sourceType == 'STATUS'">
+                SELECT COUNT(*) FROM public.statuses
+                WHERE game_id = #{gameId} AND status_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <otherwise>SELECT 0</otherwise>
+        </choose>
+    </select>
+
+    <select id="findImageKey" resultType="string">
+        SELECT image_key FROM public.image_relations
+        WHERE game_id = #{gameId} AND source_type = #{sourceType}
+          AND source_parent_key = #{sourceParentKey} AND source_key = #{sourceKey}
+    </select>
+    <select id="findImage" resultMap="image">
+        SELECT image_key, name, enabled FROM public.images
+        WHERE game_id = #{gameId} AND image_key = #{imageKey}
+    </select>
+    <insert id="put">
+        INSERT INTO public.image_relations (game_id, source_type, source_parent_key, source_key, image_key)
+        VALUES (#{gameId}, #{sourceType}, #{sourceParentKey}, #{sourceKey}, #{imageKey})
+        ON CONFLICT (game_id, source_type, source_parent_key, source_key)
+        DO UPDATE SET image_key = EXCLUDED.image_key
+    </insert>
+    <delete id="deleteForSource">
+        DELETE FROM public.image_relations
+        WHERE game_id = #{gameId} AND source_type = #{sourceType}
+          AND source_parent_key = #{sourceParentKey} AND source_key = #{sourceKey}
+    </delete>
+    <delete id="deleteForSkill">
+        DELETE FROM public.image_relations
+        WHERE game_id = #{gameId}
+          AND ((source_type = 'SKILL' AND source_parent_key = '' AND source_key = #{skillKey})
+               OR (source_type = 'SKILL_EFFECT' AND source_parent_key = #{skillKey}))
+    </delete>
+    <select id="listOptions" resultMap="option">
+        SELECT image_key, name FROM public.images
+        WHERE game_id = #{gameId} AND enabled = TRUE
+          AND (strpos(lower(name), lower(#{keyword})) &gt; 0
+               OR strpos(lower(image_key), lower(#{keyword})) &gt; 0)
+        ORDER BY name, image_key
+        LIMIT 50
+    </select>
+    <select id="listUsages" resultMap="usage">
+        SELECT r.source_type, r.source_parent_key, r.source_key,
+               CASE r.source_type
+                   WHEN 'GAME' THEN g.game_name WHEN 'CHARACTER' THEN c.name
+                   WHEN 'ATTRIBUTE' THEN a.name WHEN 'EQUIPMENT' THEN q.name
+                   WHEN 'SKILL' THEN s.name WHEN 'SKILL_EFFECT' THEN e.name
+                   WHEN 'STATUS' THEN t.name
+               END AS source_name,
+               CASE r.source_type WHEN 'ATTRIBUTE' THEN a.status
+                   WHEN 'SKILL' THEN s.status WHEN 'STATUS' THEN t.status END AS source_status,
+               p.name AS parent_name
+        FROM public.image_relations r
+        LEFT JOIN public.games g ON r.source_type = 'GAME' AND r.source_parent_key = ''
+             AND g.game_id = r.game_id AND g.game_id = r.source_key
+        LEFT JOIN public.characters c ON r.source_type = 'CHARACTER' AND r.source_parent_key = ''
+             AND c.game_id = r.game_id AND c.character_key = r.source_key
+        LEFT JOIN public.attributes a ON r.source_type = 'ATTRIBUTE' AND r.source_parent_key = ''
+             AND a.game_id = r.game_id AND a.attribute_key = r.source_key
+        LEFT JOIN public.equipment q ON r.source_type = 'EQUIPMENT' AND r.source_parent_key = ''
+             AND q.game_id = r.game_id AND q.equipment_key = r.source_key
+        LEFT JOIN public.skills s ON r.source_type = 'SKILL' AND r.source_parent_key = ''
+             AND s.game_id = r.game_id AND s.skill_key = r.source_key
+        LEFT JOIN public.skill_effects e ON r.source_type = 'SKILL_EFFECT'
+             AND e.game_id = r.game_id AND e.skill_key = r.source_parent_key AND e.effect_key = r.source_key
+        LEFT JOIN public.skills p ON r.source_type = 'SKILL_EFFECT'
+             AND p.game_id = r.game_id AND p.skill_key = r.source_parent_key
+        LEFT JOIN public.statuses t ON r.source_type = 'STATUS' AND r.source_parent_key = ''
+             AND t.game_id = r.game_id AND t.status_key = r.source_key
+        WHERE r.game_id = #{gameId} AND r.image_key = #{imageKey}
+        ORDER BY source_name, r.source_key, r.source_parent_key, r.source_type
+    </select>
+</mapper>
