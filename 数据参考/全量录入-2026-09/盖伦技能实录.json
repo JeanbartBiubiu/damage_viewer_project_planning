@@ -77,12 +77,70 @@
           }
         }
       ],
-      "effects": "待录",
+      "effects": [
+        {
+          "effectKey": "perseverance_regen",
+          "name": "坚韧持续生命回复",
+          "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+          "sortOrder": 0,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "regen",
+              "name": "提高生命回复",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "regen_per_5s"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "hp_regen",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
       "processesAndRules": "待录并核对明确缺口",
       "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "已直接上传、自动关联并关闭重开回读；见主负责人角色技能图片实录.json",
       "runtimeValidation": "未执行",
-      "formulasSavedAndReadBack": true
+      "formulasSavedAndReadBack": true,
+      "effectsSavedAndReadBack": true,
+      "effectsReadbackEvidence": "盖伦效果回读-2026-09-07.md"
     },
     {
       "skillKey": "garen_q",
@@ -210,6 +268,64 @@
         }
       ],
       "effects": [
+        {
+          "effectKey": "move_speed",
+          "name": "Q 加速",
+          "description": "增加移速比例属性的固定数值；移速实际结算顺序与软上限仍待游戏级规则核对。",
+          "sortOrder": 0,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "move_speed",
+              "name": "提升百分比移速",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "move_speed_ratio"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "move_speed_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        },
         {
           "effectKey": "bonus_damage",
           "name": "Q 强化普攻额外伤害",
@@ -1083,5 +1199,5 @@
       "effectsSavedAndReadBack": true
     }
   ],
-  "lastReadBackAt": "2026-09-07T00:54:48.5218272+08:00"
+  "lastReadBackAt": "2026-09-07T01:52:20.5953825+08:00"
 }
