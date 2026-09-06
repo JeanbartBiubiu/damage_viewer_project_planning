@@ -1,3 +1,6 @@
+import { numericValuesIn } from '../numericValueForm';
+import { useNumericParameters } from '../useNumericParameters';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -33,7 +36,6 @@ import type {
 import {
   AMMO_RECOVERY_MODE_LABELS,
   MILLISECOND_FORMULA_HINT,
-  MISSING_CATALOG_LABEL,
   SKILL_INTERNAL_STATE_SCOPE_LABELS,
   SKILL_INTERNAL_STATE_TYPES,
   SKILL_INTERNAL_STATE_TYPE_LABELS,
@@ -43,14 +45,10 @@ import {
   buildUpdateSkillInternalStateRequest,
   createEmptyInternalStateDraft,
   createEmptyModeOptionDraft,
-  isCatalogOptionSelectable,
-  listFormulaOptions,
   mapSkillInternalStateFieldIssues,
-  requiresFormulaCatalog,
   skillInternalStateToDraft,
   sortModeOptionDrafts,
   validateSkillInternalStateDraft,
-  type CatalogRefOption,
   type SkillInternalStateDraft,
   type SkillInternalStateDraftErrors,
   type SkillInternalStateModeOptionDraft,
@@ -92,13 +90,6 @@ function isSkillNotFound(error: unknown): boolean {
   return error instanceof ApiRequestError && error.code === '404.SKILL_NOT_FOUND';
 }
 
-function catalogLabel(option: CatalogRefOption, names: Map<string, string>): string {
-  if (option.source === 'unknown') {
-    return `${option.key}（${MISSING_CATALOG_LABEL}）`;
-  }
-  return names.get(option.key) ?? option.key;
-}
-
 function optionErrorSummary(errors: SkillInternalStateOptionDraftErrors | undefined): string | null {
   if (!errors) return null;
   const messages = Object.values(errors).filter((item): item is string => Boolean(item));
@@ -131,13 +122,14 @@ export function SkillInternalStateEditorModal({
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(mode === 'create');
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const readOnly = mode === 'view';
   const existing = draft.originalStateType !== null;
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
-  const needsFormulas = requiresFormulaCatalog(draft.stateType);
+  const needsFormulas = numericValuesIn(draft).some((value) => value.kind === 'FORMULA');
 
   const reportDirty = useCallback((next: SkillInternalStateDraft, currentBaseline: SkillInternalStateDraft) => {
     onDirtyChange(JSON.stringify(next) !== JSON.stringify(currentBaseline));
@@ -165,12 +157,7 @@ export function SkillInternalStateEditorModal({
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
     const token = adminToken.trim();
-    if (!visible || !token || !needsFormulas) {
-      if (!needsFormulas) {
-        setFormulasError(null);
-      }
-      return;
-    }
+    if (!visible || !token) return;
     try {
       const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey, token);
       if (formulaSerial.current !== serial) return;
@@ -187,7 +174,7 @@ export function SkillInternalStateEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, needsFormulas, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
@@ -307,6 +294,7 @@ export function SkillInternalStateEditorModal({
       options: sortModeOptionDrafts(draft.options)
     };
     const validation = validateSkillInternalStateDraft(sorted, {
+      parameters, parametersLoadState,
       includeStateKey: mode === 'create',
       catalog: { formulas },
       catalogLoadState: formulasLoadState === 'failed' ? { formulas: 'failed' } : undefined
@@ -357,21 +345,6 @@ export function SkillInternalStateEditorModal({
       setSaving(false);
     }
   };
-
-  const formulaNames = useMemo(() => {
-    const names = new Map<string, string>();
-    for (const item of formulas) names.set(item.formulaKey, item.name);
-    return names;
-  }, [formulas]);
-
-  const formulaSelectOptions = (currentKey: string) => listFormulaOptions(
-    { formulas },
-    currentKey
-  ).map((option) => ({
-    value: option.key,
-    label: catalogLabel(option, formulaNames),
-    disabled: !isCatalogOptionSelectable(option)
-  }));
 
   const optionErrorMap = useMemo(() => {
     const map = new Map<number, SkillInternalStateOptionDraftErrors>();
@@ -619,34 +592,32 @@ export function SkillInternalStateEditorModal({
           {draft.stateType === 'COUNTER' || draft.stateType === 'AMMO' ? (
             <>
               <Form.Item
-                label="初始值公式"
+                label="初始值取值"
                 required
-                validateStatus={errors.initialValueFormulaKey ? 'error' : undefined}
-                help={errors.initialValueFormulaKey}
+                validateStatus={errors.initialValue ? 'error' : undefined}
+                help={errors.initialValue}
               >
-                <Select
-                  aria-label="初始值公式"
-                  value={draft.initialValueFormulaKey || undefined}
-                  disabled={readOnly || saving}
-                  options={formulaSelectOptions(draft.initialValueFormulaKey)}
-                  placeholder="请选择初始值公式"
-                  onChange={(value) => patchDraft({ ...draft, initialValueFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="初始值取值"
+                  value={draft.initialValue}
+                  onChange={(value) => patchDraft({ ...draft, initialValue: value! })}
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
               </Form.Item>
               <Form.Item
-                label="上限公式"
+                label="上限取值"
                 required
-                validateStatus={errors.maxValueFormulaKey ? 'error' : undefined}
-                help={errors.maxValueFormulaKey}
+                validateStatus={errors.maxValue ? 'error' : undefined}
+                help={errors.maxValue}
               >
-                <Select
-                  aria-label="上限公式"
-                  value={draft.maxValueFormulaKey || undefined}
-                  disabled={readOnly || saving}
-                  options={formulaSelectOptions(draft.maxValueFormulaKey)}
-                  placeholder="请选择上限公式"
-                  onChange={(value) => patchDraft({ ...draft, maxValueFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="上限取值"
+                  value={draft.maxValue}
+                  onChange={(value) => patchDraft({ ...draft, maxValue: value! })}
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
               </Form.Item>
             </>
           ) : null}
@@ -654,20 +625,19 @@ export function SkillInternalStateEditorModal({
           {draft.stateType === 'AMMO' ? (
             <>
               <Form.Item
-                label="恢复间隔公式"
+                label="恢复间隔取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.recoveryIntervalFormulaKey ? 'error' : undefined}
-                help={errors.recoveryIntervalFormulaKey}
+                validateStatus={errors.recoveryIntervalValue ? 'error' : undefined}
+                help={errors.recoveryIntervalValue}
               >
-                <Select
-                  aria-label="恢复间隔公式"
-                  value={draft.recoveryIntervalFormulaKey || undefined}
-                  disabled={readOnly || saving}
-                  options={formulaSelectOptions(draft.recoveryIntervalFormulaKey)}
-                  placeholder="请选择恢复间隔公式"
-                  onChange={(value) => patchDraft({ ...draft, recoveryIntervalFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="恢复间隔取值"
+                  value={draft.recoveryIntervalValue}
+                  onChange={(value) => patchDraft({ ...draft, recoveryIntervalValue: value! })}
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
               </Form.Item>
               <Form.Item
                 label="恢复方式"
@@ -708,20 +678,19 @@ export function SkillInternalStateEditorModal({
 
           {draft.stateType === 'INTERNAL_COOLDOWN' ? (
             <Form.Item
-              label="时长公式"
+              label="时长取值"
               required
               extra={MILLISECOND_FORMULA_HINT}
-              validateStatus={errors.durationFormulaKey ? 'error' : undefined}
-              help={errors.durationFormulaKey}
+              validateStatus={errors.durationValue ? 'error' : undefined}
+              help={errors.durationValue}
             >
-              <Select
-                aria-label="时长公式"
-                value={draft.durationFormulaKey || undefined}
-                disabled={readOnly || saving}
-                options={formulaSelectOptions(draft.durationFormulaKey)}
-                placeholder="请选择时长公式"
-                onChange={(value) => patchDraft({ ...draft, durationFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="时长取值"
+                  value={draft.durationValue}
+                  onChange={(value) => patchDraft({ ...draft, durationValue: value! })}
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
             </Form.Item>
           ) : null}
         </Form>

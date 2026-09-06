@@ -1,3 +1,8 @@
+import { getSkillFormula } from '../../../../services/skillFormulaClient';
+import { formulaHasRuntimeInput } from '../triggers/triggerRuleForm';
+import { numericValueSummary } from '../numericValueForm';
+import { useNumericParameters } from '../useNumericParameters';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -80,7 +85,6 @@ import {
   hasUnconfiguredLifecycleResults,
   isInstanceScopeLocked,
   isPersistentOnlyResultType,
-  listFormulaOptions,
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
   skillEffectToDraft,
@@ -161,13 +165,13 @@ function referenceSummary(
     skillCategories: names?.skillCategories,
     categoryStatuses: names?.categoryStatuses
   });
-  const formula = catalogDisplayName(result.formulaKey, names?.formulas);
+  const formula = numericValueSummary(result.value, names?.formulas);
   switch (result.resultType) {
     case 'DAMAGE':
       return result.damageTypeKey || '—';
     case 'DIRECT_HEAL':
     case 'NORMAL_SHIELD':
-      return result.formulaKey || '—';
+      return numericValueSummary(result.value, names?.formulas);
     case 'ATTRIBUTE_CHANGE':
     case 'RESOURCE_CHANGE':
       return result.attributeKey || '—';
@@ -192,17 +196,17 @@ function referenceSummary(
     case 'DAMAGE_IMMUNITY':
       return result.damageTypeKey || '全部伤害';
     case 'HEALING_MODIFIER':
-      return result.formulaKey || '—';
+      return numericValueSummary(result.value, names?.formulas);
     case 'HEALTH_FLOOR':
       return result.attributeKey || '—';
     case 'EXECUTE':
       return [
         catalogDisplayName(result.attributeKey, names?.attributes),
-        catalogDisplayName(result.formulaKey, names?.formulas)
+        numericValueSummary(result.value, names?.formulas)
       ].join(' · ');
     case 'HIT_LINK_APPLICATION':
     case 'ATTACK_LINK_APPLICATION':
-      return catalogDisplayName(result.formulaKey, names?.formulas);
+      return numericValueSummary(result.value, names?.formulas);
     case 'SPELL_SHIELD':
       return '—';
     default: {
@@ -332,6 +336,7 @@ export function SkillEffectEditorModal({
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(mode === 'create');
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [attributesLoadState, setAttributesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
@@ -655,6 +660,7 @@ export function SkillEffectEditorModal({
     if (readOnly || saving || !detailReady || (mode === 'edit' && loadingDetail)) return;
     const sorted = { ...draft, results: sortResultDrafts(draft.results) };
     const validation = validateSkillEffectDraft(sorted, {
+      parameters, parametersLoadState,
       includeEffectKey: mode === 'create',
       catalog: {
         parentSkillKey: skill.skillKey,
@@ -687,6 +693,15 @@ export function SkillEffectEditorModal({
     setSaving(true);
     setSaveError(null);
     try {
+      for (const resultDraft of sorted.results) {
+        if (resultDraft.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION' && resultDraft.value?.kind === 'FORMULA') {
+          const formula = await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, resultDraft.value.formulaKey, token);
+          if (parametersLoadState !== 'ready') { setSaveError('参数目录不完整，无法核对当前时点取值。'); return; }
+          if (formulaHasRuntimeInput(formula.data, parameters)) {
+            setSaveError('当前时点取值不能引用计算时传入的技能参数。'); return;
+          }
+        }
+      }
       const result = mode === 'create'
         ? await createSkillEffect(
             apiBaseUrl,
@@ -732,20 +747,6 @@ export function SkillEffectEditorModal({
     }
     return map;
   }, [resultErrors]);
-
-  const formulaOptions = useMemo(
-    () => listFormulaOptions({
-      parentSkillKey: skill.skillKey,
-      formulas,
-      effects: effectSummaries,
-      damageTypes: [],
-      attributes: [],
-      skills: [],
-      skillCategories: [],
-      statuses: []
-    }),
-    [effectSummaries, formulas, skill.skillKey]
-  );
   const formulaNames = useMemo(() => {
     const names = new Map<string, string>();
     for (const item of formulas) {
@@ -785,14 +786,6 @@ export function SkillEffectEditorModal({
   const hasLinearDecayShield = draft.results.some((result) => (
     result.resultType === 'NORMAL_SHIELD' && result.shieldDecayMode === 'LINEAR_TO_ZERO'
   ));
-
-  const lifecycleFormulaSelect = (currentKey: string) => formulaOptions.map((option) => ({
-    value: option.key,
-    label: option.source === 'unknown' ? option.key : (formulaNames.get(option.key) ?? option.key),
-    disabled: option.source === 'unknown'
-  })).concat(currentKey && !formulaOptions.some((item) => item.key === currentKey)
-    ? [{ value: currentKey, label: currentKey, disabled: true }]
-    : []);
 
   const columns: TableColumnProps[] = [
     {
@@ -1076,57 +1069,54 @@ export function SkillEffectEditorModal({
               {draft.lifecycleEnabled ? (
                 <>
                   <Form.Item
-                    label="持续时间公式"
-                    validateStatus={errors.durationFormulaKey ? 'error' : undefined}
-                    help={errors.durationFormulaKey}
+                    label="持续时间取值"
+                    validateStatus={errors.durationValue ? 'error' : undefined}
+                    help={errors.durationValue}
                   >
-                    <Select
-                      aria-label="持续时间公式"
-                      allowClear
-                      value={draft.lifecycle.durationFormulaKey || undefined}
-                      disabled={readOnly || saving}
-                      options={lifecycleFormulaSelect(draft.lifecycle.durationFormulaKey)}
-                      placeholder="无自然到期"
-                      onChange={(value) => patchLifecycleDraft(
-                        applyDurationFormulaChange(draft, String(value ?? ''))
+                    <NumericValueField aria-label="持续时间取值"
+                  value={draft.lifecycle.durationValue}
+                  onChange={(value) => patchLifecycleDraft(
+                        applyDurationFormulaChange(draft, value!)
                       )}
-                    />
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving}
+                  allowClear />
                   </Form.Item>
                   <Form.Item
-                    label="最大层数公式"
+                    label="最大层数取值"
                     required
-                    validateStatus={errors.maxStacksFormulaKey ? 'error' : undefined}
-                    help={errors.maxStacksFormulaKey}
+                    validateStatus={errors.maxStacksValue ? 'error' : undefined}
+                    help={errors.maxStacksValue}
                   >
-                    <Select
-                      aria-label="最大层数公式"
-                      value={draft.lifecycle.maxStacksFormulaKey || undefined}
-                      disabled={readOnly || saving}
-                      options={lifecycleFormulaSelect(draft.lifecycle.maxStacksFormulaKey)}
-                      placeholder="请选择最大层数公式"
-                      onChange={(value) => patchLifecycleDraft({
+                    <NumericValueField aria-label="最大层数取值"
+                  value={draft.lifecycle.maxStacksValue}
+                  onChange={(value) => patchLifecycleDraft({
                         ...draft,
-                        lifecycle: { ...draft.lifecycle, maxStacksFormulaKey: String(value ?? '') }
+                        lifecycle: { ...draft.lifecycle, maxStacksValue: value! }
                       })}
-                    />
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
                   </Form.Item>
                   <Form.Item
-                    label="每次施加层数公式"
+                    label="每次施加层数取值"
                     required
-                    validateStatus={errors.applicationStacksFormulaKey ? 'error' : undefined}
-                    help={errors.applicationStacksFormulaKey}
+                    validateStatus={errors.applicationStacksValue ? 'error' : undefined}
+                    help={errors.applicationStacksValue}
                   >
-                    <Select
-                      aria-label="每次施加层数公式"
-                      value={draft.lifecycle.applicationStacksFormulaKey || undefined}
-                      disabled={readOnly || saving}
-                      options={lifecycleFormulaSelect(draft.lifecycle.applicationStacksFormulaKey)}
-                      placeholder="请选择每次施加层数公式"
-                      onChange={(value) => patchLifecycleDraft({
+                    <NumericValueField aria-label="每次施加层数取值"
+                  value={draft.lifecycle.applicationStacksValue}
+                  onChange={(value) => patchLifecycleDraft({
                         ...draft,
-                        lifecycle: { ...draft.lifecycle, applicationStacksFormulaKey: String(value ?? '') }
+                        lifecycle: { ...draft.lifecycle, applicationStacksValue: value! }
                       })}
-                    />
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
                   </Form.Item>
                   <Form.Item
                     label="实例范围"
@@ -1176,7 +1166,7 @@ export function SkillEffectEditorModal({
                       })}
                     />
                   </Form.Item>
-                  {draft.lifecycle.durationFormulaKey ? (
+                  {draft.lifecycle.durationValue ? (
                     <Form.Item
                       label="重复持续"
                       required
@@ -1209,10 +1199,10 @@ export function SkillEffectEditorModal({
                     <Select
                       aria-label="到期方式"
                       value={draft.lifecycle.expiryMode || undefined}
-                      disabled={readOnly || saving || !draft.lifecycle.durationFormulaKey}
+                      disabled={readOnly || saving || !draft.lifecycle.durationValue}
                       options={Object.entries(SKILL_EFFECT_EXPIRY_MODE_LABELS)
                         .filter(([value]) => (
-                          draft.lifecycle.durationFormulaKey
+                          draft.lifecycle.durationValue
                             ? (
                               hasLinearDecayShield
                                 ? value === 'ALL_AT_ONCE'
@@ -1230,25 +1220,24 @@ export function SkillEffectEditorModal({
                   {showPeriodicFields ? (
                     <>
                       <Form.Item
-                        label="周期间隔公式"
+                        label="周期间隔取值"
                         required
-                        validateStatus={errors.periodicIntervalFormulaKey ? 'error' : undefined}
-                        help={errors.periodicIntervalFormulaKey}
+                        validateStatus={errors.periodicIntervalValue ? 'error' : undefined}
+                        help={errors.periodicIntervalValue}
                       >
-                        <Select
-                          aria-label="周期间隔公式"
-                          value={draft.lifecycle.periodicIntervalFormulaKey || undefined}
-                          disabled={readOnly || saving}
-                          options={lifecycleFormulaSelect(draft.lifecycle.periodicIntervalFormulaKey)}
-                          placeholder="请选择周期间隔公式"
-                          onChange={(value) => patchLifecycleDraft({
+                        <NumericValueField aria-label="周期间隔取值"
+                  value={draft.lifecycle.periodicIntervalValue}
+                  onChange={(value) => patchLifecycleDraft({
                             ...draft,
                             lifecycle: {
                               ...draft.lifecycle,
-                              periodicIntervalFormulaKey: String(value ?? '')
+                              periodicIntervalValue: value!
                             }
                           })}
-                        />
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
                       </Form.Item>
                       <Form.Item
                         label="首次周期"
@@ -1323,6 +1312,8 @@ export function SkillEffectEditorModal({
         siblingResults={draft.results}
         resultIndex={resultEditor?.index ?? null}
         fieldErrors={resultEditor?.fieldErrors ?? EMPTY_RESULT_ERRORS}
+        parameters={parameters}
+        parametersLoadState={parametersLoadState}
         formulas={formulas}
         formulasLoadState={formulasLoadState}
         parentSkill={skill}

@@ -1,3 +1,7 @@
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { numericIssuePath, numericValueError, numericValueSummary, staticChargeRangeIsValid } from '../numericValueForm';
+import { numericFormulaKey } from '../../../../types/numericValue';
+import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
@@ -140,17 +144,17 @@ export type SkillProcessStepDraft = {
   stepType: SkillProcessStepType;
   description: string;
   sortOrder: string;
-  delayFormulaKey: string;
-  repeatCountFormulaKey: string;
-  intervalFormulaKey: string;
+  delayValue: NumericValue | null;
+  repeatCountValue: NumericValue | null;
+  intervalValue: NumericValue | null;
   firstExecution: SkillProcessFirstExecution | '';
-  durationFormulaKey: string;
-  executionCountFormulaKey: string;
-  minimumChargeFormulaKey: string;
-  maximumChargeFormulaKey: string;
+  durationValue: NumericValue | null;
+  executionCountValue: NumericValue | null;
+  minimumChargeValue: NumericValue | null;
+  maximumChargeValue: NumericValue | null;
   releaseAtMaximum: boolean;
-  windowFormulaKey: string;
-  maximumRecastCountFormulaKey: string;
+  windowValue: NumericValue | null;
+  maximumRecastCountValue: NumericValue | null;
   consumeMoment: SkillProcessEmpoweredConsumeMoment | '';
   originalStepType: SkillProcessStepType | null;
 };
@@ -169,7 +173,7 @@ export type SkillProcessStateOperationDraft = {
   name: string;
   stateKey: string;
   operation: SkillProcessStateOperationKind | '';
-  valueFormulaKey: string;
+  value: NumericValue | null;
   optionKey: string;
   momentType: SkillProcessMomentType;
   stepKey: string;
@@ -184,7 +188,7 @@ export type SkillProcessDraft = {
   description: string;
   sortOrder: string;
   cooldownEnabled: boolean;
-  cooldownDurationFormulaKey: string;
+  cooldownDurationValue: NumericValue | null;
   cooldownMomentType: SkillProcessMomentType;
   cooldownStepKey: string;
   steps: SkillProcessStepDraft[];
@@ -199,7 +203,7 @@ export type SkillProcessDraftField =
   | 'description'
   | 'sortOrder'
   | 'cooldown'
-  | 'cooldownDurationFormulaKey'
+  | 'cooldownDurationValue'
   | 'cooldownMoment'
   | 'steps'
   | 'effectBindings'
@@ -215,17 +219,17 @@ export type SkillProcessStepDraftField =
   | 'stepType'
   | 'description'
   | 'sortOrder'
-  | 'delayFormulaKey'
-  | 'repeatCountFormulaKey'
-  | 'intervalFormulaKey'
+  | 'delayValue'
+  | 'repeatCountValue'
+  | 'intervalValue'
   | 'firstExecution'
-  | 'durationFormulaKey'
-  | 'executionCountFormulaKey'
-  | 'minimumChargeFormulaKey'
-  | 'maximumChargeFormulaKey'
+  | 'durationValue'
+  | 'executionCountValue'
+  | 'minimumChargeValue'
+  | 'maximumChargeValue'
   | 'releaseAtMaximum'
-  | 'windowFormulaKey'
-  | 'maximumRecastCountFormulaKey'
+  | 'windowValue'
+  | 'maximumRecastCountValue'
   | 'consumeMoment'
   | 'detail';
 
@@ -250,7 +254,7 @@ export type SkillProcessStateOperationDraftField =
   | 'name'
   | 'stateKey'
   | 'operation'
-  | 'valueFormulaKey'
+  | 'value'
   | 'optionKey'
   | 'moment'
   | 'momentType'
@@ -293,6 +297,8 @@ export type ProcessFormCatalog = {
 };
 
 export type SkillProcessFormValidationOptions = {
+  parameters?: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   includeProcessKey: boolean;
   catalog?: ProcessFormCatalog | null;
   catalogLoadState?: ProcessCatalogLoadState | null;
@@ -324,7 +330,7 @@ const PROCESS_DRAFT_FIELDS = new Set<SkillProcessDraftField>([
   'description',
   'sortOrder',
   'cooldown',
-  'cooldownDurationFormulaKey',
+  'cooldownDurationValue',
   'cooldownMoment',
   'steps',
   'effectBindings',
@@ -338,17 +344,17 @@ const STEP_FIELD_BY_PATH: { [path: string]: SkillProcessStepDraftField } = {
   description: 'description',
   sortOrder: 'sortOrder',
   detail: 'detail',
-  'detail.delayFormulaKey': 'delayFormulaKey',
-  'detail.repeatCountFormulaKey': 'repeatCountFormulaKey',
-  'detail.intervalFormulaKey': 'intervalFormulaKey',
+  'detail.delayValue': 'delayValue',
+  'detail.repeatCountValue': 'repeatCountValue',
+  'detail.intervalValue': 'intervalValue',
   'detail.firstExecution': 'firstExecution',
-  'detail.durationFormulaKey': 'durationFormulaKey',
-  'detail.executionCountFormulaKey': 'executionCountFormulaKey',
-  'detail.minimumChargeFormulaKey': 'minimumChargeFormulaKey',
-  'detail.maximumChargeFormulaKey': 'maximumChargeFormulaKey',
+  'detail.durationValue': 'durationValue',
+  'detail.executionCountValue': 'executionCountValue',
+  'detail.minimumChargeValue': 'minimumChargeValue',
+  'detail.maximumChargeValue': 'maximumChargeValue',
   'detail.releaseAtMaximum': 'releaseAtMaximum',
-  'detail.windowFormulaKey': 'windowFormulaKey',
-  'detail.maximumRecastCountFormulaKey': 'maximumRecastCountFormulaKey',
+  'detail.windowValue': 'windowValue',
+  'detail.maximumRecastCountValue': 'maximumRecastCountValue',
   'detail.consumeMoment': 'consumeMoment'
 };
 
@@ -366,7 +372,7 @@ const OPERATION_FIELD_BY_PATH: { [path: string]: SkillProcessStateOperationDraft
   name: 'name',
   stateKey: 'stateKey',
   operation: 'operation',
-  valueFormulaKey: 'valueFormulaKey',
+  value: 'value',
   optionKey: 'optionKey',
   moment: 'moment',
   'moment.momentType': 'momentType',
@@ -432,21 +438,21 @@ export function createEmptyStepDraft(
     stepType,
     description: '',
     sortOrder: '10',
-    delayFormulaKey: '',
-    repeatCountFormulaKey: '',
-    intervalFormulaKey: '',
+    delayValue: null,
+    repeatCountValue: null,
+    intervalValue: null,
     firstExecution: stepType === 'PERIODIC'
       ? 'AFTER_INTERVAL'
       : stepType === 'CHANNEL'
         ? 'IMMEDIATE'
         : '',
-    durationFormulaKey: '',
-    executionCountFormulaKey: '',
-    minimumChargeFormulaKey: '',
-    maximumChargeFormulaKey: '',
+    durationValue: null,
+    executionCountValue: null,
+    minimumChargeValue: null,
+    maximumChargeValue: null,
     releaseAtMaximum: true,
-    windowFormulaKey: '',
-    maximumRecastCountFormulaKey: '',
+    windowValue: null,
+    maximumRecastCountValue: null,
     consumeMoment: stepType === 'EMPOWERED_BASIC_ATTACK' ? 'ATTACK_HIT' : '',
     originalStepType: null
   });
@@ -469,7 +475,7 @@ export function createEmptyStateOperationDraft(): SkillProcessStateOperationDraf
     name: '',
     stateKey: '',
     operation: '',
-    valueFormulaKey: '',
+    value: null,
     optionKey: '',
     momentType: 'PROCESS_START',
     stepKey: '',
@@ -486,7 +492,7 @@ export function createEmptyProcessDraft(): SkillProcessDraft {
     description: '',
     sortOrder: '0',
     cooldownEnabled: false,
-    cooldownDurationFormulaKey: '',
+    cooldownDurationValue: null,
     cooldownMomentType: 'PROCESS_START',
     cooldownStepKey: '',
     steps: [createEmptyStepDraft('IMMEDIATE')],
@@ -503,7 +509,7 @@ export function skillProcessToDraft(process: SkillProcess): SkillProcessDraft {
     description: process.description ?? '',
     sortOrder: String(process.sortOrder),
     cooldownEnabled: process.cooldown !== null,
-    cooldownDurationFormulaKey: process.cooldown?.durationFormulaKey ?? '',
+    cooldownDurationValue: process.cooldown?.durationValue ?? null,
     cooldownMomentType: process.cooldown?.startMoment.momentType ?? 'PROCESS_START',
     cooldownStepKey: process.cooldown?.startMoment.stepKey ?? '',
     steps: sortStepDrafts(process.steps.map(skillProcessStepToDraft)),
@@ -524,33 +530,33 @@ export function skillProcessStepToDraft(step: SkillProcessStep): SkillProcessSte
     case 'IMMEDIATE':
       break;
     case 'DELAY':
-      draft.delayFormulaKey = step.detail.delayFormulaKey;
+      draft.delayValue = step.detail.delayValue;
       break;
     case 'MULTI_HIT':
-      draft.repeatCountFormulaKey = step.detail.repeatCountFormulaKey;
-      draft.intervalFormulaKey = step.detail.intervalFormulaKey ?? '';
+      draft.repeatCountValue = step.detail.repeatCountValue;
+      draft.intervalValue = step.detail.intervalValue ?? null;
       break;
     case 'PERIODIC':
-      draft.repeatCountFormulaKey = step.detail.repeatCountFormulaKey;
-      draft.intervalFormulaKey = step.detail.intervalFormulaKey;
+      draft.repeatCountValue = step.detail.repeatCountValue;
+      draft.intervalValue = step.detail.intervalValue;
       draft.firstExecution = step.detail.firstExecution;
       break;
     case 'CHANNEL':
-      draft.durationFormulaKey = step.detail.durationFormulaKey;
-      draft.executionCountFormulaKey = step.detail.executionCountFormulaKey;
+      draft.durationValue = step.detail.durationValue;
+      draft.executionCountValue = step.detail.executionCountValue;
       draft.firstExecution = step.detail.firstExecution;
       break;
     case 'CHARGE':
-      draft.minimumChargeFormulaKey = step.detail.minimumChargeFormulaKey;
-      draft.maximumChargeFormulaKey = step.detail.maximumChargeFormulaKey;
+      draft.minimumChargeValue = step.detail.minimumChargeValue;
+      draft.maximumChargeValue = step.detail.maximumChargeValue;
       draft.releaseAtMaximum = step.detail.releaseAtMaximum;
       break;
     case 'RECAST':
-      draft.windowFormulaKey = step.detail.windowFormulaKey;
-      draft.maximumRecastCountFormulaKey = step.detail.maximumRecastCountFormulaKey;
+      draft.windowValue = step.detail.windowValue;
+      draft.maximumRecastCountValue = step.detail.maximumRecastCountValue;
       break;
     case 'EMPOWERED_BASIC_ATTACK':
-      draft.windowFormulaKey = step.detail.windowFormulaKey;
+      draft.windowValue = step.detail.windowValue;
       draft.consumeMoment = step.detail.consumeMoment;
       break;
     default: {
@@ -582,7 +588,7 @@ export function skillProcessOperationToDraft(
     name: operation.name,
     stateKey: operation.stateKey,
     operation: operation.operation,
-    valueFormulaKey: operation.valueFormulaKey ?? '',
+    value: operation.value! ?? null,
     optionKey: operation.optionKey ?? '',
     momentType: operation.moment.momentType,
     stepKey: operation.moment.stepKey ?? '',
@@ -598,21 +604,21 @@ export function applyStepTypeChange(
   return clearHiddenStepFields({
     ...draft,
     stepType: nextType,
-    delayFormulaKey: '',
-    repeatCountFormulaKey: '',
-    intervalFormulaKey: '',
+    delayValue: null,
+    repeatCountValue: null,
+    intervalValue: null,
     firstExecution: nextType === 'PERIODIC'
       ? 'AFTER_INTERVAL'
       : nextType === 'CHANNEL'
         ? 'IMMEDIATE'
         : '',
-    durationFormulaKey: '',
-    executionCountFormulaKey: '',
-    minimumChargeFormulaKey: '',
-    maximumChargeFormulaKey: '',
+    durationValue: null,
+    executionCountValue: null,
+    minimumChargeValue: null,
+    maximumChargeValue: null,
     releaseAtMaximum: true,
-    windowFormulaKey: '',
-    maximumRecastCountFormulaKey: '',
+    windowValue: null,
+    maximumRecastCountValue: null,
     consumeMoment: nextType === 'EMPOWERED_BASIC_ATTACK' ? 'ATTACK_HIT' : ''
   });
 }
@@ -621,19 +627,19 @@ export function clearHiddenStepFields(draft: SkillProcessStepDraft): SkillProces
   const type = draft.stepType;
   return {
     ...draft,
-    delayFormulaKey: type === 'DELAY' ? draft.delayFormulaKey : '',
-    repeatCountFormulaKey: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.repeatCountFormulaKey : '',
-    intervalFormulaKey: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.intervalFormulaKey : '',
+    delayValue: type === 'DELAY' ? draft.delayValue : null,
+    repeatCountValue: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.repeatCountValue : null,
+    intervalValue: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.intervalValue : null,
     firstExecution: type === 'PERIODIC' || type === 'CHANNEL'
       ? draft.firstExecution || (type === 'PERIODIC' ? 'AFTER_INTERVAL' : 'IMMEDIATE')
       : '',
-    durationFormulaKey: type === 'CHANNEL' ? draft.durationFormulaKey : '',
-    executionCountFormulaKey: type === 'CHANNEL' ? draft.executionCountFormulaKey : '',
-    minimumChargeFormulaKey: type === 'CHARGE' ? draft.minimumChargeFormulaKey : '',
-    maximumChargeFormulaKey: type === 'CHARGE' ? draft.maximumChargeFormulaKey : '',
+    durationValue: type === 'CHANNEL' ? draft.durationValue : null,
+    executionCountValue: type === 'CHANNEL' ? draft.executionCountValue : null,
+    minimumChargeValue: type === 'CHARGE' ? draft.minimumChargeValue : null,
+    maximumChargeValue: type === 'CHARGE' ? draft.maximumChargeValue : null,
     releaseAtMaximum: type === 'CHARGE' ? draft.releaseAtMaximum : true,
-    windowFormulaKey: type === 'RECAST' || type === 'EMPOWERED_BASIC_ATTACK' ? draft.windowFormulaKey : '',
-    maximumRecastCountFormulaKey: type === 'RECAST' ? draft.maximumRecastCountFormulaKey : '',
+    windowValue: type === 'RECAST' || type === 'EMPOWERED_BASIC_ATTACK' ? draft.windowValue : null,
+    maximumRecastCountValue: type === 'RECAST' ? draft.maximumRecastCountValue : null,
     consumeMoment: type === 'EMPOWERED_BASIC_ATTACK' ? draft.consumeMoment || 'ATTACK_HIT' : ''
   };
 }
@@ -645,7 +651,7 @@ export function applyStateOperationChange(
   return {
     ...draft,
     operation: nextOperation,
-    valueFormulaKey: requiresValueFormula(nextOperation) ? draft.valueFormulaKey : '',
+    value: requiresValueFormula(nextOperation) ? draft.value : null,
     optionKey: requiresModeOption(nextOperation) ? draft.optionKey : ''
   };
 }
@@ -664,7 +670,7 @@ export function applyStateKeyChange(
       ...draft,
       stateKey: nextStateKey,
       operation: '',
-      valueFormulaKey: '',
+      value: null,
       optionKey: ''
     };
   }
@@ -726,21 +732,21 @@ export function stepSummary(step: SkillProcessStepDraft): string {
     case 'IMMEDIATE':
       return '—';
     case 'DELAY':
-      return step.delayFormulaKey || '—';
+      return numericValueSummary(step.delayValue);
     case 'MULTI_HIT':
-      return step.intervalFormulaKey
-        ? `${step.repeatCountFormulaKey || '—'} / ${step.intervalFormulaKey}`
-        : (step.repeatCountFormulaKey || '—');
+      return step.intervalValue
+        ? `${numericValueSummary(step.repeatCountValue)} / ${numericValueSummary(step.intervalValue)}`
+        : (numericValueSummary(step.repeatCountValue));
     case 'PERIODIC':
-      return `${step.repeatCountFormulaKey || '—'} / ${step.intervalFormulaKey || '—'}`;
+      return `${numericValueSummary(step.repeatCountValue)} / ${numericValueSummary(step.intervalValue)}`;
     case 'CHANNEL':
-      return `${step.durationFormulaKey || '—'} / ${step.executionCountFormulaKey || '—'}`;
+      return `${numericValueSummary(step.durationValue)} / ${numericValueSummary(step.executionCountValue)}`;
     case 'CHARGE':
-      return `${step.minimumChargeFormulaKey || '—'} ~ ${step.maximumChargeFormulaKey || '—'}`;
+      return `${numericValueSummary(step.minimumChargeValue)} ~ ${numericValueSummary(step.maximumChargeValue)}`;
     case 'RECAST':
-      return `${step.windowFormulaKey || '—'} / ${step.maximumRecastCountFormulaKey || '—'}`;
+      return `${numericValueSummary(step.windowValue)} / ${numericValueSummary(step.maximumRecastCountValue)}`;
     case 'EMPOWERED_BASIC_ATTACK':
-      return `${step.windowFormulaKey || '—'} / ${step.consumeMoment ? EMPOWERED_CONSUME_MOMENT_LABELS[step.consumeMoment] : '—'}`;
+      return `${numericValueSummary(step.windowValue)} / ${step.consumeMoment ? EMPOWERED_CONSUME_MOMENT_LABELS[step.consumeMoment] : '—'}`;
     default: {
       const unexpected: never = step.stepType;
       return unexpected;
@@ -749,7 +755,7 @@ export function stepSummary(step: SkillProcessStepDraft): string {
 }
 
 export function operationValueSummary(operation: SkillProcessStateOperationDraft): string {
-  if (requiresValueFormula(operation.operation)) return operation.valueFormulaKey || '—';
+  if (requiresValueFormula(operation.operation)) return numericValueSummary(operation.value);
   if (requiresModeOption(operation.operation)) return operation.optionKey || '—';
   return '—';
 }
@@ -758,7 +764,8 @@ export function stepExecutionMomentHint(stepType: SkillProcessStepType | undefin
   return stepType === 'EMPOWERED_BASIC_ATTACK' ? EMPOWERED_STEP_EXECUTION_HINT : null;
 }
 
-export function listFormulaOptions(catalog: ProcessFormCatalog, currentKey = ''): CatalogRefOption[] {
+export function listFormulaOptions(catalog: ProcessFormCatalog, currentKey: string | NumericValue | null = ''): CatalogRefOption[] {
+  currentKey = typeof currentKey === 'string' ? currentKey : numericFormulaKey(currentKey);
   return appendUnknown(catalog.formulas.map((item) => item.formulaKey), currentKey);
 }
 
@@ -940,7 +947,7 @@ export function mapSkillProcessFieldIssues(source: unknown): MappedSkillProcessF
 
   for (const rawIssue of details.fieldIssues) {
     if (!isRecord(rawIssue)) continue;
-    const field = typeof rawIssue.field === 'string' ? rawIssue.field : '';
+    const field = typeof rawIssue.field === 'string' ? numericIssuePath(rawIssue.field) : '';
     const message = typeof rawIssue.message === 'string' && rawIssue.message.trim()
       ? rawIssue.message.trim()
       : '字段值不合法。';
@@ -1050,52 +1057,55 @@ function validateStepDetail(
     case 'IMMEDIATE':
       break;
     case 'DELAY':
-      requireNonEmpty(draft.delayFormulaKey, fieldErrors, 'delayFormulaKey', '请选择延迟公式。');
-      validateFormulaRef(options, draft.delayFormulaKey, fieldErrors, 'delayFormulaKey');
+      requireNonEmpty(draft.delayValue, fieldErrors, 'delayValue', '请选择延迟取值。');
+      validateFormulaRef(options, draft.delayValue, fieldErrors, 'delayValue');
       break;
     case 'MULTI_HIT':
-      requireNonEmpty(draft.repeatCountFormulaKey, fieldErrors, 'repeatCountFormulaKey', '请选择执行次数公式。');
-      validateFormulaRef(options, draft.repeatCountFormulaKey, fieldErrors, 'repeatCountFormulaKey');
-      if (draft.intervalFormulaKey.trim()) {
-        validateFormulaRef(options, draft.intervalFormulaKey, fieldErrors, 'intervalFormulaKey');
+      requireNonEmpty(draft.repeatCountValue, fieldErrors, 'repeatCountValue', '请选择执行次数取值。');
+      validateFormulaRef(options, draft.repeatCountValue, fieldErrors, 'repeatCountValue');
+      if (draft.intervalValue) {
+        validateFormulaRef(options, draft.intervalValue, fieldErrors, 'intervalValue');
       }
       break;
     case 'PERIODIC':
-      requireNonEmpty(draft.repeatCountFormulaKey, fieldErrors, 'repeatCountFormulaKey', '请选择执行次数公式。');
-      requireNonEmpty(draft.intervalFormulaKey, fieldErrors, 'intervalFormulaKey', '请选择间隔公式。');
+      requireNonEmpty(draft.repeatCountValue, fieldErrors, 'repeatCountValue', '请选择执行次数取值。');
+      requireNonEmpty(draft.intervalValue, fieldErrors, 'intervalValue', '请选择间隔取值。');
       if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL') {
         fieldErrors.firstExecution = '请选择首次执行时机。';
       }
-      validateFormulaRef(options, draft.repeatCountFormulaKey, fieldErrors, 'repeatCountFormulaKey');
-      validateFormulaRef(options, draft.intervalFormulaKey, fieldErrors, 'intervalFormulaKey');
+      validateFormulaRef(options, draft.repeatCountValue, fieldErrors, 'repeatCountValue');
+      validateFormulaRef(options, draft.intervalValue, fieldErrors, 'intervalValue');
       break;
     case 'CHANNEL':
-      requireNonEmpty(draft.durationFormulaKey, fieldErrors, 'durationFormulaKey', '请选择持续时间公式。');
-      requireNonEmpty(draft.executionCountFormulaKey, fieldErrors, 'executionCountFormulaKey', '请选择执行次数公式。');
+      requireNonEmpty(draft.durationValue, fieldErrors, 'durationValue', '请选择持续时间取值。');
+      requireNonEmpty(draft.executionCountValue, fieldErrors, 'executionCountValue', '请选择执行次数取值。');
       if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL') {
         fieldErrors.firstExecution = '请选择首次执行时机。';
       }
-      validateFormulaRef(options, draft.durationFormulaKey, fieldErrors, 'durationFormulaKey');
-      validateFormulaRef(options, draft.executionCountFormulaKey, fieldErrors, 'executionCountFormulaKey');
+      validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue');
+      validateFormulaRef(options, draft.executionCountValue, fieldErrors, 'executionCountValue');
       break;
     case 'CHARGE':
-      requireNonEmpty(draft.minimumChargeFormulaKey, fieldErrors, 'minimumChargeFormulaKey', '请选择最短蓄力公式。');
-      requireNonEmpty(draft.maximumChargeFormulaKey, fieldErrors, 'maximumChargeFormulaKey', '请选择最长蓄力公式。');
-      validateFormulaRef(options, draft.minimumChargeFormulaKey, fieldErrors, 'minimumChargeFormulaKey');
-      validateFormulaRef(options, draft.maximumChargeFormulaKey, fieldErrors, 'maximumChargeFormulaKey');
+      requireNonEmpty(draft.minimumChargeValue, fieldErrors, 'minimumChargeValue', '请选择最短蓄力取值。');
+      requireNonEmpty(draft.maximumChargeValue, fieldErrors, 'maximumChargeValue', '请选择最长蓄力取值。');
+      validateFormulaRef(options, draft.minimumChargeValue, fieldErrors, 'minimumChargeValue');
+      validateFormulaRef(options, draft.maximumChargeValue, fieldErrors, 'maximumChargeValue');
+      if (staticChargeRangeIsValid(draft.minimumChargeValue, draft.maximumChargeValue, options.parameters) === false) {
+        fieldErrors.maximumChargeValue = '最长蓄力不能小于最短蓄力。';
+      }
       break;
     case 'RECAST':
-      requireNonEmpty(draft.windowFormulaKey, fieldErrors, 'windowFormulaKey', '请选择重施窗口公式。');
-      requireNonEmpty(draft.maximumRecastCountFormulaKey, fieldErrors, 'maximumRecastCountFormulaKey', '请选择最大重施次数公式。');
-      validateFormulaRef(options, draft.windowFormulaKey, fieldErrors, 'windowFormulaKey');
-      validateFormulaRef(options, draft.maximumRecastCountFormulaKey, fieldErrors, 'maximumRecastCountFormulaKey');
+      requireNonEmpty(draft.windowValue, fieldErrors, 'windowValue', '请选择重施窗口取值。');
+      requireNonEmpty(draft.maximumRecastCountValue, fieldErrors, 'maximumRecastCountValue', '请选择最大重施次数取值。');
+      validateFormulaRef(options, draft.windowValue, fieldErrors, 'windowValue');
+      validateFormulaRef(options, draft.maximumRecastCountValue, fieldErrors, 'maximumRecastCountValue');
       break;
     case 'EMPOWERED_BASIC_ATTACK':
-      requireNonEmpty(draft.windowFormulaKey, fieldErrors, 'windowFormulaKey', '请选择有效窗口公式。');
+      requireNonEmpty(draft.windowValue, fieldErrors, 'windowValue', '请选择有效窗口取值。');
       if (draft.consumeMoment !== 'ATTACK_START' && draft.consumeMoment !== 'ATTACK_HIT') {
         fieldErrors.consumeMoment = '请选择消耗时点。';
       }
-      validateFormulaRef(options, draft.windowFormulaKey, fieldErrors, 'windowFormulaKey');
+      validateFormulaRef(options, draft.windowValue, fieldErrors, 'windowValue');
       break;
     default: {
       const unexpected: never = draft.stepType;
@@ -1116,14 +1126,14 @@ function buildStep(
     case 'IMMEDIATE':
       return { ...base, stepType: 'IMMEDIATE', detail: {} };
     case 'DELAY':
-      return { ...base, stepType: 'DELAY', detail: { delayFormulaKey: draft.delayFormulaKey.trim() } };
+      return { ...base, stepType: 'DELAY', detail: { delayValue: draft.delayValue! } };
     case 'MULTI_HIT':
       return {
         ...base,
         stepType: 'MULTI_HIT',
         detail: {
-          repeatCountFormulaKey: draft.repeatCountFormulaKey.trim(),
-          intervalFormulaKey: draft.intervalFormulaKey.trim() || null
+          repeatCountValue: draft.repeatCountValue!,
+          intervalValue: draft.intervalValue! || null
         }
       };
     case 'PERIODIC':
@@ -1131,8 +1141,8 @@ function buildStep(
         ...base,
         stepType: 'PERIODIC',
         detail: {
-          repeatCountFormulaKey: draft.repeatCountFormulaKey.trim(),
-          intervalFormulaKey: draft.intervalFormulaKey.trim(),
+          repeatCountValue: draft.repeatCountValue!,
+          intervalValue: draft.intervalValue!,
           firstExecution: draft.firstExecution as SkillProcessFirstExecution
         }
       };
@@ -1141,8 +1151,8 @@ function buildStep(
         ...base,
         stepType: 'CHANNEL',
         detail: {
-          durationFormulaKey: draft.durationFormulaKey.trim(),
-          executionCountFormulaKey: draft.executionCountFormulaKey.trim(),
+          durationValue: draft.durationValue!,
+          executionCountValue: draft.executionCountValue!,
           firstExecution: draft.firstExecution as SkillProcessFirstExecution
         }
       };
@@ -1151,8 +1161,8 @@ function buildStep(
         ...base,
         stepType: 'CHARGE',
         detail: {
-          minimumChargeFormulaKey: draft.minimumChargeFormulaKey.trim(),
-          maximumChargeFormulaKey: draft.maximumChargeFormulaKey.trim(),
+          minimumChargeValue: draft.minimumChargeValue!,
+          maximumChargeValue: draft.maximumChargeValue!,
           releaseAtMaximum: draft.releaseAtMaximum
         }
       };
@@ -1161,8 +1171,8 @@ function buildStep(
         ...base,
         stepType: 'RECAST',
         detail: {
-          windowFormulaKey: draft.windowFormulaKey.trim(),
-          maximumRecastCountFormulaKey: draft.maximumRecastCountFormulaKey.trim()
+          windowValue: draft.windowValue!,
+          maximumRecastCountValue: draft.maximumRecastCountValue!
         }
       };
     case 'EMPOWERED_BASIC_ATTACK':
@@ -1170,7 +1180,7 @@ function buildStep(
         ...base,
         stepType: 'EMPOWERED_BASIC_ATTACK',
         detail: {
-          windowFormulaKey: draft.windowFormulaKey.trim(),
+          windowValue: draft.windowValue!,
           consumeMoment: draft.consumeMoment as SkillProcessEmpoweredConsumeMoment
         }
       };
@@ -1188,11 +1198,11 @@ function validateAndBuildCooldown(
   fieldErrors: SkillProcessDraftErrors
 ): SkillProcessCooldown | null {
   if (!draft.cooldownEnabled) return null;
-  const durationFormulaKey = draft.cooldownDurationFormulaKey.trim();
-  if (!durationFormulaKey) {
-    fieldErrors.cooldownDurationFormulaKey = '请选择冷却时长公式。';
+  const durationValue = draft.cooldownDurationValue;
+  if (!durationValue) {
+    fieldErrors.cooldownDurationValue = '请选择冷却时长取值。';
   } else {
-    validateFormulaRef(options, durationFormulaKey, fieldErrors, 'cooldownDurationFormulaKey');
+    validateFormulaRef(options, durationValue, fieldErrors, 'cooldownDurationValue');
   }
   const moment = validateMoment(
     { momentType: draft.cooldownMomentType, stepKey: draft.cooldownStepKey },
@@ -1200,8 +1210,8 @@ function validateAndBuildCooldown(
     fieldErrors,
     'cooldownMoment'
   );
-  if (!moment || fieldErrors.cooldownDurationFormulaKey || fieldErrors.cooldownMoment) return null;
-  return { durationFormulaKey, startMoment: moment };
+  if (!moment || fieldErrors.cooldownDurationValue || fieldErrors.cooldownMoment) return null;
+  return { durationValue: durationValue!, startMoment: moment };
 }
 
 function validateAndBuildBinding(
@@ -1280,22 +1290,22 @@ function validateAndBuildOperation(
     fieldErrors.operation = '已有操作的种类不可修改。';
   }
   if (requiresValueFormula(draft.operation)) {
-    requireNonEmpty(draft.valueFormulaKey, fieldErrors, 'valueFormulaKey', '请选择数值公式。');
-    validateFormulaRef(options, draft.valueFormulaKey, fieldErrors, 'valueFormulaKey');
+    requireNonEmpty(draft.value, fieldErrors, 'value', '请选择数值。');
+    validateFormulaRef(options, draft.value, fieldErrors, 'value');
     if (draft.optionKey.trim()) {
       fieldErrors.optionKey = '该操作不能选择模式选项。';
     }
   } else if (requiresModeOption(draft.operation)) {
     requireNonEmpty(draft.optionKey, fieldErrors, 'optionKey', '请选择模式选项。');
-    if (draft.valueFormulaKey.trim()) {
-      fieldErrors.valueFormulaKey = '模式选择不能携带数值公式。';
+    if (draft.value) {
+      fieldErrors.value = '模式选择不能携带数值。';
     }
     if (stateKey && draft.optionKey.trim()) {
       validateModeOptionRef(options, stateKey, draft.optionKey, fieldErrors);
     }
   } else if (draft.operation) {
-    if (draft.valueFormulaKey.trim()) {
-      fieldErrors.valueFormulaKey = '该操作不能携带数值公式。';
+    if (draft.value) {
+      fieldErrors.value = '该操作不能携带数值。';
     }
     if (draft.optionKey.trim()) {
       fieldErrors.optionKey = '该操作不能选择模式选项。';
@@ -1326,7 +1336,7 @@ function buildOperation(
     return {
       ...base,
       operation: operation as 'INCREASE' | 'DECREASE' | 'CONSUME' | 'SET',
-      valueFormulaKey: draft.valueFormulaKey.trim(),
+      value: draft.value!,
       optionKey: null
     };
   }
@@ -1334,7 +1344,7 @@ function buildOperation(
     return {
       ...base,
       operation: 'SELECT',
-      valueFormulaKey: null,
+      value: null,
       optionKey: draft.optionKey.trim()
     };
   }
@@ -1342,14 +1352,14 @@ function buildOperation(
     return {
       ...base,
       operation,
-      valueFormulaKey: null,
+      value: null,
       optionKey: null
     };
   }
   return {
     ...base,
     operation: operation as 'START' | 'RESET',
-    valueFormulaKey: null,
+    value: null,
     optionKey: null
   };
 }
@@ -1400,13 +1410,15 @@ function assignMomentError(
   (fieldErrors as SkillProcessEffectBindingDraftErrors | SkillProcessStateOperationDraftErrors).moment = message;
 }
 
-function validateFormulaRef<T>(
-  options: SkillProcessFormValidationOptions,
-  currentKey: string,
-  fieldErrors: T,
-  field: keyof T
-): void {
-  validateCatalogKey(options, 'formulas', currentKey, fieldErrors, field);
+function validateFormulaRef<T>(options: SkillProcessFormValidationOptions, value: NumericValue | null, fieldErrors: T, field: keyof T): void {
+  if (fieldErrors[field]) return;
+  const name = String(field);
+  const integer = /CountValue$/.test(name) || name === 'value';
+  const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
+    integer, min: name === 'value' ? undefined : integer ? 1 : 0, exclusiveMin: name === 'intervalValue',
+    formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
+  });
+  if (error) fieldErrors[field] = error as T[keyof T];
 }
 
 function validateCatalogKey<T>(
@@ -1462,7 +1474,7 @@ function mapProcessIssueField(field: string): SkillProcessDraftField | null {
   if (PROCESS_DRAFT_FIELDS.has(field as SkillProcessDraftField)) {
     return field as SkillProcessDraftField;
   }
-  if (field === 'cooldown.durationFormulaKey') return 'cooldownDurationFormulaKey';
+  if (field === 'cooldown.durationValue') return 'cooldownDurationValue';
   if (field === 'cooldown.startMoment' || field.startsWith('cooldown.startMoment.')) return 'cooldownMoment';
   return null;
 }
@@ -1498,12 +1510,12 @@ function sortByOrderAndKey<T>(
 }
 
 function requireNonEmpty<T>(
-  value: string,
+  value: string | NumericValue | null,
   fieldErrors: T,
   field: keyof T,
   message: string
 ): void {
-  if (!value.trim()) {
+  if (typeof value === 'string' ? !value.trim() : !value) {
     fieldErrors[field] = message as T[keyof T];
   }
 }
