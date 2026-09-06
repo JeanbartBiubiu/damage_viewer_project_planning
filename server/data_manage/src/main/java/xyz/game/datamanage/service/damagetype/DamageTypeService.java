@@ -26,6 +26,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class DamageTypeService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_damage_types";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_damage_types_name";
@@ -33,9 +35,13 @@ public class DamageTypeService {
     private final GamesMapper gamesMapper;
     private final DamageTypeMapper mapper;
 
-    public DamageTypeService(GamesMapper gamesMapper, DamageTypeMapper mapper) {
+    public DamageTypeService(GamesMapper gamesMapper, DamageTypeMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -63,6 +69,7 @@ public class DamageTypeService {
 
     @Transactional
     public DamageTypeResponse create(String gameId, @Valid DamageTypeCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreate(request);
         if (mapper.countByKey(gameId, request.damageTypeKey()) > 0) {
@@ -92,6 +99,7 @@ public class DamageTypeService {
         String damageTypeKey,
         @Valid DamageTypeUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
         if (mapper.findByIdForUpdate(gameId, damageTypeKey) == null) {
@@ -119,10 +127,13 @@ public class DamageTypeService {
 
     @Transactional
     public void delete(String gameId, String damageTypeKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, damageTypeKey) == null) {
             throw notFound(damageTypeKey);
         }
+        configurationWrites.assertNotReferenced(gameId, "DAMAGE_TYPE", "", damageTypeKey,
+            "409.DAMAGE_TYPE_IN_USE", "伤害类型已被引用，不能删除");
         try {
             if (mapper.delete(gameId, damageTypeKey) == 0) {
                 throw notFound(damageTypeKey);

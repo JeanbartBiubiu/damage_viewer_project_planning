@@ -314,7 +314,7 @@ class SkillEffectAdminControllerTest {
         SkillEffectService realService = new SkillEffectService(
             gamesMapper, skillMapper, effectMapper,
             Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),
@@ -446,7 +446,7 @@ class SkillEffectAdminControllerTest {
         SkillEffectService realService = new SkillEffectService(
             gamesMapper, skillMapper, effectMapper,
             Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

@@ -12,6 +12,7 @@ public record SkillInternalStateRow(
     String description,
     Integer sortOrder,
     OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime updatedAt,
+    String detailJson
 ) {
 }

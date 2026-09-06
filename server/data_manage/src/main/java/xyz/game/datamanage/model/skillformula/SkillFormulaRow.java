@@ -9,6 +9,7 @@ public record SkillFormulaRow(
     String name,
     String description,
     Integer sortOrder,
+    String expression,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {

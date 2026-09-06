@@ -3,7 +3,6 @@ package xyz.game.datamanage.service.skilltrigger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.ATTRIBUTE_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.EFFECT_KEY;
@@ -18,7 +17,6 @@ import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSuppo
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.failProcessAction;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.rule;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.startProcessAction;
-import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubAssembleExecuteEffect;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubParentAndCatalogs;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.thrown;
 
@@ -88,7 +86,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 SkillTriggerComparator.LTE, FORMULA_KEY
             )
         ));
-        stubAssembleExecuteEffect(mapper, "attr_ok", "attr_ok", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, withGroups("attr_ok", List.of(attribute)));
 
         ApiException eventSource = thrown(() -> service.create(
@@ -114,7 +111,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 null, null, null, null
             )
         ));
-        stubAssembleExecuteEffect(mapper, "status_ok", "status_ok", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, withGroups("status_ok", List.of(present)));
         assertField(
             thrown(() -> service.create(
@@ -139,7 +135,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 "flag", SkillTriggerInternalStateValueKind.ENABLED, null, true, null, null
             )
         ));
-        stubAssembleExecuteEffect(mapper, "istate_ok", "istate_ok", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, withGroups("istate_ok", List.of(flag)));
         ApiException mismatch = thrown(() -> service.create(
             GAME_ID,
@@ -162,7 +157,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerComparator.GTE, FORMULA_KEY
             )
         ));
-        stubAssembleExecuteEffect(mapper, "value_ok", "value_ok", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, withGroups("value_ok", List.of(hitIndex)));
         ApiException unavailable = thrown(() -> service.create(
             GAME_ID,
@@ -179,17 +173,8 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
 
     @Test
     void threeActionsAndEventSourceTargetHaveValidAndInvalidShapes() {
-        stubAssembleExecuteEffect(mapper, "exec", "exec", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, emptyEventExecute("exec", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY));
 
-        stubAssembleExecuteEffect(mapper, "start", "start", SkillTriggerEventType.BASIC_ATTACK_HIT, "start", PROCESS_KEY);
-        when(mapper.listActions(GAME_ID, SKILL_KEY, "start")).thenReturn(List.of(
-            SkillTriggerRuleTestSupport.startActionRow("start", "start")
-        ));
-        when(mapper.listEffectActions(GAME_ID, SKILL_KEY, "start")).thenReturn(List.of());
-        when(mapper.listProcessActions(GAME_ID, SKILL_KEY, "start")).thenReturn(List.of(
-            SkillTriggerRuleTestSupport.processActionRow("start", "start", PROCESS_KEY)
-        ));
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -200,19 +185,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
             )
         );
 
-        stubAssembleExecuteEffect(mapper, "fail", "fail", SkillTriggerEventType.CONTROL_RECEIVED, "fail", PROCESS_KEY);
-        when(mapper.listActions(GAME_ID, SKILL_KEY, "fail")).thenReturn(List.of(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
-                GAME_ID, SKILL_KEY, "fail", "fail", "令过程失败",
-                SkillTriggerActionType.FAIL_PROCESS, 20, null
-            )
-        ));
-        when(mapper.listEffectActions(GAME_ID, SKILL_KEY, "fail")).thenReturn(List.of());
-        when(mapper.listProcessActions(GAME_ID, SKILL_KEY, "fail")).thenReturn(List.of(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow(
-                GAME_ID, SKILL_KEY, "fail", "fail", PROCESS_KEY, SkillTriggerProcessFailureReason.CONTROLLED
-            )
-        ));
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -261,7 +233,6 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
         ));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", eventSourceTarget.getCode());
         assertField(eventSourceTarget, "actions[0].targetContext", "EVENT_SOURCE_NOT_AVAILABLE");
-        verify(mapper).insertProcessAction(GAME_ID, SKILL_KEY, "fail", "fail", PROCESS_KEY, "CONTROLLED");
     }
 
     private static SkillTriggerRuleCreateRequest withGroups(String ruleKey, List<SkillTriggerConditionGroup> groups) {

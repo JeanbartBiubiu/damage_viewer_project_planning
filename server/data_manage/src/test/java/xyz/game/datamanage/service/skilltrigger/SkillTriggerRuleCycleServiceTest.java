@@ -19,7 +19,6 @@ import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSuppo
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.rule;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.ruleRow;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.startProcessAction;
-import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubAssembleExecuteEffect;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubParentAndCatalogs;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.thrown;
 
@@ -39,11 +38,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
-import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection;
@@ -96,10 +92,6 @@ class SkillTriggerRuleCycleServiceTest {
                 GAME_ID, SKILL_KEY, "loop", "cd_f", SkillTriggerTargetContext.CURRENT_TARGET
             )
         ));
-        stubAssembleExecuteEffect(mapper, "loop", "loop", SkillTriggerEventType.RESULT_AVAILABLE, "deal", EFFECT_KEY);
-        when(mapper.findResultEvent(GAME_ID, SKILL_KEY, "loop")).thenReturn(
-            new SkillTriggerResultEventRow(GAME_ID, SKILL_KEY, "loop", EFFECT_KEY, RESULT_KEY)
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -189,19 +181,6 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             cooldownOp(PROCESS_KEY, "icd", SkillProcessStateOperationKind.START)
         ));
-        stubAssembleExecuteEffect(mapper, "ready", "ready", SkillTriggerEventType.INTERNAL_STATE_CHANGED, "start", PROCESS_KEY);
-        when(mapper.listActions(GAME_ID, SKILL_KEY, "ready")).thenReturn(List.of(
-            SkillTriggerRuleTestSupport.startActionRow("ready", "start")
-        ));
-        when(mapper.listEffectActions(GAME_ID, SKILL_KEY, "ready")).thenReturn(List.of());
-        when(mapper.listProcessActions(GAME_ID, SKILL_KEY, "ready")).thenReturn(List.of(
-            SkillTriggerRuleTestSupport.processActionRow("ready", "start", PROCESS_KEY)
-        ));
-        when(mapper.findInternalStateEvent(GAME_ID, SKILL_KEY, "ready")).thenReturn(
-            new SkillTriggerInternalStateEventRow(
-                GAME_ID, SKILL_KEY, "ready", "icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -244,8 +223,6 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.effectActionRow("up", "deal", EFFECT_KEY)
         ));
-        stubAssembleExecuteEffect(mapper, "up", "up", SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, "deal", EFFECT_KEY);
-        when(mapper.findHealthEvent(GAME_ID, SKILL_KEY, "up")).thenReturn(healthRow("up", SkillTriggerHealthDirection.UPWARD));
         service.create(
             GAME_ID, SKILL_KEY,
             rule("up", healthEvent(SkillTriggerHealthDirection.UPWARD), List.of(executeAction("deal", EFFECT_KEY)))
@@ -255,10 +232,6 @@ class SkillTriggerRuleCycleServiceTest {
             SkillTriggerRuleTestSupport.healShape(EFFECT_KEY, RESULT_KEY)
         ));
         stubHealthRule("down", SkillTriggerHealthDirection.DOWNWARD);
-        stubAssembleExecuteEffect(mapper, "down", "down", SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, "heal", EFFECT_KEY);
-        when(mapper.findHealthEvent(GAME_ID, SKILL_KEY, "down")).thenReturn(
-            healthRow("down", SkillTriggerHealthDirection.DOWNWARD)
-        );
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.executeActionRow("down", "heal")
         ));
@@ -274,10 +247,6 @@ class SkillTriggerRuleCycleServiceTest {
             SkillTriggerRuleTestSupport.shieldShape(EFFECT_KEY, RESULT_KEY)
         ));
         stubHealthRule("shield", SkillTriggerHealthDirection.DOWNWARD);
-        stubAssembleExecuteEffect(mapper, "shield", "shield", SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, "apply", EFFECT_KEY);
-        when(mapper.findHealthEvent(GAME_ID, SKILL_KEY, "shield")).thenReturn(
-            healthRow("shield", SkillTriggerHealthDirection.DOWNWARD)
-        );
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.executeActionRow("shield", "apply")
         ));
@@ -368,13 +337,6 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.effectActionRow("used", "deal", EFFECT_KEY)
         ));
-        stubAssembleExecuteEffect(mapper, "used", "used", SkillTriggerEventType.SKILL_USED, "deal", EFFECT_KEY);
-        when(mapper.findSkillEvent(GAME_ID, SKILL_KEY, "used")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventRow(
-                GAME_ID, SKILL_KEY, "used", SKILL_KEY,
-                xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind.ACTIVE
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -389,7 +351,6 @@ class SkillTriggerRuleCycleServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         );
-        stubAssembleExecuteEffect(mapper, "aa", "aa", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY);
         service.create(
             GAME_ID, SKILL_KEY,
             emptyEventExecute("aa", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY)
@@ -417,12 +378,6 @@ class SkillTriggerRuleCycleServiceTest {
                 false, null, null, null, null, null
             )
         ));
-        stubAssembleExecuteEffect(
-            mapper, "hit_any", "hit_any", SkillTriggerEventType.HIT_LINK_APPLIED, "apply", EFFECT_KEY
-        );
-        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_any")).thenReturn(
-            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_any", null)
-        );
         ApiException cycle = thrown(() -> service.create(
             GAME_ID,
             SKILL_KEY,
@@ -444,12 +399,6 @@ class SkillTriggerRuleCycleServiceTest {
         when(mapper.listLinkEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_any", "other_skill")
         ));
-        stubAssembleExecuteEffect(
-            mapper, "hit_other", "hit_other", SkillTriggerEventType.HIT_LINK_APPLIED, "apply", EFFECT_KEY
-        );
-        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_other")).thenReturn(
-            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_other", "other_skill")
-        );
         when(mapper.lockSkills(eq(GAME_ID), any())).thenReturn(List.of(
             new xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow("other_skill", "ENABLED", null)
         ));
@@ -482,7 +431,6 @@ class SkillTriggerRuleCycleServiceTest {
                 false, null, null, null, null, null
             )
         ));
-        stubAssembleExecuteEffect(mapper, "kill", "kill", SkillTriggerEventType.KILL, "execute", EFFECT_KEY);
         ApiException executeKill = thrown(() -> service.create(
             GAME_ID, SKILL_KEY,
             emptyEventExecute("kill", SkillTriggerEventType.KILL, "execute", EFFECT_KEY)

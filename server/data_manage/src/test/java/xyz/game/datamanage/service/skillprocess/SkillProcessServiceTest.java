@@ -15,12 +15,12 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -34,17 +34,13 @@ import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessChannelStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessChannelStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessChargeStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessChargeStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCooldown;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCreateRequest;
 import xyz.game.datamanage.model.skillprocess.SkillProcessDelayStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessDelayStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessDetailResponse;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRequest;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredAttackStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredAttackStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredConsumeMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessFirstExecution;
 import xyz.game.datamanage.model.skillprocess.SkillProcessImmediateStepDetail;
@@ -52,11 +48,8 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessInternalStateLockRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMultiHitStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessMultiHitStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessPeriodicStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessPeriodicStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessRecastStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessRecastStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRequest;
@@ -82,10 +75,11 @@ class SkillProcessServiceTest {
     @Mock private SkillProcessMapper mapper;
 
     private SkillProcessService service;
+    private SkillProcessRow stored;
 
     @BeforeEach
     void setUp() {
-        service = new SkillProcessService(gamesMapper, skillMapper, mapper);
+        service = new SkillProcessService(gamesMapper, skillMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
@@ -95,12 +89,19 @@ class SkillProcessServiceTest {
             .thenAnswer(invocation -> List.copyOf(invocation.getArgument(2)));
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of(new SkillProcessInternalStateLockRow("mark_stacks", SkillInternalStateType.COUNTER)));
-        when(mapper.insertProcess(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertStep(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertBinding(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertOperation(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.insertCooldown(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(mapper.insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(inv -> {
+            stored = new SkillProcessRow(inv.getArgument(0), inv.getArgument(1), inv.getArgument(2),
+                inv.getArgument(3), inv.getArgument(4), inv.getArgument(5), inv.getArgument(6), TS, TS,
+                inv.getArgument(7), inv.getArgument(8), inv.getArgument(9), inv.getArgument(10));
+            return 1;
+        });
+        when(mapper.updateProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(inv -> {
+            stored = new SkillProcessRow(inv.getArgument(0), inv.getArgument(1), inv.getArgument(2),
+                inv.getArgument(3), inv.getArgument(4), inv.getArgument(5), inv.getArgument(6), TS, TS,
+                inv.getArgument(7), inv.getArgument(8), inv.getArgument(9), inv.getArgument(10));
+            return 1;
+        });
+        when(mapper.findProcess(any(), any(), any())).thenAnswer(inv -> stored);
     }
 
     @Test
@@ -127,14 +128,13 @@ class SkillProcessServiceTest {
         assertField(exception, "effectBindings", "PROCESS_BEHAVIOR_REQUIRED");
         assertField(exception, "stateOperations", "PROCESS_BEHAVIOR_REQUIRED");
         verify(skillMapper, never()).findByIdForUpdate(any(), any());
-        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
         verify(mapper, never()).lockFormulas(any(), any(), any());
         verify(mapper, never()).lockEffects(any(), any(), any());
     }
 
     @Test
     void createsEightStepKindsWithCooldownBindingAndOperation() {
-        stubEightStepAssemble();
         SkillProcessDetailResponse created = service.create(GAME_ID, SKILL_KEY, eightStepCreate());
         assertEquals(8, created.steps().size());
         assertEquals(SkillProcessStepType.IMMEDIATE, created.steps().get(0).stepType());
@@ -152,8 +152,27 @@ class SkillProcessServiceTest {
         assertEquals(1, created.effectBindings().size());
         assertEquals(1, created.stateOperations().size());
         verify(mapper).insertProcess(
-            GAME_ID, SKILL_KEY, PROCESS_KEY, "完整过程", SkillProcessActivationType.ACTIVE, null, 0
+            eq(GAME_ID), eq(SKILL_KEY), eq(PROCESS_KEY), eq("完整过程"), eq(SkillProcessActivationType.ACTIVE), eq(null), eq(0),
+            any(), any(), any(), any()
         );
+        assertEquals(AggregateJson.tree(AggregateJson.write(eightStepCreate().steps())), AggregateJson.tree(stored.stepsJson()));
+        assertEquals(created, service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+    }
+
+    @Test
+    void rejectsCorruptStoredStepDetailAndUnresolvedLocalMoment() {
+        stored = new SkillProcessRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE,
+            null, 0, TS, TS,
+            "[{\"stepKey\":\"cast\",\"name\":\"延迟\",\"stepType\":\"DELAY\",\"sortOrder\":0,\"detail\":{}}]",
+            null, AggregateJson.write(immediateCreate().effectBindings()), "[]");
+        ApiException detail = assertThrows(ApiException.class, () -> service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+        assertEquals("500.INTERNAL_ERROR", detail.getCode());
+        stored = new SkillProcessRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE,
+            null, 0, TS, TS, AggregateJson.write(immediateCreate().steps()), null,
+            AggregateJson.write(List.of(new SkillProcessEffectBindingRequest("hit", EFFECT_KEY,
+                new SkillProcessMoment(SkillProcessMomentType.STEP_COMPLETE, "missing_step"), 0))), "[]");
+        ApiException moment = assertThrows(ApiException.class, () -> service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+        assertEquals("500.INTERNAL_ERROR", moment.getCode());
     }
 
     @Test
@@ -205,7 +224,7 @@ class SkillProcessServiceTest {
         assertField(exception, "effectBindings[0].moment.stepKey", "UNKNOWN_STEP");
         assertField(exception, "stateOperations[0].stateKey", "UNKNOWN_INTERNAL_STATE");
         assertField(exception, "stateOperations[0].optionKey", "UNKNOWN_MODE_OPTION");
-        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -243,20 +262,17 @@ class SkillProcessServiceTest {
         );
         assertEquals("400.INVALID_SKILL_PROCESS_REFERENCE", exception.getCode());
         assertField(exception, "effectBindings[0].moment.stepKey", "UNKNOWN_STEP");
-        verify(mapper, never()).deleteSteps(any(), any(), any(), any());
-        verify(mapper, never()).deleteCooldown(any(), any(), any());
+        verify(mapper, never()).updateProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
-    void updateReplacesAggregateInFrozenDeleteThenInsertOrder() {
+    void updateReplacesCompleteAggregateInOneWrite() {
         when(mapper.findProcessForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(processRow());
         when(mapper.listStepsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
             stepRow("cast", SkillProcessStepType.IMMEDIATE),
             stepRow("windup", SkillProcessStepType.DELAY)
         ));
         when(mapper.listOperationsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of());
-        when(mapper.updateProcess(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        stubImmediateAssemble();
 
         service.update(
             GAME_ID,
@@ -275,21 +291,12 @@ class SkillProcessServiceTest {
             )
         );
 
-        InOrder order = inOrder(mapper);
-        order.verify(mapper).deleteCooldown(GAME_ID, SKILL_KEY, PROCESS_KEY);
-        order.verify(mapper).deleteAllBindings(GAME_ID, SKILL_KEY, PROCESS_KEY);
-        order.verify(mapper).deleteAllOperations(GAME_ID, SKILL_KEY, PROCESS_KEY);
-        order.verify(mapper).deleteSteps(GAME_ID, SKILL_KEY, PROCESS_KEY, List.of("windup"));
-        order.verify(mapper).updateStep(
-            GAME_ID, SKILL_KEY, PROCESS_KEY, "cast", "立即", null, 0
-        );
-        order.verify(mapper).insertBinding(
-            GAME_ID, SKILL_KEY, PROCESS_KEY, "hit", EFFECT_KEY,
-            SkillProcessMomentType.PROCESS_START, null, 0
-        );
-        order.verify(mapper).updateProcess(
-            GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE, null, 1
-        );
+        verify(mapper).updateProcess(eq(GAME_ID), eq(SKILL_KEY), eq(PROCESS_KEY), eq("施放"),
+            eq(SkillProcessActivationType.ACTIVE), eq(null), eq(1), any(), eq(null), any(), any());
+        assertEquals(1, AggregateJson.tree(stored.stepsJson()).size());
+        assertEquals("cast", AggregateJson.tree(stored.stepsJson()).get(0).get("stepKey").asText());
+        assertNull(stored.cooldownJson());
+        assertEquals("[]", stored.stateOperationsJson());
     }
 
     @Test
@@ -344,20 +351,20 @@ class SkillProcessServiceTest {
         assertEquals("400.VALIDATION_FAILED", exception.getCode());
         assertField(exception, "steps[0].stepType", "IMMUTABLE");
         assertField(exception, "stateOperations[0].operation", "IMMUTABLE");
-        verify(mapper, never()).deleteAllBindings(any(), any(), any());
+        verify(mapper, never()).updateProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void createRollsBackWhenInsertFails() {
         when(mapper.countByKey(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(0L);
-        when(mapper.insertBinding(any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenThrow(new DataIntegrityViolationException("violates fk_skill_process_effect_bindings_effect"));
+        when(mapper.insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenThrow(new DataIntegrityViolationException("root_write_failed"));
 
         assertThrows(
             DataIntegrityViolationException.class,
             () -> service.create(GAME_ID, SKILL_KEY, immediateCreate())
         );
-        verify(mapper).insertProcess(any(), any(), any(), any(), any(), any(), any());
+        verify(mapper).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
         verify(mapper, never()).findProcess(any(), any(), any());
     }
 
@@ -390,14 +397,14 @@ class SkillProcessServiceTest {
         );
         assertEquals("400.INVALID_BODY", exception.getCode());
         assertField(exception, "steps[0].detail.delayFormulaKey", "FIELD_MUTEX");
-        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void triggerRuleProtectsProcessDeleteStepRemovalAndCycleWithLongConstructor() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillProcessService guarded = new SkillProcessService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        SkillProcessService guarded = new SkillProcessService(gamesMapper, skillMapper, mapper, triggerRuleService, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(mapper.findProcessForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(processRow());
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
@@ -442,8 +449,6 @@ class SkillProcessServiceTest {
             "触发规则存在未受保护的循环",
             Map.of()
         )).when(triggerRuleService).assertCurrentSkillCycle(GAME_ID, SKILL_KEY);
-        when(mapper.updateProcess(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        stubImmediateAssemble();
         ApiException cycle = assertThrows(
             ApiException.class,
             () -> guarded.update(
@@ -520,83 +525,6 @@ class SkillProcessServiceTest {
         );
     }
 
-    private void stubEightStepAssemble() {
-        when(mapper.findProcess(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(processRow());
-        when(mapper.listSteps(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            stepRow("cast", SkillProcessStepType.IMMEDIATE),
-            stepRow("delay", SkillProcessStepType.DELAY),
-            stepRow("multi", SkillProcessStepType.MULTI_HIT),
-            stepRow("tick", SkillProcessStepType.PERIODIC),
-            stepRow("channel", SkillProcessStepType.CHANNEL),
-            stepRow("charge", SkillProcessStepType.CHARGE),
-            stepRow("recast", SkillProcessStepType.RECAST),
-            stepRow("empower", SkillProcessStepType.EMPOWERED_BASIC_ATTACK)
-        ));
-        when(mapper.listDelayDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessDelayStepDetailRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "delay", FORMULA_KEY)
-        ));
-        when(mapper.listMultiHitDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessMultiHitStepDetailRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "multi", FORMULA_KEY, null)
-        ));
-        when(mapper.listPeriodicDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessPeriodicStepDetailRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "tick", FORMULA_KEY, FORMULA_KEY,
-                SkillProcessFirstExecution.IMMEDIATE
-            )
-        ));
-        when(mapper.listChannelDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessChannelStepDetailRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "channel", FORMULA_KEY, FORMULA_KEY,
-                SkillProcessFirstExecution.AFTER_INTERVAL
-            )
-        ));
-        when(mapper.listChargeDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessChargeStepDetailRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "charge", FORMULA_KEY, FORMULA_KEY, true
-            )
-        ));
-        when(mapper.listRecastDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessRecastStepDetailRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "recast", FORMULA_KEY, FORMULA_KEY)
-        ));
-        when(mapper.listEmpoweredDetails(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new SkillProcessEmpoweredAttackStepDetailRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "empower", FORMULA_KEY,
-                SkillProcessEmpoweredConsumeMoment.ATTACK_HIT
-            )
-        ));
-        when(mapper.listBindings(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "hit", EFFECT_KEY,
-                SkillProcessMomentType.PROCESS_START, null, 0
-            )
-        ));
-        when(mapper.listOperations(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "add_mark", "叠层", "mark_stacks",
-                SkillProcessStateOperationKind.INCREASE, FORMULA_KEY, null,
-                SkillProcessMomentType.PROCESS_START, null, 0
-            )
-        ));
-        when(mapper.findCooldown(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(
-            new xyz.game.datamanage.model.skillprocess.SkillProcessCooldownRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, FORMULA_KEY, SkillProcessMomentType.PROCESS_COMPLETE, null
-            )
-        );
-    }
-
-    private void stubImmediateAssemble() {
-        when(mapper.findProcess(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(processRow());
-        when(mapper.listSteps(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            stepRow("cast", SkillProcessStepType.IMMEDIATE)
-        ));
-        when(mapper.listBindings(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
-            new xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "hit", EFFECT_KEY,
-                SkillProcessMomentType.PROCESS_START, null, 0
-            )
-        ));
-    }
-
     private static SkillProcessCreateRequest immediateCreate() {
         return new SkillProcessCreateRequest(
             PROCESS_KEY,
@@ -632,7 +560,9 @@ class SkillProcessServiceTest {
 
     private static SkillProcessRow processRow() {
         return new SkillProcessRow(
-            GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE, null, 0, TS, TS
+            GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE, null, 0, TS, TS,
+            AggregateJson.write(immediateCreate().steps()), null,
+            AggregateJson.write(immediateCreate().effectBindings()), "[]"
         );
     }
 

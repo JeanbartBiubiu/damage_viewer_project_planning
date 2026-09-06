@@ -62,7 +62,7 @@
 
     <select id="countFormulaReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_formula_nodes
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaNodes"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND parameter_key = #{parameterKey}
     </select>
 

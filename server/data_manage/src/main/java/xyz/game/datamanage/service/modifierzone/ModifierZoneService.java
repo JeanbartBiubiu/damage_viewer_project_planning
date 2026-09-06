@@ -29,6 +29,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class ModifierZoneService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_modifier_zones";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_modifier_zones_name";
@@ -36,9 +38,13 @@ public class ModifierZoneService {
     private final GamesMapper gamesMapper;
     private final ModifierZoneMapper mapper;
 
-    public ModifierZoneService(GamesMapper gamesMapper, ModifierZoneMapper mapper) {
+    public ModifierZoneService(GamesMapper gamesMapper, ModifierZoneMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -79,6 +85,7 @@ public class ModifierZoneService {
 
     @Transactional
     public ModifierZoneResponse create(String gameId, @Valid ModifierZoneCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreate(request);
         if (mapper.countByKey(gameId, request.modifierZoneKey()) > 0) {
@@ -111,6 +118,7 @@ public class ModifierZoneService {
         String modifierZoneKey,
         @Valid ModifierZoneUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
         ModifierZoneResponse current = mapper.findByIdForUpdate(gameId, modifierZoneKey);
@@ -145,6 +153,7 @@ public class ModifierZoneService {
 
     @Transactional
     public void delete(String gameId, String modifierZoneKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, modifierZoneKey) == null) {
             throw notFound(modifierZoneKey);

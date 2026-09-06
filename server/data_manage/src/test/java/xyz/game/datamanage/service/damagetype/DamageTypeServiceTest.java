@@ -37,7 +37,7 @@ class DamageTypeServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new DamageTypeService(gamesMapper, mapper);
+        service = new DamageTypeService(gamesMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 

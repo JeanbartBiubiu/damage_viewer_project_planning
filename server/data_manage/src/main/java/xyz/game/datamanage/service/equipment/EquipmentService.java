@@ -36,6 +36,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class EquipmentService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern EQUIPMENT_KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_equipment";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_equipment_name";
@@ -49,12 +51,15 @@ public class EquipmentService {
         GamesMapper gamesMapper,
         EquipmentMapper equipmentMapper,
         ObjectMapper objectMapper,
-        ImageRelationMapper imageRelationMapper
+        ImageRelationMapper imageRelationMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.equipmentMapper = equipmentMapper;
         this.objectMapper = objectMapper;
         this.imageRelationMapper = imageRelationMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -74,6 +79,7 @@ public class EquipmentService {
 
     @Transactional
     public EquipmentResponse create(String gameId, @Valid EquipmentCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreateRequest(request);
         if (equipmentMapper.countByKey(gameId, request.equipmentKey()) > 0) {
@@ -102,6 +108,7 @@ public class EquipmentService {
         String equipmentKey,
         @Valid EquipmentUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdateRequest(request);
         if (equipmentMapper.findByIdForUpdate(gameId, equipmentKey) == null) {
@@ -127,6 +134,7 @@ public class EquipmentService {
 
     @Transactional
     public void delete(String gameId, String equipmentKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (equipmentMapper.deleteEquipment(gameId, equipmentKey) == 0) {
             throw equipmentNotFound(equipmentKey);
@@ -149,6 +157,7 @@ public class EquipmentService {
         String equipmentKey,
         @Valid EquipmentAttributesRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (equipmentMapper.findByIdForUpdate(gameId, equipmentKey) == null) {
             throw equipmentNotFound(equipmentKey);

@@ -3,14 +3,12 @@ package xyz.game.datamanage.service.skilltrigger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.EFFECT_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.GAME_ID;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.PROCESS_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.RESULT_KEY;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.SKILL_KEY;
-import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.assertCode;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.assertField;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.emptyEventExecute;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.executeAction;
@@ -19,7 +17,6 @@ import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSuppo
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.processStart;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.resultAvailable;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.rule;
-import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubAssembleExecuteEffect;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.stubParentAndCatalogs;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.thrown;
 
@@ -48,11 +45,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventDe
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind;
@@ -60,7 +54,6 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
@@ -96,7 +89,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             SkillTriggerEventType.CONTROL_RECEIVED,
             SkillTriggerEventType.KILL
         )) {
-            stubAssembleExecuteEffect(mapper, type.name().toLowerCase(), type.name(), type, "deal", EFFECT_KEY);
             service.create(GAME_ID, SKILL_KEY, emptyEventExecute(type.name().toLowerCase(), type, "deal", EFFECT_KEY));
             ApiException invalid = thrown(() -> service.create(
                 GAME_ID,
@@ -118,12 +110,6 @@ class SkillTriggerRuleEventShapeServiceTest {
 
     @Test
     void skillUsedRequiresUseKindAndSkillHitForbidsIt() {
-        stubAssembleExecuteEffect(mapper, "used", "used", SkillTriggerEventType.SKILL_USED, "deal", EFFECT_KEY);
-        when(mapper.findSkillEvent(GAME_ID, SKILL_KEY, "used")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventRow(
-                GAME_ID, SKILL_KEY, "used", SKILL_KEY, SkillTriggerEventUseKind.ACTIVE
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -136,7 +122,9 @@ class SkillTriggerRuleEventShapeServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         );
-        verify(mapper).insertSkillEvent(GAME_ID, SKILL_KEY, "used", SKILL_KEY, "ACTIVE");
+
+        assertEquals(new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE),
+            service.get(GAME_ID, SKILL_KEY, "used").eventSource().detail());
 
         ApiException missingKind = thrown(() -> service.create(
             GAME_ID,
@@ -169,19 +157,6 @@ class SkillTriggerRuleEventShapeServiceTest {
 
     @Test
     void spellShieldBlockedRequiresPersistentSpellShieldEffect() {
-        stubAssembleExecuteEffect(
-            mapper,
-            "shield_blocked",
-            "shield_blocked",
-            SkillTriggerEventType.SPELL_SHIELD_BLOCKED,
-            "deal",
-            EFFECT_KEY
-        );
-        when(mapper.findSpellShieldBlockedEvent(GAME_ID, SKILL_KEY, "shield_blocked")).thenReturn(
-            new SkillTriggerSpellShieldBlockedEventRow(
-                GAME_ID, SKILL_KEY, "shield_blocked", EFFECT_KEY
-            )
-        );
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "spell_shield", SkillEffectResultType.SPELL_SHIELD,
@@ -206,10 +181,8 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         );
 
-        verify(mapper).insertSpellShieldBlockedEvent(
-            GAME_ID, SKILL_KEY, "shield_blocked", EFFECT_KEY
-        );
-
+        assertEquals(new SkillTriggerSpellShieldBlockedEventDetail(EFFECT_KEY),
+            service.get(GAME_ID, SKILL_KEY, "shield_blocked").eventSource().detail());
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)
         ));
@@ -234,10 +207,6 @@ class SkillTriggerRuleEventShapeServiceTest {
 
     @Test
     void processResultLifecycleStatusHealthInternalAndSubjectHaveValidAndInvalidShapes() {
-        stubAssembleExecuteEffect(mapper, "proc", "proc", SkillTriggerEventType.PROCESS_MOMENT, "deal", EFFECT_KEY);
-        when(mapper.findProcessEvent(GAME_ID, SKILL_KEY, "proc")).thenReturn(
-            new SkillTriggerProcessEventRow(GAME_ID, SKILL_KEY, "proc", PROCESS_KEY, "PROCESS_START", null)
-        );
         service.create(GAME_ID, SKILL_KEY, rule("proc", processStart(PROCESS_KEY), List.of(executeAction("deal", EFFECT_KEY))));
 
         assertField(
@@ -256,10 +225,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             "REQUIRED"
         );
 
-        stubAssembleExecuteEffect(mapper, "cancel", "cancel", SkillTriggerEventType.PROCESS_CANCEL_REQUESTED, "deal", EFFECT_KEY);
-        when(mapper.findProcessEvent(GAME_ID, SKILL_KEY, "cancel")).thenReturn(
-            new SkillTriggerProcessEventRow(GAME_ID, SKILL_KEY, "cancel", PROCESS_KEY, null, null)
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -273,12 +238,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         );
 
-        stubAssembleExecuteEffect(mapper, "result", "result", SkillTriggerEventType.RESULT_AVAILABLE, "deal", EFFECT_KEY);
-        when(mapper.findResultEvent(GAME_ID, SKILL_KEY, "result")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventRow(
-                GAME_ID, SKILL_KEY, "result", EFFECT_KEY, RESULT_KEY
-            )
-        );
         service.create(
             GAME_ID, SKILL_KEY,
             rule("result", resultAvailable(EFFECT_KEY, RESULT_KEY), List.of(executeAction("deal", EFFECT_KEY)))
@@ -299,13 +258,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             "REQUIRED"
         );
 
-        stubAssembleExecuteEffect(mapper, "life", "life", SkillTriggerEventType.LIFECYCLE_MOMENT, "deal", EFFECT_KEY);
-        when(mapper.findLifecycleEvent(GAME_ID, SKILL_KEY, "life")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow(
-                GAME_ID, SKILL_KEY, "life", EFFECT_KEY,
-                xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment.FULL_STACKS
-            )
-        );
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.lifecycleShape(
                 EFFECT_KEY, RESULT_KEY, "duration_f", null,
@@ -332,13 +284,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             "REQUIRED"
         );
 
-        stubAssembleExecuteEffect(mapper, "status", "status", SkillTriggerEventType.STATUS_CHANGED, "deal", EFFECT_KEY);
-        when(mapper.findStatusEvent(GAME_ID, SKILL_KEY, "status")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventRow(
-                GAME_ID, SKILL_KEY, "status", SkillTriggerSubject.EVENT_SOURCE, "poison",
-                SkillTriggerStatusChangeKind.APPLY
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -367,15 +312,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             "REQUIRED"
         );
 
-        stubAssembleExecuteEffect(
-            mapper, "health", "health", SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, "deal", EFFECT_KEY
-        );
-        when(mapper.findHealthEvent(GAME_ID, SKILL_KEY, "health")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventRow(
-                GAME_ID, SKILL_KEY, "health", SkillTriggerSubject.SOURCE, "hp", "threshold_f",
-                SkillTriggerHealthDirection.DOWNWARD
-            )
-        );
         service.create(GAME_ID, SKILL_KEY, rule("health", healthDown(), List.of(executeAction("deal", EFFECT_KEY))));
         ApiException healthSource = thrown(() -> service.create(
             GAME_ID,
@@ -394,14 +330,6 @@ class SkillTriggerRuleEventShapeServiceTest {
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", healthSource.getCode());
         assertField(healthSource, "eventSource.detail.subject", "EVENT_SOURCE_NOT_AVAILABLE");
 
-        stubAssembleExecuteEffect(
-            mapper, "istate", "istate", SkillTriggerEventType.INTERNAL_STATE_CHANGED, "deal", EFFECT_KEY
-        );
-        when(mapper.findInternalStateEvent(GAME_ID, SKILL_KEY, "istate")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventRow(
-                GAME_ID, SKILL_KEY, "istate", "flag", SkillTriggerInternalStateChangeKind.FLAG_CHANGED
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -430,12 +358,6 @@ class SkillTriggerRuleEventShapeServiceTest {
             "REQUIRED"
         );
 
-        stubAssembleExecuteEffect(mapper, "died", "died", SkillTriggerEventType.ENTITY_DIED, "deal", EFFECT_KEY);
-        when(mapper.findSubjectEvent(GAME_ID, SKILL_KEY, "died")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow(
-                GAME_ID, SKILL_KEY, "died", SkillTriggerSubject.SOURCE
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -461,14 +383,6 @@ class SkillTriggerRuleEventShapeServiceTest {
         ));
         assertField(diedSource, "eventSource.detail.subject", "EVENT_SOURCE_NOT_AVAILABLE");
 
-        stubAssembleExecuteEffect(
-            mapper, "untarget", "untarget", SkillTriggerEventType.ENTITY_UNTARGETABLE, "deal", EFFECT_KEY
-        );
-        when(mapper.findSubjectEvent(GAME_ID, SKILL_KEY, "untarget")).thenReturn(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow(
-                GAME_ID, SKILL_KEY, "untarget", SkillTriggerSubject.CURRENT_TARGET
-            )
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -502,12 +416,6 @@ class SkillTriggerRuleEventShapeServiceTest {
 
     @Test
     void hitAndAttackLinkEventsAcceptNullableSourceSkillAndRejectEventSource() {
-        stubAssembleExecuteEffect(
-            mapper, "hit_link", "hit_link", SkillTriggerEventType.HIT_LINK_APPLIED, "deal", EFFECT_KEY
-        );
-        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "hit_link")).thenReturn(
-            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "hit_link", null)
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -520,14 +428,7 @@ class SkillTriggerRuleEventShapeServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         );
-        verify(mapper).insertLinkEvent(GAME_ID, SKILL_KEY, "hit_link", null);
 
-        stubAssembleExecuteEffect(
-            mapper, "attack_link", "attack_link", SkillTriggerEventType.ATTACK_LINK_APPLIED, "deal", EFFECT_KEY
-        );
-        when(mapper.findLinkEvent(GAME_ID, SKILL_KEY, "attack_link")).thenReturn(
-            new SkillTriggerLinkEventRow(GAME_ID, SKILL_KEY, "attack_link", SKILL_KEY)
-        );
         service.create(
             GAME_ID,
             SKILL_KEY,
@@ -540,7 +441,6 @@ class SkillTriggerRuleEventShapeServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         );
-        verify(mapper).insertLinkEvent(GAME_ID, SKILL_KEY, "attack_link", SKILL_KEY);
 
         ApiException eventSource = thrown(() -> service.create(
             GAME_ID,

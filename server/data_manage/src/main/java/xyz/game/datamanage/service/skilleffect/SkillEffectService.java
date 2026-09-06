@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilleffect;
 
 import jakarta.validation.Valid;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,33 +28,22 @@ import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation;
@@ -63,45 +53,30 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
-import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorResponse;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
@@ -111,6 +86,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Service
 @Validated
 public class SkillEffectService {
+
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
     private static final Logger log = LoggerFactory.getLogger(SkillEffectService.class);
     private static final Pattern STABLE_KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
@@ -143,13 +120,16 @@ public class SkillEffectService {
         SkillMapper skillMapper,
         SkillEffectMapper mapper,
         SkillTriggerRuleService triggerRuleService,
-        ImageRelationMapper imageRelationMapper
+        ImageRelationMapper imageRelationMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
         this.imageRelationMapper = imageRelationMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -173,6 +153,7 @@ public class SkillEffectService {
         String skillKey,
         @Valid SkillEffectCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedEffect values = validateCreate(request);
         lockParentSkill(gameId, skillKey);
@@ -195,10 +176,10 @@ public class SkillEffectService {
                 values.effectKey(),
                 values.name(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                SkillEffectAggregate.writeResults(values.results()),
+                values.lifecycle() == null ? null : AggregateJson.write(values.lifecycle())
             );
-            insertLifecycleIfPresent(gameId, skillKey, values.effectKey(), values.lifecycle());
-            insertResults(gameId, skillKey, values.effectKey(), values.results());
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex, false, false);
         }
@@ -212,16 +193,20 @@ public class SkillEffectService {
         String effectKey,
         @Valid SkillEffectUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedEffect values = validateUpdate(request, effectKey);
         lockParentSkill(gameId, skillKey);
-        if (mapper.findEffectForUpdate(gameId, skillKey, effectKey) == null) {
+        SkillEffectRow existingEffect = mapper.findEffectForUpdate(gameId, skillKey, effectKey);
+        if (existingEffect == null) {
             throw effectNotFound(effectKey);
         }
-        List<SkillEffectResultRow> existingRows = nullToEmpty(
-            mapper.listResultsForUpdate(gameId, skillKey, effectKey)
-        );
-        SkillEffectLifecycleRow existingLifecycle = mapper.findLifecycleForUpdate(gameId, skillKey, effectKey);
+        List<SkillEffectResultRequest> existingResults = SkillEffectAggregate.readResults(existingEffect.results());
+        List<SkillEffectResultRow> existingRows = existingResults.stream().map(result -> new SkillEffectResultRow(
+            gameId, skillKey, effectKey, result.resultKey(), result.name(), result.resultType(),
+            result.target(), result.description(), result.sortOrder()
+        )).toList();
+        SkillEffectLifecycleRow existingLifecycle = SkillEffectAggregate.lifecycleRow(existingEffect);
         Map<String, SkillEffectResultRow> existingByKey = indexExistingResults(existingRows);
         List<Map<String, String>> typeIssues = new ArrayList<>();
         for (int i = 0; i < values.results().size(); i++) {
@@ -270,11 +255,11 @@ public class SkillEffectService {
             throw refreshInUse();
         }
 
-        ExistingCatalog existingCatalog = loadExistingCatalog(gameId, skillKey, effectKey, existingRows);
+        Map<String, RetainedCatalog> retained = loadRetainedCatalog(existingResults);
         CollectedRefs refs = collectAndValidateResults(
             values.lifecycle(),
             values.results(),
-            existingCatalog.retained,
+            retained,
             skillKey,
             effectKey,
             existingLifecycle == null ? null : existingLifecycle.instanceScope()
@@ -282,35 +267,15 @@ public class SkillEffectService {
         lockAndValidateCatalogs(gameId, skillKey, effectKey, refs);
 
         try {
-            persistLifecycle(gameId, skillKey, effectKey, existingLifecycle, values.lifecycle());
-            if (!removedKeys.isEmpty()) {
-                mapper.deleteLifecycleBehaviors(gameId, skillKey, effectKey, removedKeys);
-                mapper.deleteLifecycleOperationDetails(gameId, skillKey, effectKey, removedKeys);
-                mapper.deleteResults(gameId, skillKey, effectKey, removedKeys);
-            }
-            Set<String> existingBehaviorKeys = existingCatalog.behaviors.keySet();
-            for (SkillEffectResultRequest result : values.results()) {
-                if (existingByKey.containsKey(result.resultKey())) {
-                    updateResultAggregate(
-                        gameId,
-                        skillKey,
-                        effectKey,
-                        result,
-                        existingCatalog.values.containsKey(result.resultKey()),
-                        existingBehaviorKeys.contains(result.resultKey()),
-                        existingCatalog.spellShieldPolicies.containsKey(result.resultKey())
-                    );
-                } else {
-                    insertResultAggregate(gameId, skillKey, effectKey, result);
-                }
-            }
             if (mapper.updateEffect(
                 gameId,
                 skillKey,
                 effectKey,
                 values.name(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                SkillEffectAggregate.writeResults(values.results()),
+                values.lifecycle() == null ? null : AggregateJson.write(values.lifecycle())
             ) == 0) {
                 throw effectNotFound(effectKey);
             }
@@ -325,6 +290,7 @@ public class SkillEffectService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String effectKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockParentSkill(gameId, skillKey);
         if (mapper.findEffectForUpdate(gameId, skillKey, effectKey) == null) {
@@ -363,500 +329,34 @@ public class SkillEffectService {
     }
 
     private SkillEffectDetailResponse assembleDetail(SkillEffectRow effect) {
-        String gameId = effect.gameId();
-        String skillKey = effect.skillKey();
-        String effectKey = effect.effectKey();
-        List<SkillEffectResultRow> results = nullToEmpty(mapper.listResults(gameId, skillKey, effectKey));
-        Map<String, SkillEffectResultValueRow> values = indexValues(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listValues(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectDamageDetailRow> damage = indexDamage(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listDamageDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies = indexSpellShieldPolicies(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listSpellShieldPolicies(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectCriticalPolicyRow> criticalPolicies = indexCriticalPolicies(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listCriticalPolicies(gameId, skillKey, effectKey)
-        );
-        Map<String, List<SkillEffectVampRuleRow>> vampRules = indexVampRules(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listVampRules(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectNormalShieldInteractionRow> normalShields = indexNormalShieldInteractions(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers = indexDamageModifiers(
-            gameId, skillKey, effectKey, mapper.listDamageModifierDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers = indexHealingModifiers(
-            gameId, skillKey, effectKey, mapper.listHealingModifierDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities = indexDamageImmunities(
-            gameId, skillKey, effectKey, mapper.listDamageImmunityDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectHealthFloorDetailRow> healthFloors = indexHealthFloors(
-            gameId, skillKey, effectKey, mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectExecuteDetailRow> executes = indexExecuteDetails(
-            gameId, skillKey, effectKey, mapper.listExecuteDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listAttributeChangeDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectResourceChangeDetailRow> resources = indexResourceChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listResourceChangeDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectCooldownChangeDetailRow> cooldowns = indexCooldownChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listCooldownChangeDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectSkillScopeRow> skillScopes = indexSkillScopes(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listSkillScopes(gameId, skillKey, effectKey)
-        );
-        Map<String, List<String>> skillTargets = indexSkillTargets(
-            mapper.listSkillTargets(gameId, skillKey, effectKey)
-        );
-        Map<String, List<String>> skillCategoryTargets = indexSkillCategoryTargets(
-            mapper.listSkillCategoryTargets(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectHasteModifierDetailRow> hasteModifiers = indexHasteModifiers(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listHasteModifierDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listStatusOperationDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectLifecycleOperationDetailRow> operations = indexLifecycleOperations(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listLifecycleOperationDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors = indexLifecycleBehaviors(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listLifecycleBehaviors(gameId, skillKey, effectKey)
-        );
-        SkillEffectLifecycleRow lifecycleRow = mapper.findLifecycle(gameId, skillKey, effectKey);
-
-        List<SkillEffectResultResponse> assembled = new ArrayList<>(results.size());
-        for (SkillEffectResultRow result : results) {
-            assembled.add(assembleResult(
-                gameId,
-                skillKey,
-                effectKey,
-                result,
-                values,
-                damage,
-                spellShieldPolicies,
-                criticalPolicies,
-                vampRules,
-                normalShields,
-                damageModifiers,
-                healingModifiers,
-                damageImmunities,
-                healthFloors,
-                executes,
-                attributes,
-                resources,
-                cooldowns,
-                skillScopes,
-                skillTargets,
-                skillCategoryTargets,
-                hasteModifiers,
-                statuses,
-                operations,
-                behaviors
-            ));
-        }
-        return new SkillEffectDetailResponse(
-            effect.gameId(),
-            effect.skillKey(),
-            effect.effectKey(),
-            effect.name(),
-            effect.description(),
-            effect.sortOrder(),
-            toLifecycleResponse(lifecycleRow),
-            List.copyOf(assembled),
-            effect.createdAt(),
-            effect.updatedAt()
-        );
-    }
-
-    private SkillEffectResultResponse assembleResult(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRow result,
-        Map<String, SkillEffectResultValueRow> values,
-        Map<String, SkillEffectDamageDetailRow> damage,
-        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies,
-        Map<String, SkillEffectCriticalPolicyRow> criticalPolicies,
-        Map<String, List<SkillEffectVampRuleRow>> vampRules,
-        Map<String, SkillEffectNormalShieldInteractionRow> normalShields,
-        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers,
-        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers,
-        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities,
-        Map<String, SkillEffectHealthFloorDetailRow> healthFloors,
-        Map<String, SkillEffectExecuteDetailRow> executes,
-        Map<String, SkillEffectAttributeChangeDetailRow> attributes,
-        Map<String, SkillEffectResourceChangeDetailRow> resources,
-        Map<String, SkillEffectCooldownChangeDetailRow> cooldowns,
-        Map<String, SkillEffectSkillScopeRow> skillScopes,
-        Map<String, List<String>> skillTargets,
-        Map<String, List<String>> skillCategoryTargets,
-        Map<String, SkillEffectHasteModifierDetailRow> hasteModifiers,
-        Map<String, SkillEffectStatusOperationDetailRow> statuses,
-        Map<String, SkillEffectLifecycleOperationDetailRow> operations,
-        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors
-    ) {
-        String resultKey = result.resultKey();
-        SkillEffectResultValueRow value = values.get(resultKey);
-        SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
-        SkillEffectSpellShieldPolicyRow spellShieldPolicy = spellShieldPolicies.get(resultKey);
-        SkillEffectCriticalPolicyRow criticalRow = criticalPolicies.get(resultKey);
-        List<SkillEffectVampRuleRow> vampRows = vampRules.getOrDefault(resultKey, List.of());
-        SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
-        SkillEffectDamageModifierDetailRow damageModifierRow = damageModifiers.get(resultKey);
-        SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
-        SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
-        SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
-        SkillEffectExecuteDetailRow executeRow = executes.get(resultKey);
-        SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
-        SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
-        SkillEffectCooldownChangeDetailRow cooldownRow = cooldowns.get(resultKey);
-        SkillEffectSkillScopeRow skillScopeRow = skillScopes.get(resultKey);
-        List<String> affectedSkillKeys = skillTargets.getOrDefault(resultKey, List.of());
-        List<String> skillCategoryKeys = skillCategoryTargets.getOrDefault(resultKey, List.of());
-        SkillEffectHasteModifierDetailRow hasteRow = hasteModifiers.get(resultKey);
-        SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
-        SkillEffectLifecycleOperationDetailRow operationRow = operations.get(resultKey);
-        int extraDetails = countPresent(
-            damageRow,
-            normalShieldRow,
-            damageModifierRow,
-            healingModifierRow,
-            damageImmunityRow,
-            healthFloorRow,
-            executeRow,
-            attributeRow,
-            resourceRow,
-            cooldownRow,
-            hasteRow,
-            statusRow,
-            operationRow
-        );
-        SkillEffectResultType type = result.resultType();
-        if (type == null) {
-            throw corrupt(gameId, skillKey, effectKey, resultKey, "结果种类缺失");
-        }
-        if (type != SkillEffectResultType.COOLDOWN_CHANGE
-            && type != SkillEffectResultType.SKILL_HASTE_MODIFIER
-            && (skillScopeRow != null || !affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty())) {
-            throw corrupt(gameId, skillKey, effectKey, resultKey, "结果携带了不允许的技能范围");
-        }
-        if (type != SkillEffectResultType.DAMAGE && (criticalRow != null || !vampRows.isEmpty())) {
-            throw corrupt(gameId, skillKey, effectKey, resultKey, "非伤害结果存在暴击或吸血明细");
-        }
-        AssembledResultPayload payload = switch (type) {
-            case DAMAGE -> {
-                if (value == null || damageRow == null || criticalRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害结果形状损坏");
-                }
-                List<SkillEffectVampRule> assembledVampRules = vampRows.stream()
-                    .map(row -> new SkillEffectVampRule(
-                        row.vampType(),
-                        row.basisOutputKind(),
-                        row.efficiencyFormulaKey()
-                    ))
-                    .toList();
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectDamageDetail(
-                        damageRow.damageTypeKey(),
-                        damageRow.deliveryKind(),
-                        damageRow.originKind(),
-                        new SkillEffectCriticalPolicy(
-                            criticalRow.criticalMode(),
-                            criticalRow.multiplierFormulaKey()
-                        ),
-                        assembledVampRules
-                    )
-                );
-            }
-            case DIRECT_HEAL -> {
-                if (value == null || extraDetails != 0) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "直接治疗结果形状损坏");
-                }
-                yield new AssembledResultPayload(toValueRule(value), new SkillEffectDirectHealDetail());
-            }
-            case NORMAL_SHIELD -> {
-                if (value == null || normalShieldRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "普通护盾结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectNormalShieldDetail(
-                        normalShieldRow.absorbedDamageTypeKey(),
-                        normalShieldRow.decayMode()
-                    )
-                );
-            }
-            case ATTRIBUTE_CHANGE -> {
-                if (value == null || attributeRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "属性变化结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectAttributeChangeDetail(
-                        attributeRow.attributeKey(),
-                        attributeRow.operation(),
-                        attributeRow.modifierZoneKey()
-                    )
-                );
-            }
-            case RESOURCE_CHANGE -> {
-                if (value == null || resourceRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "资源变化结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectResourceChangeDetail(
-                        resourceRow.attributeKey(),
-                        resourceRow.operation()
-                    )
-                );
-            }
-            case COOLDOWN_CHANGE -> {
-                SkillEffectAffectedSkillScope scope = assembleSkillScope(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    resultKey,
-                    skillScopeRow,
-                    affectedSkillKeys,
-                    skillCategoryKeys
-                );
-                if (cooldownRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化结果形状损坏");
-                }
-                SkillEffectCooldownChangeOperation operation = cooldownRow.operation();
-                if (operation == SkillEffectCooldownChangeOperation.RESET) {
-                    if (value != null) {
-                        throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却重置不得有数值规则");
+        List<SkillEffectResultRequest> results = List.of();
+        try {
+            results = SkillEffectAggregate.readResults(effect.results());
+            SkillEffectLifecycleRequest lifecycle = effect.lifecycle() == null ? null
+                : AggregateJson.read(effect.lifecycle(), SkillEffectLifecycleRequest.class);
+            collectAndValidateResults(lifecycle, results, Map.of(), effect.skillKey(), effect.effectKey(), null);
+            return new SkillEffectDetailResponse(
+                effect.gameId(), effect.skillKey(), effect.effectKey(), effect.name(), effect.description(),
+                effect.sortOrder(), SkillEffectAggregate.lifecycleResponse(lifecycle),
+                results.stream().map(SkillEffectAggregate::resultResponse).toList(), effect.createdAt(), effect.updatedAt()
+            );
+        } catch (RuntimeException ex) {
+            String resultKey = null;
+            if (ex instanceof ApiException invalid && invalid.getDetails().get("fieldIssues") instanceof List<?> issues) {
+                for (Object issue : issues) {
+                    if (!(issue instanceof Map<?, ?> fields) || !(fields.get("field") instanceof String field)) continue;
+                    var resultPath = Pattern.compile("^results\\[(\\d+)](?:\\.|$)").matcher(field);
+                    if (resultPath.find()) {
+                        int index = Integer.parseInt(resultPath.group(1));
+                        if (index < results.size() && results.get(index) != null) {
+                            resultKey = results.get(index).resultKey();
+                            break;
+                        }
                     }
-                    yield new AssembledResultPayload(
-                        null,
-                        new SkillEffectCooldownChangeDetail(scope, operation)
-                    );
                 }
-                if (operation == SkillEffectCooldownChangeOperation.REDUCE
-                    || operation == SkillEffectCooldownChangeOperation.INCREASE) {
-                    if (value == null) {
-                        throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却增减缺少数值规则");
-                    }
-                    yield new AssembledResultPayload(
-                        toValueRule(value),
-                        new SkillEffectCooldownChangeDetail(scope, operation)
-                    );
-                }
-                throw corrupt(gameId, skillKey, effectKey, resultKey, "冷却变化操作损坏");
             }
-            case STATUS_OPERATION -> {
-                if (value != null || statusRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "状态操作结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    null,
-                    new SkillEffectStatusOperationDetail(statusRow.statusKey(), statusRow.operation())
-                );
-            }
-            case LIFECYCLE_OPERATION -> {
-                if (operationRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期操作结果形状损坏");
-                }
-                SkillEffectLifecycleOperation operation = operationRow.operation();
-                if (operation == SkillEffectLifecycleOperation.REFRESH
-                    || operation == SkillEffectLifecycleOperation.REMOVE) {
-                    if (value != null) {
-                        throw corrupt(gameId, skillKey, effectKey, resultKey, "刷新或移除不得有数值规则");
-                    }
-                    yield new AssembledResultPayload(
-                        null,
-                        new SkillEffectLifecycleOperationDetail(operationRow.targetEffectKey(), operation)
-                    );
-                }
-                if (operation == SkillEffectLifecycleOperation.INCREASE
-                    || operation == SkillEffectLifecycleOperation.DECREASE
-                    || operation == SkillEffectLifecycleOperation.SET
-                    || operation == SkillEffectLifecycleOperation.CONSUME) {
-                    if (value == null) {
-                        throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期层数操作缺少数值规则");
-                    }
-                    yield new AssembledResultPayload(
-                        toValueRule(value),
-                        new SkillEffectLifecycleOperationDetail(operationRow.targetEffectKey(), operation)
-                    );
-                }
-                throw corrupt(gameId, skillKey, effectKey, resultKey, "生命周期操作损坏");
-            }
-            case DAMAGE_MODIFIER -> {
-                if (value == null || damageModifierRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害修正结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectDamageModifierDetail(
-                        damageModifierRow.modifierZoneKey(),
-                        damageModifierRow.direction(),
-                        damageModifierRow.operation(),
-                        damageModifierRow.damageTypeKey(),
-                        damageModifierRow.deliveryKind(),
-                        damageModifierRow.originKind(),
-                        damageModifierRow.criticalFilter()
-                    )
-                );
-            }
-            case HEALING_MODIFIER -> {
-                if (value == null || healingModifierRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "治疗修正结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectHealingModifierDetail(
-                        healingModifierRow.modifierZoneKey(),
-                        healingModifierRow.direction(),
-                        healingModifierRow.operation(),
-                        healingModifierRow.healingKind()
-                    )
-                );
-            }
-            case DAMAGE_IMMUNITY -> {
-                if (value != null || damageImmunityRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "伤害免疫结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    null,
-                    new SkillEffectDamageImmunityDetail(
-                        damageImmunityRow.damageTypeKey(),
-                        damageImmunityRow.deliveryKind(),
-                        damageImmunityRow.originKind()
-                    )
-                );
-            }
-            case HEALTH_FLOOR -> {
-                if (value == null || healthFloorRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "生命下限结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectHealthFloorDetail(healthFloorRow.attributeKey())
-                );
-            }
-            case SPELL_SHIELD -> {
-                if (value != null || extraDetails != 0) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "法术护盾结果形状损坏");
-                }
-                yield new AssembledResultPayload(null, new SkillEffectSpellShieldDetail());
-            }
-            case EXECUTE -> {
-                if (value == null || executeRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "斩杀结果形状损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectExecuteDetail(executeRow.attributeKey())
-                );
-            }
-            case HIT_LINK_APPLICATION -> {
-                if (value == null || extraDetails != 0) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "命中联动应用结果形状损坏");
-                }
-                yield new AssembledResultPayload(toValueRule(value), new SkillEffectHitLinkApplicationDetail());
-            }
-            case ATTACK_LINK_APPLICATION -> {
-                if (value == null || extraDetails != 0) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "攻击联动应用结果形状损坏");
-                }
-                yield new AssembledResultPayload(toValueRule(value), new SkillEffectAttackLinkApplicationDetail());
-            }
-            case SKILL_HASTE_MODIFIER -> {
-                SkillEffectAffectedSkillScope scope = assembleSkillScope(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    resultKey,
-                    skillScopeRow,
-                    affectedSkillKeys,
-                    skillCategoryKeys
-                );
-                if (value == null || hasteRow == null || extraDetails != 1) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "技能急速修正结果形状损坏");
-                }
-                SkillEffectModifierOperation operation = hasteRow.operation();
-                if (operation == null) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "技能急速操作损坏");
-                }
-                yield new AssembledResultPayload(
-                    toValueRule(value),
-                    new SkillEffectHasteModifierDetail(scope, operation)
-                );
-            }
-        };
-        SkillEffectResultLifecycleBehaviorRow behavior = behaviors.get(resultKey);
-        SkillEffectSpellShieldBlockScope blockScope = spellShieldPolicy == null
-            ? null
-            : spellShieldPolicy.blockScope();
-        if (!isSpellShieldBlockScopeAllowed(result.resultType(), result.target(), behavior, blockScope)) {
-            throw corrupt(gameId, skillKey, effectKey, resultKey, "法术护盾阻挡粒度形状损坏");
+            throw corrupt(effect.gameId(), effect.skillKey(), effect.effectKey(), resultKey, "效果结构化内容不合法");
         }
-        return new SkillEffectResultResponse(
-            result.resultKey(),
-            result.name(),
-            result.resultType(),
-            result.target(),
-            result.description(),
-            result.sortOrder(),
-            payload.valueRule(),
-            payload.detail(),
-            toBehaviorResponse(behavior),
-            blockScope
-        );
     }
 
     private ValidatedEffect validateCreate(SkillEffectCreateRequest request) {
@@ -1060,33 +560,6 @@ public class SkillEffectService {
                 "当前结果不能使用该法术护盾阻挡粒度"
             ));
         }
-    }
-
-    private static boolean isSpellShieldBlockScopeAllowed(
-        SkillEffectResultType resultType,
-        xyz.game.datamanage.model.skilleffect.SkillEffectTarget target,
-        SkillEffectResultLifecycleBehaviorRow behavior,
-        SkillEffectSpellShieldBlockScope scope
-    ) {
-        if (scope == null) {
-            return true;
-        }
-        if (target != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
-            || (behavior != null && behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT)) {
-            return false;
-        }
-        if (resultType == SkillEffectResultType.DAMAGE) {
-            return true;
-        }
-        return scope != SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
-            && (resultType == SkillEffectResultType.ATTRIBUTE_CHANGE
-                || resultType == SkillEffectResultType.RESOURCE_CHANGE
-                || resultType == SkillEffectResultType.COOLDOWN_CHANGE
-                || resultType == SkillEffectResultType.STATUS_OPERATION
-                || resultType == SkillEffectResultType.LIFECYCLE_OPERATION
-                || resultType == SkillEffectResultType.EXECUTE
-                || resultType == SkillEffectResultType.HIT_LINK_APPLICATION
-                || resultType == SkillEffectResultType.ATTACK_LINK_APPLICATION);
     }
 
     private void validateDamageModifier(
@@ -2534,525 +2007,27 @@ public class SkillEffectService {
         return new HashSet<>(nullToEmpty(mapper.listRuntimeInputFormulaKeys(gameId, skillKey, keys)));
     }
 
-    private void insertResults(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectResultRequest> results
-    ) {
-        for (SkillEffectResultRequest result : results) {
-            insertResultAggregate(gameId, skillKey, effectKey, result);
-        }
-    }
-
-    private void insertResultAggregate(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result
-    ) {
-        mapper.insertResult(
-            gameId,
-            skillKey,
-            effectKey,
-            result.resultKey(),
-            result.name(),
-            result.resultType(),
-            result.target(),
-            result.description(),
-            result.sortOrder()
-        );
-        insertValueIfPresent(gameId, skillKey, effectKey, result);
-        insertDetail(gameId, skillKey, effectKey, result);
-        persistSpellShieldPolicy(gameId, skillKey, effectKey, result, false);
-        insertBehaviorIfPresent(gameId, skillKey, effectKey, result);
-    }
-
-    private void updateResultAggregate(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result,
-        boolean hadValue,
-        boolean hadBehavior,
-        boolean hadSpellShieldPolicy
-    ) {
-        mapper.updateResult(
-            gameId,
-            skillKey,
-            effectKey,
-            result.resultKey(),
-            result.name(),
-            result.target(),
-            result.description(),
-            result.sortOrder()
-        );
-        boolean needsValue = result.valueRule() != null;
-        if (needsValue && hadValue) {
-            SkillEffectValueRuleRequest valueRule = result.valueRule();
-            mapper.updateValue(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                valueRule.formulaKey(),
-                valueRule.fixedMultiplier(),
-                valueRule.fixedMinValue(),
-                valueRule.fixedMaxValue()
-            );
-        } else if (needsValue) {
-            insertValueIfPresent(gameId, skillKey, effectKey, result);
-        } else if (hadValue) {
-            mapper.deleteValue(gameId, skillKey, effectKey, result.resultKey());
-        }
-        updateDetail(gameId, skillKey, effectKey, result);
-        persistSpellShieldPolicy(gameId, skillKey, effectKey, result, hadSpellShieldPolicy);
-        persistBehavior(gameId, skillKey, effectKey, result, hadBehavior);
-    }
-
-    private void insertValueIfPresent(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result
-    ) {
-        SkillEffectValueRuleRequest valueRule = result.valueRule();
-        if (valueRule == null) {
-            return;
-        }
-        mapper.insertValue(
-            gameId,
-            skillKey,
-            effectKey,
-            result.resultKey(),
-            valueRule.formulaKey(),
-            valueRule.fixedMultiplier(),
-            valueRule.fixedMinValue(),
-            valueRule.fixedMaxValue()
-        );
-    }
-
-    private void insertDetail(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result
-    ) {
-        switch (result.detail()) {
-            case SkillEffectDamageDetail detail -> mapper.insertDamageDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.damageTypeKey(),
-                detail.deliveryKind(),
-                detail.originKind()
-            );
-            case SkillEffectAttributeChangeDetail detail -> mapper.insertAttributeChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.attributeKey(),
-                detail.operation(),
-                detail.modifierZoneKey()
-            );
-            case SkillEffectResourceChangeDetail detail -> mapper.insertResourceChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.attributeKey(),
-                detail.operation()
-            );
-            case SkillEffectCooldownChangeDetail detail -> {
-                mapper.insertCooldownChangeDetail(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    detail.operation()
-                );
-                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), false);
-            }
-            case SkillEffectStatusOperationDetail detail -> mapper.insertStatusOperationDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.statusKey(),
-                detail.operation()
-            );
-            case SkillEffectLifecycleOperationDetail detail -> mapper.insertLifecycleOperationDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.targetEffectKey(),
-                detail.operation()
-            );
-            case SkillEffectDirectHealDetail ignored -> {
-            }
-            case SkillEffectNormalShieldDetail detail -> mapper.insertNormalShieldInteraction(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.absorbedDamageTypeKey(),
-                detail.decayMode()
-            );
-            case SkillEffectDamageModifierDetail detail -> mapper.insertDamageModifierDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
-                detail.direction(), detail.operation(),
-                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind(), detail.criticalFilter()
-            );
-            case SkillEffectHealingModifierDetail detail -> mapper.insertHealingModifierDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
-                detail.direction(), detail.operation(), detail.healingKind()
-            );
-            case SkillEffectDamageImmunityDetail detail -> mapper.insertDamageImmunityDetail(
-                gameId, skillKey, effectKey, result.resultKey(),
-                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind()
-            );
-            case SkillEffectHealthFloorDetail detail -> mapper.insertHealthFloorDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
-            );
-            case SkillEffectExecuteDetail detail -> mapper.insertExecuteDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
-            );
-            case SkillEffectHitLinkApplicationDetail ignored -> {
-            }
-            case SkillEffectAttackLinkApplicationDetail ignored -> {
-            }
-            case SkillEffectSpellShieldDetail ignored -> {
-            }
-            case SkillEffectHasteModifierDetail detail -> {
-                mapper.insertHasteModifierDetail(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    detail.operation()
-                );
-                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), false);
-            }
-        }
-        if (result.detail() instanceof SkillEffectDamageDetail damage) {
-            SkillEffectCriticalPolicy critical = damage.critical();
-            mapper.insertCriticalPolicy(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                critical.mode(),
-                critical.multiplierFormulaKey()
-            );
-            for (SkillEffectVampRule vampRule : damage.vampRules()) {
-                mapper.insertVampRule(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    vampRule.vampType(),
-                    vampRule.basisOutputKind(),
-                    vampRule.efficiencyFormulaKey()
-                );
-            }
-        }
-    }
-
-    private void updateDetail(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result
-    ) {
-        switch (result.detail()) {
-            case SkillEffectDamageDetail detail -> mapper.updateDamageDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.damageTypeKey(),
-                detail.deliveryKind(),
-                detail.originKind()
-            );
-            case SkillEffectAttributeChangeDetail detail -> mapper.updateAttributeChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.attributeKey(),
-                detail.operation(),
-                detail.modifierZoneKey()
-            );
-            case SkillEffectResourceChangeDetail detail -> mapper.updateResourceChangeDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.attributeKey(),
-                detail.operation()
-            );
-            case SkillEffectCooldownChangeDetail detail -> {
-                mapper.updateCooldownChangeDetail(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    detail.operation()
-                );
-                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), true);
-            }
-            case SkillEffectStatusOperationDetail detail -> mapper.updateStatusOperationDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.statusKey(),
-                detail.operation()
-            );
-            case SkillEffectLifecycleOperationDetail detail -> mapper.updateLifecycleOperationDetail(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.targetEffectKey(),
-                detail.operation()
-            );
-            case SkillEffectDirectHealDetail ignored -> {
-            }
-            case SkillEffectNormalShieldDetail detail -> mapper.updateNormalShieldInteraction(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                detail.absorbedDamageTypeKey(),
-                detail.decayMode()
-            );
-            case SkillEffectDamageModifierDetail detail -> mapper.updateDamageModifierDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
-                detail.direction(), detail.operation(),
-                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind(), detail.criticalFilter()
-            );
-            case SkillEffectHealingModifierDetail detail -> mapper.updateHealingModifierDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.modifierZoneKey(),
-                detail.direction(), detail.operation(), detail.healingKind()
-            );
-            case SkillEffectDamageImmunityDetail detail -> mapper.updateDamageImmunityDetail(
-                gameId, skillKey, effectKey, result.resultKey(),
-                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind()
-            );
-            case SkillEffectHealthFloorDetail detail -> mapper.updateHealthFloorDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
-            );
-            case SkillEffectExecuteDetail detail -> mapper.updateExecuteDetail(
-                gameId, skillKey, effectKey, result.resultKey(), detail.attributeKey()
-            );
-            case SkillEffectHitLinkApplicationDetail ignored -> {
-            }
-            case SkillEffectAttackLinkApplicationDetail ignored -> {
-            }
-            case SkillEffectSpellShieldDetail ignored -> {
-            }
-            case SkillEffectHasteModifierDetail detail -> {
-                mapper.updateHasteModifierDetail(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    detail.operation()
-                );
-                persistSkillScope(gameId, skillKey, effectKey, result.resultKey(), detail.affectedSkillScope(), true);
-            }
-        }
-        if (result.detail() instanceof SkillEffectDamageDetail damage) {
-            SkillEffectCriticalPolicy critical = damage.critical();
-            mapper.updateCriticalPolicy(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                critical.mode(),
-                critical.multiplierFormulaKey()
-            );
-            mapper.deleteVampRules(gameId, skillKey, effectKey, result.resultKey());
-            for (SkillEffectVampRule vampRule : damage.vampRules()) {
-                mapper.insertVampRule(
-                    gameId,
-                    skillKey,
-                    effectKey,
-                    result.resultKey(),
-                    vampRule.vampType(),
-                    vampRule.basisOutputKind(),
-                    vampRule.efficiencyFormulaKey()
-                );
-            }
-        }
-    }
-
-    private void persistSkillScope(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        String resultKey,
-        SkillEffectAffectedSkillScope scope,
-        boolean updateExisting
-    ) {
-        if (updateExisting) {
-            mapper.updateSkillScope(gameId, skillKey, effectKey, resultKey, scope.mode());
-            mapper.deleteSkillTargets(gameId, skillKey, effectKey, resultKey);
-            mapper.deleteSkillCategoryTargets(gameId, skillKey, effectKey, resultKey);
-        } else {
-            mapper.insertSkillScope(gameId, skillKey, effectKey, resultKey, scope.mode());
-        }
-        if (scope.mode() == SkillEffectSkillScopeMode.SKILLS) {
-            for (String affectedSkillKey : scope.skillKeys()) {
-                mapper.insertSkillTarget(gameId, skillKey, effectKey, resultKey, affectedSkillKey);
-            }
-        } else if (scope.mode() == SkillEffectSkillScopeMode.CATEGORIES) {
-            for (String skillCategoryKey : scope.skillCategoryKeys()) {
-                mapper.insertSkillCategoryTarget(gameId, skillKey, effectKey, resultKey, skillCategoryKey);
-            }
-        }
-    }
-
-    private ExistingCatalog loadExistingCatalog(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectResultRow> existingRows
-    ) {
-        Map<String, SkillEffectResultValueRow> values = indexValues(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listValues(gameId, skillKey, effectKey)
-        );
+    private Map<String, RetainedCatalog> loadRetainedCatalog(List<SkillEffectResultRequest> results) {
         Map<String, RetainedCatalog> retained = new HashMap<>();
-        Map<String, SkillEffectDamageDetailRow> damage = indexDamage(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listDamageDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectNormalShieldInteractionRow> normalShields = indexNormalShieldInteractions(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listNormalShieldInteractions(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectDamageModifierDetailRow> damageModifiers = indexDamageModifiers(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listDamageModifierDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectHealingModifierDetailRow> healingModifiers = indexHealingModifiers(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listHealingModifierDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectDamageImmunityDetailRow> damageImmunities = indexDamageImmunities(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listDamageImmunityDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectHealthFloorDetailRow> healthFloors = indexHealthFloors(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listHealthFloorDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectExecuteDetailRow> executes = indexExecuteDetails(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listExecuteDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectAttributeChangeDetailRow> attributes = indexAttributeChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listAttributeChangeDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectResourceChangeDetailRow> resources = indexResourceChange(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listResourceChangeDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, List<String>> skillTargets = indexSkillTargets(
-            mapper.listSkillTargets(gameId, skillKey, effectKey)
-        );
-        Map<String, List<String>> skillCategoryTargets = indexSkillCategoryTargets(
-            mapper.listSkillCategoryTargets(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectStatusOperationDetailRow> statuses = indexStatusOperation(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listStatusOperationDetails(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors = indexLifecycleBehaviors(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listLifecycleBehaviors(gameId, skillKey, effectKey)
-        );
-        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies = indexSpellShieldPolicies(
-            gameId,
-            skillKey,
-            effectKey,
-            mapper.listSpellShieldPolicies(gameId, skillKey, effectKey)
-        );
-        for (SkillEffectResultRow row : existingRows) {
-            String resultKey = row.resultKey();
-            SkillEffectDamageDetailRow damageRow = damage.get(resultKey);
-            SkillEffectAttributeChangeDetailRow attributeRow = attributes.get(resultKey);
-            SkillEffectResourceChangeDetailRow resourceRow = resources.get(resultKey);
-            SkillEffectStatusOperationDetailRow statusRow = statuses.get(resultKey);
-            SkillEffectNormalShieldInteractionRow normalShieldRow = normalShields.get(resultKey);
-            SkillEffectDamageModifierDetailRow damageModifierRow = damageModifiers.get(resultKey);
-            SkillEffectHealingModifierDetailRow healingModifierRow = healingModifiers.get(resultKey);
-            SkillEffectDamageImmunityDetailRow damageImmunityRow = damageImmunities.get(resultKey);
-            SkillEffectHealthFloorDetailRow healthFloorRow = healthFloors.get(resultKey);
-            SkillEffectExecuteDetailRow executeRow = executes.get(resultKey);
-            Set<String> retainedDamageTypes = new LinkedHashSet<>();
-            if (damageRow != null && damageRow.damageTypeKey() != null) {
-                retainedDamageTypes.add(damageRow.damageTypeKey());
+        for (SkillEffectResultRequest result : results) {
+            var detail = AggregateJson.tree(AggregateJson.write(result.detail()));
+            Set<String> damageTypes = new LinkedHashSet<>();
+            for (String field : List.of("damageTypeKey", "absorbedDamageTypeKey")) {
+                if (detail.hasNonNull(field)) damageTypes.add(detail.get(field).asText());
             }
-            if (normalShieldRow != null && normalShieldRow.absorbedDamageTypeKey() != null) {
-                retainedDamageTypes.add(normalShieldRow.absorbedDamageTypeKey());
-            }
-            if (damageModifierRow != null && damageModifierRow.damageTypeKey() != null) {
-                retainedDamageTypes.add(damageModifierRow.damageTypeKey());
-            }
-            if (damageImmunityRow != null && damageImmunityRow.damageTypeKey() != null) {
-                retainedDamageTypes.add(damageImmunityRow.damageTypeKey());
-            }
-            retained.put(resultKey, new RetainedCatalog(
-                Set.copyOf(retainedDamageTypes),
-                attributeRow == null
-                    ? (resourceRow == null
-                        ? (healthFloorRow == null
-                            ? (executeRow == null ? null : executeRow.attributeKey())
-                            : healthFloorRow.attributeKey())
-                        : resourceRow.attributeKey())
-                    : attributeRow.attributeKey(),
-                Set.copyOf(skillTargets.getOrDefault(resultKey, List.of())),
-                Set.copyOf(skillCategoryTargets.getOrDefault(resultKey, List.of())),
-                statusRow == null ? null : statusRow.statusKey(),
-                attributeRow != null && attributeRow.modifierZoneKey() != null
-                    ? attributeRow.modifierZoneKey()
-                    : (damageModifierRow != null
-                        ? damageModifierRow.modifierZoneKey()
-                        : (healingModifierRow == null ? null : healingModifierRow.modifierZoneKey()))
+            var scope = detail.path("affectedSkillScope");
+            Set<String> skills = new LinkedHashSet<>();
+            Set<String> categories = new LinkedHashSet<>();
+            scope.path("skillKeys").forEach(value -> skills.add(value.asText()));
+            scope.path("skillCategoryKeys").forEach(value -> categories.add(value.asText()));
+            retained.put(result.resultKey(), new RetainedCatalog(
+                Set.copyOf(damageTypes), detail.hasNonNull("attributeKey") ? detail.get("attributeKey").asText() : null,
+                Set.copyOf(skills), Set.copyOf(categories),
+                detail.hasNonNull("statusKey") ? detail.get("statusKey").asText() : null,
+                detail.hasNonNull("modifierZoneKey") ? detail.get("modifierZoneKey").asText() : null
             ));
         }
-        return new ExistingCatalog(values, retained, behaviors, spellShieldPolicies);
+        return retained;
     }
 
     private void lockParentSkill(String gameId, String skillKey) {
@@ -3078,370 +2053,6 @@ public class SkillEffectService {
         Map<String, SkillEffectResultRow> indexed = new LinkedHashMap<>();
         for (SkillEffectResultRow row : rows) {
             indexed.put(row.resultKey(), row);
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectResultValueRow> indexValues(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectResultValueRow> rows
-    ) {
-        Map<String, SkillEffectResultValueRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectResultValueRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "数值规则重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectDamageDetailRow> indexDamage(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectDamageDetailRow> rows
-    ) {
-        Map<String, SkillEffectDamageDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectDamageDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectSpellShieldPolicyRow> indexSpellShieldPolicies(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectSpellShieldPolicyRow> rows
-    ) {
-        Map<String, SkillEffectSpellShieldPolicyRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectSpellShieldPolicyRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "法术护盾阻挡策略重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectCriticalPolicyRow> indexCriticalPolicies(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectCriticalPolicyRow> rows
-    ) {
-        Map<String, SkillEffectCriticalPolicyRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectCriticalPolicyRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "暴击策略重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, List<SkillEffectVampRuleRow>> indexVampRules(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectVampRuleRow> rows
-    ) {
-        Map<String, List<SkillEffectVampRuleRow>> indexed = new LinkedHashMap<>();
-        Map<String, Set<SkillEffectVampType>> seen = new LinkedHashMap<>();
-        for (SkillEffectVampRuleRow row : nullToEmpty(rows)) {
-            Set<SkillEffectVampType> seenTypes = seen.computeIfAbsent(row.resultKey(), ignored -> new HashSet<>());
-            if (!seenTypes.add(row.vampType())) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "吸血种类重复");
-            }
-            indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>()).add(row);
-        }
-        Map<String, List<SkillEffectVampRuleRow>> immutable = new LinkedHashMap<>();
-        indexed.forEach((resultKey, values) -> immutable.put(resultKey, List.copyOf(values)));
-        return immutable;
-    }
-
-    private Map<String, SkillEffectNormalShieldInteractionRow> indexNormalShieldInteractions(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectNormalShieldInteractionRow> rows
-    ) {
-        Map<String, SkillEffectNormalShieldInteractionRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectNormalShieldInteractionRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "普通护盾交互重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectDamageModifierDetailRow> indexDamageModifiers(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectDamageModifierDetailRow> rows
-    ) {
-        Map<String, SkillEffectDamageModifierDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectDamageModifierDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害修正明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectHealingModifierDetailRow> indexHealingModifiers(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectHealingModifierDetailRow> rows
-    ) {
-        Map<String, SkillEffectHealingModifierDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectHealingModifierDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "治疗修正明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectDamageImmunityDetailRow> indexDamageImmunities(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectDamageImmunityDetailRow> rows
-    ) {
-        Map<String, SkillEffectDamageImmunityDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectDamageImmunityDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "伤害免疫明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectHealthFloorDetailRow> indexHealthFloors(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectHealthFloorDetailRow> rows
-    ) {
-        Map<String, SkillEffectHealthFloorDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectHealthFloorDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命下限明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectExecuteDetailRow> indexExecuteDetails(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectExecuteDetailRow> rows
-    ) {
-        Map<String, SkillEffectExecuteDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectExecuteDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "斩杀明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectAttributeChangeDetailRow> indexAttributeChange(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectAttributeChangeDetailRow> rows
-    ) {
-        Map<String, SkillEffectAttributeChangeDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectAttributeChangeDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "属性变化明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectResourceChangeDetailRow> indexResourceChange(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectResourceChangeDetailRow> rows
-    ) {
-        Map<String, SkillEffectResourceChangeDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectResourceChangeDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "资源变化明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectCooldownChangeDetailRow> indexCooldownChange(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectCooldownChangeDetailRow> rows
-    ) {
-        Map<String, SkillEffectCooldownChangeDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectCooldownChangeDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "冷却变化明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectSkillScopeRow> indexSkillScopes(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectSkillScopeRow> rows
-    ) {
-        Map<String, SkillEffectSkillScopeRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectSkillScopeRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "技能作用范围重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, List<String>> indexSkillTargets(
-        List<SkillEffectSkillTargetRow> rows
-    ) {
-        Map<String, List<String>> indexed = new LinkedHashMap<>();
-        for (SkillEffectSkillTargetRow row : nullToEmpty(rows)) {
-            List<String> targets = indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>());
-            if (targets.contains(row.affectedSkillKey())) {
-                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "技能作用范围明确技能重复");
-            }
-            targets.add(row.affectedSkillKey());
-        }
-        Map<String, List<String>> immutable = new LinkedHashMap<>();
-        indexed.forEach((resultKey, targets) -> immutable.put(resultKey, List.copyOf(targets)));
-        return immutable;
-    }
-
-    private Map<String, List<String>> indexSkillCategoryTargets(
-        List<SkillEffectSkillCategoryTargetRow> rows
-    ) {
-        Map<String, List<String>> indexed = new LinkedHashMap<>();
-        for (SkillEffectSkillCategoryTargetRow row : nullToEmpty(rows)) {
-            List<String> targets = indexed.computeIfAbsent(row.resultKey(), ignored -> new ArrayList<>());
-            if (targets.contains(row.skillCategoryKey())) {
-                throw corrupt(row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(), "技能作用范围分类重复");
-            }
-            targets.add(row.skillCategoryKey());
-        }
-        Map<String, List<String>> immutable = new LinkedHashMap<>();
-        indexed.forEach((resultKey, targets) -> immutable.put(resultKey, List.copyOf(targets)));
-        return immutable;
-    }
-
-    private Map<String, SkillEffectHasteModifierDetailRow> indexHasteModifiers(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectHasteModifierDetailRow> rows
-    ) {
-        Map<String, SkillEffectHasteModifierDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectHasteModifierDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "技能急速明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private SkillEffectAffectedSkillScope assembleSkillScope(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        String resultKey,
-        SkillEffectSkillScopeRow skillScopeRow,
-        List<String> affectedSkillKeys,
-        List<String> skillCategoryKeys
-    ) {
-        if (skillScopeRow == null || skillScopeRow.mode() == null) {
-            throw corrupt(gameId, skillKey, effectKey, resultKey, "技能作用范围缺失");
-        }
-        return switch (skillScopeRow.mode()) {
-            case ALL -> {
-                if (!affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty()) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "全部技能范围不能有目标关系");
-                }
-                yield new SkillEffectAffectedSkillScope(SkillEffectSkillScopeMode.ALL, List.of(), List.of());
-            }
-            case SKILLS -> {
-                if (affectedSkillKeys.isEmpty() || !skillCategoryKeys.isEmpty()) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "指定技能范围关系数量冲突");
-                }
-                yield new SkillEffectAffectedSkillScope(
-                    SkillEffectSkillScopeMode.SKILLS,
-                    affectedSkillKeys,
-                    List.of()
-                );
-            }
-            case CATEGORIES -> {
-                if (!affectedSkillKeys.isEmpty() || skillCategoryKeys.isEmpty()) {
-                    throw corrupt(gameId, skillKey, effectKey, resultKey, "指定分类范围关系数量冲突");
-                }
-                yield new SkillEffectAffectedSkillScope(
-                    SkillEffectSkillScopeMode.CATEGORIES,
-                    List.of(),
-                    skillCategoryKeys
-                );
-            }
-        };
-    }
-
-    private Map<String, SkillEffectStatusOperationDetailRow> indexStatusOperation(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectStatusOperationDetailRow> rows
-    ) {
-        Map<String, SkillEffectStatusOperationDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectStatusOperationDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "状态操作明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectLifecycleOperationDetailRow> indexLifecycleOperations(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectLifecycleOperationDetailRow> rows
-    ) {
-        Map<String, SkillEffectLifecycleOperationDetailRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectLifecycleOperationDetailRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命周期操作明细重复");
-            }
-        }
-        return indexed;
-    }
-
-    private Map<String, SkillEffectResultLifecycleBehaviorRow> indexLifecycleBehaviors(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        List<SkillEffectResultLifecycleBehaviorRow> rows
-    ) {
-        Map<String, SkillEffectResultLifecycleBehaviorRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectResultLifecycleBehaviorRow row : nullToEmpty(rows)) {
-            if (indexed.put(row.resultKey(), row) != null) {
-                throw corrupt(gameId, skillKey, effectKey, row.resultKey(), "生命周期行为重复");
-            }
         }
         return indexed;
     }
@@ -3531,25 +2142,6 @@ public class SkillEffectService {
                 issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DISABLED", "不能新增停用乘区引用"));
             }
         }
-    }
-
-    private static SkillEffectValueRuleResponse toValueRule(SkillEffectResultValueRow row) {
-        return new SkillEffectValueRuleResponse(
-            row.formulaKey(),
-            row.fixedMultiplier(),
-            row.fixedMinValue(),
-            row.fixedMaxValue()
-        );
-    }
-
-    private static int countPresent(Object... values) {
-        int count = 0;
-        for (Object value : values) {
-            if (value != null) {
-                count++;
-            }
-        }
-        return count;
     }
 
     private static String resultPath(int index, String suffix) {
@@ -3769,136 +2361,6 @@ public class SkillEffectService {
         return values == null ? Set.of() : values;
     }
 
-    private void insertLifecycleIfPresent(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectLifecycleRequest lifecycle
-    ) {
-        if (lifecycle == null) {
-            return;
-        }
-        mapper.insertLifecycle(
-            gameId,
-            skillKey,
-            effectKey,
-            lifecycle.durationFormulaKey(),
-            lifecycle.maxStacksFormulaKey(),
-            lifecycle.applicationStacksFormulaKey(),
-            lifecycle.instanceScope(),
-            lifecycle.reapplicationStackMode(),
-            lifecycle.reapplicationDurationMode(),
-            lifecycle.expiryMode(),
-            lifecycle.periodicIntervalFormulaKey(),
-            lifecycle.firstPeriodicExecution()
-        );
-    }
-
-    private void persistLifecycle(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectLifecycleRow existing,
-        SkillEffectLifecycleRequest requested
-    ) {
-        if (existing != null && requested != null) {
-            mapper.updateLifecycle(
-                gameId,
-                skillKey,
-                effectKey,
-                requested.durationFormulaKey(),
-                requested.maxStacksFormulaKey(),
-                requested.applicationStacksFormulaKey(),
-                requested.instanceScope(),
-                requested.reapplicationStackMode(),
-                requested.reapplicationDurationMode(),
-                requested.expiryMode(),
-                requested.periodicIntervalFormulaKey(),
-                requested.firstPeriodicExecution()
-            );
-            return;
-        }
-        if (existing == null && requested != null) {
-            insertLifecycleIfPresent(gameId, skillKey, effectKey, requested);
-            return;
-        }
-        if (existing != null) {
-            mapper.deleteAllLifecycleBehaviors(gameId, skillKey, effectKey);
-            mapper.deleteLifecycle(gameId, skillKey, effectKey);
-        }
-    }
-
-    private void insertBehaviorIfPresent(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result
-    ) {
-        persistBehavior(gameId, skillKey, effectKey, result, false);
-    }
-
-    private void persistSpellShieldPolicy(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result,
-        boolean hadPolicy
-    ) {
-        SkillEffectSpellShieldBlockScope scope = result.spellShieldBlockScope();
-        if (scope == null) {
-            if (hadPolicy) {
-                mapper.deleteSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey());
-            }
-            return;
-        }
-        if (hadPolicy) {
-            mapper.updateSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey(), scope);
-            return;
-        }
-        mapper.insertSpellShieldPolicy(gameId, skillKey, effectKey, result.resultKey(), scope);
-    }
-
-    private void persistBehavior(
-        String gameId,
-        String skillKey,
-        String effectKey,
-        SkillEffectResultRequest result,
-        boolean hadBehavior
-    ) {
-        SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
-        if (behavior == null) {
-            if (hadBehavior) {
-                mapper.deleteLifecycleBehaviors(gameId, skillKey, effectKey, List.of(result.resultKey()));
-            }
-            return;
-        }
-        if (hadBehavior) {
-            mapper.updateLifecycleBehavior(
-                gameId,
-                skillKey,
-                effectKey,
-                result.resultKey(),
-                behavior.moment(),
-                behavior.valueReadMode(),
-                behavior.stackValueMode(),
-                behavior.reapplicationValueMode(),
-                behavior.periodicExecutionMode()
-            );
-            return;
-        }
-        mapper.insertLifecycleBehavior(
-            gameId,
-            skillKey,
-            effectKey,
-            result.resultKey(),
-            behavior.moment(),
-            behavior.valueReadMode(),
-            behavior.stackValueMode(),
-            behavior.reapplicationValueMode(),
-            behavior.periodicExecutionMode()
-        );
-    }
-
     private static Set<String> targetLockKeys(Set<String> keys, String currentEffectKey) {
         if (keys.isEmpty()) {
             return keys;
@@ -3963,38 +2425,6 @@ public class SkillEffectService {
         }
     }
 
-    private static SkillEffectLifecycleResponse toLifecycleResponse(SkillEffectLifecycleRow row) {
-        if (row == null) {
-            return null;
-        }
-        return new SkillEffectLifecycleResponse(
-            row.durationFormulaKey(),
-            row.maxStacksFormulaKey(),
-            row.applicationStacksFormulaKey(),
-            row.instanceScope(),
-            row.reapplicationStackMode(),
-            row.reapplicationDurationMode(),
-            row.expiryMode(),
-            row.periodicIntervalFormulaKey(),
-            row.firstPeriodicExecution()
-        );
-    }
-
-    private static SkillEffectResultLifecycleBehaviorResponse toBehaviorResponse(
-        SkillEffectResultLifecycleBehaviorRow row
-    ) {
-        if (row == null) {
-            return null;
-        }
-        return new SkillEffectResultLifecycleBehaviorResponse(
-            row.moment(),
-            row.valueReadMode(),
-            row.stackValueMode(),
-            row.reapplicationValueMode(),
-            row.periodicExecutionMode()
-        );
-    }
-
     private record ValidatedEffect(
         String effectKey,
         String name,
@@ -4049,20 +2479,6 @@ public class SkillEffectService {
         Set<String> skillCategoryKeys,
         String statusKey,
         String modifierZoneKey
-    ) {
-    }
-
-    private record ExistingCatalog(
-        Map<String, SkillEffectResultValueRow> values,
-        Map<String, RetainedCatalog> retained,
-        Map<String, SkillEffectResultLifecycleBehaviorRow> behaviors,
-        Map<String, SkillEffectSpellShieldPolicyRow> spellShieldPolicies
-    ) {
-    }
-
-    private record AssembledResultPayload(
-        SkillEffectValueRuleResponse valueRule,
-        SkillEffectResultDetail detail
     ) {
     }
 

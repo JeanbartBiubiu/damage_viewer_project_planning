@@ -80,7 +80,11 @@ public interface SkillTriggerRuleMapper {
         @Param("name") String name,
         @Param("description") String description,
         @Param("sortOrder") Integer sortOrder,
-        @Param("eventType") String eventType
+        @Param("eventType") String eventType,
+        @Param("eventSourceJson") String eventSourceJson,
+        @Param("conditionGroupsJson") String conditionGroupsJson,
+        @Param("actionsJson") String actionsJson,
+        @Param("limitsJson") String limitsJson
     );
 
     int updateRule(
@@ -90,7 +94,11 @@ public interface SkillTriggerRuleMapper {
         @Param("name") String name,
         @Param("description") String description,
         @Param("sortOrder") Integer sortOrder,
-        @Param("eventType") String eventType
+        @Param("eventType") String eventType,
+        @Param("eventSourceJson") String eventSourceJson,
+        @Param("conditionGroupsJson") String conditionGroupsJson,
+        @Param("actionsJson") String actionsJson,
+        @Param("limitsJson") String limitsJson
     );
 
     int deleteRule(
@@ -101,242 +109,7 @@ public interface SkillTriggerRuleMapper {
 
     int deleteAllForSkill(@Param("gameId") String gameId, @Param("skillKey") String skillKey);
 
-    int deleteChildren(@Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey);
-
-    SkillTriggerProcessEventRow findProcessEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerSkillEventRow findSkillEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerResultEventRow findResultEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerLifecycleEventRow findLifecycleEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerStatusEventRow findStatusEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerHealthThresholdEventRow findHealthEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerInternalStateEventRow findInternalStateEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerSubjectEventRow findSubjectEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerDamageEventRow findDamageEvent(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerSpellShieldBlockedEventRow findSpellShieldBlockedEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey
-    );
-
-    int insertProcessEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("processKey") String processKey,
-        @Param("momentType") String momentType,
-        @Param("stepKey") String stepKey
-    );
-
-    int insertSkillEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("sourceSkillKey") String sourceSkillKey,
-        @Param("useKind") String useKind
-    );
-
-    int insertResultEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("effectKey") String effectKey,
-        @Param("resultKey") String resultKey
-    );
-
-    int insertLifecycleEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("effectKey") String effectKey,
-        @Param("lifecycleMoment") String lifecycleMoment
-    );
-
-    int insertStatusEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("subject") String subject,
-        @Param("statusKey") String statusKey,
-        @Param("changeKind") String changeKind
-    );
-
-    int insertHealthEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("subject") String subject,
-        @Param("attributeKey") String attributeKey,
-        @Param("thresholdFormulaKey") String thresholdFormulaKey,
-        @Param("direction") String direction
-    );
-
-    int insertInternalStateEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("stateKey") String stateKey,
-        @Param("changeKind") String changeKind
-    );
-
-    int insertSubjectEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("subject") String subject
-    );
-
-    int insertDamageEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("damageTypeKey") String damageTypeKey,
-        @Param("deliveryKind") String deliveryKind,
-        @Param("originKind") String originKind
-    );
-
-    int insertSpellShieldBlockedEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("shieldEffectKey") String shieldEffectKey
-    );
-
-    SkillTriggerLinkEventRow findLinkEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey
-    );
-
-    int insertLinkEvent(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("sourceSkillKey") String sourceSkillKey
-    );
-
-    List<SkillTriggerConditionGroupRow> listConditionGroups(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerConditionRow> listConditions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerAttributeConditionRow> listAttributeConditions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
     List<SkillTriggerStatusConditionRow> listStatusConditions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerInternalStateConditionRow> listInternalStateConditions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerEventValueConditionRow> listEventValueConditions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    int insertConditionGroup(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("groupKey") String groupKey,
-        @Param("name") String name,
-        @Param("sortOrder") Integer sortOrder
-    );
-
-    int insertCondition(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("groupKey") String groupKey,
-        @Param("conditionKey") String conditionKey,
-        @Param("conditionType") String conditionType,
-        @Param("sortOrder") Integer sortOrder
-    );
-
-    int insertAttributeCondition(SkillTriggerAttributeConditionRow row);
-
-    int insertStatusCondition(SkillTriggerStatusConditionRow row);
-
-    int insertInternalStateCondition(SkillTriggerInternalStateConditionRow row);
-
-    int insertEventValueCondition(SkillTriggerEventValueConditionRow row);
-
-    List<SkillTriggerActionRow> listActions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerEffectActionRow> listEffectActions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerProcessActionRow> listProcessActions(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    int insertAction(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("actionKey") String actionKey,
-        @Param("name") String name,
-        @Param("actionType") String actionType,
-        @Param("sortOrder") Integer sortOrder,
-        @Param("targetContext") String targetContext
-    );
-
-    int insertEffectAction(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("actionKey") String actionKey,
-        @Param("effectKey") String effectKey
-    );
-
-    int insertProcessAction(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("actionKey") String actionKey,
-        @Param("processKey") String processKey,
-        @Param("failureReason") String failureReason
-    );
-
-    List<SkillTriggerRuntimeInputBindingRow> listBindings(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    List<SkillTriggerInternalStateBindingRow> listInternalStateBindings(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
     );
 
@@ -344,70 +117,12 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
     );
 
-    List<SkillTriggerEventValueBindingRow> listEventValueBindings(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
     List<SkillTriggerPriorResultBindingRow> listPriorResultBindings(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
     );
 
-    int insertBinding(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("actionKey") String actionKey,
-        @Param("bindingKey") String bindingKey,
-        @Param("parameterKey") String parameterKey,
-        @Param("sourceType") String sourceType
-    );
-
-    int insertInternalStateBinding(SkillTriggerInternalStateBindingRow row);
-
-    int insertCombatStatusBinding(SkillTriggerCombatStatusBindingRow row);
-
-    int insertEventValueBinding(SkillTriggerEventValueBindingRow row);
-
-    int insertPriorResultBinding(SkillTriggerPriorResultBindingRow row);
-
     List<SkillTriggerResultModifierRow> listModifiers(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    int insertModifier(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("actionKey") String actionKey,
-        @Param("resultKey") String resultKey,
-        @Param("effectKey") String effectKey,
-        @Param("fixedMultiplier") BigDecimal fixedMultiplier,
-        @Param("fixedMinValue") BigDecimal fixedMinValue,
-        @Param("fixedMaxValue") BigDecimal fixedMaxValue
-    );
-
-    SkillTriggerPerTargetCooldownRow findCooldown(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    SkillTriggerProcessLimitRow findProcessLimit(
-        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("ruleKey") String ruleKey
-    );
-
-    int insertCooldown(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("durationFormulaKey") String durationFormulaKey,
-        @Param("targetContext") String targetContext
-    );
-
-    int insertProcessLimit(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("ruleKey") String ruleKey,
-        @Param("processKey") String processKey,
-        @Param("limitFormulaKey") String limitFormulaKey
     );
 
     List<SkillTriggerRuleRow> listRules(
@@ -532,13 +247,6 @@ public interface SkillTriggerRuleMapper {
         @Param("keys") Collection<String> keys
     );
 
-    List<String> lockResults(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("effectKey") String effectKey,
-        @Param("keys") Collection<String> keys
-    );
-
     List<String> lockProcesses(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,
@@ -574,19 +282,6 @@ public interface SkillTriggerRuleMapper {
         @Param("skillKey") String skillKey,
         @Param("processKey") String processKey,
         @Param("stepKey") String stepKey
-    );
-
-    boolean effectHasLifecycle(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("effectKey") String effectKey
-    );
-
-    SkillTriggerEffectShapeRow findEffectShape(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("effectKey") String effectKey,
-        @Param("resultKey") String resultKey
     );
 
     long countStatusApplyPersistent(
@@ -654,5 +349,5 @@ public interface SkillTriggerRuleMapper {
         @Param("gameId") String gameId, @Param("sourceSkillKey") String sourceSkillKey
     );
 
-    void forceDeferredConstraintsImmediate();
+
 }

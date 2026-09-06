@@ -86,7 +86,7 @@ class SkillServiceTest {
             triggerRuleService,
             imageRelationMapper,
             skillRelationMapper
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -432,7 +432,6 @@ class SkillServiceTest {
 
         InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
-        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -457,7 +456,6 @@ class SkillServiceTest {
         InOrder order = inOrder(mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper);
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).countExternalSkillScopeReferences(GAME_ID, SKILL_KEY);
-        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -474,7 +472,6 @@ class SkillServiceTest {
         ApiException exception = assertThrows(ApiException.class, () -> service.delete(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", exception.getCode());
         verify(processMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
-        verify(effectMapper, never()).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         verify(effectMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(internalStateMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(formulaMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -530,7 +527,7 @@ class SkillServiceTest {
         SkillService guarded = new SkillService(
             gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, processMapper,
             internalStateMapper, levelService, triggerRuleService, imageRelationMapper, skillRelationMapper
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
@@ -564,7 +561,6 @@ class SkillServiceTest {
         order.verify(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).countExternalSkillScopeReferences(GAME_ID, SKILL_KEY);
         order.verify(triggerRuleService).deleteAllForSkill(GAME_ID, SKILL_KEY);
-        order.verify(effectMapper).deleteLifecycleOperationDetailsForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(internalStateMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);

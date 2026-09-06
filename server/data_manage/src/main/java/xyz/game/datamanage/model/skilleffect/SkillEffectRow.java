@@ -9,6 +9,8 @@ public record SkillEffectRow(
     String name,
     String description,
     Integer sortOrder,
+    String results,
+    String lifecycle,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {

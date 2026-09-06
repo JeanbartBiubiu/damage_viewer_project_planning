@@ -14,12 +14,10 @@ import org.junit.jupiter.api.Test;
 class ModifierZoneManagementDbContractSqlTest {
 
     @Test
-    void schemaDefinesIndependentZonesAndThreeResultReferences() throws IOException {
+    void schemaKeepsIndependentZonesAndResultsReferenceThemFromJson() throws IOException {
         String sql = normalized(read("db/game_manage/schema.sql"));
         String zones = tableBody(sql, "public.modifier_zones");
-        String attributes = tableBody(sql, "public.skill_effect_attribute_change_details");
-        String damage = tableBody(sql, "public.skill_effect_damage_modifier_details");
-        String healing = tableBody(sql, "public.skill_effect_healing_modifier_details");
+        String effects = tableBody(sql, "public.skill_effects");
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
         assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing')"));
@@ -29,13 +27,19 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(zones.contains("healing_result"));
         assertTrue(sql.contains("create unique index uq_modifier_zones_name"));
 
-        assertTrue(attributes.contains("modifier_zone_key varchar(64)"));
-        assertFalse(attributes.contains("modifier_zone_key varchar(64) not null"));
-        assertTrue(damage.contains("modifier_zone_key varchar(64) not null"));
-        assertTrue(healing.contains("modifier_zone_key varchar(64) not null"));
-        assertTrue(sql.contains("fk_skill_effect_attribute_change_details_zone"));
-        assertTrue(sql.contains("fk_skill_effect_damage_modifier_zone"));
-        assertTrue(sql.contains("fk_skill_effect_healing_modifier_zone"));
+        assertTrue(effects.contains("results jsonb not null"));
+        for (String oldTable : new String[] {"skill_effect_attribute_change_details", "skill_effect_damage_modifier_details",
+                "skill_effect_healing_modifier_details"}) {
+            assertFalse(sql.contains("create table public." + oldTable));
+        }
+        String mapper = read("server/data_manage/src/main/resources/mapper/modifierzone/ModifierZoneMapper.xml");
+        String readModel = read("server/data_manage/src/main/resources/mapper/authoring/AuthoringReadModel.xml");
+        for (String fragment : new String[] {"effectAttributeChangeDetails", "effectDamageModifierDetails", "effectHealingModifierDetails"}) {
+            assertTrue(mapper.contains("AuthoringReadModel." + fragment));
+            assertTrue(readModel.contains("<sql id=\"" + fragment + "\">"));
+        }
+        assertTrue(readModel.contains("jsonb_array_elements(r.results)"));
+        assertTrue(readModel.contains("j->'detail'->>'modifierZoneKey'"));
     }
 
     @Test
@@ -57,15 +61,23 @@ class ModifierZoneManagementDbContractSqlTest {
     }
 
     @Test
-    void deferredTriggersProtectDomainLifecycleAndDynamicFormulaRules() throws IOException {
-        String sql = normalized(read("db/game_manage/triggers.sql"));
-
-        assertTrue(sql.contains("damage_modifier modifier zone domain invalid"));
-        assertTrue(sql.contains("healing_modifier modifier zone domain invalid"));
-        assertTrue(sql.contains("persistent attribute adjustment requires modifier zone"));
-        assertTrue(sql.contains("non-persistent attribute change forbids modifier zone"));
-        assertTrue(sql.contains("moment_evaluation forbids reapplication_value_mode"));
-        assertTrue(sql.contains("moment_evaluation formula uses runtime input"));
+    void servicesProtectDomainLifecycleDynamicInputsAndReferencedZoneMutation() throws IOException {
+        String effects = read("server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java");
+        String zones = read("server/data_manage/src/main/java/xyz/game/datamanage/service/modifierzone/ModifierZoneService.java");
+        String references = read("server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java");
+        for (String domain : new String[] {"ATTRIBUTE", "DAMAGE", "HEALING"}) assertTrue(effects.contains("ModifierZoneDomain." + domain));
+        assertTrue(effects.contains("MODIFIER_ZONE_DOMAIN_MISMATCH"));
+        assertTrue(effects.contains("boolean persistentAdjustment"));
+        assertTrue(effects.contains("collectModifierZoneRef("));
+        assertTrue(effects.contains("\"该结果不能选择乘区\""));
+        assertTrue(effects.contains("\"乘区不能为空\""));
+        assertTrue(effects.contains("SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION"));
+        assertTrue(effects.contains("behavior.reapplicationValueMode() != null"));
+        assertTrue(effects.contains("RUNTIME_INPUT_FORBIDDEN"));
+        assertTrue(zones.contains("configurationWrites.begin(gameId)"));
+        assertTrue(zones.contains("structuralFieldsChanged(current, request)"));
+        assertTrue(zones.contains("referenceCount(gameId, modifierZoneKey) > 0"));
+        assertTrue(references.contains("\"modifierZoneKey\", TargetType.MODIFIER_ZONE"));
     }
 
     private static String tableBody(String sql, String table) {

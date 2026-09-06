@@ -1,13 +1,13 @@
 package xyz.game.datamanage.service.skilleffect;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.inOrder;
@@ -79,7 +79,6 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecyclePeriodicExecutionMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode;
@@ -126,6 +125,9 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.AggregateJson;
+import java.util.HashMap;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 
 @ExtendWith(MockitoExtension.class)
@@ -153,11 +155,15 @@ class SkillEffectServiceTest {
     @Mock private SkillEffectMapper mapper;
 
     private SkillEffectService service;
+    private final Map<String, Object> fixture = new HashMap<>();
+    private SkillEffectRow savedEffect;
 
     @BeforeEach
     void setUp() {
-        service = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
+        service = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
+        when(mapper.insertEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(this::saveAggregate);
+        when(mapper.updateEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(this::saveAggregate);
     }
 
     @Test
@@ -182,7 +188,6 @@ class SkillEffectServiceTest {
     @Test
     void createsSixNonShieldResultKindsAndReadsThemBack() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         stubDetailRead(sixNonShieldResultRows(), sixNonShieldValueRows(), sixNonShieldDetails());
 
@@ -207,35 +212,12 @@ class SkillEffectServiceTest {
         order.verify(mapper).lockAttributes(eq(GAME_ID), anyCollection());
         order.verify(mapper).lockSkills(eq(GAME_ID), anyCollection());
         order.verify(mapper).lockStatuses(eq(GAME_ID), anyCollection());
-        order.verify(mapper).insertEffect(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), isNull(), eq(10)
-        );
-        verify(mapper).insertDamageDetail(
-            GAME_ID,
-            SKILL_KEY,
-            EFFECT_KEY,
-            "physical_hit",
-            "physical",
-            SkillEffectDamageDeliveryKind.SKILL,
-            SkillEffectDamageOriginKind.DIRECT
-        );
-        verify(mapper).insertValue(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("reset_self"),
-            eq(FORMULA_KEY), eq(BigDecimal.ONE), isNull(), isNull()
-        );
-        verify(mapper, never()).insertValue(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("apply_poison"),
-            any(), any(), any(), any()
-        );
-        verify(mapper).insertStatusOperationDetail(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
-        );
+        order.verify(mapper).insertEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), isNull(), eq(10), any(), any());
     }
 
     @Test
     void createsPersistentSpellShieldAndBlockableDamage() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         SkillEffectResultRow shieldRow = new SkillEffectResultRow(
             GAME_ID, SKILL_KEY, EFFECT_KEY, "spell_shield", "法术护盾",
@@ -253,8 +235,8 @@ class SkillEffectServiceTest {
                 List.of(), List.of(), List.of(), List.of()
             )
         );
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycle", lifecycleRow());
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "spell_shield",
                 SkillEffectLifecycleMoment.PERSISTENT, null, null, null, null
@@ -266,7 +248,7 @@ class SkillEffectServiceTest {
                 null, null, null
             )
         ));
-        when(mapper.listSpellShieldPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSpellShieldPolicies", List.of(
             new SkillEffectSpellShieldPolicyRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
@@ -296,18 +278,12 @@ class SkillEffectServiceTest {
             )
         );
 
-        assertInstanceOf(SkillEffectSpellShieldDetail.class, response.results().get(0).detail());
+        assertEquals(List.of("physical_hit", "spell_shield"), response.results().stream()
+            .map(result -> result.resultKey()).toList());
+        assertInstanceOf(SkillEffectSpellShieldDetail.class, response.results().get(1).detail());
         assertEquals(
             SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE,
-            response.results().get(1).spellShieldBlockScope()
-        );
-        verify(mapper).insertSpellShieldPolicy(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
-            SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
-        );
-        verify(mapper, never()).insertValue(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("spell_shield"),
-            any(), any(), any(), any()
+            response.results().get(0).spellShieldBlockScope()
         );
     }
 
@@ -341,7 +317,6 @@ class SkillEffectServiceTest {
     @Test
     void createsExecuteAndLinkResultsAndRejectsPersistentDamageInstanceAndModifierZone() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         List<SkillEffectResultRow> rows = List.of(
             new SkillEffectResultRow(
@@ -362,10 +337,10 @@ class SkillEffectServiceTest {
             List.of(valueRow("execute"), valueRow("hit_link"), valueRow("attack_link")),
             new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
         );
-        when(mapper.listExecuteDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listExecuteDetails", List.of(
             new SkillEffectExecuteDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", "hp")
         ));
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "execute",
                 SkillEffectLifecycleMoment.APPLICATION,
@@ -382,13 +357,13 @@ class SkillEffectServiceTest {
                 SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null
             )
         ));
-        when(mapper.listSpellShieldPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSpellShieldPolicies", List.of(
             new SkillEffectSpellShieldPolicyRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", SkillEffectSpellShieldBlockScope.RESULT
             )
         ));
 
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        fixture.put("findLifecycle", lifecycleRow());
 
         SkillEffectDetailResponse created = service.create(
             GAME_ID,
@@ -419,14 +394,6 @@ class SkillEffectServiceTest {
         assertInstanceOf(SkillEffectHitLinkApplicationDetail.class, created.results().get(1).detail());
         assertInstanceOf(SkillEffectAttackLinkApplicationDetail.class, created.results().get(2).detail());
         assertEquals(SkillEffectSpellShieldBlockScope.RESULT, created.results().get(0).spellShieldBlockScope());
-        verify(mapper).insertExecuteDetail(GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", "hp");
-        verify(mapper).insertValue(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("hit_link"),
-            eq(FORMULA_KEY), eq(BigDecimal.ONE), isNull(), isNull()
-        );
-        verify(mapper).insertSpellShieldPolicy(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "execute", SkillEffectSpellShieldBlockScope.RESULT
-        );
 
         ApiException persistent = assertThrows(
             ApiException.class,
@@ -503,7 +470,6 @@ class SkillEffectServiceTest {
     @Test
     void createsFourPersistentModifierAndProtectionResultsAndReadsThemBack() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         List<SkillEffectResultRow> rows = List.of(
             resultRow("damage_reduction", SkillEffectResultType.DAMAGE_MODIFIER),
@@ -520,9 +486,8 @@ class SkillEffectServiceTest {
             ),
             new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
         );
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            rows.stream().map(row -> new SkillEffectResultLifecycleBehaviorRow(
+        fixture.put("findLifecycle", lifecycleRow());
+        fixture.put("listLifecycleBehaviors", rows.stream().map(row -> new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID,
                 SKILL_KEY,
                 EFFECT_KEY,
@@ -538,9 +503,8 @@ class SkillEffectServiceTest {
                     ? null
                     : SkillEffectLifecycleReapplicationValueMode.KEEP,
                 null
-            )).toList()
-        );
-        when(mapper.listDamageModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            )).toList());
+        fixture.put("listDamageModifierDetails", List.of(
             new SkillEffectDamageModifierDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_reduction",
                 DAMAGE_ZONE_KEY,
@@ -552,7 +516,7 @@ class SkillEffectServiceTest {
                 SkillEffectCriticalFilter.ANY
             )
         ));
-        when(mapper.listHealingModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listHealingModifierDetails", List.of(
             new SkillEffectHealingModifierDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "healing_reduction",
                 HEALING_ZONE_KEY,
@@ -561,14 +525,14 @@ class SkillEffectServiceTest {
                 SkillEffectHealingKind.ANY
             )
         ));
-        when(mapper.listDamageImmunityDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listDamageImmunityDetails", List.of(
             new SkillEffectDamageImmunityDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_immunity", null,
                 SkillEffectDamageFilterDeliveryKind.SKILL,
                 SkillEffectDamageFilterOriginKind.ANY
             )
         ));
-        when(mapper.listHealthFloorDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listHealthFloorDetails", List.of(
             new SkillEffectHealthFloorDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "health_floor", "hp"
             )
@@ -598,21 +562,6 @@ class SkillEffectServiceTest {
         assertInstanceOf(SkillEffectDamageImmunityDetail.class, detail.results().get(2).detail());
         assertInstanceOf(SkillEffectHealthFloorDetail.class, detail.results().get(3).detail());
         assertNull(detail.results().get(2).valueRule());
-        verify(mapper).insertDamageModifierDetail(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_reduction",
-            DAMAGE_ZONE_KEY,
-            SkillEffectDamageModifierDirection.TAKEN,
-            SkillEffectModifierOperation.DECREASE,
-            "physical",
-            SkillEffectDamageFilterDeliveryKind.ANY,
-            SkillEffectDamageFilterOriginKind.DIRECT,
-            SkillEffectCriticalFilter.ANY
-        );
-        verify(mapper).insertDamageImmunityDetail(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "damage_immunity", null,
-            SkillEffectDamageFilterDeliveryKind.SKILL,
-            SkillEffectDamageFilterOriginKind.ANY
-        );
     }
 
     @Test
@@ -704,7 +653,6 @@ class SkillEffectServiceTest {
     @Test
     void createsDamageCriticalAndVampRulesAndReadsCanonicalShape() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         List<SkillEffectResultRow> results = List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE));
         stubDetailRead(
@@ -723,7 +671,7 @@ class SkillEffectServiceTest {
                 List.of(), List.of(), List.of(), List.of()
             )
         );
-        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listCriticalPolicies", List.of(
             new SkillEffectCriticalPolicyRow(
                 GAME_ID,
                 SKILL_KEY,
@@ -733,7 +681,7 @@ class SkillEffectServiceTest {
                 "crit_multiplier"
             )
         ));
-        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listVampRules", List.of(
             new SkillEffectVampRuleRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectVampType.LIFE_STEAL,
@@ -793,16 +741,6 @@ class SkillEffectServiceTest {
         assertEquals(2, saved.vampRules().size());
         assertEquals(SkillEffectVampType.LIFE_STEAL, saved.vampRules().get(0).vampType());
         assertEquals(SkillEffectVampType.OMNIVAMP, saved.vampRules().get(1).vampType());
-        verify(mapper).insertCriticalPolicy(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
-            SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, "crit_multiplier"
-        );
-        verify(mapper).insertVampRule(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
-            SkillEffectVampType.LIFE_STEAL,
-            SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
-            "life_steal_efficiency"
-        );
     }
 
     @Test
@@ -851,78 +789,44 @@ class SkillEffectServiceTest {
         assertEquals("400.VALIDATION_FAILED", exception.getCode());
         assertField(exception, "results[0].detail.critical.multiplierFormulaKey", "INVALID_CRITICAL_SHAPE");
         assertField(exception, "results[0].detail.vampRules[1].vampType", "DUPLICATE_VAMP_TYPE");
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void updateAppliesFullDiffKeepInsertDeleteAndCooldownValueToggle() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE),
             resultRow("direct_heal", SkillEffectResultType.DIRECT_HEAL),
             resultRow("reduce_self", SkillEffectResultType.COOLDOWN_CHANGE)
         ));
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(valueRow("physical_hit"), valueRow("direct_heal"), valueRow("reduce_self")),
-            List.of(valueRow("physical_hit"))
-        );
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectDamageDetailRow(
+        fixture.put("listValues", List.of(valueRow("physical_hit"), valueRow("direct_heal"), valueRow("reduce_self")));
+        fixture.put("listDamageDetails", List.of(new SkillEffectDamageDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical"
-            ))
-        );
-        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectCriticalPolicyRow(
+            )));
+        fixture.put("listCriticalPolicies", List.of(new SkillEffectCriticalPolicyRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectCriticalMode.DISALLOWED, null
-            ))
-        );
-        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectCooldownChangeDetailRow(
+            )));
+        fixture.put("listVampRules", List.of());
+        fixture.put("listNormalShieldInteractions", List.of());
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of(new SkillEffectCooldownChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.RESET
-            ))
-        );
-        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectSkillScopeRow(
+            )));
+        fixture.put("listSkillScopes", List.of(new SkillEffectSkillScopeRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectSkillScopeMode.SKILLS
-            )),
-            List.of(new SkillEffectSkillScopeRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectSkillScopeMode.SKILLS
-            ))
-        );
-        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectSkillTargetRow(
+            )));
+        fixture.put("listSkillTargets", List.of(new SkillEffectSkillTargetRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
-            )),
-            List.of(new SkillEffectSkillTargetRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SKILL_KEY
-            ))
-        );
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(),
-            List.of(new SkillEffectStatusOperationDetailRow(
-                GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison",
-                SkillEffectStatusOperation.APPLY
-            ))
-        );
+            )));
+        fixture.put("listStatusOperationDetails", List.of());
         stubEnabledCatalogs();
-        when(mapper.deleteResults(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), anyCollection())).thenReturn(1);
-        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.deleteValue(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self")).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateCriticalPolicy(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
-        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResults(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> readEffect());
+        fixture.put("listResults", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE),
             resultRow("reduce_self", SkillEffectResultType.COOLDOWN_CHANGE),
             resultRow("apply_poison", SkillEffectResultType.STATUS_OPERATION)
@@ -949,34 +853,21 @@ class SkillEffectServiceTest {
         assertEquals(SkillEffectCooldownChangeOperation.RESET,
             ((SkillEffectCooldownChangeDetail) detail.results().get(1).detail()).operation());
 
-        verify(mapper).deleteResults(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq(List.of("direct_heal")));
-        verify(mapper).deleteValue(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self");
-        verify(mapper).insertResult(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("apply_poison"),
-            any(), eq(SkillEffectResultType.STATUS_OPERATION), any(), any(), any()
-        );
-        verify(mapper, never()).insertValue(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("reduce_self"),
-            any(), any(), any(), any()
-        );
-        verify(mapper).updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10);
+        verify(mapper).updateEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), eq(null), eq(10), any(), any());
     }
 
     @Test
     void createFailsClosedWhenInsertThrows() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
-        when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenThrow(new DataIntegrityViolationException("insert failed"));
+
+        when(mapper.insertEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(new DataIntegrityViolationException("insert failed"));
 
         assertThrows(
             DataIntegrityViolationException.class,
             () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly())
         );
-        verify(mapper).insertEffect(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(), any(), any()
-        );
+        verify(mapper).insertEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(), any(), any(), any(), any());
         verify(mapper, never()).findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY);
     }
 
@@ -1012,8 +903,8 @@ class SkillEffectServiceTest {
         assertEquals("400.VALIDATION_FAILED", duplicate.getCode());
         assertField(duplicate, "results[1].resultKey", "DUPLICATE");
 
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
         ApiException immutable = assertThrows(
@@ -1033,8 +924,7 @@ class SkillEffectServiceTest {
         );
         assertEquals("400.VALIDATION_FAILED", immutable.getCode());
         assertField(immutable, "results[0].resultType", "IMMUTABLE");
-        verify(mapper, never()).deleteResults(any(), any(), any(), any());
-        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -1206,7 +1096,7 @@ class SkillEffectServiceTest {
             "results[3].detail.statusKey".equals(issue.get("field"))
                 && "UNKNOWN_STATUS".equals(issue.get("code"))
         ));
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -1224,7 +1114,7 @@ class SkillEffectServiceTest {
         assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
         assertField(exception, "results[0].valueRule.formulaKey", "UNKNOWN_FORMULA");
         verify(mapper).lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection());
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -1242,24 +1132,21 @@ class SkillEffectServiceTest {
         );
         assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", created.getCode());
         assertField(created, "results[0].detail.damageTypeKey", "DAMAGE_TYPE_DISABLED");
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
 
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listValues", List.of(valueRow("physical_hit")));
+        fixture.put("listDamageDetails", List.of(
             new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
         ));
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of());
+        fixture.put("listStatusOperationDetails", List.of());
+
         stubDetailRead(
             List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
             List.of(valueRow("physical_hit")),
@@ -1291,10 +1178,7 @@ class SkillEffectServiceTest {
             .thenReturn(List.of(FORMULA_KEY));
         when(mapper.lockSkills(eq(GAME_ID), anyCollection()))
             .thenReturn(List.of(new SkillEffectCatalogLockRow(SKILL_KEY, "DISABLED")));
-        when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
+
         stubDetailRead(
             List.of(resultRow("reduce_self", SkillEffectResultType.COOLDOWN_CHANGE)),
             List.of(valueRow("reduce_self")),
@@ -1323,22 +1207,16 @@ class SkillEffectServiceTest {
         assertEquals(List.of(SKILL_KEY),
             ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillScope().skillKeys());
 
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(),
-            List.of(valueRow("reduce_self"))
-        );
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            List.of(new SkillEffectCooldownChangeDetailRow(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of());
+        fixture.put("listValues", List.of());
+        fixture.put("listDamageDetails", List.of());
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of(new SkillEffectCooldownChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_self", SkillEffectCooldownChangeOperation.REDUCE
-            ))
-        );
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.updateEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
+            )));
+        fixture.put("listStatusOperationDetails", List.of());
 
         SkillEffectDetailResponse updated = service.update(
             GAME_ID,
@@ -1379,8 +1257,8 @@ class SkillEffectServiceTest {
     @Test
     void cooldownChangePersistsOneResultWithMultipleOrderedTargets() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         stubDetailRead(
             List.of(resultRow("reduce_abilities", SkillEffectResultType.COOLDOWN_CHANGE)),
             List.of(valueRow("reduce_abilities")),
@@ -1394,16 +1272,19 @@ class SkillEffectServiceTest {
                 List.of()
             )
         );
-        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSkillScopes", List.of(
             new SkillEffectSkillScopeRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectSkillScopeMode.SKILLS
             )
         ));
-        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSkillTargets", List.of(
             new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w"),
             new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY),
             new SkillEffectSkillTargetRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r")
         ));
+        SkillEffectDetailResponse existing = service.get(GAME_ID, SKILL_KEY, EFFECT_KEY);
+        assertEquals(List.of("ezreal_w", SKILL_KEY, "ezreal_r"),
+            ((SkillEffectCooldownChangeDetail) existing.results().get(0).detail()).affectedSkillScope().skillKeys());
 
         SkillEffectDetailResponse created = service.create(
             GAME_ID,
@@ -1422,12 +1303,10 @@ class SkillEffectServiceTest {
 
         assertEquals(1, created.results().size());
         assertEquals(
-            List.of("ezreal_w", SKILL_KEY, "ezreal_r"),
+            List.of(SKILL_KEY, "ezreal_w", "ezreal_r"),
             ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).affectedSkillScope().skillKeys()
         );
-        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SKILL_KEY);
-        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_w");
-        verify(mapper).insertSkillTarget(GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "ezreal_r");
+        assertEquals(created, service.get(GAME_ID, SKILL_KEY, EFFECT_KEY));
     }
 
     @Test
@@ -1476,7 +1355,6 @@ class SkillEffectServiceTest {
     @Test
     void cooldownAllScopePersistsEmptyRelations() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         stubDetailRead(
             List.of(resultRow("reduce_all", SkillEffectResultType.COOLDOWN_CHANGE)),
@@ -1524,17 +1402,11 @@ class SkillEffectServiceTest {
         assertEquals(SkillEffectSkillScopeMode.ALL, scope.mode());
         assertEquals(List.of(), scope.skillKeys());
         assertEquals(List.of(), scope.skillCategoryKeys());
-        verify(mapper).insertSkillScope(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_all", SkillEffectSkillScopeMode.ALL
-        );
-        verify(mapper, never()).insertSkillTarget(any(), any(), any(), any(), any());
-        verify(mapper, never()).insertSkillCategoryTarget(any(), any(), any(), any(), any());
     }
 
     @Test
     void hasteCategoriesScopeRequiresPersistentSnapshotAndRejectsMomentEvaluation() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         SkillEffectResultRequest haste = hasteIncreaseResult("haste_move", categoriesScope(List.of(CATEGORY_KEY)));
         ApiException missingLifecycle = assertThrows(
@@ -1600,8 +1472,8 @@ class SkillEffectServiceTest {
                 ))
             )
         );
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycle", lifecycleRow());
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move",
                 SkillEffectLifecycleMoment.PERSISTENT,
@@ -1626,16 +1498,8 @@ class SkillEffectServiceTest {
         assertEquals(SkillEffectSkillScopeMode.CATEGORIES, detail.affectedSkillScope().mode());
         assertEquals(List.of(), detail.affectedSkillScope().skillKeys());
         assertEquals(List.of(CATEGORY_KEY), detail.affectedSkillScope().skillCategoryKeys());
-        verify(mapper).insertHasteModifierDetail(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", SkillEffectModifierOperation.INCREASE
-        );
-        verify(mapper).insertSkillCategoryTarget(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "haste_move", CATEGORY_KEY
-        );
-        verify(mapper, never()).insertSkillTarget(any(), any(), any(), any(), any());
         verify(mapper).lockSkillCategories(eq(GAME_ID), anyCollection());
     }
-
 
     @Test
     void cooldownChangeRejectsRemovedScalarFieldAsInvalidBody() {
@@ -1673,30 +1537,30 @@ class SkillEffectServiceTest {
     @Test
     void updateRetainsDisabledCooldownTargetsButRejectsNewDisabledTargets() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("reduce_abilities", SkillEffectResultType.COOLDOWN_CHANGE)
         ));
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("reduce_abilities")));
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listValues", List.of(valueRow("reduce_abilities")));
+        fixture.put("listDamageDetails", List.of());
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of(
             new SkillEffectCooldownChangeDetailRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectCooldownChangeOperation.REDUCE
             )
         ));
-        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSkillScopes", List.of(
             new SkillEffectSkillScopeRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", SkillEffectSkillScopeMode.SKILLS
             )
         ));
-        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listSkillTargets", List.of(
             new SkillEffectSkillTargetRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "reduce_abilities", "disabled_existing"
             )
         ));
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        fixture.put("listStatusOperationDetails", List.of());
         when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(FORMULA_KEY));
         when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenReturn(List.of(
             new SkillEffectCatalogLockRow("disabled_existing", "DISABLED"),
@@ -1729,20 +1593,19 @@ class SkillEffectServiceTest {
     @Test
     void deleteEffectDoesNotTouchCatalogs() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.deleteEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1);
 
         service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY);
 
         verify(mapper).deleteEffect(GAME_ID, SKILL_KEY, EFFECT_KEY);
-        verify(mapper, never()).deleteResults(any(), any(), any(), any());
         verify(skillMapper, never()).delete(any(), any());
     }
 
     @Test
     void deleteEffectProtectsProcessBindingsWithStableConflict() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
 
         assertCode("409.SKILL_EFFECT_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
@@ -1761,30 +1624,19 @@ class SkillEffectServiceTest {
     @Test
     void createsWithoutLifecycleLeavesBehaviorNullAndDoesNotInsertLifecycle() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
         stubDetailRead(sixNonShieldResultRows(), sixNonShieldValueRows(), sixNonShieldDetails());
 
         SkillEffectDetailResponse detail = service.create(GAME_ID, SKILL_KEY, createSixNonShieldResults());
         assertNull(detail.lifecycle());
         assertNull(detail.results().get(0).lifecycleBehavior());
-        verify(mapper, never()).insertLifecycle(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
-        );
-        verify(mapper, never()).insertLifecycleBehavior(
-            any(), any(), any(), any(), any(), any(), any(), any(), any()
-        );
     }
 
     @Test
     void createsFullLifecycleAndReadsItBackWithApplicationBehavior() {
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
-        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
+
         stubDetailRead(List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
             List.of(valueRow("physical_hit")),
             new DetailBundle(
@@ -1793,8 +1645,8 @@ class SkillEffectServiceTest {
                 )),
                 List.of(), List.of(), List.of(), List.of()
             ));
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycle", lifecycleRow());
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectLifecycleMoment.APPLICATION,
@@ -1814,22 +1666,6 @@ class SkillEffectServiceTest {
         assertEquals(SkillEffectLifecycleInstanceScope.TARGET, detail.lifecycle().instanceScope());
         assertEquals(DURATION_FORMULA, detail.lifecycle().durationFormulaKey());
         assertEquals(SkillEffectLifecycleMoment.APPLICATION, detail.results().get(0).lifecycleBehavior().moment());
-        verify(mapper).insertLifecycle(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY),
-            eq(DURATION_FORMULA), eq(MAX_STACKS_FORMULA), eq(APP_STACKS_FORMULA),
-            eq(SkillEffectLifecycleInstanceScope.TARGET),
-            eq(SkillEffectLifecycleReapplicationStackMode.INCREASE),
-            eq(SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL),
-            eq(SkillEffectLifecycleExpiryMode.ALL_AT_ONCE),
-            isNull(), isNull()
-        );
-        verify(mapper).insertLifecycleBehavior(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("physical_hit"),
-            eq(SkillEffectLifecycleMoment.APPLICATION),
-            eq(SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT),
-            isNull(), isNull(), isNull()
-        );
-        verify(mapper, never()).deleteLifecycle(any(), any(), any());
     }
 
     @Test
@@ -1969,18 +1805,14 @@ class SkillEffectServiceTest {
         assertField(linearWithoutDuration, "lifecycle.durationFormulaKey", "REQUIRED");
 
         stubParentAndNewKey();
-        stubAllInserts();
         stubEnabledCatalogs();
-        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
+
         stubDetailRead(
             List.of(resultRow("normal_shield", SkillEffectResultType.NORMAL_SHIELD)),
             List.of(valueRow("normal_shield")),
             new DetailBundle(List.of(), List.of(), List.of(), List.of(), List.of())
         );
-        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listNormalShieldInteractions", List.of(
             new SkillEffectNormalShieldInteractionRow(
                 GAME_ID,
                 SKILL_KEY,
@@ -1990,8 +1822,8 @@ class SkillEffectServiceTest {
                 SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO
             )
         ));
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycle", lifecycleRow());
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "normal_shield",
                 SkillEffectLifecycleMoment.PERSISTENT,
@@ -2112,13 +1944,13 @@ class SkillEffectServiceTest {
         );
         assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
         assertField(exception, "results[0].detail.targetEffectKey", "TARGET_EFFECT_HAS_NO_DURATION");
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void deletePrefersProcessBindingOverLifecycleReference() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(2L);
         when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(3L);
 
@@ -2129,7 +1961,7 @@ class SkillEffectServiceTest {
     @Test
     void deleteLifecycleInUseWhenOnlyOperationReferencesExist() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
         when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
 
@@ -2141,11 +1973,11 @@ class SkillEffectServiceTest {
     @Test
     void removingLifecycleIsRejectedWhenReferencedAndClearingDurationIsRejectedWhenRefreshInUse() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
         when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
         stubEnabledCatalogs();
 
@@ -2155,10 +1987,6 @@ class SkillEffectServiceTest {
                 GAME_ID, SKILL_KEY, EFFECT_KEY,
                 new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
             )
-        );
-        verify(mapper, never()).deleteLifecycle(any(), any(), any());
-        verify(mapper, never()).updateLifecycle(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
         );
 
         when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
@@ -2190,24 +2018,21 @@ class SkillEffectServiceTest {
         );
         assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", refresh.getCode());
         assertField(refresh, "lifecycle.durationFormulaKey", "REFRESH_OPERATION_IN_USE");
-        verify(mapper, never()).updateLifecycle(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
-        );
     }
 
     @Test
     void updateExistingLifecycleUsesInPlaceUpdate() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
+        fixture.put("listValues", List.of(valueRow("physical_hit")));
+        fixture.put("listDamageDetails", List.of(
             new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
         ));
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectLifecycleMoment.APPLICATION,
@@ -2216,14 +2041,7 @@ class SkillEffectServiceTest {
             )
         ));
         stubEnabledCatalogs();
-        when(mapper.updateLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+
         stubDetailRead(
             List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
             List.of(valueRow("physical_hit")),
@@ -2234,7 +2052,7 @@ class SkillEffectServiceTest {
                 List.of(), List.of(), List.of(), List.of()
             )
         );
-        when(mapper.findLifecycle(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        fixture.put("findLifecycle", lifecycleRow());
 
         service.update(
             GAME_ID,
@@ -2244,19 +2062,6 @@ class SkillEffectServiceTest {
                 null, "命中结果", null, 10, timedLifecycle(),
                 List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
             )
-        );
-        verify(mapper).updateLifecycle(
-            eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY),
-            eq(DURATION_FORMULA), eq(MAX_STACKS_FORMULA), eq(APP_STACKS_FORMULA),
-            eq(SkillEffectLifecycleInstanceScope.TARGET),
-            eq(SkillEffectLifecycleReapplicationStackMode.INCREASE),
-            eq(SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL),
-            eq(SkillEffectLifecycleExpiryMode.ALL_AT_ONCE),
-            isNull(), isNull()
-        );
-        verify(mapper, never()).deleteLifecycle(any(), any(), any());
-        verify(mapper, never()).insertLifecycle(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
         );
     }
 
@@ -2283,17 +2088,17 @@ class SkillEffectServiceTest {
         assertField(exception, "lifecycle.durationFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
         assertField(exception, "lifecycle.maxStacksFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
         assertField(exception, "results[0].valueRule.formulaKey", "UNKNOWN_FORMULA");
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void instanceScopeIsImmutableOnExistingLifecycle() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
 
         ApiException exception = assertThrows(
             ApiException.class,
@@ -2317,9 +2122,6 @@ class SkillEffectServiceTest {
         );
         assertEquals("400.VALIDATION_FAILED", exception.getCode());
         assertField(exception, "lifecycle.instanceScope", "IMMUTABLE");
-        verify(mapper, never()).updateLifecycle(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
-        );
     }
 
     @Test
@@ -2340,7 +2142,7 @@ class SkillEffectServiceTest {
         DataIntegrityViolationException unrelated = new DataIntegrityViolationException(
             "violates foreign key constraint fk_unrelated_table"
         );
-        when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenThrow(unrelated);
+        when(mapper.insertEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(unrelated);
         DataIntegrityViolationException thrown = assertThrows(
             DataIntegrityViolationException.class,
             () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly())
@@ -2351,16 +2153,16 @@ class SkillEffectServiceTest {
     @Test
     void assembleReturnsInternalErrorWhenShapeIsCorrupt() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResults(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> readEffect());
+        fixture.put("listResults", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        fixture.put("listValues", List.of());
+        fixture.put("listDamageDetails", List.of());
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of());
+        fixture.put("listStatusOperationDetails", List.of());
 
         ApiException exception = assertThrows(
             ApiException.class,
@@ -2377,7 +2179,7 @@ class SkillEffectServiceTest {
     void duplicateEffectKeyMapsToStableConflict() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
-        when(mapper.insertEffect(any(), any(), any(), any(), any(), any()))
+        when(mapper.insertEffect(any(), any(), any(), any(), any(), any(), any(), any()))
             .thenThrow(new DataIntegrityViolationException("violates pk_skill_effects"));
 
         assertCode("409.SKILL_EFFECT_KEY_EXISTS", () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly()));
@@ -2387,9 +2189,9 @@ class SkillEffectServiceTest {
     void triggerRuleProtectsEffectDeleteUpdateAndCycleWithLongConstructor() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
         when(triggerRuleService.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
             Map.of("field", "effectKey", "code", "TRIGGER_RULE_EFFECT_IN_USE", "message", "技能效果仍被触发规则引用，不能删除")
@@ -2410,10 +2212,10 @@ class SkillEffectServiceTest {
             "结果仍被触发规则引用，不能移除",
             Map.of("fieldIssues", List.of(Map.of("field", "results", "code", "TRIGGER_RULE_RESULT_IN_USE")))
         )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
         stubEnabledCatalogs();
         ApiException result = assertThrows(
             ApiException.class,
@@ -2432,15 +2234,15 @@ class SkillEffectServiceTest {
             "触发规则存在未受保护的循环",
             Map.of()
         )).when(triggerRuleService).assertCurrentSkillCycle(GAME_ID, SKILL_KEY);
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(lifecycleRow());
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
+        fixture.put("listValues", List.of(valueRow("physical_hit")));
+        fixture.put("listDamageDetails", List.of(
             new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
         ));
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listLifecycleBehaviors", List.of(
             new SkillEffectResultLifecycleBehaviorRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectLifecycleMoment.APPLICATION,
@@ -2449,14 +2251,7 @@ class SkillEffectServiceTest {
             )
         ));
         stubEnabledCatalogs();
-        when(mapper.updateLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+
         assertCode(
             "400.TRIGGER_RULE_CYCLE_UNGUARDED",
             () -> guarded.update(
@@ -2473,13 +2268,13 @@ class SkillEffectServiceTest {
     void stage765InboundShapeConflictDoesNotWriteAndUnreferencedUpdateSucceeds() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
-        when(mapper.findLifecycleForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(null);
+        fixture.put("findLifecycleForUpdate", null);
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
             "409.SKILL_EFFECT_IN_USE",
@@ -2503,25 +2298,20 @@ class SkillEffectServiceTest {
         assertEquals("409.SKILL_EFFECT_IN_USE", blocked.getCode());
         assertField(blocked, "results[0].detail.vampRules", "TRIGGER_RULE_SHAPE_IN_USE");
         assertEquals("ACTUAL_HEALING", fieldIssues(blocked).get(0).get("outputKind"));
-        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any());
-        verify(mapper, never()).updateResult(any(), any(), any(), any(), any(), any(), any(), any());
-        verify(mapper, never()).deleteResults(any(), any(), any(), any());
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
 
         org.mockito.Mockito.reset(triggerRuleService);
         stubEnabledCatalogs();
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(valueRow("physical_hit")));
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        fixture.put("listValues", List.of(valueRow("physical_hit")));
+        fixture.put("listDamageDetails", List.of(
             new SkillEffectDamageDetailRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit", "physical")
         ));
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listLifecycleBehaviors(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.updateResult(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10)).thenReturn(1);
+        fixture.put("listAttributeChangeDetails", List.of());
+        fixture.put("listResourceChangeDetails", List.of());
+        fixture.put("listCooldownChangeDetails", List.of());
+        fixture.put("listStatusOperationDetails", List.of());
+        fixture.put("listLifecycleBehaviors", List.of());
+
         stubDetailRead(
             List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE)),
             List.of(valueRow("physical_hit")),
@@ -2536,44 +2326,127 @@ class SkillEffectServiceTest {
             GAME_ID, SKILL_KEY, EFFECT_KEY,
             new SkillEffectUpdateRequest(null, "命中结果", null, 10, List.of(damageResult("physical_hit")))
         );
-        verify(mapper).updateEffect(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10);
+        verify(mapper).updateEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), eq(null), eq(10), any(), any());
     }
+
+    private int saveAggregate(org.mockito.invocation.InvocationOnMock invocation) {
+        savedEffect = new SkillEffectRow(invocation.getArgument(0), invocation.getArgument(1), invocation.getArgument(2),
+            invocation.getArgument(3), invocation.getArgument(4), invocation.getArgument(5),
+            invocation.getArgument(6), invocation.getArgument(7), TS, TS);
+        return 1;
+    }
+
+    @Test
+    void savesAndReadsRootJsonWithExactDecimalsExplicitNullsAndCanonicalResultOrder() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> readEffect());
+        BigDecimal multiplier = new BigDecimal("12345678901234567890.1234567890123456789");
+        SkillEffectResultRequest precise = new SkillEffectResultRequest(
+            "z_heal", "精确治疗", SkillEffectResultType.DIRECT_HEAL, SkillEffectTarget.SOURCE, null, 10,
+            new SkillEffectValueRuleRequest(FORMULA_KEY, multiplier, null, null), new SkillEffectDirectHealDetail(), null, null
+        );
+        SkillEffectResultRequest damage = damageResult("a_damage");
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "命中结果", null, 10, List.of(precise, damage)));
+
+        assertNull(savedEffect.lifecycle());
+        var stored = AggregateJson.tree(savedEffect.results());
+        assertEquals("a_damage", stored.get(0).path("resultKey").asText());
+        assertEquals("z_heal", stored.get(1).path("resultKey").asText());
+        assertEquals(0, multiplier.compareTo(stored.get(1).path("valueRule").path("fixedMultiplier").decimalValue()));
+        assertTrue(stored.get(1).has("spellShieldBlockScope"));
+        assertTrue(stored.get(1).get("spellShieldBlockScope").isNull());
+        assertTrue(stored.get(1).get("lifecycleBehavior").isNull());
+        assertFalse(stored.get(0).path("detail").has("resultType"));
+        assertFalse(stored.get(0).path("detail").has("foreignFields"));
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        SkillEffectDetailResponse readBack = service.get(GAME_ID, SKILL_KEY, EFFECT_KEY);
+        assertEquals(created, readBack);
+        assertEquals(0, multiplier.compareTo(readBack.results().get(1).valueRule().fixedMultiplier()));
+        verify(mapper).insertEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(), any(), any(), any(), isNull());
+    }
+
+    private SkillEffectRow readEffect() {
+        return savedEffect == null ? fixtureRow(false) : savedEffect;
+    }
+
+    private SkillEffectRow fixtureRow(boolean forUpdate) {
+        String resultsKey = forUpdate ? "listResultsForUpdate" : "listResults";
+        String lifecycleKey = forUpdate ? "findLifecycleForUpdate" : "findLifecycle";
+        List<ObjectNode> results = fixtureRows(resultsKey).stream().map(row -> {
+            ObjectNode result = row.deepCopy();
+            String key = result.path("resultKey").asText();
+            result.remove(List.of("gameId", "skillKey", "effectKey"));
+            result.set("valueRule", fixturePart("listValues", key));
+            ObjectNode policy = fixturePart("listSpellShieldPolicies", key);
+            result.set("spellShieldBlockScope", policy == null ? null : policy.get("blockScope"));
+            result.set("lifecycleBehavior", fixturePart("listLifecycleBehaviors", key));
+            String detailRows = switch (result.path("resultType").asText()) {
+                case "DAMAGE" -> "listDamageDetails";
+                case "NORMAL_SHIELD" -> "listNormalShieldInteractions";
+                case "ATTRIBUTE_CHANGE" -> "listAttributeChangeDetails";
+                case "RESOURCE_CHANGE" -> "listResourceChangeDetails";
+                case "COOLDOWN_CHANGE" -> "listCooldownChangeDetails";
+                case "SKILL_HASTE_MODIFIER" -> "listHasteModifierDetails";
+                case "STATUS_OPERATION" -> "listStatusOperationDetails";
+                case "LIFECYCLE_OPERATION" -> "listLifecycleOperationDetails";
+                case "DAMAGE_MODIFIER" -> "listDamageModifierDetails";
+                case "HEALING_MODIFIER" -> "listHealingModifierDetails";
+                case "DAMAGE_IMMUNITY" -> "listDamageImmunityDetails";
+                case "HEALTH_FLOOR" -> "listHealthFloorDetails";
+                case "EXECUTE" -> "listExecuteDetails";
+                default -> null;
+            };
+            ObjectNode detail = detailRows == null ? emptyJson() : fixturePart(detailRows, key);
+            if (detail == null) detail = emptyJson();
+            if (result.path("resultType").asText().equals("DAMAGE")) {
+                ObjectNode critical = fixturePart("listCriticalPolicies", key);
+                if (critical != null) critical.set("mode", critical.remove("criticalMode"));
+                detail.set("critical", critical);
+                var vamp = detail.putArray("vampRules");
+                fixtureRows("listVampRules").stream().filter(item -> item.path("resultKey").asText().equals(key))
+                    .forEach(item -> { item.remove(List.of("gameId", "skillKey", "effectKey", "resultKey")); vamp.add(item); });
+            }
+            if (result.path("resultType").asText().equals("COOLDOWN_CHANGE") || result.path("resultType").asText().equals("SKILL_HASTE_MODIFIER")) {
+                ObjectNode scope = fixturePart("listSkillScopes", key);
+                if (scope == null) scope = emptyJson();
+                var skills = scope.putArray("skillKeys");
+                fixtureRows("listSkillTargets").stream().filter(item -> item.path("resultKey").asText().equals(key))
+                    .forEach(item -> skills.add(item.path("affectedSkillKey").asText()));
+                var categories = scope.putArray("skillCategoryKeys");
+                fixtureRows("listSkillCategoryTargets").stream().filter(item -> item.path("resultKey").asText().equals(key))
+                    .forEach(item -> categories.add(item.path("skillCategoryKey").asText()));
+                detail.set("affectedSkillScope", scope);
+            }
+            result.set("detail", detail);
+            return result;
+        }).toList();
+        Object lifecycle = fixture.get(lifecycleKey);
+        ObjectNode lifecycleJson = lifecycle == null ? null : (ObjectNode) AggregateJson.tree(AggregateJson.write(lifecycle));
+        if (lifecycleJson != null) lifecycleJson.remove(List.of("gameId", "skillKey", "effectKey"));
+        return new SkillEffectRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10,
+            AggregateJson.write(results), lifecycleJson == null ? null : AggregateJson.write(lifecycleJson), TS, TS);
+    }
+
+    private ObjectNode fixturePart(String name, String key) {
+        return fixtureRows(name).stream().filter(row -> row.path("resultKey").asText().equals(key)).findFirst()
+            .map(row -> { row.remove(List.of("gameId", "skillKey", "effectKey", "resultKey")); return row; }).orElse(null);
+    }
+
+    private List<ObjectNode> fixtureRows(String name) {
+        Object rows = fixture.getOrDefault(name, List.of());
+        if (rows == null) return List.of();
+        List<ObjectNode> parsed = new ArrayList<>();
+        AggregateJson.tree(AggregateJson.write(rows)).forEach(row -> parsed.add((ObjectNode) row));
+        return parsed;
+    }
+
+    private static ObjectNode emptyJson() { return (ObjectNode) AggregateJson.tree("{}"); }
 
     private void stubParentAndNewKey() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
-    }
-
-    private void stubAllInserts() {
-        when(mapper.insertEffect(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertResult(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertValue(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertDamageDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCriticalPolicy(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertVampRule(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertNormalShieldInteraction(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertDamageModifierDetail(
-            any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
-        )).thenReturn(1);
-        when(mapper.insertHealingModifierDetail(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertDamageImmunityDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertHealthFloorDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertExecuteDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertAttributeChangeDetail(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertResourceChangeDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertCooldownChangeDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertSkillScope(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertSkillTarget(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertSkillCategoryTarget(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertHasteModifierDetail(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.updateSkillScope(any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.deleteSkillTargets(any(), any(), any(), any())).thenReturn(1);
-        when(mapper.deleteSkillCategoryTargets(any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertStatusOperationDetail(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        when(mapper.insertLifecycle(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
-        when(mapper.insertLifecycleBehavior(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-            .thenReturn(1);
     }
 
     @SuppressWarnings("unchecked")
@@ -2614,32 +2487,28 @@ class SkillEffectServiceTest {
         List<SkillEffectResultValueRow> values,
         DetailBundle details
     ) {
-        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
-        when(mapper.listResults(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(results);
-        when(mapper.listValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(values);
-        when(mapper.listDamageDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.damage);
-        when(mapper.listCriticalPolicies(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            results.stream()
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> readEffect());
+        fixture.put("listResults", results);
+        fixture.put("listValues", values);
+        fixture.put("listDamageDetails", details.damage);
+        fixture.put("listCriticalPolicies", results.stream()
                 .filter(row -> row.resultType() == SkillEffectResultType.DAMAGE)
                 .map(row -> new SkillEffectCriticalPolicyRow(
                     row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(),
                     SkillEffectCriticalMode.DISALLOWED, null
                 ))
-                .toList()
-        );
-        when(mapper.listVampRules(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
-        when(mapper.listNormalShieldInteractions(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(
-            results.stream()
+                .toList());
+        fixture.put("listVampRules", List.of());
+        fixture.put("listNormalShieldInteractions", results.stream()
                 .filter(row -> row.resultType() == SkillEffectResultType.NORMAL_SHIELD)
                 .map(row -> new SkillEffectNormalShieldInteractionRow(
                     row.gameId(), row.skillKey(), row.effectKey(), row.resultKey(),
                     null, SkillEffectNormalShieldDecayMode.NONE
                 ))
-                .toList()
-        );
-        when(mapper.listAttributeChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.attributes);
-        when(mapper.listResourceChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.resources);
-        when(mapper.listCooldownChangeDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.cooldowns);
+                .toList());
+        fixture.put("listAttributeChangeDetails", details.attributes);
+        fixture.put("listResourceChangeDetails", details.resources);
+        fixture.put("listCooldownChangeDetails", details.cooldowns);
         List<SkillEffectSkillScopeRow> scopes = details.skillScopes;
         List<SkillEffectSkillTargetRow> skillTargets = details.skillTargets;
         if (scopes.isEmpty() && skillTargets.isEmpty() && !details.cooldowns.isEmpty()) {
@@ -2655,11 +2524,11 @@ class SkillEffectServiceTest {
                 ))
                 .toList();
         }
-        when(mapper.listSkillScopes(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(scopes);
-        when(mapper.listSkillTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(skillTargets);
-        when(mapper.listSkillCategoryTargets(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.skillCategoryTargets);
-        when(mapper.listHasteModifierDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.hasteModifiers);
-        when(mapper.listStatusOperationDetails(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(details.statuses);
+        fixture.put("listSkillScopes", scopes);
+        fixture.put("listSkillTargets", skillTargets);
+        fixture.put("listSkillCategoryTargets", details.skillCategoryTargets);
+        fixture.put("listHasteModifierDetails", details.hasteModifiers);
+        fixture.put("listStatusOperationDetails", details.statuses);
     }
 
     private static SkillEffectCreateRequest createSixNonShieldResults() {
@@ -2936,10 +2805,6 @@ class SkillEffectServiceTest {
         return new SkillEffectResultValueRow(
             GAME_ID, SKILL_KEY, EFFECT_KEY, resultKey, FORMULA_KEY, BigDecimal.ONE, null, null
         );
-    }
-
-    private static SkillEffectRow effectRow() {
-        return new SkillEffectRow(GAME_ID, SKILL_KEY, EFFECT_KEY, "命中结果", null, 10, TS, TS);
     }
 
     private static SkillEffectSummaryResponse summary() {

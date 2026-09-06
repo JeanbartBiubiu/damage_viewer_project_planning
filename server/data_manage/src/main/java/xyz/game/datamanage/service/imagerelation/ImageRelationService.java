@@ -20,13 +20,16 @@ import xyz.game.datamanage.support.error.ApiException;
 
 @Service
 public class ImageRelationService {
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
     private static final Pattern IMAGE_KEY = Pattern.compile("^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$");
     private final GamesMapper gamesMapper;
     private final ImageRelationMapper mapper;
 
-    public ImageRelationService(GamesMapper gamesMapper, ImageRelationMapper mapper) {
+    public ImageRelationService(GamesMapper gamesMapper, ImageRelationMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -42,6 +45,7 @@ public class ImageRelationService {
         String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey,
         RepresentativeImageRequest request
     ) {
+        configurationWrites.begin(gameId);
         validateRequest(request);
         RepresentativeImageResponse.Image current = readCurrent(gameId, sourceType, sourceParentKey, sourceKey);
         RepresentativeImageResponse.Image selected = mapper.findImage(gameId, request.imageKey());
@@ -61,6 +65,7 @@ public class ImageRelationService {
     @Transactional
     @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#sourceType.name() == 'GAME'")
     public void delete(String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey) {
+        configurationWrites.begin(gameId);
         RepresentativeImageResponse.Image current = readCurrent(gameId, sourceType, sourceParentKey, sourceKey);
         if (current == null || mapper.deleteForSource(gameId, sourceType.name(), sourceParentKey, sourceKey) == 0) {
             throw new ApiException(HttpStatus.NOT_FOUND, "404.RELATION_NOT_FOUND", "代表图片关系不存在",
