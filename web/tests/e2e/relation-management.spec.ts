@@ -239,7 +239,7 @@ class RelationApi {
     }
     if (resource === 'skills' && tail[2] === 'effects' && method === 'GET') {
       const effect = this.effect(gameId, tail[1]!);
-      await this.json(route, tail.length === 3 ? [effect] : effect);
+      await this.json(route, tail.length === 3 ? [{ ...effect, lifecycleEnabled: false }] : effect);
       return;
     }
     const rows = this.rows[gameId]![resource];

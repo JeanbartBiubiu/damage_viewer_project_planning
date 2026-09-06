@@ -92,8 +92,8 @@ async function normalized<T>(result: Promise<ApiResult<unknown>>, parse: (value:
   return { ...response, data: parse(response.data) };
 }
 
-export function getRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string): Promise<ApiResult<RepresentativeImageResponse>> {
-  return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), { token }), parseRepresentative);
+export function getRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, signal?: AbortSignal): Promise<ApiResult<RepresentativeImageResponse>> {
+  return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), { token, signal }), parseRepresentative);
 }
 
 export function setRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, imageKey: string): Promise<ApiResult<RepresentativeImageResponse>> {
