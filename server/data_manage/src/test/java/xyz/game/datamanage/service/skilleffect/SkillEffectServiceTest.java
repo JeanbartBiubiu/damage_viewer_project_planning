@@ -32,6 +32,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skill.SkillRow;
@@ -125,6 +126,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -145,6 +147,8 @@ class SkillEffectServiceTest {
     private static final OffsetDateTime TS = OffsetDateTime.parse("2026-08-27T00:00:00Z");
 
     @Mock private GamesMapper gamesMapper;
+    @Mock private SkillTriggerRuleService triggerRuleService;
+    @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private SkillMapper skillMapper;
     @Mock private SkillEffectMapper mapper;
 
@@ -152,7 +156,7 @@ class SkillEffectServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillEffectService(gamesMapper, skillMapper, mapper);
+        service = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -1743,6 +1747,7 @@ class SkillEffectServiceTest {
 
         assertCode("409.SKILL_EFFECT_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
         verify(mapper, never()).deleteEffect(any(), any(), any());
+        org.mockito.Mockito.verifyNoInteractions(imageRelationMapper);
 
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
         when(mapper.deleteEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenThrow(
@@ -2130,6 +2135,7 @@ class SkillEffectServiceTest {
 
         assertCode("409.SKILL_EFFECT_LIFECYCLE_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
         verify(mapper, never()).deleteEffect(any(), any(), any());
+        org.mockito.Mockito.verifyNoInteractions(imageRelationMapper);
     }
 
     @Test
@@ -2381,7 +2387,7 @@ class SkillEffectServiceTest {
     void triggerRuleProtectsEffectDeleteUpdateAndCycleWithLongConstructor() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
@@ -2467,7 +2473,7 @@ class SkillEffectServiceTest {
     void stage765InboundShapeConflictDoesNotWriteAndUnreferencedUpdateSucceeds() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService);
+        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper);
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(effectRow());
         when(mapper.listResultsForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(

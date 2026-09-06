@@ -21,6 +21,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.equipment.EquipmentMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.equipment.EquipmentAttributeDefinition;
@@ -37,6 +38,7 @@ class EquipmentServiceTest {
     private static final String EQUIPMENT_KEY = "long_sword";
 
     @Mock private GamesMapper gamesMapper;
+    @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private EquipmentMapper equipmentMapper;
 
     private ObjectMapper objectMapper;
@@ -45,7 +47,7 @@ class EquipmentServiceTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        service = new EquipmentService(gamesMapper, equipmentMapper, objectMapper);
+        service = new EquipmentService(gamesMapper, equipmentMapper, objectMapper, imageRelationMapper);
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 

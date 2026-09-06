@@ -2,6 +2,7 @@ package xyz.game.datamanage.service.skill;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -10,10 +11,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
+import xyz.game.datamanage.mapper.skillrelation.SkillRelationMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
 import xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper;
@@ -45,6 +50,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 
 @ExtendWith(MockitoExtension.class)
 class SkillServiceTest {
@@ -53,7 +59,10 @@ class SkillServiceTest {
     private static final String SKILL_KEY = "ezreal_q";
 
     @Mock private GamesMapper gamesMapper;
+    @Mock private SkillTriggerRuleService triggerRuleService;
+    @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private SkillMapper mapper;
+    @Mock private SkillRelationMapper skillRelationMapper;
     @Mock private SkillParameterMapper parameterMapper;
     @Mock private SkillFormulaMapper formulaMapper;
     @Mock private SkillEffectMapper effectMapper;
@@ -73,7 +82,10 @@ class SkillServiceTest {
             effectMapper,
             processMapper,
             internalStateMapper,
-            levelService
+            levelService,
+            triggerRuleService,
+            imageRelationMapper,
+            skillRelationMapper
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
@@ -468,6 +480,46 @@ class SkillServiceTest {
         verify(formulaMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(parameterMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
+        verifyNoInteractions(imageRelationMapper);
+    }
+
+    @Test
+    void mountedSkillRejectsDeletionBeforeAnyChildOrImageCleanup() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(skillRelationMapper.countBySkill(GAME_ID, SKILL_KEY)).thenReturn(2L);
+
+        assertCode("409.SKILL_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY));
+
+        verifyNoInteractions(
+            triggerRuleService, effectMapper, processMapper, internalStateMapper,
+            formulaMapper, parameterMapper, imageRelationMapper
+        );
+        verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void foreignKeyDeletionRaceReturnsStableConflictAndDoesNotCleanImages() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        when(mapper.delete(GAME_ID, SKILL_KEY)).thenThrow(new DataIntegrityViolationException(
+            "fk_character_skill_relations_skill", new SQLException("referenced", "23503")
+        ));
+
+        assertCode("409.SKILL_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY));
+
+        verifyNoInteractions(imageRelationMapper);
+    }
+
+    @Test
+    void unrelatedDatabaseFailureIsNotRelabeledAsSkillInUse() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
+        DataIntegrityViolationException failure = new DataIntegrityViolationException(
+            "check failed", new SQLException("check", "23514")
+        );
+        when(mapper.delete(GAME_ID, SKILL_KEY)).thenThrow(failure);
+
+        assertSame(failure, assertThrows(DataIntegrityViolationException.class,
+            () -> service.delete(GAME_ID, SKILL_KEY)));
+        verifyNoInteractions(imageRelationMapper);
     }
 
     @Test
@@ -477,7 +529,7 @@ class SkillServiceTest {
         SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
         SkillService guarded = new SkillService(
             gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, processMapper,
-            internalStateMapper, levelService, triggerRuleService
+            internalStateMapper, levelService, triggerRuleService, imageRelationMapper, skillRelationMapper
         );
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
         org.mockito.Mockito.doThrow(new ApiException(
@@ -491,6 +543,7 @@ class SkillServiceTest {
         verify(triggerRuleService, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(processMapper, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
+        verifyNoInteractions(imageRelationMapper);
 
         org.mockito.Mockito.reset(triggerRuleService);
         org.mockito.Mockito.clearInvocations(

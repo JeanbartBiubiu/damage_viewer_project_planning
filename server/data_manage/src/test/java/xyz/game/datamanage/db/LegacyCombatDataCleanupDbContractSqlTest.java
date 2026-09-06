@@ -247,9 +247,9 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         assertEquals(59, KEEP_PARENTS.size());
         assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
         assertEquals(29, STAGE_7_5_PARENTS.size());
-        assertEquals(88, expected.size());
+        assertEquals(91, expected.size());
         assertEquals(expected, created);
-        assertEquals(88, created.size());
+        assertEquals(91, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(
                 schemaNormalized.contains("create table public." + table + " "),
@@ -439,6 +439,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         current.addAll(KEEP_PARENTS.subList(0, KEEP_PARENTS.size() - 1));
         current.addAll(STAGE_7_5_PARENTS);
         current.add(KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
+        current.addAll(List.of("character_skill_relations", "equipment_skill_relations", "image_relations"));
         return current;
     }
 
