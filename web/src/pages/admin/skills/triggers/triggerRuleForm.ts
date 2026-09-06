@@ -1,3 +1,6 @@
+import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
+import { numericValueError, numericValuesIn } from '../numericValueForm';
+import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { DamageType } from '../../../../types/damageType';
 import type { FormulaAttributeValueKind, FormulaExpressionNode, SkillFormula } from '../../../../types/skillFormula';
@@ -12,7 +15,6 @@ import type {
   SkillProcess,
   SkillProcessMoment,
   SkillProcessMomentType,
-  SkillProcessStep,
   SkillProcessStepType
 } from '../../../../types/skillProcess';
 import type {
@@ -108,7 +110,7 @@ export const DISABLED_CATALOG_LABEL = '已停用';
 export const MISSING_CATALOG_LABEL = '目录缺失';
 export const INCOMPLETE_CATALOG_MESSAGE = '缺少当前表单必需目录，无法保存。';
 export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
-export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数公式，不执行计数。';
+export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数取值，不执行计数。';
 
 export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS = [
   'CONFIGURED_VALUE',
@@ -422,7 +424,7 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     currentTargetBinding: 'subject 指定的生命属性变化对象。',
     hasEventSource: false,
     requiredCatalogs: ['attributes', 'formulas'],
-    detailFields: ['subject', 'attributeKey', 'thresholdFormulaKey', 'direction']
+    detailFields: ['subject', 'attributeKey', 'thresholdValue', 'direction']
   },
   INTERNAL_STATE_CHANGED: {
     eventType: 'INTERNAL_STATE_CHANGED',
@@ -510,7 +512,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   STATE_AFTER: '数值内部状态变化后值',
   ATTRIBUTE_BEFORE: '生命属性越阈值前值',
   ATTRIBUTE_AFTER: '生命属性越阈值后值',
-  THRESHOLD_VALUE: '本次阈值公式值',
+  THRESHOLD_VALUE: '本次阈值取值值',
   RAW_DAMAGE: '原始伤害',
   POST_DEFENSE_DAMAGE: '防御后伤害',
   HEALTH_BEFORE: '受伤前生命',
@@ -735,10 +737,10 @@ export type SkillTriggerRuleDraft = {
   conditionGroups: SkillTriggerConditionGroupDraft[];
   actions: SkillTriggerActionDraft[];
   perTargetCooldownEnabled: boolean;
-  perTargetCooldownDurationFormulaKey: string;
+  perTargetCooldownDurationValue: NumericValue | null;
   perTargetCooldownTargetContext: SkillTriggerTargetContext;
   maxTriggersPerProcessEnabled: boolean;
-  maxTriggersLimitFormulaKey: string;
+  maxTriggersLimitValue: NumericValue | null;
 };
 
 export type SkillTriggerDraftField =
@@ -884,7 +886,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
         detail: {
           subject: 'SOURCE',
           attributeKey: '',
-          thresholdFormulaKey: '',
+          thresholdValue: fixedValue(Number.NaN),
           direction: 'DOWNWARD'
         }
       };
@@ -941,7 +943,7 @@ export function createEmptyConditionDetail(
         attributeKey: '',
         attributeValueKind: 'CURRENT',
         comparator: 'LTE',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
     case 'STATUS_CHECK':
       return {
@@ -951,7 +953,7 @@ export function createEmptyConditionDetail(
         sourceEffectKey: null,
         sourceResultKey: null,
         comparator: null,
-        comparisonFormulaKey: null
+        comparisonValue: null
       };
     case 'INTERNAL_STATE_CHECK':
       return {
@@ -960,13 +962,13 @@ export function createEmptyConditionDetail(
         optionKey: null,
         expectedBoolean: null,
         comparator: 'GTE',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
     case 'EVENT_VALUE_COMPARE':
       return {
         eventValueKey: 'HIT_INDEX',
         comparator: 'EQ',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
   }
 }
@@ -1192,10 +1194,10 @@ export function createEmptyRuleDraft(): SkillTriggerRuleDraft {
     conditionGroups: [],
     actions: [createEmptyActionDraft([])],
     perTargetCooldownEnabled: false,
-    perTargetCooldownDurationFormulaKey: '',
+    perTargetCooldownDurationValue: null,
     perTargetCooldownTargetContext: 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: false,
-    maxTriggersLimitFormulaKey: ''
+    maxTriggersLimitValue: null
   };
 }
 
@@ -1382,7 +1384,7 @@ export function rebuildStatusCheckDetail(
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     };
   }
   return {
@@ -1398,9 +1400,9 @@ export function rebuildStatusCheckDetail(
     comparator: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
       ? current.comparator
       : 'GTE',
-    comparisonFormulaKey: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
-      ? current.comparisonFormulaKey
-      : ''
+    comparisonValue: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
+      ? current.comparisonValue
+      : fixedValue(Number.NaN)
   };
 }
 
@@ -1437,9 +1439,9 @@ export function rebuildInternalStateCheckDetail(
       comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonFormulaKey: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
-        ? current.comparisonFormulaKey
-        : ''
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+        ? current.comparisonValue
+        : fixedValue(Number.NaN)
     };
   }
   if (valueKind === 'REMAINING_MS') {
@@ -1451,9 +1453,9 @@ export function rebuildInternalStateCheckDetail(
       comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonFormulaKey: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
-        ? current.comparisonFormulaKey
-        : ''
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+        ? current.comparisonValue
+        : fixedValue(Number.NaN)
     };
   }
   if (valueKind === 'OPTION_SELECTED') {
@@ -1463,7 +1465,7 @@ export function rebuildInternalStateCheckDetail(
       optionKey: current.valueKind === 'OPTION_SELECTED' ? current.optionKey : '',
       expectedBoolean: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     };
   }
   return {
@@ -1472,7 +1474,7 @@ export function rebuildInternalStateCheckDetail(
     optionKey: null,
     expectedBoolean: current.valueKind === 'ENABLED' ? current.expectedBoolean : true,
     comparator: null,
-    comparisonFormulaKey: null
+    comparisonValue: null
   };
 }
 
@@ -1546,7 +1548,7 @@ export function patchStatusCompareFields(
   current: SkillTriggerStatusCheckConditionDraft,
   patch: Partial<Pick<
     SkillTriggerStatusCompareDetail,
-    'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonFormulaKey'
+    'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerStatusCheckConditionDraft {
   if (current.detail.checkKind !== 'STACKS_COMPARE' && current.detail.checkKind !== 'REMAINING_MS_COMPARE') {
@@ -1593,7 +1595,7 @@ export function patchInternalStateCompareFields(
   current: SkillTriggerInternalStateCheckConditionDraft,
   patch: Partial<Pick<
     SkillTriggerInternalStateValueDetail,
-    'comparator' | 'comparisonFormulaKey'
+    'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerInternalStateCheckConditionDraft {
   if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
@@ -1856,10 +1858,10 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
     })),
     actions: detail.actions.map(actionFromDetail),
     perTargetCooldownEnabled: detail.perTargetCooldown !== null,
-    perTargetCooldownDurationFormulaKey: detail.perTargetCooldown?.durationFormulaKey ?? '',
+    perTargetCooldownDurationValue: detail.perTargetCooldown?.durationValue ?? null,
     perTargetCooldownTargetContext: detail.perTargetCooldown?.targetContext ?? 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: detail.maxTriggersPerProcess !== null,
-    maxTriggersLimitFormulaKey: detail.maxTriggersPerProcess?.limitFormulaKey ?? ''
+    maxTriggersLimitValue: detail.maxTriggersPerProcess?.limitValue ?? null
   };
 }
 
@@ -1982,14 +1984,14 @@ function protectionsFromDraft(draft: SkillTriggerRuleDraft): Pick<
   return {
     perTargetCooldown: draft.perTargetCooldownEnabled
       ? {
-          durationFormulaKey: draft.perTargetCooldownDurationFormulaKey.trim(),
+          durationValue: draft.perTargetCooldownDurationValue!,
           targetContext: draft.perTargetCooldownTargetContext
         }
       : null,
     maxTriggersPerProcess: draft.maxTriggersPerProcessEnabled && draft.eventSource.eventType === 'PROCESS_MOMENT'
       ? {
           processKey,
-          limitFormulaKey: draft.maxTriggersLimitFormulaKey.trim()
+          limitValue: draft.maxTriggersLimitValue!
         }
       : null
   };
@@ -2178,9 +2180,9 @@ export function applyEventSwitchCleanup(
     maxTriggersPerProcessEnabled: nextSource.eventType === 'PROCESS_MOMENT'
       ? draft.maxTriggersPerProcessEnabled
       : false,
-    maxTriggersLimitFormulaKey: nextSource.eventType === 'PROCESS_MOMENT'
-      ? draft.maxTriggersLimitFormulaKey
-      : ''
+    maxTriggersLimitValue: nextSource.eventType === 'PROCESS_MOMENT'
+      ? draft.maxTriggersLimitValue
+      : null
   };
 }
 
@@ -2276,7 +2278,7 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         condition.detail.attributeKey,
         attributeValueKindLabel(condition.detail.attributeValueKind),
         SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
-        condition.detail.comparisonFormulaKey
+        condition.detail.comparisonValue
       ].filter(Boolean).join(' / ');
     case 'STATUS_CHECK':
       return [
@@ -2375,51 +2377,33 @@ export function formulaHasRuntimeInput(
   return parameters.some((item) => item.valueMode === 'RUNTIME_INPUT' && keys.has(item.parameterKey));
 }
 
-function collectStepFormulaKeys(step: SkillProcessStep): string[] {
-  switch (step.stepType) {
-    case 'DELAY':
-      return [step.detail.delayFormulaKey];
-    case 'MULTI_HIT':
-      return [step.detail.repeatCountFormulaKey, step.detail.intervalFormulaKey].filter(
-        (item): item is string => Boolean(item)
-      );
-    case 'PERIODIC':
-      return [step.detail.repeatCountFormulaKey, step.detail.intervalFormulaKey];
-    case 'CHANNEL':
-      return [step.detail.durationFormulaKey, step.detail.executionCountFormulaKey];
-    case 'CHARGE':
-      return [step.detail.minimumChargeFormulaKey, step.detail.maximumChargeFormulaKey];
-    case 'RECAST':
-      return [step.detail.windowFormulaKey, step.detail.maximumRecastCountFormulaKey];
-    case 'EMPOWERED_BASIC_ATTACK':
-      return [step.detail.windowFormulaKey];
-    default:
-      return [];
-  }
+export function collectExecuteEffectValues(effect: SkillEffect): NumericValue[] {
+  return [...numericValuesIn(effect.results), ...numericValuesIn(effect.lifecycle)];
 }
 
 export function collectExecuteEffectFormulaKeys(effect: SkillEffect): string[] {
-  const keys: string[] = [];
-  for (const result of effect.results) {
-    if (result.valueRule?.formulaKey) keys.push(result.valueRule.formulaKey);
-    if (result.resultType === 'DAMAGE') {
-      if (result.detail.critical.multiplierFormulaKey) {
-        keys.push(result.detail.critical.multiplierFormulaKey);
-      }
-      for (const rule of result.detail.vampRules) {
-        keys.push(rule.efficiencyFormulaKey);
-      }
+  return [...new Set(collectExecuteEffectValues(effect).map(numericFormulaKey).filter(Boolean))];
+}
+
+export function collectStartProcessValues(
+  process: SkillProcess,
+  effectsByKey: ReadonlyMap<string, SkillEffect>,
+  statesByKey: ReadonlyMap<string, SkillInternalState>
+): NumericValue[] {
+  const values = numericValuesIn(process);
+  for (const operation of process.stateOperations) {
+    const state = statesByKey.get(operation.stateKey);
+    if (!state) continue;
+    if (state.stateType === 'COUNTER' || state.stateType === 'AMMO'
+      || (state.stateType === 'INTERNAL_COOLDOWN' && (operation.operation === 'START' || operation.operation === 'RESET'))) {
+      values.push(...numericValuesIn(state.detail));
     }
   }
-  if (effect.lifecycle) {
-    if (effect.lifecycle.durationFormulaKey) keys.push(effect.lifecycle.durationFormulaKey);
-    keys.push(effect.lifecycle.maxStacksFormulaKey);
-    keys.push(effect.lifecycle.applicationStacksFormulaKey);
-    if (effect.lifecycle.periodicIntervalFormulaKey) {
-      keys.push(effect.lifecycle.periodicIntervalFormulaKey);
-    }
+  for (const binding of process.effectBindings) {
+    const effect = effectsByKey.get(binding.effectKey);
+    if (effect) values.push(...collectExecuteEffectValues(effect));
   }
-  return [...new Set(keys.filter(Boolean))];
+  return values;
 }
 
 export function collectStartProcessFormulaKeys(
@@ -2427,23 +2411,7 @@ export function collectStartProcessFormulaKeys(
   effectsByKey: ReadonlyMap<string, SkillEffect>,
   statesByKey: ReadonlyMap<string, SkillInternalState>
 ): string[] {
-  const keys: string[] = [];
-  if (process.cooldown?.durationFormulaKey) keys.push(process.cooldown.durationFormulaKey);
-  for (const step of process.steps) keys.push(...collectStepFormulaKeys(step));
-  for (const operation of process.stateOperations) {
-    if (operation.valueFormulaKey) keys.push(operation.valueFormulaKey);
-    if (operation.operation === 'START' || operation.operation === 'RESET') {
-      const state = statesByKey.get(operation.stateKey);
-      if (state?.stateType === 'INTERNAL_COOLDOWN') {
-        keys.push(state.detail.durationFormulaKey);
-      }
-    }
-  }
-  for (const binding of process.effectBindings) {
-    const effect = effectsByKey.get(binding.effectKey);
-    if (effect) keys.push(...collectExecuteEffectFormulaKeys(effect));
-  }
-  return [...new Set(keys.filter(Boolean))];
+  return [...new Set(collectStartProcessValues(process, effectsByKey, statesByKey).map(numericFormulaKey).filter(Boolean))];
 }
 
 export function effectHasReflectedDamage(effect: SkillEffect | undefined): boolean {
@@ -2463,11 +2431,12 @@ export function processHasReflectedDamage(
 }
 
 export function reachableRuntimeInputParameters(
-  formulaKeys: readonly string[],
+  values: readonly NumericValue[],
   formulasByKey: ReadonlyMap<string, SkillFormula>,
   parameters: ReadonlyArray<SkillParameter>
 ): SkillParameter[] {
-  const referenced = new Set<string>();
+  const referenced = new Set(values.map(numericParameterKey).filter(Boolean));
+  const formulaKeys = values.map(numericFormulaKey).filter(Boolean);
   for (const formulaKey of formulaKeys) {
     const formula = formulasByKey.get(formulaKey);
     if (!formula) continue;
@@ -2740,25 +2709,39 @@ function validateKey(value: string, label: string): string | undefined {
   return undefined;
 }
 
-export function collectDirectFormulaKeys(draft: SkillTriggerRuleDraft): string[] {
-  const keys: string[] = [];
-  if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') {
-    keys.push(draft.eventSource.detail.thresholdFormulaKey);
-  }
-  for (const group of draft.conditionGroups) {
-    for (const condition of group.conditions) {
-      if ('comparisonFormulaKey' in condition.detail && condition.detail.comparisonFormulaKey) {
-        keys.push(condition.detail.comparisonFormulaKey);
-      }
-    }
-  }
-  if (draft.perTargetCooldownEnabled) keys.push(draft.perTargetCooldownDurationFormulaKey);
-  if (draft.maxTriggersPerProcessEnabled) keys.push(draft.maxTriggersLimitFormulaKey);
-  return [...new Set(keys.filter((item) => item.trim()))];
+export function collectDirectValues(draft: SkillTriggerRuleDraft): NumericValue[] {
+  return numericValuesIn({ eventSource: draft.eventSource, conditionGroups: draft.conditionGroups,
+    cooldown: draft.perTargetCooldownEnabled ? draft.perTargetCooldownDurationValue : null,
+    limit: draft.maxTriggersPerProcessEnabled ? draft.maxTriggersLimitValue : null });
 }
 
-export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft): SkillTriggerCatalogKind[] {
-  const required = new Set<SkillTriggerCatalogKind>(['formulas', 'parameters', 'effects', 'processes']);
+export function collectDirectFormulaKeys(draft: SkillTriggerRuleDraft): string[] {
+  return [...new Set(collectDirectValues(draft).map(numericFormulaKey).filter(Boolean))];
+}
+
+type ReferencedCatalogs = {
+  effectsByKey?: ReadonlyMap<string, SkillEffect>;
+  processesByKey?: ReadonlyMap<string, SkillProcess>;
+  statesByKey?: ReadonlyMap<string, SkillInternalState>;
+};
+
+export function collectActionValues(action: SkillTriggerActionDraft, catalogs: ReferencedCatalogs): NumericValue[] {
+  if (action.actionType === 'EXECUTE_EFFECT') {
+    const effect = catalogs.effectsByKey?.get(action.detail.effectKey);
+    return effect ? collectExecuteEffectValues(effect) : [];
+  }
+  if (action.actionType === 'START_PROCESS') {
+    const process = catalogs.processesByKey?.get(action.detail.processKey);
+    return process ? collectStartProcessValues(process, catalogs.effectsByKey ?? new Map(), catalogs.statesByKey ?? new Map()) : [];
+  }
+  return [];
+}
+
+export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft, catalogs: ReferencedCatalogs = {}): SkillTriggerCatalogKind[] {
+  const required = new Set<SkillTriggerCatalogKind>(['effects', 'processes']);
+  const values = [...collectDirectValues(draft), ...draft.actions.flatMap((action) => collectActionValues(action, catalogs))];
+  if (values.some((value) => value.kind === 'FORMULA')) { required.add('formulas'); required.add('parameters'); }
+  if (values.some((value) => value.kind === 'PARAMETER') || draft.actions.some((action) => action.runtimeInputBindings.length > 0)) required.add('parameters');
   for (const need of SKILL_TRIGGER_EVENT_CAPABILITIES[draft.eventSource.eventType].requiredCatalogs) {
     if (
       need === 'skills'
@@ -2767,7 +2750,6 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft): SkillTri
       || need === 'internalStates'
       || need === 'effects'
       || need === 'processes'
-      || need === 'formulas'
     ) {
       required.add(need);
     }
@@ -2922,7 +2904,7 @@ export function validateSkillTriggerDraft(
   if (draft.description.trim().length > 1000) fieldErrors.description = '说明不能超过1000个字符。';
   if (parseSortOrder(draft.sortOrder) === null) fieldErrors.sortOrder = '排序必须是 0～999999 的整数。';
 
-  const required = requiredCatalogsForDraft(draft);
+  const required = requiredCatalogsForDraft(draft, options);
   const blocking = options.catalogStates ? catalogsBlockingSave(required, options.catalogStates) : [];
   if (blocking.length > 0) {
     fieldErrors.eventSource = INCOMPLETE_CATALOG_MESSAGE;
@@ -2935,7 +2917,7 @@ export function validateSkillTriggerDraft(
   }
   if (draft.eventSource.eventType === 'LIFECYCLE_MOMENT' && draft.eventSource.detail.moment === 'PERIODIC') {
     const effect = options.effectsByKey?.get(draft.eventSource.detail.effectKey);
-    if (effect && !effect.lifecycle?.periodicIntervalFormulaKey) {
+    if (effect && !effect.lifecycle?.periodicIntervalValue) {
       pushError(nestedErrors, 'eventSource.detail.moment', '周期时点要求已配置周期间隔。');
     }
   }
@@ -3173,26 +3155,9 @@ export function validateSkillTriggerDraft(
         );
       }
     }
-    if (action.actionType !== 'FAIL_PROCESS' && options.formulasByKey && options.parameters && options.effectsByKey) {
-      const formulaKeys = action.actionType === 'EXECUTE_EFFECT'
-        ? (() => {
-            const effect = options.effectsByKey.get(actionEffectKey(action.detail));
-            return effect ? collectExecuteEffectFormulaKeys(effect) : [];
-          })()
-        : (() => {
-            const process = options.processesByKey?.get(actionProcessKey(action.detail));
-            return process
-              ? collectStartProcessFormulaKeys(
-                  process,
-                  options.effectsByKey,
-                  options.statesByKey ?? new Map()
-                )
-              : [];
-          })();
+    if (action.actionType !== 'FAIL_PROCESS' && options.parameters && options.effectsByKey) {
       const reachable = reachableRuntimeInputParameters(
-        formulaKeys,
-        options.formulasByKey,
-        options.parameters
+        collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters
       );
       const completeness = evaluateBindingCompleteness(reachable, action.runtimeInputBindings);
       if (completeness.some((item) => item.missing || item.extra || item.duplicate || item.typeCompatible === false)) {
@@ -3202,8 +3167,8 @@ export function validateSkillTriggerDraft(
   }
 
   if (draft.perTargetCooldownEnabled) {
-    if (!draft.perTargetCooldownDurationFormulaKey.trim()) {
-      fieldErrors.perTargetCooldown = '每目标冷却公式不能为空。';
+    if (!draft.perTargetCooldownDurationValue) {
+      fieldErrors.perTargetCooldown = '每目标冷却取值不能为空。';
     }
     if (draft.perTargetCooldownTargetContext === 'EVENT_SOURCE' && !hasEventSource) {
       fieldErrors.perTargetCooldown = '当前事件不提供事件来源对象。';
@@ -3212,10 +3177,24 @@ export function validateSkillTriggerDraft(
   if (draft.maxTriggersPerProcessEnabled) {
     if (draft.eventSource.eventType !== 'PROCESS_MOMENT') {
       fieldErrors.maxTriggersPerProcess = '单次过程最大触发次数仅用于过程时点事件。';
-    } else if (!draft.maxTriggersLimitFormulaKey.trim()) {
-      fieldErrors.maxTriggersPerProcess = '次数公式不能为空。';
+    } else if (!draft.maxTriggersLimitValue) {
+      fieldErrors.maxTriggersPerProcess = '次数取值不能为空。';
     }
   }
+
+  const checkValue = (value: NumericValue | null, path: string, limits: { min?: number; integer?: boolean; exclusiveMin?: boolean } = {}) => {
+    const error = numericValueError(value, { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, { ...limits, allowRuntimeInput: false,
+      parametersState: options.catalogStates?.parameters === 'error' ? 'failed' : undefined,
+      formulasState: options.catalogStates?.formulas === 'error' ? 'failed' : undefined });
+    if (error) pushError(nestedErrors, path, error);
+  };
+  if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') checkValue(draft.eventSource.detail.thresholdValue, 'eventSource.detail.thresholdValue');
+  for (const [gi, group] of sortedGroups.entries()) for (const [ci, condition] of sortConditionDrafts(group.conditions).entries()) {
+    const detail = condition.detail;
+    if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`);
+  }
+  if (draft.perTargetCooldownEnabled) checkValue(draft.perTargetCooldownDurationValue, 'perTargetCooldown.durationValue', { min: 0, exclusiveMin: true });
+  if (draft.maxTriggersPerProcessEnabled) checkValue(draft.maxTriggersLimitValue, 'maxTriggersPerProcess.limitValue', { min: 1, integer: true });
 
   if (options.formulasByKey && options.parameters) {
     for (const formulaKey of collectDirectFormulaKeys(draft)) {

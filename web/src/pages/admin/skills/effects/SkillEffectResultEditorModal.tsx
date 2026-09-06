@@ -1,3 +1,7 @@
+import { numericFormulaKey } from '../../../../types/numericValue';
+import { numericValuesIn } from '../numericValueForm';
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -145,6 +149,8 @@ type SkillEffectResultEditorModalProps = {
   siblingResults: SkillEffectResultDraft[];
   resultIndex: number | null;
   fieldErrors: SkillEffectResultDraftErrors;
+  parameters: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
   parentSkill: Skill;
@@ -317,6 +323,8 @@ export function SkillEffectResultEditorModal({
   siblingResults,
   resultIndex,
   fieldErrors,
+  parameters,
+  parametersLoadState,
   formulas,
   formulasLoadState,
   parentSkill,
@@ -632,8 +640,8 @@ export function SkillEffectResultEditorModal({
   }), [catalogLoadState, effectsLoadState, formulasLoadState]);
 
   const formulaOptions = useMemo(
-    () => listFormulaOptions(catalog, draft.formulaKey),
-    [catalog, draft.formulaKey]
+    () => listFormulaOptions(catalog, draft.value),
+    [catalog, draft.value]
   );
   const damageTypeOptions = useMemo(
     () => listDamageTypeOptions(catalog, draft.damageTypeKey, draft.originalDamageTypeKey),
@@ -660,8 +668,8 @@ export function SkillEffectResultEditorModal({
     [catalog, draft.absorbedDamageTypeKey, draft.originalAbsorbedDamageTypeKey]
   );
   const criticalFormulaOptions = useMemo(
-    () => listFormulaOptions(catalog, draft.criticalMultiplierFormulaKey),
-    [catalog, draft.criticalMultiplierFormulaKey]
+    () => listFormulaOptions(catalog, draft.criticalMultiplierValue),
+    [catalog, draft.criticalMultiplierValue]
   );
   const attributeOptions = useMemo(
     () => listAttributeOptions(catalog, draft.attributeKey, draft.originalAttributeKey),
@@ -698,7 +706,7 @@ export function SkillEffectResultEditorModal({
     }
     return names;
   }, [effectSummaries]);
-  const hasDuration = Boolean(parentDraft.lifecycle.durationFormulaKey.trim());
+  const hasDuration = Boolean(parentDraft.lifecycle.durationValue);
   const allowedMoments = useMemo(
     () => {
       const values = listAllowedLifecycleMoments(draft, hasDuration);
@@ -707,11 +715,6 @@ export function SkillEffectResultEditorModal({
         : values;
     },
     [draft, hasDuration]
-  );
-
-  const formulaNames = useMemo(
-    () => namesFrom(formulas, (item) => item.formulaKey, (item) => item.name),
-    [formulas]
   );
   const damageTypeNames = useMemo(
     () => namesFrom(damageTypes, (item) => item.damageTypeKey, (item) => item.name),
@@ -739,7 +742,7 @@ export function SkillEffectResultEditorModal({
   );
 
   const unknownBlocking = useMemo(() => {
-    if (showValueRule && hasUnknownOption(formulaOptions, draft.formulaKey)) return true;
+    if (showValueRule && hasUnknownOption(formulaOptions, numericFormulaKey(draft.value))) return true;
     if (
       (draft.resultType === 'DAMAGE'
         || draft.resultType === 'DAMAGE_MODIFIER'
@@ -749,13 +752,13 @@ export function SkillEffectResultEditorModal({
     ) return true;
     if (
       draft.resultType === 'DAMAGE'
-      && draft.criticalMultiplierFormulaKey
-      && hasUnknownOption(criticalFormulaOptions, draft.criticalMultiplierFormulaKey)
+      && draft.criticalMultiplierValue
+      && hasUnknownOption(criticalFormulaOptions, numericFormulaKey(draft.criticalMultiplierValue))
     ) return true;
     if (
       draft.resultType === 'DAMAGE'
       && draft.vampRules.some((rule) => (
-        hasUnknownOption(listFormulaOptions(catalog, rule.efficiencyFormulaKey), rule.efficiencyFormulaKey)
+        hasUnknownOption(listFormulaOptions(catalog, rule.efficiencyValue), numericFormulaKey(rule.efficiencyValue))
       ))
     ) return true;
     if (
@@ -814,8 +817,8 @@ export function SkillEffectResultEditorModal({
     draft.attributeOperation,
     draft.damageTypeKey,
     draft.absorbedDamageTypeKey,
-    draft.criticalMultiplierFormulaKey,
-    draft.formulaKey,
+    draft.criticalMultiplierValue,
+    draft.value,
     draft.lifecycleBehavior.moment,
     draft.modifierZoneKey,
     draft.resultType,
@@ -831,8 +834,9 @@ export function SkillEffectResultEditorModal({
     statusOptions
   ]);
 
+  const needsFormulas = numericValuesIn(draft).some((value) => value.kind === 'FORMULA');
   const requiredCatalogLoading = useMemo(() => {
-    if (showValueRule && formulasLoadState !== 'ready' && formulasLoadState !== 'failed') {
+    if (needsFormulas && formulasLoadState !== 'ready' && formulasLoadState !== 'failed') {
       return formulasLoadState === undefined;
     }
     if (
@@ -876,12 +880,12 @@ export function SkillEffectResultEditorModal({
     draft.resultType,
     effectsLoadState,
     formulasLoadState,
-    showValueRule
+    needsFormulas
   ]);
 
   const catalogErrorMessages = useMemo(() => {
     const messages: string[] = [];
-    if (showValueRule && formulasLoadState === 'failed') {
+    if (needsFormulas && formulasLoadState === 'failed') {
       messages.push(INCOMPLETE_CATALOG_MESSAGE);
     }
     if (
@@ -935,7 +939,7 @@ export function SkillEffectResultEditorModal({
     draft.resultType,
     effectsError,
     formulasLoadState,
-    showValueRule
+    needsFormulas
   ]);
 
   const patchDraft = (next: SkillEffectResultDraft) => {
@@ -1056,6 +1060,7 @@ export function SkillEffectResultEditorModal({
       },
       {
         includeEffectKey: false,
+      parameters, parametersLoadState,
         catalog,
         catalogLoadState: validationCatalogState,
         skipLifecycleShapeValidation: true
@@ -1264,17 +1269,15 @@ export function SkillEffectResultEditorModal({
               <Form.Item
                 label={valueFormulaLabel}
                 required
-                validateStatus={errors.formulaKey ? 'error' : undefined}
-                help={errors.formulaKey}
+                validateStatus={errors.value ? 'error' : undefined}
+                help={errors.value}
               >
-                <Select
-                  aria-label={valueFormulaLabel}
-                  value={draft.formulaKey || undefined}
-                  disabled={readOnly}
-                  options={toSelectOptions(formulaOptions, formulaNames)}
-                  placeholder="请选择数值公式"
-                  onChange={(value) => patchDraft({ ...draft, formulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label={valueFormulaLabel}
+                  value={draft.value}
+                  onChange={(value) => patchDraft({ ...draft, value: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
                 label={cooldownHint ? `固定倍率（${cooldownHint}）` : '固定倍率'}
@@ -1426,22 +1429,20 @@ export function SkillEffectResultEditorModal({
               </Form.Item>
               {draft.criticalMode !== 'DISALLOWED' ? (
                 <Form.Item
-                  label="暴击倍率公式"
-                  validateStatus={errors.criticalMultiplierFormulaKey ? 'error' : undefined}
-                  help={errors.criticalMultiplierFormulaKey}
+                  label="暴击倍率取值"
+                  validateStatus={errors.criticalMultiplierValue ? 'error' : undefined}
+                  help={errors.criticalMultiplierValue}
                 >
-                  <Select
-                    aria-label="暴击倍率公式"
-                    allowClear
-                    value={draft.criticalMultiplierFormulaKey || undefined}
-                    disabled={readOnly}
-                    options={toSelectOptions(criticalFormulaOptions, formulaNames)}
-                    placeholder="可选"
-                    onChange={(value) => patchDraft({
+                  <NumericValueField aria-label="暴击倍率取值"
+                  value={draft.criticalMultiplierValue}
+                  onChange={(value) => patchDraft({
                       ...draft,
-                      criticalMultiplierFormulaKey: String(value ?? '')
+                      criticalMultiplierValue: value!
                     })}
-                  />
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly}
+                  allowClear />
                 </Form.Item>
               ) : null}
               <Form.Item
@@ -1500,25 +1501,19 @@ export function SkillEffectResultEditorModal({
                             ))
                           })}
                         />
-                        <Select
-                          aria-label={`吸血效率公式 ${index + 1}`}
-                          value={rule.efficiencyFormulaKey || undefined}
-                          disabled={readOnly}
-                          style={{ minWidth: 320, flex: 1 }}
-                          options={toSelectOptions(
-                            listFormulaOptions(catalog, rule.efficiencyFormulaKey),
-                            formulaNames
-                          )}
-                          placeholder="效率公式"
-                          onChange={(value) => patchDraft({
+                        <NumericValueField aria-label={`吸血效率取值 ${index + 1}`}
+                  value={rule.efficiencyValue}
+                  onChange={(value) => patchDraft({
                             ...draft,
                             vampRules: draft.vampRules.map((item, itemIndex) => (
                               itemIndex === index
-                                ? { ...item, efficiencyFormulaKey: String(value ?? '') }
+                                ? { ...item, efficiencyValue: value! }
                                 : item
                             ))
                           })}
-                        />
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
                         <Button
                           status="danger"
                           disabled={readOnly}
@@ -1546,7 +1541,7 @@ export function SkillEffectResultEditorModal({
                             {
                               vampType,
                               basisOutputKind: 'POST_DEFENSE_DAMAGE',
-                              efficiencyFormulaKey: ''
+                              efficiencyValue: null
                             }
                           ])
                         });

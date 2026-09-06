@@ -1,3 +1,6 @@
+import { numericValueError } from '../numericValueForm';
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -67,6 +70,8 @@ type SkillTriggerConditionEditorModalProps = {
   eventSource: SkillTriggerEventSource;
   attributes: readonly Attribute[];
   statuses: readonly GameStatus[];
+  parameters: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   formulas: readonly SkillFormulaSummary[];
   internalStates: readonly SkillInternalState[];
   effects: readonly SkillEffect[];
@@ -78,10 +83,6 @@ type SkillTriggerConditionEditorModalProps = {
 
 function titleFor(mode: SkillTriggerConditionEditorMode): string {
   return mode === 'create' ? '新增条件' : '编辑条件';
-}
-
-function formulaOptions(formulas: readonly SkillFormulaSummary[]): CatalogOption[] {
-  return formulas.map((item) => ({ value: item.formulaKey, label: item.name || item.formulaKey }));
 }
 
 function disabledLabel(name: string, disabled: boolean): string {
@@ -96,6 +97,8 @@ export function SkillTriggerConditionEditorModal({
   eventSource,
   attributes,
   statuses,
+  parameters,
+  parametersLoadState,
   formulas,
   internalStates,
   effects,
@@ -142,6 +145,10 @@ export function SkillTriggerConditionEditorModal({
     if (current.conditionType === 'EVENT_VALUE_COMPARE' && allowedValues.length === 0) {
       setLocalError('当前事件没有可比较的事件值。');
       return;
+    }
+    if (current.detail.comparator !== null) {
+      const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
+      if (error) { setLocalError(error); return; }
     }
     onConfirm(current);
   };
@@ -278,17 +285,16 @@ export function SkillTriggerConditionEditorModal({
                   ))}
                 />
               </Form.Item>
-              <Form.Item label="比较公式" required>
-                <Select
-                  aria-label="比较公式"
-                  value={current.detail.comparisonFormulaKey || undefined}
-                  disabled={disabled}
-                  options={formulaOptions(formulas)}
+              <Form.Item label="比较取值" required>
+                <NumericValueField aria-label="比较取值"
+                  value={current.detail.comparisonValue}
                   onChange={(value) => setCurrent(patchAttributeCompareDetail(
                     current,
-                    { comparisonFormulaKey: String(value ?? '') }
+                    { comparisonValue: value! }
                   ))}
-                />
+                  parameters={parameters} parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={disabled} />
               </Form.Item>
             </>
           ) : null}
@@ -383,16 +389,15 @@ export function SkillTriggerConditionEditorModal({
                       }))}
                     />
                   </Form.Item>
-                  <Form.Item label="比较公式" required>
-                    <Select
-                      aria-label="状态比较公式"
-                      value={current.detail.comparisonFormulaKey || undefined}
-                      disabled={disabled}
-                      options={formulaOptions(formulas)}
-                      onChange={(value) => setCurrent(patchStatusCompareFields(current, {
-                        comparisonFormulaKey: String(value ?? '')
+                  <Form.Item label="比较取值" required>
+                    <NumericValueField aria-label="状态比较取值"
+                  value={current.detail.comparisonValue}
+                  onChange={(value) => setCurrent(patchStatusCompareFields(current, {
+                        comparisonValue: value!
                       }))}
-                    />
+                  parameters={parameters} parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={disabled} />
                   </Form.Item>
                 </>
               ) : null}
@@ -475,16 +480,15 @@ export function SkillTriggerConditionEditorModal({
                       }))}
                     />
                   </Form.Item>
-                  <Form.Item label="比较公式" required>
-                    <Select
-                      aria-label="内部状态比较公式"
-                      value={current.detail.comparisonFormulaKey || undefined}
-                      disabled={disabled}
-                      options={formulaOptions(formulas)}
-                      onChange={(value) => setCurrent(patchInternalStateCompareFields(current, {
-                        comparisonFormulaKey: String(value ?? '')
+                  <Form.Item label="比较取值" required>
+                    <NumericValueField aria-label="内部状态比较取值"
+                  value={current.detail.comparisonValue}
+                  onChange={(value) => setCurrent(patchInternalStateCompareFields(current, {
+                        comparisonValue: value!
                       }))}
-                    />
+                  parameters={parameters} parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={disabled} />
                   </Form.Item>
                 </>
               ) : null}
@@ -534,16 +538,15 @@ export function SkillTriggerConditionEditorModal({
                     }))}
                   />
                 </Form.Item>
-                <Form.Item label="比较公式" required>
-                  <Select
-                    aria-label="事件值比较公式"
-                    value={current.detail.comparisonFormulaKey || undefined}
-                    disabled={disabled}
-                    options={formulaOptions(formulas)}
-                    onChange={(value) => setCurrent(patchEventValueCompareDetail(current, {
-                      comparisonFormulaKey: String(value ?? '')
+                <Form.Item label="比较取值" required>
+                  <NumericValueField aria-label="事件值比较取值"
+                  value={current.detail.comparisonValue}
+                  onChange={(value) => setCurrent(patchEventValueCompareDetail(current, {
+                      comparisonValue: value!
                     }))}
-                  />
+                  parameters={parameters} parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={disabled} />
                 </Form.Item>
               </>
             )

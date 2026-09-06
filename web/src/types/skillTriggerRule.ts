@@ -1,3 +1,4 @@
+import { type NumericValue } from './numericValue';
 import type { FormulaAttributeValueKind } from './skillFormula';
 import type { SkillProcessMoment } from './skillProcess';
 
@@ -172,7 +173,7 @@ export type SkillTriggerStatusChangedEventDetail = {
 export type SkillTriggerHealthThresholdEventDetail = {
   subject: 'SOURCE' | 'CURRENT_TARGET';
   attributeKey: string;
-  thresholdFormulaKey: string;
+  thresholdValue: NumericValue;
   direction: SkillTriggerHealthDirection;
 };
 
@@ -326,7 +327,7 @@ export type SkillTriggerAttributeCompareDetail = {
   attributeKey: string;
   attributeValueKind: FormulaAttributeValueKind;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerStatusPresenceDetail = {
@@ -336,7 +337,7 @@ export type SkillTriggerStatusPresenceDetail = {
   sourceEffectKey: null;
   sourceResultKey: null;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerStatusCompareDetail = {
@@ -346,7 +347,7 @@ export type SkillTriggerStatusCompareDetail = {
   sourceEffectKey: string;
   sourceResultKey: string;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerStatusCheckDetail =
@@ -359,7 +360,7 @@ export type SkillTriggerInternalStateValueDetail = {
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerInternalStateOptionDetail = {
@@ -368,7 +369,7 @@ export type SkillTriggerInternalStateOptionDetail = {
   optionKey: string;
   expectedBoolean: null;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerInternalStateEnabledDetail = {
@@ -377,7 +378,7 @@ export type SkillTriggerInternalStateEnabledDetail = {
   optionKey: null;
   expectedBoolean: boolean;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerInternalStateRemainingDetail = {
@@ -386,7 +387,7 @@ export type SkillTriggerInternalStateRemainingDetail = {
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerInternalStateCheckDetail =
@@ -398,7 +399,7 @@ export type SkillTriggerInternalStateCheckDetail =
 export type SkillTriggerEventValueCompareDetail = {
   eventValueKey: SkillTriggerEventValueKey;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerAttributeCompareCondition = {
@@ -561,13 +562,13 @@ export type SkillTriggerAction =
   | SkillTriggerFailProcessAction;
 
 export type SkillTriggerPerTargetCooldown = {
-  durationFormulaKey: string;
+  durationValue: NumericValue;
   targetContext: SkillTriggerTargetContext;
 };
 
 export type SkillTriggerProcessLimit = {
   processKey: string;
-  limitFormulaKey: string;
+  limitValue: NumericValue;
 };
 
 export type SkillTriggerRuleSummary = {

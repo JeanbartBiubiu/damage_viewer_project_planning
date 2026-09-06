@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
@@ -42,8 +43,8 @@ const COUNTER: SkillInternalState = {
   description: null,
   sortOrder: 10,
   detail: {
-    initialValueFormulaKey: 'zero',
-    maxValueFormulaKey: 'focus_max_stacks'
+    initialValue: formulaValue("zero"),
+    maxValue: formulaValue("focus_max_stacks")
   },
   createdAt: '2026-08-27T00:00:00Z',
   updatedAt: '2026-08-27T00:00:00Z'
@@ -55,8 +56,8 @@ function validCounterDraft(overrides: Partial<SkillInternalStateDraft> = {}): Sk
     stateKey: 'focus_stacks',
     name: '专注层数',
     sortOrder: '10',
-    initialValueFormulaKey: 'zero',
-    maxValueFormulaKey: 'focus_max_stacks',
+    initialValue: formulaValue("zero"),
+    maxValue: formulaValue("focus_max_stacks"),
     ...overrides
   };
 }
@@ -101,13 +102,13 @@ describe('skill internal state form defaults and conversion', () => {
 
   it('converts saved counter state and clears hidden fields', () => {
     const draft = skillInternalStateToDraft(COUNTER);
-    expect(draft.initialValueFormulaKey).toBe('zero');
+    expect(draft.initialValue).toEqual(formulaValue('zero'));
     expect(draft.options).toEqual([]);
-    expect(draft.durationFormulaKey).toBe('');
+    expect(draft.durationValue).toEqual(null);
     expect(clearHiddenInternalStateFields({
       ...draft,
       options: validModeOptions(),
-      durationFormulaKey: 'internal_cooldown_ms'
+      durationValue: formulaValue("internal_cooldown_ms")
     }).options).toEqual([]);
   });
 });
@@ -123,8 +124,8 @@ describe('skill internal state kinds and scope', () => {
       description: null,
       sortOrder: 10,
       detail: {
-        initialValueFormulaKey: 'zero',
-        maxValueFormulaKey: 'focus_max_stacks'
+        initialValue: formulaValue("zero"),
+        maxValue: formulaValue("focus_max_stacks")
       }
     });
 
@@ -133,9 +134,9 @@ describe('skill internal state kinds and scope', () => {
       stateKey: 'ammo',
       name: '弹药',
       sortOrder: '1',
-      initialValueFormulaKey: 'max_ammo',
-      maxValueFormulaKey: 'max_ammo',
-      recoveryIntervalFormulaKey: 'ammo_recovery_ms',
+      initialValue: formulaValue("max_ammo"),
+      maxValue: formulaValue("max_ammo"),
+      recoveryIntervalValue: formulaValue("ammo_recovery_ms"),
       recoveryMode: 'ALL_AT_ONCE'
     });
     expect(ammo.stateType).toBe('AMMO');
@@ -153,7 +154,7 @@ describe('skill internal state kinds and scope', () => {
     expect(mode.stateType).toBe('MODE');
     if (mode.stateType !== 'MODE') throw new Error('expected mode');
     expect(mode.detail.options).toHaveLength(2);
-    expect(mode.detail).not.toHaveProperty('initialValueFormulaKey');
+    expect(mode.detail).not.toHaveProperty('initialValue');
 
     const flag = expectValid({
       ...createEmptyInternalStateDraft('FLAG'),
@@ -171,11 +172,11 @@ describe('skill internal state kinds and scope', () => {
       stateKey: 'internal_cd',
       name: '内部冷却',
       sortOrder: '4',
-      durationFormulaKey: 'internal_cooldown_ms'
+      durationValue: formulaValue("internal_cooldown_ms")
     });
     expect(cooldown.stateType).toBe('INTERNAL_COOLDOWN');
     if (cooldown.stateType !== 'INTERNAL_COOLDOWN') throw new Error('expected cooldown');
-    expect(cooldown.detail).toEqual({ durationFormulaKey: 'internal_cooldown_ms' });
+    expect(cooldown.detail).toEqual({ durationValue: formulaValue("internal_cooldown_ms") });
   });
 
   it('only allows target scope for counters and resets it when switching kinds', () => {
@@ -184,7 +185,7 @@ describe('skill internal state kinds and scope', () => {
 
     const switched = applyStateTypeChange(validCounterDraft({ scope: 'TARGET' }), 'AMMO');
     expect(switched.scope).toBe('SKILL');
-    expect(switched.initialValueFormulaKey).toBe('');
+    expect(switched.initialValue).toEqual(null);
     expect(switched.recoveryMode).toBe('ONE_BY_ONE');
 
     const invalidAmmo = validateSkillInternalStateDraft({
@@ -193,9 +194,9 @@ describe('skill internal state kinds and scope', () => {
       name: '弹药',
       scope: 'TARGET',
       sortOrder: '0',
-      initialValueFormulaKey: 'max_ammo',
-      maxValueFormulaKey: 'max_ammo',
-      recoveryIntervalFormulaKey: 'ammo_recovery_ms',
+      initialValue: formulaValue("max_ammo"),
+      maxValue: formulaValue("max_ammo"),
+      recoveryIntervalValue: formulaValue("ammo_recovery_ms"),
       recoveryMode: 'ONE_BY_ONE'
     }, { includeStateKey: true, catalog: CATALOG });
     expect(invalidAmmo.ok).toBe(false);
@@ -205,11 +206,11 @@ describe('skill internal state kinds and scope', () => {
 
   it('requires formulas, two unique mode options and exactly one initial option', () => {
     const missingFormula = validateSkillInternalStateDraft(validCounterDraft({
-      initialValueFormulaKey: ''
+      initialValue: null
     }), { includeStateKey: true, catalog: CATALOG });
     expect(missingFormula.ok).toBe(false);
     if (missingFormula.ok) throw new Error('expected invalid');
-    expect(missingFormula.fieldErrors.initialValueFormulaKey).toBe('请选择初始值公式。');
+    expect(missingFormula.fieldErrors.initialValue).toBe('请选择初始值取值。');
 
     const oneOption = validateSkillInternalStateDraft({
       ...createEmptyInternalStateDraft('MODE'),
@@ -251,11 +252,11 @@ describe('skill internal state kinds and scope', () => {
 
   it('blocks unknown formula refs and maps server option array errors', () => {
     const unknown = validateSkillInternalStateDraft(validCounterDraft({
-      maxValueFormulaKey: 'missing_formula'
+      maxValue: formulaValue("missing_formula")
     }), { includeStateKey: true, catalog: CATALOG });
     expect(unknown.ok).toBe(false);
     if (unknown.ok) throw new Error('expected invalid');
-    expect(unknown.fieldErrors.maxValueFormulaKey).toBe(INCOMPLETE_CATALOG_MESSAGE);
+    expect(unknown.fieldErrors.maxValue).toBe(INCOMPLETE_CATALOG_MESSAGE);
 
     const failedCatalog = validateSkillInternalStateDraft(validCounterDraft(), {
       includeStateKey: true,
@@ -264,7 +265,7 @@ describe('skill internal state kinds and scope', () => {
     });
     expect(failedCatalog.ok).toBe(false);
     if (failedCatalog.ok) throw new Error('expected invalid');
-    expect(failedCatalog.fieldErrors.initialValueFormulaKey).toBe(INCOMPLETE_CATALOG_MESSAGE);
+    expect(failedCatalog.fieldErrors.initialValue).toBe(INCOMPLETE_CATALOG_MESSAGE);
 
     const options = listFormulaOptions(CATALOG, 'legacy_zero');
     expect(options.find((item) => item.key === 'legacy_zero')?.source).toBe('unknown');
