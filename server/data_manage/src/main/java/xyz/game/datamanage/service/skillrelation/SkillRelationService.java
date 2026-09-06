@@ -28,6 +28,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Service
 public class SkillRelationService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
 
     private final GamesMapper gamesMapper;
@@ -41,13 +43,16 @@ public class SkillRelationService {
         CharacterMapper characterMapper,
         EquipmentMapper equipmentMapper,
         SkillMapper skillMapper,
-        SkillRelationMapper mapper
+        SkillRelationMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.characterMapper = characterMapper;
         this.equipmentMapper = equipmentMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -73,6 +78,7 @@ public class SkillRelationService {
     public CharacterSkillRelationResponse createCharacterRelation(
         String gameId, CharacterSkillRelationCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         requireRequest(request);
         int sortOrder = validateWrite(
@@ -94,6 +100,7 @@ public class SkillRelationService {
     public CharacterSkillRelationResponse updateCharacterRelation(
         String gameId, String characterKey, String skillKey, SkillRelationUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         requireRequest(request);
         int sortOrder = validateWrite("characterKey", characterKey, skillKey, request.sortOrder(), request.unknownFields());
@@ -107,6 +114,7 @@ public class SkillRelationService {
 
     @Transactional
     public void deleteCharacterRelation(String gameId, String characterKey, String skillKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateKeys("characterKey", characterKey, skillKey);
         requireCharacter(gameId, characterKey, true);
@@ -156,6 +164,7 @@ public class SkillRelationService {
     public EquipmentSkillRelationResponse createEquipmentRelation(
         String gameId, EquipmentSkillRelationCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         requireRequest(request);
         int sortOrder = validateWrite(
@@ -177,6 +186,7 @@ public class SkillRelationService {
     public EquipmentSkillRelationResponse updateEquipmentRelation(
         String gameId, String equipmentKey, String skillKey, SkillRelationUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         requireRequest(request);
         int sortOrder = validateWrite("equipmentKey", equipmentKey, skillKey, request.sortOrder(), request.unknownFields());
@@ -190,6 +200,7 @@ public class SkillRelationService {
 
     @Transactional
     public void deleteEquipmentRelation(String gameId, String equipmentKey, String skillKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateKeys("equipmentKey", equipmentKey, skillKey);
         requireEquipment(gameId, equipmentKey, true);

@@ -26,7 +26,7 @@ class ImageRelationServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new ImageRelationService(games, mapper);
+        service = new ImageRelationService(games, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
     }
 
     @ParameterizedTest

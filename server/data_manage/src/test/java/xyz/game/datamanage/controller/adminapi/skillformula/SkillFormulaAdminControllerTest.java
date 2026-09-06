@@ -299,7 +299,7 @@ class SkillFormulaAdminControllerTest {
             gamesMapper,
             Mockito.mock(SkillMapper.class),
             Mockito.mock(SkillFormulaMapper.class)
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("varus_w"), any(SkillFormulaCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),
@@ -347,7 +347,7 @@ class SkillFormulaAdminControllerTest {
             gamesMapper,
             Mockito.mock(SkillMapper.class),
             Mockito.mock(SkillFormulaMapper.class)
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("varus_w"), any(SkillFormulaCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

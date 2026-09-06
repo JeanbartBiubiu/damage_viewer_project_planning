@@ -12,43 +12,18 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/** Static SQL contract for cooldown-change multi-select storage and migration. */
+/** 历史兼容迁移的安全边界；当前聚合业务行为由 SkillEffectServiceTest 覆盖。 */
 class SkillCooldownMultiSelectDbContractSqlTest {
 
-    private static String schema;
-    private static String triggers;
     private static String migration;
     private static String historicalMigration;
 
     @BeforeAll
     static void loadArtifacts() throws IOException {
-        schema = read("db/game_manage/schema.sql");
-        triggers = read("db/game_manage/triggers.sql");
         migration = read("db/game_manage/migrations/compatibility/skill_cooldown_multi_select_migration.sql");
         historicalMigration = read(
             "db/game_manage/migrations/compatibility/skill_effect_basic_result_management_migration.sql"
         );
-    }
-
-    @Test
-    void currentSchemaRemovesDedicatedTargetTableAndKeepsCooldownOperation() {
-        String detail = normalize(extractCreateTable(schema, "skill_effect_cooldown_change_details"));
-        assertFalse(detail.contains("affected_skill_key"));
-        assertTrue(detail.contains("constraint pk_skill_effect_cooldown_change_details"));
-        assertTrue(detail.contains("operation in ('reduce', 'increase', 'reset')"));
-        assertFalse(schema.contains("CREATE TABLE public.skill_effect_cooldown_change_targets"));
-        assertTrue(schema.contains("CREATE TABLE public.skill_effect_result_skill_scopes"));
-    }
-
-    @Test
-    void currentTriggersUsePublicSkillScopeInsteadOfUnconditionalSkillTargets() {
-        String normalized = normalize(triggers);
-        assertFalse(normalized.contains("v_cooldown_target_count int"));
-        assertFalse(normalized.contains("from public.skill_effect_cooldown_change_targets t"));
-        assertFalse(normalized.contains("or v_cooldown_target_count < 1"));
-        assertFalse(triggers.contains("'skill_effect_cooldown_change_targets'"));
-        assertTrue(triggers.contains("'skill_effect_result_skill_scopes'"));
-        assertTrue(normalized.contains("all skill scope must not have targets at commit"));
     }
 
     @Test
@@ -71,7 +46,6 @@ class SkillCooldownMultiSelectDbContractSqlTest {
         assertTrue(normalize(migration).contains("or v_cooldown_target_count < 1"));
         assertTrue(migration.contains("'skill_effect_cooldown_change_targets'"));
     }
-
 
     @Test
     void migrationBackfillsBeforeDroppingOldColumnAndIsFailClosedAndIdempotent() {

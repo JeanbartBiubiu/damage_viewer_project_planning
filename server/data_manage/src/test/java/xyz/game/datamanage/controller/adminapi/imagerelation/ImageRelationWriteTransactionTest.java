@@ -144,6 +144,7 @@ class ImageRelationWriteTransactionTest {
     @EnableTransactionManagement(proxyTargetClass = true)
     @Import({ImageRelationService.class, ImageRelationAdminController.class})
     static class Config {
+        @Bean xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites() { return mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class); }
         @Bean GamesMapper games() { return mock(GamesMapper.class); }
         @Bean ImageRelationMapper mapper() { return mock(ImageRelationMapper.class); }
         @Bean GameDataService gameData() { return mock(GameDataService.class); }

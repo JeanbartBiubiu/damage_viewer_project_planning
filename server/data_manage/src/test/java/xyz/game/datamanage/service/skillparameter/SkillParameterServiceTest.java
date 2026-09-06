@@ -58,7 +58,7 @@ class SkillParameterServiceTest {
     @BeforeEach
     void setUp() {
         levelService = new SkillParameterLevelService(new ObjectMapper());
-        service = new SkillParameterService(gamesMapper, skillMapper, parameterMapper, levelService);
+        service = new SkillParameterService(gamesMapper, skillMapper, parameterMapper, levelService, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -466,7 +466,7 @@ class SkillParameterServiceTest {
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
         SkillParameterService guarded = new SkillParameterService(
             gamesMapper, skillMapper, parameterMapper, levelService, triggerRuleService
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill(5));
         when(parameterMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, PARAMETER_KEY)).thenReturn(row(
             PARAMETER_KEY, SkillParameterValueType.DECIMAL, SkillParameterValueMode.FIXED, java.math.BigDecimal.ONE, null

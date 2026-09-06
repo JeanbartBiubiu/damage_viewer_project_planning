@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.authoring.AuthoringReadModel">
+    <!-- 校验与循环分析所需的语义行，全部由所属聚合字段读取。 -->
+    <sql id="effectAttributeChangeDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'attributeKey' AS attribute_key,
+               j->'detail'->>'operation' AS operation,
+               j->'detail'->>'modifierZoneKey' AS modifier_zone_key
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'ATTRIBUTE_CHANGE'
+    </sql>
+
+    <sql id="effectCooldownChangeDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'operation' AS operation
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'COOLDOWN_CHANGE'
+    </sql>
+
+    <sql id="effectDamageDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'damageTypeKey' AS damage_type_key,
+               j->'detail'->>'deliveryKind' AS delivery_kind,
+               j->'detail'->>'originKind' AS origin_kind
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'DAMAGE'
+    </sql>
+
+    <sql id="effectDamageModifierDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'modifierZoneKey' AS modifier_zone_key,
+               j->'detail'->>'direction' AS direction,
+               j->'detail'->>'operation' AS operation,
+               j->'detail'->>'damageTypeKey' AS damage_type_key,
+               j->'detail'->>'deliveryKind' AS delivery_kind,
+               j->'detail'->>'originKind' AS origin_kind,
+               j->'detail'->>'criticalFilter' AS critical_filter
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'DAMAGE_MODIFIER'
+    </sql>
+
+    <sql id="effectHealingModifierDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'modifierZoneKey' AS modifier_zone_key,
+               j->'detail'->>'direction' AS direction,
+               j->'detail'->>'operation' AS operation,
+               j->'detail'->>'healingKind' AS healing_kind
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'HEALING_MODIFIER'
+    </sql>
+
+    <sql id="effectLifecycleOperationDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'targetEffectKey' AS target_effect_key,
+               j->'detail'->>'operation' AS operation
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'LIFECYCLE_OPERATION'
+    </sql>
+
+    <sql id="effectLifecycles">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               r.lifecycle->>'durationFormulaKey' AS duration_formula_key,
+               r.lifecycle->>'maxStacksFormulaKey' AS max_stacks_formula_key,
+               r.lifecycle->>'applicationStacksFormulaKey' AS application_stacks_formula_key,
+               r.lifecycle->>'instanceScope' AS instance_scope,
+               r.lifecycle->>'reapplicationStackMode' AS reapplication_stack_mode,
+               r.lifecycle->>'reapplicationDurationMode' AS reapplication_duration_mode,
+               r.lifecycle->>'expiryMode' AS expiry_mode,
+               r.lifecycle->>'periodicIntervalFormulaKey' AS periodic_interval_formula_key,
+               r.lifecycle->>'firstPeriodicExecution' AS first_periodic_execution
+        FROM public.skill_effects r
+        WHERE r.lifecycle IS NOT NULL AND r.lifecycle &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="effectResultCriticalPolicies">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->'critical'->>'mode' AS critical_mode,
+               j->'detail'->'critical'->>'multiplierFormulaKey' AS multiplier_formula_key
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'DAMAGE'
+    </sql>
+
+    <sql id="effectResultLifecycleBehaviors">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'lifecycleBehavior'->>'moment' AS moment,
+               j->'lifecycleBehavior'->>'valueReadMode' AS value_read_mode,
+               j->'lifecycleBehavior'->>'stackValueMode' AS stack_value_mode,
+               j->'lifecycleBehavior'->>'reapplicationValueMode' AS reapplication_value_mode,
+               j->'lifecycleBehavior'->>'periodicExecutionMode' AS periodic_execution_mode
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->'lifecycleBehavior' IS NOT NULL AND j->'lifecycleBehavior' &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="effectResultSpellShieldPolicies">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->>'spellShieldBlockScope' AS block_scope
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'spellShieldBlockScope' IS NOT NULL
+    </sql>
+
+    <sql id="effectResultValues">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'valueRule'->>'formulaKey' AS formula_key,
+               (j->'valueRule'->>'fixedMultiplier')::numeric AS fixed_multiplier,
+               (j->'valueRule'->>'fixedMinValue')::numeric AS fixed_min_value,
+               (j->'valueRule'->>'fixedMaxValue')::numeric AS fixed_max_value
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->'valueRule' IS NOT NULL AND j->'valueRule' &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="effectResultVampRules">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               v->>'vampType' AS vamp_type,
+               v->>'basisOutputKind' AS basis_output_kind,
+               v->>'efficiencyFormulaKey' AS efficiency_formula_key
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j CROSS JOIN LATERAL jsonb_array_elements(COALESCE(NULLIF(j->'detail'->'vampRules','null'::jsonb),'[]'::jsonb)) v
+        WHERE j->>'resultType' = 'DAMAGE'
+    </sql>
+
+    <sql id="effectResults">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->>'name' AS name,
+               j->>'resultType' AS result_type,
+               j->>'target' AS target,
+               j->>'description' AS description,
+               (j->>'sortOrder')::integer AS sort_order
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+    </sql>
+
+    <sql id="effectStatusOperationDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'statusKey' AS status_key,
+               j->'detail'->>'operation' AS operation
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'STATUS_OPERATION'
+    </sql>
+
+    <sql id="formulaNodes">
+        WITH RECURSIVE nodes AS (
+            SELECT f.game_id, f.skill_key, f.formula_key, f.expression AS node FROM public.skill_formulas f
+            UNION ALL
+            SELECT n.game_id, n.skill_key, n.formula_key, c.node FROM nodes n
+            CROSS JOIN LATERAL jsonb_array_elements(CASE WHEN n.node->>'nodeType'='OPERATION' THEN n.node->'operands' ELSE '[]'::jsonb END) c(node)
+        ) SELECT game_id, skill_key, formula_key, node->>'nodeType' AS node_type,
+            node->>'parameterKey' AS parameter_key, node->>'attributeKey' AS attribute_key,
+            node->>'attributeOwner' AS attribute_owner, node->>'attributeValueKind' AS attribute_value_kind,
+            node->>'operation' AS operation FROM nodes
+    </sql>
+
+    <sql id="internalStateAmmoDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.state_key AS state_key,
+               r.detail->>'initialValueFormulaKey' AS initial_value_formula_key,
+               r.detail->>'maxValueFormulaKey' AS max_value_formula_key,
+               r.detail->>'recoveryIntervalFormulaKey' AS recovery_interval_formula_key,
+               r.detail->>'recoveryMode' AS recovery_mode
+        FROM public.skill_internal_states r
+        WHERE r.state_type = 'AMMO'
+    </sql>
+
+    <sql id="internalStateCooldownDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.state_key AS state_key,
+               r.detail->>'durationFormulaKey' AS duration_formula_key
+        FROM public.skill_internal_states r
+        WHERE r.state_type = 'INTERNAL_COOLDOWN'
+    </sql>
+
+    <sql id="internalStateCounterDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.state_key AS state_key,
+               r.detail->>'initialValueFormulaKey' AS initial_value_formula_key,
+               r.detail->>'maxValueFormulaKey' AS max_value_formula_key
+        FROM public.skill_internal_states r
+        WHERE r.state_type = 'COUNTER'
+    </sql>
+
+    <sql id="internalStateModeOptions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.state_key AS state_key,
+               j->>'optionKey' AS option_key,
+               j->>'name' AS name,
+               (j->>'sortOrder')::integer AS sort_order,
+               (j->>'initial')::boolean AS initial
+        FROM public.skill_internal_states r CROSS JOIN LATERAL jsonb_array_elements(COALESCE(r.detail->'options','[]'::jsonb)) j
+        WHERE r.state_type = 'MODE'
+    </sql>
+
+    <sql id="processChannelStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'durationFormulaKey' AS duration_formula_key,
+               j->'detail'->>'executionCountFormulaKey' AS execution_count_formula_key,
+               j->'detail'->>'firstExecution' AS first_execution
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'CHANNEL'
+    </sql>
+
+    <sql id="processChargeStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'minimumChargeFormulaKey' AS minimum_charge_formula_key,
+               j->'detail'->>'maximumChargeFormulaKey' AS maximum_charge_formula_key,
+               (j->'detail'->>'releaseAtMaximum')::boolean AS release_at_maximum
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'CHARGE'
+    </sql>
+
+    <sql id="processCooldowns">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               r.cooldown->>'durationFormulaKey' AS duration_formula_key,
+               r.cooldown->'startMoment'->>'momentType' AS moment_type,
+               r.cooldown->'startMoment'->>'stepKey' AS step_key
+        FROM public.skill_processes r
+        WHERE r.cooldown IS NOT NULL AND r.cooldown &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="processDelayStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'delayFormulaKey' AS delay_formula_key
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'DELAY'
+    </sql>
+
+    <sql id="processEffectBindings">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'bindingKey' AS binding_key,
+               j->>'effectKey' AS effect_key,
+               j->'moment'->>'momentType' AS moment_type,
+               j->'moment'->>'stepKey' AS step_key,
+               (j->>'sortOrder')::integer AS sort_order
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.effect_bindings) j
+    </sql>
+
+    <sql id="processEmpoweredAttackStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'windowFormulaKey' AS window_formula_key,
+               j->'detail'->>'consumeMoment' AS consume_moment
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'EMPOWERED_BASIC_ATTACK'
+    </sql>
+
+    <sql id="processMultiHitStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'repeatCountFormulaKey' AS repeat_count_formula_key,
+               j->'detail'->>'intervalFormulaKey' AS interval_formula_key
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'MULTI_HIT'
+    </sql>
+
+    <sql id="processPeriodicStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'repeatCountFormulaKey' AS repeat_count_formula_key,
+               j->'detail'->>'intervalFormulaKey' AS interval_formula_key,
+               j->'detail'->>'firstExecution' AS first_execution
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'PERIODIC'
+    </sql>
+
+    <sql id="processRecastStepDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->'detail'->>'windowFormulaKey' AS window_formula_key,
+               j->'detail'->>'maximumRecastCountFormulaKey' AS maximum_recast_count_formula_key
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+        WHERE j->>'stepType' = 'RECAST'
+    </sql>
+
+    <sql id="processStateOperations">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'operationKey' AS operation_key,
+               j->>'name' AS name,
+               j->>'stateKey' AS state_key,
+               j->>'operation' AS operation,
+               j->>'valueFormulaKey' AS value_formula_key,
+               j->>'optionKey' AS option_key,
+               j->'moment'->>'momentType' AS moment_type,
+               j->'moment'->>'stepKey' AS step_key,
+               (j->>'sortOrder')::integer AS sort_order
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.state_operations) j
+    </sql>
+
+    <sql id="processSteps">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.process_key AS process_key,
+               j->>'stepKey' AS step_key,
+               j->>'name' AS name,
+               j->>'stepType' AS step_type,
+               j->>'description' AS description,
+               (j->>'sortOrder')::integer AS sort_order
+        FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
+    </sql>
+
+    <sql id="triggerRuleActions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               a->>'name' AS name,
+               a->>'actionType' AS action_type,
+               (a->>'sortOrder')::integer AS sort_order,
+               a->>'targetContext' AS target_context
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a
+    </sql>
+
+    <sql id="triggerRuleAttributeConditions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               g->>'groupKey' AS group_key,
+               c->>'conditionKey' AS condition_key,
+               c->'detail'->>'subject' AS subject,
+               c->'detail'->>'attributeKey' AS attribute_key,
+               c->'detail'->>'attributeValueKind' AS attribute_value_kind,
+               c->'detail'->>'comparator' AS comparator,
+               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
+        WHERE c->>'conditionType'='ATTRIBUTE_COMPARE'
+    </sql>
+
+    <sql id="triggerRuleCombatStatusBindings">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               b->>'bindingKey' AS binding_key,
+               b->'detail'->>'subject' AS subject,
+               b->'detail'->>'statusKey' AS status_key,
+               b->'detail'->>'valueKind' AS value_kind,
+               b->'detail'->>'sourceEffectKey' AS source_effect_key,
+               b->'detail'->>'sourceResultKey' AS source_result_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'runtimeInputBindings') b
+        WHERE b->>'sourceType'='COMBAT_STATUS'
+    </sql>
+
+    <sql id="triggerRuleConditionGroups">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               g->>'groupKey' AS group_key,
+               g->>'name' AS name,
+               (g->>'sortOrder')::integer AS sort_order
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g
+    </sql>
+
+    <sql id="triggerRuleDamageEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'damageTypeKey' AS damage_type_key,
+               r.event_source->'detail'->>'deliveryKind' AS delivery_kind,
+               r.event_source->'detail'->>'originKind' AS origin_kind
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('DAMAGE_PENDING','DAMAGE_DEALT','DAMAGE_TAKEN')
+    </sql>
+
+    <sql id="triggerRuleEffectActions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               a->'detail'->>'effectKey' AS effect_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a
+        WHERE a->>'actionType'='EXECUTE_EFFECT'
+    </sql>
+
+    <sql id="triggerRuleEventValueConditions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               g->>'groupKey' AS group_key,
+               c->>'conditionKey' AS condition_key,
+               c->'detail'->>'eventValueKey' AS event_value_key,
+               c->'detail'->>'comparator' AS comparator,
+               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
+        WHERE c->>'conditionType'='EVENT_VALUE_COMPARE'
+    </sql>
+
+    <sql id="triggerRuleHealthThresholdEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'subject' AS subject,
+               r.event_source->'detail'->>'attributeKey' AS attribute_key,
+               r.event_source->'detail'->>'thresholdFormulaKey' AS threshold_formula_key,
+               r.event_source->'detail'->>'direction' AS direction
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('HEALTH_THRESHOLD_CROSSED')
+    </sql>
+
+    <sql id="triggerRuleInternalStateBindings">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               b->>'bindingKey' AS binding_key,
+               b->'detail'->>'stateKey' AS state_key,
+               b->'detail'->>'valueKind' AS value_kind,
+               b->'detail'->>'optionKey' AS option_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'runtimeInputBindings') b
+        WHERE b->>'sourceType'='INTERNAL_STATE'
+    </sql>
+
+    <sql id="triggerRuleInternalStateConditions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               g->>'groupKey' AS group_key,
+               c->>'conditionKey' AS condition_key,
+               c->'detail'->>'stateKey' AS state_key,
+               c->'detail'->>'valueKind' AS value_kind,
+               c->'detail'->>'optionKey' AS option_key,
+               (c->'detail'->>'expectedBoolean')::boolean AS expected_boolean,
+               c->'detail'->>'comparator' AS comparator,
+               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
+        WHERE c->>'conditionType'='INTERNAL_STATE_CHECK'
+    </sql>
+
+    <sql id="triggerRuleInternalStateEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'stateKey' AS state_key,
+               r.event_source->'detail'->>'changeKind' AS change_kind
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('INTERNAL_STATE_CHANGED')
+    </sql>
+
+    <sql id="triggerRuleLifecycleEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'effectKey' AS effect_key,
+               r.event_source->'detail'->>'moment' AS lifecycle_moment
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('LIFECYCLE_MOMENT')
+    </sql>
+
+    <sql id="triggerRuleLinkEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'sourceSkillKey' AS source_skill_key
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('HIT_LINK_APPLIED','ATTACK_LINK_APPLIED')
+    </sql>
+
+    <sql id="triggerRulePerTargetCooldowns">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.limits->'perTargetCooldown'->>'durationFormulaKey' AS duration_formula_key,
+               r.limits->'perTargetCooldown'->>'targetContext' AS target_context
+        FROM public.skill_trigger_rules r
+        WHERE r.limits->'perTargetCooldown' IS NOT NULL AND r.limits->'perTargetCooldown' &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="triggerRulePriorResultBindings">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               b->>'bindingKey' AS binding_key,
+               b->'detail'->>'sourceActionKey' AS source_action_key,
+               (SELECT sa->'detail'->>'effectKey' FROM jsonb_array_elements(r.actions) sa WHERE sa->>'actionKey'=b->'detail'->>'sourceActionKey') AS source_effect_key,
+               b->'detail'->>'sourceResultKey' AS source_result_key,
+               b->'detail'->>'outputKind' AS output_kind
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'runtimeInputBindings') b
+        WHERE b->>'sourceType'='PRIOR_ACTION_RESULT'
+    </sql>
+
+    <sql id="triggerRuleProcessActions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               a->'detail'->>'processKey' AS process_key,
+               a->'detail'->>'failureReason' AS failure_reason
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a
+        WHERE a->>'actionType' IN ('START_PROCESS','FAIL_PROCESS')
+    </sql>
+
+    <sql id="triggerRuleProcessEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'processKey' AS process_key,
+               r.event_source->'detail'->'moment'->>'momentType' AS moment_type,
+               r.event_source->'detail'->'moment'->>'stepKey' AS step_key
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('PROCESS_MOMENT','PROCESS_CANCEL_REQUESTED')
+    </sql>
+
+    <sql id="triggerRuleProcessLimits">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.limits->'maxTriggersPerProcess'->>'processKey' AS process_key,
+               r.limits->'maxTriggersPerProcess'->>'limitFormulaKey' AS limit_formula_key
+        FROM public.skill_trigger_rules r
+        WHERE r.limits->'maxTriggersPerProcess' IS NOT NULL AND r.limits->'maxTriggersPerProcess' &lt;> 'null'::jsonb
+    </sql>
+
+    <sql id="triggerRuleResultEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'effectKey' AS effect_key,
+               r.event_source->'detail'->>'resultKey' AS result_key
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('RESULT_AVAILABLE')
+    </sql>
+
+    <sql id="triggerRuleResultModifiers">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               j->>'resultKey' AS result_key,
+               a->'detail'->>'effectKey' AS effect_key,
+               (j->>'fixedMultiplier')::numeric AS fixed_multiplier,
+               (j->>'fixedMinValue')::numeric AS fixed_min_value,
+               (j->>'fixedMaxValue')::numeric AS fixed_max_value
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'resultModifiers') j
+    </sql>
+
+    <sql id="triggerRuleRuntimeInputBindings">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               a->>'actionKey' AS action_key,
+               b->>'bindingKey' AS binding_key,
+               b->>'parameterKey' AS parameter_key,
+               b->>'sourceType' AS source_type
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'runtimeInputBindings') b
+    </sql>
+
+    <sql id="triggerRuleSkillEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'sourceSkillKey' AS source_skill_key,
+               r.event_source->'detail'->>'useKind' AS use_kind
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('SKILL_USED','SKILL_HIT')
+    </sql>
+
+    <sql id="triggerRuleSpellShieldBlockedEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'shieldEffectKey' AS shield_effect_key
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('SPELL_SHIELD_BLOCKED')
+    </sql>
+
+    <sql id="triggerRuleStatusConditions">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               g->>'groupKey' AS group_key,
+               c->>'conditionKey' AS condition_key,
+               c->'detail'->>'subject' AS subject,
+               c->'detail'->>'statusKey' AS status_key,
+               c->'detail'->>'checkKind' AS check_kind,
+               c->'detail'->>'sourceEffectKey' AS source_effect_key,
+               c->'detail'->>'sourceResultKey' AS source_result_key,
+               c->'detail'->>'comparator' AS comparator,
+               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+        FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
+        WHERE c->>'conditionType'='STATUS_CHECK'
+    </sql>
+
+    <sql id="triggerRuleStatusEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'subject' AS subject,
+               r.event_source->'detail'->>'statusKey' AS status_key,
+               r.event_source->'detail'->>'change' AS change_kind
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('STATUS_CHANGED')
+    </sql>
+
+    <sql id="triggerRuleSubjectEvents">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.event_source->'detail'->>'subject' AS subject
+        FROM public.skill_trigger_rules r
+        WHERE r.event_type IN ('ENTITY_DIED','ENTITY_UNTARGETABLE')
+    </sql>
+</mapper>

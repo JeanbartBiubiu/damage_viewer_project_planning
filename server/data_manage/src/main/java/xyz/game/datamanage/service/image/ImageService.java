@@ -31,6 +31,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class ImageService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile(
         "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
     );
@@ -44,11 +46,14 @@ public class ImageService {
     public ImageService(
         GamesMapper gamesMapper,
         ImageMapper mapper,
-        ImageContentValidator contentValidator
+        ImageContentValidator contentValidator,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
         this.contentValidator = contentValidator;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -86,6 +91,7 @@ public class ImageService {
 
     @Transactional
     public ImageResponse create(String gameId, ImageCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreate(request);
         ValidatedImageContent content = contentValidator.validate(request.imageBase64());
@@ -116,6 +122,7 @@ public class ImageService {
 
     @Transactional
     public ImageResponse update(String gameId, String imageKey, ImageUpdateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
         if (mapper.findByIdForUpdate(gameId, imageKey) == null) {

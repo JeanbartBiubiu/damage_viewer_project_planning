@@ -74,19 +74,19 @@
 
     <select id="countAttributeReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_attribute_change_details
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectAttributeChangeDetails"/>)
         WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
     </select>
 
     <select id="countDamageReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_damage_modifier_details
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectDamageModifierDetails"/>)
         WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
     </select>
 
     <select id="countHealingReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_healing_modifier_details
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectHealingModifierDetails"/>)
         WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
     </select>
 

@@ -157,7 +157,7 @@ class SkillInternalStateAdminControllerTest {
         ));
         when(stateMapper.countByKey("lol", "ezreal_q", "mark_stacks")).thenReturn(0L);
         SkillInternalStateService realService =
-            new SkillInternalStateService(gamesMapper, skillMapper, stateMapper);
+            new SkillInternalStateService(gamesMapper, skillMapper, stateMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillInternalStateCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

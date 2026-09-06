@@ -25,31 +25,22 @@ import xyz.game.datamanage.mapper.skillprocess.SkillProcessMapper;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessChannelStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessChannelStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessChargeStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessChargeStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCooldown;
-import xyz.game.datamanage.model.skillprocess.SkillProcessCooldownRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCreateRequest;
 import xyz.game.datamanage.model.skillprocess.SkillProcessDelayStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessDelayStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessDetailResponse;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRequest;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingResponse;
-import xyz.game.datamanage.model.skillprocess.SkillProcessEffectBindingRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredAttackStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredAttackStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessImmediateStepDetail;
 import xyz.game.datamanage.model.skillprocess.SkillProcessInternalStateLockRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessModeOptionLockRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMultiHitStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessMultiHitStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessPeriodicStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessPeriodicStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessRecastStepDetail;
-import xyz.game.datamanage.model.skillprocess.SkillProcessRecastStepDetailRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRequest;
@@ -64,19 +55,16 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse;
 import xyz.game.datamanage.model.skillprocess.SkillProcessUpdateRequest;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 
 @Service
 @Validated
 public class SkillProcessService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Logger log = LoggerFactory.getLogger(SkillProcessService.class);
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_processes";
-    private static final Set<String> TRIGGER_PROCESS_IN_USE_CONSTRAINTS = Set.of(
-        "fk_skill_trigger_process_events_process",
-        "fk_skill_trigger_process_events_step",
-        "fk_skill_trigger_process_actions_process",
-        "fk_skill_trigger_process_limits_process"
-    );
     private static final Set<SkillProcessMomentType> PROCESS_MOMENTS = EnumSet.of(
         SkillProcessMomentType.PROCESS_START,
         SkillProcessMomentType.PROCESS_COMPLETE,
@@ -117,9 +105,10 @@ public class SkillProcessService {
     public SkillProcessService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
-        SkillProcessMapper mapper
+        SkillProcessMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
-        this(gamesMapper, skillMapper, mapper, null);
+        this(gamesMapper, skillMapper, mapper, null, configurationWrites);
     }
 
     @Autowired
@@ -127,12 +116,15 @@ public class SkillProcessService {
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillProcessMapper mapper,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -156,6 +148,7 @@ public class SkillProcessService {
         String skillKey,
         @Valid SkillProcessCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedProcess values = validateCreate(request);
         lockParentSkill(gameId, skillKey);
@@ -172,12 +165,12 @@ public class SkillProcessService {
                 values.name(),
                 values.activationType(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                writeSteps(values.steps()),
+                AggregateJson.write(values.cooldown()),
+                writeBindings(values.effectBindings()),
+                writeOperations(values.stateOperations())
             );
-            insertSteps(gameId, skillKey, values.processKey(), values.steps());
-            insertCooldown(gameId, skillKey, values.processKey(), values.cooldown());
-            insertBindings(gameId, skillKey, values.processKey(), values.effectBindings());
-            insertOperations(gameId, skillKey, values.processKey(), values.stateOperations());
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -191,6 +184,7 @@ public class SkillProcessService {
         String processKey,
         @Valid SkillProcessUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedProcess values = validateUpdate(request, processKey);
         lockParentSkill(gameId, skillKey);
@@ -231,28 +225,9 @@ public class SkillProcessService {
             }
         }
         try {
-            mapper.deleteCooldown(gameId, skillKey, processKey);
-            mapper.deleteAllBindings(gameId, skillKey, processKey);
-            mapper.deleteAllOperations(gameId, skillKey, processKey);
-            if (!removedSteps.isEmpty()) {
-                if (triggerRuleService != null) {
-                    triggerRuleService.assertStepsNotReferenced(gameId, skillKey, processKey, removedSteps);
-                }
-                mapper.deleteSteps(gameId, skillKey, processKey, removedSteps);
+            if (!removedSteps.isEmpty() && triggerRuleService != null) {
+                triggerRuleService.assertStepsNotReferenced(gameId, skillKey, processKey, removedSteps);
             }
-            for (SkillProcessStepRequest step : values.steps()) {
-                if (existingStepByKey.containsKey(step.stepKey())) {
-                    mapper.updateStep(
-                        gameId, skillKey, processKey, step.stepKey(), step.name(), step.description(), step.sortOrder()
-                    );
-                    updateStepDetail(gameId, skillKey, processKey, step);
-                } else {
-                    insertStepAggregate(gameId, skillKey, processKey, step);
-                }
-            }
-            insertCooldown(gameId, skillKey, processKey, values.cooldown());
-            insertBindings(gameId, skillKey, processKey, values.effectBindings());
-            insertOperations(gameId, skillKey, processKey, values.stateOperations());
             if (mapper.updateProcess(
                 gameId,
                 skillKey,
@@ -260,7 +235,11 @@ public class SkillProcessService {
                 values.name(),
                 values.activationType(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                writeSteps(values.steps()),
+                AggregateJson.write(values.cooldown()),
+                writeBindings(values.effectBindings()),
+                writeOperations(values.stateOperations())
             ) == 0) {
                 throw processNotFound(processKey);
             }
@@ -275,6 +254,7 @@ public class SkillProcessService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String processKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockParentSkill(gameId, skillKey);
         if (mapper.findProcessForUpdate(gameId, skillKey, processKey) == null) {
@@ -301,181 +281,52 @@ public class SkillProcessService {
     }
 
     private SkillProcessDetailResponse assembleDetail(SkillProcessRow process) {
-        String gameId = process.gameId();
-        String skillKey = process.skillKey();
-        String processKey = process.processKey();
-        List<SkillProcessStepRow> steps = nullToEmpty(mapper.listSteps(gameId, skillKey, processKey));
-        if (steps.isEmpty()) {
-            throw corrupt(gameId, skillKey, processKey, null, "过程缺少步骤");
+        try {
+            List<SkillProcessStepRequest> steps = AggregateJson.readList(process.stepsJson(), SkillProcessStepRequest.class);
+            SkillProcessCooldown cooldown = AggregateJson.read(process.cooldownJson(), SkillProcessCooldown.class);
+            List<SkillProcessEffectBindingRequest> bindings = AggregateJson.readList(
+                process.effectBindingsJson(), SkillProcessEffectBindingRequest.class
+            );
+            List<SkillProcessStateOperationRequest> operations = AggregateJson.readList(
+                process.stateOperationsJson(), SkillProcessStateOperationRequest.class
+            );
+            ValidatedProcess values = validateCommon(process.processKey(), process.name(), process.activationType(),
+                process.description(), process.sortOrder(), cooldown, steps, bindings, operations, false);
+            CollectedRefs refs = collectAndValidateAggregate(values, Map.of(), Map.of());
+            throwIfInvalidReference(refs.referenceIssues);
+            return new SkillProcessDetailResponse(
+                process.gameId(), process.skillKey(), process.processKey(), process.name(), process.activationType(),
+                process.description(), process.sortOrder(), cooldown,
+                steps.stream().map(step -> new SkillProcessStepResponse(
+                    step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), step.detail()
+                )).toList(),
+                bindings.stream().map(binding -> new SkillProcessEffectBindingResponse(
+                    binding.bindingKey(), binding.effectKey(), binding.moment(), binding.sortOrder()
+                )).toList(),
+                operations.stream().map(operation -> new SkillProcessStateOperationResponse(
+                    operation.operationKey(), operation.name(), operation.stateKey(), operation.operation(),
+                    operation.valueFormulaKey(), operation.optionKey(), operation.moment(), operation.sortOrder()
+                )).toList(),
+                process.createdAt(), process.updatedAt()
+            );
+        } catch (RuntimeException ex) {
+            throw corrupt(process.gameId(), process.skillKey(), process.processKey(), null, "过程聚合内容损坏");
         }
-        Map<String, SkillProcessDelayStepDetailRow> delays = indexByStep(
-            gameId, skillKey, processKey, mapper.listDelayDetails(gameId, skillKey, processKey),
-            SkillProcessDelayStepDetailRow::stepKey, "延迟明细重复"
-        );
-        Map<String, SkillProcessMultiHitStepDetailRow> multiHits = indexByStep(
-            gameId, skillKey, processKey, mapper.listMultiHitDetails(gameId, skillKey, processKey),
-            SkillProcessMultiHitStepDetailRow::stepKey, "多段明细重复"
-        );
-        Map<String, SkillProcessPeriodicStepDetailRow> periodics = indexByStep(
-            gameId, skillKey, processKey, mapper.listPeriodicDetails(gameId, skillKey, processKey),
-            SkillProcessPeriodicStepDetailRow::stepKey, "周期明细重复"
-        );
-        Map<String, SkillProcessChannelStepDetailRow> channels = indexByStep(
-            gameId, skillKey, processKey, mapper.listChannelDetails(gameId, skillKey, processKey),
-            SkillProcessChannelStepDetailRow::stepKey, "引导明细重复"
-        );
-        Map<String, SkillProcessChargeStepDetailRow> charges = indexByStep(
-            gameId, skillKey, processKey, mapper.listChargeDetails(gameId, skillKey, processKey),
-            SkillProcessChargeStepDetailRow::stepKey, "蓄力明细重复"
-        );
-        Map<String, SkillProcessRecastStepDetailRow> recasts = indexByStep(
-            gameId, skillKey, processKey, mapper.listRecastDetails(gameId, skillKey, processKey),
-            SkillProcessRecastStepDetailRow::stepKey, "重施明细重复"
-        );
-        Map<String, SkillProcessEmpoweredAttackStepDetailRow> empowered = indexByStep(
-            gameId, skillKey, processKey, mapper.listEmpoweredDetails(gameId, skillKey, processKey),
-            SkillProcessEmpoweredAttackStepDetailRow::stepKey, "强化普攻明细重复"
-        );
-        List<SkillProcessStepResponse> assembledSteps = new ArrayList<>();
-        for (SkillProcessStepRow step : steps) {
-            assembledSteps.add(assembleStep(
-                gameId, skillKey, processKey, step, delays, multiHits, periodics, channels, charges, recasts, empowered
-            ));
-        }
-        List<SkillProcessEffectBindingRow> bindings = nullToEmpty(mapper.listBindings(gameId, skillKey, processKey));
-        List<SkillProcessStateOperationRow> operations =
-            nullToEmpty(mapper.listOperations(gameId, skillKey, processKey));
-        if (bindings.isEmpty() && operations.isEmpty()) {
-            throw corrupt(gameId, skillKey, processKey, null, "过程缺少行为");
-        }
-        SkillProcessCooldownRow cooldownRow = mapper.findCooldown(gameId, skillKey, processKey);
-        return new SkillProcessDetailResponse(
-            process.gameId(),
-            process.skillKey(),
-            process.processKey(),
-            process.name(),
-            process.activationType(),
-            process.description(),
-            process.sortOrder(),
-            cooldownRow == null ? null : new SkillProcessCooldown(
-                cooldownRow.durationFormulaKey(),
-                new SkillProcessMoment(cooldownRow.momentType(), cooldownRow.stepKey())
-            ),
-            assembledSteps,
-            bindings.stream()
-                .map(row -> new SkillProcessEffectBindingResponse(
-                    row.bindingKey(),
-                    row.effectKey(),
-                    new SkillProcessMoment(row.momentType(), row.stepKey()),
-                    row.sortOrder()
-                ))
-                .toList(),
-            operations.stream()
-                .map(row -> new SkillProcessStateOperationResponse(
-                    row.operationKey(),
-                    row.name(),
-                    row.stateKey(),
-                    row.operation(),
-                    row.valueFormulaKey(),
-                    row.optionKey(),
-                    new SkillProcessMoment(row.momentType(), row.stepKey()),
-                    row.sortOrder()
-                ))
-                .toList(),
-            process.createdAt(),
-            process.updatedAt()
-        );
     }
 
-    private SkillProcessStepResponse assembleStep(
-        String gameId,
-        String skillKey,
-        String processKey,
-        SkillProcessStepRow step,
-        Map<String, SkillProcessDelayStepDetailRow> delays,
-        Map<String, SkillProcessMultiHitStepDetailRow> multiHits,
-        Map<String, SkillProcessPeriodicStepDetailRow> periodics,
-        Map<String, SkillProcessChannelStepDetailRow> channels,
-        Map<String, SkillProcessChargeStepDetailRow> charges,
-        Map<String, SkillProcessRecastStepDetailRow> recasts,
-        Map<String, SkillProcessEmpoweredAttackStepDetailRow> empowered
-    ) {
-        String stepKey = step.stepKey();
-        SkillProcessStepDetail detail = switch (step.stepType()) {
-            case IMMEDIATE -> {
-                if (delays.containsKey(stepKey) || multiHits.containsKey(stepKey) || periodics.containsKey(stepKey)
-                    || channels.containsKey(stepKey) || charges.containsKey(stepKey)
-                    || recasts.containsKey(stepKey) || empowered.containsKey(stepKey)) {
-                    throw corrupt(gameId, skillKey, processKey, stepKey, "IMMEDIATE形状损坏");
-                }
-                yield new SkillProcessImmediateStepDetail();
-            }
-            case DELAY -> {
-                SkillProcessDelayStepDetailRow row = requireOne(
-                    delays.get(stepKey), multiHits.get(stepKey), periodics.get(stepKey),
-                    channels.get(stepKey), charges.get(stepKey), recasts.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "DELAY形状损坏"
-                );
-                yield new SkillProcessDelayStepDetail(row.delayFormulaKey());
-            }
-            case MULTI_HIT -> {
-                SkillProcessMultiHitStepDetailRow row = requireOne(
-                    multiHits.get(stepKey), delays.get(stepKey), periodics.get(stepKey),
-                    channels.get(stepKey), charges.get(stepKey), recasts.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "MULTI_HIT形状损坏"
-                );
-                yield new SkillProcessMultiHitStepDetail(row.repeatCountFormulaKey(), row.intervalFormulaKey());
-            }
-            case PERIODIC -> {
-                SkillProcessPeriodicStepDetailRow row = requireOne(
-                    periodics.get(stepKey), delays.get(stepKey), multiHits.get(stepKey),
-                    channels.get(stepKey), charges.get(stepKey), recasts.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "PERIODIC形状损坏"
-                );
-                yield new SkillProcessPeriodicStepDetail(
-                    row.repeatCountFormulaKey(), row.intervalFormulaKey(), row.firstExecution()
-                );
-            }
-            case CHANNEL -> {
-                SkillProcessChannelStepDetailRow row = requireOne(
-                    channels.get(stepKey), delays.get(stepKey), multiHits.get(stepKey),
-                    periodics.get(stepKey), charges.get(stepKey), recasts.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "CHANNEL形状损坏"
-                );
-                yield new SkillProcessChannelStepDetail(
-                    row.durationFormulaKey(), row.executionCountFormulaKey(), row.firstExecution()
-                );
-            }
-            case CHARGE -> {
-                SkillProcessChargeStepDetailRow row = requireOne(
-                    charges.get(stepKey), delays.get(stepKey), multiHits.get(stepKey),
-                    periodics.get(stepKey), channels.get(stepKey), recasts.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "CHARGE形状损坏"
-                );
-                yield new SkillProcessChargeStepDetail(
-                    row.minimumChargeFormulaKey(), row.maximumChargeFormulaKey(), row.releaseAtMaximum()
-                );
-            }
-            case RECAST -> {
-                SkillProcessRecastStepDetailRow row = requireOne(
-                    recasts.get(stepKey), delays.get(stepKey), multiHits.get(stepKey),
-                    periodics.get(stepKey), channels.get(stepKey), charges.get(stepKey), empowered.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "RECAST形状损坏"
-                );
-                yield new SkillProcessRecastStepDetail(row.windowFormulaKey(), row.maximumRecastCountFormulaKey());
-            }
-            case EMPOWERED_BASIC_ATTACK -> {
-                SkillProcessEmpoweredAttackStepDetailRow row = requireOne(
-                    empowered.get(stepKey), delays.get(stepKey), multiHits.get(stepKey),
-                    periodics.get(stepKey), channels.get(stepKey), charges.get(stepKey), recasts.get(stepKey),
-                    gameId, skillKey, processKey, stepKey, "EMPOWERED_BASIC_ATTACK形状损坏"
-                );
-                yield new SkillProcessEmpoweredAttackStepDetail(row.windowFormulaKey(), row.consumeMoment());
-            }
-        };
-        return new SkillProcessStepResponse(
-            step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), detail
-        );
+    private String writeSteps(List<SkillProcessStepRequest> steps) {
+        return AggregateJson.write(steps.stream().sorted(Comparator.comparing(SkillProcessStepRequest::sortOrder)
+            .thenComparing(SkillProcessStepRequest::stepKey)).toList());
+    }
+
+    private String writeBindings(List<SkillProcessEffectBindingRequest> bindings) {
+        return AggregateJson.write(bindings.stream().sorted(Comparator.comparing(SkillProcessEffectBindingRequest::sortOrder)
+            .thenComparing(SkillProcessEffectBindingRequest::bindingKey)).toList());
+    }
+
+    private String writeOperations(List<SkillProcessStateOperationRequest> operations) {
+        return AggregateJson.write(operations.stream().sorted(Comparator.comparing(SkillProcessStateOperationRequest::sortOrder)
+            .thenComparing(SkillProcessStateOperationRequest::operationKey)).toList());
     }
 
     private ValidatedProcess validateCreate(SkillProcessCreateRequest request) {
@@ -949,208 +800,6 @@ public class SkillProcessService {
         }
     }
 
-    private void insertSteps(
-        String gameId,
-        String skillKey,
-        String processKey,
-        List<SkillProcessStepRequest> steps
-    ) {
-        for (SkillProcessStepRequest step : steps) {
-            insertStepAggregate(gameId, skillKey, processKey, step);
-        }
-    }
-
-    private void insertStepAggregate(
-        String gameId,
-        String skillKey,
-        String processKey,
-        SkillProcessStepRequest step
-    ) {
-        mapper.insertStep(
-            gameId, skillKey, processKey, step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder()
-        );
-        insertStepDetail(gameId, skillKey, processKey, step);
-    }
-
-    private void insertStepDetail(
-        String gameId,
-        String skillKey,
-        String processKey,
-        SkillProcessStepRequest step
-    ) {
-        switch (step.stepType()) {
-            case IMMEDIATE -> {
-            }
-            case DELAY -> mapper.insertDelayDetail(
-                gameId, skillKey, processKey, step.stepKey(),
-                ((SkillProcessDelayStepDetail) step.detail()).delayFormulaKey()
-            );
-            case MULTI_HIT -> {
-                SkillProcessMultiHitStepDetail detail = (SkillProcessMultiHitStepDetail) step.detail();
-                mapper.insertMultiHitDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.repeatCountFormulaKey(), detail.intervalFormulaKey()
-                );
-            }
-            case PERIODIC -> {
-                SkillProcessPeriodicStepDetail detail = (SkillProcessPeriodicStepDetail) step.detail();
-                mapper.insertPeriodicDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.repeatCountFormulaKey(), detail.intervalFormulaKey(), detail.firstExecution()
-                );
-            }
-            case CHANNEL -> {
-                SkillProcessChannelStepDetail detail = (SkillProcessChannelStepDetail) step.detail();
-                mapper.insertChannelDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.durationFormulaKey(), detail.executionCountFormulaKey(), detail.firstExecution()
-                );
-            }
-            case CHARGE -> {
-                SkillProcessChargeStepDetail detail = (SkillProcessChargeStepDetail) step.detail();
-                mapper.insertChargeDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.minimumChargeFormulaKey(), detail.maximumChargeFormulaKey(), detail.releaseAtMaximum()
-                );
-            }
-            case RECAST -> {
-                SkillProcessRecastStepDetail detail = (SkillProcessRecastStepDetail) step.detail();
-                mapper.insertRecastDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.windowFormulaKey(), detail.maximumRecastCountFormulaKey()
-                );
-            }
-            case EMPOWERED_BASIC_ATTACK -> {
-                SkillProcessEmpoweredAttackStepDetail detail = (SkillProcessEmpoweredAttackStepDetail) step.detail();
-                mapper.insertEmpoweredDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.windowFormulaKey(), detail.consumeMoment()
-                );
-            }
-        }
-    }
-
-    private void updateStepDetail(
-        String gameId,
-        String skillKey,
-        String processKey,
-        SkillProcessStepRequest step
-    ) {
-        switch (step.stepType()) {
-            case IMMEDIATE -> {
-            }
-            case DELAY -> mapper.updateDelayDetail(
-                gameId, skillKey, processKey, step.stepKey(),
-                ((SkillProcessDelayStepDetail) step.detail()).delayFormulaKey()
-            );
-            case MULTI_HIT -> {
-                SkillProcessMultiHitStepDetail detail = (SkillProcessMultiHitStepDetail) step.detail();
-                mapper.updateMultiHitDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.repeatCountFormulaKey(), detail.intervalFormulaKey()
-                );
-            }
-            case PERIODIC -> {
-                SkillProcessPeriodicStepDetail detail = (SkillProcessPeriodicStepDetail) step.detail();
-                mapper.updatePeriodicDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.repeatCountFormulaKey(), detail.intervalFormulaKey(), detail.firstExecution()
-                );
-            }
-            case CHANNEL -> {
-                SkillProcessChannelStepDetail detail = (SkillProcessChannelStepDetail) step.detail();
-                mapper.updateChannelDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.durationFormulaKey(), detail.executionCountFormulaKey(), detail.firstExecution()
-                );
-            }
-            case CHARGE -> {
-                SkillProcessChargeStepDetail detail = (SkillProcessChargeStepDetail) step.detail();
-                mapper.updateChargeDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.minimumChargeFormulaKey(), detail.maximumChargeFormulaKey(), detail.releaseAtMaximum()
-                );
-            }
-            case RECAST -> {
-                SkillProcessRecastStepDetail detail = (SkillProcessRecastStepDetail) step.detail();
-                mapper.updateRecastDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.windowFormulaKey(), detail.maximumRecastCountFormulaKey()
-                );
-            }
-            case EMPOWERED_BASIC_ATTACK -> {
-                SkillProcessEmpoweredAttackStepDetail detail = (SkillProcessEmpoweredAttackStepDetail) step.detail();
-                mapper.updateEmpoweredDetail(
-                    gameId, skillKey, processKey, step.stepKey(),
-                    detail.windowFormulaKey(), detail.consumeMoment()
-                );
-            }
-        }
-    }
-
-    private void insertCooldown(
-        String gameId,
-        String skillKey,
-        String processKey,
-        SkillProcessCooldown cooldown
-    ) {
-        if (cooldown == null) {
-            return;
-        }
-        mapper.insertCooldown(
-            gameId,
-            skillKey,
-            processKey,
-            cooldown.durationFormulaKey(),
-            cooldown.startMoment().momentType(),
-            cooldown.startMoment().stepKey()
-        );
-    }
-
-    private void insertBindings(
-        String gameId,
-        String skillKey,
-        String processKey,
-        List<SkillProcessEffectBindingRequest> bindings
-    ) {
-        for (SkillProcessEffectBindingRequest binding : bindings) {
-            mapper.insertBinding(
-                gameId,
-                skillKey,
-                processKey,
-                binding.bindingKey(),
-                binding.effectKey(),
-                binding.moment().momentType(),
-                binding.moment().stepKey(),
-                binding.sortOrder()
-            );
-        }
-    }
-
-    private void insertOperations(
-        String gameId,
-        String skillKey,
-        String processKey,
-        List<SkillProcessStateOperationRequest> operations
-    ) {
-        for (SkillProcessStateOperationRequest operation : operations) {
-            mapper.insertOperation(
-                gameId,
-                skillKey,
-                processKey,
-                operation.operationKey(),
-                operation.name(),
-                operation.stateKey(),
-                operation.operation(),
-                operation.valueFormulaKey(),
-                operation.optionKey(),
-                operation.moment().momentType(),
-                operation.moment().stepKey(),
-                operation.sortOrder()
-            );
-        }
-    }
-
     private void collectMutexFields(
         SkillProcessStepDetail detail,
         int index,
@@ -1222,45 +871,6 @@ public class SkillProcessService {
         return indexed;
     }
 
-    private <T> Map<String, T> indexByStep(
-        String gameId,
-        String skillKey,
-        String processKey,
-        List<T> rows,
-        java.util.function.Function<T, String> keyFn,
-        String duplicateReason
-    ) {
-        Map<String, T> indexed = new LinkedHashMap<>();
-        for (T row : nullToEmpty(rows)) {
-            String stepKey = keyFn.apply(row);
-            if (indexed.put(stepKey, row) != null) {
-                throw corrupt(gameId, skillKey, processKey, stepKey, duplicateReason);
-            }
-        }
-        return indexed;
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T requireOne(
-        T expected,
-        Object a,
-        Object b,
-        Object c,
-        Object d,
-        Object e,
-        Object f,
-        String gameId,
-        String skillKey,
-        String processKey,
-        String stepKey,
-        String reason
-    ) {
-        if (expected == null || a != null || b != null || c != null || d != null || e != null || f != null) {
-            throw corrupt(gameId, skillKey, processKey, stepKey, reason);
-        }
-        return expected;
-    }
-
     private static void throwIfInvalid(List<Map<String, String>> issues) {
         if (!issues.isEmpty()) {
             throw new ApiException(
@@ -1319,19 +929,6 @@ public class SkillProcessService {
         return conflict("409.SKILL_PROCESS_KEY_EXISTS", "技能过程标识已存在", "processKey");
     }
 
-    private static ApiException processInUse() {
-        return new ApiException(
-            HttpStatus.CONFLICT,
-            "409.SKILL_PROCESS_IN_USE",
-            "技能过程仍被触发规则引用，不能删除",
-            Map.of("fieldIssues", List.of(fieldIssue(
-                "processKey",
-                "TRIGGER_RULE_PROCESS_IN_USE",
-                "技能过程仍被触发规则引用，不能删除"
-            )))
-        );
-    }
-
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -1361,11 +958,6 @@ public class SkillProcessService {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
-        }
-        for (String constraint : TRIGGER_PROCESS_IN_USE_CONSTRAINTS) {
-            if (text.contains(constraint)) {
-                return processInUse();
-            }
         }
         return ex;
     }

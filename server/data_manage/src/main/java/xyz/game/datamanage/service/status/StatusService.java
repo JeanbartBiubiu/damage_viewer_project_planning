@@ -28,6 +28,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class StatusService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_statuses";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_statuses_name";
@@ -41,12 +43,15 @@ public class StatusService {
         GamesMapper gamesMapper,
         StatusMapper mapper,
         SkillTriggerRuleService triggerRuleService,
-        ImageRelationMapper imageRelationMapper
+        ImageRelationMapper imageRelationMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
         this.imageRelationMapper = imageRelationMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -74,6 +79,7 @@ public class StatusService {
 
     @Transactional
     public StatusResponse create(String gameId, @Valid StatusCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreate(request);
         if (mapper.countByKey(gameId, request.statusKey()) > 0) {
@@ -103,6 +109,7 @@ public class StatusService {
         String statusKey,
         @Valid StatusUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
         if (mapper.findByIdForUpdate(gameId, statusKey) == null) {
@@ -130,6 +137,7 @@ public class StatusService {
 
     @Transactional
     public void delete(String gameId, String statusKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, statusKey) == null) {
             throw notFound(statusKey);
@@ -137,6 +145,8 @@ public class StatusService {
         if (triggerRuleService != null) {
             triggerRuleService.assertStatusDeletable(gameId, statusKey);
         }
+        configurationWrites.assertNotReferenced(gameId, "STATUS", "", statusKey,
+            "409.STATUS_IN_USE", "状态已被引用，不能删除");
         try {
             if (mapper.delete(gameId, statusKey) == 0) {
                 throw notFound(statusKey);

@@ -34,6 +34,7 @@ import xyz.game.datamanage.support.auth.JwtVerifier;
 @WebMvcTest(controllers = ImageRelationAdminController.class)
 @Import({AdminAuthFilter.class, ImageRelationService.class})
 class ImageRelationAdminControllerTest {
+    @MockitoBean private xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
     private static final String ROOT = "/api/admin/games/lol";
     @Autowired MockMvc mvc;
     @MockitoBean GamesMapper games;

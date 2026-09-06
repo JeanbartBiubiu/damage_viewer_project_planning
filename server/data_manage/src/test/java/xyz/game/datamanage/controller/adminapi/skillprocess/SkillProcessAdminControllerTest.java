@@ -178,7 +178,7 @@ class SkillProcessAdminControllerTest {
             "lol", "ezreal_q", "秘术射击", null, 5, SkillStatus.ENABLED, 10, TS, TS
         ));
         when(processMapper.countByKey("lol", "ezreal_q", "cast")).thenReturn(0L);
-        SkillProcessService realService = new SkillProcessService(gamesMapper, skillMapper, processMapper);
+        SkillProcessService realService = new SkillProcessService(gamesMapper, skillMapper, processMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillProcessCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

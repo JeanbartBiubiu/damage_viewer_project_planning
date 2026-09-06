@@ -39,7 +39,7 @@ class SkillCategoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillCategoryService(gamesMapper, mapper);
+        service = new SkillCategoryService(gamesMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 

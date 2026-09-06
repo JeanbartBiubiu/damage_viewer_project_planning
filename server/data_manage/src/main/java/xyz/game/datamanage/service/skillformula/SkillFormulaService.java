@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeStatusRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode;
-import xyz.game.datamanage.model.skillformula.SkillFormulaNodeRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaNodeType;
 import xyz.game.datamanage.model.skillformula.SkillFormulaOperation;
 import xyz.game.datamanage.model.skillformula.SkillFormulaOperationNode;
@@ -39,11 +37,14 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
 @Validated
 public class SkillFormulaService {
+
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
     private static final Logger log = LoggerFactory.getLogger(SkillFormulaService.class);
 
@@ -51,42 +52,6 @@ public class SkillFormulaService {
     private static final int MAX_DEPTH = 32;
     private static final int MAX_NODES = 256;
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_formulas";
-    private static final Set<String> FORMULA_IN_USE_CONSTRAINTS = Set.of(
-        "fk_skill_effect_result_values_formula",
-        "fk_skill_internal_counter_initial_formula",
-        "fk_skill_internal_counter_max_formula",
-        "fk_skill_internal_ammo_initial_formula",
-        "fk_skill_internal_ammo_max_formula",
-        "fk_skill_internal_ammo_recovery_formula",
-        "fk_skill_internal_cooldown_duration_formula",
-        "fk_skill_process_delay_formula",
-        "fk_skill_process_multi_count_formula",
-        "fk_skill_process_multi_interval_formula",
-        "fk_skill_process_periodic_count_formula",
-        "fk_skill_process_periodic_interval_formula",
-        "fk_skill_process_channel_duration_formula",
-        "fk_skill_process_channel_count_formula",
-        "fk_skill_process_charge_min_formula",
-        "fk_skill_process_charge_max_formula",
-        "fk_skill_process_recast_window_formula",
-        "fk_skill_process_recast_count_formula",
-        "fk_skill_process_empowered_window_formula",
-        "fk_skill_process_cooldown_duration_formula",
-        "fk_skill_process_state_operation_value_formula",
-        "fk_skill_effect_lifecycles_duration_formula",
-        "fk_skill_effect_lifecycles_max_stacks_formula",
-        "fk_skill_effect_lifecycles_application_stacks_formula",
-        "fk_skill_effect_lifecycles_periodic_interval_formula",
-        "fk_skill_effect_critical_policies_formula",
-        "fk_skill_effect_vamp_rules_formula",
-        "fk_skill_trigger_health_threshold_formula",
-        "fk_skill_trigger_attr_cond_formula",
-        "fk_skill_trigger_status_cond_formula",
-        "fk_skill_trigger_istate_cond_formula",
-        "fk_skill_trigger_event_value_cond_formula",
-        "fk_skill_trigger_per_target_cd_formula",
-        "fk_skill_trigger_process_limit_formula"
-    );
 
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
@@ -96,9 +61,10 @@ public class SkillFormulaService {
     public SkillFormulaService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
-        SkillFormulaMapper formulaMapper
+        SkillFormulaMapper formulaMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
-        this(gamesMapper, skillMapper, formulaMapper, null);
+        this(gamesMapper, skillMapper, formulaMapper, null, configurationWrites);
     }
 
     @Autowired
@@ -106,12 +72,15 @@ public class SkillFormulaService {
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillFormulaMapper formulaMapper,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.formulaMapper = formulaMapper;
         this.triggerRuleService = triggerRuleService;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -142,6 +111,7 @@ public class SkillFormulaService {
         String skillKey,
         @Valid SkillFormulaCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedFormula values = validateCreate(request);
         CollectedRefs refs = validateAndCollectExpression(values.expression());
@@ -156,12 +126,6 @@ public class SkillFormulaService {
         validateReferences(gameId, skillKey, refs);
         validateAttributeEnabled(gameId, refs, Set.of());
 
-        List<SkillFormulaNodeRow> nodes = flatten(
-            gameId,
-            skillKey,
-            values.formulaKey(),
-            values.expression()
-        );
         try {
             formulaMapper.insert(
                 gameId,
@@ -169,9 +133,9 @@ public class SkillFormulaService {
                 values.formulaKey(),
                 values.name(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                AggregateJson.write(values.expression())
             );
-            formulaMapper.batchInsertNodes(nodes);
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -185,6 +149,7 @@ public class SkillFormulaService {
         String formulaKey,
         @Valid SkillFormulaUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedFormula values = validateUpdate(request, formulaKey);
         CollectedRefs refs = validateAndCollectExpression(values.expression());
@@ -202,20 +167,18 @@ public class SkillFormulaService {
         validateReferences(gameId, skillKey, refs);
         validateAttributeEnabled(gameId, refs, existingRefs);
 
-        List<SkillFormulaNodeRow> nodes = flatten(gameId, skillKey, formulaKey, values.expression());
         try {
-            formulaMapper.deleteNodes(gameId, skillKey, formulaKey);
             if (formulaMapper.update(
                 gameId,
                 skillKey,
                 formulaKey,
                 values.name(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                AggregateJson.write(values.expression())
             ) == 0) {
                 throw formulaNotFound(formulaKey);
             }
-            formulaMapper.batchInsertNodes(nodes);
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -224,6 +187,7 @@ public class SkillFormulaService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String formulaKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (skillMapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw skillNotFound(skillKey);
@@ -234,6 +198,8 @@ public class SkillFormulaService {
         if (triggerRuleService != null) {
             triggerRuleService.assertFormulaDeletable(gameId, skillKey, formulaKey);
         }
+        configurationWrites.assertNotReferenced(gameId, "FORMULA", skillKey, formulaKey,
+            "409.SKILL_FORMULA_IN_USE", "技能公式已被引用，不能删除");
         try {
             if (formulaMapper.delete(gameId, skillKey, formulaKey) == 0) {
                 throw formulaNotFound(formulaKey);
@@ -248,9 +214,13 @@ public class SkillFormulaService {
         if (row == null) {
             throw formulaNotFound(formulaKey);
         }
-        List<SkillFormulaNodeRow> nodes = formulaMapper.listNodes(gameId, skillKey, formulaKey);
-        SkillFormulaExpressionNode expression = rebuildExpression(gameId, skillKey, formulaKey, nodes);
-        return toDetail(row, expression);
+        try {
+            SkillFormulaExpressionNode expression = AggregateJson.read(row.expression(), SkillFormulaExpressionNode.class);
+            validateAndCollectExpression(expression);
+            return toDetail(row, expression);
+        } catch (IllegalStateException | ApiException ex) {
+            throw corrupt(gameId, skillKey, formulaKey, "公式表达式形状不合法");
+        }
     }
 
     private ValidatedFormula validateCreate(SkillFormulaCreateRequest request) {
@@ -515,222 +485,6 @@ public class SkillFormulaService {
         }
     }
 
-    private List<SkillFormulaNodeRow> flatten(
-        String gameId,
-        String skillKey,
-        String formulaKey,
-        SkillFormulaExpressionNode root
-    ) {
-        List<SkillFormulaNodeRow> rows = new ArrayList<>();
-        flattenNode(gameId, skillKey, formulaKey, root, null, (short) 0, rows);
-        return rows;
-    }
-
-    private void flattenNode(
-        String gameId,
-        String skillKey,
-        String formulaKey,
-        SkillFormulaExpressionNode node,
-        UUID parentNodeId,
-        short childOrder,
-        List<SkillFormulaNodeRow> rows
-    ) {
-        UUID nodeId = UUID.randomUUID();
-        switch (node) {
-            case SkillFormulaOperationNode operationNode -> {
-                rows.add(new SkillFormulaNodeRow(
-                    gameId,
-                    skillKey,
-                    formulaKey,
-                    nodeId,
-                    parentNodeId,
-                    childOrder,
-                    SkillFormulaNodeType.OPERATION,
-                    operationNode.operation(),
-                    null,
-                    null,
-                    null,
-                    null
-                ));
-                flattenNode(
-                    gameId,
-                    skillKey,
-                    formulaKey,
-                    operationNode.operands().get(0),
-                    nodeId,
-                    (short) 0,
-                    rows
-                );
-                flattenNode(
-                    gameId,
-                    skillKey,
-                    formulaKey,
-                    operationNode.operands().get(1),
-                    nodeId,
-                    (short) 1,
-                    rows
-                );
-            }
-            case SkillFormulaParameterNode parameterNode -> rows.add(new SkillFormulaNodeRow(
-                gameId,
-                skillKey,
-                formulaKey,
-                nodeId,
-                parentNodeId,
-                childOrder,
-                SkillFormulaNodeType.PARAMETER,
-                null,
-                parameterNode.parameterKey(),
-                null,
-                null,
-                null
-            ));
-            case SkillFormulaAttributeNode attributeNode -> rows.add(new SkillFormulaNodeRow(
-                gameId,
-                skillKey,
-                formulaKey,
-                nodeId,
-                parentNodeId,
-                childOrder,
-                SkillFormulaNodeType.ATTRIBUTE,
-                null,
-                null,
-                attributeNode.attributeOwner(),
-                attributeNode.attributeKey(),
-                attributeNode.attributeValueKind()
-            ));
-        }
-    }
-
-    private SkillFormulaExpressionNode rebuildExpression(
-        String gameId,
-        String skillKey,
-        String formulaKey,
-        List<SkillFormulaNodeRow> nodes
-    ) {
-        if (nodes == null || nodes.isEmpty()) {
-            throw corrupt(gameId, skillKey, formulaKey, "公式缺少节点");
-        }
-
-        Map<UUID, SkillFormulaNodeRow> byId = new HashMap<>();
-        Map<UUID, SkillFormulaNodeRow[]> childrenByParent = new HashMap<>();
-        SkillFormulaNodeRow root = null;
-
-        for (SkillFormulaNodeRow node : nodes) {
-            if (node == null || node.nodeId() == null || node.nodeType() == null) {
-                throw corrupt(gameId, skillKey, formulaKey, "公式节点字段缺失");
-            }
-            if (byId.put(node.nodeId(), node) != null) {
-                throw corrupt(gameId, skillKey, formulaKey, "公式节点 UUID 重复");
-            }
-            if (node.parentNodeId() == null) {
-                if (root != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "公式存在多个根节点");
-                }
-                if (node.childOrder() == null || node.childOrder() != 0) {
-                    throw corrupt(gameId, skillKey, formulaKey, "根节点 child_order 必须为 0");
-                }
-                root = node;
-                continue;
-            }
-            if (node.childOrder() == null || (node.childOrder() != 0 && node.childOrder() != 1)) {
-                throw corrupt(gameId, skillKey, formulaKey, "子节点 child_order 非法");
-            }
-            SkillFormulaNodeRow[] siblings = childrenByParent.computeIfAbsent(
-                node.parentNodeId(),
-                ignored -> new SkillFormulaNodeRow[2]
-            );
-            if (siblings[node.childOrder()] != null) {
-                throw corrupt(gameId, skillKey, formulaKey, "同级 child_order 重复");
-            }
-            siblings[node.childOrder()] = node;
-        }
-
-        if (root == null) {
-            throw corrupt(gameId, skillKey, formulaKey, "公式缺少根节点");
-        }
-
-        Set<UUID> visited = new HashSet<>();
-        SkillFormulaExpressionNode expression = rebuildNode(
-            gameId,
-            skillKey,
-            formulaKey,
-            root,
-            childrenByParent,
-            visited
-        );
-        if (visited.size() != nodes.size()) {
-            throw corrupt(gameId, skillKey, formulaKey, "公式存在环、孤儿或重复访问节点");
-        }
-        return expression;
-    }
-
-    private SkillFormulaExpressionNode rebuildNode(
-        String gameId,
-        String skillKey,
-        String formulaKey,
-        SkillFormulaNodeRow node,
-        Map<UUID, SkillFormulaNodeRow[]> childrenByParent,
-        Set<UUID> visited
-    ) {
-        if (!visited.add(node.nodeId())) {
-            throw corrupt(gameId, skillKey, formulaKey, "公式节点被重复访问");
-        }
-
-        SkillFormulaNodeRow[] children = childrenByParent.get(node.nodeId());
-        return switch (node.nodeType()) {
-            case OPERATION -> {
-                if (node.operation() == null
-                    || node.parameterKey() != null
-                    || node.attributeOwner() != null
-                    || node.attributeKey() != null
-                    || node.attributeValueKind() != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "运算节点载荷不一致");
-                }
-                if (children == null || children[0] == null || children[1] == null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "运算节点必须恰好有两个子节点");
-                }
-                yield new SkillFormulaOperationNode(
-                    node.operation(),
-                    List.of(
-                        rebuildNode(gameId, skillKey, formulaKey, children[0], childrenByParent, visited),
-                        rebuildNode(gameId, skillKey, formulaKey, children[1], childrenByParent, visited)
-                    )
-                );
-            }
-            case PARAMETER -> {
-                if (children != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "参数节点不能有子节点");
-                }
-                if (node.parameterKey() == null
-                    || node.operation() != null
-                    || node.attributeOwner() != null
-                    || node.attributeKey() != null
-                    || node.attributeValueKind() != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "参数节点载荷不一致");
-                }
-                yield new SkillFormulaParameterNode(node.parameterKey());
-            }
-            case ATTRIBUTE -> {
-                if (children != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "属性节点不能有子节点");
-                }
-                if (node.attributeOwner() == null
-                    || node.attributeKey() == null
-                    || node.attributeValueKind() == null
-                    || node.operation() != null
-                    || node.parameterKey() != null) {
-                    throw corrupt(gameId, skillKey, formulaKey, "属性节点载荷不一致");
-                }
-                yield new SkillFormulaAttributeNode(
-                    node.attributeOwner(),
-                    node.attributeKey(),
-                    node.attributeValueKind()
-                );
-            }
-        };
-    }
-
     private void requireGame(String gameId) {
         Long count = gamesMapper.countGames(gameId);
         if (count == null || count <= 0) {
@@ -825,10 +579,6 @@ public class SkillFormulaService {
         return conflict("409.SKILL_FORMULA_KEY_EXISTS", "技能公式标识已存在", "formulaKey");
     }
 
-    private static ApiException formulaInUse() {
-        return conflict("409.SKILL_FORMULA_IN_USE", "技能公式已被引用，不能删除", "formulaKey");
-    }
-
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -868,11 +618,6 @@ public class SkillFormulaService {
         String text = collectCauseMessages(ex).toLowerCase(Locale.ROOT);
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
-        }
-        for (String constraint : FORMULA_IN_USE_CONSTRAINTS) {
-            if (text.contains(constraint)) {
-                return formulaInUse();
-            }
         }
         return ex;
     }

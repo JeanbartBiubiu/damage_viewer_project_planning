@@ -1,424 +1,165 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片资源，以及当前属性、角色、装备、技能、状态、效果、过程、生命周期与技能触发规则管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、技能、状态，以及技能公式、效果、内部状态、过程和触发规则的录入管理。
 
-它在整条链路里的位置是：
+当前实现只保存、校验和回读配置，不执行公式、过程或事件，不组装 Wasm 数据。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
-1. 从 `db/game_manage` 定义的 PostgreSQL 结构中读取和写入当前业务表。
-2. 对外提供 `GET /api/games`、公开图片同步，以及图片和当前业务的管理接口。
-3. 不再提供旧 `/combat-data/**`、旧当前版本查询或旧 `versions:publish` 发布链路。
-4. 不组装 Bundle / Wasm Catalog，不为已删除的旧实体、Provider、Ability 或效果步骤保留兼容入口。
+## 开发范围与入口
 
-## 开发范围
+默认写入范围为本模块、`db/**`、后端接口文档和直接相关的 `tools/**`；`web/**`、`wasm/**` 与其他模块设计只读参考。修改前先读 [本模块规则](AGENTS.md) 和 [仓库规则](../../AGENTS.md)。
 
-这个模块默认主写入范围：
+| 入口 | 职责 |
+| --- | --- |
+| [DataManageApplication.java](src/main/java/xyz/game/datamanage/DataManageApplication.java) | 应用启动 |
+| `src/main/resources/application.yml` | 默认配置，实际值可由环境变量覆盖 |
+| `controller/publicapi/**` | 游戏列表与公开图片同步 |
+| `controller/adminapi/**` | 当前业务管理接口 |
+| [GameConfigurationWriteGuard.java](src/main/java/xyz/game/datamanage/support/authoring/GameConfigurationWriteGuard.java) | 同游戏写事务锁与提交前引用校验 |
+| [SkillObjectReferences.java](src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java) | 按业务字段提取根对象和子项引用 |
+| [AuthoringReadModel.xml](src/main/resources/mapper/authoring/AuthoringReadModel.xml) | 从聚合 JSON 读取业务校验所需的明细 |
+| [StartupDependencyVerifier.java](src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java) | 启动依赖探测 |
 
-- `server/data_manage/**`
-- `db/**`
-- `接口/**`
-- 与后端直接相关的 `tools/**`
+## 当前存储结构
 
-默认只读参考：
+[当前建表脚本](../../db/game_manage/schema.sql) 定义 **24 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
 
-- `web/**`
-- `wasm/**`
-- `文档记录/**` 中与后端直接相关的设计说明
+| 用途 | 表 |
+| --- | --- |
+| 游戏、属性与等级配置 | `games`、`attributes`、`game_level_configs` |
+| 角色与属性配置 | `characters`、`character_attributes` |
+| 装备与属性配置 | `equipment`、`equipment_attributes` |
+| 技能基础与参数 | `skill_categories`、`skills`、`skill_category_relations`、`skill_parameters` |
+| 伤害类型、乘区与状态 | `damage_types`、`modifier_zones`、`statuses` |
+| 五类技能根对象 | `skill_formulas`、`skill_effects`、`skill_internal_states`、`skill_processes`、`skill_trigger_rules` |
+| 图片与挂载关系 | `images`、`character_skill_relations`、`equipment_skill_relations`、`image_relations` |
+| 系统生成的引用索引 | `skill_object_references` |
 
-## 当前主要入口
+五类根对象保留稳定标识、名称、启停状态、排序和审计时间等普通列，其结构化内容使用 PostgreSQL 的 JSONB 列存储。一次保存写入完整对象，不再拆写节点和类型明细表。
 
-- 启动入口：`src/main/java/xyz/game/datamanage/DataManageApplication.java`
-- 默认配置：`src/main/resources/application.yml`
-- 公共读取：`GamePublicController`（`GET /api/games`）、`ImagePublicController`
-- Admin 写入：当前业务管理控制器，以及 `ImageAdminController`
-- 游戏列表与编辑日志服务：`src/main/java/xyz/game/datamanage/service/GameDataService.java`
-- 图片服务：`src/main/java/xyz/game/datamanage/service/image/ImageService.java`
-- 通用读写存储：`PostgresReadStore` / `PostgresWriteStore`（游戏列表与编辑日志）
-- 启动依赖探测：`src/main/java/xyz/game/datamanage/config/StartupDependencyVerifier.java`
-
-当前管理接口契约仍以各阶段详细设计为准。旧通用 1v1 combat-data 链路已经从现行代码中删除。
-
-如果你是 agent 或首次进入当前目录，先读同目录的 `AGENTS.md`，再开始修改。
-
-## 本地开发
-
-### 前置要求
-
-- JDK `21`
-- Maven `3.9+`
-- PostgreSQL
-- Redis
-
-默认端口沿用 Spring Boot 默认值：`8080`。
-
-### 常用命令
-
-| 命令 | 用途 | 备注 |
+| 根对象 | JSONB 列 | 内容 |
 | --- | --- | --- |
-| `mvn spring-boot:run` | 启动本地开发服务 | 默认读取 `src/main/resources/application.yml` |
-| `mvn test` | 运行测试与基础回归 | 开发中先跑受影响测试，功能收尾完整执行 |
-| `mvn package` | 打包校验 | 改 `pom.xml`、配置或依赖时建议执行 |
+| 公式 | `expression` | 当前接口的表达式树；运算节点使用有序 `operands` |
+| 效果 | `results`、`lifecycle` | 结果数组和可选效果生命周期；结果自身保留数值规则、类型明细与生命周期行为 |
+| 内部状态 | `detail` | COUNTER、AMMO、MODE、FLAG、INTERNAL_COOLDOWN 对应内容，模式选项也在其中 |
+| 过程 | `steps`、`cooldown`、`effect_bindings`、`state_operations` | 步骤、可选普通冷却、效果挂接与内部状态操作 |
+| 触发规则 | `event_source`、`condition_groups`、`actions`、`limits` | 事件来源、条件组、动作与两项触发限制 |
 
-### SQL 初始化与兼容迁移
+**HTTP 字段、枚举、数组顺序和空值语义保持不变。** 数据库的 `effect_bindings`、`state_operations` 等列仍对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口仍使用原有 `perTargetCooldown` 和 `maxTriggersPerProcess` 字段。角色、装备与参数原有的完整属性或等级取值图也保持原结构。
 
-**新库（fresh install）**：
+### 校验与并发写入
 
-1. `db/game_manage/schema.sql`（91 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查、阶段 8 `images` 列表分区，以及阶段 9 三张关系表）
-2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
+数据库保留根对象外键、唯一约束、元数据检查和 JSON 对象/数组形状检查。表达式深度与节点数、启停引用、类型匹配、子项顺序、动态输入、前序动作和循环等业务校验由对应服务负责。[triggers.sql](../../db/game_manage/triggers.sql) 当前只负责游戏新增时创建图片分区，不再承担技能明细的延迟形状校验。
 
-不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
+配置写入口必须在真实可写事务中先调用 `GameConfigurationWriteGuard.begin(gameId)`，再读取和修改业务数据。它使用 `READ COMMITTED` 隔离级别和 `games` 行锁，使同一游戏的配置写入顺序执行；字典、图片和关系管理也遵循这个入口。
 
-**已有库（仍含旧 combat-data 表）**：只在项目负责人确认准确数据库目标、待删数据量和备份方式后，手工执行：
+提交前，保护器读取该游戏五类根对象的最终 JSON，按明确的业务字段提取引用，检查目标根对象及结果、生命周期、模式选项、步骤、动作等子项存在，然后整体替换该游戏的 `skill_object_references`。引用记录包含来源技能、对象、字段路径以及目标技能、对象和子项，支持跨技能反查；它由系统生成，没有独立编辑接口。校验失败时，业务修改和引用索引一起回滚。
 
-1. `db/game_manage/migrations/breaking/drop_legacy_combat_data_chain.sql`
-2. `db/game_manage/triggers.sql`（刷新图片分区函数与当前业务约束）
+已有删除保护保留各接口错误码；最终引用缺失返回 `409.SKILL_OBJECT_REFERENCE_INVALID` 并带来源字段信息。修改聚合时移除被引用子项也会被检查。直接 SQL 写入不会自动执行这些服务校验，迁移必须使用下述事务验收入口。
 
-该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
+## 初始化与已有库迁移
 
-当前已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+### 新库
 
-### 关联管理
+按顺序执行：
 
-阶段 9 在 `skillrelation` 和 `imagerelation` 模块提供角色、装备的技能挂载，以及游戏、角色、属性、装备、技能、技能效果、状态的代表图片。技能挂载表使用同游戏复合外键，图片关联表不设置外键，后端负责存在性校验和来源删除时的事务清理。额外并发保护按项目负责人决定后置。
+1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 24 张逻辑表及约束。
+2. [triggers.sql](../../db/game_manage/triggers.sql)：安装图片分区函数与游戏新增触发器。
 
-两类挂载接口位于 `/api/admin/games/{gameId}/character-skill-relations` 和 `equipment-skill-relations`，提供双向查询、新增、排序调整和移除。代表图片在各对象的 `representative-image` 子资源维护；图片侧 `/images/{imageKey}/usages` 查询用途；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。
+随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
 
-`GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`。旧 `gameImgUrl` 和 `games.game_img_url` 已从最终实现删除；游戏代表图片写入成功后清理 `games/all:stage9` 缓存。
+### 已有 91 表库
 
-已有阶段 8 数据库使用一次性脚本 `db/game_manage/migrations/breaking/relation_management_migration.sql`。执行前核对准确目标和旧封面，运行只读预检 `db/game_manage/checks/game_cover_migration_preflight.sql`。脚本遇到同名关系表或无法精确匹配同游戏图片标识的旧封面时停止；不会猜测、清空或自动迁移异常值。不得在新库上运行该迁移，应用也不会自动执行它。
+当前的一次性入口是 [skill_aggregate_migration.sql](../../db/game_manage/migrations/breaking/skill_aggregate_migration.sql)。它将五类对象的原明细转换为根对象 JSON，创建引用索引表，并显式删除被吸收的 68 张表，得到 24 张逻辑表；删除语句不使用 `CASCADE`，脚本自身不提交事务。
 
-迁移后只读运行 `db/game_manage/checks/image_relations_integrity.sql`，结果应为零行。本轮代码与静态 SQL 实现不表示目标数据库已经迁移；新后端须在对应表结构就绪后才可启动联调。
+执行顺序：
 
-聚焦检查：在本模块运行 `mvn "-Dtest=*Relation*,PostgresReadStoreTest,GamePublicControllerTest,CharacterServiceTest,EquipmentServiceTest,SkillServiceTest,SkillEffectServiceTest,StatusServiceTest" test`。功能收尾执行 `mvn test` 与 `mvn package`。真实数据库、接口及前端浏览器验收另行完成。
+1. 核对准确数据库目标、完整备份和 91 表前置结构，保存迁移前聚合接口快照，并停止业务写入。
+2. 通过 [VerifyAggregateMigration.java](../../tools/authoring/VerifyAggregateMigration.java) 在同一连接、同一事务中执行主迁移，对照聚合内容、数组顺序、数值、空值、表数及图片内容，并在提交前校验和生成引用索引。任一检查失败则回滚。
+3. 结构和数据检查通过后，用新后端回读原有接口，并验证相关新增、修改、删除和引用拒绝行为，再恢复录入。
 
-### 图片管理
+执行器参数依次为“后端工作树根目录、已核对数据库名、迁移前聚合快照路径、`--apply` 或 `--check`”。它是本次指定开发库的验收工具，带有已核对库名和图片基线限制，不是任意数据库的通用迁移命令。`--apply` 执行迁移；`--check` 跳过结构变更，但仍在事务内重新校验和生成引用索引，不能当作只读检查。
 
-`public.images` 使用 `(game_id, image_key)` 主键，保存名称、说明、原始 Base64 数据地址、真实格式、字节数、宽高、启停状态与审计时间。管理接口位于 `/api/admin/games/{gameId}/images`，提供列表、详情、新建和全量修改；公开同步接口位于 `/api/games/{gameId}/images`，可按 `updatedAfter` 增量读取，停用项只返回标识、状态和更新时间。
+`aggregate_parts/*.sql` 是主脚本已经包含的转换片段，不要分别执行后再执行主脚本。历史 `migrations/compatibility/**`、旧战斗表清理和关系管理迁移仅适用于各自注明的旧版本前置结构，不能作为当前 24 表库的补表或升级步骤。
 
-后端只接受 PNG/JPEG，解码后大小为 1～262144 字节，宽高分别为 1～64 像素。服务端核对真实格式、签名和尺寸后原样保存提交内容，不裁切、不缩放、不压缩、不重新编码；直接提交超限图片返回 `400.IMAGE_CONTENT_INVALID`。
+**2026-09-06 已完成复制演练库和原开发库的 91 → 24 表迁移，生成 150 条引用；原有聚合内容和 2,127 张图片核对一致。** 原开发库启动新服务后完成 154 次管理接口读回及公开接口对照，浏览器完成伊泽瑞尔 Q 效果保存。演练库另验证五类聚合增改、引用删除保护、循环与动态输入拒绝、并发冲突；新建空库验证初始化和 12 项 JSON 形状约束。完整数据库备份及机器验收产物位于工作树忽略目录 `output/authoring-simplification/`。
 
-已有库执行 `db/game_manage/migrations/compatibility/image_management_migration.sql`。脚本会先完整预检旧表结构和全部图片内容，再锁表并迁移；不删除或改写图片内容。发现格式不支持、内容不可解码或宽高超过 64 像素时会主动停止，由负责人先决定如何处理数据后再执行。
+## 管理接口与录入约束
 
-静态契约与聚焦回归（不修改真实数据库）：
+管理接口统一位于 `/api/admin/games/{gameId}`。本次存储调整没有新增或改名 HTTP 字段；五类技能对象仍按完整对象保存，没有独立的结果、步骤、动作、绑定或模式选项写接口。
 
-```powershell
-cd server/data_manage
-mvn -Dtest=ImageManagementDbContractSqlTest,ImageContentValidatorTest,ImageServiceTest,ImageAdminControllerTest,ImagePublicControllerTest test
-```
+| 资源路径 | 当前边界 |
+| --- | --- |
+| `/attributes` | 列表、详情、新建、全量修改和启停；不提供 DELETE |
+| `/characters`、`/equipment` | 角色和装备分别管理，保留各自完整属性配置 |
+| `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
+| `/modifier-zones` | 属性、伤害、治疗三个业务域的乘区管理 |
+| `/statuses` | 状态基本资料；稳定标识不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
+| `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
+| `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
+| `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
+| `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
+| `/skills/{skillKey}/internal-states` | 五种内部状态完整读写；既有种类和范围不可改 |
+| `/skills/{skillKey}/processes` | 完整过程读写；效果挂接和内部状态操作不能同时为空 |
+| `/skills/{skillKey}/trigger-rules` | 完整事件、条件、动作和动态输入配置；`ruleKey` 创建后不可改 |
+| `/images` | 图片列表、详情、新建、全量修改和启停 |
 
-### 属性管理
+技能分类继续用 `skillCategoryKeys: string[]`，空数组表示未分类，关系保存在 `skill_category_relations`。只有冷却变化和技能急速修正结果可携带 `detail.affectedSkillScope`；模式为 `ALL / SKILLS / CATEGORIES`，多个分类按并集匹配。旧 `detail.affectedSkillKeys` 不接受。
 
-`db/game_manage/schema.sql` 直接创建 `public.attributes`。属性管理接口只读写该表，不读取或迁移旧计算表 `public.attribute_definitions`。
+生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程的 `effectBindings` 与 `stateOperations` 同时为空时返回 `400.VALIDATION_FAILED`，两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。
 
-管理接口统一位于 `/api/admin/games/{gameId}/attributes`：GET 查询列表或详情，POST 新建，PUT 全量修改或停用；当前不提供 DELETE。请求与响应均不包含显示单位、发布 revision 或旧战斗资源字段。
+### 技能挂载与代表图片
 
-### 技能分类与伤害类型管理
+`/character-skill-relations` 和 `/equipment-skill-relations` 提供角色、装备与技能的双向查询、新增、排序调整和移除，使用同游戏复合外键。
 
-`public.skill_categories` 保存单层技能分类，`public.damage_types` 保存伤害类型。两者不共用旧 `types` 表，也不读取或修改战斗数据接口。
+游戏、角色、属性、装备、技能、技能效果和状态通过各自的 `representative-image` 子资源维护代表图片；`/images/{imageKey}/usages` 查询图片用途；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。图片关联的来源存在性与来源删除清理由服务在上述同游戏写事务中保证。
 
-管理接口分别位于 `/api/admin/games/{gameId}/skill-categories` 和 `/api/admin/games/{gameId}/damage-types`，均提供列表、详情、新建、全量修改和删除。已有开发库执行 `db/game_manage/migrations/compatibility/skill_category_damage_type_management_compatibility_migration.sql`；脚本可重复执行且不写默认记录。
+`GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`。游戏代表图片写入成功后会清理游戏列表缓存。
 
-### 技能基本管理
+### 图片内容与公开同步
 
-`public.skills` 保存技能基本信息，`public.skill_category_relations` 保存技能与既有 `skill_categories` 的多对多关系。分类关系不写入数组、JSONB 或单列；本阶段不存储伤害类型、每级参数或战斗数据。
+`images` 按 `game_id` 列表分区，主键为 `(game_id, image_key)`，保存名称、说明、Base64 数据地址、真实格式、字节数、宽高、启停状态和审计时间。
 
-管理接口位于 `/api/admin/games/{gameId}/skills`：GET 列表或详情，POST 新建，PUT 全量修改（含启用/停用），DELETE 删除。请求与响应使用 `skillCategoryKeys: string[]`，空数组表示未分类。`skillKey` 在同一游戏内唯一且不可改；显示名称允许重复。`maxLevel` 为 >= 1 的整数，定义完整等级范围 `1..maxLevel`。
+后端只接受 PNG/JPEG，解码后大小为 1～262144 字节，宽高分别为 1～64 像素。服务端核对真实格式、签名和尺寸后原样保存，不裁切、缩放、压缩或重新编码；直接提交超限图片返回 `400.IMAGE_CONTENT_INVALID`。
 
-已有开发库执行 `db/game_manage/migrations/compatibility/skill_management_compatibility_migration.sql`。脚本用 `information_schema` / `pg_constraint` 预检同名表：缺失则创建，完全兼容则保持幂等，结构不兼容则报错停止；不写默认记录、不迁移旧战斗数据。不要把该 migration 当作新库必跑步骤。
+公开同步接口为 `/api/games/{gameId}/images`，可按 `updatedAfter` 增量读取；停用项只返回标识、状态和更新时间。
 
-静态契约校验（不连 live DB）：
+## 本地开发与配置
 
-```bash
-cd server/data_manage
-mvn -Dtest=SkillManagementDbContractSqlTest,SkillServiceTest,SkillAdminControllerTest test
-```
+前置要求为 JDK 21、Maven 3.9+、PostgreSQL 和 Redis。默认端口为 8080，以下命令在 `server/data_manage` 执行：
 
-### 技能参数与公式管理
+| 命令 | 用途 |
+| --- | --- |
+| `mvn spring-boot:run` | 启动本地服务 |
+| `mvn "-Dtest=具体测试类" test` | 运行受影响测试 |
+| `mvn test` | 功能收尾测试 |
+| `mvn package` | 配置、依赖或打包链路变更后的打包检查 |
 
-`public.skill_parameters` 保存技能参数，`public.skill_formulas` 保存公式资料，`public.skill_formula_nodes` 保存表达式节点。参数与公式均绑定同一技能；节点通过复合外键引用同技能参数与同游戏属性。参数外键不级联；删除公式时级联删除节点；删除技能前须先清公式与参数。
-
-管理接口：
-
-1. `/api/admin/games/{gameId}/skills/{skillKey}/parameters`：参数列表、详情、新建、全量修改、删除。
-2. `/api/admin/games/{gameId}/skills/{skillKey}/formulas`：公式列表、详情（还原表达式）、新建、全量修改、删除。
-
-参数取值方式：`FIXED`、`SKILL_LEVEL`、`CHARACTER_LEVEL`、`RUNTIME_INPUT`。公式节点类型：`OPERATION`、`PARAMETER`、`ATTRIBUTE`。本阶段不创建计算变量表，不读取或修改 `provider_formulas`，不执行公式。
-
-已有开发库执行 `db/game_manage/migrations/compatibility/skill_parameter_formula_management_migration.sql`。脚本预检同名结构后幂等创建缺失对象；不写种子、不 `DELETE`/`DROP`/`CASCADE` 改写已有数据。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=SkillParameterFormulaManagementDbContractSqlTest,SkillParameterServiceTest,SkillFormulaServiceTest,SkillServiceTest,CharacterServiceTest,SkillParameterAdminControllerTest,SkillFormulaAdminControllerTest test
-```
-
-随后：
-
-```bash
-mvn test
-```
-
-### 状态基本管理
-
-`public.statuses` 保存游戏下的状态基本资料：稳定标识、名称、说明、启停状态、排序与审计时间。本阶段不增加状态分类、持续时间、层数、刷新、到期、周期、控制、免疫、数值、公式、JSONB、发布 revision 或运行时字段，也不读取或迁移旧 `status_definitions`。
-
-管理接口位于 `/api/admin/games/{gameId}/statuses`：GET 列表或详情，POST 新建，PUT 全量修改（含启用/停用），DELETE 删除。`statusKey` 在同一游戏内唯一且不可改；显示名称按 `lower(btrim(name))` 唯一，停用记录仍参与标识和名称唯一校验。
-
-已有开发库执行 `db/game_manage/migrations/compatibility/status_basic_management_migration.sql`。脚本用 `information_schema` / `pg_constraint` / `pg_index` 预检同名表：缺失则创建表和唯一索引；已存在则要求列、约束和 `uq_statuses_name` 完全一致后幂等通过，结构不一致则报错停止，不得把缺失约束或索引当成可补建对象。不写默认记录。不要把该 migration 当作新库必跑步骤。
-
-静态契约校验（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=StatusBasicManagementSchemaSqlTest,StatusServiceTest,StatusAdminControllerTest test
-```
-
-### 技能效果结构与基础结果管理
-
-`public.skill_effects` 保存技能效果资料，`public.skill_effect_results` 保存结果主记录，`public.skill_effect_result_values` 保存数值规则，另有伤害、属性变化、资源变化、冷却变化、状态操作等类型明细表。冷却变化的操作仍保存在 `public.skill_effect_cooldown_change_details`；受影响技能集合已迁入结果级公共技能作用范围，不再使用 `skill_effect_cooldown_change_targets` 或 `detail.affectedSkillKeys`。结果形状由 `triggers.sql` 中的延迟约束触发器在事务提交时校验。本阶段不执行公式计算，也不写入 Wasm 或发布字段。
-
-管理接口位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：GET 列表摘要或详情，POST 新建，PUT 全量替换结果集合，DELETE 删除。`effectKey` / `resultKey` 创建后不可改；已有结果的 `resultType` 不可改。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/skill_effect_basic_result_management_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新七种结果延迟形状约束触发器）
-
-脚本先核对 `skills`、`skill_formulas`、`damage_types`、`attributes`、`statuses` 前置结构；八张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。不写默认记录、不读取旧效果、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=SkillEffectBasicResultManagementDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillFormulaServiceTest,SkillServiceTest,DamageTypeServiceTest,StatusServiceTest test
-```
-
-随后：
-
-```bash
-mvn test
-```
-
-### 技能过程内部状态与效果录入
-
-`public.skill_internal_states` 保存五种内部状态（COUNTER / AMMO / MODE / FLAG / INTERNAL_COOLDOWN），`public.skill_processes` 保存技能过程，步骤、普通冷却、效果挂接和内部状态操作使用专用关系表。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。过程挂接到同一技能下已有的 `skill_effects` 聚合，不复制效果结果。本阶段不执行过程、不写入 Wasm 或发布字段。
-
-管理接口：
-
-1. `/api/admin/games/{gameId}/skills/{skillKey}/internal-states`：GET 列表摘要或详情，POST 新建完整内部状态，PUT 全量更新（种类与范围不可改），DELETE 删除。
-2. `/api/admin/games/{gameId}/skills/{skillKey}/processes`：GET 列表摘要或详情，POST / PUT 完整过程聚合（步骤、可选普通冷却、效果挂接、内部状态操作）。没有步骤、挂接、操作或模式选项的独立写接口。`effectBindings` 与 `stateOperations` 同时为空时，写库前返回 `400.VALIDATION_FAILED`，两字段均为 `PROCESS_BEHAVIOR_REQUIRED`。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/skill_process_internal_state_authoring_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新内部状态、步骤与过程延迟形状约束触发器）
-
-脚本先核对 `skills`、`skill_formulas`、`skill_effects` 前置结构；十八张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。不写默认记录、不读取旧过程或内部状态、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=SkillProcessInternalStateAuthoringDbContractSqlTest,SkillInternalStateServiceTest,SkillInternalStateAdminControllerTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillEffectServiceTest,SkillFormulaServiceTest,SkillServiceTest test
-```
-
-随后：
-
-```bash
-mvn test
-```
-
-### 效果与状态生命周期管理
-
-`public.skill_effect_lifecycles` 保存效果级可选生命周期，`public.skill_effect_result_lifecycle_behaviors` 保存每个结果的生命周期行为，`public.skill_effect_lifecycle_operation_details` 保存第八种结果 `LIFECYCLE_OPERATION` 的目标效果与操作。生命周期公式外键限制删除；生命周期操作目标外键即时、非级联，引用同技能已有生命周期，并禁止自引用。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。本阶段只保存、校验、回读和保护引用，不执行计时、周期、层数、公式、状态、属性、护盾、发布或 Wasm。
-
-管理接口仍位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects`：摘要增加只读 `lifecycleEnabled`；详情、POST、PUT 增加可空 `lifecycle`；每个结果增加可空 `lifecycleBehavior`。没有独立生命周期控制器。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/effect_status_lifecycle_management_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新八种结果延迟形状约束与生命周期聚合/刷新约束触发器）
-
-脚本先核对阶段 7.2 效果八张表、`skill_formulas` 和阶段 7.3 `fk_skill_process_effect_bindings_effect`；三张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。只核对并替换本阶段需要更新的结果种类检查、结果形状函数/触发器和原子表明细触发器循环。不写默认记录、不读取旧生命周期、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=SkillEffectStatusLifecycleManagementDbContractSqlTest,SkillEffectBasicResultManagementDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillFormulaServiceTest,SkillServiceTest,SkillProcessServiceTest test
-```
-
-随后：
-
-```bash
-mvn test
-```
-
-### 条件事件与动态输入供值管理
-
-`public.skill_trigger_rules` 保存技能触发规则主记录，另有 8 张事件明细、条件组/条件及 4 张条件明细、动作及 2 张动作明细、动态输入绑定及 4 张来源明细、结果修正、逐目标冷却和单次过程次数限制，共 26 张表。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。本阶段只保存、校验、回读和保护引用，不执行运行时触发、不写入 Wasm 或发布字段。
-
-管理接口位于 `/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`：GET 列表摘要或详情，POST 新建完整聚合，PUT 全量替换子树，DELETE 删除。`ruleKey` 创建后不可改。没有独立的条件、动作或绑定写接口。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/condition_event_dynamic_input_management_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新技能触发规则延迟形状约束触发器）
-
-脚本先核对 `skills`、`skill_formulas`、`skill_effects`、`skill_processes` 与生命周期前置结构；二十六张目标表全部缺失时创建，全部存在且结构一致时幂等通过，部分存在或结构漂移时主动失败。不写默认记录、不读取旧 Ability/Provider、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=ConditionEventDynamicInputManagementDbContractSqlTest,SkillTriggerRuleServiceTest,SkillTriggerRuleAdminControllerTest,SkillEffectServiceTest,SkillProcessServiceTest,SkillInternalStateServiceTest,SkillFormulaServiceTest,SkillParameterServiceTest,StatusServiceTest,SkillServiceTest test
-```
-
-随后：
-
-```bash
-mvn test
-```
-
-### 斩杀与命中攻击联动
-
-`public.skill_effect_execute_details` 保存斩杀结果引用的生命属性；`public.skill_trigger_rule_link_events` 保存命中/攻击联动事件的可空来源技能。命中联动应用与攻击联动应用结果没有空结果表。结果种类为十六种，触发事件为二十一种。形状由 `triggers.sql` 中的延迟约束在事务提交时校验。本阶段只保存、校验、回读和保护引用，不执行斩杀、联动、攻击或事件运行。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/execute_hit_attack_linkage_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新十六种结果与二十一种事件延迟形状约束触发器）
-
-脚本先核对阶段 7.6.3 前置结构；两张目标表全部缺失时创建，全部存在且结构一致时继续替换列宽、检查、形状函数与延迟触发器，部分存在或结构漂移时主动失败。不写默认记录、不回填、不 `DELETE`/`DROP CASCADE`。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=ExecuteHitAttackLinkageDbContractSqlTest,LegacyCombatDataCleanupDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillTriggerRuleServiceTest,SkillTriggerRuleAdminControllerTest,SkillTriggerRuleCycleServiceTest,SkillTriggerRuleReverseProtectionServiceTest,SkillServiceTest test
-```
-
-随后：
-
-```bash
-mvn test
-mvn package
-```
-
-### 丰富前序结果与综合联动
-
-本阶段不增加表、列、索引或外键。最终仍是 85 张父表、13 张阶段 7.6 累计表、16 种结果、21 种事件。两处 `event_value_key` 检查扩展为 23 种；`skill_trigger_rule_prior_result_bindings.output_kind` 扩展为冻结的 10 种输出。前序结果公共形状仍是 `sourceActionKey` / `sourceResultKey` / `outputKind`，`sourceEffectKey` 由服务端从更早 `EXECUTE_EFFECT` 动作推导。只保存、校验、回读和保护引用，不执行公式、事件或结算。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/enriched_prior_result_integrated_linkage_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新前序结果 `CONFIGURED_VALUE` 才检查数值规则的延迟形状约束触发器）
-
-脚本先核对阶段 7.6.4 与乘区基线；三处检查同为精确前置或同为精确目标时继续，部分完成、未知值或两处事件值不一致时主动失败。既有行原样保留，不写业务数据、不 `CASCADE`。目标态可安全重复执行。不要把该 migration 当作新库必跑步骤。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```bash
-cd server/data_manage
-mvn -Dtest=EnrichedPriorResultIntegratedLinkageDbContractSqlTest,SkillTriggerRuleServiceTest,SkillTriggerRuleAdminControllerTest,SkillEffectServiceTest,SkillEffectAdminControllerTest test
-```
-
-随后：
-
-```bash
-mvn test
-mvn package
-```
-
-### 技能作用范围与技能急速修正
-
-结果级公共技能作用范围保存在 `public.skill_effect_result_skill_scopes`，明确技能与分类关系分别保存在 `public.skill_effect_result_skill_targets` 与 `public.skill_effect_result_skill_category_targets`。技能急速修正保存在 `public.skill_effect_haste_modifier_details`。只有 `COOLDOWN_CHANGE` 与 `SKILL_HASTE_MODIFIER` 可携带范围；接口使用规范化 `detail.affectedSkillScope`，三种模式固定为 `ALL / SKILLS / CATEGORIES`。新库目标为 88 张父表、17 种结果；21 种事件、10 种前序输出、23 种事件值不变。旧冷却目标表已删除，不双写、不接受 `detail.affectedSkillKeys`。
-
-管理接口仍位于 `/api/admin/games/{gameId}/skills/{skillKey}/effects` 聚合 GET/POST/PUT/DELETE，不增加范围子接口。
-
-已有开发库按顺序执行：
-
-1. `db/game_manage/migrations/compatibility/skill_scope_management_migration.sql`
-2. `db/game_manage/triggers.sql`（刷新十七种结果延迟形状与生命周期约束触发器）
-
-脚本先精确核对阶段 7.6.5 的 85 张父表、十六种结果和旧冷却目标表；四张新表全部缺失时创建并按冷却结果无损复制为 `mode=SKILLS`，全部结构正确时幂等通过，部分存在或结构漂移时主动失败。不回填技能急速业务记录、不写种子、不 `DROP CASCADE`。不要把该 migration 当作新库必跑步骤；仓库内实现和静态检查不能替代目标数据库执行后的结构与数据读回。
-
-静态契约与聚焦回归（不连 live DB）：
-
-```powershell
-cd server/data_manage
-mvn -Dtest=SkillScopeManagementDbContractSqlTest,SkillCooldownMultiSelectDbContractSqlTest,SkillEffectServiceTest,SkillEffectAdminControllerTest,SkillServiceTest,SkillCategoryServiceTest,SkillTriggerRuleServiceTest,SkillTriggerRuleRuntimeInputServiceTest,SkillTriggerRuleCycleServiceTest,LegacyCombatDataCleanupDbContractSqlTest,ExecuteHitAttackLinkageDbContractSqlTest,EnrichedPriorResultIntegratedLinkageDbContractSqlTest test
-```
-
-随后：
-
-```powershell
-mvn test
-mvn package
-```
-
-## 配置与环境变量
-
-当前仓内 `src/main/resources/application.yml` 仍保留示例直连配置。**本地开发请优先使用环境变量或本机私有配置覆盖，不要把真实数据库、Redis、JWT 凭据写回仓库。**
-
-常用覆盖项：
+默认配置在 `src/main/resources/application.yml`。本地使用环境变量或私有配置覆盖，不把真实数据库、Redis、JWT 凭据写回仓库。
 
 | 环境变量 | 用途 |
 | --- | --- |
-| `SPRING_DATASOURCE_URL` | 覆盖 PostgreSQL 连接串 |
-| `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD` | 覆盖数据库账号密码 |
-| `IT_DB_INIT_FAIL_TIMEOUT` | 调整 Hikari 初始化失败等待时间 |
-| `IT_REDIS_HOST` / `IT_REDIS_PORT` / `IT_REDIS_PASSWORD` / `IT_REDIS_DATABASE` | 覆盖 Redis 连接配置 |
-| `APP_STARTUP_FAIL_FAST` | 是否在启动阶段立即校验 PostgreSQL / Redis 可用性 |
-| `APP_AUTH_JWT_DISABLED` | 是否关闭本地 Admin JWT 校验 |
-| `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM` | 启用 Admin JWT 时提供 ES256 公钥 |
+| `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 |
+| `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD` | 数据库账号密码 |
+| `IT_DB_INIT_FAIL_TIMEOUT` | Hikari 初始化失败等待时间 |
+| `IT_REDIS_HOST` / `IT_REDIS_PORT` / `IT_REDIS_PASSWORD` / `IT_REDIS_DATABASE` | Redis 连接配置 |
+| `APP_STARTUP_FAIL_FAST` | 是否在启动时立即检查 PostgreSQL / Redis |
+| `APP_AUTH_JWT_DISABLED` | 是否关闭本地管理接口 JWT 校验 |
+| `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM` | 开启管理接口 JWT 校验时使用的 ES256 公钥 |
 
-补充说明：
+CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次请求出现依赖错误时，检查连接配置；需要启动时直接暴露问题可设 `APP_STARTUP_FAIL_FAST=true`。管理接口返回 401 / 403 时，检查 JWT 开关及公钥配置。
 
-- `APP_STARTUP_FAIL_FAST=true` 时，会在启动阶段主动探测 PostgreSQL 和 Redis；否则通常在第一次触发相关请求时才暴露依赖问题。
-- CORS 当前只放开 `/api/**` 路径，并暴露 `ETag` 响应头；联调异常时先确认请求路径与响应头需求。
+## 验证入口与证据边界
 
-## 常用验证
+只修改文档时核对链接、命令和差异，不需要运行 Maven。实现变更先运行受影响测试，功能收尾运行 `mvn test`；配置、依赖或启动装配变化增加 `mvn package`。移除旧类后若出现与源码不符的测试结果，使用 `mvn clean test` 清除旧编译产物。
 
-### 最低验证标准
+当前聚合存储与引用保护的针对性入口：
 
-- 文档-only 变更：核对入口、命令、路径与 README 说明即可，可不跑 Maven。
-- 代码变更：默认至少运行 `mvn test`。
-- 配置、依赖、打包链路变更：在 `mvn test` 之外再运行 `mvn package`。
-
-### 回归清单
-
-涉及接口、缓存或数据库结构时，至少回归：
-
-1. `GET /api/games`（仅 `gameId` / `gameName` / 可空 `gameImgUrl`）
-2. 图片公开同步与 Admin 列表、详情、新建、修改、启停
-3. 阶段 0～7.6.5 及技能作用范围当前管理接口至少一类读写
-4. 旧 `/combat-data/**`、`GET .../versions/current` 与旧 publish 别名返回普通 404
-
-静态数据库清理契约：
-
-```bash
-cd server/data_manage
-mvn -Dtest=LegacyCombatDataCleanupDbContractSqlTest,GamePublicControllerTest,GameDataServiceTest,PostgresReadStoreTest,PostgresWriteStoreTest,ImagePublicControllerTest,ImageAdminControllerTest,LegacyCombatDataHttpNotFoundTest,WebCorsConfigTest test
+```powershell
+mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManagementDbContractSqlTest,SkillEffectAggregateStorageTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest" test
 ```
 
-随后：
+数据库结构或公共读取变化后，对最终服务验证 `GET /api/games`、受影响图片接口和相关管理读写；同时检查删除根对象、移除被引用子项的拒绝行为，以及失败事务没有留下局部修改。旧 `/combat-data/**`、版本查询和发布别名应返回普通 404。
 
-```bash
-mvn test
-```
+[verify-aggregate-api.mjs](../../tools/authoring/verify-aggregate-api.mjs) 用于将管理接口回读与迁移前快照比较；[verify-aggregate-crud.mjs](../../tools/authoring/verify-aggregate-crud.mjs) 是本轮复制演练服务的新增、修改、删除与引用保护验收工具，运行前核对其固定目标和隔离测试标识。
 
-## 常见失败与排查
-
-1. **启动成功但首个请求才报依赖错误**：检查是否把 `APP_STARTUP_FAIL_FAST` 保持为默认关闭；需要尽早暴露问题时显式设为 `true`。
-2. **启动阶段直接失败**：优先核对 PostgreSQL / Redis 地址、账号密码和连通性，再看 `application.yml` 是否仍引用了不适合当前环境的示例值。
-3. **Admin 接口返回 401 / 403**：检查 `APP_AUTH_JWT_DISABLED` 是否已关闭，以及是否同时提供了 `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM`。
-4. **改了 SQL 或 Mapper 后查询异常**：同步检查 `db/game_manage/schema.sql`、`triggers.sql` 与 `src/main/resources/mapper/**/*.xml`。
-5. **旧 combat-data / versions/current / versions:publish 返回 404**：预期行为；请改用当前管理接口。
-6. **图片迁移因内容预检停止**：先读取脚本报告的图片标识并由负责人决定离线处理或删除；不要在后端请求链路增加压缩。
-
-## 协作说明
-
-- 这不是独立仓，而是 monorepo 下的后端专用 worktree。
-- 涉及 `web / server / wasm` 边界的改动，优先先把后端口径、接口契约和会话记录收口，再决定是否同步改其他模块。
-- 长期协作规则见仓库根 `AGENTS.md`；当前目录的就近规则见 `AGENTS.md`。
+静态 SQL 检查、单测、复制库迁移、真实 HTTP 和浏览器验收分别提供不同层面的证据；单测通过或应用启动成功不能替代原库迁移和真实页面验收。发现旧明细表查询错误时，应核对实际数据库是否已迁移、服务是否使用当前编译产物，不要重新创建已吸收的旧表。

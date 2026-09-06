@@ -42,6 +42,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class CharacterService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern CHARACTER_KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final Pattern LEVEL_KEY_PATTERN = Pattern.compile("[1-9][0-9]*");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_characters";
@@ -60,7 +62,8 @@ public class CharacterService {
         SkillParameterMapper parameterMapper,
         SkillParameterLevelService levelService,
         ObjectMapper objectMapper,
-        ImageRelationMapper imageRelationMapper
+        ImageRelationMapper imageRelationMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.characterMapper = characterMapper;
@@ -68,6 +71,8 @@ public class CharacterService {
         this.levelService = levelService;
         this.objectMapper = objectMapper;
         this.imageRelationMapper = imageRelationMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -81,6 +86,7 @@ public class CharacterService {
         String gameId,
         @Valid LevelConfigUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateLevelConfig(request);
         if (characterMapper.lockGame(gameId) == null) {
@@ -171,6 +177,7 @@ public class CharacterService {
 
     @Transactional
     public CharacterResponse create(String gameId, @Valid CharacterCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockGameAndLevelConfig(gameId);
         LevelConfigResponse levelConfig = requireLevelConfigLocked(gameId);
@@ -209,6 +216,7 @@ public class CharacterService {
         String characterKey,
         @Valid CharacterUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdateRequest(request);
         if (characterMapper.findByIdForUpdate(gameId, characterKey) == null) {
@@ -234,6 +242,7 @@ public class CharacterService {
 
     @Transactional
     public void delete(String gameId, String characterKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (characterMapper.deleteCharacter(gameId, characterKey) == 0) {
             throw characterNotFound(characterKey);
@@ -263,6 +272,7 @@ public class CharacterService {
         String characterKey,
         @Valid CharacterAttributesRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockGameAndLevelConfig(gameId);
         LevelConfigResponse config = requireLevelConfigLocked(gameId);

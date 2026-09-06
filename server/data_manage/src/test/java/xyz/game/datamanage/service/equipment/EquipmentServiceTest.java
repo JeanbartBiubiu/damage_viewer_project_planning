@@ -47,7 +47,7 @@ class EquipmentServiceTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        service = new EquipmentService(gamesMapper, equipmentMapper, objectMapper, imageRelationMapper);
+        service = new EquipmentService(gamesMapper, equipmentMapper, objectMapper, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
