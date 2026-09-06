@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillrelation.SkillRelationMapper">
+
+    <select id="countBySkill" resultType="long">
+        SELECT
+            (SELECT count(*) FROM public.character_skill_relations
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey})
+            +
+            (SELECT count(*) FROM public.equipment_skill_relations
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey})
+    </select>
+
+    <resultMap id="characterRelation" type="xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="character_key" javaType="java.lang.String"/>
+            <arg column="character_name" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="skill_name" javaType="java.lang.String"/>
+            <arg column="skill_status" javaType="xyz.game.datamanage.model.skill.SkillStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="characterSelect">
+        SELECT r.game_id, r.character_key, source.name AS character_name,
+               r.skill_key, s.name AS skill_name, s.status AS skill_status, r.sort_order
+        FROM public.character_skill_relations r
+        JOIN public.characters source
+          ON source.game_id = r.game_id AND source.character_key = r.character_key
+        JOIN public.skills s
+          ON s.game_id = r.game_id AND s.skill_key = r.skill_key
+        WHERE r.game_id = #{gameId}
+    </sql>
+
+    <select id="listCharacterRelations" resultMap="characterRelation">
+        <include refid="characterSelect"/>
+        <if test="characterKey != null">
+            AND r.character_key = #{characterKey}
+        </if>
+        <if test="skillKey != null">
+            AND r.skill_key = #{skillKey}
+        </if>
+        <choose>
+            <when test="characterKey != null">
+                ORDER BY r.sort_order ASC, s.name ASC, r.skill_key ASC
+            </when>
+            <otherwise>
+                ORDER BY source.name ASC, r.character_key ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findCharacterRelation" resultMap="characterRelation">
+        <include refid="characterSelect"/>
+          AND r.character_key = #{characterKey}
+          AND r.skill_key = #{skillKey}
+    </select>
+
+    <insert id="insertCharacterRelation">
+        INSERT INTO public.character_skill_relations (game_id, character_key, skill_key, sort_order)
+        VALUES (#{gameId}, #{characterKey}, #{skillKey}, #{sortOrder})
+        ON CONFLICT (game_id, character_key, skill_key) DO NOTHING
+    </insert>
+
+    <update id="updateCharacterRelation">
+        UPDATE public.character_skill_relations SET sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND character_key = #{characterKey} AND skill_key = #{skillKey}
+    </update>
+
+    <delete id="deleteCharacterRelation">
+        DELETE FROM public.character_skill_relations
+        WHERE game_id = #{gameId} AND character_key = #{characterKey} AND skill_key = #{skillKey}
+    </delete>
+
+    <resultMap id="equipmentRelation" type="xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="equipment_key" javaType="java.lang.String"/>
+            <arg column="equipment_name" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="skill_name" javaType="java.lang.String"/>
+            <arg column="skill_status" javaType="xyz.game.datamanage.model.skill.SkillStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="equipmentSelect">
+        SELECT r.game_id, r.equipment_key, source.name AS equipment_name,
+               r.skill_key, s.name AS skill_name, s.status AS skill_status, r.sort_order
+        FROM public.equipment_skill_relations r
+        JOIN public.equipment source
+          ON source.game_id = r.game_id AND source.equipment_key = r.equipment_key
+        JOIN public.skills s
+          ON s.game_id = r.game_id AND s.skill_key = r.skill_key
+        WHERE r.game_id = #{gameId}
+    </sql>
+
+    <select id="listEquipmentRelations" resultMap="equipmentRelation">
+        <include refid="equipmentSelect"/>
+        <if test="equipmentKey != null">
+            AND r.equipment_key = #{equipmentKey}
+        </if>
+        <if test="skillKey != null">
+            AND r.skill_key = #{skillKey}
+        </if>
+        <choose>
+            <when test="equipmentKey != null">
+                ORDER BY r.sort_order ASC, s.name ASC, r.skill_key ASC
+            </when>
+            <otherwise>
+                ORDER BY source.name ASC, r.equipment_key ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findEquipmentRelation" resultMap="equipmentRelation">
+        <include refid="equipmentSelect"/>
+          AND r.equipment_key = #{equipmentKey}
+          AND r.skill_key = #{skillKey}
+    </select>
+
+    <insert id="insertEquipmentRelation">
+        INSERT INTO public.equipment_skill_relations (game_id, equipment_key, skill_key, sort_order)
+        VALUES (#{gameId}, #{equipmentKey}, #{skillKey}, #{sortOrder})
+        ON CONFLICT (game_id, equipment_key, skill_key) DO NOTHING
+    </insert>
+
+    <update id="updateEquipmentRelation">
+        UPDATE public.equipment_skill_relations SET sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey} AND skill_key = #{skillKey}
+    </update>
+
+    <delete id="deleteEquipmentRelation">
+        DELETE FROM public.equipment_skill_relations
+        WHERE game_id = #{gameId} AND equipment_key = #{equipmentKey} AND skill_key = #{skillKey}
+    </delete>
+
+</mapper>

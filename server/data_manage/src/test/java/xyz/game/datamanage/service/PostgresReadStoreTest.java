@@ -2,6 +2,7 @@ package xyz.game.datamanage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
 class PostgresReadStoreTest {
@@ -36,8 +39,9 @@ class PostgresReadStoreTest {
     @Test
     void listGamesEmitsFrozenFieldsAndOmitsProgressionSchema() {
         when(gamesMapper.listGames()).thenReturn(List.of(
-            Map.of("gameId", "lol", "gameName", "英雄联盟"),
-            Map.of("gameId", "dota2", "gameName", "Dota 2", "gameImgUrl", "https://example/dota.png")
+            Map.of("gameId", "lol", "gameName", "英雄联盟", "gameImgUrl", "https://example/old-lol.png"),
+            Map.of("gameId", "dota2", "gameName", "Dota 2", "representativeImageKey", "dota_cover",
+                "representativeImageDangling", false)
         ));
 
         ArrayNode games = store.listGames();
@@ -45,14 +49,33 @@ class PostgresReadStoreTest {
         ObjectNode first = (ObjectNode) games.get(0);
         assertEquals("lol", first.get("gameId").asText());
         assertEquals("英雄联盟", first.get("gameName").asText());
-        assertTrue(first.has("gameImgUrl"));
-        assertTrue(first.get("gameImgUrl").isNull());
+        assertTrue(first.has("representativeImageKey"));
+        assertTrue(first.get("representativeImageKey").isNull());
+        assertFalse(first.has("gameImgUrl"));
         assertFalse(first.has("progressionSchema"));
-        assertEquals(Set.of("gameId", "gameName", "gameImgUrl"), fieldNames(first));
+        assertEquals(Set.of("gameId", "gameName", "representativeImageKey"), fieldNames(first));
 
         ObjectNode second = (ObjectNode) games.get(1);
-        assertEquals("https://example/dota.png", second.get("gameImgUrl").asText());
+        assertEquals("dota_cover", second.get("representativeImageKey").asText());
+        assertEquals(Set.of("gameId", "gameName", "representativeImageKey"), fieldNames(second));
         verify(gamesMapper).listGames();
+    }
+
+    @Test
+    void danglingImageFailsWithRelationshipLocationInsteadOfEmptyCover() {
+        when(gamesMapper.listGames()).thenReturn(List.of(Map.of(
+            "gameId", "lol", "gameName", "英雄联盟",
+            "representativeImageKey", "missing_cover", "representativeImageDangling", true
+        )));
+
+        ApiException exception = assertThrows(ApiException.class, store::listGames);
+
+        assertEquals(HttpStatus.CONFLICT, exception.getStatus());
+        assertEquals("409.RELATION_DANGLING", exception.getCode());
+        assertEquals(Map.of(
+            "gameId", "lol", "sourceType", "GAME", "sourceParentKey", "",
+            "sourceKey", "lol", "imageKey", "missing_cover"
+        ), exception.getDetails());
     }
 
     @Test

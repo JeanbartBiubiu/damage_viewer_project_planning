@@ -62,7 +62,7 @@
 
 **新库（fresh install）**：
 
-1. `db/game_manage/schema.sql`（88 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查，以及阶段 8 `images` 列表分区）
+1. `db/game_manage/schema.sql`（91 张保留父表，含阶段 7.5 技能触发规则表、阶段 7.6.4 `skill_effect_execute_details` / `skill_trigger_rule_link_events`、公共技能作用范围与技能急速明细、阶段 7.6.5 前序输出与事件值检查、阶段 8 `images` 列表分区，以及阶段 9 三张关系表）
 2. `db/game_manage/triggers.sql`（图片分区函数与当前技能效果/过程/生命周期约束）
 
 不要把 `migrations/**` 当作新库必跑步骤。当前没有可直接用于新库的业务种子。
@@ -75,6 +75,20 @@
 该破坏式脚本可重复执行，使用显式表名逆依赖 `DROP TABLE IF EXISTS`，不使用 `CASCADE`。应用启动和当前兼容迁移都不会自动执行它。本任务实现阶段只生成并静态校验该脚本，不连接真实数据库。
 
 当前已有库如需补齐业务表，继续按各小节列出的 compatibility migration 执行；那些脚本不是新库必跑步骤。
+
+### 关联管理
+
+阶段 9 在 `skillrelation` 和 `imagerelation` 模块提供角色、装备的技能挂载，以及游戏、角色、属性、装备、技能、技能效果、状态的代表图片。技能挂载表使用同游戏复合外键，图片关联表不设置外键，后端负责存在性校验和来源删除时的事务清理。额外并发保护按项目负责人决定后置。
+
+两类挂载接口位于 `/api/admin/games/{gameId}/character-skill-relations` 和 `equipment-skill-relations`，提供双向查询、新增、排序调整和移除。代表图片在各对象的 `representative-image` 子资源维护；图片侧 `/images/{imageKey}/usages` 查询用途；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。
+
+`GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`。旧 `gameImgUrl` 和 `games.game_img_url` 已从最终实现删除；游戏代表图片写入成功后清理 `games/all:stage9` 缓存。
+
+已有阶段 8 数据库使用一次性脚本 `db/game_manage/migrations/breaking/relation_management_migration.sql`。执行前核对准确目标和旧封面，运行只读预检 `db/game_manage/checks/game_cover_migration_preflight.sql`。脚本遇到同名关系表或无法精确匹配同游戏图片标识的旧封面时停止；不会猜测、清空或自动迁移异常值。不得在新库上运行该迁移，应用也不会自动执行它。
+
+迁移后只读运行 `db/game_manage/checks/image_relations_integrity.sql`，结果应为零行。本轮代码与静态 SQL 实现不表示目标数据库已经迁移；新后端须在对应表结构就绪后才可启动联调。
+
+聚焦检查：在本模块运行 `mvn "-Dtest=*Relation*,PostgresReadStoreTest,GamePublicControllerTest,CharacterServiceTest,EquipmentServiceTest,SkillServiceTest,SkillEffectServiceTest,StatusServiceTest" test`。功能收尾执行 `mvn test` 与 `mvn package`。真实数据库、接口及前端浏览器验收另行完成。
 
 ### 图片管理
 

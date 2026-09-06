@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.status.StatusMapper;
 import xyz.game.datamanage.model.status.StatusCreateRequest;
 import xyz.game.datamanage.model.status.StatusListQuery;
@@ -35,23 +35,18 @@ public class StatusService {
     private final GamesMapper gamesMapper;
     private final StatusMapper mapper;
     private final SkillTriggerRuleService triggerRuleService;
+    private final ImageRelationMapper imageRelationMapper;
 
-    public StatusService(
-        GamesMapper gamesMapper,
-        StatusMapper mapper
-    ) {
-        this(gamesMapper, mapper, null);
-    }
-
-    @Autowired
     public StatusService(
         GamesMapper gamesMapper,
         StatusMapper mapper,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        ImageRelationMapper imageRelationMapper
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
+        this.imageRelationMapper = imageRelationMapper;
     }
 
     @Transactional(readOnly = true)
@@ -152,6 +147,7 @@ public class StatusService {
             }
             throw ex;
         }
+        imageRelationMapper.deleteForSource(gameId, "STATUS", "", statusKey);
     }
 
     private void requireGame(String gameId) {

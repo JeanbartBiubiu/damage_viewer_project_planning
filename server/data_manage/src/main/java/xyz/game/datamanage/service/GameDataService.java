@@ -19,7 +19,7 @@ public class GameDataService {
         this.writeStore = writeStore;
     }
 
-    @Cacheable(cacheNames = "games", key = "'all'")
+    @Cacheable(cacheNames = "games", key = "'all:stage9'")
     public ArrayNode listGames() {
         return readStore.listGames();
     }

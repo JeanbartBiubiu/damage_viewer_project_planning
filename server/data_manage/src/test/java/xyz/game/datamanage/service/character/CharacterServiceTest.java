@@ -25,6 +25,7 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.character.CharacterMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
@@ -49,6 +50,7 @@ class CharacterServiceTest {
     private static final String CHARACTER_KEY = "ashe";
 
     @Mock private GamesMapper gamesMapper;
+    @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private CharacterMapper characterMapper;
     @Mock private SkillParameterMapper parameterMapper;
 
@@ -64,7 +66,8 @@ class CharacterServiceTest {
             characterMapper,
             parameterMapper,
             levelService,
-            objectMapper
+            objectMapper,
+            imageRelationMapper
         );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         lenient().when(characterMapper.findLevelConfig(GAME_ID)).thenReturn(new LevelConfigResponse(GAME_ID, 1, 2));
