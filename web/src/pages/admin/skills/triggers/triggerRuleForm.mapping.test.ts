@@ -316,6 +316,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       conditionGroups: [{
         groupKey: 'group_1',
         name: '周期',
+        draftId: 'periodic-draft',
         sortOrder: '10',
         conditions: [{
           ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
