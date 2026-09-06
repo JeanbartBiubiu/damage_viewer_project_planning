@@ -27,6 +27,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class AttributeService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern ATTRIBUTE_KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_attributes";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_attributes_name";
@@ -34,9 +36,13 @@ public class AttributeService {
     private final GamesMapper gamesMapper;
     private final AttributeMapper attributeMapper;
 
-    public AttributeService(GamesMapper gamesMapper, AttributeMapper attributeMapper) {
+    public AttributeService(GamesMapper gamesMapper, AttributeMapper attributeMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
+    ) {
         this.gamesMapper = gamesMapper;
         this.attributeMapper = attributeMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -71,6 +77,7 @@ public class AttributeService {
 
     @Transactional
     public AttributeResponse create(String gameId, @Valid AttributeCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreateRequest(request);
 
@@ -106,6 +113,7 @@ public class AttributeService {
 
     @Transactional
     public AttributeResponse update(String gameId, String attributeKey, @Valid AttributeUpdateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdateRequest(request);
 

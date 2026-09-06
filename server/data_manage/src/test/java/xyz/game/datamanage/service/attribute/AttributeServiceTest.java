@@ -48,7 +48,7 @@ class AttributeServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new AttributeService(gamesMapper, mapper);
+        service = new AttributeService(gamesMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 

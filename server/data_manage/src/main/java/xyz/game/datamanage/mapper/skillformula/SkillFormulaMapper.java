@@ -2,12 +2,10 @@ package xyz.game.datamanage.mapper.skillformula;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeRef;
 import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeStatusRow;
-import xyz.game.datamanage.model.skillformula.SkillFormulaNodeRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 
 @Mapper
@@ -42,7 +40,8 @@ public interface SkillFormulaMapper {
         @Param("formulaKey") String formulaKey,
         @Param("name") String name,
         @Param("description") String description,
-        @Param("sortOrder") Integer sortOrder
+        @Param("sortOrder") Integer sortOrder,
+        @Param("expression") String expression
     );
 
     int update(
@@ -51,7 +50,8 @@ public interface SkillFormulaMapper {
         @Param("formulaKey") String formulaKey,
         @Param("name") String name,
         @Param("description") String description,
-        @Param("sortOrder") Integer sortOrder
+        @Param("sortOrder") Integer sortOrder,
+        @Param("expression") String expression
     );
 
     int delete(
@@ -64,20 +64,6 @@ public interface SkillFormulaMapper {
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey
     );
-
-    List<SkillFormulaNodeRow> listNodes(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("formulaKey") String formulaKey
-    );
-
-    int deleteNodes(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("formulaKey") String formulaKey
-    );
-
-    int batchInsertNodes(@Param("nodes") List<SkillFormulaNodeRow> nodes);
 
     List<SkillFormulaAttributeRef> listAttributeRefs(
         @Param("gameId") String gameId,

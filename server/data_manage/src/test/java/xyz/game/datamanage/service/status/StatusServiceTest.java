@@ -47,7 +47,7 @@ class StatusServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper);
+        service = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -264,7 +264,7 @@ class StatusServiceTest {
     void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor() {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper);
+        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,

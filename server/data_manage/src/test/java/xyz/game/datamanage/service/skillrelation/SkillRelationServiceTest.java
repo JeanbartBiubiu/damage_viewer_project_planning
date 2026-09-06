@@ -52,7 +52,7 @@ class SkillRelationServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillRelationService(gamesMapper, characterMapper, equipmentMapper, skillMapper, mapper);
+        service = new SkillRelationService(gamesMapper, characterMapper, equipmentMapper, skillMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames("lol")).thenReturn(1L);
     }
 

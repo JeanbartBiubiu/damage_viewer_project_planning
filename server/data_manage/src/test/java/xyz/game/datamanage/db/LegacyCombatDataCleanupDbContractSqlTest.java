@@ -29,7 +29,8 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     private static final String MIGRATION_RELATIVE =
         "db/game_manage/migrations/breaking/drop_legacy_combat_data_chain.sql";
 
-    static final List<String> KEEP_PARENTS = List.of(
+    // 迁移前的历史集合，仅用于核对迁移边界；当前建库清单在 currentParentTables。
+    static final List<String> BEFORE_SIMPLIFICATION_PARENTS = List.of(
         "games",
         "attributes",
         "game_level_configs",
@@ -91,7 +92,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "images"
     );
 
-    static final List<String> STAGE_7_5_PARENTS = List.of(
+    static final List<String> BEFORE_SIMPLIFICATION_TRIGGER_PARENTS = List.of(
         "skill_trigger_rules",
         "skill_trigger_rule_process_events",
         "skill_trigger_rule_skill_events",
@@ -214,15 +215,17 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         "trg_execute_effect_details_exactly_one_detail"
     );
 
-    static final List<String> CURRENT_TRIGGER_FUNCTIONS = List.of(
+    static final List<String> REMOVED_DETAIL_TRIGGER_FUNCTIONS = List.of(
         "trg_skill_effect_result_complete_shape",
         "trg_skill_effect_lifecycle_aggregate_shape",
         "trg_skill_effect_lifecycle_refresh_target_duration",
         "trg_skill_internal_state_complete_shape",
         "trg_skill_process_step_complete_shape",
-        "trg_skill_process_complete_shape"
+        "trg_skill_process_complete_shape",
+        "trg_skill_trigger_rule_complete_shape"
     );
 
+    private static String aggregateMigrationSql;
     private static String schemaSql;
     private static String triggersSql;
     private static String migrationSql;
@@ -232,6 +235,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
 
     @BeforeAll
     static void loadArtifacts() throws IOException {
+        aggregateMigrationSql = readRelative("db/game_manage/migrations/breaking/skill_aggregate_migration.sql");
         schemaSql = readRelative(SCHEMA_RELATIVE);
         triggersSql = readRelative(TRIGGERS_RELATIVE);
         migrationSql = readRelative(MIGRATION_RELATIVE);
@@ -242,62 +246,35 @@ class LegacyCombatDataCleanupDbContractSqlTest {
 
     @Test
     void schemaDefinesExactlyTheCurrentParentTables() {
-        List<String> expected = currentParentTables();
         List<String> created = extractCreateTableNames(schemaSql);
-        assertEquals(59, KEEP_PARENTS.size());
-        assertEquals("images", KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
-        assertEquals(29, STAGE_7_5_PARENTS.size());
-        assertEquals(91, expected.size());
-        assertEquals(expected, created);
-        assertEquals(91, created.size());
+        assertEquals(currentParentTables(), created);
+        assertEquals(24, created.size());
         for (String table : DROP_PARENTS) {
-            assertFalse(
-                schemaNormalized.contains("create table public." + table + " "),
-                () -> "schema.sql must not define dropped parent " + table
-            );
-        }
-        for (String table : STAGE_7_5_PARENTS) {
-            assertFalse(DROP_PARENTS.contains(table), () -> "stage 7.5 table must not be in cleanup drop set: " + table);
-            assertFalse(KEEP_PARENTS.contains(table), () -> "stage 7.5 table must not be required in cleanup keep set: " + table);
+            assertFalse(created.contains(table), () -> "旧计算或发布表不能回到当前结构: " + table);
         }
         assertTrue(schemaNormalized.contains("create table public.images ("));
-        assertTrue(schemaNormalized.contains("partition by list (game_id)"));
         int imagesIdx = schemaNormalized.indexOf("create table public.images");
         int partitionIdx = schemaNormalized.indexOf("partition by list (game_id)", imagesIdx);
-        assertTrue(partitionIdx > imagesIdx, "images must keep PARTITION BY LIST (game_id)");
+        assertTrue(partitionIdx > imagesIdx, "图片仍按游戏分区");
     }
 
     @Test
-    void triggersKeepImagePartitionsAndCurrentSkillConstraints() {
+    void triggersKeepOnlyImagePartitionManagement() {
         assertTrue(triggersNormalized.contains("create or replace function public.ensure_game_partitions(p_game_id varchar)"));
         assertTrue(triggersNormalized.contains("v_parents text[] := array[ 'images' ]")
             || triggersNormalized.contains("v_parents text[] := array['images']"));
-        assertFalse(triggersNormalized.contains("attribute_definitions"));
-        assertFalse(triggersNormalized.contains("effect_steps"));
-        assertFalse(triggersNormalized.contains("ensure_game_data_state"));
-        assertFalse(triggersNormalized.contains("count_effect_step_details"));
-        assertFalse(triggersNormalized.contains("trg_effect_step_exactly_one_detail"));
-        for (String triggerName : LEGACY_TRIGGERS) {
-            assertFalse(triggersSql.contains(triggerName), () -> "legacy trigger remains: " + triggerName);
-        }
-        assertTrue(triggersSql.contains("trg_games_after_insert_create_partitions"));
-        assertTrue(triggersNormalized.contains("perform public.ensure_game_partitions(new.game_id)"));
-        assertFalse(triggersNormalized.contains("perform public.ensure_game_data_state"));
-        for (String functionName : CURRENT_TRIGGER_FUNCTIONS) {
-            assertTrue(
-                triggersSql.contains("FUNCTION public." + functionName)
-                    || triggersSql.contains("function public." + functionName),
-                () -> "current trigger function missing: " + functionName
-            );
-        }
         assertTrue(triggersSql.contains("CREATE TRIGGER trg_games_after_insert_create_partitions"));
-        assertTrue(triggersSql.contains("trg_skill_effect_results_complete_shape")
-            || triggersSql.contains("trg_skill_effect_result_complete_shape"));
+        assertTrue(triggersNormalized.contains("perform public.ensure_game_partitions(new.game_id)"));
+        assertFalse(triggersNormalized.contains("ensure_game_data_state"));
+        assertFalse(triggersNormalized.contains("attribute_definitions"));
+        for (String name : LEGACY_TRIGGERS) assertFalse(triggersSql.contains(name));
+        for (String name : REMOVED_DETAIL_TRIGGER_FUNCTIONS) assertFalse(triggersSql.contains(name), "聚合形状不再由旧明细触发器维护");
+        assertFalse(triggersNormalized.contains("create constraint trigger"));
     }
 
     @Test
     void breakingMigrationCoversExactDropSetWithoutCascade() {
-        List<String> historicalKeepParents = KEEP_PARENTS.stream()
+        List<String> historicalKeepParents = BEFORE_SIMPLIFICATION_PARENTS.stream()
             .filter(table -> !Set.of(
                 "skill_effect_result_skill_scopes",
                 "skill_effect_result_skill_targets",
@@ -324,7 +301,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
         for (String table : DROP_PARENTS) {
             assertTrue(migrationSql.contains("'" + table + "'"), () -> "drop parent missing from migration: " + table);
         }
-        for (String table : STAGE_7_5_PARENTS) {
+        for (String table : BEFORE_SIMPLIFICATION_TRIGGER_PARENTS) {
             assertFalse(DROP_PARENTS.contains(table), () -> "stage 7.5 table must not be in cleanup drop set: " + table);
         }
         for (String triggerName : LEGACY_TRIGGERS) {
@@ -435,17 +412,65 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     private static List<String> currentParentTables() {
-        List<String> current = new ArrayList<>(KEEP_PARENTS.size() + STAGE_7_5_PARENTS.size());
-        current.addAll(KEEP_PARENTS.subList(0, KEEP_PARENTS.size() - 1));
-        current.addAll(STAGE_7_5_PARENTS);
-        current.add(KEEP_PARENTS.get(KEEP_PARENTS.size() - 1));
-        current.addAll(List.of("character_skill_relations", "equipment_skill_relations", "image_relations"));
-        return current;
+        return List.of("games", "attributes", "game_level_configs", "characters", "character_attributes",
+            "equipment", "equipment_attributes", "skill_categories", "skills", "skill_category_relations",
+            "skill_parameters", "skill_formulas", "damage_types", "modifier_zones", "statuses", "skill_effects",
+            "skill_internal_states", "skill_processes", "skill_trigger_rules", "images", "character_skill_relations",
+            "equipment_skill_relations", "image_relations", "skill_object_references");
+    }
+
+    @Test
+    void aggregateMigrationDropsExactly68OwnedTablesWithoutCascadingOrCommitting() {
+        Set<String> absorbed = new LinkedHashSet<>(BEFORE_SIMPLIFICATION_PARENTS);
+        absorbed.addAll(BEFORE_SIMPLIFICATION_TRIGGER_PARENTS);
+        absorbed.removeAll(currentParentTables());
+        assertEquals(68, absorbed.size());
+        String migration = stripLineComments(aggregateMigrationSql);
+        Matcher drops = Pattern.compile("(?is)\\bDROP\\s+TABLE\\s+([^;]+);").matcher(migration);
+        assertTrue(drops.find(), "必须明确列出待移除内部表");
+        String statement = drops.group();
+        assertTrue(Pattern.compile("public\\.[a-z0-9_]+(?:\\s*,\\s*public\\.[a-z0-9_]+)*")
+            .matcher(drops.group(1).trim()).matches(), "删除名单只能包含明确限定的内部表名");
+        Set<String> actual = new LinkedHashSet<>();
+        Matcher tables = Pattern.compile("public\\.([a-z0-9_]+)").matcher(statement);
+        int count = 0;
+        while (tables.find()) { actual.add(tables.group(1)); count++; }
+        assertEquals(68, count);
+        assertEquals(absorbed, actual);
+        assertFalse(drops.find(), "不能额外删除其他表");
+        assertFalse(Pattern.compile("(?i)\\bcascade\\b").matcher(statement).find());
+        assertFalse(Pattern.compile("(?im)^\\s*(commit|rollback)\\s*;").matcher(migration).find());
+        assertTrue(normalize(migration).contains("in access exclusive mode"));
+        assertTrue(normalize(migration).contains("aggregate migration already applied"));
+    }
+
+    @Test
+    void aggregateRootsKeepCompositeForeignKeysAndTwelveJsonShapeChecks() {
+        for (String table : List.of("skill_formulas", "skill_effects", "skill_internal_states", "skill_processes", "skill_trigger_rules")) {
+            int start = schemaNormalized.indexOf("create table public." + table + " (");
+            int end = schemaNormalized.indexOf(';', start);
+            String body = schemaNormalized.substring(start, end);
+            assertTrue(body.contains("foreign key (game_id, skill_key) references public.skills (game_id, skill_key)"), table);
+            assertFalse(body.contains("on delete cascade"), table);
+        }
+        List<String> checks = List.of("ck_skill_formulas_expression", "ck_skill_effects_results_array",
+            "ck_skill_effects_lifecycle_object", "ck_skill_internal_states_detail_object", "ck_skill_processes_steps_array",
+            "ck_skill_processes_cooldown_object", "ck_skill_processes_bindings_array", "ck_skill_processes_operations_array",
+            "ck_skill_trigger_rules_event_source_object", "ck_skill_trigger_rules_condition_groups_array",
+            "ck_skill_trigger_rules_actions_array", "ck_skill_trigger_rules_limits_object");
+        String migration = normalize(aggregateMigrationSql);
+        for (String check : checks) {
+            assertTrue(schemaNormalized.contains("add constraint " + check + " check ("), check);
+            assertTrue(migration.contains("add constraint " + check + " check ("), check);
+        }
+        assertEquals(12, checks.size());
+        assertTrue(schemaNormalized.contains("foreign key (game_id, source_skill_key) references public.skills (game_id, skill_key) on delete cascade"));
+        assertTrue(schemaNormalized.contains("create index ix_skill_object_references_target on public.skill_object_references (game_id, target_type, target_skill_key, target_key, target_sub_key)"));
     }
 
     private static List<String> extractCreateTableNames(String sql) {
         Matcher matcher = Pattern.compile("(?m)^CREATE TABLE public\\.([a-z0-9_]+)").matcher(sql);
-        Set<String> names = new LinkedHashSet<>();
+        List<String> names = new ArrayList<>();
         while (matcher.find()) {
             names.add(matcher.group(1));
         }

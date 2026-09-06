@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import jakarta.validation.Valid;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,6 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCancelProcessEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingDetail;
@@ -65,18 +65,14 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerFailProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateBindingDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateConditionDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
@@ -101,7 +97,6 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
@@ -120,6 +115,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Service
 @Validated
 public class SkillTriggerRuleService {
+
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
     private static final Logger log = LoggerFactory.getLogger(SkillTriggerRuleService.class);
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_trigger_rules";
@@ -157,7 +154,8 @@ public class SkillTriggerRuleService {
         SkillTriggerRuleMapper mapper,
         SkillTriggerRuleAssembler assembler,
         SkillTriggerRuntimeInputAnalyzer analyzer,
-        SkillTriggerCycleValidator cycleValidator
+        SkillTriggerCycleValidator cycleValidator,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
@@ -165,6 +163,8 @@ public class SkillTriggerRuleService {
         this.assembler = assembler;
         this.analyzer = analyzer;
         this.cycleValidator = cycleValidator;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -188,6 +188,7 @@ public class SkillTriggerRuleService {
         String skillKey,
         @Valid SkillTriggerRuleCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedRule values = validateCreate(request);
         lockParentSkill(gameId, skillKey);
@@ -198,7 +199,6 @@ public class SkillTriggerRuleService {
         Catalog catalog = lockAndValidateCatalogs(gameId, skillKey, values, null);
         try {
             insertAggregate(gameId, skillKey, values);
-            mapper.forceDeferredConstraintsImmediate();
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -213,6 +213,7 @@ public class SkillTriggerRuleService {
         String ruleKey,
         @Valid SkillTriggerRuleUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedRule values = validateUpdate(request, ruleKey);
         lockParentSkill(gameId, skillKey);
@@ -232,13 +233,14 @@ public class SkillTriggerRuleService {
                 values.name(),
                 values.description(),
                 values.sortOrder(),
-                values.eventSource().eventType().name()
+                values.eventSource().eventType().name(),
+                AggregateJson.write(values.eventSource()),
+                AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
+                AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
+                AggregateJson.write(new SkillTriggerRuleAssembler.Limits(values.perTargetCooldown(), values.maxTriggersPerProcess()))
             ) == 0) {
                 throw ruleNotFound(ruleKey);
             }
-            mapper.deleteChildren(gameId, skillKey, ruleKey);
-            insertChildren(gameId, skillKey, values);
-            mapper.forceDeferredConstraintsImmediate();
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -248,6 +250,7 @@ public class SkillTriggerRuleService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String ruleKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockParentSkill(gameId, skillKey);
         mapper.listRulesForUpdate(gameId, skillKey);
@@ -2324,338 +2327,11 @@ public class SkillTriggerRuleService {
     }
 
     private void insertAggregate(String gameId, String skillKey, ValidatedRule values) {
-        mapper.insertRule(
-            gameId,
-            skillKey,
-            values.ruleKey(),
-            values.name(),
-            values.description(),
-            values.sortOrder(),
-            values.eventSource().eventType().name()
-        );
-        insertChildren(gameId, skillKey, values);
-    }
-
-    private void insertChildren(String gameId, String skillKey, ValidatedRule values) {
-        insertEvent(gameId, skillKey, values);
-        for (SkillTriggerConditionGroup group : values.conditionGroups()) {
-            mapper.insertConditionGroup(
-                gameId, skillKey, values.ruleKey(), group.groupKey(), group.name(), group.sortOrder()
-            );
-            for (SkillTriggerCondition condition : group.conditions()) {
-                mapper.insertCondition(
-                    gameId,
-                    skillKey,
-                    values.ruleKey(),
-                    group.groupKey(),
-                    condition.conditionKey(),
-                    condition.conditionType().name(),
-                    condition.sortOrder()
-                );
-                insertConditionDetail(gameId, skillKey, values.ruleKey(), group.groupKey(), condition);
-            }
-        }
-        for (SkillTriggerAction action : values.actions()) {
-            mapper.insertAction(
-                gameId,
-                skillKey,
-                values.ruleKey(),
-                action.actionKey(),
-                action.name(),
-                action.actionType().name(),
-                action.sortOrder(),
-                action.targetContext() == null ? null : action.targetContext().name()
-            );
-            insertActionDetail(gameId, skillKey, values.ruleKey(), action);
-            insertBindings(gameId, skillKey, values.ruleKey(), action, values.actions());
-            insertModifiers(gameId, skillKey, values.ruleKey(), action);
-        }
-        if (values.perTargetCooldown() != null) {
-            mapper.insertCooldown(
-                gameId,
-                skillKey,
-                values.ruleKey(),
-                values.perTargetCooldown().durationFormulaKey(),
-                values.perTargetCooldown().targetContext().name()
-            );
-        }
-        if (values.maxTriggersPerProcess() != null) {
-            mapper.insertProcessLimit(
-                gameId,
-                skillKey,
-                values.ruleKey(),
-                values.maxTriggersPerProcess().processKey(),
-                values.maxTriggersPerProcess().limitFormulaKey()
-            );
-        }
-    }
-
-    private void insertEvent(String gameId, String skillKey, ValidatedRule values) {
-        SkillTriggerEventSource eventSource = values.eventSource();
-        String ruleKey = values.ruleKey();
-        switch (eventSource.eventType()) {
-            case PROCESS_MOMENT -> {
-                SkillTriggerProcessEventDetail detail = (SkillTriggerProcessEventDetail) eventSource.detail();
-                mapper.insertProcessEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.processKey(),
-                    detail.moment().momentType().name(),
-                    detail.moment().stepKey()
-                );
-            }
-            case PROCESS_CANCEL_REQUESTED -> {
-                SkillTriggerCancelProcessEventDetail detail =
-                    (SkillTriggerCancelProcessEventDetail) eventSource.detail();
-                mapper.insertProcessEvent(gameId, skillKey, ruleKey, detail.processKey(), null, null);
-            }
-            case SKILL_USED, SKILL_HIT -> {
-                SkillTriggerSkillEventDetail detail = (SkillTriggerSkillEventDetail) eventSource.detail();
-                mapper.insertSkillEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.sourceSkillKey(),
-                    detail.useKind() == null ? null : detail.useKind().name()
-                );
-            }
-            case RESULT_AVAILABLE -> {
-                SkillTriggerResultEventDetail detail = (SkillTriggerResultEventDetail) eventSource.detail();
-                mapper.insertResultEvent(gameId, skillKey, ruleKey, detail.effectKey(), detail.resultKey());
-            }
-            case LIFECYCLE_MOMENT -> {
-                SkillTriggerLifecycleEventDetail detail = (SkillTriggerLifecycleEventDetail) eventSource.detail();
-                mapper.insertLifecycleEvent(
-                    gameId, skillKey, ruleKey, detail.effectKey(), detail.moment().name()
-                );
-            }
-            case STATUS_CHANGED -> {
-                SkillTriggerStatusEventDetail detail = (SkillTriggerStatusEventDetail) eventSource.detail();
-                mapper.insertStatusEvent(
-                    gameId, skillKey, ruleKey, detail.subject().name(), detail.statusKey(), detail.change().name()
-                );
-            }
-            case HEALTH_THRESHOLD_CROSSED -> {
-                SkillTriggerHealthThresholdEventDetail detail =
-                    (SkillTriggerHealthThresholdEventDetail) eventSource.detail();
-                mapper.insertHealthEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.subject().name(),
-                    detail.attributeKey(),
-                    detail.thresholdFormulaKey(),
-                    detail.direction().name()
-                );
-            }
-            case INTERNAL_STATE_CHANGED -> {
-                SkillTriggerInternalStateEventDetail detail =
-                    (SkillTriggerInternalStateEventDetail) eventSource.detail();
-                mapper.insertInternalStateEvent(
-                    gameId, skillKey, ruleKey, detail.stateKey(), detail.changeKind().name()
-                );
-            }
-            case ENTITY_DIED, ENTITY_UNTARGETABLE -> {
-                SkillTriggerSubjectEventDetail detail = (SkillTriggerSubjectEventDetail) eventSource.detail();
-                mapper.insertSubjectEvent(gameId, skillKey, ruleKey, detail.subject().name());
-            }
-            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> {
-                SkillTriggerDamageEventDetail detail = (SkillTriggerDamageEventDetail) eventSource.detail();
-                mapper.insertDamageEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.damageTypeKey(),
-                    detail.deliveryKind().name(),
-                    detail.originKind().name()
-                );
-            }
-            case SPELL_SHIELD_BLOCKED -> {
-                SkillTriggerSpellShieldBlockedEventDetail detail =
-                    (SkillTriggerSpellShieldBlockedEventDetail) eventSource.detail();
-                mapper.insertSpellShieldBlockedEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.shieldEffectKey()
-                );
-            }
-            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
-                SkillTriggerLinkEventDetail detail = (SkillTriggerLinkEventDetail) eventSource.detail();
-                mapper.insertLinkEvent(
-                    gameId,
-                    skillKey,
-                    ruleKey,
-                    detail.sourceSkillKey()
-                );
-            }
-            default -> {
-            }
-        }
-    }
-
-    private void insertConditionDetail(
-        String gameId,
-        String skillKey,
-        String ruleKey,
-        String groupKey,
-        SkillTriggerCondition condition
-    ) {
-        switch (condition.conditionType()) {
-            case ATTRIBUTE_COMPARE -> {
-                SkillTriggerAttributeConditionDetail detail =
-                    (SkillTriggerAttributeConditionDetail) condition.detail();
-                mapper.insertAttributeCondition(new SkillTriggerAttributeConditionRow(
-                    gameId, skillKey, ruleKey, groupKey, condition.conditionKey(),
-                    detail.subject(), detail.attributeKey(), detail.attributeValueKind(),
-                    detail.comparator(), detail.comparisonFormulaKey()
-                ));
-            }
-            case STATUS_CHECK -> {
-                SkillTriggerStatusConditionDetail detail = (SkillTriggerStatusConditionDetail) condition.detail();
-                mapper.insertStatusCondition(new SkillTriggerStatusConditionRow(
-                    gameId, skillKey, ruleKey, groupKey, condition.conditionKey(),
-                    detail.subject(), detail.statusKey(), detail.checkKind(),
-                    detail.sourceEffectKey(), detail.sourceResultKey(),
-                    detail.comparator(), detail.comparisonFormulaKey()
-                ));
-            }
-            case INTERNAL_STATE_CHECK -> {
-                SkillTriggerInternalStateConditionDetail detail =
-                    (SkillTriggerInternalStateConditionDetail) condition.detail();
-                mapper.insertInternalStateCondition(new SkillTriggerInternalStateConditionRow(
-                    gameId, skillKey, ruleKey, groupKey, condition.conditionKey(),
-                    detail.stateKey(), detail.valueKind(), detail.optionKey(),
-                    detail.expectedBoolean(), detail.comparator(), detail.comparisonFormulaKey()
-                ));
-            }
-            case EVENT_VALUE_COMPARE -> {
-                SkillTriggerEventValueConditionDetail detail =
-                    (SkillTriggerEventValueConditionDetail) condition.detail();
-                mapper.insertEventValueCondition(new SkillTriggerEventValueConditionRow(
-                    gameId, skillKey, ruleKey, groupKey, condition.conditionKey(),
-                    detail.eventValueKey(), detail.comparator(), detail.comparisonFormulaKey()
-                ));
-            }
-        }
-    }
-
-    private void insertActionDetail(
-        String gameId,
-        String skillKey,
-        String ruleKey,
-        SkillTriggerAction action
-    ) {
-        switch (action.actionType()) {
-            case EXECUTE_EFFECT -> {
-                SkillTriggerExecuteEffectActionDetail detail =
-                    (SkillTriggerExecuteEffectActionDetail) action.detail();
-                mapper.insertEffectAction(gameId, skillKey, ruleKey, action.actionKey(), detail.effectKey());
-            }
-            case START_PROCESS -> {
-                SkillTriggerStartProcessActionDetail detail = (SkillTriggerStartProcessActionDetail) action.detail();
-                mapper.insertProcessAction(
-                    gameId, skillKey, ruleKey, action.actionKey(), detail.processKey(), null
-                );
-            }
-            case FAIL_PROCESS -> {
-                SkillTriggerFailProcessActionDetail detail = (SkillTriggerFailProcessActionDetail) action.detail();
-                mapper.insertProcessAction(
-                    gameId, skillKey, ruleKey, action.actionKey(), detail.processKey(), detail.failureReason().name()
-                );
-            }
-        }
-    }
-
-    private void insertBindings(
-        String gameId,
-        String skillKey,
-        String ruleKey,
-        SkillTriggerAction action,
-        List<SkillTriggerAction> actions
-    ) {
-        List<SkillTriggerRuntimeInputBinding> bindings =
-            action.runtimeInputBindings() == null ? List.of() : action.runtimeInputBindings();
-        for (SkillTriggerRuntimeInputBinding binding : bindings) {
-            mapper.insertBinding(
-                gameId,
-                skillKey,
-                ruleKey,
-                action.actionKey(),
-                binding.bindingKey(),
-                binding.parameterKey(),
-                binding.sourceType().name()
-            );
-            switch (binding.sourceType()) {
-                case INTERNAL_STATE -> {
-                    SkillTriggerInternalStateBindingDetail detail =
-                        (SkillTriggerInternalStateBindingDetail) binding.detail();
-                    mapper.insertInternalStateBinding(new SkillTriggerInternalStateBindingRow(
-                        gameId, skillKey, ruleKey, action.actionKey(), binding.bindingKey(),
-                        detail.stateKey(), detail.valueKind(), detail.optionKey()
-                    ));
-                }
-                case COMBAT_STATUS -> {
-                    SkillTriggerCombatStatusBindingDetail detail =
-                        (SkillTriggerCombatStatusBindingDetail) binding.detail();
-                    mapper.insertCombatStatusBinding(new SkillTriggerCombatStatusBindingRow(
-                        gameId, skillKey, ruleKey, action.actionKey(), binding.bindingKey(),
-                        detail.subject(), detail.statusKey(), detail.valueKind(),
-                        detail.sourceEffectKey(), detail.sourceResultKey()
-                    ));
-                }
-                case EVENT_VALUE -> {
-                    SkillTriggerEventValueBindingDetail detail =
-                        (SkillTriggerEventValueBindingDetail) binding.detail();
-                    mapper.insertEventValueBinding(new SkillTriggerEventValueBindingRow(
-                        gameId, skillKey, ruleKey, action.actionKey(), binding.bindingKey(),
-                        detail.eventValueKey()
-                    ));
-                }
-                case PRIOR_ACTION_RESULT -> {
-                    SkillTriggerPriorResultBindingDetail detail =
-                        (SkillTriggerPriorResultBindingDetail) binding.detail();
-                    String sourceEffectKey = sourceEffectKey(actions, detail.sourceActionKey());
-                    mapper.insertPriorResultBinding(new SkillTriggerPriorResultBindingRow(
-                        gameId, skillKey, ruleKey, action.actionKey(), binding.bindingKey(),
-                        detail.sourceActionKey(), sourceEffectKey, detail.sourceResultKey(), detail.outputKind()
-                    ));
-                }
-            }
-        }
-    }
-
-    private void insertModifiers(String gameId, String skillKey, String ruleKey, SkillTriggerAction action) {
-        if (action.actionType() != SkillTriggerActionType.EXECUTE_EFFECT) {
-            return;
-        }
-        String effectKey = ((SkillTriggerExecuteEffectActionDetail) action.detail()).effectKey();
-        List<SkillTriggerResultModifier> modifiers =
-            action.resultModifiers() == null ? List.of() : action.resultModifiers();
-        for (SkillTriggerResultModifier modifier : modifiers) {
-            mapper.insertModifier(
-                gameId,
-                skillKey,
-                ruleKey,
-                action.actionKey(),
-                modifier.resultKey(),
-                effectKey,
-                modifier.fixedMultiplier(),
-                modifier.fixedMinValue(),
-                modifier.fixedMaxValue()
-            );
-        }
-    }
-
-    private static String sourceEffectKey(List<SkillTriggerAction> actions, String sourceActionKey) {
-        for (SkillTriggerAction action : actions) {
-            if (action.actionKey().equals(sourceActionKey)
-                && action.detail() instanceof SkillTriggerExecuteEffectActionDetail detail) {
-                return detail.effectKey();
-            }
-        }
-        return null;
+        mapper.insertRule(gameId, skillKey, values.ruleKey(), values.name(), values.description(), values.sortOrder(),
+            values.eventSource().eventType().name(), AggregateJson.write(values.eventSource()),
+            AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
+            AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
+            AggregateJson.write(new SkillTriggerRuleAssembler.Limits(values.perTargetCooldown(), values.maxTriggersPerProcess())));
     }
 
     private List<Map<String, String>> collectEffectShapeIssues(

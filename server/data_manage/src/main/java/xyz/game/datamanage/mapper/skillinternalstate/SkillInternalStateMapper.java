@@ -4,12 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoDetailRow;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoRecoveryMode;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetailRow;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetailRow;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetailRow;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeOptionRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
@@ -49,7 +43,8 @@ public interface SkillInternalStateMapper {
         @Param("stateType") SkillInternalStateType stateType,
         @Param("scope") SkillInternalStateScope scope,
         @Param("description") String description,
-        @Param("sortOrder") Integer sortOrder
+        @Param("sortOrder") Integer sortOrder,
+        @Param("detailJson") String detailJson
     );
 
     int updateState(
@@ -58,7 +53,8 @@ public interface SkillInternalStateMapper {
         @Param("stateKey") String stateKey,
         @Param("name") String name,
         @Param("description") String description,
-        @Param("sortOrder") Integer sortOrder
+        @Param("sortOrder") Integer sortOrder,
+        @Param("detailJson") String detailJson
     );
 
     int deleteState(
@@ -70,133 +66,6 @@ public interface SkillInternalStateMapper {
     int deleteAllForSkill(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey
-    );
-
-    SkillInternalStateCounterDetailRow findCounterDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    int insertCounterDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialValueFormulaKey") String initialValueFormulaKey,
-        @Param("maxValueFormulaKey") String maxValueFormulaKey
-    );
-
-    int updateCounterDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialValueFormulaKey") String initialValueFormulaKey,
-        @Param("maxValueFormulaKey") String maxValueFormulaKey
-    );
-
-    SkillInternalStateAmmoDetailRow findAmmoDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    int insertAmmoDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialValueFormulaKey") String initialValueFormulaKey,
-        @Param("maxValueFormulaKey") String maxValueFormulaKey,
-        @Param("recoveryIntervalFormulaKey") String recoveryIntervalFormulaKey,
-        @Param("recoveryMode") SkillInternalStateAmmoRecoveryMode recoveryMode
-    );
-
-    int updateAmmoDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialValueFormulaKey") String initialValueFormulaKey,
-        @Param("maxValueFormulaKey") String maxValueFormulaKey,
-        @Param("recoveryIntervalFormulaKey") String recoveryIntervalFormulaKey,
-        @Param("recoveryMode") SkillInternalStateAmmoRecoveryMode recoveryMode
-    );
-
-    SkillInternalStateFlagDetailRow findFlagDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    int insertFlagDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialEnabled") Boolean initialEnabled
-    );
-
-    int updateFlagDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("initialEnabled") Boolean initialEnabled
-    );
-
-    SkillInternalStateCooldownDetailRow findCooldownDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    int insertCooldownDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("durationFormulaKey") String durationFormulaKey
-    );
-
-    int updateCooldownDetail(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("durationFormulaKey") String durationFormulaKey
-    );
-
-    List<SkillInternalStateModeOptionRow> listModeOptions(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    List<SkillInternalStateModeOptionRow> listModeOptionsForUpdate(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey
-    );
-
-    int insertModeOption(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("optionKey") String optionKey,
-        @Param("name") String name,
-        @Param("sortOrder") Integer sortOrder,
-        @Param("initial") Boolean initial
-    );
-
-    int updateModeOption(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("optionKey") String optionKey,
-        @Param("name") String name,
-        @Param("sortOrder") Integer sortOrder,
-        @Param("initial") Boolean initial
-    );
-
-    int deleteModeOptions(
-        @Param("gameId") String gameId,
-        @Param("skillKey") String skillKey,
-        @Param("stateKey") String stateKey,
-        @Param("optionKeys") Collection<String> optionKeys
     );
 
     long countStateOperations(

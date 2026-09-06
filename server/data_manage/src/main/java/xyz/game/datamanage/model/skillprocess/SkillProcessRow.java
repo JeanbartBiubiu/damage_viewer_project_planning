@@ -11,6 +11,10 @@ public record SkillProcessRow(
     String description,
     Integer sortOrder,
     OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime updatedAt,
+    String stepsJson,
+    String cooldownJson,
+    String effectBindingsJson,
+    String stateOperationsJson
 ) {
 }

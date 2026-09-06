@@ -11,6 +11,10 @@ public record SkillTriggerRuleRow(
     Integer sortOrder,
     SkillTriggerEventType eventType,
     OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime updatedAt,
+    String eventSourceJson,
+    String conditionGroupsJson,
+    String actionsJson,
+    String limitsJson
 ) {
 }
