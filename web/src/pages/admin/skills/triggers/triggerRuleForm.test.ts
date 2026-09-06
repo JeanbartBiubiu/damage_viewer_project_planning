@@ -1031,6 +1031,52 @@ describe('condition group ordering and OR/AND summaries', () => {
 });
 
 describe('action ordering, FAIL_PROCESS last and source-action binding cleanup', () => {
+  it('persists moved action order through the update request and detail readback', () => {
+    const execute = executeAction({ actionKey: 'apply_damage', name: '造成伤害', sortOrder: '10' });
+    const start: SkillTriggerActionDraft = {
+      ...createEmptyActionDraft([], 'START_PROCESS'), actionKey: 'start_cast', name: '启动过程',
+      sortOrder: '20', detail: { processKey: 'cast' }
+    };
+    const moved = moveActionDrafts([execute, start], 0, 1);
+    const request = toUpdateRequest({ ...createEmptyRuleDraft(), actions: moved });
+    expect(request.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([
+      ['start_cast', 10], ['apply_damage', 20]
+    ]);
+    const readback = fromDetail({ ruleKey: 'reordered', ...request });
+    expect(readback.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([
+      ['start_cast', '10'], ['apply_damage', '20']
+    ]);
+    expect([execute.sortOrder, start.sortOrder]).toEqual(['10', '20']);
+  });
+
+  it('assigns persisted positions when existing tied sort values would undo a move', () => {
+    const first = executeAction({ actionKey: 'b_first', sortOrder: '10' });
+    const second = executeAction({ actionKey: 'c_second', sortOrder: '10' });
+    const third = executeAction({ actionKey: 'a_third', sortOrder: '20' });
+    const moved = moveActionDrafts([first, second, third], 1, 1);
+    expect(toUpdateRequest({ ...createEmptyRuleDraft(), actions: moved }).actions.map((action) => [action.actionKey, action.sortOrder]))
+      .toEqual([['b_first', 10], ['a_third', 20], ['c_second', 30]]);
+    const movedTie = moveActionDrafts([first, second], 0, 1);
+    expect(sortActionDrafts(movedTie).map((action) => action.actionKey)).toEqual(['c_second', 'b_first']);
+  });
+
+  it('keeps numeric action sort edits unchanged in the saved order', () => {
+    const first = executeAction({ actionKey: 'first', sortOrder: '30' });
+    const second = executeAction({ actionKey: 'second', sortOrder: '20' });
+    const request = toUpdateRequest({ ...createEmptyRuleDraft(), actions: ensureFailProcessLast([first, second]) });
+    expect(request.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([['second', 20], ['first', 30]]);
+  });
+
+  it('does not move FAIL_PROCESS before another action even when their numeric orders are tied', () => {
+    const execute = executeAction({ actionKey: 'a_execute', sortOrder: '10' });
+    const fail: SkillTriggerActionDraft = {
+      ...createEmptyActionDraft([], 'FAIL_PROCESS'), actionKey: 'z_fail', sortOrder: '10',
+      detail: { processKey: 'cast', failureReason: 'CONTROLLED' }
+    };
+    expect(canMoveAction([execute, fail], 1, -1)).toEqual({ ok: false, message: SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE });
+    expect(moveActionDrafts([execute, fail], 0, 1)).toEqual([execute, fail]);
+  });
+
   it('keeps FAIL_PROCESS last and blocks moving it earlier', () => {
     const execute = executeAction({ actionKey: 'apply_damage', sortOrder: '10' });
     const start = createEmptyActionDraft([], 'START_PROCESS');
