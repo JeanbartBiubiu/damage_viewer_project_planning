@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
@@ -44,6 +45,10 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventRow;
 
 @Mapper
 public interface SkillTriggerRuleMapper {
+
+    SkillEffectLifecycleInstanceScope findLifecycleScope(
+        @Param("gameId") String gameId, @Param("skillKey") String skillKey, @Param("effectKey") String effectKey
+    );
 
     List<SkillTriggerRuleSummaryResponse> listSummaries(
         @Param("gameId") String gameId,
