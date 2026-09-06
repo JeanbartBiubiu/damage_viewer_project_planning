@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillInternalState,
@@ -37,8 +38,8 @@ const detail: SkillInternalState = {
   ...summary,
   stateType: 'COUNTER',
   detail: {
-    initialValueFormulaKey: 'zero',
-    maxValueFormulaKey: 'focus_max_stacks'
+    initialValue: formulaValue("zero"),
+    maxValue: formulaValue("focus_max_stacks")
   }
 };
 
@@ -50,8 +51,8 @@ const createBody: CreateSkillInternalStateRequest = {
   description: null,
   sortOrder: 10,
   detail: {
-    initialValueFormulaKey: 'zero',
-    maxValueFormulaKey: 'focus_max_stacks'
+    initialValue: formulaValue("zero"),
+    maxValue: formulaValue("focus_max_stacks")
   }
 };
 
@@ -62,8 +63,8 @@ const updateBody: UpdateSkillInternalStateRequest = {
   description: null,
   sortOrder: 11,
   detail: {
-    initialValueFormulaKey: 'zero',
-    maxValueFormulaKey: 'focus_max_stacks'
+    initialValue: formulaValue("zero"),
+    maxValue: formulaValue("focus_max_stacks")
   }
 };
 
@@ -108,8 +109,8 @@ describe('skillInternalStateClient', () => {
       'token'
     );
     expect(loaded.data.detail).toEqual({
-      initialValueFormulaKey: 'zero',
-      maxValueFormulaKey: 'focus_max_stacks'
+      initialValue: formulaValue("zero"),
+      maxValue: formulaValue("focus_max_stacks")
     });
   });
 

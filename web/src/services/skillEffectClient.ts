@@ -1,3 +1,5 @@
+import { assertNumericUses } from './numericValue';
+import { isNumericValue } from '../types/numericValue';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -92,7 +94,7 @@ function assertEnum(value: unknown, allowed: ReadonlySet<string>, path: string):
 
 function assertValueRule(value: unknown, path: string): void {
   if (!isRecord(value)) protocolError(path);
-  assertString(value.formulaKey, `${path}.formulaKey`);
+  if (!isNumericValue(value.value)) protocolError(`${path}.value`);
   assertNumber(value.fixedMultiplier, `${path}.fixedMultiplier`);
   if (value.fixedMinValue !== null) assertNumber(value.fixedMinValue, `${path}.fixedMinValue`);
   if (value.fixedMaxValue !== null) assertNumber(value.fixedMaxValue, `${path}.fixedMaxValue`);
@@ -296,17 +298,14 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertEnum(detail.originKind, DAMAGE_ORIGIN_KINDS, `${path}.detail.originKind`);
       if (!isRecord(detail.critical)) protocolError(`${path}.detail.critical`);
       assertEnum(detail.critical.mode, CRITICAL_MODES, `${path}.detail.critical.mode`);
-      assertNullableString(
-        detail.critical.multiplierFormulaKey,
-        `${path}.detail.critical.multiplierFormulaKey`
-      );
+      if (detail.critical.multiplierValue !== null && !isNumericValue(detail.critical.multiplierValue)) protocolError(`${path}.detail.critical.multiplierValue`);
       if (!Array.isArray(detail.vampRules)) protocolError(`${path}.detail.vampRules`);
       detail.vampRules.forEach((rule, index) => {
         const rulePath = `${path}.detail.vampRules[${index}]`;
         if (!isRecord(rule)) protocolError(rulePath);
         assertEnum(rule.vampType, VAMP_TYPES, `${rulePath}.vampType`);
         assertEnum(rule.basisOutputKind, VAMP_BASIS_OUTPUT_KINDS, `${rulePath}.basisOutputKind`);
-        assertString(rule.efficiencyFormulaKey, `${rulePath}.efficiencyFormulaKey`);
+        if (!isNumericValue(rule.efficiencyValue)) protocolError(`${rulePath}.efficiencyValue`);
       });
       break;
     }
@@ -363,6 +362,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
 }
 
 export function parseSkillEffect(value: unknown): SkillEffect {
+  assertNumericUses(value, 'effect', protocolError);
   if (!isRecord(value) || !Array.isArray(value.results)) protocolError('effect');
   value.results.forEach((item, index) => assertResult(item, `effect.results[${index}]`));
   assertString(value.gameId, 'effect.gameId');
@@ -405,7 +405,7 @@ export function parseSkillEffectSummary(value: unknown): SkillEffectSummary {
 }
 
 function maybeParseEffect(value: unknown): SkillEffect {
-  return shouldValidateShape() ? parseSkillEffect(value) : value as SkillEffect;
+  return parseSkillEffect(value);
 }
 
 function maybeParseSummaries(value: unknown): SkillEffectSummary[] {

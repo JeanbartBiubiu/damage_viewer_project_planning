@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillEffect,
@@ -32,7 +33,7 @@ const damageResult = {
   spellShieldBlockScope: null,
   lifecycleBehavior: null,
   valueRule: {
-    formulaKey: 'damage',
+    value: formulaValue("damage"),
     fixedMultiplier: 1,
     fixedMinValue: null,
     fixedMaxValue: null
@@ -41,7 +42,7 @@ const damageResult = {
     damageTypeKey: 'physical',
     deliveryKind: 'SKILL',
     originKind: 'DIRECT',
-    critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+    critical: { mode: 'DISALLOWED', multiplierValue: null },
     vampRules: []
   }
 };
@@ -196,14 +197,14 @@ describe('skillEffectClient', () => {
       createdAt: '2026-08-28T00:00:00Z',
       updatedAt: '2026-08-28T00:00:00Z',
       lifecycle: {
-        durationFormulaKey: 'poison_duration_ms',
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: formulaValue("poison_duration_ms"),
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: 'REFRESH_ALL',
         expiryMode: 'ALL_AT_ONCE',
-        periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+        periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
         firstPeriodicExecution: 'AFTER_INTERVAL'
       },
       results: [
@@ -223,7 +224,7 @@ describe('skillEffectClient', () => {
             periodicExecutionMode: 'ONCE_PER_INSTANCE'
           },
           valueRule: {
-            formulaKey: 'damage',
+            value: formulaValue("damage"),
             fixedMultiplier: 1,
             fixedMinValue: null,
             fixedMaxValue: null
@@ -232,7 +233,7 @@ describe('skillEffectClient', () => {
             damageTypeKey: 'physical',
             deliveryKind: 'SKILL',
             originKind: 'DIRECT',
-            critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+            critical: { mode: 'DISALLOWED', multiplierValue: null },
             vampRules: []
           }
         },
@@ -246,7 +247,7 @@ describe('skillEffectClient', () => {
           spellShieldBlockScope: null,
           lifecycleBehavior: null,
           valueRule: {
-            formulaKey: 'damage',
+            value: formulaValue("damage"),
             fixedMultiplier: 1,
             fixedMinValue: null,
             fixedMaxValue: null
@@ -340,14 +341,14 @@ describe('skillEffectClient', () => {
     const parsed = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [{
@@ -383,7 +384,7 @@ describe('skillEffectClient', () => {
       periodicExecutionMode: null
     };
     const valueRule = {
-      formulaKey: 'damage',
+      value: formulaValue('damage'),
       fixedMultiplier: 1,
       fixedMinValue: null,
       fixedMaxValue: null
@@ -391,14 +392,14 @@ describe('skillEffectClient', () => {
     const parsed = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [
@@ -584,14 +585,14 @@ describe('skillEffectClient', () => {
     const parsedHaste = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [{

@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from './apiClient';
 import {
@@ -326,7 +327,7 @@ describe('skillTriggerRuleClient', () => {
           detail: {
             eventValueKey: 'LINK_COUNT',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }],
@@ -378,7 +379,7 @@ describe('skillTriggerRuleClient', () => {
           detail: {
             eventValueKey: 'FREE_OUTPUT',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }]

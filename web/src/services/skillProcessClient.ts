@@ -1,3 +1,4 @@
+import { assertNumericUses } from './numericValue';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -29,7 +30,7 @@ export function getSkillProcess(
   processKey: string,
   token: string
 ): Promise<ApiResult<SkillProcess>> {
-  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), { token });
+  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), { token }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
 
 export function createSkillProcess(
@@ -43,7 +44,7 @@ export function createSkillProcess(
     method: 'POST',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
 
 export function updateSkillProcess(
@@ -58,7 +59,7 @@ export function updateSkillProcess(
     method: 'PUT',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
 
 export function deleteSkillProcess(
@@ -72,4 +73,9 @@ export function deleteSkillProcess(
     method: 'DELETE',
     token
   });
+}
+
+export function parseSkillProcess(value: unknown): SkillProcess {
+  assertNumericUses(value, 'process', (path) => { throw new Error(`数值取值响应不合法：${path}`); });
+  return value as SkillProcess;
 }
