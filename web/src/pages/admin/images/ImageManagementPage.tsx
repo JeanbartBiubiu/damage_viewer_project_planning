@@ -1,3 +1,4 @@
+import { ImageUsageAction } from '../relations/ObjectRelationActions';
 import {
   Alert,
   Button,
@@ -317,10 +318,13 @@ export function ImageManagementPage({
     },
     {
       title: '操作',
-      width: 310,
+      width: 430,
       fixed: 'right',
       render: (_value, record: CachedImageRecord) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ImageUsageAction key={`${apiBaseUrl}:${selectedGameId}:${record.imageKey}`}
+            imageKey={record.imageKey} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
+            adminToken={adminToken} onDirtyChange={onDirtyChange} />
           <Button
             size="mini"
             disabled={!adminToken.trim()}

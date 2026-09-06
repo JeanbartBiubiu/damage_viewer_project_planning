@@ -6,7 +6,7 @@
 
 - `apiClient.ts` 统一处理 API 基址、Bearer token、游戏列表和错误模型；业务客户端不得自行发明第二套基址解析。
 - 图片链由 `imageClient.ts`、`imageCache.ts`、`resourceImage.ts` 负责；修正区域使用 `modifierZoneClient.ts`，其余管理客户端按同目录现有命名沿用。
-- 游戏摘要只解析当前 `gameId`、`gameName`、可空 `gameImgUrl`，不恢复 `progressionSchema`。
+- 游戏摘要只解析当前 `gameId`、`gameName`、可空 `representativeImageKey`，不恢复 `progressionSchema`。
 - 不请求 `/combat-data/**`、`versions/current` 或旧发布接口，不恢复旧 Bundle 或 Catalog 缓存。
 
 ## 验证

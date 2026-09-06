@@ -1,6 +1,6 @@
 # Damage Viewer Web
 
-`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～8 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
+`web/` 是 Damage Viewer 的前端工作台。它负责当前阶段 0～9 的管理页面、图片缓存，以及底层 TinyGo V2 Wasm 运行时资源。
 
 它在整条链路里的位置是：
 
@@ -30,6 +30,8 @@
 - `src/services/apiClient.ts`：API 基址、游戏列表和统一错误处理
 - `src/types/image.ts`、`src/services/imageClient.ts`：图片管理详情与写入、公开同步接口
 - `src/services/resourceImage.ts`、`src/services/imageCache.ts`：上传前处理与浏览器本地缓存
+- `src/pages/admin/relations/`：角色和装备的技能挂载、七类对象代表图片、图片用途反查弹窗；在既有页面进入
+- `src/services/skillRelationClient.ts`、`src/services/imageRelationClient.ts`：关系接口、严格响应校验和统一错误处理
 - `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
@@ -106,6 +108,14 @@ npm run build
 阶段 7.6.5 已完成桌面编写 UI：事件值最终 23 项，前序结果输出最终 10 项；条件与绑定共用一张事件能力表；前序结果按更早执行效果动作、即时来源结果、合法输出三级选择。未知字符串按协议错误拒绝，不从列表摘要推断输出，也不提供自由输出、跨规则引用、移动端或运行预览。
 
 阶段 8 图片管理位于 `#/images`。本地缓存工具在图片列表上方；列表直接读取当前游戏的浏览器本地数据库，不请求后端管理列表，缓存为空时由维护者执行全量同步。浏览器只接受不超过 5 MB、宽高不超过 4096 像素的 PNG/JPEG：宽高都不超过 64 像素时保持原内容，任一边超过 64 时按短边居中裁切并缩小到最大 64×64；后端不代为处理。浏览器本地数据库 `image_db` 使用版本 2，停用图片保留更新时间但不保留可展示内容。
+
+阶段 9 在角色、装备列表提供「关联技能」，技能列表提供「挂载对象」；三处共用双向关系弹窗，可新增、调整顺序和移除。游戏配置独立显示「代表图片」面板，角色、属性、装备、技能、技能效果和状态行提供同名入口；图片行的「用途关系」按七类来源反查并维护。图片候选由后端按名称或标识搜索，图片内容只从当前游戏本地缓存预览。停用目标保留旧关系并显示不可用，接口错误保留草稿，切换游戏、API 或对象后丢弃迟到响应。
+
+游戏摘要使用可空 `representativeImageKey`，不再读取旧封面地址字段。关系字段由专用接口保存，不混入对象主体请求。共享契约和当前验证记录由规划工作树的 `文档记录/详细设计/项目/关联管理详细设计.md` 维护入口；前端模块说明位于同一工作树的 `文档记录/详细设计/web/关联管理前端详细设计.md`。
+
+各对象的「代表图片」默认直接上传：选择本地图片、预览后点击「上传并使用」，自动创建图片并建立当前对象的关系；名称与标识自动生成，无需先进入图片管理。新图片同时写入当前游戏缓存。替换会创建新图片并切换当前对象关系，其他对象共享的旧图保持原内容。「选择已有图片」保留为次要入口。
+
+角色、属性、装备、技能、技能效果和状态表格在名称前固定显示「图片」列，使用 48×48 缩略图。关系从现行接口读取，内容复用当前游戏缓存；上传、更换或移除后立即更新当前行。未设置、未缓存、停用及读取失败均显示对应占位，刷新列表会重新读取图片关系。
 
 阶段提交前在 `web/` 运行：
 

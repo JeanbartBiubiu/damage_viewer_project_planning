@@ -380,6 +380,9 @@ export default function App() {
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
+        selectedGameName={selectedGameName}
+        onDirtyChange={handleAttributeDirtyChange}
+        onGameImageSaved={() => setReloadSeed((value) => value + 1)}
       />
     );
   } else if (route === 'images') {
