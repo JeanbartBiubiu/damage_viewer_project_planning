@@ -7,7 +7,7 @@ const hit: SkillTriggerEventSource = { eventType: 'SKILL_HIT', detail: { sourceS
 const makeDraft = (detail: SkillTriggerTargetCategoryCheckDetail = { categories: ['CHAMPION', 'EPIC_MONSTER'] }) => {
   const rule = createEmptyRuleDraft();
   return { ...rule, ruleKey: 'hit_categories', name: '命中类别', eventSource: hit,
-    conditionGroups: [{ groupKey: 'targets', name: '目标类别', sortOrder: '0', conditions: [{ ...createEmptyConditionDraft([], 'TARGET_CATEGORY_CHECK'), detail }] }],
+    conditionGroups: [{ draftId: 'targets-draft', groupKey: 'targets', name: '目标类别', sortOrder: '0', conditions: [{ ...createEmptyConditionDraft([], 'TARGET_CATEGORY_CHECK'), detail }] }],
     actions: [{ ...rule.actions[0], name: '造成伤害', detail: { effectKey: 'hit_damage' } }] };
 };
 

@@ -19,7 +19,7 @@ const parameter = (overrides: Partial<SkillParameter> = {}): SkillParameter => (
 });
 const rule = (detail: SkillTriggerLifecycleCheckDetail) => ({
   ...createEmptyRuleDraft(), ruleKey: 'detonate', name: '引爆',
-  conditionGroups: [{ groupKey: 'marked', name: '存在印记', sortOrder: '0', conditions: [{ ...createEmptyConditionDraft([], 'LIFECYCLE_CHECK'), detail }] }],
+  conditionGroups: [{ draftId: 'marked-draft', groupKey: 'marked', name: '存在印记', sortOrder: '0', conditions: [{ ...createEmptyConditionDraft([], 'LIFECYCLE_CHECK'), detail }] }],
   actions: [{ ...createEmptyRuleDraft().actions[0], name: '执行' }]
 });
 
