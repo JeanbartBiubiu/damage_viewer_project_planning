@@ -784,13 +784,14 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void stage765EventValueMatrixIsSharedByConditionsAndBindings() {
-        assertEquals(23, SkillTriggerEventValueKey.values().length);
+        assertEquals(24, SkillTriggerEventValueKey.values().length);
         Set<SkillTriggerEventValueKey> integerKeys = EnumSet.of(
             SkillTriggerEventValueKey.BLOCKED,
             SkillTriggerEventValueKey.IMMUNE,
             SkillTriggerEventValueKey.KILLED,
             SkillTriggerEventValueKey.LINK_INDEX,
-            SkillTriggerEventValueKey.LINK_COUNT
+            SkillTriggerEventValueKey.LINK_COUNT,
+            SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED
         );
         Set<SkillTriggerEventValueKey> amountKeys = EnumSet.of(
             SkillTriggerEventValueKey.SHIELD_ABSORBED,
@@ -818,7 +819,7 @@ class SkillTriggerRuleServiceTest {
             ),
             SkillTriggerEventType.SPELL_SHIELD_BLOCKED, EnumSet.noneOf(SkillTriggerEventValueKey.class),
             SkillTriggerEventType.BASIC_ATTACK_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX),
-            SkillTriggerEventType.SKILL_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX)
+            SkillTriggerEventType.SKILL_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED)
         );
         for (SkillTriggerEventType eventType : SkillTriggerEventType.values()) {
             Set<SkillTriggerEventValueKey> expected = allowed.getOrDefault(

@@ -330,6 +330,33 @@ class GameConfigurationWriteGuardTest {
         verify(connection, never()).commit();
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"CONDITION_EVENT", "BINDING_EVENT", "BINDING_DOMAIN"})
+    void finalSkillHitShieldEventOrDomainChangeRollsBack(String change) throws Exception {
+        Connection connection = connection();
+        boolean condition = "CONDITION_EVENT".equals(change);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(condition ? List.of()
+            : List.of(Map.of("target_type", "PARAMETER", "skill_key", "skill", "object_key", "flag")));
+        var objects = condition ? List.of(SkillHitShieldValueSemanticsTest.condition("BASIC_ATTACK_HIT", "0"))
+            : SkillHitShieldValueSemanticsTest.binding("BINDING_DOMAIN".equals(change) ? "DAMAGE_DEALT" : "BASIC_ATTACK_HIT",
+                "BINDING_DOMAIN".equals(change) ? "RAW_DAMAGE" : "SKILL_HIT_SPELL_SHIELD_BLOCKED");
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(objects.stream().map(a ->
+            Map.<String, Object>of("source_type", a.type().name(), "skill_key", a.skillKey(), "source_key", a.key(), "data", a.data().toString())).toList());
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(condition ? List.of() : List.of(Map.of(
+            "skill_key", "skill", "parameter_key", "flag", "value_type", "INTEGER", "value_mode", "RUNTIME_INPUT")));
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE shield event for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
+        assertTrue(error.getDetails().toString().contains("BINDING_DOMAIN".equals(change) ? "REFERENCE_TYPE_MISMATCH" : "EVENT_VALUE_NOT_AVAILABLE"));
+        verify(jdbc).update("UPDATE shield event for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
     private static Map<String, Object> formulaRow() {
         return Map.of("source_type", "FORMULA", "skill_key", "ez_q", "source_key", "damage",
             "data", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"damage\"}}");
