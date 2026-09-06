@@ -29,6 +29,7 @@ export type SkillTriggerConditionType =
   | 'ATTRIBUTE_COMPARE'
   | 'STATUS_CHECK'
   | 'LIFECYCLE_CHECK'
+  | 'TARGET_CATEGORY_CHECK'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -455,8 +456,18 @@ export type SkillTriggerCondition =
       sortOrder: number;
       detail: SkillTriggerLifecycleCheckDetail;
     }
+  | {
+      conditionKey: string;
+      conditionType: 'TARGET_CATEGORY_CHECK';
+      sortOrder: number;
+      detail: SkillTriggerTargetCategoryCheckDetail;
+    }
   | SkillTriggerInternalStateCheckCondition
   | SkillTriggerEventValueCompareCondition;
+
+export const SKILL_TRIGGER_TARGET_CATEGORIES = ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE'] as const;
+export type SkillTriggerTargetCategory = (typeof SKILL_TRIGGER_TARGET_CATEGORIES)[number];
+export type SkillTriggerTargetCategoryCheckDetail = { categories: SkillTriggerTargetCategory[] };
 
 export type SkillTriggerConditionGroup = {
   groupKey: string;
