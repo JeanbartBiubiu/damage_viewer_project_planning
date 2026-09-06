@@ -539,3 +539,21 @@ describe('来源施放资源消耗响应', () => {
     expect(() => parseSkillTriggerRuleDetail(withBinding(bindingDetail))).toThrow(SkillTriggerRuleProtocolError);
   });
 });
+
+describe('命中目标类别响应', () => {
+  const withCategory = (conditionDetail: unknown) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_r' } },
+    conditionGroups: [{ groupKey: 'targets', name: '命中类别', sortOrder: 0, conditions: [{ conditionKey: 'hit_category', conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: 0, detail: conditionDetail }] }]
+  });
+  it.each([['CHAMPION'], ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE']])('读取类别数组 %j，不要求比较取值字段', (...categories) => {
+    const conditionDetail = { categories };
+    expect(parseSkillTriggerRuleDetail(withCategory(conditionDetail)).conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+  });
+  it.each([null, {}, { categories: [] }, { categories: null }, { categories: 'CHAMPION' }, { categories: ['UNKNOWN'] },
+    { categories: ['CHAMPION', 'CHAMPION'] }, { categories: [0] }, { categories: [['CHAMPION']] },
+    { categories: ['CHAMPION'], subject: 'CURRENT_TARGET' }, { categories: ['CHAMPION'], comparisonValue: null },
+    { categories: ['CHAMPION'], comparator: null }, { categories: ['CHAMPION'], scope: 'TARGET' }
+  ])('拒绝缺字段、非法数组和多余明细 %j', (conditionDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withCategory(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
