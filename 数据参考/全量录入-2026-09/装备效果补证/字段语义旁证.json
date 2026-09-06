@@ -1,0 +1,147 @@
+{
+  "基础攻击力": {
+    "结论": "mStat=2、mStatFormula=1在本批基础攻击力公式中的含义有当前对象和官方公告旁证；不依赖旧网页给出的不同枚举顺序。",
+    "同版本对象": {
+      "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "版本": "16.17",
+      "JSON指针": "/Items~13053/mItemCalculations/BonusAD",
+      "原值": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "ADtoAD",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "命名系数": {
+      "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "版本": "16.17",
+      "JSON指针": "/Items~13053/mDataValues/8",
+      "原值": {
+        "mName": "ADtoAD",
+        "mValue": 0.5,
+        "__type": "ItemDataValue"
+      }
+    },
+    "绑定文案": {
+      "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "版本": "16.17",
+      "JSON指针": "/entries/item_3053_tooltip",
+      "原值": "<passive>抓人双爪</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的@ShieldSize@护盾值</shield>。"
+    },
+    "官方旁证": {
+      "来源文件": "客户端原始资料/官方26.16更新说明.html.gz",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes/",
+      "定位": "Items → Sterak’s Gage → Bonus Attack Damage；50% of Base Attack Damage",
+      "说明": "公告给出基础攻击力50%，16.17对象ADtoAD也是0.5，且公式mStat=2/mStatFormula=1。"
+    }
+  },
+  "额外攻击力": {
+    "结论": "星蚀当前护盾公式mStat=2、mStatFormula=2与官方说明的额外攻击力一致，用于本批同枚举公式。",
+    "同版本对象": {
+      "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "版本": "16.17",
+      "JSON指针": "/Items~16692/mItemCalculations/{d02ea590}",
+      "原值": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "MeleeBaseShield",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "{e367e801}",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "mRangedMultiplier": {
+          "mDataValue": "{51df2a01}",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        "__type": "{e9a3c91d}"
+      }
+    },
+    "官方旁证": {
+      "来源文件": "客户端原始资料/官方26.16更新说明.html.gz",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes/",
+      "定位": "Items → Eclipse → Shield",
+      "说明": "近战150+40%额外攻击力、远程75+20%额外攻击力，与16.17计算字段相同。"
+    }
+  },
+  "法术强度与额外护甲": {
+    "说明": "NashorsAPValue、LichBaneAPValue和BonusArmorDamageRatio直接命名了属性；其相加结构及数值来自各自当前计算。本批没有声称取得完整客户端属性枚举表，也没有将未出现的枚举值推为新属性。"
+  },
+  "星蚀伤害": {
+    "结论": "近战8%、远程5%目标最大生命值物理伤害由16.17正式绑定Tooltip、计算与官方公告互证。外部简介省略了伤害。",
+    "绑定文案": {
+      "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "版本": "16.17",
+      "JSON指针": "/entries/item_6692_tooltip",
+      "原值": "<passive>永升之月</passive> {{ Item_Cooldown }}<br>在@WindowDuration@秒内用2次独立的攻击或技能命中一名英雄时，会造成<physicalDamage>@MaxHealthDamageCalc@最大生命值的物理伤害</physicalDamage>并为你提供持续@ShieldDuration@秒的<shield>@ShieldSplit@护盾值</shield>。"
+    },
+    "同版本对象": {
+      "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "版本": "16.17",
+      "JSON指针": "/Items~16692/mItemCalculations/MaxHealthDamageCalc",
+      "原值": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "{b1f09313}",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "mDisplayAsPercent": true,
+        "mRangedMultiplier": {
+          "mDataValue": "{4b5548be}",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        "__type": "{e9a3c91d}"
+      }
+    },
+    "官方旁证": {
+      "来源文件": "客户端原始资料/官方26.16更新说明.html.gz",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes/",
+      "定位": "Items → Eclipse → Damage",
+      "说明": "公告由近战6%/远程4%调整为8%/5%；本次只使用与16.17当前字段相同的调整后数值。"
+    }
+  },
+  "散列字段核对": [
+    {
+      "名称": "MeleeBonusADShieldRatio",
+      "小写FNV1a计算": "{e367e801}",
+      "校验": "一致"
+    },
+    {
+      "名称": "RangedShieldMult",
+      "小写FNV1a计算": "{51df2a01}",
+      "校验": "一致"
+    },
+    {
+      "名称": "MeleePercMaxHP",
+      "小写FNV1a计算": "{b1f09313}",
+      "校验": "一致"
+    },
+    {
+      "名称": "RangedPercMaxHPMult",
+      "小写FNV1a计算": "{4b5548be}",
+      "校验": "一致"
+    },
+    {
+      "名称": "ShieldSplit",
+      "小写FNV1a计算": "{d02ea590}",
+      "校验": "一致"
+    }
+  ],
+  "数值展示": "原始浮点数完整保留；中文说明将0.449999988等表示误差整理为0.45。百分比采用1=100%的小数比例。算术换算有原始被乘数与乘数，不补未知系数。"
+}
