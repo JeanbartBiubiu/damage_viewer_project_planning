@@ -56,6 +56,7 @@ import {
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
   skillEffectResultToDraft,
+  skillEffectToCopyDraft,
   skillEffectToDraft,
   sortResultDrafts,
   isSpellShieldBlockScopeVisible,
@@ -256,6 +257,43 @@ function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
 }
 
 describe('skill effect form defaults and conversion', () => {
+  it('copies independent business data and requires a new key without inheriting edit locks', () => {
+    const source = structuredClone(EFFECT);
+    source.lifecycle = validLifecycle();
+    const draft = skillEffectToCopyDraft(source);
+    expect(draft.effectKey).toBe('');
+    expect(draft.lifecycleEnabled).toBe(true);
+    expect(isInstanceScopeLocked(draft)).toBe(false);
+    expect(draft.originalInstanceScope).toBe('');
+    expect(draft.results[0].originalResultType).toBeNull();
+    expect(draft.results[0].originalDamageTypeKey).toBeNull();
+    expect(draft.results[1].originalAffectedSkillKeys).toEqual([]);
+    expect(draft.results[1].affectedSkillScope.skillKeys).toEqual(['ezreal_q']);
+    draft.results[1].affectedSkillScope.skillKeys.push('ezreal_w');
+    const value = draft.results[0].value;
+    if (value?.kind !== 'FORMULA') throw new Error('expected formula value');
+    value.formulaKey = 'heal';
+    expect(source).toEqual({ ...EFFECT, lifecycle: validLifecycle() });
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+  });
+
+  it('validates copied references as new selections instead of retaining disabled references', () => {
+    const source = structuredClone(EFFECT);
+    source.results = [source.results[0]];
+    const detail = source.results[0].detail;
+    if (!('damageTypeKey' in detail)) throw new Error('expected damage detail');
+    detail.damageTypeKey = 'true';
+    expectValid(skillEffectToDraft(source));
+    const draft = skillEffectToCopyDraft(source);
+    draft.effectKey = 'copied_hit';
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+    draft.results[0].damageTypeKey = 'physical';
+    const request = buildCreateSkillEffectRequest(expectValid(draft));
+    expect(request.effectKey).toBe('copied_hit');
+    expect(request.results[0].valueRule).toEqual(source.results[0].valueRule);
+    expect(request.results[0].resultKey).toBe('damage');
+  });
+
   it('creates empty effect and result drafts with stable defaults', () => {
     expect(createEmptyEffectDraft()).toEqual({
       effectKey: '',
