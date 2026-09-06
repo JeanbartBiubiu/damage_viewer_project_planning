@@ -1,3 +1,4 @@
+import { formulaValue, type NumericValue } from '../../src/types/numericValue';
 /**
  * Deterministic browser acceptance for non-calculation data management pages.
  * All Backend responses are route mocks; this file does not claim live database evidence.
@@ -228,7 +229,7 @@ type SkillProcessStateOperationRow = {
   name: string;
   stateKey: string;
   operation: string;
-  valueFormulaKey: string | null;
+  value: NumericValue | null;
   optionKey: string | null;
   moment: SkillProcessMomentRow;
   sortOrder: number;
@@ -242,7 +243,7 @@ type SkillProcessRow = {
   activationType: string;
   description: string | null;
   sortOrder: number;
-  cooldown: { durationFormulaKey: string; startMoment: SkillProcessMomentRow } | null;
+  cooldown: { durationValue: NumericValue | null; startMoment: SkillProcessMomentRow } | null;
   steps: SkillProcessStepRow[];
   effectBindings: SkillProcessEffectBindingRow[];
   stateOperations: SkillProcessStateOperationRow[];
@@ -1844,7 +1845,7 @@ class MockApi {
       sortOrder: Number(body.sortOrder),
       cooldown: cooldownRaw
         ? {
-            durationFormulaKey: String(cooldownRaw.durationFormulaKey),
+            durationValue: String(cooldownRaw.durationValue),
             startMoment: this.parseProcessMoment(cooldownRaw.startMoment)
           }
         : null,
@@ -1880,7 +1881,7 @@ class MockApi {
               name: String(item.name),
               stateKey: String(item.stateKey),
               operation: String(item.operation),
-              valueFormulaKey: typeof item.valueFormulaKey === 'string' ? item.valueFormulaKey : null,
+              value: typeof item.value === 'string' ? item.value : null,
               optionKey: typeof item.optionKey === 'string' ? item.optionKey : null,
               moment: this.parseProcessMoment(item.moment),
               sortOrder: Number(item.sortOrder)
@@ -1991,11 +1992,11 @@ class MockApi {
       && item.effectKey === effectKey
       && item.lifecycle
       && typeof item.lifecycle === 'object'
-      && Boolean((item.lifecycle as { durationFormulaKey?: string | null }).durationFormulaKey)
+      && Boolean((item.lifecycle as { durationValue?: NumericValue | null }).durationValue)
     ));
     const nextDuration = nextLifecycle
       && typeof nextLifecycle === 'object'
-      ? (nextLifecycle as { durationFormulaKey?: string | null }).durationFormulaKey
+      ? (nextLifecycle as { durationValue?: NumericValue | null }).durationValue
       : null;
     if (!hadDuration || nextDuration) {
       return false;
@@ -2033,7 +2034,7 @@ class MockApi {
       await this.error(route, 409, '409.SKILL_EFFECT_LIFECYCLE_IN_USE', '仍被刷新操作引用', {
         fieldIssues: [
           {
-            field: 'lifecycle.durationFormulaKey',
+            field: 'lifecycle.durationValue',
             code: 'REFRESH_OPERATION_IN_USE',
             message: '该持续时间仍被刷新操作引用。'
           }
@@ -2059,7 +2060,7 @@ class MockApi {
       ));
       const targetDuration = target?.lifecycle
         && typeof target.lifecycle === 'object'
-        ? (target.lifecycle as { durationFormulaKey?: string | null }).durationFormulaKey
+        ? (target.lifecycle as { durationValue?: NumericValue | null }).durationValue
         : null;
       if (target && !targetDuration) {
         fieldIssues.push({
@@ -2131,9 +2132,9 @@ class MockApi {
           ? this.effectWriteFieldIssues
           : [
               {
-                field: 'lifecycle.durationFormulaKey',
+                field: 'lifecycle.durationValue',
                 code: 'FORMAT_INVALID',
-                message: '持续时间公式不合法'
+                message: '持续时间取值不合法'
               }
             ]
       });
@@ -2574,7 +2575,7 @@ async function assertNoForbiddenSkillEffectTerms(scope: Locator): Promise<void> 
   }
 }
 
-async function chooseVisibleOption(page: Page, name: string): Promise<void> {
+async function chooseVisibleOption(page: Page, name: string | RegExp): Promise<void> {
   const option = page.getByRole('option', { name, exact: true });
   await expect(option).toBeVisible();
   await option.click();
@@ -2587,8 +2588,15 @@ async function chooseSelectOption(
   label: string,
   optionName: string
 ): Promise<void> {
-  await modal.getByLabel(label, { exact: true }).click();
-  await chooseVisibleOption(page, optionName);
+  const source = modal.getByLabel(label + '取值来源', { exact: true });
+  if (await source.count()) {
+    await source.getByText('技能公式', { exact: true }).click();
+    await modal.getByLabel(label + '技能公式', { exact: true }).click();
+    await chooseVisibleOption(page, new RegExp('^' + optionName + '（'));
+  } else {
+    await modal.getByLabel(label, { exact: true }).click();
+    await chooseVisibleOption(page, optionName);
+  }
 }
 
 async function clickArcoRadioByVisibleLabel(modal: Locator, label: string): Promise<void> {
@@ -2808,7 +2816,7 @@ function valueRule(
   overrides: Partial<SkillEffectValueRuleRow> = {}
 ): SkillEffectValueRuleRow {
   return {
-    formulaKey,
+    value: formulaValue(formulaKey),
     fixedMultiplier: 1,
     fixedMinValue: null,
     fixedMaxValue: null,
@@ -2821,7 +2829,7 @@ function damageResultDetail(damageTypeKey: string): Json {
     damageTypeKey,
     deliveryKind: 'SKILL',
     originKind: 'DIRECT',
-    critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+    critical: { mode: 'DISALLOWED', multiplierValue: null },
     vampRules: []
   };
 }
@@ -3090,14 +3098,14 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
       description: null,
       sortOrder: 50,
       lifecycle: {
-        durationFormulaKey: 'poison_duration_ms',
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: formulaValue("poison_duration_ms"),
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'TARGET',
         reapplicationStackMode: 'INCREASE',
         reapplicationDurationMode: 'REFRESH_ALL',
         expiryMode: 'ALL_AT_ONCE',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       createdAt: CREATED_AT,
@@ -3131,7 +3139,7 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
     scope: 'SKILL',
     description: null,
     sortOrder: 10,
-    detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+    detail: { initialValue: formulaValue("zero"), maxValue: formulaValue("focus_max_stacks") },
     createdAt: CREATED_AT,
     updatedAt: UPDATED_AT
   }];
@@ -3212,7 +3220,7 @@ async function fillValueRule(
   page: Page,
   modal: Locator,
   formulaName: string,
-  label = '数值公式'
+  label = '数值'
 ): Promise<void> {
   await chooseSelectOption(page, modal, label, formulaName);
 }
@@ -4018,7 +4026,7 @@ test.describe('skill management without Wasm', () => {
     await statusModal.getByLabel('结果标识', { exact: true }).fill('apply_poison');
     await statusModal.getByLabel('结果名称', { exact: true }).fill('施加中毒');
     await chooseSelectOption(page, statusModal, '结果种类', '状态操作');
-    await expect(statusModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(statusModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await expect(statusModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
     await chooseSelectOption(page, statusModal, '状态', '中毒');
     await clickArcoRadioByVisibleLabel(statusModal, '施加');
@@ -4067,8 +4075,8 @@ test.describe('skill management without Wasm', () => {
     await effectModal.getByLabel('效果标识', { exact: true }).fill('damage_modifier_effect');
     await effectModal.getByLabel('效果名称', { exact: true }).fill('伤害修正效果');
     await effectModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, effectModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, effectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, effectModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, effectModal, '实例范围', '按来源与承受对象');
     await chooseSelectOption(page, effectModal, '重复层数', '保留层数');
 
@@ -4118,27 +4126,27 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
     const resultModal = visibleModal(page, '新增结果');
     await expect(resultModal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('伤害类型', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('属性', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('状态', { exact: true })).toHaveCount(0);
     await assertNoForbiddenSkillEffectTerms(resultModal);
 
     await chooseSelectOption(page, resultModal, '结果种类', '直接治疗');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
 
     await chooseSelectOption(page, resultModal, '结果种类', '普通护盾');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
 
     await chooseSelectOption(page, resultModal, '结果种类', '属性变化');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('属性', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('属性变化操作', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, resultModal, '结果种类', '资源变化');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('资源属性', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('资源变化操作', { exact: true })).toBeVisible();
 
@@ -4147,7 +4155,7 @@ test.describe('skill management without Wasm', () => {
     await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toHaveCount(0);
     await expect(resultModal.getByRole('combobox', { name: '指定技能分类', exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('冷却变化操作', { exact: true })).toBeVisible();
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByText('变化量按毫秒解释')).toBeVisible();
     await clickArcoRadioByVisibleLabel(resultModal, '指定技能');
     await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toBeVisible();
@@ -4157,16 +4165,16 @@ test.describe('skill management without Wasm', () => {
     await clickArcoRadioByVisibleLabel(resultModal, '全部技能');
     await expect(resultModal.getByRole('combobox', { name: '指定技能', exact: true })).toHaveCount(0);
     await clickArcoRadioByVisibleLabel(resultModal, '重置为可用');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
     await clickArcoRadioByVisibleLabel(resultModal, '增加');
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(resultModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(resultModal.getByText('变化量按毫秒解释')).toBeVisible();
 
     await chooseSelectOption(page, resultModal, '结果种类', '状态操作');
     await expect(resultModal.getByLabel('状态', { exact: true })).toBeVisible();
     await expect(resultModal.getByLabel('状态操作', { exact: true })).toBeVisible();
-    await expect(resultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(resultModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
     await resultModal.getByRole('button', { name: '取消', exact: true }).click();
@@ -4185,7 +4193,7 @@ test.describe('skill management without Wasm', () => {
     await expect(resetModal.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('枯萎箭袋');
     await expect(resetModal.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('其他技能');
     await clickArcoRadioByVisibleLabel(resetModal, '重置为可用');
-    await expect(resetModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(resetModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await saveOpenModal(resetModal);
 
     await createModal.getByRole('button', { name: '保存', exact: true }).click();
@@ -4241,8 +4249,8 @@ test.describe('skill management without Wasm', () => {
     await effectModal.getByLabel('效果标识', { exact: true }).fill('haste_pack');
     await effectModal.getByLabel('效果名称', { exact: true }).fill('急速效果');
     await effectModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, effectModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, effectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, effectModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, effectModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, effectModal, '实例范围', '按来源与承受对象');
     await chooseSelectOption(page, effectModal, '重复层数', '保留层数');
 
@@ -4253,7 +4261,7 @@ test.describe('skill management without Wasm', () => {
     await chooseSelectOption(page, hasteModal, '结果种类', '技能急速修正');
     await expect(hasteModal.getByLabel('技能急速操作', { exact: true })).toBeVisible();
     await expect(hasteModal.getByLabel('技能范围', { exact: true })).toBeVisible();
-    await expect(hasteModal.getByLabel('数值公式', { exact: true })).toBeVisible();
+    await expect(hasteModal.getByLabel('数值', { exact: true })).toBeVisible();
     await expect(hasteModal.getByLabel('乘区', { exact: true })).toHaveCount(0);
     await expect(hasteModal.getByLabel('法术护盾阻挡粒度', { exact: true })).toHaveCount(0);
     await fillValueRule(page, hasteModal, '技能急速180');
@@ -4277,7 +4285,7 @@ test.describe('skill management without Wasm', () => {
     expect((write?.body.results as SkillEffectResultRow[])[0]).toMatchObject({
       resultKey: 'displacement_haste',
       resultType: 'SKILL_HASTE_MODIFIER',
-      valueRule: { formulaKey: 'skill_haste_180', fixedMultiplier: 1 },
+      valueRule: { value: formulaValue("skill_haste_180"), fixedMultiplier: 1 },
       lifecycleBehavior: {
         moment: 'PERSISTENT',
         valueReadMode: 'APPLICATION_SNAPSHOT',
@@ -4320,10 +4328,10 @@ test.describe('skill management without Wasm', () => {
     await chooseSelectOption(page, executeModal, '结果种类', '斩杀');
     await expect(executeModal.getByText('目标当前生命属性小于等于阈值时形成斩杀结果；它不是额外伤害。')).toBeVisible();
     await expect(executeModal.getByLabel('生命属性', { exact: true })).toBeVisible();
-    await expect(executeModal.getByLabel('斩杀阈值公式', { exact: true })).toBeVisible();
+    await expect(executeModal.getByLabel('斩杀阈值取值', { exact: true })).toBeVisible();
     await expect(executeModal.getByLabel('延迟毫秒', { exact: true })).toHaveCount(0);
     await chooseSelectOption(page, executeModal, '生命属性', '生命值');
-    await fillValueRule(page, executeModal, '伤害公式', '斩杀阈值公式');
+    await fillValueRule(page, executeModal, '伤害公式', '斩杀阈值取值');
     await executeModal.getByLabel('法术护盾阻挡粒度', { exact: true }).click();
     await expect(page.getByRole('option', { name: '当前伤害实例', exact: true })).toHaveCount(0);
     await chooseVisibleOption(page, '当前结果');
@@ -4334,10 +4342,10 @@ test.describe('skill management without Wasm', () => {
     await hitLinkModal.getByLabel('结果标识', { exact: true }).fill('on_hit_link');
     await hitLinkModal.getByLabel('结果名称', { exact: true }).fill('命中联动');
     await chooseSelectOption(page, hitLinkModal, '结果种类', '命中联动应用');
-    await expect(hitLinkModal.getByLabel('命中联动次数公式', { exact: true })).toBeVisible();
+    await expect(hitLinkModal.getByLabel('命中联动次数取值', { exact: true })).toBeVisible();
     await expect(hitLinkModal.getByLabel('来源技能', { exact: true })).toHaveCount(0);
     await expect(hitLinkModal.getByLabel('延迟毫秒', { exact: true })).toHaveCount(0);
-    await fillValueRule(page, hitLinkModal, '一层', '命中联动次数公式');
+    await fillValueRule(page, hitLinkModal, '一层', '命中联动次数取值');
     await saveOpenModal(hitLinkModal);
 
     await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
@@ -4345,8 +4353,8 @@ test.describe('skill management without Wasm', () => {
     await attackLinkModal.getByLabel('结果标识', { exact: true }).fill('on_attack_link');
     await attackLinkModal.getByLabel('结果名称', { exact: true }).fill('攻击联动');
     await chooseSelectOption(page, attackLinkModal, '结果种类', '攻击联动应用');
-    await expect(attackLinkModal.getByLabel('攻击联动次数公式', { exact: true })).toBeVisible();
-    await fillValueRule(page, attackLinkModal, '一层', '攻击联动次数公式');
+    await expect(attackLinkModal.getByLabel('攻击联动次数取值', { exact: true })).toBeVisible();
+    await fillValueRule(page, attackLinkModal, '一层', '攻击联动次数取值');
     await saveOpenModal(attackLinkModal);
 
     await createModal.getByRole('button', { name: '保存', exact: true }).click();
@@ -4620,9 +4628,9 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByLabel('效果标识', { exact: true }).fill('toxic_trap');
     await createModal.getByLabel('效果名称', { exact: true }).fill('剧毒陷阱');
     await createModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, createModal, '持续时间公式', '持续时间');
-    await chooseSelectOption(page, createModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, createModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, createModal, '持续时间取值', '持续时间');
+    await chooseSelectOption(page, createModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, createModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, createModal, '实例范围', '按来源与承受对象');
     await chooseSelectOption(page, createModal, '重复层数', '保留层数');
     await chooseSelectOption(page, createModal, '重复持续', '刷新全部时间');
@@ -4639,7 +4647,7 @@ test.describe('skill management without Wasm', () => {
     await clickArcoRadioByVisibleLabel(resultModal, '每个生命周期实例执行一次');
     await saveOpenModal(resultModal);
 
-    await chooseSelectOption(page, createModal, '周期间隔公式', '周期间隔');
+    await chooseSelectOption(page, createModal, '周期间隔取值', '周期间隔');
     await chooseSelectOption(page, createModal, '首次周期', '等待一个间隔');
     await createModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(createModal).toBeHidden();
@@ -4647,14 +4655,14 @@ test.describe('skill management without Wasm', () => {
 
     const createWrite = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/effects'));
     expect(createWrite?.body.lifecycle).toMatchObject({
-      durationFormulaKey: 'poison_duration_ms',
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: formulaValue("poison_duration_ms"),
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'SOURCE_TARGET',
       reapplicationStackMode: 'KEEP',
       reapplicationDurationMode: 'REFRESH_ALL',
       expiryMode: 'ALL_AT_ONCE',
-      periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+      periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
       firstPeriodicExecution: 'AFTER_INTERVAL'
     });
     expect(createWrite?.body.results[0]).toMatchObject({
@@ -4694,9 +4702,9 @@ test.describe('skill management without Wasm', () => {
     await targetModal.getByLabel('效果标识', { exact: true }).fill('focus_mark');
     await targetModal.getByLabel('效果名称', { exact: true }).fill('专注印记');
     await targetModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, targetModal, '持续时间公式', '持续时间');
-    await chooseSelectOption(page, targetModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, targetModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, targetModal, '持续时间取值', '持续时间');
+    await chooseSelectOption(page, targetModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, targetModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, targetModal, '实例范围', '按承受对象');
     await chooseSelectOption(page, targetModal, '重复层数', '增加层数');
     await chooseSelectOption(page, targetModal, '重复持续', '刷新全部时间');
@@ -4722,9 +4730,9 @@ test.describe('skill management without Wasm', () => {
     await shieldModal.getByLabel('效果标识', { exact: true }).fill('barrier');
     await shieldModal.getByLabel('效果名称', { exact: true }).fill('护盾');
     await shieldModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, shieldModal, '持续时间公式', '持续时间');
-    await chooseSelectOption(page, shieldModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, shieldModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, shieldModal, '持续时间取值', '持续时间');
+    await chooseSelectOption(page, shieldModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, shieldModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, shieldModal, '实例范围', '当前技能');
     await chooseSelectOption(page, shieldModal, '重复层数', '覆盖层数');
     await chooseSelectOption(page, shieldModal, '重复持续', '保留剩余时间');
@@ -4811,14 +4819,14 @@ test.describe('skill management without Wasm', () => {
     await chooseVisibleOption(page, '施加时');
     await saveOpenModal(editResult);
 
-    await chooseSelectOption(page, createModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, createModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, createModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, createModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, createModal, '实例范围', '当前技能');
     await chooseSelectOption(page, createModal, '重复层数', '保留层数');
     mock.effectWriteFailure = 'lifecycle-field';
     mock.effectWriteFieldIssues = [
       {
-        field: 'lifecycle.durationFormulaKey',
+        field: 'lifecycle.durationValue',
         code: 'REFRESH_OPERATION_IN_USE',
         message: '该持续时间仍被刷新操作引用。'
       }
@@ -4867,8 +4875,8 @@ test.describe('skill management without Wasm', () => {
     await counterModal.getByLabel('内部状态名称', { exact: true }).fill('专注层数');
     await expect(counterModal.getByLabel('状态种类', { exact: true })).toContainText('计数');
     await clickArcoRadioByVisibleLabel(counterModal, '按当前目标分别保存');
-    await chooseSelectOption(page, counterModal, '初始值公式', '零');
-    await chooseSelectOption(page, counterModal, '上限公式', '专注上限');
+    await chooseSelectOption(page, counterModal, '初始值取值', '零');
+    await chooseSelectOption(page, counterModal, '上限取值', '专注上限');
     await saveOpenModal(counterModal);
     await expect(shell.getByText('内部状态「专注层数」已保存。', { exact: true })).toBeVisible();
 
@@ -4878,9 +4886,9 @@ test.describe('skill management without Wasm', () => {
     await ammoModal.getByLabel('内部状态名称', { exact: true }).fill('弹药');
     await chooseSelectOption(page, ammoModal, '状态种类', '弹药');
     await expect(ammoModal.getByLabel('保存范围', { exact: true }).getByText('按当前目标分别保存')).toHaveCount(0);
-    await chooseSelectOption(page, ammoModal, '初始值公式', '最大弹药');
-    await chooseSelectOption(page, ammoModal, '上限公式', '最大弹药');
-    await chooseSelectOption(page, ammoModal, '恢复间隔公式', '弹药恢复');
+    await chooseSelectOption(page, ammoModal, '初始值取值', '最大弹药');
+    await chooseSelectOption(page, ammoModal, '上限取值', '最大弹药');
+    await chooseSelectOption(page, ammoModal, '恢复间隔取值', '弹药恢复');
     await clickArcoRadioByVisibleLabel(ammoModal, '一次全部恢复');
     await expect(ammoModal.getByText('结果按毫秒解释')).toBeVisible();
     await saveOpenModal(ammoModal);
@@ -4890,7 +4898,7 @@ test.describe('skill management without Wasm', () => {
     await modeModal.getByLabel('内部状态标识', { exact: true }).fill('weapon_mode');
     await modeModal.getByLabel('内部状态名称', { exact: true }).fill('武器模式');
     await chooseSelectOption(page, modeModal, '状态种类', '模式');
-    await expect(modeModal.getByLabel('初始值公式', { exact: true })).toHaveCount(0);
+    await expect(modeModal.getByLabel('初始值取值', { exact: true })).toHaveCount(0);
     await modeModal.getByLabel('选项标识 1', { exact: true }).fill('minigun');
     await modeModal.getByLabel('选项名称 1', { exact: true }).fill('机枪');
     await modeModal.getByLabel('选项标识 2', { exact: true }).fill('rocket');
@@ -4903,7 +4911,7 @@ test.describe('skill management without Wasm', () => {
     await flagModal.getByLabel('内部状态标识', { exact: true }).fill('ready');
     await flagModal.getByLabel('内部状态名称', { exact: true }).fill('已准备');
     await chooseSelectOption(page, flagModal, '状态种类', '准备标记');
-    await expect(flagModal.getByLabel('时长公式', { exact: true })).toHaveCount(0);
+    await expect(flagModal.getByLabel('时长取值', { exact: true })).toHaveCount(0);
     await flagModal.getByLabel('初始是否启用', { exact: true }).click();
     await saveOpenModal(flagModal);
 
@@ -4912,7 +4920,7 @@ test.describe('skill management without Wasm', () => {
     await cooldownModal.getByLabel('内部状态标识', { exact: true }).fill('internal_cd');
     await cooldownModal.getByLabel('内部状态名称', { exact: true }).fill('内部冷却');
     await chooseSelectOption(page, cooldownModal, '状态种类', '内部冷却');
-    await chooseSelectOption(page, cooldownModal, '时长公式', '内部冷却时长');
+    await chooseSelectOption(page, cooldownModal, '时长取值', '内部冷却时长');
     await expect(cooldownModal.getByText('结果按毫秒解释')).toBeVisible();
     await saveOpenModal(cooldownModal);
 
@@ -4940,8 +4948,8 @@ test.describe('skill management without Wasm', () => {
       stateType: 'COUNTER',
       scope: 'TARGET',
       detail: {
-        initialValueFormulaKey: 'zero',
-        maxValueFormulaKey: 'focus_max_stacks'
+        initialValue: formulaValue("zero"),
+        maxValue: formulaValue("focus_max_stacks")
       }
     });
     const modeWrite = mock.writes.find((item) => item.method === 'POST' && item.body.stateKey === 'weapon_mode');
@@ -4976,43 +4984,43 @@ test.describe('skill management without Wasm', () => {
     const createModal = visibleModal(page, '新增过程');
     await createModal.getByRole('button', { name: '新增步骤', exact: true }).click();
     const stepModal = visibleModal(page, '新增步骤');
-    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toHaveCount(0);
+    await expect(stepModal.getByLabel('延迟取值', { exact: true })).toHaveCount(0);
 
     await chooseSelectOption(page, stepModal, '步骤种类', '延迟');
-    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('延迟取值', { exact: true })).toBeVisible();
     await expect(stepModal.getByText('时长按毫秒解释')).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '多段');
-    await expect(stepModal.getByLabel('延迟公式', { exact: true })).toHaveCount(0);
-    await expect(stepModal.getByLabel('执行次数公式', { exact: true })).toBeVisible();
-    await expect(stepModal.getByLabel('间隔公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('延迟取值', { exact: true })).toHaveCount(0);
+    await expect(stepModal.getByLabel('执行次数取值', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('间隔取值', { exact: true })).toBeVisible();
     await expect(stepModal.getByText('未来按正整数解释')).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '周期');
     await expect(stepModal.getByLabel('首次执行时机', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '引导');
-    await expect(stepModal.getByLabel('持续时间公式', { exact: true })).toBeVisible();
-    await expect(stepModal.getByLabel('执行次数公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('持续时间取值', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('执行次数取值', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '蓄力');
-    await expect(stepModal.getByLabel('最短蓄力公式', { exact: true })).toBeVisible();
-    await expect(stepModal.getByLabel('最长蓄力公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最短蓄力取值', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最长蓄力取值', { exact: true })).toBeVisible();
     await expect(stepModal.getByLabel('到达最长时间是否自动释放', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '重施');
-    await expect(stepModal.getByLabel('重施窗口公式', { exact: true })).toBeVisible();
-    await expect(stepModal.getByLabel('最大重施次数公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('重施窗口取值', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('最大重施次数取值', { exact: true })).toBeVisible();
 
     await chooseSelectOption(page, stepModal, '步骤种类', '强化下一次普通攻击');
-    await expect(stepModal.getByLabel('有效窗口公式', { exact: true })).toBeVisible();
+    await expect(stepModal.getByLabel('有效窗口取值', { exact: true })).toBeVisible();
     await expect(stepModal.getByLabel('消耗时点', { exact: true })).toBeVisible();
-    await expect(stepModal.getByLabel('最短蓄力公式', { exact: true })).toHaveCount(0);
+    await expect(stepModal.getByLabel('最短蓄力取值', { exact: true })).toHaveCount(0);
     await assertNoForbiddenSkillProcessTerms(stepModal);
 
     await stepModal.getByLabel('步骤标识', { exact: true }).fill('empowered');
     await stepModal.getByLabel('步骤名称', { exact: true }).fill('强化普攻');
-    await chooseSelectOption(page, stepModal, '有效窗口公式', '强化窗口');
+    await chooseSelectOption(page, stepModal, '有效窗口取值', '强化窗口');
     await clickArcoRadioByVisibleLabel(stepModal, '攻击发起');
     await saveOpenModal(stepModal);
     await expect(createModal.locator('tr', { hasText: 'empowered' })).toContainText('强化下一次普通攻击');
@@ -5034,7 +5042,7 @@ test.describe('skill management without Wasm', () => {
         scope: 'SKILL',
         description: null,
         sortOrder: 10,
-        detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+        detail: { initialValue: formulaValue("zero"), maxValue: formulaValue("focus_max_stacks") },
         createdAt: CREATED_AT,
         updatedAt: UPDATED_AT
       },
@@ -5067,7 +5075,7 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByLabel('过程名称', { exact: true }).fill('主要施放过程');
     await createModal.getByLabel('排序', { exact: true }).fill('10');
     await clickArcoRadioByVisibleLabel(createModal, '配置普通冷却');
-    await chooseSelectOption(page, createModal, '冷却时长公式', '冷却时长');
+    await chooseSelectOption(page, createModal, '冷却时长取值', '冷却时长');
     await expect(createModal.getByText('时长按毫秒解释')).toBeVisible();
 
     await createModal.locator('tr', { hasText: '暂无步骤' }).waitFor({ state: 'hidden' }).catch(() => undefined);
@@ -5082,7 +5090,7 @@ test.describe('skill management without Wasm', () => {
     await delayStep.getByLabel('步骤标识', { exact: true }).fill('delay');
     await delayStep.getByLabel('步骤名称', { exact: true }).fill('延迟');
     await chooseSelectOption(page, delayStep, '步骤种类', '延迟');
-    await chooseSelectOption(page, delayStep, '延迟公式', '延迟');
+    await chooseSelectOption(page, delayStep, '延迟取值', '延迟');
     await saveOpenModal(delayStep);
 
     await createModal.getByRole('button', { name: '新增效果挂接', exact: true }).click();
@@ -5107,7 +5115,7 @@ test.describe('skill management without Wasm', () => {
     await consumeOp.getByLabel('操作名称', { exact: true }).fill('消耗专注层数');
     await chooseSelectOption(page, consumeOp, '内部状态', '专注层数（计数）');
     await chooseSelectOption(page, consumeOp, '操作', '消耗');
-    await chooseSelectOption(page, consumeOp, '数值公式', '专注消耗');
+    await chooseSelectOption(page, consumeOp, '数值', '专注消耗');
     await chooseSelectOption(page, consumeOp, '过程时点', '过程开始');
     await saveOpenModal(consumeOp);
 
@@ -5116,7 +5124,7 @@ test.describe('skill management without Wasm', () => {
     await selectOp.getByLabel('操作标识', { exact: true }).fill('select_rocket');
     await selectOp.getByLabel('操作名称', { exact: true }).fill('选择火箭');
     await chooseSelectOption(page, selectOp, '内部状态', '武器模式（模式）');
-    await expect(selectOp.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(selectOp.getByLabel('数值', { exact: true })).toHaveCount(0);
     await chooseSelectOption(page, selectOp, '模式选项', '火箭');
     await chooseSelectOption(page, selectOp, '过程时点', '过程完成');
     await saveOpenModal(selectOp);
@@ -5129,13 +5137,13 @@ test.describe('skill management without Wasm', () => {
       processKey: 'primary_cast',
       activationType: 'ACTIVE',
       cooldown: {
-        durationFormulaKey: 'cooldown_ms',
+        durationValue: formulaValue("cooldown_ms"),
         startMoment: { momentType: 'PROCESS_START', stepKey: null }
       }
     });
     expect(createWrite?.body.steps).toEqual(expect.arrayContaining([
       expect.objectContaining({ stepKey: 'hit', stepType: 'IMMEDIATE', detail: {} }),
-      expect.objectContaining({ stepKey: 'delay', stepType: 'DELAY', detail: { delayFormulaKey: 'impact_delay_ms' } })
+      expect.objectContaining({ stepKey: 'delay', stepType: 'DELAY', detail: { delayValue: formulaValue("impact_delay_ms") } })
     ]));
     expect(createWrite?.body.effectBindings).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -5148,13 +5156,13 @@ test.describe('skill management without Wasm', () => {
       expect.objectContaining({
         operationKey: 'consume_focus',
         operation: 'CONSUME',
-        valueFormulaKey: 'focus_cost',
+        value: formulaValue("focus_cost"),
         optionKey: null
       }),
       expect.objectContaining({
         operationKey: 'select_rocket',
         operation: 'SELECT',
-        valueFormulaKey: null,
+        value: null,
         optionKey: 'rocket'
       })
     ]));
@@ -5250,7 +5258,7 @@ test.describe('skill management without Wasm', () => {
     await expect(blockedCounter.getByText('503.SKILL_FORMULA_LIST_UNAVAILABLE: 技能公式读取失败', { exact: true }).or(blockedCounter.getByText(/公式读取失败/))).toBeVisible();
     await blockedCounter.getByRole('button', { name: '保存', exact: true }).click();
     await expect(blockedCounter).toBeVisible();
-    await expect(blockedCounter.getByText('请选择初始值公式。', { exact: true }).or(blockedCounter.getByText('目录不完整，无法保存未知引用。'))).toBeVisible();
+    await expect(blockedCounter.getByText('请选择初始值取值。', { exact: true }).or(blockedCounter.getByText('目录不完整，无法保存未知引用。'))).toBeVisible();
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('referenced step block, retained draft and catalog isolation');
   });
@@ -5300,8 +5308,8 @@ test.describe('skill management without Wasm', () => {
     await expect(createModal.getByLabel('过程名称', { exact: true })).toHaveValue('草稿过程');
     await expect(stepModal.getByLabel('步骤标识', { exact: true })).toHaveValue('delay_step');
     await expect(stepModal.getByLabel('步骤名称', { exact: true })).toHaveValue('延迟步骤');
-    await expect(stepModal.getByLabel('延迟公式', { exact: true })).not.toContainText('嵌套目录公式');
-    await chooseSelectOption(page, stepModal, '延迟公式', '嵌套目录公式');
+    await expect(stepModal.getByLabel('延迟取值', { exact: true })).not.toContainText('嵌套目录公式');
+    await chooseSelectOption(page, stepModal, '延迟取值', '嵌套目录公式');
     diagnostics.assertClean('nested parameter-formula catalog refresh keeps drafts');
   });
 
@@ -5363,7 +5371,7 @@ test.describe('skill management without Wasm', () => {
       scope: 'SKILL',
       description: null,
       sortOrder: 10,
-      detail: { initialValueFormulaKey: 'zero', maxValueFormulaKey: 'focus_max_stacks' },
+      detail: { initialValue: formulaValue("zero"), maxValue: formulaValue("focus_max_stacks") },
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     }];
@@ -5533,8 +5541,8 @@ test.describe('skill management without Wasm', () => {
     await shieldEffectModal.getByLabel('效果标识', { exact: true }).fill('spell_shield_effect');
     await shieldEffectModal.getByLabel('效果名称', { exact: true }).fill('法术护盾效果');
     await shieldEffectModal.getByLabel('生命周期', { exact: true }).click();
-    await chooseSelectOption(page, shieldEffectModal, '最大层数公式', '一层');
-    await chooseSelectOption(page, shieldEffectModal, '每次施加层数公式', '一层');
+    await chooseSelectOption(page, shieldEffectModal, '最大层数取值', '一层');
+    await chooseSelectOption(page, shieldEffectModal, '每次施加层数取值', '一层');
     await chooseSelectOption(page, shieldEffectModal, '实例范围', '当前技能');
     await chooseSelectOption(page, shieldEffectModal, '重复层数', '保留层数');
     await shieldEffectModal.getByRole('button', { name: '新增结果', exact: true }).click();
@@ -5542,7 +5550,7 @@ test.describe('skill management without Wasm', () => {
     await shieldResultModal.getByLabel('结果标识', { exact: true }).fill('spell_shield');
     await shieldResultModal.getByLabel('结果名称', { exact: true }).fill('法术护盾');
     await chooseSelectOption(page, shieldResultModal, '结果种类', '法术护盾');
-    await expect(shieldResultModal.getByLabel('数值公式', { exact: true })).toHaveCount(0);
+    await expect(shieldResultModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await expect(shieldResultModal.getByLabel('法术护盾阻挡粒度', { exact: true })).toHaveCount(0);
     await expect(shieldResultModal.getByLabel('生命周期时点', { exact: true })).toContainText('持续生效');
     await saveOpenModal(shieldResultModal);
@@ -5627,10 +5635,10 @@ test.describe('skill management without Wasm', () => {
     await chooseTriggerEventType(page, createModal, '指定对象生命属性越过阈值');
     await chooseSelectOption(page, createModal, '生命阈值对象', '来源对象');
     await chooseSelectOption(page, createModal, '生命阈值属性', '生命值');
-    await chooseSelectOption(page, createModal, '阈值公式', '低生命阈值');
+    await chooseSelectOption(page, createModal, '阈值取值', '低生命阈值');
     await chooseSelectOption(page, createModal, '生命阈值方向', '向下');
     await createModal.getByRole('switch', { name: '每目标冷却', exact: true }).click();
-    await chooseSelectOption(page, createModal, '每目标冷却公式', '冷却时长');
+    await chooseSelectOption(page, createModal, '每目标冷却取值', '冷却时长');
 
     await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
     await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
@@ -5659,12 +5667,12 @@ test.describe('skill management without Wasm', () => {
       detail: {
         subject: 'SOURCE',
         attributeKey: 'hp',
-        thresholdFormulaKey: 'hp_threshold',
+        thresholdValue: formulaValue("hp_threshold"),
         direction: 'DOWNWARD'
       }
     });
     expect(created?.perTargetCooldown).toMatchObject({
-      durationFormulaKey: 'cooldown_ms',
+      durationValue: formulaValue("cooldown_ms"),
       targetContext: 'CURRENT_TARGET'
     });
     expect(created?.actions[0]).toMatchObject({
@@ -5681,7 +5689,7 @@ test.describe('skill management without Wasm', () => {
     await expect(editModal.getByLabel('事件类型', { exact: true })).toContainText('指定对象生命属性越过阈值');
     await expect(editModal.getByLabel('生命阈值对象', { exact: true })).toContainText('来源对象');
     await expect(editModal.getByLabel('生命阈值属性', { exact: true })).toContainText('生命值');
-    await expect(editModal.getByLabel('阈值公式', { exact: true })).toContainText('低生命阈值');
+    await expect(editModal.getByLabel('阈值取值', { exact: true })).toContainText('低生命阈值');
     await expect(editModal.getByLabel('生命阈值方向', { exact: true })).toContainText('向下');
     await expect(editModal.getByRole('switch', { name: '每目标冷却', exact: true })).toBeChecked();
     await expect(editModal.getByText('1. 施加护盾')).toBeVisible();
@@ -5700,10 +5708,14 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('condition and trigger low-health round-trip');
   });
 
-  test('binds a later condition and trigger execute-effect action to the earlier configured-value result', async ({ page }) => {
+  for (const sourceKind of ['FORMULA', 'PARAMETER'] as const) test('binds a later condition and trigger execute-effect action to the earlier configured-value result (' + sourceKind + ')', async ({ page }) => {
     test.setTimeout(90_000);
     const mock = new MockApi();
     seedSkillTriggerCatalog(mock);
+    if (sourceKind === 'PARAMETER') {
+      const result = mock.skillEffects.find((item) => item.effectKey === 'follow_up_hit')!.results[0];
+      result.valueRule!.value = { kind: 'PARAMETER', parameterKey: 'prior_hit_value' };
+    }
     const diagnostics = await prepare(page, mock);
 
     await openSkills(page);
@@ -5811,7 +5823,7 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByLabel('规则名称', { exact: true }).fill('低生命护盾');
     await chooseTriggerEventType(page, createModal, '指定对象生命属性越过阈值');
     await chooseSelectOption(page, createModal, '生命阈值属性', '生命值');
-    await chooseSelectOption(page, createModal, '阈值公式', '低生命阈值');
+    await chooseSelectOption(page, createModal, '阈值取值', '低生命阈值');
     await createModal.getByRole('button', { name: '编辑', exact: true }).first().click();
     await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), {
       name: '施加护盾',
@@ -6537,4 +6549,44 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/images"]').count()).toBe(1);
     diagnostics.assertClean('current pages and unknown hash fallback');
   });
+});
+
+test('numeric values keep fixed zero through catalog failure and preserve parameter drafts after rejected save', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillProcessCatalog(mock);
+  mock.skillFormulaListFailure = true;
+  mock.skillParameters = [{ gameId: GAME_ID, skillKey: 'varus_w', parameterKey: 'capacity', name: '容量', valueType: 'INTEGER', valueMode: 'FIXED', fixedValue: 3, levelValues: null, description: null, sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+  await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('tab', { name: '内部状态' }).click();
+  await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+  const create = visibleModal(page, '新增内部状态');
+  await create.getByLabel('内部状态标识', { exact: true }).fill('numeric_counter');
+  await create.getByLabel('内部状态名称', { exact: true }).fill('三选计数');
+  await create.getByLabel('初始值取值固定数值', { exact: true }).fill('0');
+  await create.getByLabel('上限取值固定数值', { exact: true }).fill('0');
+  await saveOpenModal(create);
+  expect(mock.skillInternalStates[0].detail).toEqual({ initialValue: { kind: 'FIXED', value: 0 }, maxValue: { kind: 'FIXED', value: 0 } });
+  mock.skillFormulaListFailure = false;
+  await shell.locator('tr', { hasText: 'numeric_counter' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑内部状态');
+  await expect(edit.getByLabel('上限取值固定数值', { exact: true })).toHaveValue('0');
+  await edit.getByLabel('上限取值取值来源', { exact: true }).getByText('技能参数', { exact: true }).click();
+  await edit.getByLabel('上限取值技能参数', { exact: true }).click();
+  await chooseVisibleOption(page, '容量（capacity）');
+  mock.internalStateWriteFailure = 'validation';
+  await edit.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(edit.getByLabel('上限取值技能参数', { exact: true })).toContainText('容量');
+  await expect(edit.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+  await expect(edit.getByText('服务端内部状态名称校验失败', { exact: true })).toBeVisible();
+  mock.internalStateWriteFailure = null;
+  await saveOpenModal(edit);
+  expect(mock.skillInternalStates[0].detail).toEqual({ initialValue: { kind: 'FIXED', value: 0 }, maxValue: { kind: 'PARAMETER', parameterKey: 'capacity' } });
+  await shell.locator('tr', { hasText: 'numeric_counter' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑内部状态');
+  await expect(reopened.getByLabel('上限取值技能参数', { exact: true })).toContainText('容量');
+  await chooseSelectOption(page, reopened, '上限取值', '专注上限');
+  await saveOpenModal(reopened);
+  expect(mock.skillInternalStates[0].detail.maxValue).toEqual({ kind: 'FORMULA', formulaKey: 'focus_max_stacks' });
 });

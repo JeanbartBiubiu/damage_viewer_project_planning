@@ -1,3 +1,5 @@
+import { type NumericValue, numericFormulaKey } from '../../../../types/numericValue';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -97,8 +99,8 @@ import {
   canOverwriteMissingRecord,
   changeKindsForInternalState,
   collectDirectFormulaKeys,
-  collectExecuteEffectFormulaKeys,
-  collectStartProcessFormulaKeys,
+  collectExecuteEffectValues,
+  collectStartProcessValues,
   conditionSummary,
   createEmptyActionDraft,
   createEmptyConditionDraft,
@@ -206,7 +208,7 @@ function disabledName(name: string, key: string, disabled: boolean): string {
 function matchesEventTypeSearch(inputValue: string, option: ReactElement): boolean {
   const query = inputValue.trim().toLowerCase();
   if (!query) return true;
-  const value = String(option.props.value ?? '').toLowerCase();
+  const value = String(option.props.value ?? null).toLowerCase();
   const children = option.props.children;
   const label = String(
     typeof children === 'string' || typeof children === 'number' ? children : ''
@@ -285,7 +287,7 @@ export function SkillTriggerRuleEditorModal({
   const currentStepType = eventStepType(draft.eventSource, selectedProcess);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
   const targetOptions = targetContextOptionsForEvent(draft.eventSource.eventType);
-  const requiredCatalogs = requiredCatalogsForDraft(draft);
+  const requiredCatalogs = requiredCatalogsForDraft(draft, { effectsByKey: effectByKey, processesByKey: processByKey, statesByKey: stateByKey });
   const blockingCatalogs = catalogsBlockingSave(requiredCatalogs, catalogStates);
   const spellShieldCatalogBlocked = draft.eventSource.eventType === 'SPELL_SHIELD_BLOCKED'
     && spellShieldCatalogState !== 'ready';
@@ -870,38 +872,44 @@ export function SkillTriggerRuleEditorModal({
     actuallyClose();
   };
 
-  const collectActionFormulaKeys = async (action: SkillTriggerActionDraft): Promise<string[]> => {
+  const collectActionNumericValues = async (action: SkillTriggerActionDraft): Promise<NumericValue[] | null> => {
     if (action.actionType === 'EXECUTE_EFFECT') {
       const effect = await ensureEffect(action.detail.effectKey);
-      return effect ? collectExecuteEffectFormulaKeys(effect) : [];
+      return effect ? collectExecuteEffectValues(effect) : null;
     }
     if (action.actionType === 'START_PROCESS') {
       const process = await ensureProcess(action.detail.processKey);
-      if (!process) return [];
+      if (!process) return null;
       const effectsMap = new Map(effectByKeyRef.current);
       const statesMap = new Map(stateByKeyRef.current);
       for (const binding of process.effectBindings) {
         const effect = await ensureEffect(binding.effectKey);
-        if (effect) effectsMap.set(effect.effectKey, effect);
+        if (!effect) return null;
+        effectsMap.set(effect.effectKey, effect);
       }
       for (const operation of process.stateOperations) {
         const state = await ensureInternalState(operation.stateKey);
-        if (state) statesMap.set(state.stateKey, state);
+        if (!state) return null;
+        statesMap.set(state.stateKey, state);
       }
-      return collectStartProcessFormulaKeys(process, effectsMap, statesMap);
+      return collectStartProcessValues(process, effectsMap, statesMap);
     }
     return [];
   };
 
   const refreshActionReferences = async (actionDraft: SkillTriggerActionDraft) => {
     setReferenceError(null);
-    const formulaKeys = await collectActionFormulaKeys(actionDraft);
+    const serial = detailSerial.current;
+    const values = await collectActionNumericValues(actionDraft);
+    if (serial !== detailSerial.current || values === null) return;
+    const formulaKeys = values.map(numericFormulaKey).filter(Boolean);
     const formulasMap = new Map(formulaByKeyRef.current);
     for (const key of formulaKeys) {
       const formula = await ensureFormula(key);
       if (formula) formulasMap.set(key, formula);
     }
-    setReachableParameters(reachableRuntimeInputParameters(formulaKeys, formulasMap, parameters));
+    if (serial !== detailSerial.current) return;
+    setReachableParameters(reachableRuntimeInputParameters(values, formulasMap, parameters));
   };
 
   const openActionEditor = async (
@@ -938,8 +946,9 @@ export function SkillTriggerRuleEditorModal({
     setReferenceError(null);
     const formulaKeys = new Set(collectDirectFormulaKeys(draft));
     for (const action of draft.actions) {
-      const keys = await collectActionFormulaKeys(action);
-      for (const key of keys) formulaKeys.add(key);
+      const keys = await collectActionNumericValues(action);
+      if (keys === null) return false;
+      for (const key of keys.map(numericFormulaKey).filter(Boolean)) formulaKeys.add(key);
     }
     const loaded = await Promise.all([...formulaKeys].map((key) => ensureFormula(key)));
     const priorEffects = draft.actions.flatMap((action) => {
@@ -1261,6 +1270,8 @@ export function SkillTriggerRuleEditorModal({
               damageTypes: damageTypeOptions,
               statuses: statusOptions,
               formulas: formulaOptions,
+              numericFormulas: formulas,
+              parameters,
               effects,
               effectDetails: effectByKey,
               spellShieldCatalogState,
@@ -1477,17 +1488,16 @@ export function SkillTriggerRuleEditorModal({
             </Form.Item>
             {draft.perTargetCooldownEnabled ? (
               <>
-                <Form.Item label="时长公式" required>
-                  <Select
-                    aria-label="每目标冷却公式"
-                    value={draft.perTargetCooldownDurationFormulaKey || undefined}
-                    disabled={saving}
-                    options={formulaOptions}
-                    onChange={(value) => patchDraft({
+                <Form.Item label="时长取值" required extra="结果按毫秒解释，必须大于 0；允许小数。">
+                  <NumericValueField aria-label="每目标冷却取值"
+                  value={draft.perTargetCooldownDurationValue}
+                  onChange={(value) => patchDraft({
                       ...draft,
-                      perTargetCooldownDurationFormulaKey: String(value ?? '')
+                      perTargetCooldownDurationValue: value!
                     })}
-                  />
+                  parameters={parameters}
+        formulas={formulas}
+                  disabled={saving} />
                 </Form.Item>
                 <Form.Item label="目标对象" required>
                   <Select
@@ -1533,17 +1543,16 @@ export function SkillTriggerRuleEditorModal({
                         disabled
                       />
                     </Form.Item>
-                    <Form.Item label="次数公式" required>
-                      <Select
-                        aria-label="次数公式"
-                        value={draft.maxTriggersLimitFormulaKey || undefined}
-                        disabled={saving}
-                        options={formulaOptions}
-                        onChange={(value) => patchDraft({
+                    <Form.Item label="次数取值" required>
+                      <NumericValueField aria-label="次数取值"
+                  value={draft.maxTriggersLimitValue}
+                  onChange={(value) => patchDraft({
                           ...draft,
-                          maxTriggersLimitFormulaKey: String(value ?? '')
+                          maxTriggersLimitValue: value!
                         })}
-                      />
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={saving} />
                     </Form.Item>
                   </>
                 ) : null}
@@ -1554,6 +1563,8 @@ export function SkillTriggerRuleEditorModal({
       </Modal>
 
       <SkillTriggerConditionEditorModal
+        parameters={parameters}
+        parametersLoadState={catalogStates.parameters === 'error' ? 'failed' : catalogStates.parameters === 'ready' ? 'ready' : undefined}
         visible={conditionEditor !== null}
         mode={conditionEditor?.mode ?? 'create'}
         draft={conditionEditor?.draft ?? null}
@@ -1644,6 +1655,8 @@ type EventSourceFieldProps = {
   damageTypes: (currentKey: string | null) => CatalogOption[];
   statuses: (currentKey: string) => CatalogOption[];
   formulas: CatalogOption[];
+  numericFormulas: readonly SkillFormulaSummary[];
+  parameters: readonly SkillParameter[];
   effects: readonly SkillEffectSummary[];
   effectDetails: ReadonlyMap<string, SkillEffect>;
   spellShieldCatalogState: CatalogLoadState;
@@ -2048,17 +2061,16 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               })}
             />
           </Form.Item>
-          <Form.Item label="阈值公式" required>
-            <Select
-              aria-label="阈值公式"
-              value={eventSource.detail.thresholdFormulaKey || undefined}
-              disabled={disabled}
-              options={props.formulas}
-              onChange={(value) => onChange({
+          <Form.Item label="阈值取值" required>
+            <NumericValueField aria-label="阈值取值"
+                  value={eventSource.detail.thresholdValue}
+                  onChange={(value) => onChange({
                 eventType: 'HEALTH_THRESHOLD_CROSSED',
-                detail: { ...eventSource.detail, thresholdFormulaKey: String(value ?? '') }
+                detail: { ...eventSource.detail, thresholdValue: value! }
               })}
-            />
+                  parameters={props.parameters}
+                  formulas={props.numericFormulas}
+                  disabled={disabled} />
           </Form.Item>
           <Form.Item label="方向" required>
             <Select

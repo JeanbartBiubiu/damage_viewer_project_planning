@@ -1,3 +1,5 @@
+import { assertNumericUses } from './numericValue';
+import { isNumericValue } from '../types/numericValue';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -218,7 +220,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
       if (
         typeof detail.subject !== 'string'
         || typeof detail.attributeKey !== 'string'
-        || typeof detail.thresholdFormulaKey !== 'string'
+        || !isNumericValue(detail.thresholdValue)
         || typeof detail.direction !== 'string'
       ) {
         protocolError(`${path}.detail`);
@@ -262,7 +264,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
         || typeof detail.attributeKey !== 'string'
         || typeof detail.attributeValueKind !== 'string'
         || typeof detail.comparator !== 'string'
-        || typeof detail.comparisonFormulaKey !== 'string'
+        || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
       }
@@ -282,7 +284,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
         typeof detail.eventValueKey !== 'string'
         || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
-        || typeof detail.comparisonFormulaKey !== 'string'
+        || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
       }
@@ -386,6 +388,7 @@ export function parseSkillTriggerRuleSummary(value: unknown): SkillTriggerRuleSu
 }
 
 export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDetail {
+  assertNumericUses(value, 'trigger', protocolError);
   if (!isRecord(value)) protocolError('detail');
   if (!Array.isArray(value.conditionGroups) || !Array.isArray(value.actions)) {
     protocolError('detail');
@@ -413,9 +416,6 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
 }
 
 function maybeParseDetail(data: unknown): SkillTriggerRuleDetail {
-  if (!shouldValidateShape()) {
-    return data as SkillTriggerRuleDetail;
-  }
   return parseSkillTriggerRuleDetail(data);
 }
 

@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type {
@@ -166,7 +167,7 @@ const EVENT_CAPABILITY_ROWS = [
     currentTargetBinding: 'subject 指定的生命属性变化对象。',
     hasEventSource: false,
     requiredCatalogs: ['attributes', 'formulas'],
-    detailFields: ['subject', 'attributeKey', 'thresholdFormulaKey', 'direction']
+    detailFields: ['subject', 'attributeKey', 'thresholdValue', 'direction']
   },
   {
     eventType: 'INTERNAL_STATE_CHANGED',
@@ -301,7 +302,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             attributeKey: 'hp',
             attributeValueKind: 'CURRENT_RATIO',
             comparator: 'LTE',
-            comparisonFormulaKey: 'low_health_ratio'
+            comparisonValue: formulaValue("low_health_ratio")
           }
         },
         {
@@ -315,7 +316,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             sourceEffectKey: null,
             sourceResultKey: null,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }
       ]
@@ -335,7 +336,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             optionKey: null,
             expectedBoolean: true,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         },
         {
@@ -345,7 +346,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
           detail: {
             eventValueKey: 'HIT_INDEX',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }
       ]
@@ -400,7 +401,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
     }
   ],
   perTargetCooldown: {
-    durationFormulaKey: 'per_target_cooldown_ms',
+    durationValue: formulaValue("per_target_cooldown_ms"),
     targetContext: 'CURRENT_TARGET'
   },
   maxTriggersPerProcess: null
@@ -640,14 +641,14 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
       effectKey: 'focus_mark',
       name: '专注标记',
       lifecycle: {
-        durationFormulaKey: 'mark_duration_ms',
-        maxStacksFormulaKey: 'five',
-        applicationStacksFormulaKey: 'one',
+        durationValue: formulaValue("mark_duration_ms"),
+        maxStacksValue: formulaValue("five"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'INCREASE',
         reapplicationDurationMode: 'REFRESH_ALL',
         expiryMode: 'ALL_AT_ONCE',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       }
     };
@@ -657,14 +658,14 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 
   it('selects spell-shield events from complete eligible effect details only', () => {
     const lifecycle = {
-      durationFormulaKey: null,
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: null,
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'SOURCE_TARGET' as const,
       reapplicationStackMode: 'KEEP' as const,
       reapplicationDurationMode: null,
       expiryMode: 'EXPLICIT_ONLY' as const,
-      periodicIntervalFormulaKey: null,
+      periodicIntervalValue: null,
       firstPeriodicExecution: null
     };
     const eligible: SkillEffect = {
@@ -738,7 +739,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       attributeKey: '',
       attributeValueKind: 'CURRENT',
       comparator: 'LTE',
-      comparisonFormulaKey: ''
+      comparisonValue: { kind: 'FIXED', value: Number.NaN }
     });
     const status = switchConditionType(attribute, 'STATUS_CHECK');
     expect(status.conditionKey).toBe(attribute.conditionKey);
@@ -755,7 +756,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       sourceEffectKey: '',
       sourceResultKey: '',
       comparator: 'GTE',
-      comparisonFormulaKey: ''
+      comparisonValue: { kind: 'FIXED', value: Number.NaN }
     });
     expect(rebuildStatusCheckDetail(stacks, 'PRESENT')).toEqual({
       subject: 'CURRENT_TARGET',
@@ -764,7 +765,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
 
     const valueCheck = createEmptyConditionDraft([], 'INTERNAL_STATE_CHECK');
@@ -775,7 +776,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       optionKey: '',
       expectedBoolean: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
     const enabledCheck = rebuildInternalStateCheckDetail(optionCheck, 'ENABLED');
     expect(enabledCheck).toEqual({
@@ -784,7 +785,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       optionKey: null,
       expectedBoolean: true,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
   });
 
@@ -879,7 +880,7 @@ describe('detail to draft create/update round-trip', () => {
     expect(draft.sortOrder).toBe('20');
     expect(draft.eventSource).toEqual(RICH_DETAIL.eventSource);
     expect(draft.perTargetCooldownEnabled).toBe(true);
-    expect(draft.perTargetCooldownDurationFormulaKey).toBe('per_target_cooldown_ms');
+    expect(draft.perTargetCooldownDurationValue).toEqual(formulaValue('per_target_cooldown_ms'));
     expect(draft.maxTriggersPerProcessEnabled).toBe(false);
 
     const created = toCreateRequest(draft);
@@ -943,14 +944,14 @@ describe('detail to draft create/update round-trip', () => {
       perTargetCooldown: null,
       maxTriggersPerProcess: {
         processKey: 'charge_cast',
-        limitFormulaKey: 'max_triggers'
+        limitValue: formulaValue("max_triggers")
       }
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.ruleKey).toBe('charge_cap');
     expect(created.maxTriggersPerProcess).toEqual({
       processKey: 'charge_cast',
-      limitFormulaKey: 'max_triggers'
+      limitValue: formulaValue("max_triggers")
     });
     expect(toUpdateRequest(fromDetail(detail))).not.toHaveProperty('ruleKey');
   });
@@ -985,7 +986,7 @@ describe('condition group ordering and OR/AND summaries', () => {
           attributeKey: 'hp',
           attributeValueKind: 'CURRENT',
           comparator: 'LTE',
-          comparisonFormulaKey: 'threshold'
+          comparisonValue: formulaValue("threshold")
         }
       },
       {
@@ -999,7 +1000,7 @@ describe('condition group ordering and OR/AND summaries', () => {
           sourceEffectKey: null,
           sourceResultKey: null,
           comparator: null,
-          comparisonFormulaKey: null
+          comparisonValue: null
         }
       }
     ];
@@ -1188,8 +1189,8 @@ describe('process moment step lookup', () => {
           sortOrder: 10,
           stepType: 'CHARGE',
           detail: {
-            minimumChargeFormulaKey: 'min_charge_ms',
-            maximumChargeFormulaKey: 'max_charge_ms',
+            minimumChargeValue: formulaValue("min_charge_ms"),
+            maximumChargeValue: formulaValue("max_charge_ms"),
             releaseAtMaximum: true
           }
         }
@@ -1247,7 +1248,7 @@ describe('hit-link and attack-link events', () => {
         detail: {
           eventValueKey: 'HIT_INDEX',
           comparator: 'EQ',
-          comparisonFormulaKey: 'one'
+          comparisonValue: formulaValue("one")
         }
       }]
     }];

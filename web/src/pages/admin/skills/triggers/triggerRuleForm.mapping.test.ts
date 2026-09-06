@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
@@ -73,12 +74,12 @@ function damageResult(resultKey: string, formulaKey: string): SkillEffectResult 
     description: null,
     sortOrder: 10,
     lifecycleBehavior: null,
-    valueRule: { formulaKey, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+    valueRule: { value: formulaValue(formulaKey), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
     detail: {
       damageTypeKey: 'physical',
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
-      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      critical: { mode: 'DISALLOWED', multiplierValue: null },
       vampRules: []
     }
   };
@@ -147,7 +148,7 @@ const SHIELD_EFFECT = effect('emergency_shield', [
     description: null,
     sortOrder: 10,
     lifecycleBehavior: null,
-    valueRule: { formulaKey: 'shield_value', fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+    valueRule: { value: formulaValue("shield_value"), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
     detail: {}
   }
 ]);
@@ -180,7 +181,7 @@ const CONSUME_PROCESS: SkillProcess = {
       description: null,
       sortOrder: 10,
       stepType: 'EMPOWERED_BASIC_ATTACK',
-      detail: { windowFormulaKey: 'empower_window_ms', consumeMoment: 'ATTACK_HIT' }
+      detail: { windowValue: formulaValue("empower_window_ms"), consumeMoment: 'ATTACK_HIT' }
     }
   ],
   effectBindings: [],
@@ -190,7 +191,7 @@ const CONSUME_PROCESS: SkillProcess = {
       name: '关闭准备',
       stateKey: 'focus_ready',
       operation: 'DISABLE',
-      valueFormulaKey: null,
+      value: null,
       optionKey: null,
       moment: { momentType: 'PROCESS_START', stepKey: null },
       sortOrder: 10
@@ -215,7 +216,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: {
         eventValueKey: 'HIT_INDEX' as const,
         comparator: 'EQ' as const,
-        comparisonFormulaKey: 'one'
+        comparisonValue: formulaValue("one")
       }
     };
     const periodCondition = {
@@ -224,7 +225,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: {
         eventValueKey: 'PERIOD_INDEX' as const,
         comparator: 'GTE' as const,
-        comparisonFormulaKey: 'one'
+        comparisonValue: formulaValue("one")
       }
     };
     const eventSourceCondition = {
@@ -235,7 +236,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
         attributeKey: 'hp',
         attributeValueKind: 'CURRENT' as const,
         comparator: 'LTE' as const,
-        comparisonFormulaKey: 'threshold'
+        comparisonValue: formulaValue("threshold")
       }
     };
     const group = {
@@ -248,7 +249,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       eventSource: createEmptyEventSource('SKILL_HIT'),
       conditionGroups: [group],
       maxTriggersPerProcessEnabled: true,
-      maxTriggersLimitFormulaKey: 'max_triggers',
+      maxTriggersLimitValue: formulaValue("max_triggers"),
       perTargetCooldownEnabled: true,
       perTargetCooldownTargetContext: 'EVENT_SOURCE',
       actions: [
@@ -303,7 +304,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     ]);
     expect(cleaned.perTargetCooldownTargetContext).toBe('CURRENT_TARGET');
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
-    expect(cleaned.maxTriggersLimitFormulaKey).toBe('');
+    expect(cleaned.maxTriggersLimitValue).toEqual(null);
   });
 
   it('drops stale event-value conditions and bindings instead of remapping them', () => {
@@ -322,7 +323,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
           detail: {
             eventValueKey: 'PERIOD_INDEX',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }],
@@ -352,7 +353,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
         detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_START', stepKey: null } }
       },
       maxTriggersPerProcessEnabled: true,
-      maxTriggersLimitFormulaKey: 'max_triggers',
+      maxTriggersLimitValue: formulaValue("max_triggers"),
       actions: [executeAction('proc', 'on_hit_damage', '10')]
     });
     const next = {
@@ -364,7 +365,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     };
     const cleaned = applyEventSwitchCleanup(draft, next, 'CHARGE');
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(true);
-    expect(cleaned.maxTriggersLimitFormulaKey).toBe('max_triggers');
+    expect(cleaned.maxTriggersLimitValue).toEqual(formulaValue('max_triggers'));
     expect(analyzeEventSwitchImpact(draft, next, 'CHARGE').clearsProcessLimit).toBe(false);
   });
 });
@@ -379,8 +380,8 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
         { field: 'actions[0].detail.effectKey', message: '效果不能为空。' },
         { field: 'actions[0].runtimeInputBindings[1].parameterKey', message: '参数不能为空。' },
         { field: 'actions[0].resultModifiers[0].fixedMultiplier', message: '倍率不能为负。' },
-        { field: 'perTargetCooldown.durationFormulaKey', message: '冷却公式不能为空。' },
-        { field: 'maxTriggersPerProcess.limitFormulaKey', message: '次数公式不能为空。' },
+        { field: 'perTargetCooldown.durationValue', message: '冷却公式不能为空。' },
+        { field: 'maxTriggersPerProcess.limitValue', message: '次数取值不能为空。' },
         { field: 'unknownZone.foo', message: '无法识别的新字段。' },
         { field: '', message: '缺少字段名。' }
       ],
@@ -395,7 +396,7 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
     expect(mapped.fieldErrors.name).toBe('规则名称不能为空。');
     expect(mapped.fieldErrors.eventSource).toBe('效果不能为空。');
     expect(mapped.fieldErrors.perTargetCooldown).toBe('冷却公式不能为空。');
-    expect(mapped.fieldErrors.maxTriggersPerProcess).toBe('次数公式不能为空。');
+    expect(mapped.fieldErrors.maxTriggersPerProcess).toBe('次数取值不能为空。');
     expect(mapped.nestedErrors).toEqual([
       { path: 'conditionGroups[0].conditions[1].detail.comparator', message: '比较符不合法。' },
       { path: 'actions[0].detail.effectKey', message: '效果不能为空。' },
@@ -586,7 +587,7 @@ describe('representative draft transformations', () => {
         detail: {
           subject: 'SOURCE',
           attributeKey: 'hp',
-          thresholdFormulaKey: 'hp_threshold',
+          thresholdValue: formulaValue("hp_threshold"),
           direction: 'DOWNWARD'
         }
       },
@@ -603,7 +604,7 @@ describe('representative draft transformations', () => {
             attributeKey: 'hp',
             attributeValueKind: 'CURRENT_RATIO',
             comparator: 'LTE',
-            comparisonFormulaKey: 'low_health_ratio'
+            comparisonValue: formulaValue("low_health_ratio")
           }
         }]
       }],
@@ -618,7 +619,7 @@ describe('representative draft transformations', () => {
         resultModifiers: []
       }],
       perTargetCooldown: {
-        durationFormulaKey: 'shield_cooldown_ms',
+        durationValue: formulaValue("shield_cooldown_ms"),
         targetContext: 'CURRENT_TARGET'
       },
       maxTriggersPerProcess: null
@@ -657,7 +658,7 @@ describe('representative draft transformations', () => {
             sourceEffectKey: null,
             sourceResultKey: null,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }]
       }],
@@ -799,7 +800,7 @@ describe('representative draft transformations', () => {
             optionKey: null,
             expectedBoolean: true,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }]
       }],
