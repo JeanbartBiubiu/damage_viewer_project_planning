@@ -1,5 +1,9 @@
 package xyz.game.datamanage.model.skilleffect;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import jakarta.validation.Valid;
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 /**
  * 暂存的技能侧吸血结构。
  * 后续应由来源对象的吸血属性和游戏级结算规则提供默认行为，技能侧只表达必要例外；
@@ -8,9 +12,11 @@ package xyz.game.datamanage.model.skilleffect;
 public record SkillEffectVampRule(
     SkillEffectVampType vampType,
     SkillEffectVampBasisOutputKind basisOutputKind,
-    String efficiencyFormulaKey
+    @Valid
+    SkillNumericValue efficiencyValue
 ) {
-    public SkillEffectVampRule {
-        efficiencyFormulaKey = efficiencyFormulaKey == null ? null : efficiencyFormulaKey.trim();
+    @JsonAnySetter
+    public void rejectUnknownField(String fieldName, Object ignored) {
+        throw new IllegalArgumentException("未知字段：" + fieldName);
     }
 }

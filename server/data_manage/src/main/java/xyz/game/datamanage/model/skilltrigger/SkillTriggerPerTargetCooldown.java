@@ -1,17 +1,19 @@
 package xyz.game.datamanage.model.skilltrigger;
 
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerPerTargetCooldown(
-    @NotBlank(message = "每目标冷却公式不能为空")
-    @Pattern(regexp = "^[a-z][a-z0-9_]{0,63}$", message = "每目标冷却公式标识格式不合法")
-    String durationFormulaKey,
+    @NotNull(message = "每目标冷却时长不能为空")
+    @Valid
+    SkillNumericValue durationValue,
     @NotNull(message = "每目标冷却目标对象不能为空")
     SkillTriggerTargetContext targetContext
 ) {
-    public SkillTriggerPerTargetCooldown {
-        durationFormulaKey = durationFormulaKey == null ? null : durationFormulaKey.trim();
+    @JsonAnySetter
+    public void rejectUnknownField(String fieldName, Object ignored) {
+        throw new IllegalArgumentException("未知字段：" + fieldName);
     }
 }

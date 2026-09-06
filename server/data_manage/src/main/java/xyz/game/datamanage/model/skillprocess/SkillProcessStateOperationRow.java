@@ -1,5 +1,7 @@
 package xyz.game.datamanage.model.skillprocess;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 public record SkillProcessStateOperationRow(
     String gameId,
     String skillKey,
@@ -8,7 +10,7 @@ public record SkillProcessStateOperationRow(
     String name,
     String stateKey,
     SkillProcessStateOperationKind operation,
-    String valueFormulaKey,
+    SkillNumericValue value,
     String optionKey,
     SkillProcessMomentType momentType,
     String stepKey,

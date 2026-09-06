@@ -58,6 +58,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 final class SkillTriggerRuleTestSupport {
@@ -240,7 +241,7 @@ final class SkillTriggerRuleTestSupport {
         return new SkillTriggerEventSource(
             SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
             new SkillTriggerHealthThresholdEventDetail(
-                SkillTriggerSubject.SOURCE, ATTRIBUTE_KEY, FORMULA_KEY, SkillTriggerHealthDirection.DOWNWARD
+                SkillTriggerSubject.SOURCE, ATTRIBUTE_KEY, SkillNumericValue.formula(FORMULA_KEY), SkillTriggerHealthDirection.DOWNWARD
             )
         );
     }
@@ -273,7 +274,7 @@ final class SkillTriggerRuleTestSupport {
     static SkillTriggerEffectShapeRow damageShape(String effectKey, String resultKey, String formulaKey) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET,
-            true, formulaKey, null, null, null, null, null, null, null,
+            true, formulaKey == null ? null : SkillNumericValue.formula(formulaKey), null, null, null, null, null, null, null,
             false, null, null, null, null, null
         );
     }
@@ -281,7 +282,7 @@ final class SkillTriggerRuleTestSupport {
     static SkillTriggerEffectShapeRow shieldShape(String effectKey, String resultKey) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.NORMAL_SHIELD, SkillEffectTarget.TARGET,
-            true, "shield_f", null, null, null, null, null, null, null,
+            true, SkillNumericValue.formula("shield_f"), null, null, null, null, null, null, null,
             false, null, null, null, null, null
         );
     }
@@ -289,7 +290,7 @@ final class SkillTriggerRuleTestSupport {
     static SkillTriggerEffectShapeRow healShape(String effectKey, String resultKey) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.DIRECT_HEAL, SkillEffectTarget.TARGET,
-            true, "heal_f", null, null, null, null, null, null, null,
+            true, SkillNumericValue.formula("heal_f"), null, null, null, null, null, null, null,
             false, null, null, null, null, null
         );
     }
@@ -297,14 +298,14 @@ final class SkillTriggerRuleTestSupport {
     static SkillTriggerEffectShapeRow lifecycleShape(
         String effectKey,
         String resultKey,
-        String durationFormulaKey,
-        String periodicFormulaKey,
+        String durationValue,
+        String periodicValue,
         SkillEffectLifecycleExpiryMode expiryMode
     ) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET,
-            true, "base_damage", null, null, null, null, null, null, null,
-            true, durationFormulaKey, "max_stacks_f", "app_stacks_f", periodicFormulaKey, expiryMode
+            true, SkillNumericValue.formula("base_damage"), null, null, null, null, null, null, null,
+            true, durationValue == null ? null : SkillNumericValue.formula(durationValue), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"), periodicValue == null ? null : SkillNumericValue.formula(periodicValue), expiryMode
         );
     }
 

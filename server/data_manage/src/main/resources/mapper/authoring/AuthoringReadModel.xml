@@ -80,14 +80,14 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.effect_key AS effect_key,
-               r.lifecycle->>'durationFormulaKey' AS duration_formula_key,
-               r.lifecycle->>'maxStacksFormulaKey' AS max_stacks_formula_key,
-               r.lifecycle->>'applicationStacksFormulaKey' AS application_stacks_formula_key,
+               r.lifecycle->>'durationValue' AS duration_value,
+               r.lifecycle->>'maxStacksValue' AS max_stacks_value,
+               r.lifecycle->>'applicationStacksValue' AS application_stacks_value,
                r.lifecycle->>'instanceScope' AS instance_scope,
                r.lifecycle->>'reapplicationStackMode' AS reapplication_stack_mode,
                r.lifecycle->>'reapplicationDurationMode' AS reapplication_duration_mode,
                r.lifecycle->>'expiryMode' AS expiry_mode,
-               r.lifecycle->>'periodicIntervalFormulaKey' AS periodic_interval_formula_key,
+               r.lifecycle->>'periodicIntervalValue' AS periodic_interval_value,
                r.lifecycle->>'firstPeriodicExecution' AS first_periodic_execution
         FROM public.skill_effects r
         WHERE r.lifecycle IS NOT NULL AND r.lifecycle &lt;> 'null'::jsonb
@@ -99,7 +99,7 @@
                r.effect_key AS effect_key,
                j->>'resultKey' AS result_key,
                j->'detail'->'critical'->>'mode' AS critical_mode,
-               j->'detail'->'critical'->>'multiplierFormulaKey' AS multiplier_formula_key
+               j->'detail'->'critical'->>'multiplierValue' AS multiplier_value
         FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
         WHERE j->>'resultType' = 'DAMAGE'
     </sql>
@@ -133,7 +133,7 @@
                r.skill_key AS skill_key,
                r.effect_key AS effect_key,
                j->>'resultKey' AS result_key,
-               j->'valueRule'->>'formulaKey' AS formula_key,
+               j->'valueRule'->>'value' AS value,
                (j->'valueRule'->>'fixedMultiplier')::numeric AS fixed_multiplier,
                (j->'valueRule'->>'fixedMinValue')::numeric AS fixed_min_value,
                (j->'valueRule'->>'fixedMaxValue')::numeric AS fixed_max_value
@@ -148,7 +148,7 @@
                j->>'resultKey' AS result_key,
                v->>'vampType' AS vamp_type,
                v->>'basisOutputKind' AS basis_output_kind,
-               v->>'efficiencyFormulaKey' AS efficiency_formula_key
+               v->>'efficiencyValue' AS efficiency_value
         FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j CROSS JOIN LATERAL jsonb_array_elements(COALESCE(NULLIF(j->'detail'->'vampRules','null'::jsonb),'[]'::jsonb)) v
         WHERE j->>'resultType' = 'DAMAGE'
     </sql>
@@ -193,9 +193,9 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.state_key AS state_key,
-               r.detail->>'initialValueFormulaKey' AS initial_value_formula_key,
-               r.detail->>'maxValueFormulaKey' AS max_value_formula_key,
-               r.detail->>'recoveryIntervalFormulaKey' AS recovery_interval_formula_key,
+               r.detail->>'initialValue' AS initial_value,
+               r.detail->>'maxValue' AS max_value,
+               r.detail->>'recoveryIntervalValue' AS recovery_interval_value,
                r.detail->>'recoveryMode' AS recovery_mode
         FROM public.skill_internal_states r
         WHERE r.state_type = 'AMMO'
@@ -205,7 +205,7 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.state_key AS state_key,
-               r.detail->>'durationFormulaKey' AS duration_formula_key
+               r.detail->>'durationValue' AS duration_value
         FROM public.skill_internal_states r
         WHERE r.state_type = 'INTERNAL_COOLDOWN'
     </sql>
@@ -214,8 +214,8 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.state_key AS state_key,
-               r.detail->>'initialValueFormulaKey' AS initial_value_formula_key,
-               r.detail->>'maxValueFormulaKey' AS max_value_formula_key
+               r.detail->>'initialValue' AS initial_value,
+               r.detail->>'maxValue' AS max_value
         FROM public.skill_internal_states r
         WHERE r.state_type = 'COUNTER'
     </sql>
@@ -237,8 +237,8 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'durationFormulaKey' AS duration_formula_key,
-               j->'detail'->>'executionCountFormulaKey' AS execution_count_formula_key,
+               j->'detail'->>'durationValue' AS duration_value,
+               j->'detail'->>'executionCountValue' AS execution_count_value,
                j->'detail'->>'firstExecution' AS first_execution
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'CHANNEL'
@@ -249,8 +249,8 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'minimumChargeFormulaKey' AS minimum_charge_formula_key,
-               j->'detail'->>'maximumChargeFormulaKey' AS maximum_charge_formula_key,
+               j->'detail'->>'minimumChargeValue' AS minimum_charge_value,
+               j->'detail'->>'maximumChargeValue' AS maximum_charge_value,
                (j->'detail'->>'releaseAtMaximum')::boolean AS release_at_maximum
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'CHARGE'
@@ -260,7 +260,7 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.process_key AS process_key,
-               r.cooldown->>'durationFormulaKey' AS duration_formula_key,
+               r.cooldown->>'durationValue' AS duration_value,
                r.cooldown->'startMoment'->>'momentType' AS moment_type,
                r.cooldown->'startMoment'->>'stepKey' AS step_key
         FROM public.skill_processes r
@@ -272,7 +272,7 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'delayFormulaKey' AS delay_formula_key
+               j->'detail'->>'delayValue' AS delay_value
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'DELAY'
     </sql>
@@ -294,7 +294,7 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'windowFormulaKey' AS window_formula_key,
+               j->'detail'->>'windowValue' AS window_value,
                j->'detail'->>'consumeMoment' AS consume_moment
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'EMPOWERED_BASIC_ATTACK'
@@ -305,8 +305,8 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'repeatCountFormulaKey' AS repeat_count_formula_key,
-               j->'detail'->>'intervalFormulaKey' AS interval_formula_key
+               j->'detail'->>'repeatCountValue' AS repeat_count_value,
+               j->'detail'->>'intervalValue' AS interval_value
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'MULTI_HIT'
     </sql>
@@ -316,8 +316,8 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'repeatCountFormulaKey' AS repeat_count_formula_key,
-               j->'detail'->>'intervalFormulaKey' AS interval_formula_key,
+               j->'detail'->>'repeatCountValue' AS repeat_count_value,
+               j->'detail'->>'intervalValue' AS interval_value,
                j->'detail'->>'firstExecution' AS first_execution
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'PERIODIC'
@@ -328,8 +328,8 @@
                r.skill_key AS skill_key,
                r.process_key AS process_key,
                j->>'stepKey' AS step_key,
-               j->'detail'->>'windowFormulaKey' AS window_formula_key,
-               j->'detail'->>'maximumRecastCountFormulaKey' AS maximum_recast_count_formula_key
+               j->'detail'->>'windowValue' AS window_value,
+               j->'detail'->>'maximumRecastCountValue' AS maximum_recast_count_value
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.steps) j
         WHERE j->>'stepType' = 'RECAST'
     </sql>
@@ -342,7 +342,7 @@
                j->>'name' AS name,
                j->>'stateKey' AS state_key,
                j->>'operation' AS operation,
-               j->>'valueFormulaKey' AS value_formula_key,
+               j->>'value' AS value,
                j->>'optionKey' AS option_key,
                j->'moment'->>'momentType' AS moment_type,
                j->'moment'->>'stepKey' AS step_key,
@@ -384,7 +384,7 @@
                c->'detail'->>'attributeKey' AS attribute_key,
                c->'detail'->>'attributeValueKind' AS attribute_value_kind,
                c->'detail'->>'comparator' AS comparator,
-               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+               c->'detail'->>'comparisonValue' AS comparison_value
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
         WHERE c->>'conditionType'='ATTRIBUTE_COMPARE'
     </sql>
@@ -443,7 +443,7 @@
                c->>'conditionKey' AS condition_key,
                c->'detail'->>'eventValueKey' AS event_value_key,
                c->'detail'->>'comparator' AS comparator,
-               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+               c->'detail'->>'comparisonValue' AS comparison_value
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
         WHERE c->>'conditionType'='EVENT_VALUE_COMPARE'
     </sql>
@@ -454,7 +454,7 @@
                r.rule_key AS rule_key,
                r.event_source->'detail'->>'subject' AS subject,
                r.event_source->'detail'->>'attributeKey' AS attribute_key,
-               r.event_source->'detail'->>'thresholdFormulaKey' AS threshold_formula_key,
+               r.event_source->'detail'->>'thresholdValue' AS threshold_value,
                r.event_source->'detail'->>'direction' AS direction
         FROM public.skill_trigger_rules r
         WHERE r.event_type IN ('HEALTH_THRESHOLD_CROSSED')
@@ -484,7 +484,7 @@
                c->'detail'->>'optionKey' AS option_key,
                (c->'detail'->>'expectedBoolean')::boolean AS expected_boolean,
                c->'detail'->>'comparator' AS comparator,
-               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+               c->'detail'->>'comparisonValue' AS comparison_value
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
         WHERE c->>'conditionType'='INTERNAL_STATE_CHECK'
     </sql>
@@ -522,7 +522,7 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.rule_key AS rule_key,
-               r.limits->'perTargetCooldown'->>'durationFormulaKey' AS duration_formula_key,
+               r.limits->'perTargetCooldown'->>'durationValue' AS duration_value,
                r.limits->'perTargetCooldown'->>'targetContext' AS target_context
         FROM public.skill_trigger_rules r
         WHERE r.limits->'perTargetCooldown' IS NOT NULL AND r.limits->'perTargetCooldown' &lt;> 'null'::jsonb
@@ -569,7 +569,7 @@
                r.skill_key AS skill_key,
                r.rule_key AS rule_key,
                r.limits->'maxTriggersPerProcess'->>'processKey' AS process_key,
-               r.limits->'maxTriggersPerProcess'->>'limitFormulaKey' AS limit_formula_key
+               r.limits->'maxTriggersPerProcess'->>'limitValue' AS limit_value
         FROM public.skill_trigger_rules r
         WHERE r.limits->'maxTriggersPerProcess' IS NOT NULL AND r.limits->'maxTriggersPerProcess' &lt;> 'null'::jsonb
     </sql>
@@ -639,7 +639,7 @@
                c->'detail'->>'sourceEffectKey' AS source_effect_key,
                c->'detail'->>'sourceResultKey' AS source_result_key,
                c->'detail'->>'comparator' AS comparator,
-               c->'detail'->>'comparisonFormulaKey' AS comparison_formula_key
+               c->'detail'->>'comparisonValue' AS comparison_value
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g CROSS JOIN LATERAL jsonb_array_elements(g->'conditions') c
         WHERE c->>'conditionType'='STATUS_CHECK'
     </sql>

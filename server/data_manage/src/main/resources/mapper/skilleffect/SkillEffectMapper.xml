@@ -47,14 +47,14 @@
             <arg column="game_id" javaType="java.lang.String"/>
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="duration_formula_key" javaType="java.lang.String"/>
-            <arg column="max_stacks_formula_key" javaType="java.lang.String"/>
-            <arg column="application_stacks_formula_key" javaType="java.lang.String"/>
+            <arg column="duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="max_stacks_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="application_stacks_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="instance_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope"/>
             <arg column="reapplication_stack_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode"/>
             <arg column="reapplication_duration_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationDurationMode"/>
             <arg column="expiry_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode"/>
-            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="periodic_interval_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="first_periodic_execution" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution"/>
         </constructor>
     </resultMap>
@@ -271,14 +271,14 @@
 
     <select id="lockLifecycles" resultMap="lifecycleRow">
         SELECT game_id, skill_key, effect_key,
-               lifecycle ->> 'durationFormulaKey' AS duration_formula_key,
-               lifecycle ->> 'maxStacksFormulaKey' AS max_stacks_formula_key,
-               lifecycle ->> 'applicationStacksFormulaKey' AS application_stacks_formula_key,
+               lifecycle ->> 'durationValue' AS duration_value,
+               lifecycle ->> 'maxStacksValue' AS max_stacks_value,
+               lifecycle ->> 'applicationStacksValue' AS application_stacks_value,
                lifecycle ->> 'instanceScope' AS instance_scope,
                lifecycle ->> 'reapplicationStackMode' AS reapplication_stack_mode,
                lifecycle ->> 'reapplicationDurationMode' AS reapplication_duration_mode,
                lifecycle ->> 'expiryMode' AS expiry_mode,
-               lifecycle ->> 'periodicIntervalFormulaKey' AS periodic_interval_formula_key,
+               lifecycle ->> 'periodicIntervalValue' AS periodic_interval_value,
                lifecycle ->> 'firstPeriodicExecution' AS first_periodic_execution
         FROM public.skill_effects
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND lifecycle IS NOT NULL AND effect_key IN

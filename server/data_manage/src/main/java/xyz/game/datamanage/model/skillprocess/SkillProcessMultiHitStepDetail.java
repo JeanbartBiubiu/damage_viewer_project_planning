@@ -5,58 +5,58 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillProcessMultiHitStepDetail(
-    String repeatCountFormulaKey,
-    String intervalFormulaKey,
+    @Valid
+    SkillNumericValue repeatCountValue,
+    @Valid
+    SkillNumericValue intervalValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillProcessStepDetail {
 
     public SkillProcessMultiHitStepDetail {
-        repeatCountFormulaKey = repeatCountFormulaKey == null ? null : repeatCountFormulaKey.trim();
-        intervalFormulaKey = intervalFormulaKey == null || intervalFormulaKey.isBlank()
-            ? null
-            : intervalFormulaKey.trim();
         foreignFields = SkillProcessDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillProcessDetailFieldCapture.normalize(unknownFields);
     }
 
-    public SkillProcessMultiHitStepDetail(String repeatCountFormulaKey, String intervalFormulaKey) {
-        this(repeatCountFormulaKey, intervalFormulaKey, Set.of(), Set.of());
+    public SkillProcessMultiHitStepDetail(SkillNumericValue repeatCountValue, SkillNumericValue intervalValue) {
+        this(repeatCountValue, intervalValue, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillProcessMultiHitStepDetail fromJson(
-        @JsonProperty("repeatCountFormulaKey") String repeatCountFormulaKey,
-        @JsonProperty("intervalFormulaKey") String intervalFormulaKey,
-        @JsonProperty("delayFormulaKey") JsonNode delayFormulaKey,
+        @JsonProperty("repeatCountValue") SkillNumericValue repeatCountValue,
+        @JsonProperty("intervalValue") SkillNumericValue intervalValue,
+        @JsonProperty("delayValue") JsonNode delayValue,
         @JsonProperty("firstExecution") JsonNode firstExecution,
-        @JsonProperty("durationFormulaKey") JsonNode durationFormulaKey,
-        @JsonProperty("executionCountFormulaKey") JsonNode executionCountFormulaKey,
-        @JsonProperty("minimumChargeFormulaKey") JsonNode minimumChargeFormulaKey,
-        @JsonProperty("maximumChargeFormulaKey") JsonNode maximumChargeFormulaKey,
+        @JsonProperty("durationValue") JsonNode durationValue,
+        @JsonProperty("executionCountValue") JsonNode executionCountValue,
+        @JsonProperty("minimumChargeValue") JsonNode minimumChargeValue,
+        @JsonProperty("maximumChargeValue") JsonNode maximumChargeValue,
         @JsonProperty("releaseAtMaximum") JsonNode releaseAtMaximum,
-        @JsonProperty("windowFormulaKey") JsonNode windowFormulaKey,
-        @JsonProperty("maximumRecastCountFormulaKey") JsonNode maximumRecastCountFormulaKey,
+        @JsonProperty("windowValue") JsonNode windowValue,
+        @JsonProperty("maximumRecastCountValue") JsonNode maximumRecastCountValue,
         @JsonProperty("consumeMoment") JsonNode consumeMoment,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillProcessMultiHitStepDetail(
-            repeatCountFormulaKey,
-            intervalFormulaKey,
+            repeatCountValue,
+            intervalValue,
             SkillProcessDetailFieldCapture.captureForeign(
-                "delayFormulaKey", delayFormulaKey,
+                "delayValue", delayValue,
                 "firstExecution", firstExecution,
-                "durationFormulaKey", durationFormulaKey,
-                "executionCountFormulaKey", executionCountFormulaKey,
-                "minimumChargeFormulaKey", minimumChargeFormulaKey,
-                "maximumChargeFormulaKey", maximumChargeFormulaKey,
+                "durationValue", durationValue,
+                "executionCountValue", executionCountValue,
+                "minimumChargeValue", minimumChargeValue,
+                "maximumChargeValue", maximumChargeValue,
                 "releaseAtMaximum", releaseAtMaximum,
-                "windowFormulaKey", windowFormulaKey,
-                "maximumRecastCountFormulaKey", maximumRecastCountFormulaKey,
+                "windowValue", windowValue,
+                "maximumRecastCountValue", maximumRecastCountValue,
                 "consumeMoment", consumeMoment
             ),
             SkillProcessDetailFieldCapture.captureUnknown(unknown)

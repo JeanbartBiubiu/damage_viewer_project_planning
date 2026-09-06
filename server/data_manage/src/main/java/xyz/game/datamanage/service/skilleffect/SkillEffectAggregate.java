@@ -1,5 +1,7 @@
 package xyz.game.datamanage.service.skilleffect;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import java.util.Comparator;
 import java.util.List;
 import xyz.game.datamanage.model.skilleffect.*;
@@ -34,7 +36,7 @@ final class SkillEffectAggregate {
         }
         return new SkillEffectResultResponse(
             result.resultKey(), result.name(), result.resultType(), result.target(), result.description(), result.sortOrder(),
-            value == null ? null : new SkillEffectValueRuleResponse(value.formulaKey(), value.fixedMultiplier(),
+            value == null ? null : new SkillEffectValueRuleResponse(value.value(), value.fixedMultiplier(),
                 value.fixedMinValue(), value.fixedMaxValue()), detail,
             behavior == null ? null : new SkillEffectResultLifecycleBehaviorResponse(behavior.moment(),
                 behavior.valueReadMode(), behavior.stackValueMode(), behavior.reapplicationValueMode(), behavior.periodicExecutionMode()),
@@ -43,18 +45,18 @@ final class SkillEffectAggregate {
     }
 
     static SkillEffectLifecycleResponse lifecycleResponse(SkillEffectLifecycleRequest lifecycle) {
-        return lifecycle == null ? null : new SkillEffectLifecycleResponse(lifecycle.durationFormulaKey(),
-            lifecycle.maxStacksFormulaKey(), lifecycle.applicationStacksFormulaKey(), lifecycle.instanceScope(),
+        return lifecycle == null ? null : new SkillEffectLifecycleResponse(lifecycle.durationValue(),
+            lifecycle.maxStacksValue(), lifecycle.applicationStacksValue(), lifecycle.instanceScope(),
             lifecycle.reapplicationStackMode(), lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(),
-            lifecycle.periodicIntervalFormulaKey(), lifecycle.firstPeriodicExecution());
+            lifecycle.periodicIntervalValue(), lifecycle.firstPeriodicExecution());
     }
 
     static SkillEffectLifecycleRow lifecycleRow(SkillEffectRow effect) {
         if (effect.lifecycle() == null) return null;
         SkillEffectLifecycleRequest lifecycle = AggregateJson.read(effect.lifecycle(), SkillEffectLifecycleRequest.class);
-        return new SkillEffectLifecycleRow(effect.gameId(), effect.skillKey(), effect.effectKey(), lifecycle.durationFormulaKey(),
-            lifecycle.maxStacksFormulaKey(), lifecycle.applicationStacksFormulaKey(), lifecycle.instanceScope(),
+        return new SkillEffectLifecycleRow(effect.gameId(), effect.skillKey(), effect.effectKey(), lifecycle.durationValue(),
+            lifecycle.maxStacksValue(), lifecycle.applicationStacksValue(), lifecycle.instanceScope(),
             lifecycle.reapplicationStackMode(), lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(),
-            lifecycle.periodicIntervalFormulaKey(), lifecycle.firstPeriodicExecution());
+            lifecycle.periodicIntervalValue(), lifecycle.firstPeriodicExecution());
     }
 }

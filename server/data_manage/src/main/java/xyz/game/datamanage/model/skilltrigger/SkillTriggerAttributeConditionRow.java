@@ -1,6 +1,7 @@
 package xyz.game.datamanage.model.skilltrigger;
 
 import xyz.game.datamanage.model.skillformula.AttributeValueKind;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerAttributeConditionRow(
     String gameId,
@@ -12,6 +13,6 @@ public record SkillTriggerAttributeConditionRow(
     String attributeKey,
     AttributeValueKind attributeValueKind,
     SkillTriggerComparator comparator,
-    String comparisonFormulaKey
+    SkillNumericValue comparisonValue
 ) {
 }

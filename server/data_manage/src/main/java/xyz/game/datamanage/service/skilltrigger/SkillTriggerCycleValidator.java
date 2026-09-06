@@ -1,5 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -367,10 +369,10 @@ public class SkillTriggerCycleValidator {
                 if (!lifecycleAnnounced) {
                     produced.add(ProducedEvent.lifecycle(effectKey, SkillTriggerLifecycleEventMoment.APPLICATION));
                     produced.add(ProducedEvent.lifecycle(effectKey, SkillTriggerLifecycleEventMoment.FULL_STACKS));
-                    if (row.periodicIntervalFormulaKey() != null) {
+                    if (row.periodicIntervalValue() != null) {
                         produced.add(ProducedEvent.lifecycle(effectKey, SkillTriggerLifecycleEventMoment.PERIODIC));
                     }
-                    if (row.durationFormulaKey() != null
+                    if (row.durationValue() != null
                         && row.expiryMode() != SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY) {
                         produced.add(ProducedEvent.lifecycle(effectKey, SkillTriggerLifecycleEventMoment.NATURAL_END));
                     }

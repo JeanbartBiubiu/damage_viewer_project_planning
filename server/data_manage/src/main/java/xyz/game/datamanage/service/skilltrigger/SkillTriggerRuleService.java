@@ -1,5 +1,8 @@
 package xyz.game.datamanage.service.skilltrigger;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+import xyz.game.datamanage.support.authoring.AggregateJson;
+
 import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.math.BigDecimal;
@@ -347,7 +350,7 @@ public class SkillTriggerRuleService {
             throw effectInUse(inUse);
         }
         assertReflectedEffectUpdate(gameId, skillKey, effectKey, candidateResults);
-        assertInteractionFormulaCompatibility(gameId, skillKey, effectKey, candidateResults);
+        assertValueCompatibility(gameId, skillKey, effectKey, candidateResults);
         List<Map<String, String>> shapeIssues = collectEffectShapeIssues(
             gameId, skillKey, effectKey, candidateLifecycle, candidateResults
         );
@@ -381,26 +384,26 @@ public class SkillTriggerRuleService {
             && result.resultMoment() == SkillEffectLifecycleMoment.PERSISTENT);
     }
 
-    private void assertInteractionFormulaCompatibility(
+    private void assertValueCompatibility(
         String gameId,
         String skillKey,
         String effectKey,
         List<SkillEffectResultRequest> candidateResults
     ) {
-        Set<String> candidateInteractionFormulas = collectInteractionFormulaKeys(candidateResults);
-        Set<String> existingInteractionFormulas = new LinkedHashSet<>(
-            nullToEmpty(mapper.listEffectInteractionFormulaKeys(gameId, skillKey, effectKey))
+        Set<SkillNumericValue> candidateInteractionValues = collectInteractionValues(candidateResults);
+        Set<SkillNumericValue> existingInteractionValues = new LinkedHashSet<>(
+            nullToEmpty(mapper.listEffectInteractionValues(gameId, skillKey, effectKey)).stream().map(json -> AggregateJson.read(json, SkillNumericValue.class)).toList()
         );
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes = indexEffects(
             mapper.listEffectShapes(gameId, skillKey)
         );
-        Set<String> existingValueFormulas = effectShapes.getOrDefault(effectKey, List.of()).stream()
-            .map(SkillTriggerEffectShapeRow::valueFormulaKey)
+        Set<SkillNumericValue> existingValues = effectShapes.getOrDefault(effectKey, List.of()).stream()
+            .map(SkillTriggerEffectShapeRow::value)
             .filter(Objects::nonNull)
             .collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<String> candidateValueFormulas = collectResultValueFormulaKeys(candidateResults);
-        if (candidateInteractionFormulas.equals(existingInteractionFormulas)
-            && candidateValueFormulas.equals(existingValueFormulas)) {
+        Set<SkillNumericValue> candidateValues = collectResultValues(candidateResults);
+        if (candidateInteractionValues.equals(existingInteractionValues)
+            && candidateValues.equals(existingValues)) {
             return;
         }
         Map<String, List<SkillTriggerProcessShapeRow>> processShapes = indexProcesses(
@@ -415,11 +418,11 @@ public class SkillTriggerRuleService {
             processActions.put(row.ruleKey() + '\u0000' + row.actionKey(), row);
         }
         List<RuntimeInputDependencyHit> hits = new ArrayList<>();
-        Map<String, Collection<String>> interactionOverrides = Map.of(
+        Map<String, Collection<SkillNumericValue>> interactionOverrides = Map.of(
             effectKey,
-            candidateInteractionFormulas
+            candidateInteractionValues
         );
-        Map<String, Collection<String>> valueOverrides = Map.of(effectKey, candidateValueFormulas);
+        Map<String, Collection<SkillNumericValue>> valueOverrides = Map.of(effectKey, candidateValues);
         for (SkillTriggerActionRow action : nullToEmpty(mapper.listActionsForSkill(gameId, skillKey))) {
             String compositeKey = action.ruleKey() + '\u0000' + action.actionKey();
             String targetKey = switch (action.actionType()) {
@@ -469,15 +472,15 @@ public class SkillTriggerRuleService {
             .comparing(RuntimeInputDependencyHit::ruleKey)
             .thenComparing(RuntimeInputDependencyHit::actionKey)
             .thenComparing(RuntimeInputDependencyHit::parameterKey));
-        List<String> paths = collectResultValueFormulaPaths(candidateResults);
-        paths.addAll(collectInteractionFormulaPaths(candidateResults));
+        List<String> paths = collectResultValuePaths(candidateResults);
+        paths.addAll(collectInteractionValuePaths(candidateResults));
         String field = paths.isEmpty() ? "results" : paths.get(0);
         List<Map<String, String>> issues = new ArrayList<>();
         for (RuntimeInputDependencyHit hit : hits) {
             Map<String, String> issue = fieldIssue(
                 field,
                 "TRIGGER_RULE_RUNTIME_INPUT_IN_USE",
-                "效果公式变化会改变既有触发规则的计算时参数",
+                "效果取值变化会改变既有触发规则的计算时参数",
                 hit.ruleKey() + "/" + hit.actionKey() + "/" + hit.parameterKey()
             );
             issue.put("ruleKey", hit.ruleKey());
@@ -584,57 +587,57 @@ public class SkillTriggerRuleService {
         }
     }
 
-    private static Set<String> collectInteractionFormulaKeys(List<SkillEffectResultRequest> results) {
-        Set<String> formulaKeys = new LinkedHashSet<>();
+    private static Set<SkillNumericValue> collectInteractionValues(List<SkillEffectResultRequest> results) {
+        Set<SkillNumericValue> formulaKeys = new LinkedHashSet<>();
         for (SkillEffectResultRequest result : results) {
             if (result == null || !(result.detail() instanceof SkillEffectDamageDetail damage)) {
                 continue;
             }
             SkillEffectCriticalPolicy critical = damage.critical();
-            if (critical != null && critical.multiplierFormulaKey() != null) {
-                formulaKeys.add(critical.multiplierFormulaKey());
+            if (critical != null && critical.multiplierValue() != null) {
+                formulaKeys.add(critical.multiplierValue());
             }
             for (SkillEffectVampRule vampRule : damage.vampRules() == null ? List.<SkillEffectVampRule>of() : damage.vampRules()) {
-                if (vampRule != null && vampRule.efficiencyFormulaKey() != null) {
-                    formulaKeys.add(vampRule.efficiencyFormulaKey());
+                if (vampRule != null && vampRule.efficiencyValue() != null) {
+                    formulaKeys.add(vampRule.efficiencyValue());
                 }
             }
         }
         return Set.copyOf(formulaKeys);
     }
 
-    private static Set<String> collectResultValueFormulaKeys(List<SkillEffectResultRequest> results) {
-        Set<String> formulaKeys = new LinkedHashSet<>();
+    private static Set<SkillNumericValue> collectResultValues(List<SkillEffectResultRequest> results) {
+        Set<SkillNumericValue> formulaKeys = new LinkedHashSet<>();
         for (SkillEffectResultRequest result : results) {
-            if (result != null && result.valueRule() != null && result.valueRule().formulaKey() != null) {
-                formulaKeys.add(result.valueRule().formulaKey());
+            if (result != null && result.valueRule() != null && result.valueRule().value() != null) {
+                formulaKeys.add(result.valueRule().value());
             }
         }
         return Set.copyOf(formulaKeys);
     }
 
-    private static List<String> collectResultValueFormulaPaths(List<SkillEffectResultRequest> results) {
+    private static List<String> collectResultValuePaths(List<SkillEffectResultRequest> results) {
         List<String> paths = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
             SkillEffectResultRequest result = results.get(i);
             if (result != null && result.valueRule() != null) {
-                paths.add(resultPath(i, "valueRule.formulaKey"));
+                paths.add(resultPath(i, "valueRule.value"));
             }
         }
         return paths;
     }
 
-    private static List<String> collectInteractionFormulaPaths(List<SkillEffectResultRequest> results) {
+    private static List<String> collectInteractionValuePaths(List<SkillEffectResultRequest> results) {
         List<String> paths = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
             SkillEffectResultRequest result = results.get(i);
             if (result == null || !(result.detail() instanceof SkillEffectDamageDetail damage)) {
                 continue;
             }
-            paths.add(resultPath(i, "detail.critical.multiplierFormulaKey"));
+            paths.add(resultPath(i, "detail.critical.multiplierValue"));
             if (damage.vampRules() != null) {
                 for (int j = 0; j < damage.vampRules().size(); j++) {
-                    paths.add(resultPath(i, "detail.vampRules[" + j + "].efficiencyFormulaKey"));
+                    paths.add(resultPath(i, "detail.vampRules[" + j + "].efficiencyValue"));
                 }
             }
         }
@@ -1073,8 +1076,8 @@ public class SkillTriggerRuleService {
                 if (health.attributeKey() == null) {
                     issues.add(fieldIssue("eventSource.detail.attributeKey", "REQUIRED", "属性标识不能为空"));
                 }
-                if (health.thresholdFormulaKey() == null) {
-                    issues.add(fieldIssue("eventSource.detail.thresholdFormulaKey", "REQUIRED", "阈值公式不能为空"));
+                if (health.thresholdValue() == null) {
+                    issues.add(fieldIssue("eventSource.detail.thresholdValue", "REQUIRED", "阈值公式不能为空"));
                 }
                 if (health.direction() == null) {
                     issues.add(fieldIssue("eventSource.detail.direction", "REQUIRED", "穿越方向不能为空"));
@@ -1159,7 +1162,7 @@ public class SkillTriggerRuleService {
                 if (detail.comparator() == null) {
                     issues.add(fieldIssue(prefix + ".detail.comparator", "REQUIRED", "比较符不能为空"));
                 }
-                require(detail.comparisonFormulaKey(), prefix + ".detail.comparisonFormulaKey", "比较公式不能为空", issues);
+                require(detail.comparisonValue(), prefix + ".detail.comparisonValue", "比较公式不能为空", issues);
             }
             case STATUS_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerStatusConditionDetail detail)) {
@@ -1180,7 +1183,7 @@ public class SkillTriggerRuleService {
                     if (detail.comparator() == null) {
                         issues.add(fieldIssue(prefix + ".detail.comparator", "REQUIRED", "比较符不能为空"));
                     }
-                    require(detail.comparisonFormulaKey(), prefix + ".detail.comparisonFormulaKey", "比较公式不能为空", issues);
+                    require(detail.comparisonValue(), prefix + ".detail.comparisonValue", "比较公式不能为空", issues);
                 } else {
                     if (detail.sourceEffectKey() != null) {
                         issues.add(fieldIssue(prefix + ".detail.sourceEffectKey", "FORBIDDEN", "该检查方式不能指定来源效果"));
@@ -1191,8 +1194,8 @@ public class SkillTriggerRuleService {
                     if (detail.comparator() != null) {
                         issues.add(fieldIssue(prefix + ".detail.comparator", "FORBIDDEN", "该检查方式不能指定比较符"));
                     }
-                    if (detail.comparisonFormulaKey() != null) {
-                        issues.add(fieldIssue(prefix + ".detail.comparisonFormulaKey", "FORBIDDEN", "该检查方式不能指定比较公式"));
+                    if (detail.comparisonValue() != null) {
+                        issues.add(fieldIssue(prefix + ".detail.comparisonValue", "FORBIDDEN", "该检查方式不能指定比较公式"));
                     }
                 }
             }
@@ -1211,7 +1214,7 @@ public class SkillTriggerRuleService {
                     detail.optionKey(),
                     detail.expectedBoolean(),
                     detail.comparator(),
-                    detail.comparisonFormulaKey(),
+                    detail.comparisonValue(),
                     prefix + ".detail",
                     issues
                 );
@@ -1227,7 +1230,7 @@ public class SkillTriggerRuleService {
                 if (detail.comparator() == null) {
                     issues.add(fieldIssue(prefix + ".detail.comparator", "REQUIRED", "比较符不能为空"));
                 }
-                require(detail.comparisonFormulaKey(), prefix + ".detail.comparisonFormulaKey", "比较公式不能为空", issues);
+                require(detail.comparisonValue(), prefix + ".detail.comparisonValue", "比较公式不能为空", issues);
             }
         }
     }
@@ -1293,7 +1296,7 @@ public class SkillTriggerRuleService {
         String optionKey,
         Boolean expectedBoolean,
         Object comparator,
-        String comparisonFormulaKey,
+        SkillNumericValue comparisonValue,
         String prefix,
         List<Map<String, String>> issues
     ) {
@@ -1302,8 +1305,8 @@ public class SkillTriggerRuleService {
                 if (comparator == null) {
                     issues.add(fieldIssue(prefix + ".comparator", "REQUIRED", "比较符不能为空"));
                 }
-                if (comparisonFormulaKey == null) {
-                    issues.add(fieldIssue(prefix + ".comparisonFormulaKey", "REQUIRED", "比较公式不能为空"));
+                if (comparisonValue == null) {
+                    issues.add(fieldIssue(prefix + ".comparisonValue", "REQUIRED", "比较公式不能为空"));
                 }
                 if (optionKey != null) {
                     issues.add(fieldIssue(prefix + ".optionKey", "FORBIDDEN", "该取值方式不能指定模式选项"));
@@ -1322,8 +1325,8 @@ public class SkillTriggerRuleService {
                 if (comparator != null) {
                     issues.add(fieldIssue(prefix + ".comparator", "FORBIDDEN", "模式选择不能指定比较符"));
                 }
-                if (comparisonFormulaKey != null) {
-                    issues.add(fieldIssue(prefix + ".comparisonFormulaKey", "FORBIDDEN", "模式选择不能指定比较公式"));
+                if (comparisonValue != null) {
+                    issues.add(fieldIssue(prefix + ".comparisonValue", "FORBIDDEN", "模式选择不能指定比较公式"));
                 }
             }
             case ENABLED -> {
@@ -1336,8 +1339,8 @@ public class SkillTriggerRuleService {
                 if (comparator != null) {
                     issues.add(fieldIssue(prefix + ".comparator", "FORBIDDEN", "准备标记不能指定比较符"));
                 }
-                if (comparisonFormulaKey != null) {
-                    issues.add(fieldIssue(prefix + ".comparisonFormulaKey", "FORBIDDEN", "准备标记不能指定比较公式"));
+                if (comparisonValue != null) {
+                    issues.add(fieldIssue(prefix + ".comparisonValue", "FORBIDDEN", "准备标记不能指定比较公式"));
                 }
             }
         }
@@ -1446,7 +1449,7 @@ public class SkillTriggerRuleService {
             );
         }
         if (values.perTargetCooldown() != null) {
-            refs.addFormula(new CatalogRef("perTargetCooldown.durationFormulaKey", values.perTargetCooldown().durationFormulaKey()));
+            refs.addFormula(new CatalogRef("perTargetCooldown.durationValue", values.perTargetCooldown().durationValue()));
             rejectUnavailableTargetContext(
                 values.eventSource().eventType(),
                 values.perTargetCooldown().targetContext(),
@@ -1456,7 +1459,7 @@ public class SkillTriggerRuleService {
         }
         if (values.maxTriggersPerProcess() != null) {
             refs.addProcess(new CatalogRef("maxTriggersPerProcess.processKey", values.maxTriggersPerProcess().processKey()));
-            refs.addFormula(new CatalogRef("maxTriggersPerProcess.limitFormulaKey", values.maxTriggersPerProcess().limitFormulaKey()));
+            refs.addFormula(new CatalogRef("maxTriggersPerProcess.limitValue", values.maxTriggersPerProcess().limitValue()));
             if (values.eventSource().detail() instanceof SkillTriggerProcessEventDetail process
                 && !Objects.equals(process.processKey(), values.maxTriggersPerProcess().processKey())) {
                 referenceIssues.add(fieldIssue(
@@ -1648,7 +1651,7 @@ public class SkillTriggerRuleService {
                     return;
                 }
                 if (detail.moment() == SkillTriggerLifecycleEventMoment.PERIODIC
-                    && any.periodicIntervalFormulaKey() == null) {
+                    && any.periodicIntervalValue() == null) {
                     issues.add(fieldIssue(
                         "eventSource.detail.moment",
                         "REFERENCE_TYPE_MISMATCH",
@@ -1656,7 +1659,7 @@ public class SkillTriggerRuleService {
                     ));
                 }
                 if (detail.moment() == SkillTriggerLifecycleEventMoment.NATURAL_END
-                    && (any.durationFormulaKey() == null
+                    && (any.durationValue() == null
                         || any.expiryMode() == SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY)) {
                     issues.add(fieldIssue(
                         "eventSource.detail.moment",
@@ -1806,7 +1809,7 @@ public class SkillTriggerRuleService {
                 bindingIssues.add(fieldIssue(
                     bindingPath(actionIndex, b, "parameterKey"),
                     "BINDING_EXTRA",
-                    "不能绑定未被可达公式引用的参数"
+                    "不能绑定未被可达取值引用的参数"
                 ));
             }
             validateBindingSource(
@@ -2186,7 +2189,7 @@ public class SkillTriggerRuleService {
                 SkillTriggerHealthThresholdEventDetail detail =
                     (SkillTriggerHealthThresholdEventDetail) eventSource.detail();
                 refs.addAttribute(new CatalogRef("eventSource.detail.attributeKey", detail.attributeKey(), true));
-                refs.addFormula(new CatalogRef("eventSource.detail.thresholdFormulaKey", detail.thresholdFormulaKey()));
+                refs.addFormula(new CatalogRef("eventSource.detail.thresholdValue", detail.thresholdValue()));
                 rejectUnavailableEventSource(
                     eventSource.eventType(),
                     detail.subject(),
@@ -2231,7 +2234,7 @@ public class SkillTriggerRuleService {
             case ATTRIBUTE_COMPARE -> {
                 SkillTriggerAttributeConditionDetail detail = (SkillTriggerAttributeConditionDetail) condition.detail();
                 refs.addAttribute(new CatalogRef(prefix + ".detail.attributeKey", detail.attributeKey()));
-                refs.addFormula(new CatalogRef(prefix + ".detail.comparisonFormulaKey", detail.comparisonFormulaKey()));
+                refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 rejectUnavailableEventSource(
                     eventSource == null ? null : eventSource.eventType(),
                     detail.subject(),
@@ -2251,22 +2254,22 @@ public class SkillTriggerRuleService {
                 if (detail.sourceEffectKey() != null) {
                     refs.addEffect(new CatalogRef(prefix + ".detail.sourceEffectKey", detail.sourceEffectKey()));
                 }
-                if (detail.comparisonFormulaKey() != null) {
-                    refs.addFormula(new CatalogRef(prefix + ".detail.comparisonFormulaKey", detail.comparisonFormulaKey()));
+                if (detail.comparisonValue() != null) {
+                    refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }
             }
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();
                 refs.addState(new CatalogRef(prefix + ".detail.stateKey", detail.stateKey()));
-                if (detail.comparisonFormulaKey() != null) {
-                    refs.addFormula(new CatalogRef(prefix + ".detail.comparisonFormulaKey", detail.comparisonFormulaKey()));
+                if (detail.comparisonValue() != null) {
+                    refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }
             }
             case EVENT_VALUE_COMPARE -> {
                 SkillTriggerEventValueConditionDetail detail =
                     (SkillTriggerEventValueConditionDetail) condition.detail();
-                refs.addFormula(new CatalogRef(prefix + ".detail.comparisonFormulaKey", detail.comparisonFormulaKey()));
+                refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
             }
         }
     }
@@ -2368,18 +2371,18 @@ public class SkillTriggerRuleService {
                 continue;
             }
             if (event.lifecycleMoment() == SkillTriggerLifecycleEventMoment.PERIODIC
-                && candidateLifecycle.periodicIntervalFormulaKey() == null) {
+                && candidateLifecycle.periodicIntervalValue() == null) {
                 issues.add(fieldIssue(
-                    "lifecycle.periodicIntervalFormulaKey",
+                    "lifecycle.periodicIntervalValue",
                     "TRIGGER_RULE_SHAPE_IN_USE",
                     "周期间隔变化会使生命周期时点事件失效"
                 ));
             }
             if (event.lifecycleMoment() == SkillTriggerLifecycleEventMoment.NATURAL_END
-                && (candidateLifecycle.durationFormulaKey() == null
+                && (candidateLifecycle.durationValue() == null
                     || candidateLifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY)) {
-                String field = candidateLifecycle.durationFormulaKey() == null
-                    ? "lifecycle.durationFormulaKey"
+                String field = candidateLifecycle.durationValue() == null
+                    ? "lifecycle.durationValue"
                     : "lifecycle.expiryMode";
                 issues.add(fieldIssue(field, "TRIGGER_RULE_SHAPE_IN_USE", "自然结束条件变化会使生命周期时点事件失效"));
             }
@@ -2560,6 +2563,10 @@ public class SkillTriggerRuleService {
             }
         }
         return null;
+    }
+
+    private static void require(SkillNumericValue value, String path, String message, List<Map<String, String>> issues) {
+        if (value == null) issues.add(fieldIssue(path, "REQUIRED", message));
     }
 
     private static boolean isNumeric(String valueType) {
@@ -2977,8 +2984,8 @@ public class SkillTriggerRuleService {
         }
 
         private void addFormula(CatalogRef ref) {
-            formulas.add(ref);
             if (ref.key() != null) {
+                formulas.add(ref);
                 formulaKeys.add(ref.key());
             }
         }
@@ -3020,6 +3027,7 @@ public class SkillTriggerRuleService {
     }
 
     private record CatalogRef(String field, String key, boolean numeric) {
+        private CatalogRef(String field, SkillNumericValue value) { this(field, value == null ? null : value.formulaKey(), false); }
         private CatalogRef(String field, String key) {
             this(field, key, false);
         }

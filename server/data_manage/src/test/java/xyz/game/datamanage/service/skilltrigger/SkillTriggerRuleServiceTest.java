@@ -51,14 +51,15 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationStackMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
@@ -71,6 +72,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
 import xyz.game.datamanage.model.skillformula.AttributeValueKind;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionDetail;
@@ -86,29 +89,24 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
-import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
-import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerReferenceHit;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerFailProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerReferenceHit;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultModifier;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultModifierRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
@@ -117,10 +115,13 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -218,7 +219,7 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerAction earlier = executeAction("earlier", EFFECT_KEY);
         SkillTriggerCondition second = new SkillTriggerCondition("second", SkillTriggerConditionType.ATTRIBUTE_COMPARE,
             20, new SkillTriggerAttributeConditionDetail(SkillTriggerSubject.SOURCE, ATTRIBUTE_KEY,
-                AttributeValueKind.CURRENT, SkillTriggerComparator.GT, FORMULA_KEY));
+                AttributeValueKind.CURRENT, SkillTriggerComparator.GT, SkillNumericValue.formula(FORMULA_KEY)));
         SkillTriggerCondition first = new SkillTriggerCondition("first", second.conditionType(), 10, second.detail());
         SkillTriggerConditionGroup group = new SkillTriggerConditionGroup("group", "属性条件", 10, List.of(second, first));
         SkillTriggerRuleCreateRequest request = new SkillTriggerRuleCreateRequest(
@@ -360,7 +361,7 @@ class SkillTriggerRuleServiceTest {
     void interactionFormulaChangeBlocksDirectAndProcessRulesInStableOrder() {
         String directRule = "z_direct_rule";
         String processRule = "a_process_rule";
-        when(mapper.listEffectInteractionFormulaKeys(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listEffectInteractionValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(
                 GAME_ID, SKILL_KEY, directRule, "execute", "直接执行",
@@ -396,7 +397,7 @@ class SkillTriggerRuleServiceTest {
             SkillEffectDamageOriginKind.DIRECT,
             new SkillEffectCriticalPolicy(
                 SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
-                "interaction_formula"
+                SkillNumericValue.formula("interaction_formula")
             ),
             List.of()
         );
@@ -422,7 +423,7 @@ class SkillTriggerRuleServiceTest {
         assertEquals("409.SKILL_EFFECT_IN_USE", exception.getCode());
         List<Map<String, String>> issues = SkillTriggerRuleTestSupport.fieldIssues(exception);
         assertEquals(2, issues.size());
-        assertEquals("results[0].detail.critical.multiplierFormulaKey", issues.get(0).get("field"));
+        assertEquals("results[0].detail.critical.multiplierValue", issues.get(0).get("field"));
         assertEquals("a_process_rule", issues.get(0).get("ruleKey"));
         assertEquals("z_direct_rule", issues.get(1).get("ruleKey"));
         assertEquals("interaction_ratio", issues.get(0).get("parameterKey"));
@@ -563,17 +564,17 @@ class SkillTriggerRuleServiceTest {
                             ATTRIBUTE_KEY,
                             AttributeValueKind.CURRENT_RATIO,
                             SkillTriggerComparator.LTE,
-                            "low_health_ratio"
+                            SkillNumericValue.formula("low_health_ratio")
                         )
                     ))
                 )),
                 List.of(executeAction("apply_shield", "guardian_shield")),
-                new SkillTriggerPerTargetCooldown("per_target_cd", SkillTriggerTargetContext.CURRENT_TARGET),
+                new SkillTriggerPerTargetCooldown(SkillNumericValue.formula("per_target_cd"), SkillTriggerTargetContext.CURRENT_TARGET),
                 null
             )
         );
         assertEquals(SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, shield.eventSource().eventType());
-        assertEquals("per_target_cd", shield.perTargetCooldown().durationFormulaKey());
+        assertEquals(SkillNumericValue.formula("per_target_cd"), shield.perTargetCooldown().durationValue());
         assertEquals(1, shield.conditionGroups().size());
 
         SkillTriggerRuleCreateRequest onHit = new SkillTriggerRuleCreateRequest(
@@ -943,7 +944,7 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerPriorResultOutputs.Shape execute = SkillTriggerPriorResultOutputs.Shape.from(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "execute", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
-                true, "execute_f", "hp", null, null, null, null, null, null,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
                 false, null, null, null, null, null
             )
         );
@@ -985,8 +986,8 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerPriorResultOutputs.Shape persistentModifier = SkillTriggerPriorResultOutputs.Shape.from(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "mod", SkillEffectResultType.DAMAGE_MODIFIER, SkillEffectTarget.SOURCE,
-                true, "mod_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
-                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+                true, SkillNumericValue.formula("mod_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             )
         );
         assertFalse(SkillTriggerPriorResultOutputs.immediatelyAvailable(persistentModifier));
@@ -996,8 +997,8 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerPriorResultOutputs.Shape haste = SkillTriggerPriorResultOutputs.Shape.from(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "haste", SkillEffectResultType.SKILL_HASTE_MODIFIER, SkillEffectTarget.SOURCE,
-                true, "haste_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
-                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+                true, SkillNumericValue.formula("haste_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             )
         );
         assertFalse(SkillTriggerPriorResultOutputs.immediatelyAvailable(haste));
@@ -1089,8 +1090,8 @@ class SkillTriggerRuleServiceTest {
     void stage765LifecycleMomentsGateImmediateOutputs() {
         SkillTriggerEffectShapeRow application = new SkillTriggerEffectShapeRow(
             EFFECT_KEY, RESULT_KEY, SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET,
-            true, "base_damage", null, null, null, null, SkillEffectLifecycleMoment.APPLICATION, null, null,
-            true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            true, SkillNumericValue.formula("base_damage"), null, null, null, null, SkillEffectLifecycleMoment.APPLICATION, null, null,
+            true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
         );
         assertTrue(SkillTriggerPriorResultOutputs.immediatelyAvailable(SkillTriggerPriorResultOutputs.Shape.from(application)));
         stubPriorFollow(application, SkillParameterValueType.DECIMAL);
@@ -1108,8 +1109,8 @@ class SkillTriggerRuleServiceTest {
         )) {
             SkillTriggerEffectShapeRow delayed = new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, RESULT_KEY, SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET,
-                true, "base_damage", null, null, null, null, moment, null, null,
-                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+                true, SkillNumericValue.formula("base_damage"), null, null, null, null, moment, null, null,
+                true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             );
             stubPriorFollow(delayed, SkillParameterValueType.DECIMAL);
             ApiException notImmediate = thrown(() -> service.create(
@@ -1169,37 +1170,38 @@ class SkillTriggerRuleServiceTest {
             damageShape(EFFECT_KEY, RESULT_KEY, 1, null),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "mod", SkillEffectResultType.DAMAGE_MODIFIER, SkillEffectTarget.SOURCE,
-                true, "mod_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
-                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+                true, SkillNumericValue.formula("mod_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "heal_mod", SkillEffectResultType.HEALING_MODIFIER, SkillEffectTarget.SOURCE,
-                true, "heal_mod_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("heal_mod_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
                 true, null, null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "floor", SkillEffectResultType.HEALTH_FLOOR, SkillEffectTarget.SOURCE,
-                true, "floor_f", "hp", null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("floor_f"), "hp", null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
                 true, null, null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "execute", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
-                true, "execute_f", "hp", null, null, null, null, null, null,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
                 false, null, null, null, null, null
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "hit_link", SkillEffectResultType.HIT_LINK_APPLICATION, SkillEffectTarget.TARGET,
-                true, "hit_f", null, null, null, null, null, null, null,
+                true, SkillNumericValue.formula("hit_f"), null, null, null, null, null, null, null,
                 false, null, null, null, null, null
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "attack_link", SkillEffectResultType.ATTACK_LINK_APPLICATION, SkillEffectTarget.TARGET,
-                true, "attack_f", null, null, null, null, null, null, null,
+                true, SkillNumericValue.formula("attack_f"), null, null, null, null, null, null, null,
                 false, null, null, null, null, null
             )
         ));
-        when(mapper.listEffectInteractionFormulaKeys(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
-            "crit_f", "vamp_f"
+        when(mapper.listEffectInteractionValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+            "{\"kind\":\"FORMULA\",\"formulaKey\":\"crit_f\"}",
+            "{\"kind\":\"FORMULA\",\"formulaKey\":\"vamp_f\"}"
         ));
         when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenAnswer(invocation -> {
             @SuppressWarnings("unchecked")
@@ -1241,8 +1243,8 @@ class SkillTriggerRuleServiceTest {
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, RESULT_KEY, SkillEffectResultType.NORMAL_SHIELD, SkillEffectTarget.TARGET,
-                true, "shield_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
-                true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+                true, SkillNumericValue.formula("shield_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+                true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
             )
         ));
         ApiException shieldCycle = thrown(() -> service.create(
@@ -1285,7 +1287,7 @@ class SkillTriggerRuleServiceTest {
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             damageShape(EFFECT_KEY, RESULT_KEY, 1, null)
         ));
-        when(mapper.listEffectInteractionFormulaKeys(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
+        when(mapper.listEffectInteractionValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         ApiException lastVamp = thrown(() -> service.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null, List.of(damageResult(List.of(), null)), List.of()
@@ -1359,13 +1361,13 @@ class SkillTriggerRuleServiceTest {
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(new SkillEffectResultRequest(
                 RESULT_KEY, "伤害", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
-                new SkillEffectValueRuleRequest("other_damage", BigDecimal.ONE, null, null),
+                new SkillEffectValueRuleRequest(SkillNumericValue.formula("other_damage"), BigDecimal.ONE, null, null),
                 new SkillEffectDamageDetail("physical")
             )),
             List.of()
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", formula.getCode());
-        assertField(formula, "results[0].valueRule.formulaKey", "TRIGGER_RULE_RUNTIME_INPUT_IN_USE");
+        assertField(formula, "results[0].valueRule.value", "TRIGGER_RULE_RUNTIME_INPUT_IN_USE");
 
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         when(mapper.listPriorResultBindings(GAME_ID, SKILL_KEY, "prior")).thenReturn(List.of());
@@ -1377,7 +1379,7 @@ class SkillTriggerRuleServiceTest {
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(new SkillEffectResultRequest(
                 RESULT_KEY, "冷却", SkillEffectResultType.COOLDOWN_CHANGE, SkillEffectTarget.SOURCE, null, 0,
-                new SkillEffectValueRuleRequest("cd_f", BigDecimal.ONE, null, null),
+                new SkillEffectValueRuleRequest(SkillNumericValue.formula("cd_f"), BigDecimal.ONE, null, null),
                 new SkillEffectCooldownChangeDetail(
                     new SkillEffectAffectedSkillScope(
                         SkillEffectSkillScopeMode.SKILLS,
@@ -1416,7 +1418,7 @@ class SkillTriggerRuleServiceTest {
             "g", "g", 0,
             List.of(new SkillTriggerCondition(
                 "c", SkillTriggerConditionType.EVENT_VALUE_COMPARE, 0,
-                new SkillTriggerEventValueConditionDetail(valueKey, SkillTriggerComparator.GTE, FORMULA_KEY)
+                new SkillTriggerEventValueConditionDetail(valueKey, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY))
             ))
         );
         SkillTriggerRuleCreateRequest conditionRequest = new SkillTriggerRuleCreateRequest(
@@ -1545,7 +1547,7 @@ class SkillTriggerRuleServiceTest {
     ) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET,
-            true, "base_damage", null, null, null, null, null, null, null,
+            true, SkillNumericValue.formula("base_damage"), null, null, null, null, null, null, null,
             false, null, null, null, null, null,
             null, SkillEffectDamageDeliveryKind.SKILL, SkillEffectDamageOriginKind.DIRECT,
             blockScope, vampCount, null
@@ -1559,7 +1561,7 @@ class SkillTriggerRuleServiceTest {
     ) {
         return new SkillTriggerEffectShapeRow(
             EFFECT_KEY, RESULT_KEY, SkillEffectResultType.COOLDOWN_CHANGE, SkillEffectTarget.SOURCE,
-            hasValue, formulaKey, null, null, null, null, null, null, null,
+            hasValue, formulaKey == null ? null : SkillNumericValue.formula(formulaKey), null, null, null, null, null, null, null,
             false, null, null, null, null, null,
             null, null, null, null, 0, operation
         );
@@ -1568,8 +1570,8 @@ class SkillTriggerRuleServiceTest {
     private static SkillTriggerEffectShapeRow spellShieldShape(String effectKey, String resultKey) {
         return new SkillTriggerEffectShapeRow(
             effectKey, resultKey, SkillEffectResultType.SPELL_SHIELD, SkillEffectTarget.SOURCE,
-            true, "shield_f", null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
-            true, "duration_f", null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            true, SkillNumericValue.formula("shield_f"), null, null, null, null, SkillEffectLifecycleMoment.PERSISTENT, null, null,
+            true, SkillNumericValue.formula("duration_f"), null, null, null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
         );
     }
 
@@ -1579,7 +1581,7 @@ class SkillTriggerRuleServiceTest {
     ) {
         return new SkillEffectResultRequest(
             RESULT_KEY, "伤害", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
-            new SkillEffectValueRuleRequest("base_damage", BigDecimal.ONE, null, null),
+            new SkillEffectValueRuleRequest(SkillNumericValue.formula("base_damage"), BigDecimal.ONE, null, null),
             new SkillEffectDamageDetail(
                 "physical",
                 SkillEffectDamageDeliveryKind.SKILL,
@@ -1595,7 +1597,7 @@ class SkillTriggerRuleServiceTest {
     private static SkillEffectResultRequest damageResultWithMoment(SkillEffectLifecycleMoment moment) {
         return new SkillEffectResultRequest(
             RESULT_KEY, "伤害", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
-            new SkillEffectValueRuleRequest("base_damage", BigDecimal.ONE, null, null),
+            new SkillEffectValueRuleRequest(SkillNumericValue.formula("base_damage"), BigDecimal.ONE, null, null),
             new SkillEffectDamageDetail("physical"),
             new SkillEffectResultLifecycleBehaviorRequest(
                 moment, SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null
@@ -1614,7 +1616,7 @@ class SkillTriggerRuleServiceTest {
 
     private static SkillEffectLifecycleRequest lifecycleRequest() {
         return new SkillEffectLifecycleRequest(
-            "duration_f", "max_stacks_f", "app_stacks_f",
+            SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
             null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null

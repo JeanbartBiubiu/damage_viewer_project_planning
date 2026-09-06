@@ -15,10 +15,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,21 +37,27 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetail;
@@ -57,22 +65,20 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection;
-import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectAttackLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectHitLinkApplicationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleFirstPeriodicExecution;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -87,33 +93,31 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode;
-import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
-import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
-import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
@@ -122,13 +126,10 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
-import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
-import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
-import xyz.game.datamanage.support.error.ApiException;
-import xyz.game.datamanage.support.authoring.AggregateJson;
-import java.util.HashMap;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -201,7 +202,7 @@ class SkillEffectServiceTest {
         assertEquals(SkillEffectResultType.ATTRIBUTE_CHANGE, detail.results().get(2).resultType());
         assertEquals(SkillEffectResultType.RESOURCE_CHANGE, detail.results().get(3).resultType());
         assertEquals(SkillEffectResultType.COOLDOWN_CHANGE, detail.results().get(4).resultType());
-        assertEquals(FORMULA_KEY, detail.results().get(4).valueRule().formulaKey());
+        assertEquals(SkillNumericValue.formula(FORMULA_KEY), detail.results().get(4).valueRule().value());
         assertEquals(SkillEffectResultType.STATUS_OPERATION, detail.results().get(5).resultType());
         assertNull(detail.results().get(5).valueRule());
 
@@ -647,7 +648,7 @@ class SkillEffectServiceTest {
             )
         );
 
-        assertField(exception, "results[0].valueRule.formulaKey", "RUNTIME_INPUT_FORBIDDEN");
+        assertField(exception, "results[0].valueRule.value", "RUNTIME_INPUT_FORBIDDEN");
     }
 
     @Test
@@ -678,7 +679,7 @@ class SkillEffectServiceTest {
                 EFFECT_KEY,
                 "physical_hit",
                 SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
-                "crit_multiplier"
+                SkillNumericValue.formula("crit_multiplier")
             )
         ));
         fixture.put("listVampRules", List.of(
@@ -686,13 +687,13 @@ class SkillEffectServiceTest {
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectVampType.LIFE_STEAL,
                 SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
-                "life_steal_efficiency"
+                SkillNumericValue.formula("life_steal_efficiency")
             ),
             new SkillEffectVampRuleRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectVampType.OMNIVAMP,
                 SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
-                "omnivamp_efficiency"
+                SkillNumericValue.formula("omnivamp_efficiency")
             )
         ));
 
@@ -700,17 +701,17 @@ class SkillEffectServiceTest {
             "physical",
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.DIRECT,
-            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, "crit_multiplier"),
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, SkillNumericValue.formula("crit_multiplier")),
             List.of(
                 new SkillEffectVampRule(
                     SkillEffectVampType.LIFE_STEAL,
                     SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
-                    "life_steal_efficiency"
+                    SkillNumericValue.formula("life_steal_efficiency")
                 ),
                 new SkillEffectVampRule(
                     SkillEffectVampType.OMNIVAMP,
                     SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
-                    "omnivamp_efficiency"
+                    SkillNumericValue.formula("omnivamp_efficiency")
                 )
             )
         );
@@ -737,7 +738,7 @@ class SkillEffectServiceTest {
 
         SkillEffectDamageDetail saved = (SkillEffectDamageDetail) response.results().get(0).detail();
         assertEquals(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, saved.critical().mode());
-        assertEquals("crit_multiplier", saved.critical().multiplierFormulaKey());
+        assertEquals(SkillNumericValue.formula("crit_multiplier"), saved.critical().multiplierValue());
         assertEquals(2, saved.vampRules().size());
         assertEquals(SkillEffectVampType.LIFE_STEAL, saved.vampRules().get(0).vampType());
         assertEquals(SkillEffectVampType.OMNIVAMP, saved.vampRules().get(1).vampType());
@@ -750,17 +751,17 @@ class SkillEffectServiceTest {
             "physical",
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.DIRECT,
-            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, "crit_multiplier"),
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, SkillNumericValue.formula("crit_multiplier")),
             List.of(
                 new SkillEffectVampRule(
                     SkillEffectVampType.LIFE_STEAL,
                     SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
-                    "life_steal_efficiency"
+                    SkillNumericValue.formula("life_steal_efficiency")
                 ),
                 new SkillEffectVampRule(
                     SkillEffectVampType.LIFE_STEAL,
                     SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
-                    "other_efficiency"
+                    SkillNumericValue.formula("other_efficiency")
                 )
             )
         );
@@ -787,7 +788,7 @@ class SkillEffectServiceTest {
         ));
 
         assertEquals("400.VALIDATION_FAILED", exception.getCode());
-        assertField(exception, "results[0].detail.critical.multiplierFormulaKey", "INVALID_CRITICAL_SHAPE");
+        assertField(exception, "results[0].detail.critical.multiplierValue", "INVALID_CRITICAL_SHAPE");
         assertField(exception, "results[0].detail.vampRules[1].vampType", "DUPLICATE_VAMP_TYPE");
         verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
@@ -974,7 +975,7 @@ class SkillEffectServiceTest {
                         null,
                         0,
                         new SkillEffectValueRuleRequest(
-                            FORMULA_KEY, new BigDecimal("-1"), null, null
+                            SkillNumericValue.formula(FORMULA_KEY), new BigDecimal("-1"), null, null
                         ),
                         new SkillEffectDamageDetail("physical")
                     ))
@@ -1001,7 +1002,7 @@ class SkillEffectServiceTest {
                         null,
                         0,
                         new SkillEffectValueRuleRequest(
-                            FORMULA_KEY, BigDecimal.ONE, new BigDecimal("10"), new BigDecimal("1")
+                            SkillNumericValue.formula(FORMULA_KEY), BigDecimal.ONE, new BigDecimal("10"), new BigDecimal("1")
                         ),
                         new SkillEffectDamageDetail("physical")
                     ))
@@ -1027,7 +1028,7 @@ class SkillEffectServiceTest {
                         SkillEffectTarget.TARGET,
                         null,
                         0,
-                        new SkillEffectValueRuleRequest(FORMULA_KEY, BigDecimal.ONE, null, null),
+                        new SkillEffectValueRuleRequest(SkillNumericValue.formula(FORMULA_KEY), BigDecimal.ONE, null, null),
                         new SkillEffectStatusOperationDetail("poison", SkillEffectStatusOperation.APPLY)
                     ))
                 )
@@ -1069,7 +1070,7 @@ class SkillEffectServiceTest {
         List<Map<String, String>> issues = fieldIssues(exception);
         assertEquals(7, issues.size());
         assertTrue(issues.stream().anyMatch(issue ->
-            "results[0].valueRule.formulaKey".equals(issue.get("field"))
+            "results[0].valueRule.value".equals(issue.get("field"))
                 && "UNKNOWN_FORMULA".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
@@ -1077,7 +1078,7 @@ class SkillEffectServiceTest {
                 && "UNKNOWN_DAMAGE_TYPE".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
-            "results[1].valueRule.formulaKey".equals(issue.get("field"))
+            "results[1].valueRule.value".equals(issue.get("field"))
                 && "UNKNOWN_FORMULA".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
@@ -1085,7 +1086,7 @@ class SkillEffectServiceTest {
                 && "UNKNOWN_ATTRIBUTE".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
-            "results[2].valueRule.formulaKey".equals(issue.get("field"))
+            "results[2].valueRule.value".equals(issue.get("field"))
                 && "UNKNOWN_FORMULA".equals(issue.get("code"))
         ));
         assertTrue(issues.stream().anyMatch(issue ->
@@ -1112,7 +1113,7 @@ class SkillEffectServiceTest {
             () -> service.create(GAME_ID, SKILL_KEY, createDamageOnly())
         );
         assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
-        assertField(exception, "results[0].valueRule.formulaKey", "UNKNOWN_FORMULA");
+        assertField(exception, "results[0].valueRule.value", "UNKNOWN_FORMULA");
         verify(mapper).lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection());
         verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
@@ -1664,7 +1665,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals(SkillEffectLifecycleInstanceScope.TARGET, detail.lifecycle().instanceScope());
-        assertEquals(DURATION_FORMULA, detail.lifecycle().durationFormulaKey());
+        assertEquals(SkillNumericValue.formula(DURATION_FORMULA), detail.lifecycle().durationValue());
         assertEquals(SkillEffectLifecycleMoment.APPLICATION, detail.results().get(0).lifecycleBehavior().moment());
     }
 
@@ -1691,7 +1692,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.VALIDATION_FAILED", missingPeriodic.getCode());
-        assertField(missingPeriodic, "lifecycle.periodicIntervalFormulaKey", "REQUIRED");
+        assertField(missingPeriodic, "lifecycle.periodicIntervalValue", "REQUIRED");
 
         ApiException extraPeriodic = assertThrows(
             ApiException.class,
@@ -1701,12 +1702,12 @@ class SkillEffectServiceTest {
                 new SkillEffectCreateRequest(
                     EFFECT_KEY, "命中结果", null, 10,
                     new SkillEffectLifecycleRequest(
-                        DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillNumericValue.formula(DURATION_FORMULA), SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
                         SkillEffectLifecycleInstanceScope.TARGET,
                         SkillEffectLifecycleReapplicationStackMode.INCREASE,
                         SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
                         SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
-                        PERIODIC_FORMULA,
+                        SkillNumericValue.formula(PERIODIC_FORMULA),
                         SkillEffectLifecycleFirstPeriodicExecution.IMMEDIATE
                     ),
                     List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
@@ -1714,7 +1715,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.VALIDATION_FAILED", extraPeriodic.getCode());
-        assertField(extraPeriodic, "lifecycle.periodicIntervalFormulaKey", "FORBIDDEN");
+        assertField(extraPeriodic, "lifecycle.periodicIntervalValue", "FORBIDDEN");
 
         ApiException naturalEnd = assertThrows(
             ApiException.class,
@@ -1724,7 +1725,7 @@ class SkillEffectServiceTest {
                 new SkillEffectCreateRequest(
                     EFFECT_KEY, "命中结果", null, 10,
                     new SkillEffectLifecycleRequest(
-                        null, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        null, SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
                         SkillEffectLifecycleInstanceScope.TARGET,
                         SkillEffectLifecycleReapplicationStackMode.KEEP,
                         null,
@@ -1773,8 +1774,8 @@ class SkillEffectServiceTest {
 
         SkillEffectLifecycleRequest lifecycleWithoutDuration = new SkillEffectLifecycleRequest(
             null,
-            MAX_STACKS_FORMULA,
-            APP_STACKS_FORMULA,
+            SkillNumericValue.formula(MAX_STACKS_FORMULA),
+            SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
@@ -1802,7 +1803,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.VALIDATION_FAILED", linearWithoutDuration.getCode());
-        assertField(linearWithoutDuration, "lifecycle.durationFormulaKey", "REQUIRED");
+        assertField(linearWithoutDuration, "lifecycle.durationValue", "REQUIRED");
 
         stubParentAndNewKey();
         stubEnabledCatalogs();
@@ -1998,7 +1999,7 @@ class SkillEffectServiceTest {
                 new SkillEffectUpdateRequest(
                     null, "命中结果", null, 10,
                     new SkillEffectLifecycleRequest(
-                        null, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        null, SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
                         SkillEffectLifecycleInstanceScope.TARGET,
                         SkillEffectLifecycleReapplicationStackMode.KEEP,
                         null,
@@ -2017,7 +2018,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", refresh.getCode());
-        assertField(refresh, "lifecycle.durationFormulaKey", "REFRESH_OPERATION_IN_USE");
+        assertField(refresh, "lifecycle.durationValue", "REFRESH_OPERATION_IN_USE");
     }
 
     @Test
@@ -2085,9 +2086,9 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", exception.getCode());
-        assertField(exception, "lifecycle.durationFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
-        assertField(exception, "lifecycle.maxStacksFormulaKey", "UNKNOWN_LIFECYCLE_FORMULA");
-        assertField(exception, "results[0].valueRule.formulaKey", "UNKNOWN_FORMULA");
+        assertField(exception, "lifecycle.durationValue", "UNKNOWN_LIFECYCLE_FORMULA");
+        assertField(exception, "lifecycle.maxStacksValue", "UNKNOWN_LIFECYCLE_FORMULA");
+        assertField(exception, "results[0].valueRule.value", "UNKNOWN_FORMULA");
         verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
@@ -2109,7 +2110,7 @@ class SkillEffectServiceTest {
                 new SkillEffectUpdateRequest(
                     null, "命中结果", null, 10,
                     new SkillEffectLifecycleRequest(
-                        DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA,
+                        SkillNumericValue.formula(DURATION_FORMULA), SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
                         SkillEffectLifecycleInstanceScope.SKILL,
                         SkillEffectLifecycleReapplicationStackMode.INCREASE,
                         SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
@@ -2344,7 +2345,7 @@ class SkillEffectServiceTest {
         BigDecimal multiplier = new BigDecimal("12345678901234567890.1234567890123456789");
         SkillEffectResultRequest precise = new SkillEffectResultRequest(
             "z_heal", "精确治疗", SkillEffectResultType.DIRECT_HEAL, SkillEffectTarget.SOURCE, null, 10,
-            new SkillEffectValueRuleRequest(FORMULA_KEY, multiplier, null, null), new SkillEffectDirectHealDetail(), null, null
+            new SkillEffectValueRuleRequest(SkillNumericValue.formula(FORMULA_KEY), multiplier, null, null), new SkillEffectDirectHealDetail(), null, null
         );
         SkillEffectResultRequest damage = damageResult("a_damage");
         SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY,
@@ -2748,7 +2749,7 @@ class SkillEffectServiceTest {
     }
 
     private static SkillEffectValueRuleRequest valueRule() {
-        return new SkillEffectValueRuleRequest(FORMULA_KEY, BigDecimal.ONE, null, null);
+        return new SkillEffectValueRuleRequest(SkillNumericValue.formula(FORMULA_KEY), BigDecimal.ONE, null, null);
     }
 
     private static List<SkillEffectResultRow> sixNonShieldResultRows() {
@@ -2803,7 +2804,7 @@ class SkillEffectServiceTest {
 
     private static SkillEffectResultValueRow valueRow(String resultKey) {
         return new SkillEffectResultValueRow(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, resultKey, FORMULA_KEY, BigDecimal.ONE, null, null
+            GAME_ID, SKILL_KEY, EFFECT_KEY, resultKey, SkillNumericValue.formula(FORMULA_KEY), BigDecimal.ONE, null, null
         );
     }
 
@@ -2839,9 +2840,9 @@ class SkillEffectServiceTest {
 
     private static SkillEffectLifecycleRequest timedLifecycle() {
         return new SkillEffectLifecycleRequest(
-            DURATION_FORMULA,
-            MAX_STACKS_FORMULA,
-            APP_STACKS_FORMULA,
+            SkillNumericValue.formula(DURATION_FORMULA),
+            SkillNumericValue.formula(MAX_STACKS_FORMULA),
+            SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
@@ -2955,9 +2956,9 @@ class SkillEffectServiceTest {
             GAME_ID,
             SKILL_KEY,
             EFFECT_KEY,
-            DURATION_FORMULA,
-            MAX_STACKS_FORMULA,
-            APP_STACKS_FORMULA,
+            SkillNumericValue.formula(DURATION_FORMULA),
+            SkillNumericValue.formula(MAX_STACKS_FORMULA),
+            SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
@@ -2973,8 +2974,8 @@ class SkillEffectServiceTest {
             SKILL_KEY,
             effectKey,
             null,
-            MAX_STACKS_FORMULA,
-            APP_STACKS_FORMULA,
+            SkillNumericValue.formula(MAX_STACKS_FORMULA),
+            SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
             null,

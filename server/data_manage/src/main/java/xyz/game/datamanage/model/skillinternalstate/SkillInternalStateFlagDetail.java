@@ -26,23 +26,23 @@ public record SkillInternalStateFlagDetail(
     @JsonCreator
     static SkillInternalStateFlagDetail fromJson(
         @JsonProperty("initialEnabled") Boolean initialEnabled,
-        @JsonProperty("initialValueFormulaKey") JsonNode initialValueFormulaKey,
-        @JsonProperty("maxValueFormulaKey") JsonNode maxValueFormulaKey,
-        @JsonProperty("recoveryIntervalFormulaKey") JsonNode recoveryIntervalFormulaKey,
+        @JsonProperty("initialValue") JsonNode initialValue,
+        @JsonProperty("maxValue") JsonNode maxValue,
+        @JsonProperty("recoveryIntervalValue") JsonNode recoveryIntervalValue,
         @JsonProperty("recoveryMode") JsonNode recoveryMode,
         @JsonProperty("options") JsonNode options,
-        @JsonProperty("durationFormulaKey") JsonNode durationFormulaKey,
+        @JsonProperty("durationValue") JsonNode durationValue,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateFlagDetail(
             initialEnabled,
             SkillInternalStateDetailFieldCapture.captureForeign(
-                "initialValueFormulaKey", initialValueFormulaKey,
-                "maxValueFormulaKey", maxValueFormulaKey,
-                "recoveryIntervalFormulaKey", recoveryIntervalFormulaKey,
+                "initialValue", initialValue,
+                "maxValue", maxValue,
+                "recoveryIntervalValue", recoveryIntervalValue,
                 "recoveryMode", recoveryMode,
                 "options", options,
-                "durationFormulaKey", durationFormulaKey
+                "durationValue", durationValue
             ),
             SkillInternalStateDetailFieldCapture.captureUnknown(unknown)
         );

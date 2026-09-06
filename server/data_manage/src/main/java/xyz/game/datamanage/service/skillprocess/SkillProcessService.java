@@ -1,5 +1,7 @@
 package xyz.game.datamanage.service.skillprocess;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -305,7 +307,7 @@ public class SkillProcessService {
                 )).toList(),
                 operations.stream().map(operation -> new SkillProcessStateOperationResponse(
                     operation.operationKey(), operation.name(), operation.stateKey(), operation.operation(),
-                    operation.valueFormulaKey(), operation.optionKey(), operation.moment(), operation.sortOrder()
+                    operation.value(), operation.optionKey(), operation.moment(), operation.sortOrder()
                 )).toList(),
                 process.createdAt(), process.updatedAt()
             );
@@ -452,7 +454,7 @@ public class SkillProcessService {
             );
         }
         if (values.cooldown() != null) {
-            addFormula(refs, issues, "cooldown.durationFormulaKey", values.cooldown().durationFormulaKey());
+            addFormula(refs, issues, "cooldown.durationValue", values.cooldown().durationValue());
             validateMoment(
                 values.cooldown().startMoment(),
                 "cooldown.startMoment",
@@ -490,16 +492,16 @@ public class SkillProcessService {
             }
             case DELAY -> {
                 if (step.detail() instanceof SkillProcessDelayStepDetail delay) {
-                    addFormula(refs, issues, stepPath(index, "detail.delayFormulaKey"), delay.delayFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.delayValue"), delay.delayValue());
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "延迟步骤明细形状不合法"));
                 }
             }
             case MULTI_HIT -> {
                 if (step.detail() instanceof SkillProcessMultiHitStepDetail multi) {
-                    addFormula(refs, issues, stepPath(index, "detail.repeatCountFormulaKey"), multi.repeatCountFormulaKey());
-                    if (multi.intervalFormulaKey() != null) {
-                        addFormula(refs, issues, stepPath(index, "detail.intervalFormulaKey"), multi.intervalFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.repeatCountValue"), multi.repeatCountValue());
+                    if (multi.intervalValue() != null) {
+                        addFormula(refs, issues, stepPath(index, "detail.intervalValue"), multi.intervalValue());
                     }
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "多段步骤明细形状不合法"));
@@ -507,8 +509,8 @@ public class SkillProcessService {
             }
             case PERIODIC -> {
                 if (step.detail() instanceof SkillProcessPeriodicStepDetail periodic) {
-                    addFormula(refs, issues, stepPath(index, "detail.repeatCountFormulaKey"), periodic.repeatCountFormulaKey());
-                    addFormula(refs, issues, stepPath(index, "detail.intervalFormulaKey"), periodic.intervalFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.repeatCountValue"), periodic.repeatCountValue());
+                    addFormula(refs, issues, stepPath(index, "detail.intervalValue"), periodic.intervalValue());
                     if (periodic.firstExecution() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.firstExecution"), "REQUIRED", "首次执行方式不能为空"));
                     }
@@ -518,8 +520,8 @@ public class SkillProcessService {
             }
             case CHANNEL -> {
                 if (step.detail() instanceof SkillProcessChannelStepDetail channel) {
-                    addFormula(refs, issues, stepPath(index, "detail.durationFormulaKey"), channel.durationFormulaKey());
-                    addFormula(refs, issues, stepPath(index, "detail.executionCountFormulaKey"), channel.executionCountFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.durationValue"), channel.durationValue());
+                    addFormula(refs, issues, stepPath(index, "detail.executionCountValue"), channel.executionCountValue());
                     if (channel.firstExecution() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.firstExecution"), "REQUIRED", "首次执行方式不能为空"));
                     }
@@ -529,8 +531,8 @@ public class SkillProcessService {
             }
             case CHARGE -> {
                 if (step.detail() instanceof SkillProcessChargeStepDetail charge) {
-                    addFormula(refs, issues, stepPath(index, "detail.minimumChargeFormulaKey"), charge.minimumChargeFormulaKey());
-                    addFormula(refs, issues, stepPath(index, "detail.maximumChargeFormulaKey"), charge.maximumChargeFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.minimumChargeValue"), charge.minimumChargeValue());
+                    addFormula(refs, issues, stepPath(index, "detail.maximumChargeValue"), charge.maximumChargeValue());
                     if (charge.releaseAtMaximum() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.releaseAtMaximum"), "REQUIRED", "达到最大蓄力是否释放不能为空"));
                     }
@@ -540,15 +542,15 @@ public class SkillProcessService {
             }
             case RECAST -> {
                 if (step.detail() instanceof SkillProcessRecastStepDetail recast) {
-                    addFormula(refs, issues, stepPath(index, "detail.windowFormulaKey"), recast.windowFormulaKey());
-                    addFormula(refs, issues, stepPath(index, "detail.maximumRecastCountFormulaKey"), recast.maximumRecastCountFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.windowValue"), recast.windowValue());
+                    addFormula(refs, issues, stepPath(index, "detail.maximumRecastCountValue"), recast.maximumRecastCountValue());
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "重施步骤明细形状不合法"));
                 }
             }
             case EMPOWERED_BASIC_ATTACK -> {
                 if (step.detail() instanceof SkillProcessEmpoweredAttackStepDetail empowered) {
-                    addFormula(refs, issues, stepPath(index, "detail.windowFormulaKey"), empowered.windowFormulaKey());
+                    addFormula(refs, issues, stepPath(index, "detail.windowValue"), empowered.windowValue());
                     if (empowered.consumeMoment() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.consumeMoment"), "REQUIRED", "消耗时点不能为空"));
                     }
@@ -609,8 +611,8 @@ public class SkillProcessService {
         if (operation.operation() == null) {
             issues.add(fieldIssue(operationPath(index, "operation"), "REQUIRED", "内部状态操作种类不能为空"));
         }
-        if (operation.valueFormulaKey() != null) {
-            addFormula(refs, issues, operationPath(index, "valueFormulaKey"), operation.valueFormulaKey());
+        if (operation.value() != null) {
+            addFormula(refs, issues, operationPath(index, "value"), operation.value());
         }
         if (operation.optionKey() != null && operation.stateKey() != null) {
             refs.options.add(new OptionRef(
@@ -623,7 +625,7 @@ public class SkillProcessService {
             index,
             operation.stateKey(),
             operation.operation(),
-            operation.valueFormulaKey(),
+            operation.value(),
             operation.optionKey()
         ));
         validateMoment(operation.moment(), operationPath(index, "moment"), finalSteps, issues, referenceIssues);
@@ -736,12 +738,12 @@ public class SkillProcessService {
         List<Map<String, String>> issues
     ) {
         int index = shape.index();
-        boolean hasValue = shape.valueFormulaKey() != null;
+        boolean hasValue = shape.value() != null;
         boolean hasOption = shape.optionKey() != null;
         if (stateType == SkillInternalStateType.COUNTER || stateType == SkillInternalStateType.AMMO) {
             if (VALUE_OPS.contains(shape.operation())) {
                 if (!hasValue) {
-                    issues.add(fieldIssue(operationPath(index, "valueFormulaKey"), "REQUIRED", "该操作必须提供数值公式"));
+                    issues.add(fieldIssue(operationPath(index, "value"), "REQUIRED", "该操作必须提供数值公式"));
                 }
                 if (hasOption) {
                     issues.add(fieldIssue(operationPath(index, "optionKey"), "FORBIDDEN", "该操作不能指定模式选项"));
@@ -750,7 +752,7 @@ public class SkillProcessService {
             }
             if (shape.operation() == SkillProcessStateOperationKind.RESET) {
                 if (hasValue) {
-                    issues.add(fieldIssue(operationPath(index, "valueFormulaKey"), "FORBIDDEN", "重置操作不能提供数值公式"));
+                    issues.add(fieldIssue(operationPath(index, "value"), "FORBIDDEN", "重置操作不能提供数值公式"));
                 }
                 if (hasOption) {
                     issues.add(fieldIssue(operationPath(index, "optionKey"), "FORBIDDEN", "该操作不能指定模式选项"));
@@ -766,7 +768,7 @@ public class SkillProcessService {
                 return;
             }
             if (hasValue) {
-                issues.add(fieldIssue(operationPath(index, "valueFormulaKey"), "FORBIDDEN", "模式选择不能提供数值公式"));
+                issues.add(fieldIssue(operationPath(index, "value"), "FORBIDDEN", "模式选择不能提供数值公式"));
             }
             if (!hasOption) {
                 issues.add(fieldIssue(operationPath(index, "optionKey"), "REQUIRED", "模式选择必须指定选项"));
@@ -779,7 +781,7 @@ public class SkillProcessService {
                 return;
             }
             if (hasValue) {
-                issues.add(fieldIssue(operationPath(index, "valueFormulaKey"), "FORBIDDEN", "该操作不能提供数值公式"));
+                issues.add(fieldIssue(operationPath(index, "value"), "FORBIDDEN", "该操作不能提供数值公式"));
             }
             if (hasOption) {
                 issues.add(fieldIssue(operationPath(index, "optionKey"), "FORBIDDEN", "该操作不能指定模式选项"));
@@ -792,7 +794,7 @@ public class SkillProcessService {
                 return;
             }
             if (hasValue) {
-                issues.add(fieldIssue(operationPath(index, "valueFormulaKey"), "FORBIDDEN", "该操作不能提供数值公式"));
+                issues.add(fieldIssue(operationPath(index, "value"), "FORBIDDEN", "该操作不能提供数值公式"));
             }
             if (hasOption) {
                 issues.add(fieldIssue(operationPath(index, "optionKey"), "FORBIDDEN", "该操作不能指定模式选项"));
@@ -817,14 +819,16 @@ public class SkillProcessService {
         CollectedRefs refs,
         List<Map<String, String>> issues,
         String field,
-        String formulaKey
+        SkillNumericValue value
     ) {
-        if (formulaKey == null || formulaKey.isBlank()) {
+        if (value == null) {
             issues.add(fieldIssue(field, "REQUIRED", "公式不能为空"));
             return;
         }
-        refs.formulas.add(new CatalogRef(field, formulaKey));
-        refs.formulaKeys.add(formulaKey);
+        if (value.formulaKey() != null) {
+            refs.formulas.add(new CatalogRef(field, value.formulaKey()));
+            refs.formulaKeys.add(value.formulaKey());
+        }
     }
 
     private Set<String> lockSorted(Set<String> keys, java.util.function.Function<List<String>, List<String>> locker) {
@@ -1035,7 +1039,7 @@ public class SkillProcessService {
         int index,
         String stateKey,
         SkillProcessStateOperationKind operation,
-        String valueFormulaKey,
+        SkillNumericValue value,
         String optionKey
     ) {
     }

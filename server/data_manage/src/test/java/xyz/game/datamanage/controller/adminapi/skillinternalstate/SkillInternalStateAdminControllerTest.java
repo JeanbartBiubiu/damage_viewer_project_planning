@@ -41,6 +41,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skillinternalstate.SkillInternalStateService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
@@ -86,7 +87,7 @@ class SkillInternalStateAdminControllerTest {
         mockMvc.perform(get(BASE_PATH + "/mark_stacks"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.gameId").value("lol"))
-            .andExpect(jsonPath("$.detail.initialValueFormulaKey").value("base_damage"));
+            .andExpect(jsonPath("$.detail.initialValue").value(org.hamcrest.Matchers.equalTo(Map.of("kind", "FORMULA", "formulaKey", "base_damage"))));
 
         mockMvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -120,7 +121,7 @@ class SkillInternalStateAdminControllerTest {
                       "stateType":"STACK",
                       "scope":"TARGET",
                       "sortOrder":0,
-                      "detail":{"initialValueFormulaKey":"base_damage","maxValueFormulaKey":"max_stacks"}
+                      "detail":{"initialValue":{"kind":"FORMULA","formulaKey":"base_damage"},"maxValue":{"kind":"FORMULA","formulaKey":"max_stacks"}}
                     }
                     """))
             .andExpect(status().isBadRequest())
@@ -135,7 +136,7 @@ class SkillInternalStateAdminControllerTest {
                       "stateType":"COUNTER",
                       "scope":"TARGET",
                       "sortOrder":0,
-                      "detail":{"initialValueFormulaKey":"base_damage","maxValueFormulaKey":"max_stacks"}
+                      "detail":{"initialValue":{"kind":"FORMULA","formulaKey":"base_damage"},"maxValue":{"kind":"FORMULA","formulaKey":"max_stacks"}}
                     }
                     """))
             .andExpect(status().isBadRequest())
@@ -175,8 +176,8 @@ class SkillInternalStateAdminControllerTest {
                       "scope":"TARGET",
                       "sortOrder":0,
                       "detail":{
-                        "initialValueFormulaKey":"base_damage",
-                        "maxValueFormulaKey":"max_stacks",
+                        "initialValue":{"kind":"FORMULA","formulaKey":"base_damage"},
+                        "maxValue":{"kind":"FORMULA","formulaKey":"max_stacks"},
                         "initialEnabled":true
                       }
                     }
@@ -199,7 +200,7 @@ class SkillInternalStateAdminControllerTest {
                 Map.of(
                     "fieldIssues",
                     List.of(Map.of(
-                        "field", "detail.initialValueFormulaKey",
+                        "field", "detail.initialValue",
                         "code", "UNKNOWN_FORMULA",
                         "message", "技能公式不存在或不属于当前技能"
                     ))
@@ -212,7 +213,7 @@ class SkillInternalStateAdminControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error.code").value("400.INVALID_SKILL_INTERNAL_STATE_REFERENCE"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field")
-                .value("detail.initialValueFormulaKey"));
+                .value("detail.initialValue"));
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
     }
 
@@ -224,7 +225,7 @@ class SkillInternalStateAdminControllerTest {
               "stateType":"COUNTER",
               "scope":"TARGET",
               "sortOrder":0,
-              "detail":{"initialValueFormulaKey":"base_damage","maxValueFormulaKey":"max_stacks"}
+              "detail":{"initialValue":{"kind":"FORMULA","formulaKey":"base_damage"},"maxValue":{"kind":"FORMULA","formulaKey":"max_stacks"}}
             }
             """;
     }
@@ -236,7 +237,7 @@ class SkillInternalStateAdminControllerTest {
               "stateType":"COUNTER",
               "scope":"TARGET",
               "sortOrder":0,
-              "detail":{"initialValueFormulaKey":"base_damage","maxValueFormulaKey":"max_stacks"}
+              "detail":{"initialValue":{"kind":"FORMULA","formulaKey":"base_damage"},"maxValue":{"kind":"FORMULA","formulaKey":"max_stacks"}}
             }
             """;
     }
@@ -252,7 +253,7 @@ class SkillInternalStateAdminControllerTest {
         return new SkillInternalStateDetailResponse(
             "lol", "ezreal_q", "mark_stacks", "印记层数",
             SkillInternalStateType.COUNTER, SkillInternalStateScope.TARGET, null, 0,
-            new SkillInternalStateCounterDetail("base_damage", "max_stacks"),
+            new SkillInternalStateCounterDetail(SkillNumericValue.formula("base_damage"), SkillNumericValue.formula("max_stacks")),
             TS, TS
         );
     }

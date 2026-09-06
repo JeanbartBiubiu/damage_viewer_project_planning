@@ -5,19 +5,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerEventValueConditionDetail(
     SkillTriggerEventValueKey eventValueKey,
     SkillTriggerComparator comparator,
-    String comparisonFormulaKey,
+    @Valid
+    SkillNumericValue comparisonValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillTriggerConditionDetail {
 
     public SkillTriggerEventValueConditionDetail {
-        comparisonFormulaKey = trim(comparisonFormulaKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillTriggerDetailFieldCapture.normalize(unknownFields);
     }
@@ -25,23 +27,23 @@ public record SkillTriggerEventValueConditionDetail(
     public SkillTriggerEventValueConditionDetail(
         SkillTriggerEventValueKey eventValueKey,
         SkillTriggerComparator comparator,
-        String comparisonFormulaKey
+        SkillNumericValue comparisonValue
     ) {
-        this(eventValueKey, comparator, comparisonFormulaKey, Set.of(), Set.of());
+        this(eventValueKey, comparator, comparisonValue, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillTriggerEventValueConditionDetail fromJson(
         @JsonProperty("eventValueKey") SkillTriggerEventValueKey eventValueKey,
         @JsonProperty("comparator") SkillTriggerComparator comparator,
-        @JsonProperty("comparisonFormulaKey") String comparisonFormulaKey,
+        @JsonProperty("comparisonValue") SkillNumericValue comparisonValue,
         @JsonProperty("stateKey") JsonNode stateKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillTriggerEventValueConditionDetail(
             eventValueKey,
             comparator,
-            comparisonFormulaKey,
+            comparisonValue,
             SkillTriggerDetailFieldCapture.captureForeign("stateKey", stateKey),
             SkillTriggerDetailFieldCapture.captureUnknown(unknown)
         );

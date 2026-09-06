@@ -32,10 +32,15 @@ import org.mockito.quality.Strictness;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCancelProcessEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
@@ -49,16 +54,12 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerSpellShieldBlockedEventDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
-import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
-import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -162,7 +163,7 @@ class SkillTriggerRuleEventShapeServiceTest {
                 EFFECT_KEY, "spell_shield", SkillEffectResultType.SPELL_SHIELD,
                 SkillEffectTarget.SOURCE, false, null, null, null, null, null,
                 SkillEffectLifecycleMoment.PERSISTENT, null, null, true,
-                "duration_f", "max_stacks_f", "app_stacks_f", null,
+                SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"), null,
                 SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
                 null, null, null, null
             )
@@ -321,7 +322,7 @@ class SkillTriggerRuleEventShapeServiceTest {
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
                     new SkillTriggerHealthThresholdEventDetail(
-                        SkillTriggerSubject.EVENT_SOURCE, "hp", "threshold_f", SkillTriggerHealthDirection.DOWNWARD
+                        SkillTriggerSubject.EVENT_SOURCE, "hp", SkillNumericValue.formula("threshold_f"), SkillTriggerHealthDirection.DOWNWARD
                     )
                 ),
                 List.of(executeAction("deal", EFFECT_KEY))

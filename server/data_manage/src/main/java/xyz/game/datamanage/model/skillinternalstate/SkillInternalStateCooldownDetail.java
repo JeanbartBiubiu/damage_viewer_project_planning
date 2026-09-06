@@ -5,42 +5,44 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillInternalStateCooldownDetail(
-    String durationFormulaKey,
+    @Valid
+    SkillNumericValue durationValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillInternalStateDetail {
 
     public SkillInternalStateCooldownDetail {
-        durationFormulaKey = durationFormulaKey == null ? null : durationFormulaKey.trim();
         foreignFields = SkillInternalStateDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillInternalStateDetailFieldCapture.normalize(unknownFields);
     }
 
-    public SkillInternalStateCooldownDetail(String durationFormulaKey) {
-        this(durationFormulaKey, Set.of(), Set.of());
+    public SkillInternalStateCooldownDetail(SkillNumericValue durationValue) {
+        this(durationValue, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillInternalStateCooldownDetail fromJson(
-        @JsonProperty("durationFormulaKey") String durationFormulaKey,
-        @JsonProperty("initialValueFormulaKey") JsonNode initialValueFormulaKey,
-        @JsonProperty("maxValueFormulaKey") JsonNode maxValueFormulaKey,
-        @JsonProperty("recoveryIntervalFormulaKey") JsonNode recoveryIntervalFormulaKey,
+        @JsonProperty("durationValue") SkillNumericValue durationValue,
+        @JsonProperty("initialValue") JsonNode initialValue,
+        @JsonProperty("maxValue") JsonNode maxValue,
+        @JsonProperty("recoveryIntervalValue") JsonNode recoveryIntervalValue,
         @JsonProperty("recoveryMode") JsonNode recoveryMode,
         @JsonProperty("options") JsonNode options,
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateCooldownDetail(
-            durationFormulaKey,
+            durationValue,
             SkillInternalStateDetailFieldCapture.captureForeign(
-                "initialValueFormulaKey", initialValueFormulaKey,
-                "maxValueFormulaKey", maxValueFormulaKey,
-                "recoveryIntervalFormulaKey", recoveryIntervalFormulaKey,
+                "initialValue", initialValue,
+                "maxValue", maxValue,
+                "recoveryIntervalValue", recoveryIntervalValue,
                 "recoveryMode", recoveryMode,
                 "options", options,
                 "initialEnabled", initialEnabled

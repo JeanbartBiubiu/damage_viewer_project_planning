@@ -5,13 +5,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerHealthThresholdEventDetail(
     SkillTriggerSubject subject,
     String attributeKey,
-    String thresholdFormulaKey,
+    @Valid
+    SkillNumericValue thresholdValue,
     SkillTriggerHealthDirection direction,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
@@ -19,7 +22,6 @@ public record SkillTriggerHealthThresholdEventDetail(
 
     public SkillTriggerHealthThresholdEventDetail {
         attributeKey = trimToNull(attributeKey);
-        thresholdFormulaKey = trimToNull(thresholdFormulaKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillTriggerDetailFieldCapture.normalize(unknownFields);
     }
@@ -27,17 +29,17 @@ public record SkillTriggerHealthThresholdEventDetail(
     public SkillTriggerHealthThresholdEventDetail(
         SkillTriggerSubject subject,
         String attributeKey,
-        String thresholdFormulaKey,
+        SkillNumericValue thresholdValue,
         SkillTriggerHealthDirection direction
     ) {
-        this(subject, attributeKey, thresholdFormulaKey, direction, Set.of(), Set.of());
+        this(subject, attributeKey, thresholdValue, direction, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillTriggerHealthThresholdEventDetail fromJson(
         @JsonProperty("subject") SkillTriggerSubject subject,
         @JsonProperty("attributeKey") String attributeKey,
-        @JsonProperty("thresholdFormulaKey") String thresholdFormulaKey,
+        @JsonProperty("thresholdValue") SkillNumericValue thresholdValue,
         @JsonProperty("direction") SkillTriggerHealthDirection direction,
         @JsonProperty("statusKey") JsonNode statusKey,
         @JsonAnySetter Map<String, JsonNode> unknown
@@ -45,7 +47,7 @@ public record SkillTriggerHealthThresholdEventDetail(
         return new SkillTriggerHealthThresholdEventDetail(
             subject,
             attributeKey,
-            thresholdFormulaKey,
+            thresholdValue,
             direction,
             SkillTriggerDetailFieldCapture.captureForeign("statusKey", statusKey),
             SkillTriggerDetailFieldCapture.captureUnknown(unknown)

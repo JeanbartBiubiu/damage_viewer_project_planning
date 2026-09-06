@@ -14,8 +14,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import xyz.game.datamanage.support.authoring.AggregateJson;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetail;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +34,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoRecove
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCreateRequest;
+import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetailResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeDetail;
@@ -45,6 +44,8 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
+import xyz.game.datamanage.model.value.SkillNumericValue;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,9 +102,9 @@ class SkillInternalStateServiceTest {
     @Test
     void createsAndReadsFiveStateKinds() {
         List<SkillInternalStateDetail> details = List.of(
-            new SkillInternalStateCounterDetail(FORMULA_KEY, "max_stacks"),
-            new SkillInternalStateAmmoDetail(FORMULA_KEY, "max_ammo", "reload", SkillInternalStateAmmoRecoveryMode.ONE_BY_ONE),
-            modeDetail(), new SkillInternalStateFlagDetail(true), new SkillInternalStateCooldownDetail(FORMULA_KEY)
+            new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks")),
+            new SkillInternalStateAmmoDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ONE_BY_ONE),
+            modeDetail(), new SkillInternalStateFlagDetail(true), new SkillInternalStateCooldownDetail(SkillNumericValue.formula(FORMULA_KEY))
         );
         List<SkillInternalStateType> types = List.of(SkillInternalStateType.COUNTER, SkillInternalStateType.AMMO,
             SkillInternalStateType.MODE, SkillInternalStateType.FLAG, SkillInternalStateType.INTERNAL_COOLDOWN);
@@ -151,7 +152,7 @@ class SkillInternalStateServiceTest {
                     null,
                     0,
                     new SkillInternalStateAmmoDetail(
-                        FORMULA_KEY, "max_ammo", "reload", SkillInternalStateAmmoRecoveryMode.ALL_AT_ONCE
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ALL_AT_ONCE
                     )
                 )
             )
@@ -213,8 +214,8 @@ class SkillInternalStateServiceTest {
             () -> service.create(GAME_ID, SKILL_KEY, counterCreate())
         );
         assertEquals("400.INVALID_SKILL_INTERNAL_STATE_REFERENCE", exception.getCode());
-        assertField(exception, "detail.initialValueFormulaKey", "UNKNOWN_FORMULA");
-        assertField(exception, "detail.maxValueFormulaKey", "UNKNOWN_FORMULA");
+        assertField(exception, "detail.initialValue", "UNKNOWN_FORMULA");
+        assertField(exception, "detail.maxValue", "UNKNOWN_FORMULA");
         verify(mapper, never()).insertState(any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
@@ -256,7 +257,7 @@ class SkillInternalStateServiceTest {
                     SkillInternalStateScope.SKILL,
                     null,
                     0,
-                    new SkillInternalStateCounterDetail(FORMULA_KEY, "max_stacks")
+                    new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"))
                 )
             )
         );
@@ -275,7 +276,7 @@ class SkillInternalStateServiceTest {
                     SkillInternalStateScope.TARGET,
                     null,
                     0,
-                    new SkillInternalStateCounterDetail(FORMULA_KEY, "max_stacks")
+                    new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"))
                 )
             )
         );
@@ -360,7 +361,7 @@ class SkillInternalStateServiceTest {
                     null,
                     0,
                     new SkillInternalStateCounterDetail(
-                        FORMULA_KEY, "max_stacks", Set.of("initialEnabled"), Set.of()
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"), Set.of("initialEnabled"), Set.of()
                     )
                 )
             )
@@ -449,7 +450,7 @@ class SkillInternalStateServiceTest {
             SkillInternalStateScope.TARGET,
             null,
             0,
-            new SkillInternalStateCounterDetail(FORMULA_KEY, "max_stacks")
+            new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"))
         );
     }
 
@@ -468,7 +469,7 @@ class SkillInternalStateServiceTest {
         return new SkillInternalStateRow(
             GAME_ID, SKILL_KEY, stateKey, stateKey, type, scope, null, 0, TS, TS,
             AggregateJson.write(type == SkillInternalStateType.MODE ? modeDetail()
-                : new SkillInternalStateCounterDetail(FORMULA_KEY, "max_stacks"))
+                : new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks")))
         );
     }
 
