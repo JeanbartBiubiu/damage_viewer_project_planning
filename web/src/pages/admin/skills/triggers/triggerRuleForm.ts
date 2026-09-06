@@ -1711,6 +1711,25 @@ export function isFailProcessLast(actions: readonly SkillTriggerActionDraft[]): 
   return index === sorted.length - 1 && sorted.filter((item) => item.actionType === 'FAIL_PROCESS').length === 1;
 }
 
+function swappedActionDrafts(
+  sorted: readonly SkillTriggerActionDraft[],
+  index: number,
+  target: number
+): SkillTriggerActionDraft[] {
+  const reordered = [...sorted];
+  [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+  const hasTiedOrder = sorted.some((item, position) => position > 0
+    && parseSortOrder(item.sortOrder) === parseSortOrder(sorted[position - 1].sortOrder));
+  if (hasTiedOrder) {
+    // 并列排序仅交换数值不会改变执行顺序；按实际移动后的顺序重编号。
+    return reordered.map((item, position) => ({ ...item, sortOrder: String((position + 1) * 10) }));
+  }
+  return reordered.map((item, position) => {
+    if (position === index || position === target) return { ...item, sortOrder: sorted[position].sortOrder };
+    return item;
+  });
+}
+
 export function canMoveAction(
   actions: readonly SkillTriggerActionDraft[],
   index: number,
@@ -1721,13 +1740,7 @@ export function canMoveAction(
   if (index < 0 || index >= sorted.length || target < 0 || target >= sorted.length) {
     return { ok: false, message: '无法移动该动作。' };
   }
-  const left = sorted[index];
-  const right = sorted[target];
-  const simulated = sorted.map((item, current) => {
-    if (current === index) return { ...item, sortOrder: right.sortOrder };
-    if (current === target) return { ...item, sortOrder: left.sortOrder };
-    return item;
-  });
+  const simulated = swappedActionDrafts(sorted, index, target);
   if (!isFailProcessLast(simulated)) {
     return { ok: false, message: SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE };
   }
@@ -1743,14 +1756,7 @@ export function moveActionDrafts(
   if (!permission.ok) return [...actions];
   const sorted = sortActionDrafts(actions);
   const target = index + direction;
-  const left = sorted[index];
-  const right = sorted[target];
-  const leftSort = left.sortOrder;
-  return sorted.map((item, current) => {
-    if (current === index) return { ...item, sortOrder: right.sortOrder };
-    if (current === target) return { ...item, sortOrder: leftSort };
-    return item;
-  });
+  return swappedActionDrafts(sorted, index, target);
 }
 
 export function ensureFailProcessLast(actions: readonly SkillTriggerActionDraft[]): SkillTriggerActionDraft[] {

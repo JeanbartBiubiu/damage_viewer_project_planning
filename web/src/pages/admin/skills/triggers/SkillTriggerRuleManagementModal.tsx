@@ -140,6 +140,18 @@ export function SkillTriggerRuleManagementModal({
     onSkillMissing();
   }, [onSkillMissing, resetState]);
 
+  const handleEditorDirtyChange = useCallback((dirty: boolean) => {
+    setEditorDirty(dirty);
+    onDirtyChange(dirty);
+  }, [onDirtyChange]);
+
+  const handleRuleMissing = useCallback(() => {
+    setEditor(null);
+    setEditorDirty(false);
+    setNotice('规则已被其他会话删除。');
+    void loadRules();
+  }, [loadRules]);
+
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId || !skill) return;
     const token = adminToken.trim();
@@ -308,16 +320,8 @@ export function SkillTriggerRuleManagementModal({
             await loadRules();
           }}
           onSkillMissing={handleSkillMissing}
-          onRuleMissing={() => {
-            setEditor(null);
-            setEditorDirty(false);
-            setNotice('规则已被其他会话删除。');
-            void loadRules();
-          }}
-          onDirtyChange={(dirty: boolean) => {
-            setEditorDirty(dirty);
-            onDirtyChange(dirty);
-          }}
+          onRuleMissing={handleRuleMissing}
+          onDirtyChange={handleEditorDirtyChange}
         />
       ) : null}
 
