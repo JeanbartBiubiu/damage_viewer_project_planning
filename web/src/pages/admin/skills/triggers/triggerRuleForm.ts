@@ -1,5 +1,6 @@
+import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
-import { numericValueError, numericValuesIn } from '../numericValueForm';
+import { numericValueError, numericValueSummary, numericValuesIn } from '../numericValueForm';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { DamageType } from '../../../../types/damageType';
@@ -31,6 +32,7 @@ import type {
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerConditionType,
+  SkillTriggerLifecycleCheckDetail,
   SkillTriggerDamageDeliveryKind,
   SkillTriggerDamageOriginKind,
   SkillTriggerEventSource,
@@ -216,6 +218,7 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
 export const SKILL_TRIGGER_CONDITION_TYPES = [
   'ATTRIBUTE_COMPARE',
   'STATUS_CHECK',
+  'LIFECYCLE_CHECK',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ] as const satisfies readonly SkillTriggerConditionType[];
@@ -555,6 +558,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
 export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
   ATTRIBUTE_COMPARE: '属性比较',
   STATUS_CHECK: '战斗状态检查',
+  LIFECYCLE_CHECK: '生命周期检查',
   INTERNAL_STATE_CHECK: '技能内部状态检查',
   EVENT_VALUE_COMPARE: '事件值比较'
 } as const satisfies { [K in SkillTriggerConditionType]: string };
@@ -671,6 +675,11 @@ export type SkillTriggerStatusCheckConditionDraft = ConditionDraftBase & {
   detail: SkillTriggerStatusCheckDetail;
 };
 
+export type SkillTriggerLifecycleCheckConditionDraft = ConditionDraftBase & {
+  conditionType: 'LIFECYCLE_CHECK';
+  detail: SkillTriggerLifecycleCheckDetail;
+};
+
 export type SkillTriggerInternalStateCheckConditionDraft = ConditionDraftBase & {
   conditionType: 'INTERNAL_STATE_CHECK';
   detail: SkillTriggerInternalStateCheckDetail;
@@ -684,6 +693,7 @@ export type SkillTriggerEventValueCompareConditionDraft = ConditionDraftBase & {
 export type SkillTriggerConditionDraft =
   | SkillTriggerAttributeCompareConditionDraft
   | SkillTriggerStatusCheckConditionDraft
+  | SkillTriggerLifecycleCheckConditionDraft
   | SkillTriggerInternalStateCheckConditionDraft
   | SkillTriggerEventValueCompareConditionDraft;
 
@@ -919,6 +929,9 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
 }
 
 export function createEmptyConditionDetail(
+  conditionType: 'LIFECYCLE_CHECK'
+): SkillTriggerLifecycleCheckDetail;
+export function createEmptyConditionDetail(
   conditionType: 'ATTRIBUTE_COMPARE'
 ): SkillTriggerAttributeCompareDetail;
 export function createEmptyConditionDetail(
@@ -937,6 +950,8 @@ export function createEmptyConditionDetail(
   conditionType: SkillTriggerConditionType
 ): SkillTriggerCondition['detail'] {
   switch (conditionType) {
+    case 'LIFECYCLE_CHECK':
+      return { effectKey: '', subject: null, checkKind: 'PRESENT', comparator: null, comparisonValue: null };
     case 'ATTRIBUTE_COMPARE':
       return {
         subject: 'CURRENT_TARGET',
@@ -1046,6 +1061,10 @@ export function nextDraftKey(existing: readonly string[], prefix: string): strin
 
 export function createEmptyConditionDraft(
   existingKeys: readonly string[],
+  conditionType: 'LIFECYCLE_CHECK'
+): SkillTriggerLifecycleCheckConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
   conditionType: 'ATTRIBUTE_COMPARE'
 ): SkillTriggerAttributeCompareConditionDraft;
 export function createEmptyConditionDraft(
@@ -1073,6 +1092,8 @@ export function createEmptyConditionDraft(
     sortOrder: '10'
   };
   switch (conditionType) {
+    case 'LIFECYCLE_CHECK':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('LIFECYCLE_CHECK') };
     case 'ATTRIBUTE_COMPARE':
       return { ...base, conditionType, detail: createEmptyConditionDetail('ATTRIBUTE_COMPARE') };
     case 'STATUS_CHECK':
@@ -1774,6 +1795,8 @@ export function ensureFailProcessLast(actions: readonly SkillTriggerActionDraft[
 
 function conditionFromDetail(condition: SkillTriggerCondition): SkillTriggerConditionDraft {
   switch (condition.conditionType) {
+    case 'LIFECYCLE_CHECK':
+      return { conditionKey: condition.conditionKey, conditionType: 'LIFECYCLE_CHECK', sortOrder: String(condition.sortOrder), detail: condition.detail };
     case 'ATTRIBUTE_COMPARE':
       return {
         conditionKey: condition.conditionKey,
@@ -1872,6 +1895,8 @@ function normalizeDescription(raw: string): string | null {
 
 function toCondition(condition: SkillTriggerConditionDraft, sortOrder: number): SkillTriggerCondition {
   switch (condition.conditionType) {
+    case 'LIFECYCLE_CHECK':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'LIFECYCLE_CHECK', sortOrder: sortOrder, detail: condition.detail };
     case 'ATTRIBUTE_COMPARE':
       return {
         conditionKey: condition.conditionKey.trim(),
@@ -2030,7 +2055,7 @@ function usesEventValueKey(draft: SkillTriggerRuleDraft, key: SkillTriggerEventV
 
 function usesEventSourceSubject(draft: SkillTriggerRuleDraft): boolean {
   const inConditions = draft.conditionGroups.some((group) => group.conditions.some((condition) => {
-    if (condition.conditionType === 'ATTRIBUTE_COMPARE' || condition.conditionType === 'STATUS_CHECK') {
+    if (condition.conditionType === 'ATTRIBUTE_COMPARE' || condition.conditionType === 'STATUS_CHECK' || condition.conditionType === 'LIFECYCLE_CHECK') {
       return condition.detail.subject === 'EVENT_SOURCE';
     }
     return false;
@@ -2100,6 +2125,8 @@ function cleanupConditionForEventSwitch(
       return patchAttributeCompareDetail(condition, {
         subject: fallbackSubject(condition.detail.subject, hasEventSource)
       });
+    case 'LIFECYCLE_CHECK':
+      return { ...condition, detail: { ...condition.detail, subject: condition.detail.subject === null ? null : fallbackSubject(condition.detail.subject, hasEventSource) } };
     case 'STATUS_CHECK':
       return patchStatusCheckSubject(
         condition,
@@ -2278,8 +2305,11 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         condition.detail.attributeKey,
         attributeValueKindLabel(condition.detail.attributeValueKind),
         SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
-        condition.detail.comparisonValue
+        numericValueSummary(condition.detail.comparisonValue)
       ].filter(Boolean).join(' / ');
+    case 'LIFECYCLE_CHECK':
+      return ['生命周期检查', condition.detail.effectKey, condition.detail.subject ? SKILL_TRIGGER_SUBJECT_LABELS[condition.detail.subject] : null,
+        LIFECYCLE_CHECK_LABELS[condition.detail.checkKind], condition.detail.checkKind === 'STACKS_COMPARE' ? SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator] + ' ' + numericValueSummary(condition.detail.comparisonValue) : null].filter(Boolean).join(' / ');
     case 'STATUS_CHECK':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.STATUS_CHECK,
@@ -2883,6 +2913,7 @@ export function validateSkillTriggerDraft(
   draft: SkillTriggerRuleDraft,
   options: {
     includeRuleKey: boolean;
+    skillKey?: string;
     catalogStates?: Partial<Record<SkillTriggerCatalogKind, CatalogLoadState>>;
     formulasByKey?: ReadonlyMap<string, SkillFormula>;
     parameters?: readonly SkillParameter[];
@@ -2996,6 +3027,11 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].conditionKey`, '条件标识不能重复。');
       }
       conditionKeys.add(condition.conditionKey.trim());
+      if (condition.conditionType === 'LIFECYCLE_CHECK') {
+        const issue = lifecycleConditionError(condition.detail, options.effectsByKey?.get(condition.detail.effectKey), subjectOptionsForEvent(draft.eventSource.eventType),
+          { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, {}, options.skillKey);
+        if (issue) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.${issue.field}`, issue.message);
+      }
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
         if (!allowedValues.includes(condition.detail.eventValueKey)) {
           pushError(
@@ -3191,7 +3227,7 @@ export function validateSkillTriggerDraft(
   if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') checkValue(draft.eventSource.detail.thresholdValue, 'eventSource.detail.thresholdValue');
   for (const [gi, group] of sortedGroups.entries()) for (const [ci, condition] of sortConditionDrafts(group.conditions).entries()) {
     const detail = condition.detail;
-    if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`);
+    if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`, condition.conditionType === 'LIFECYCLE_CHECK' ? { min: 0, integer: true } : {});
   }
   if (draft.perTargetCooldownEnabled) checkValue(draft.perTargetCooldownDurationValue, 'perTargetCooldown.durationValue', { min: 0, exclusiveMin: true });
   if (draft.maxTriggersPerProcessEnabled) checkValue(draft.maxTriggersLimitValue, 'maxTriggersPerProcess.limitValue', { min: 1, integer: true });

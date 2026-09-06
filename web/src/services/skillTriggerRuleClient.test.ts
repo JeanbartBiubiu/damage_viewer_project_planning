@@ -495,3 +495,30 @@ describe('skillTriggerRuleClient', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('生命周期条件响应分支', () => {
+  const withCondition = (conditionDetail: unknown) => ({ ...detail, conditionGroups: [{ groupKey: 'group', name: '印记条件', sortOrder: 0, conditions: [{ conditionKey: 'mark_present', conditionType: 'LIFECYCLE_CHECK', sortOrder: 0, detail: conditionDetail }] }] });
+  const presence = { effectKey: 'mark', subject: 'CURRENT_TARGET', checkKind: 'PRESENT', comparator: null, comparisonValue: null };
+  it.each([
+    presence,
+    { ...presence, subject: null, checkKind: 'ABSENT' },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'EQ', comparisonValue: { kind: 'PARAMETER', parameterKey: 'stacks' } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'LT', comparisonValue: { kind: 'FORMULA', formulaKey: 'limit' } }
+  ])('严格读取合法生命周期分支 %j', (conditionDetail) => {
+    expect(parseSkillTriggerRuleDetail(withCondition(conditionDetail)).conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+  });
+  it.each([
+    { ...presence, scope: 'SOURCE_TARGET' }, { ...presence, subject: undefined }, { ...presence, subject: 'OTHER' },
+    { ...presence, subject: ['CURRENT_TARGET'] },
+    { ...presence, effectKey: '' }, { ...presence, checkKind: 'UNKNOWN' }, { ...presence, comparator: 'EQ' },
+    { ...presence, comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: null },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: ['GTE'], comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: -1 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: 0.5 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: 'stacks' }
+  ])('拒绝字段串用、缺失与非法层数 %j', (conditionDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withCondition(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});

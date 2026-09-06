@@ -28,6 +28,7 @@ export type SkillTriggerEventType =
 export type SkillTriggerConditionType =
   | 'ATTRIBUTE_COMPARE'
   | 'STATUS_CHECK'
+  | 'LIFECYCLE_CHECK'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -354,6 +355,20 @@ export type SkillTriggerStatusCheckDetail =
   | SkillTriggerStatusPresenceDetail
   | SkillTriggerStatusCompareDetail;
 
+export type SkillTriggerLifecycleCheckKind = 'PRESENT' | 'ABSENT' | 'STACKS_COMPARE';
+export type SkillTriggerLifecycleCheckDetail = {
+  effectKey: string;
+  subject: SkillTriggerSubject | null;
+} & ({
+  checkKind: 'PRESENT' | 'ABSENT';
+  comparator: null;
+  comparisonValue: null;
+} | {
+  checkKind: 'STACKS_COMPARE';
+  comparator: SkillTriggerComparator;
+  comparisonValue: NumericValue;
+});
+
 export type SkillTriggerInternalStateValueDetail = {
   stateKey: string;
   valueKind: 'VALUE';
@@ -433,6 +448,12 @@ export type SkillTriggerEventValueCompareCondition = {
 export type SkillTriggerCondition =
   | SkillTriggerAttributeCompareCondition
   | SkillTriggerStatusCheckCondition
+  | {
+      conditionKey: string;
+      conditionType: 'LIFECYCLE_CHECK';
+      sortOrder: number;
+      detail: SkillTriggerLifecycleCheckDetail;
+    }
   | SkillTriggerInternalStateCheckCondition
   | SkillTriggerEventValueCompareCondition;
 
