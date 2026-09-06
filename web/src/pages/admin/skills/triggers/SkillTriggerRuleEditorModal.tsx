@@ -1000,6 +1000,7 @@ export function SkillTriggerRuleEditorModal({
         includeRuleKey: mode === 'create',
         skillKey: skill.skillKey,
         catalogStates,
+        attributes,
         formulasByKey: formulaByKeyRef.current,
         parameters,
         effectsByKey: effectByKeyRef.current,
@@ -1616,6 +1617,10 @@ export function SkillTriggerRuleEditorModal({
       />
 
       <SkillTriggerActionEditorModal
+        originalBindings={baseline.actions.find((item) => item.actionKey === actionEditor?.draft?.actionKey)?.runtimeInputBindings ?? []}
+        attributes={attributes}
+        attributesLoadState={catalogStates.attributes}
+        onRetryAttributes={loadAttributesCatalog}
         visible={actionEditor !== null}
         mode={actionEditor?.mode ?? 'create'}
         draft={actionEditor?.draft ?? null}
