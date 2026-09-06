@@ -712,10 +712,11 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly four conditions, three actions and four runtime sources', () => {
+  it('uses exactly five conditions, three actions and four runtime sources', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
+      'LIFECYCLE_CHECK',
       'INTERNAL_STATE_CHECK',
       'EVENT_VALUE_COMPARE'
     ]);

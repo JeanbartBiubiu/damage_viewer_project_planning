@@ -487,6 +487,7 @@ export function SkillTriggerRuleEditorModal({
       if (catalogSerial.current !== serial) return;
       setEffects(result.data);
       setCatalog('effects', 'ready');
+      return result.data;
     } catch (error) {
       if (catalogSerial.current !== serial) return;
       if (handleMissing(error)) return;
@@ -928,22 +929,35 @@ export function SkillTriggerRuleEditorModal({
     setActionEditor({ mode: editorMode, index, draft: actionDraft });
   };
 
+  const retryLifecycleConditionEffects = async () => {
+    const serial = detailSerial.current;
+    setReferenceError(null);
+    const summaries = await loadEffectsCatalog();
+    if (!summaries || serial !== detailSerial.current) return;
+    await Promise.all(summaries.filter((item) => item.lifecycleEnabled).map((item) => ensureEffect(item.effectKey)));
+  };
+
   const openConditionEditor = async (
     editorMode: SkillTriggerConditionEditorMode,
     groupIndex: number,
     conditionIndex: number | null,
     conditionDraft: SkillTriggerConditionDraft
   ) => {
+    const serial = detailSerial.current;
     setReferenceError(null);
     await Promise.all(internalStates.map((item) => ensureInternalState(item.stateKey)));
     await Promise.all(
       effects.filter((item) => item.lifecycleEnabled).map((item) => ensureEffect(item.effectKey))
     );
+    if (serial !== detailSerial.current) return;
     setConditionEditor({ mode: editorMode, groupIndex, conditionIndex, draft: conditionDraft });
   };
 
   const ensureSaveReferences = async (): Promise<boolean> => {
     setReferenceError(null);
+    const lifecycleEffects = draft.conditionGroups.flatMap((group) => group.conditions.flatMap((condition) => condition.conditionType === 'LIFECYCLE_CHECK' ? [condition.detail.effectKey] : []));
+    const conditionEffects = await Promise.all([...new Set(lifecycleEffects)].map(ensureEffect));
+    if (conditionEffects.some((effect) => effect === null)) return false;
     const formulaKeys = new Set(collectDirectFormulaKeys(draft));
     for (const action of draft.actions) {
       const keys = await collectActionNumericValues(action);
@@ -984,6 +998,7 @@ export function SkillTriggerRuleEditorModal({
       const referencesReady = await ensureSaveReferences();
       const validation = validateSkillTriggerDraft(draft, {
         includeRuleKey: mode === 'create',
+        skillKey: skill.skillKey,
         catalogStates,
         formulasByKey: formulaByKeyRef.current,
         parameters,
@@ -1316,7 +1331,7 @@ export function SkillTriggerRuleEditorModal({
                         'create',
                         groupIndex,
                         null,
-                        createEmptyConditionDraft(group.conditions.map((item) => item.conditionKey))
+                        createEmptyConditionDraft([...group.conditions.map((item) => item.conditionKey), ...baseline.conditionGroups.flatMap((item) => item.conditions.map((condition) => condition.conditionKey))])
                       )}
                     >
                       新增条件
@@ -1563,6 +1578,10 @@ export function SkillTriggerRuleEditorModal({
       </Modal>
 
       <SkillTriggerConditionEditorModal
+        skillKey={skill.skillKey}
+        effectsLoadState={catalogStates.effects}
+        onRetryLifecycleEffects={retryLifecycleConditionEffects}
+        originalConditionType={conditionEditor ? baseline.conditionGroups.find((group) => group.groupKey === sortedGroups[conditionEditor.groupIndex]?.groupKey)?.conditions.find((condition) => condition.conditionKey === conditionEditor.draft.conditionKey)?.conditionType : undefined}
         parameters={parameters}
         parametersLoadState={catalogStates.parameters === 'error' ? 'failed' : catalogStates.parameters === 'ready' ? 'ready' : undefined}
         visible={conditionEditor !== null}
