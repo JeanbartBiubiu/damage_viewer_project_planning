@@ -44,13 +44,13 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
@@ -61,6 +61,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -325,17 +326,17 @@ class SkillTriggerRuleRuntimeInputServiceTest {
         when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "execute", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
-                true, "execute_f", "hp", null, null, null, null, null, null,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
                 false, null, null, null, null, null
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "hit_link", SkillEffectResultType.HIT_LINK_APPLICATION, SkillEffectTarget.TARGET,
-                true, "hit_f", null, null, null, null, null, null, null,
+                true, SkillNumericValue.formula("hit_f"), null, null, null, null, null, null, null,
                 false, null, null, null, null, null
             ),
             new SkillTriggerEffectShapeRow(
                 EFFECT_KEY, "attack_link", SkillEffectResultType.ATTACK_LINK_APPLICATION, SkillEffectTarget.TARGET,
-                true, "attack_f", null, null, null, null, null, null, null,
+                true, SkillNumericValue.formula("attack_f"), null, null, null, null, null, null, null,
                 false, null, null, null, null, null
             )
         ));

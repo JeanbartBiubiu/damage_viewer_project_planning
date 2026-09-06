@@ -1,5 +1,7 @@
 package xyz.game.datamanage.service.skilleffect;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.math.BigDecimal;
@@ -248,8 +250,8 @@ public class SkillEffectService {
             throw lifecycleInUse();
         }
         boolean clearingDuration = existingLifecycle != null
-            && existingLifecycle.durationFormulaKey() != null
-            && (values.lifecycle() == null || values.lifecycle().durationFormulaKey() == null);
+            && existingLifecycle.durationValue() != null
+            && (values.lifecycle() == null || values.lifecycle().durationValue() == null);
         if (clearingDuration
             && mapper.countRefreshOperationReferences(gameId, skillKey, effectKey) > 0) {
             throw refreshInUse();
@@ -803,18 +805,18 @@ public class SkillEffectService {
         if (critical == null || critical.mode() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.critical.mode"), "REQUIRED", "暴击方式不能为空"));
         } else if (critical.mode() == SkillEffectCriticalMode.DISALLOWED
-            && critical.multiplierFormulaKey() != null) {
+            && critical.multiplierValue() != null) {
             issues.add(fieldIssue(
-                resultPath(index, "detail.critical.multiplierFormulaKey"),
+                resultPath(index, "detail.critical.multiplierValue"),
                 "INVALID_CRITICAL_SHAPE",
                 "不允许暴击时不能配置暴击倍率公式"
             ));
         }
-        if (critical != null && critical.multiplierFormulaKey() != null) {
+        if (critical != null && critical.multiplierValue() != null) {
             addInteractionFormulaRef(
                 refs,
-                resultPath(index, "detail.critical.multiplierFormulaKey"),
-                critical.multiplierFormulaKey()
+                resultPath(index, "detail.critical.multiplierValue"),
+                critical.multiplierValue()
             );
         }
         List<SkillEffectVampRule> vampRules = detail.vampRules();
@@ -841,10 +843,10 @@ public class SkillEffectService {
             if (rule.basisOutputKind() == null) {
                 issues.add(fieldIssue(prefix + ".basisOutputKind", "INVALID_VAMP_BASIS", "吸血计算基准不能为空"));
             }
-            if (rule.efficiencyFormulaKey() == null || rule.efficiencyFormulaKey().isBlank()) {
-                issues.add(fieldIssue(prefix + ".efficiencyFormulaKey", "REQUIRED", "吸血效率公式不能为空"));
+            if (rule.efficiencyValue() == null) {
+                issues.add(fieldIssue(prefix + ".efficiencyValue", "REQUIRED", "吸血效率公式不能为空"));
             } else {
-                addInteractionFormulaRef(refs, prefix + ".efficiencyFormulaKey", rule.efficiencyFormulaKey());
+                addInteractionFormulaRef(refs, prefix + ".efficiencyValue", rule.efficiencyValue());
             }
         }
     }
@@ -914,9 +916,9 @@ public class SkillEffectService {
             || detail.decayMode() != SkillEffectNormalShieldDecayMode.LINEAR_TO_ZERO) {
             return;
         }
-        if (lifecycle.durationFormulaKey() == null) {
+        if (lifecycle.durationValue() == null) {
             issues.add(fieldIssue(
-                "lifecycle.durationFormulaKey",
+                "lifecycle.durationValue",
                 "REQUIRED",
                 "线性衰减护盾必须配置持续时间"
             ));
@@ -937,7 +939,9 @@ public class SkillEffectService {
         }
     }
 
-    private static void addInteractionFormulaRef(CollectedRefs refs, String path, String formulaKey) {
+    private static void addInteractionFormulaRef(CollectedRefs refs, String path, SkillNumericValue value) {
+        if (value == null || value.formulaKey() == null) return;
+        String formulaKey = value.formulaKey();
         refs.interactionFormulas.add(new CatalogRef(path, formulaKey, true));
         refs.formulaKeys.add(formulaKey);
     }
@@ -1325,12 +1329,12 @@ public class SkillEffectService {
         if (lifecycle == null) {
             return;
         }
-        if (lifecycle.maxStacksFormulaKey() == null || lifecycle.maxStacksFormulaKey().isBlank()) {
-            issues.add(fieldIssue("lifecycle.maxStacksFormulaKey", "REQUIRED", "最大层数公式不能为空"));
+        if (lifecycle.maxStacksValue() == null) {
+            issues.add(fieldIssue("lifecycle.maxStacksValue", "REQUIRED", "最大层数公式不能为空"));
         }
-        if (lifecycle.applicationStacksFormulaKey() == null
-            || lifecycle.applicationStacksFormulaKey().isBlank()) {
-            issues.add(fieldIssue("lifecycle.applicationStacksFormulaKey", "REQUIRED", "每次施加层数公式不能为空"));
+        if (lifecycle.applicationStacksValue() == null
+           ) {
+            issues.add(fieldIssue("lifecycle.applicationStacksValue", "REQUIRED", "每次施加层数公式不能为空"));
         }
         if (lifecycle.instanceScope() == null) {
             issues.add(fieldIssue("lifecycle.instanceScope", "REQUIRED", "实例范围不能为空"));
@@ -1341,7 +1345,7 @@ public class SkillEffectService {
         if (lifecycle.expiryMode() == null) {
             issues.add(fieldIssue("lifecycle.expiryMode", "REQUIRED", "到期方式不能为空"));
         }
-        boolean hasDuration = lifecycle.durationFormulaKey() != null;
+        boolean hasDuration = lifecycle.durationValue() != null;
         if (!hasDuration) {
             if (lifecycle.expiryMode() != null
                 && lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY) {
@@ -1400,10 +1404,10 @@ public class SkillEffectService {
                 "逐层到期只能搭配整体刷新或保留剩余时间"
             ));
         }
-        if ((lifecycle.periodicIntervalFormulaKey() == null)
+        if ((lifecycle.periodicIntervalValue() == null)
             != (lifecycle.firstPeriodicExecution() == null)) {
-            if (lifecycle.periodicIntervalFormulaKey() == null) {
-                issues.add(fieldIssue("lifecycle.periodicIntervalFormulaKey", "REQUIRED", "周期间隔与首次周期必须同时设置"));
+            if (lifecycle.periodicIntervalValue() == null) {
+                issues.add(fieldIssue("lifecycle.periodicIntervalValue", "REQUIRED", "周期间隔与首次周期必须同时设置"));
             } else {
                 issues.add(fieldIssue("lifecycle.firstPeriodicExecution", "REQUIRED", "周期间隔与首次周期必须同时设置"));
             }
@@ -1414,13 +1418,14 @@ public class SkillEffectService {
         if (lifecycle == null) {
             return;
         }
-        addLifecycleFormula(refs, "lifecycle.durationFormulaKey", lifecycle.durationFormulaKey());
-        addLifecycleFormula(refs, "lifecycle.maxStacksFormulaKey", lifecycle.maxStacksFormulaKey());
-        addLifecycleFormula(refs, "lifecycle.applicationStacksFormulaKey", lifecycle.applicationStacksFormulaKey());
-        addLifecycleFormula(refs, "lifecycle.periodicIntervalFormulaKey", lifecycle.periodicIntervalFormulaKey());
+        addLifecycleFormula(refs, "lifecycle.durationValue", lifecycle.durationValue());
+        addLifecycleFormula(refs, "lifecycle.maxStacksValue", lifecycle.maxStacksValue());
+        addLifecycleFormula(refs, "lifecycle.applicationStacksValue", lifecycle.applicationStacksValue());
+        addLifecycleFormula(refs, "lifecycle.periodicIntervalValue", lifecycle.periodicIntervalValue());
     }
 
-    private static void addLifecycleFormula(CollectedRefs refs, String path, String formulaKey) {
+    private static void addLifecycleFormula(CollectedRefs refs, String path, SkillNumericValue value) {
+        String formulaKey = value == null ? null : value.formulaKey();
         if (formulaKey == null || formulaKey.isBlank()) {
             return;
         }
@@ -1487,11 +1492,11 @@ public class SkillEffectService {
             }
             if (behavior.moment() == SkillEffectLifecycleMoment.PERSISTENT
                 && behavior.valueReadMode() == SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION
-                && result.valueRule().formulaKey() != null
-                && !result.valueRule().formulaKey().isBlank()) {
+                && result.valueRule().value() != null
+                && result.valueRule().value().formulaKey() != null) {
                 refs.dynamicFormulas.add(new CatalogRef(
-                    resultPath(index, "valueRule.formulaKey"),
-                    result.valueRule().formulaKey(),
+                    resultPath(index, "valueRule.value"),
+                    result.valueRule().value().formulaKey(),
                     true
                 ));
             }
@@ -1527,7 +1532,7 @@ public class SkillEffectService {
             ));
         }
         if (behavior.moment() == SkillEffectLifecycleMoment.NATURAL_END
-            && lifecycle.durationFormulaKey() == null) {
+            && lifecycle.durationValue() == null) {
             issues.add(fieldIssue(
                 resultPath(index, "lifecycleBehavior.moment"),
                 "COMBINATION_INVALID",
@@ -1713,9 +1718,9 @@ public class SkillEffectService {
             return;
         }
         if (hasPeriodic) {
-            if (lifecycle.periodicIntervalFormulaKey() == null) {
+            if (lifecycle.periodicIntervalValue() == null) {
                 issues.add(fieldIssue(
-                    "lifecycle.periodicIntervalFormulaKey",
+                    "lifecycle.periodicIntervalValue",
                     "REQUIRED",
                     "存在周期结果时必须设置周期间隔"
                 ));
@@ -1728,9 +1733,9 @@ public class SkillEffectService {
                 ));
             }
         } else {
-            if (lifecycle.periodicIntervalFormulaKey() != null) {
+            if (lifecycle.periodicIntervalValue() != null) {
                 issues.add(fieldIssue(
-                    "lifecycle.periodicIntervalFormulaKey",
+                    "lifecycle.periodicIntervalValue",
                     "FORBIDDEN",
                     "没有周期结果时不能设置周期间隔"
                 ));
@@ -1743,9 +1748,9 @@ public class SkillEffectService {
                 ));
             }
         }
-        if (hasNaturalEnd && lifecycle.durationFormulaKey() == null) {
+        if (hasNaturalEnd && lifecycle.durationValue() == null) {
             issues.add(fieldIssue(
-                "lifecycle.durationFormulaKey",
+                "lifecycle.durationValue",
                 "COMBINATION_INVALID",
                 "没有自然到期时不能使用自然结束结果"
             ));
@@ -1792,12 +1797,13 @@ public class SkillEffectService {
             issues.add(fieldIssue(resultPath(index, "valueRule"), "REQUIRED", "数值规则不能为空"));
             return;
         }
-        String formulaKey = valueRule.formulaKey();
-        if (formulaKey == null || formulaKey.isBlank()) {
-            issues.add(fieldIssue(resultPath(index, "valueRule.formulaKey"), "REQUIRED", "公式标识不能为空"));
-        } else {
+        SkillNumericValue value = valueRule.value();
+        String formulaKey = value == null ? null : value.formulaKey();
+        if (value == null) {
+            issues.add(fieldIssue(resultPath(index, "valueRule.value"), "REQUIRED", "公式标识不能为空"));
+        } else if (formulaKey != null) {
             refs.formulas.add(new CatalogRef(
-                resultPath(index, "valueRule.formulaKey"),
+                resultPath(index, "valueRule.value"),
                 formulaKey,
                 true
             ));
@@ -2237,7 +2243,7 @@ public class SkillEffectService {
             Map.of(
                 "fieldIssues",
                 List.of(fieldIssue(
-                    "lifecycle.durationFormulaKey",
+                    "lifecycle.durationValue",
                     "REFRESH_OPERATION_IN_USE",
                     "目标生命周期仍被刷新操作引用，不能清空持续时间"
                 ))
@@ -2419,7 +2425,7 @@ public class SkillEffectService {
                 issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_LIFECYCLE", "目标效果没有生命周期"));
                 continue;
             }
-            if (ref.refresh() && lifecycle.durationFormulaKey() == null) {
+            if (ref.refresh() && lifecycle.durationValue() == null) {
                 issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_DURATION", "刷新目标没有自然到期"));
             }
         }

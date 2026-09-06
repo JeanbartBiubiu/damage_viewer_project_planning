@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,6 +56,8 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepRequest;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessUpdateRequest;
+import xyz.game.datamanage.model.value.SkillNumericValue;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -146,7 +147,7 @@ class SkillProcessServiceTest {
         assertInstanceOf(SkillProcessChargeStepDetail.class, created.steps().get(5).detail());
         assertInstanceOf(SkillProcessRecastStepDetail.class, created.steps().get(6).detail());
         assertInstanceOf(SkillProcessEmpoweredAttackStepDetail.class, created.steps().get(7).detail());
-        assertEquals(FORMULA_KEY, created.cooldown().durationFormulaKey());
+        assertEquals(SkillNumericValue.formula(FORMULA_KEY), created.cooldown().durationValue());
         assertEquals(SkillProcessMomentType.PROCESS_COMPLETE, created.cooldown().startMoment().momentType());
         assertNull(created.cooldown().startMoment().stepKey());
         assertEquals(1, created.effectBindings().size());
@@ -195,7 +196,7 @@ class SkillProcessServiceTest {
                     null,
                     0,
                     new SkillProcessCooldown(
-                        "other_skill_formula",
+                        SkillNumericValue.formula("other_skill_formula"),
                         new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null)
                     ),
                     List.of(immediateStep()),
@@ -219,7 +220,7 @@ class SkillProcessServiceTest {
             )
         );
         assertEquals("400.INVALID_SKILL_PROCESS_REFERENCE", exception.getCode());
-        assertField(exception, "cooldown.durationFormulaKey", "UNKNOWN_FORMULA");
+        assertField(exception, "cooldown.durationValue", "UNKNOWN_FORMULA");
         assertField(exception, "effectBindings[0].effectKey", "UNKNOWN_EFFECT");
         assertField(exception, "effectBindings[0].moment.stepKey", "UNKNOWN_STEP");
         assertField(exception, "stateOperations[0].stateKey", "UNKNOWN_INTERNAL_STATE");
@@ -308,7 +309,7 @@ class SkillProcessServiceTest {
         when(mapper.listOperationsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
             new xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRow(
                 GAME_ID, SKILL_KEY, PROCESS_KEY, "add_mark", "叠层", "mark_stacks",
-                SkillProcessStateOperationKind.INCREASE, FORMULA_KEY, null,
+                SkillProcessStateOperationKind.INCREASE, SkillNumericValue.formula(FORMULA_KEY), null,
                 SkillProcessMomentType.PROCESS_START, null, 0
             )
         ));
@@ -332,7 +333,7 @@ class SkillProcessServiceTest {
                         SkillProcessStepType.DELAY,
                         null,
                         0,
-                        new SkillProcessDelayStepDetail(FORMULA_KEY)
+                        new SkillProcessDelayStepDetail(SkillNumericValue.formula(FORMULA_KEY))
                     )),
                     List.of(),
                     List.of(new SkillProcessStateOperationRequest(
@@ -388,7 +389,7 @@ class SkillProcessServiceTest {
                         SkillProcessStepType.IMMEDIATE,
                         null,
                         0,
-                        new SkillProcessImmediateStepDetail(Set.of("delayFormulaKey"), Set.of())
+                        new SkillProcessImmediateStepDetail(Set.of("delayValue"), Set.of())
                     )),
                     List.of(processStartBinding()),
                     List.of()
@@ -396,7 +397,7 @@ class SkillProcessServiceTest {
             )
         );
         assertEquals("400.INVALID_BODY", exception.getCode());
-        assertField(exception, "steps[0].detail.delayFormulaKey", "FIELD_MUTEX");
+        assertField(exception, "steps[0].detail.delayValue", "FIELD_MUTEX");
         verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
@@ -471,43 +472,43 @@ class SkillProcessServiceTest {
             null,
             0,
             new SkillProcessCooldown(
-                FORMULA_KEY,
+                SkillNumericValue.formula(FORMULA_KEY),
                 new SkillProcessMoment(SkillProcessMomentType.PROCESS_COMPLETE, null)
             ),
             List.of(
                 immediateStep(),
                 new SkillProcessStepRequest(
                     "delay", "延迟", SkillProcessStepType.DELAY, null, 1,
-                    new SkillProcessDelayStepDetail(FORMULA_KEY)
+                    new SkillProcessDelayStepDetail(SkillNumericValue.formula(FORMULA_KEY))
                 ),
                 new SkillProcessStepRequest(
                     "multi", "多段", SkillProcessStepType.MULTI_HIT, null, 2,
-                    new SkillProcessMultiHitStepDetail(FORMULA_KEY, null)
+                    new SkillProcessMultiHitStepDetail(SkillNumericValue.formula(FORMULA_KEY), null)
                 ),
                 new SkillProcessStepRequest(
                     "tick", "周期", SkillProcessStepType.PERIODIC, null, 3,
                     new SkillProcessPeriodicStepDetail(
-                        FORMULA_KEY, FORMULA_KEY, SkillProcessFirstExecution.IMMEDIATE
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), SkillProcessFirstExecution.IMMEDIATE
                     )
                 ),
                 new SkillProcessStepRequest(
                     "channel", "引导", SkillProcessStepType.CHANNEL, null, 4,
                     new SkillProcessChannelStepDetail(
-                        FORMULA_KEY, FORMULA_KEY, SkillProcessFirstExecution.AFTER_INTERVAL
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), SkillProcessFirstExecution.AFTER_INTERVAL
                     )
                 ),
                 new SkillProcessStepRequest(
                     "charge", "蓄力", SkillProcessStepType.CHARGE, null, 5,
-                    new SkillProcessChargeStepDetail(FORMULA_KEY, FORMULA_KEY, true)
+                    new SkillProcessChargeStepDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), true)
                 ),
                 new SkillProcessStepRequest(
                     "recast", "重施", SkillProcessStepType.RECAST, null, 6,
-                    new SkillProcessRecastStepDetail(FORMULA_KEY, FORMULA_KEY)
+                    new SkillProcessRecastStepDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY))
                 ),
                 new SkillProcessStepRequest(
                     "empower", "强化普攻", SkillProcessStepType.EMPOWERED_BASIC_ATTACK, null, 7,
                     new SkillProcessEmpoweredAttackStepDetail(
-                        FORMULA_KEY, SkillProcessEmpoweredConsumeMoment.ATTACK_HIT
+                        SkillNumericValue.formula(FORMULA_KEY), SkillProcessEmpoweredConsumeMoment.ATTACK_HIT
                     )
                 )
             ),
@@ -517,7 +518,7 @@ class SkillProcessServiceTest {
                 "叠层",
                 "mark_stacks",
                 SkillProcessStateOperationKind.INCREASE,
-                FORMULA_KEY,
+                SkillNumericValue.formula(FORMULA_KEY),
                 null,
                 new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null),
                 0

@@ -61,7 +61,7 @@
             <arg column="name" javaType="java.lang.String"/>
             <arg column="state_key" javaType="java.lang.String"/>
             <arg column="operation" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind"/>
-            <arg column="value_formula_key" javaType="java.lang.String"/>
+            <arg column="value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="option_key" javaType="java.lang.String"/>
             <arg column="moment_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessMomentType"/>
             <arg column="step_key" javaType="java.lang.String"/>
@@ -164,7 +164,7 @@
     <select id="listOperationsForUpdate" resultMap="operationRow">
         SELECT p.game_id, p.skill_key, p.process_key, o->>'operationKey' AS operation_key,
                o->>'name' AS name, o->>'stateKey' AS state_key, o->>'operation' AS operation,
-               o->>'valueFormulaKey' AS value_formula_key, o->>'optionKey' AS option_key,
+               o->>'value' AS value, o->>'optionKey' AS option_key,
                o->'moment'->>'momentType' AS moment_type, o->'moment'->>'stepKey' AS step_key,
                (o->>'sortOrder')::integer AS sort_order
         FROM public.skill_processes p CROSS JOIN LATERAL jsonb_array_elements(p.state_operations) o

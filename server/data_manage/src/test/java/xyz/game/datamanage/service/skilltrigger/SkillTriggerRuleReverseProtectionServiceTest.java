@@ -39,6 +39,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerReferenceHit;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventRow;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -149,7 +150,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
         ApiException periodic = thrown(() -> service.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequestWithoutPeriodic(), List.of(damageResult()), List.of()
         ));
-        assertField(periodic, "lifecycle.periodicIntervalFormulaKey", "TRIGGER_RULE_SHAPE_IN_USE");
+        assertField(periodic, "lifecycle.periodicIntervalValue", "TRIGGER_RULE_SHAPE_IN_USE");
 
         service.deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(mapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -159,25 +160,25 @@ class SkillTriggerRuleReverseProtectionServiceTest {
 
     private static SkillEffectLifecycleRow lifecycleRow() {
         return new SkillEffectLifecycleRow(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, "duration_f", "max_stacks_f", "app_stacks_f",
+            GAME_ID, SKILL_KEY, EFFECT_KEY, SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, "periodic_f", null
+            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, SkillNumericValue.formula("periodic_f"), null
         );
     }
 
     private static SkillEffectLifecycleRequest lifecycleRequest() {
         return new SkillEffectLifecycleRequest(
-            "duration_f", "max_stacks_f", "app_stacks_f",
+            SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, "periodic_f", null
+            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, SkillNumericValue.formula("periodic_f"), null
         );
     }
 
     private static SkillEffectLifecycleRequest lifecycleRequestWithoutPeriodic() {
         return new SkillEffectLifecycleRequest(
-            "duration_f", "max_stacks_f", "app_stacks_f",
+            SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
             null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null
@@ -187,7 +188,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
     private static SkillEffectResultRequest damageResult() {
         return new SkillEffectResultRequest(
             "physical_hit", "物理伤害", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
-            new SkillEffectValueRuleRequest("base_damage", java.math.BigDecimal.ONE, null, null),
+            new SkillEffectValueRuleRequest(SkillNumericValue.formula("base_damage"), java.math.BigDecimal.ONE, null, null),
             new xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail("physical"),
             null
         );

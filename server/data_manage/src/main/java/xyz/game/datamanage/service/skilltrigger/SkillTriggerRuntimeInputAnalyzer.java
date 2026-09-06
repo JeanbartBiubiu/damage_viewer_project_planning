@@ -1,6 +1,9 @@
 package xyz.game.datamanage.service.skilltrigger;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import java.util.Collection;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -52,7 +55,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
         String targetKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
-        Map<String, ? extends Collection<String>> interactionFormulaOverrides
+        Map<String, ? extends Collection<SkillNumericValue>> interactionValueOverrides
     ) {
         return reachableRuntimeParameters(
             gameId,
@@ -61,7 +64,7 @@ public class SkillTriggerRuntimeInputAnalyzer {
             targetKey,
             effectsByKey,
             processesByKey,
-            interactionFormulaOverrides,
+            interactionValueOverrides,
             Map.of()
         );
     }
@@ -73,39 +76,50 @@ public class SkillTriggerRuntimeInputAnalyzer {
         String targetKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
-        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
-        Map<String, ? extends Collection<String>> resultValueFormulaOverrides
+        Map<String, ? extends Collection<SkillNumericValue>> interactionValueOverrides,
+        Map<String, ? extends Collection<SkillNumericValue>> resultValueOverrides
     ) {
-        Set<String> formulaKeys = new LinkedHashSet<>();
+        Set<SkillNumericValue> values = new LinkedHashSet<>();
         if (actionType == SkillTriggerActionType.EXECUTE_EFFECT) {
-            collectEffectFormulas(
+            collectEffectValues(
                 gameId,
                 skillKey,
                 targetKey,
                 effectsByKey,
-                interactionFormulaOverrides,
-                resultValueFormulaOverrides,
-                formulaKeys
+                interactionValueOverrides,
+                resultValueOverrides,
+                values
             );
         } else if (actionType == SkillTriggerActionType.START_PROCESS) {
-            collectProcessFormulas(
+            collectProcessValues(
                 gameId,
                 skillKey,
                 targetKey,
                 effectsByKey,
                 processesByKey,
-                interactionFormulaOverrides,
-                resultValueFormulaOverrides,
-                formulaKeys,
+                interactionValueOverrides,
+                resultValueOverrides,
+                values,
                 new LinkedHashSet<>()
             );
         }
-        if (formulaKeys.isEmpty()) {
+        if (values.isEmpty()) {
             return Map.of();
         }
+        Set<String> formulaKeys = new LinkedHashSet<>();
+        Set<String> parameterKeys = new LinkedHashSet<>();
+        for (SkillNumericValue value : values) {
+            if (value.formulaKey() != null) formulaKeys.add(value.formulaKey());
+            if (value.parameterKey() != null) parameterKeys.add(value.parameterKey());
+        }
         Map<String, SkillParameterValueType> reachable = new LinkedHashMap<>();
+        if (!parameterKeys.isEmpty()) {
+            for (SkillTriggerParameterRefRow row : nullToEmpty(mapper.lockParameters(gameId, skillKey, parameterKeys))) {
+                if (SkillParameterValueMode.RUNTIME_INPUT.name().equals(row.valueMode())) reachable.put(row.parameterKey(), row.valueType());
+            }
+        }
         for (SkillTriggerParameterRefRow row : nullToEmpty(
-            mapper.listRuntimeInputParameters(gameId, skillKey, formulaKeys)
+            formulaKeys.isEmpty() ? List.of() : mapper.listRuntimeInputParameters(gameId, skillKey, formulaKeys)
         )) {
             if (row == null || row.parameterKey() == null) {
                 continue;
@@ -118,110 +132,109 @@ public class SkillTriggerRuntimeInputAnalyzer {
         return reachable;
     }
 
-    private void collectEffectFormulas(
+    private void collectEffectValues(
         String gameId,
         String skillKey,
         String effectKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
-        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
-        Map<String, ? extends Collection<String>> resultValueFormulaOverrides,
-        Set<String> formulaKeys
+        Map<String, ? extends Collection<SkillNumericValue>> interactionValueOverrides,
+        Map<String, ? extends Collection<SkillNumericValue>> resultValueOverrides,
+        Set<SkillNumericValue> values
     ) {
         List<SkillTriggerEffectShapeRow> results = effectsByKey.getOrDefault(effectKey, List.of());
         boolean lifecycleFormulasCollected = false;
         for (SkillTriggerEffectShapeRow row : results) {
-            if (!resultValueFormulaOverrides.containsKey(effectKey)) {
-                addFormula(formulaKeys, row.valueFormulaKey());
+            if (!resultValueOverrides.containsKey(effectKey)) {
+                addValue(values, row.value());
             }
             if (!lifecycleFormulasCollected && row.hasLifecycle()) {
-                addFormula(formulaKeys, row.durationFormulaKey());
-                addFormula(formulaKeys, row.maxStacksFormulaKey());
-                addFormula(formulaKeys, row.applicationStacksFormulaKey());
-                addFormula(formulaKeys, row.periodicIntervalFormulaKey());
+                addValue(values, row.durationValue());
+                addValue(values, row.maxStacksValue());
+                addValue(values, row.applicationStacksValue());
+                addValue(values, row.periodicIntervalValue());
                 lifecycleFormulasCollected = true;
             }
         }
-        if (resultValueFormulaOverrides.containsKey(effectKey)) {
-            for (String formulaKey : nullToEmpty(resultValueFormulaOverrides.get(effectKey))) {
-                addFormula(formulaKeys, formulaKey);
+        if (resultValueOverrides.containsKey(effectKey)) {
+            for (SkillNumericValue formulaKey : nullToEmpty(resultValueOverrides.get(effectKey))) {
+                addValue(values, formulaKey);
             }
         }
-        Collection<String> interactionFormulas = interactionFormulaOverrides.containsKey(effectKey)
-            ? interactionFormulaOverrides.get(effectKey)
-            : mapper.listEffectInteractionFormulaKeys(gameId, skillKey, effectKey);
-        for (String formulaKey : nullToEmpty(interactionFormulas)) {
-            addFormula(formulaKeys, formulaKey);
+        Collection<SkillNumericValue> interactionValues = interactionValueOverrides.containsKey(effectKey)
+            ? interactionValueOverrides.get(effectKey)
+            : nullToEmpty(mapper.listEffectInteractionValues(gameId, skillKey, effectKey)).stream().map(json -> AggregateJson.read(json, SkillNumericValue.class)).toList();
+        for (SkillNumericValue formulaKey : nullToEmpty(interactionValues)) {
+            addValue(values, formulaKey);
         }
     }
 
-    private void collectProcessFormulas(
+    private void collectProcessValues(
         String gameId,
         String skillKey,
         String processKey,
         Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
-        Map<String, ? extends Collection<String>> interactionFormulaOverrides,
-        Map<String, ? extends Collection<String>> resultValueFormulaOverrides,
-        Set<String> formulaKeys,
+        Map<String, ? extends Collection<SkillNumericValue>> interactionValueOverrides,
+        Map<String, ? extends Collection<SkillNumericValue>> resultValueOverrides,
+        Set<SkillNumericValue> values,
         Set<String> visitedEffects
     ) {
         for (SkillTriggerProcessShapeRow row : processesByKey.getOrDefault(processKey, List.of())) {
-            addFormula(formulaKeys, row.cooldownFormulaKey());
-            addFormula(formulaKeys, row.delayFormulaKey());
-            addFormula(formulaKeys, row.multiCountFormulaKey());
-            addFormula(formulaKeys, row.multiIntervalFormulaKey());
-            addFormula(formulaKeys, row.periodicCountFormulaKey());
-            addFormula(formulaKeys, row.periodicIntervalFormulaKey());
-            addFormula(formulaKeys, row.channelDurationFormulaKey());
-            addFormula(formulaKeys, row.channelCountFormulaKey());
-            addFormula(formulaKeys, row.chargeMinFormulaKey());
-            addFormula(formulaKeys, row.chargeMaxFormulaKey());
-            addFormula(formulaKeys, row.recastWindowFormulaKey());
-            addFormula(formulaKeys, row.recastCountFormulaKey());
-            addFormula(formulaKeys, row.empoweredWindowFormulaKey());
-            addFormula(formulaKeys, row.counterInitialFormulaKey());
-            addFormula(formulaKeys, row.counterMaxFormulaKey());
-            addFormula(formulaKeys, row.ammoInitialFormulaKey());
-            addFormula(formulaKeys, row.ammoMaxFormulaKey());
-            addFormula(formulaKeys, row.ammoRecoveryFormulaKey());
-            addFormula(formulaKeys, row.cooldownDurationFormulaKey());
-            addFormula(formulaKeys, row.operationValueFormulaKey());
+            addValue(values, row.cooldownValue());
+            addValue(values, row.delayValue());
+            addValue(values, row.multiCountValue());
+            addValue(values, row.multiIntervalValue());
+            addValue(values, row.periodicCountValue());
+            addValue(values, row.periodicIntervalValue());
+            addValue(values, row.channelDurationValue());
+            addValue(values, row.channelCountValue());
+            addValue(values, row.chargeMinValue());
+            addValue(values, row.chargeMaxValue());
+            addValue(values, row.recastWindowValue());
+            addValue(values, row.recastCountValue());
+            addValue(values, row.empoweredWindowValue());
+            addValue(values, row.counterInitialValue());
+            addValue(values, row.counterMaxValue());
+            addValue(values, row.ammoInitialValue());
+            addValue(values, row.ammoMaxValue());
+            addValue(values, row.ammoRecoveryValue());
+            addValue(values, row.cooldownDurationValue());
+            addValue(values, row.operationValue());
             if (row.bindingEffectKey() != null && visitedEffects.add(row.bindingEffectKey())) {
-                collectEffectFormulas(
+                collectEffectValues(
                     gameId,
                     skillKey,
                     row.bindingEffectKey(),
                     effectsByKey,
-                    interactionFormulaOverrides,
-                    resultValueFormulaOverrides,
-                    formulaKeys
+                    interactionValueOverrides,
+                    resultValueOverrides,
+                    values
                 );
             }
-            if (shouldCollectStateDefinitionFormulas(row) && row.operationStateKey() != null) {
+            if (shouldCollectStateDefinitionValues(row) && row.operationStateKey() != null) {
                 for (String formulaKey : nullToEmpty(
-                    mapper.listInternalStateFormulaKeys(gameId, skillKey, row.operationStateKey())
+                    mapper.listInternalStateValues(gameId, skillKey, row.operationStateKey())
                 )) {
-                    addFormula(formulaKeys, formulaKey);
+                    addValue(values, AggregateJson.read(formulaKey, SkillNumericValue.class));
                 }
             }
         }
     }
 
-    private static boolean shouldCollectStateDefinitionFormulas(SkillTriggerProcessShapeRow row) {
+    private static boolean shouldCollectStateDefinitionValues(SkillTriggerProcessShapeRow row) {
         if (row.operation() == null) {
             return false;
         }
         if (row.operation() == SkillProcessStateOperationKind.RESET) {
             return true;
         }
+        if (row.stateType() == SkillInternalStateType.COUNTER || row.stateType() == SkillInternalStateType.AMMO) return true;
         return row.operation() == SkillProcessStateOperationKind.START
             && row.stateType() == SkillInternalStateType.INTERNAL_COOLDOWN;
     }
 
-    private static void addFormula(Set<String> formulaKeys, String formulaKey) {
-        if (formulaKey != null && !formulaKey.isBlank()) {
-            formulaKeys.add(formulaKey);
-        }
+    private static void addValue(Set<SkillNumericValue> values, SkillNumericValue value) {
+        if (value != null) values.add(value);
     }
 
     private static <T> List<T> nullToEmpty(Collection<T> values) {

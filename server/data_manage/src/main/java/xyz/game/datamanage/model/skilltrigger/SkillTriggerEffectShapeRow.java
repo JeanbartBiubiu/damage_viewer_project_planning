@@ -1,6 +1,5 @@
 package xyz.game.datamanage.model.skilltrigger;
 
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind;
@@ -9,9 +8,11 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
+import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerEffectShapeRow(
     String effectKey,
@@ -19,7 +20,7 @@ public record SkillTriggerEffectShapeRow(
     SkillEffectResultType resultType,
     SkillEffectTarget target,
     boolean hasValueRule,
-    String valueFormulaKey,
+    SkillNumericValue value,
     String resultAttributeKey,
     SkillEffectAttributeChangeOperation attributeOperation,
     String statusKey,
@@ -28,10 +29,10 @@ public record SkillTriggerEffectShapeRow(
     String lifecycleTargetEffectKey,
     SkillEffectLifecycleOperation lifecycleOperation,
     boolean hasLifecycle,
-    String durationFormulaKey,
-    String maxStacksFormulaKey,
-    String applicationStacksFormulaKey,
-    String periodicIntervalFormulaKey,
+    SkillNumericValue durationValue,
+    SkillNumericValue maxStacksValue,
+    SkillNumericValue applicationStacksValue,
+    SkillNumericValue periodicIntervalValue,
     SkillEffectLifecycleExpiryMode expiryMode,
     String damageTypeKey,
     SkillEffectDamageDeliveryKind damageDeliveryKind,
@@ -46,7 +47,7 @@ public record SkillTriggerEffectShapeRow(
         SkillEffectResultType resultType,
         SkillEffectTarget target,
         boolean hasValueRule,
-        String valueFormulaKey,
+        SkillNumericValue value,
         String resultAttributeKey,
         SkillEffectAttributeChangeOperation attributeOperation,
         String statusKey,
@@ -55,10 +56,10 @@ public record SkillTriggerEffectShapeRow(
         String lifecycleTargetEffectKey,
         SkillEffectLifecycleOperation lifecycleOperation,
         boolean hasLifecycle,
-        String durationFormulaKey,
-        String maxStacksFormulaKey,
-        String applicationStacksFormulaKey,
-        String periodicIntervalFormulaKey,
+        SkillNumericValue durationValue,
+        SkillNumericValue maxStacksValue,
+        SkillNumericValue applicationStacksValue,
+        SkillNumericValue periodicIntervalValue,
         SkillEffectLifecycleExpiryMode expiryMode,
         String damageTypeKey,
         SkillEffectDamageDeliveryKind damageDeliveryKind,
@@ -71,7 +72,7 @@ public record SkillTriggerEffectShapeRow(
             resultType,
             target,
             hasValueRule,
-            valueFormulaKey,
+            value,
             resultAttributeKey,
             attributeOperation,
             statusKey,
@@ -80,10 +81,10 @@ public record SkillTriggerEffectShapeRow(
             lifecycleTargetEffectKey,
             lifecycleOperation,
             hasLifecycle,
-            durationFormulaKey,
-            maxStacksFormulaKey,
-            applicationStacksFormulaKey,
-            periodicIntervalFormulaKey,
+            durationValue,
+            maxStacksValue,
+            applicationStacksValue,
+            periodicIntervalValue,
             expiryMode,
             damageTypeKey,
             damageDeliveryKind,
@@ -99,7 +100,7 @@ public record SkillTriggerEffectShapeRow(
         SkillEffectResultType resultType,
         SkillEffectTarget target,
         boolean hasValueRule,
-        String valueFormulaKey,
+        SkillNumericValue value,
         String resultAttributeKey,
         SkillEffectAttributeChangeOperation attributeOperation,
         String statusKey,
@@ -108,10 +109,10 @@ public record SkillTriggerEffectShapeRow(
         String lifecycleTargetEffectKey,
         SkillEffectLifecycleOperation lifecycleOperation,
         boolean hasLifecycle,
-        String durationFormulaKey,
-        String maxStacksFormulaKey,
-        String applicationStacksFormulaKey,
-        String periodicIntervalFormulaKey,
+        SkillNumericValue durationValue,
+        SkillNumericValue maxStacksValue,
+        SkillNumericValue applicationStacksValue,
+        SkillNumericValue periodicIntervalValue,
         SkillEffectLifecycleExpiryMode expiryMode
     ) {
         this(
@@ -120,7 +121,7 @@ public record SkillTriggerEffectShapeRow(
             resultType,
             target,
             hasValueRule,
-            valueFormulaKey,
+            value,
             resultAttributeKey,
             attributeOperation,
             statusKey,
@@ -129,10 +130,10 @@ public record SkillTriggerEffectShapeRow(
             lifecycleTargetEffectKey,
             lifecycleOperation,
             hasLifecycle,
-            durationFormulaKey,
-            maxStacksFormulaKey,
-            applicationStacksFormulaKey,
-            periodicIntervalFormulaKey,
+            durationValue,
+            maxStacksValue,
+            applicationStacksValue,
+            periodicIntervalValue,
             expiryMode,
             null,
             resultType == SkillEffectResultType.DAMAGE ? SkillEffectDamageDeliveryKind.SKILL : null,

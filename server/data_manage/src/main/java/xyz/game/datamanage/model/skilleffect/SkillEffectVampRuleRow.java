@@ -1,5 +1,7 @@
 package xyz.game.datamanage.model.skilleffect;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 public record SkillEffectVampRuleRow(
     String gameId,
     String skillKey,
@@ -7,6 +9,6 @@ public record SkillEffectVampRuleRow(
     String resultKey,
     SkillEffectVampType vampType,
     SkillEffectVampBasisOutputKind basisOutputKind,
-    String efficiencyFormulaKey
+    SkillNumericValue efficiencyValue
 ) {
 }

@@ -96,7 +96,7 @@
             <arg column="rule_key" javaType="java.lang.String"/>
             <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
             <arg column="attribute_key" javaType="java.lang.String"/>
-            <arg column="threshold_formula_key" javaType="java.lang.String"/>
+            <arg column="threshold_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="direction" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection"/>
         </constructor>
     </resultMap>
@@ -183,7 +183,7 @@
             <arg column="attribute_key" javaType="java.lang.String"/>
             <arg column="attribute_value_kind" javaType="xyz.game.datamanage.model.skillformula.AttributeValueKind"/>
             <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
-            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+            <arg column="comparison_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -200,7 +200,7 @@
             <arg column="source_effect_key" javaType="java.lang.String"/>
             <arg column="source_result_key" javaType="java.lang.String"/>
             <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
-            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+            <arg column="comparison_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -216,7 +216,7 @@
             <arg column="option_key" javaType="java.lang.String"/>
             <arg column="expected_boolean" javaType="java.lang.Boolean"/>
             <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
-            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+            <arg column="comparison_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -229,7 +229,7 @@
             <arg column="condition_key" javaType="java.lang.String"/>
             <arg column="event_value_key" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey"/>
             <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
-            <arg column="comparison_formula_key" javaType="java.lang.String"/>
+            <arg column="comparison_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -351,7 +351,7 @@
             <arg column="game_id" javaType="java.lang.String"/>
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="rule_key" javaType="java.lang.String"/>
-            <arg column="duration_formula_key" javaType="java.lang.String"/>
+            <arg column="duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="target_context" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext"/>
         </constructor>
     </resultMap>
@@ -362,7 +362,7 @@
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="rule_key" javaType="java.lang.String"/>
             <arg column="process_key" javaType="java.lang.String"/>
-            <arg column="limit_formula_key" javaType="java.lang.String"/>
+            <arg column="limit_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -373,7 +373,7 @@
             <arg column="result_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResultType"/>
             <arg column="target" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectTarget"/>
             <arg column="has_value_rule" javaType="_boolean"/>
-            <arg column="value_formula_key" javaType="java.lang.String"/>
+            <arg column="value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="result_attribute_key" javaType="java.lang.String"/>
             <arg column="attribute_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation"/>
             <arg column="status_key" javaType="java.lang.String"/>
@@ -382,10 +382,10 @@
             <arg column="lifecycle_target_effect_key" javaType="java.lang.String"/>
             <arg column="lifecycle_operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation"/>
             <arg column="has_lifecycle" javaType="_boolean"/>
-            <arg column="duration_formula_key" javaType="java.lang.String"/>
-            <arg column="max_stacks_formula_key" javaType="java.lang.String"/>
-            <arg column="application_stacks_formula_key" javaType="java.lang.String"/>
-            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
+            <arg column="duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="max_stacks_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="application_stacks_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="periodic_interval_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="expiry_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleExpiryMode"/>
             <arg column="damage_type_key" javaType="java.lang.String"/>
             <arg column="damage_delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
@@ -402,29 +402,29 @@
             <arg column="binding_effect_key" javaType="java.lang.String"/>
             <arg column="operation_state_key" javaType="java.lang.String"/>
             <arg column="operation" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind"/>
-            <arg column="operation_value_formula_key" javaType="java.lang.String"/>
+            <arg column="operation_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
             <arg column="step_key" javaType="java.lang.String"/>
             <arg column="step_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStepType"/>
-            <arg column="cooldown_formula_key" javaType="java.lang.String"/>
-            <arg column="delay_formula_key" javaType="java.lang.String"/>
-            <arg column="multi_count_formula_key" javaType="java.lang.String"/>
-            <arg column="multi_interval_formula_key" javaType="java.lang.String"/>
-            <arg column="periodic_count_formula_key" javaType="java.lang.String"/>
-            <arg column="periodic_interval_formula_key" javaType="java.lang.String"/>
-            <arg column="channel_duration_formula_key" javaType="java.lang.String"/>
-            <arg column="channel_count_formula_key" javaType="java.lang.String"/>
-            <arg column="charge_min_formula_key" javaType="java.lang.String"/>
-            <arg column="charge_max_formula_key" javaType="java.lang.String"/>
-            <arg column="recast_window_formula_key" javaType="java.lang.String"/>
-            <arg column="recast_count_formula_key" javaType="java.lang.String"/>
-            <arg column="empowered_window_formula_key" javaType="java.lang.String"/>
-            <arg column="counter_initial_formula_key" javaType="java.lang.String"/>
-            <arg column="counter_max_formula_key" javaType="java.lang.String"/>
-            <arg column="ammo_initial_formula_key" javaType="java.lang.String"/>
-            <arg column="ammo_max_formula_key" javaType="java.lang.String"/>
-            <arg column="ammo_recovery_formula_key" javaType="java.lang.String"/>
-            <arg column="cooldown_duration_formula_key" javaType="java.lang.String"/>
+            <arg column="cooldown_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="delay_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="multi_count_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="multi_interval_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="periodic_count_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="periodic_interval_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="channel_duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="channel_count_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="charge_min_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="charge_max_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="recast_window_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="recast_count_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="empowered_window_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="counter_initial_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="counter_max_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="ammo_initial_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="ammo_max_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="ammo_recovery_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="cooldown_duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
         </constructor>
     </resultMap>
 
@@ -472,8 +472,8 @@
                r.result_key,
                r.result_type,
                r.target,
-               (v.formula_key IS NOT NULL) AS has_value_rule,
-               v.formula_key AS value_formula_key,
+               (v.value IS NOT NULL) AS has_value_rule,
+               v.value AS value,
                ac.attribute_key AS result_attribute_key,
                ac.operation AS attribute_operation,
                so.status_key,
@@ -482,10 +482,10 @@
                lo.target_effect_key AS lifecycle_target_effect_key,
                lo.operation AS lifecycle_operation,
                (l.effect_key IS NOT NULL) AS has_lifecycle,
-               l.duration_formula_key,
-               l.max_stacks_formula_key,
-               l.application_stacks_formula_key,
-               l.periodic_interval_formula_key,
+               l.duration_value,
+               l.max_stacks_value,
+               l.application_stacks_value,
+               l.periodic_interval_value,
                l.expiry_mode,
                dd.damage_type_key,
                dd.delivery_kind AS damage_delivery_kind,
@@ -663,7 +663,7 @@
     <select id="listStatusConditions" resultMap="statusConditionRow">
         SELECT game_id, skill_key, rule_key, group_key, condition_key,
                subject, status_key, check_kind, source_effect_key, source_result_key,
-               comparator, comparison_formula_key
+               comparator, comparison_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleStatusConditions"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
         ORDER BY group_key ASC, condition_key ASC
@@ -722,14 +722,14 @@
     </select>
 
     <select id="listCooldownsForSkill" resultMap="cooldownRow">
-        SELECT game_id, skill_key, rule_key, duration_formula_key, target_context
+        SELECT game_id, skill_key, rule_key, duration_value, target_context
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRulePerTargetCooldowns"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
     </select>
 
     <select id="listProcessLimitsForSkill" resultMap="processLimitRow">
-        SELECT game_id, skill_key, rule_key, process_key, limit_formula_key
+        SELECT game_id, skill_key, rule_key, process_key, limit_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleProcessLimits"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
@@ -764,7 +764,7 @@
     </select>
 
     <select id="listHealthEventsForSkill" resultMap="healthEventRow">
-        SELECT game_id, skill_key, rule_key, subject, attribute_key, threshold_formula_key, direction
+        SELECT game_id, skill_key, rule_key, subject, attribute_key, threshold_value, direction
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleHealthThresholdEvents"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
@@ -804,20 +804,20 @@
         ORDER BY r.effect_key ASC, r.sort_order ASC, r.result_key ASC
     </select>
 
-    <select id="listEffectInteractionFormulaKeys" resultType="string">
-        SELECT multiplier_formula_key AS formula_key
+    <select id="listEffectInteractionValues" resultType="string">
+        SELECT multiplier_value AS value_json
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultCriticalPolicies"/>)
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}
-          AND multiplier_formula_key IS NOT NULL
+          AND multiplier_value IS NOT NULL
         UNION
-        SELECT efficiency_formula_key AS formula_key
+        SELECT efficiency_value AS value_json
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultVampRules"/>)
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}
-        ORDER BY formula_key
+        ORDER BY value_json
     </select>
 
     <select id="listProcessShapes" resultMap="processShapeRow">
@@ -825,29 +825,29 @@
                b.effect_key AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
                CAST(NULL AS varchar) AS operation,
-               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
                CAST(NULL AS varchar) AS step_key,
                CAST(NULL AS varchar) AS step_type,
-               CAST(NULL AS varchar) AS cooldown_formula_key,
-               CAST(NULL AS varchar) AS delay_formula_key,
-               CAST(NULL AS varchar) AS multi_count_formula_key,
-               CAST(NULL AS varchar) AS multi_interval_formula_key,
-               CAST(NULL AS varchar) AS periodic_count_formula_key,
-               CAST(NULL AS varchar) AS periodic_interval_formula_key,
-               CAST(NULL AS varchar) AS channel_duration_formula_key,
-               CAST(NULL AS varchar) AS channel_count_formula_key,
-               CAST(NULL AS varchar) AS charge_min_formula_key,
-               CAST(NULL AS varchar) AS charge_max_formula_key,
-               CAST(NULL AS varchar) AS recast_window_formula_key,
-               CAST(NULL AS varchar) AS recast_count_formula_key,
-               CAST(NULL AS varchar) AS empowered_window_formula_key,
-               CAST(NULL AS varchar) AS counter_initial_formula_key,
-               CAST(NULL AS varchar) AS counter_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_initial_formula_key,
-               CAST(NULL AS varchar) AS ammo_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
-               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+               CAST(NULL AS varchar) AS cooldown_value,
+               CAST(NULL AS varchar) AS delay_value,
+               CAST(NULL AS varchar) AS multi_count_value,
+               CAST(NULL AS varchar) AS multi_interval_value,
+               CAST(NULL AS varchar) AS periodic_count_value,
+               CAST(NULL AS varchar) AS periodic_interval_value,
+               CAST(NULL AS varchar) AS channel_duration_value,
+               CAST(NULL AS varchar) AS channel_count_value,
+               CAST(NULL AS varchar) AS charge_min_value,
+               CAST(NULL AS varchar) AS charge_max_value,
+               CAST(NULL AS varchar) AS recast_window_value,
+               CAST(NULL AS varchar) AS recast_count_value,
+               CAST(NULL AS varchar) AS empowered_window_value,
+               CAST(NULL AS varchar) AS counter_initial_value,
+               CAST(NULL AS varchar) AS counter_max_value,
+               CAST(NULL AS varchar) AS ammo_initial_value,
+               CAST(NULL AS varchar) AS ammo_max_value,
+               CAST(NULL AS varchar) AS ammo_recovery_value,
+               CAST(NULL AS varchar) AS cooldown_duration_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processEffectBindings"/>) b
         WHERE b.game_id = #{gameId} AND b.skill_key = #{skillKey}
         UNION ALL
@@ -855,29 +855,29 @@
                CAST(NULL AS varchar) AS binding_effect_key,
                o.state_key AS operation_state_key,
                o.operation,
-               o.value_formula_key AS operation_value_formula_key,
+               o.value AS operation_value,
                s.state_type,
                CAST(NULL AS varchar) AS step_key,
                CAST(NULL AS varchar) AS step_type,
-               CAST(NULL AS varchar) AS cooldown_formula_key,
-               CAST(NULL AS varchar) AS delay_formula_key,
-               CAST(NULL AS varchar) AS multi_count_formula_key,
-               CAST(NULL AS varchar) AS multi_interval_formula_key,
-               CAST(NULL AS varchar) AS periodic_count_formula_key,
-               CAST(NULL AS varchar) AS periodic_interval_formula_key,
-               CAST(NULL AS varchar) AS channel_duration_formula_key,
-               CAST(NULL AS varchar) AS channel_count_formula_key,
-               CAST(NULL AS varchar) AS charge_min_formula_key,
-               CAST(NULL AS varchar) AS charge_max_formula_key,
-               CAST(NULL AS varchar) AS recast_window_formula_key,
-               CAST(NULL AS varchar) AS recast_count_formula_key,
-               CAST(NULL AS varchar) AS empowered_window_formula_key,
-               CAST(NULL AS varchar) AS counter_initial_formula_key,
-               CAST(NULL AS varchar) AS counter_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_initial_formula_key,
-               CAST(NULL AS varchar) AS ammo_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
-               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+               CAST(NULL AS varchar) AS cooldown_value,
+               CAST(NULL AS varchar) AS delay_value,
+               CAST(NULL AS varchar) AS multi_count_value,
+               CAST(NULL AS varchar) AS multi_interval_value,
+               CAST(NULL AS varchar) AS periodic_count_value,
+               CAST(NULL AS varchar) AS periodic_interval_value,
+               CAST(NULL AS varchar) AS channel_duration_value,
+               CAST(NULL AS varchar) AS channel_count_value,
+               CAST(NULL AS varchar) AS charge_min_value,
+               CAST(NULL AS varchar) AS charge_max_value,
+               CAST(NULL AS varchar) AS recast_window_value,
+               CAST(NULL AS varchar) AS recast_count_value,
+               CAST(NULL AS varchar) AS empowered_window_value,
+               CAST(NULL AS varchar) AS counter_initial_value,
+               CAST(NULL AS varchar) AS counter_max_value,
+               CAST(NULL AS varchar) AS ammo_initial_value,
+               CAST(NULL AS varchar) AS ammo_max_value,
+               CAST(NULL AS varchar) AS ammo_recovery_value,
+               CAST(NULL AS varchar) AS cooldown_duration_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processStateOperations"/>) o
         JOIN public.skill_internal_states s
           ON s.game_id = o.game_id
@@ -889,29 +889,29 @@
                CAST(NULL AS varchar) AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
                CAST(NULL AS varchar) AS operation,
-               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
                st.step_key,
                st.step_type,
-               CAST(NULL AS varchar) AS cooldown_formula_key,
-               d.delay_formula_key,
-               mh.repeat_count_formula_key AS multi_count_formula_key,
-               mh.interval_formula_key AS multi_interval_formula_key,
-               p.repeat_count_formula_key AS periodic_count_formula_key,
-               p.interval_formula_key AS periodic_interval_formula_key,
-               ch.duration_formula_key AS channel_duration_formula_key,
-               ch.execution_count_formula_key AS channel_count_formula_key,
-               cg.minimum_charge_formula_key AS charge_min_formula_key,
-               cg.maximum_charge_formula_key AS charge_max_formula_key,
-               rc.window_formula_key AS recast_window_formula_key,
-               rc.maximum_recast_count_formula_key AS recast_count_formula_key,
-               em.window_formula_key AS empowered_window_formula_key,
-               CAST(NULL AS varchar) AS counter_initial_formula_key,
-               CAST(NULL AS varchar) AS counter_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_initial_formula_key,
-               CAST(NULL AS varchar) AS ammo_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
-               CAST(NULL AS varchar) AS cooldown_duration_formula_key
+               CAST(NULL AS varchar) AS cooldown_value,
+               d.delay_value,
+               mh.repeat_count_value AS multi_count_value,
+               mh.interval_value AS multi_interval_value,
+               p.repeat_count_value AS periodic_count_value,
+               p.interval_value AS periodic_interval_value,
+               ch.duration_value AS channel_duration_value,
+               ch.execution_count_value AS channel_count_value,
+               cg.minimum_charge_value AS charge_min_value,
+               cg.maximum_charge_value AS charge_max_value,
+               rc.window_value AS recast_window_value,
+               rc.maximum_recast_count_value AS recast_count_value,
+               em.window_value AS empowered_window_value,
+               CAST(NULL AS varchar) AS counter_initial_value,
+               CAST(NULL AS varchar) AS counter_max_value,
+               CAST(NULL AS varchar) AS ammo_initial_value,
+               CAST(NULL AS varchar) AS ammo_max_value,
+               CAST(NULL AS varchar) AS ammo_recovery_value,
+               CAST(NULL AS varchar) AS cooldown_duration_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processSteps"/>) st
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processDelayStepDetails"/>) d
           ON d.game_id = st.game_id
@@ -954,29 +954,29 @@
                CAST(NULL AS varchar) AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
                CAST(NULL AS varchar) AS operation,
-               CAST(NULL AS varchar) AS operation_value_formula_key,
+               CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
                CAST(NULL AS varchar) AS step_key,
                CAST(NULL AS varchar) AS step_type,
-               CAST(NULL AS varchar) AS cooldown_formula_key,
-               CAST(NULL AS varchar) AS delay_formula_key,
-               CAST(NULL AS varchar) AS multi_count_formula_key,
-               CAST(NULL AS varchar) AS multi_interval_formula_key,
-               CAST(NULL AS varchar) AS periodic_count_formula_key,
-               CAST(NULL AS varchar) AS periodic_interval_formula_key,
-               CAST(NULL AS varchar) AS channel_duration_formula_key,
-               CAST(NULL AS varchar) AS channel_count_formula_key,
-               CAST(NULL AS varchar) AS charge_min_formula_key,
-               CAST(NULL AS varchar) AS charge_max_formula_key,
-               CAST(NULL AS varchar) AS recast_window_formula_key,
-               CAST(NULL AS varchar) AS recast_count_formula_key,
-               CAST(NULL AS varchar) AS empowered_window_formula_key,
-               CAST(NULL AS varchar) AS counter_initial_formula_key,
-               CAST(NULL AS varchar) AS counter_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_initial_formula_key,
-               CAST(NULL AS varchar) AS ammo_max_formula_key,
-               CAST(NULL AS varchar) AS ammo_recovery_formula_key,
-               cd.duration_formula_key AS cooldown_duration_formula_key
+               CAST(NULL AS varchar) AS cooldown_value,
+               CAST(NULL AS varchar) AS delay_value,
+               CAST(NULL AS varchar) AS multi_count_value,
+               CAST(NULL AS varchar) AS multi_interval_value,
+               CAST(NULL AS varchar) AS periodic_count_value,
+               CAST(NULL AS varchar) AS periodic_interval_value,
+               CAST(NULL AS varchar) AS channel_duration_value,
+               CAST(NULL AS varchar) AS channel_count_value,
+               CAST(NULL AS varchar) AS charge_min_value,
+               CAST(NULL AS varchar) AS charge_max_value,
+               CAST(NULL AS varchar) AS recast_window_value,
+               CAST(NULL AS varchar) AS recast_count_value,
+               CAST(NULL AS varchar) AS empowered_window_value,
+               CAST(NULL AS varchar) AS counter_initial_value,
+               CAST(NULL AS varchar) AS counter_max_value,
+               CAST(NULL AS varchar) AS ammo_initial_value,
+               CAST(NULL AS varchar) AS ammo_max_value,
+               CAST(NULL AS varchar) AS ammo_recovery_value,
+               cd.duration_value AS cooldown_duration_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processCooldowns"/>) cd
         WHERE cd.game_id = #{gameId} AND cd.skill_key = #{skillKey}
         ORDER BY process_key ASC, step_key ASC, binding_effect_key ASC
@@ -1007,28 +1007,28 @@
         ORDER BY p.parameter_key ASC
     </select>
 
-    <select id="listInternalStateFormulaKeys" resultType="string">
-        SELECT initial_value_formula_key
+    <select id="listInternalStateValues" resultType="string">
+        SELECT initial_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateCounterDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT max_value_formula_key
+        SELECT max_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateCounterDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT initial_value_formula_key
+        SELECT initial_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateAmmoDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT max_value_formula_key
+        SELECT max_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateAmmoDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT recovery_interval_formula_key
+        SELECT recovery_interval_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateAmmoDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT duration_formula_key
+        SELECT duration_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateCooldownDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
     </select>
@@ -1382,28 +1382,9 @@
     </select>
 
     <select id="countFormulaReferences" resultType="long">
-        SELECT
-            (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleHealthThresholdEvents"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND threshold_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleAttributeConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleStatusConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleEventValueConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND comparison_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRulePerTargetCooldowns"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND duration_formula_key = #{formulaKey})
-          + (SELECT COUNT(1)
-             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleProcessLimits"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND limit_formula_key = #{formulaKey})
+        SELECT COUNT(*) FROM public.skill_object_references
+        WHERE game_id = #{gameId} AND source_type = 'TRIGGER'
+          AND target_type = 'FORMULA' AND target_skill_key = #{skillKey} AND target_key = #{formulaKey}
     </select>
 
     <select id="countParameterReferences" resultType="long">

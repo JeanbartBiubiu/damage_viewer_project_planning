@@ -54,6 +54,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -83,7 +84,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
             SkillTriggerConditionType.ATTRIBUTE_COMPARE,
             new SkillTriggerAttributeConditionDetail(
                 SkillTriggerSubject.SOURCE, ATTRIBUTE_KEY, AttributeValueKind.CURRENT_RATIO,
-                SkillTriggerComparator.LTE, FORMULA_KEY
+                SkillTriggerComparator.LTE, SkillNumericValue.formula(FORMULA_KEY)
             )
         ));
         service.create(GAME_ID, SKILL_KEY, withGroups("attr_ok", List.of(attribute)));
@@ -96,7 +97,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 SkillTriggerConditionType.ATTRIBUTE_COMPARE,
                 new SkillTriggerAttributeConditionDetail(
                     SkillTriggerSubject.EVENT_SOURCE, ATTRIBUTE_KEY, AttributeValueKind.CURRENT_RATIO,
-                    SkillTriggerComparator.LTE, FORMULA_KEY
+                    SkillTriggerComparator.LTE, SkillNumericValue.formula(FORMULA_KEY)
                 )
             ))))
         ));
@@ -120,7 +121,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                     SkillTriggerConditionType.STATUS_CHECK,
                     new SkillTriggerStatusConditionDetail(
                         SkillTriggerSubject.CURRENT_TARGET, "poison", SkillTriggerStatusCheckKind.PRESENT,
-                        EFFECT_KEY, RESULT_KEY, SkillTriggerComparator.GTE, FORMULA_KEY
+                        EFFECT_KEY, RESULT_KEY, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
                     )
                 ))))
             )),
@@ -143,7 +144,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 "value",
                 SkillTriggerConditionType.INTERNAL_STATE_CHECK,
                 new SkillTriggerInternalStateConditionDetail(
-                    "flag", SkillTriggerInternalStateValueKind.VALUE, null, null, SkillTriggerComparator.GTE, FORMULA_KEY
+                    "flag", SkillTriggerInternalStateValueKind.VALUE, null, null, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
                 )
             ))))
         ));
@@ -154,7 +155,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
             "hit",
             SkillTriggerConditionType.EVENT_VALUE_COMPARE,
             new SkillTriggerEventValueConditionDetail(
-                SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerComparator.GTE, FORMULA_KEY
+                SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
             )
         ));
         service.create(GAME_ID, SKILL_KEY, withGroups("value_ok", List.of(hitIndex)));

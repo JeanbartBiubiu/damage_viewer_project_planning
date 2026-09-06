@@ -199,7 +199,7 @@ class SkillProcessAdminControllerTest {
                         "name":"立即",
                         "stepType":"IMMEDIATE",
                         "sortOrder":0,
-                        "detail":{"delayFormulaKey":"base_damage"}
+                        "detail":{"delayValue":{"kind":"FORMULA","formulaKey":"base_damage"}}
                       }],
                       "effectBindings":[{
                         "bindingKey":"hit",
@@ -213,7 +213,7 @@ class SkillProcessAdminControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"))
             .andExpect(jsonPath("$.error.details.fieldIssues[*].field", hasItems(
-                "steps[0].detail.delayFormulaKey"
+                "steps[0].detail.delayValue"
             )))
             .andExpect(jsonPath("$..foreignFields").doesNotExist());
 

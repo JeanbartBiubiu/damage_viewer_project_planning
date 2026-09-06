@@ -1,9 +1,10 @@
 package xyz.game.datamanage.model.skilleffect;
 
 import java.math.BigDecimal;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillEffectValueRuleResponse(
-    String formulaKey,
+    SkillNumericValue value,
     BigDecimal fixedMultiplier,
     BigDecimal fixedMinValue,
     BigDecimal fixedMaxValue

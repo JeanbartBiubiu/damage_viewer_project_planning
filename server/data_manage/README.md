@@ -44,7 +44,7 @@
 | 过程 | `steps`、`cooldown`、`effect_bindings`、`state_operations` | 步骤、可选普通冷却、效果挂接与内部状态操作 |
 | 触发规则 | `event_source`、`condition_groups`、`actions`、`limits` | 事件来源、条件组、动作与两项触发限制 |
 
-**HTTP 字段、枚举、数组顺序和空值语义保持不变。** 数据库的 `effect_bindings`、`state_operations` 等列仍对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口仍使用原有 `perTargetCooldown` 和 `maxTriggersPerProcess` 字段。角色、装备与参数原有的完整属性或等级取值图也保持原结构。
+数据库的 `effect_bindings`、`state_operations` 等列对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口使用 `perTargetCooldown` 和 `maxTriggersPerProcess` 字段。数值字段使用下文的三种统一取值来源；其余枚举、数组顺序、空值语义，以及角色、装备和参数的完整属性或等级取值图保持原结构。
 
 ### 校验与并发写入
 
@@ -53,6 +53,8 @@
 配置写入口必须在真实可写事务中先调用 `GameConfigurationWriteGuard.begin(gameId)`，再读取和修改业务数据。它使用 `READ COMMITTED` 隔离级别和 `games` 行锁，使同一游戏的配置写入顺序执行；字典、图片和关系管理也遵循这个入口。
 
 提交前，保护器读取该游戏五类根对象的最终 JSON，按明确的业务字段提取引用，检查目标根对象及结果、生命周期、模式选项、步骤、动作等子项存在，然后整体替换该游戏的 `skill_object_references`。引用记录包含来源技能、对象、字段路径以及目标技能、对象和子项，支持跨技能反查；它由系统生成，没有独立编辑接口。校验失败时，业务修改和引用索引一起回滚。
+
+[SkillNumericSemantics.java](src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java) 在同一提交检查中复核全部数值使用位置和动作输入绑定。参数模式、类型、值、等级图，公式表达式，以及效果、生命周期、过程和状态的修改都受约束；技能或角色等级扩展后给参数补入的零值也会重新检查。该组件仅依赖数据库连接，不通过管理服务相互调用。
 
 已有删除保护保留各接口错误码；最终引用缺失返回 `409.SKILL_OBJECT_REFERENCE_INVALID` 并带来源字段信息。修改聚合时移除被引用子项也会被检查。直接 SQL 写入不会自动执行这些服务校验，迁移必须使用下述事务验收入口。
 
@@ -67,9 +69,9 @@
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
 
-### 已有 91 表库
+### 历史 91 表库前置迁移
 
-当前的一次性入口是 [skill_aggregate_migration.sql](../../db/game_manage/migrations/breaking/skill_aggregate_migration.sql)。它将五类对象的原明细转换为根对象 JSON，创建引用索引表，并显式删除被吸收的 68 张表，得到 24 张逻辑表；删除语句不使用 `CASCADE`，脚本自身不提交事务。
+存储精简阶段的一次性入口是 [skill_aggregate_migration.sql](../../db/game_manage/migrations/breaking/skill_aggregate_migration.sql)。它将五类对象的原明细转换为根对象 JSON，创建引用索引表，并显式删除被吸收的 68 张表，得到 24 张逻辑表；删除语句不使用 `CASCADE`，脚本自身不提交事务。此脚本和 `VerifyAggregateMigration.java` 对应后端提交 `c23c9b3`，使用该阶段的字段和校验器；不能在最新数值取值协议下直接运行旧验收工具。
 
 执行顺序：
 
@@ -83,9 +85,31 @@
 
 **2026-09-06 已完成复制演练库和原开发库的 91 → 24 表迁移，生成 150 条引用；原有聚合内容和 2,127 张图片核对一致。** 原开发库启动新服务后完成 154 次管理接口读回及公开接口对照，浏览器完成伊泽瑞尔 Q 效果保存。演练库另验证五类聚合增改、引用删除保护、循环与动态输入拒绝、并发冲突；新建空库验证初始化和 12 项 JSON 形状约束。完整数据库备份及机器验收产物位于工作树忽略目录 `output/authoring-simplification/`。
 
+### 统一数值取值迁移
+
+已经完成存储精简的 24 表库，使用 [MigrateNumericValues.java](../../tools/authoring/MigrateNumericValues.java) 单独迁移效果、内部状态、过程和触发规则的 34 处取值位置。它把已有非空公式标识转换为 FORMULA 对象，保留空值；不生成中转公式，不改变参数、元数据、排序或图片。四个参数仍为后端根目录、已核对数据库名、迁移前快照路径、`--apply` 或 `--check`，目标数据库受工具中的专属名单限制。
+
+先备份和保存当前聚合快照，在复制库演练；正式执行时停止写入，在单事务中转换、比较业务含义、运行完整提交前保护并重建引用，失败回滚。`--check` 也会重建引用，不是只读操作。当前文档说明的是代码入口；本单元实际数据库和页面验收结果由主负责人另行记录。
+
+### 统一数值取值
+
+34 处原公式取值统一为 [SkillNumericValue](src/main/java/xyz/game/datamanage/model/value/SkillNumericValue.java)：
+
+- 固定值：`{"kind":"FIXED","value":12.5}`。
+- 当前技能参数：`{"kind":"PARAMETER","parameterKey":"damage"}`。
+- 当前技能公式：`{"kind":"FORMULA","formulaKey":"damage"}`。
+
+三种形状严格互斥，拒绝未知字段、数值字符串、混合分支和旧字段。可选位置用 `null` 表示未配置，固定零表示已配置。HTTP 反序列化直接读取十进制数值令牌，父请求的多态 JSON 树解析同样保留十进制精度，存储与回读延续该精度。
+
+字段替换为 `valueRule.value`、状态操作 `value`、`initialValue`、`maxValue`；其他取值字段去掉 `FormulaKey` 并加 `Value`，如 `durationValue`、`comparisonValue`、`repeatCountValue`。公式本身的标识、表达式树、动态输入绑定的参数标识以及数值规则中的固定倍率和上下界不变。
+
+固定值和静态参数的全部等级取值按使用位置检查：时间非负且允许小数毫秒，周期、恢复间隔及每目标保护冷却必须大于零；次数和层数为整数，重复次数、触发上限、弹药容量、生命周期最大层数与每次施加层数至少一，初始数量和普通计数上限可为零。比较值和有方向的数值变化不统一限制正负。可取得蓄力两端时，逐对应等级或独立等级组合检查最大时长不小于最小时长。
+
+动态输入检查同时收集直接参数及公式展开的参数，继续遍历过程挂接、计数/弹药初始化、重置与内部冷却。条件、阈值、限制及当前时点读取禁止计算时输入。数值或既有绑定失效返回 `400.INVALID_SKILL_NUMERIC_VALUE`，带所属对象和字段路径并回滚整笔事务。具名公式保持原校验，不新增公式执行器，也不推断任意公式的整数性、大小或范围；前序结果输出的数值类型契约不变。
+
 ## 管理接口与录入约束
 
-管理接口统一位于 `/api/admin/games/{gameId}`。本次存储调整没有新增或改名 HTTP 字段；五类技能对象仍按完整对象保存，没有独立的结果、步骤、动作、绑定或模式选项写接口。
+管理接口统一位于 `/api/admin/games/{gameId}`。五类技能对象按完整对象保存，没有独立的结果、步骤、动作、绑定或模式选项写接口。
 
 | 资源路径 | 当前边界 |
 | --- | --- |
@@ -155,7 +179,7 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 当前聚合存储与引用保护的针对性入口：
 
 ```powershell
-mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManagementDbContractSqlTest,SkillEffectAggregateStorageTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest" test
+mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManagementDbContractSqlTest,SkillEffectAggregateStorageTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest,SkillNumericValueTest,SkillNumericSemanticsTest" test
 ```
 
 数据库结构或公共读取变化后，对最终服务验证 `GET /api/games`、受影响图片接口和相关管理读写；同时检查删除根对象、移除被引用子项的拒绝行为，以及失败事务没有留下局部修改。旧 `/combat-data/**`、版本查询和发布别名应返回普通 404。

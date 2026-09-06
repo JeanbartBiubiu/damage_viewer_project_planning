@@ -1,13 +1,16 @@
 package xyz.game.datamanage.model.skilleffect;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import jakarta.validation.Valid;
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 public record SkillEffectCriticalPolicy(
     SkillEffectCriticalMode mode,
-    String multiplierFormulaKey
+    @Valid
+    SkillNumericValue multiplierValue
 ) {
-    public SkillEffectCriticalPolicy {
-        multiplierFormulaKey = multiplierFormulaKey == null ? null : multiplierFormulaKey.trim();
-        if (multiplierFormulaKey != null && multiplierFormulaKey.isEmpty()) {
-            multiplierFormulaKey = null;
-        }
+    @JsonAnySetter
+    public void rejectUnknownField(String fieldName, Object ignored) {
+        throw new IllegalArgumentException("未知字段：" + fieldName);
     }
 }

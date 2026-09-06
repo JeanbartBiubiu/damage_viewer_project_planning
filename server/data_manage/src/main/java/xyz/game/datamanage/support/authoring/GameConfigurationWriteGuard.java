@@ -22,8 +22,12 @@ import xyz.game.datamanage.support.error.ApiException;
 @Component
 public class GameConfigurationWriteGuard {
     private final JdbcTemplate jdbc;
+    private final SkillNumericSemantics numericSemantics;
 
-    public GameConfigurationWriteGuard(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+    public GameConfigurationWriteGuard(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+        this.numericSemantics = new SkillNumericSemantics(jdbc);
+    }
 
     public void begin(String gameId) {
         if (!TransactionSynchronizationManager.isActualTransactionActive()
@@ -89,6 +93,7 @@ public class GameConfigurationWriteGuard {
                 AggregateJson.tree((String) row.get("data"))));
         }
         List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, aggregates, catalog);
+        numericSemantics.validate(gameId, aggregates);
         jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
         if (!references.isEmpty()) {
             List<Object[]> rows = references.stream().map(ref -> new Object[] {

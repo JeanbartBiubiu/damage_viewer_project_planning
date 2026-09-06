@@ -1,5 +1,7 @@
 package xyz.game.datamanage.model.skilltrigger;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 public record SkillTriggerStatusConditionRow(
     String gameId,
     String skillKey,
@@ -12,6 +14,6 @@ public record SkillTriggerStatusConditionRow(
     String sourceEffectKey,
     String sourceResultKey,
     SkillTriggerComparator comparator,
-    String comparisonFormulaKey
+    SkillNumericValue comparisonValue
 ) {
 }

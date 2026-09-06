@@ -37,16 +37,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
-import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
-import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
@@ -54,11 +52,14 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
+import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skilleffect.SkillEffectService;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
 import xyz.game.datamanage.support.auth.JwtVerifier;
@@ -115,7 +116,7 @@ class SkillEffectAdminControllerTest {
             .andExpect(jsonPath("$.results[0].detail.originKind").value("DIRECT"))
             .andExpect(jsonPath("$.results[0].detail.critical.mode").value("DISALLOWED"))
             .andExpect(jsonPath("$.results[0].detail.vampRules", hasSize(0)))
-            .andExpect(jsonPath("$.results[0].valueRule.formulaKey").value("base_damage"));
+            .andExpect(jsonPath("$.results[0].valueRule.value").value(org.hamcrest.Matchers.equalTo(Map.of("kind", "FORMULA", "formulaKey", "base_damage"))));
 
         mockMvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -178,7 +179,7 @@ class SkillEffectAdminControllerTest {
                           "target":"TARGET",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
-                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                           "detail":{"damageTypeKey":"physical"}
                         }
                       ]
@@ -232,7 +233,7 @@ class SkillEffectAdminControllerTest {
                           "target":"SOURCE",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
-                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                           "detail":{"attributeKey":"ad","operation":"ADD"}
                         }
                       ]
@@ -258,9 +259,9 @@ class SkillEffectAdminControllerTest {
                       "name":"刷新印记",
                       "sortOrder":20,
                       "lifecycle":{
-                        "durationFormulaKey":"duration_f",
-                        "maxStacksFormulaKey":"max_stacks_f",
-                        "applicationStacksFormulaKey":"app_stacks_f",
+                        "durationValue":{"kind":"FORMULA","formulaKey":"duration_f"},
+                        "maxStacksValue":{"kind":"FORMULA","formulaKey":"max_stacks_f"},
+                        "applicationStacksValue":{"kind":"FORMULA","formulaKey":"app_stacks_f"},
                         "instanceScope":"TARGET",
                         "reapplicationStackMode":"INCREASE",
                         "reapplicationDurationMode":"REFRESH_ALL",
@@ -337,7 +338,7 @@ class SkillEffectAdminControllerTest {
                           "target":"SOURCE",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
-                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                           "detail":{
                             "affectedSkillKeys":["ezreal_q","ezreal_w"],
                             "operation":"REDUCE"
@@ -375,7 +376,7 @@ class SkillEffectAdminControllerTest {
                           "target":"SOURCE",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
-                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                           "detail":{
                             "affectedSkillScope":{
                               "mode":"SKILLS",
@@ -469,7 +470,7 @@ class SkillEffectAdminControllerTest {
                           "target":"TARGET",
                           "spellShieldBlockScope":null,
                           "sortOrder":0,
-                          "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                          "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                           "detail":{"damageTypeKey":"physical","attributeKey":"ad","statusKey":"poison","targetEffectKey":"mark_effect"}
                         }
                       ]
@@ -500,7 +501,7 @@ class SkillEffectAdminControllerTest {
                     "fieldIssues",
                     List.of(
                         Map.of(
-                            "field", "results[0].valueRule.formulaKey",
+                            "field", "results[0].valueRule.value",
                             "code", "UNKNOWN_FORMULA",
                             "message", "技能公式不存在或不属于当前技能"
                         ),
@@ -519,7 +520,7 @@ class SkillEffectAdminControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error.code").value("400.INVALID_SKILL_EFFECT_REFERENCE"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field")
-                .value("results[0].valueRule.formulaKey"))
+                .value("results[0].valueRule.value"))
             .andExpect(jsonPath("$.error.details.fieldIssues[1].field")
                 .value("results[0].detail.damageTypeKey"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("UNKNOWN_FORMULA"));
@@ -572,12 +573,12 @@ class SkillEffectAdminControllerTest {
                   "target":"TARGET",
                   "spellShieldBlockScope":null,
                   "sortOrder":0,
-                  "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                  "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                   "detail":{
                     "damageTypeKey":"physical",
                     "deliveryKind":"SKILL",
                     "originKind":"DIRECT",
-                    "critical":{"mode":"DISALLOWED","multiplierFormulaKey":null},
+                    "critical":{"mode":"DISALLOWED","multiplierValue":null},
                     "vampRules":[]
                   }
                 }
@@ -600,12 +601,12 @@ class SkillEffectAdminControllerTest {
                   "target":"TARGET",
                   "spellShieldBlockScope":null,
                   "sortOrder":0,
-                  "valueRule":{"formulaKey":"base_damage","fixedMultiplier":1},
+                  "valueRule":{"value":{"kind":"FORMULA","formulaKey":"base_damage"},"fixedMultiplier":1},
                   "detail":{
                     "damageTypeKey":"physical",
                     "deliveryKind":"SKILL",
                     "originKind":"DIRECT",
-                    "critical":{"mode":"DISALLOWED","multiplierFormulaKey":null},
+                    "critical":{"mode":"DISALLOWED","multiplierValue":null},
                     "vampRules":[]
                   }
                 }
@@ -635,7 +636,7 @@ class SkillEffectAdminControllerTest {
                 SkillEffectTarget.TARGET,
                 null,
                 0,
-                new SkillEffectValueRuleResponse("base_damage", BigDecimal.ONE, null, null),
+                new SkillEffectValueRuleResponse(SkillNumericValue.formula("base_damage"), BigDecimal.ONE, null, null),
                 new SkillEffectDamageDetail("physical")
             )),
             TS,

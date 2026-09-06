@@ -1,5 +1,7 @@
 package xyz.game.datamanage.service.skillinternalstate;
 
+import xyz.game.datamanage.model.value.SkillNumericValue;
+
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -322,17 +324,17 @@ public class SkillInternalStateService {
                     issues.add(fieldIssue("detail", "TYPE_MISMATCH", "计数状态明细形状不合法"));
                     break;
                 }
-                addFormula(refs, issues, "detail.initialValueFormulaKey", counter.initialValueFormulaKey());
-                addFormula(refs, issues, "detail.maxValueFormulaKey", counter.maxValueFormulaKey());
+                addFormula(refs, issues, "detail.initialValue", counter.initialValue());
+                addFormula(refs, issues, "detail.maxValue", counter.maxValue());
             }
             case AMMO -> {
                 if (!(detail instanceof SkillInternalStateAmmoDetail ammo)) {
                     issues.add(fieldIssue("detail", "TYPE_MISMATCH", "弹药状态明细形状不合法"));
                     break;
                 }
-                addFormula(refs, issues, "detail.initialValueFormulaKey", ammo.initialValueFormulaKey());
-                addFormula(refs, issues, "detail.maxValueFormulaKey", ammo.maxValueFormulaKey());
-                addFormula(refs, issues, "detail.recoveryIntervalFormulaKey", ammo.recoveryIntervalFormulaKey());
+                addFormula(refs, issues, "detail.initialValue", ammo.initialValue());
+                addFormula(refs, issues, "detail.maxValue", ammo.maxValue());
+                addFormula(refs, issues, "detail.recoveryIntervalValue", ammo.recoveryIntervalValue());
                 if (ammo.recoveryMode() == null) {
                     issues.add(fieldIssue("detail.recoveryMode", "REQUIRED", "弹药恢复方式不能为空"));
                 }
@@ -352,7 +354,7 @@ public class SkillInternalStateService {
                     issues.add(fieldIssue("detail", "TYPE_MISMATCH", "内部冷却明细形状不合法"));
                     break;
                 }
-                addFormula(refs, issues, "detail.durationFormulaKey", cooldown.durationFormulaKey());
+                addFormula(refs, issues, "detail.durationValue", cooldown.durationValue());
             }
         }
         throwIfInvalid(issues);
@@ -452,13 +454,13 @@ public class SkillInternalStateService {
         List<FormulaRef> refs,
         List<Map<String, String>> issues,
         String field,
-        String formulaKey
+        SkillNumericValue value
     ) {
-        if (formulaKey == null || formulaKey.isBlank()) {
+        if (value == null) {
             issues.add(fieldIssue(field, "REQUIRED", "公式不能为空"));
             return;
         }
-        refs.add(new FormulaRef(field, formulaKey));
+        if (value.formulaKey() != null) refs.add(new FormulaRef(field, value.formulaKey()));
     }
 
     private void lockParentSkill(String gameId, String skillKey) {
