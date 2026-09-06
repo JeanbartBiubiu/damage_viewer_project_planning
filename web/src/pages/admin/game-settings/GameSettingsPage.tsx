@@ -3,17 +3,24 @@ import { useCallback, useEffect, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
 import { getLevelConfig, updateLevelConfig } from '../../../services/characterClient';
+import { GameRepresentativeImagePanel } from '../relations/GameRepresentativeImagePanel';
 
 export type GameSettingsPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
+  selectedGameName: string;
+  onDirtyChange: (dirty: boolean) => void;
+  onGameImageSaved: () => void;
 };
 
 export function GameSettingsPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken
+  adminToken,
+  selectedGameName,
+  onDirtyChange,
+  onGameImageSaved
 }: GameSettingsPageProps) {
   const [minLevel, setMinLevel] = useState<number | undefined>();
   const [maxLevel, setMaxLevel] = useState<number | undefined>();
@@ -188,6 +195,9 @@ export function GameSettingsPage({
           </Button>
         </Form>
       </Panel>
+      <GameRepresentativeImagePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
+        selectedGameName={selectedGameName} adminToken={adminToken}
+        onDirtyChange={onDirtyChange} onSaved={onGameImageSaved} />
     </div>
   );
 }

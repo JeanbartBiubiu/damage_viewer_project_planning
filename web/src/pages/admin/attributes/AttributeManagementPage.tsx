@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -252,7 +254,12 @@ export function AttributeManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Attribute>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'attribute', key: record.attributeKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     {
       title: '属性名称',
       dataIndex: 'name',
@@ -293,10 +300,17 @@ export function AttributeManagementPage({
     },
     {
       title: '操作',
-      width: 210,
+      width: 350,
       fixed: 'right',
       render: (_value, record: Attribute) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.attributeKey}`}
+            target={{ kind: 'attribute', key: record.attributeKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => openEditor('view', record)}>
             查看
           </Button>
@@ -418,7 +432,7 @@ export function AttributeManagementPage({
           data={attributes}
           pagination={false}
           rowKey={(record: Attribute) => record.attributeKey}
-          scroll={{ x: 1190 }}
+          scroll={{ x: 1414 }}
           onRow={(record: Attribute) => ({
             onClick: () => setSelectedAttributeKey(record.attributeKey)
           })}

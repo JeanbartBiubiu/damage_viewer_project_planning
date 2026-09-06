@@ -375,7 +375,46 @@ class MockApi {
     const path = decodeURIComponent(url.pathname);
 
     if (method === 'GET' && path === '/api/games') {
-      await this.json(route, 200, [{ gameId: GAME_ID, gameName: GAME_NAME, gameImgUrl: null }]);
+      await this.json(route, 200, [{ gameId: GAME_ID, gameName: GAME_NAME, representativeImageKey: null }]);
+      return;
+    }
+
+    if (method === 'GET' && path === `/api/admin/games/${GAME_ID}/representative-image`) {
+      await this.json(route, 200, { image: null });
+      return;
+    }
+
+    // 当前业务表格仅读取所属对象的代表图片；限定六类合法路径，不接管其他请求。
+    const objectRepresentative = path.match(new RegExp(
+      `^/api/admin/games/${GAME_ID}/(characters|attributes|equipment|skills|statuses)/([^/]+)/representative-image$`
+    ));
+    if (method === 'GET' && objectRepresentative) {
+      const [, kind, key] = objectRepresentative;
+      const sources = {
+        characters: { exists: this.characters.some(item => item.characterKey === key), code: '404.CHARACTER_NOT_FOUND', name: '角色' },
+        attributes: { exists: this.attributes.some(item => item.attributeKey === key), code: '404.ATTRIBUTE_NOT_FOUND', name: '属性' },
+        equipment: { exists: this.equipment.some(item => item.equipmentKey === key), code: '404.EQUIPMENT_NOT_FOUND', name: '装备' },
+        skills: { exists: this.skills.some(item => item.skillKey === key), code: '404.SKILL_NOT_FOUND', name: '技能' },
+        statuses: { exists: this.statuses.some(item => item.statusKey === key), code: '404.STATUS_NOT_FOUND', name: '状态' }
+      };
+      const source = sources[kind as keyof typeof sources];
+      if (!source.exists) await this.error(route, 404, source.code, `${source.name}不存在`);
+      else await this.json(route, 200, { image: null });
+      return;
+    }
+
+    const effectRepresentative = path.match(new RegExp(
+      `^/api/admin/games/${GAME_ID}/skills/([^/]+)/effects/([^/]+)/representative-image$`
+    ));
+    if (method === 'GET' && effectRepresentative) {
+      const [, skillKey, effectKey] = effectRepresentative;
+      if (!this.skills.some(item => item.skillKey === skillKey)) {
+        await this.error(route, 404, '404.SKILL_NOT_FOUND', '技能不存在');
+      } else if (!this.skillEffects.some(item => item.skillKey === skillKey && item.effectKey === effectKey)) {
+        await this.error(route, 404, '404.SKILL_EFFECT_NOT_FOUND', '技能效果不存在');
+      } else {
+        await this.json(route, 200, { image: null });
+      }
       return;
     }
 

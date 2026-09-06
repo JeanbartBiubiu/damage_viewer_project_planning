@@ -16,6 +16,14 @@ const APPROVED_INDEPENDENT_SKILL_LINES = [
   {
     file: 'src/App.tsx',
     text: "import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';"
+  },
+  {
+    file: 'src/services/imageRelationClient.ts',
+    text: "case 'skill': return `${base}/skills/${key}/representative-image`;"
+  },
+  {
+    file: 'src/services/imageRelationClient.ts',
+    text: 'return `${base}/skills/${encodePathSegment(target.skillKey)}/effects/${key}/representative-image`;'
   }
 ];
 
