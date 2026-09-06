@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Evelynn",
+  "sourceNumericId": "28",
+  "name": "伊芙琳",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 642,
+      "growth": 98,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.hp/hpperlevel",
+        "角色根记录/Evelynn.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 642,
+        "2": 712.56,
+        "3": 786.55,
+        "4": 863.97,
+        "5": 944.82,
+        "6": 1029.1,
+        "7": 1116.81,
+        "8": 1207.95,
+        "9": 1302.52,
+        "10": 1400.52,
+        "11": 1501.95,
+        "12": 1606.81,
+        "13": 1715.1,
+        "14": 1826.82,
+        "15": 1941.97,
+        "16": 2060.55,
+        "17": 2182.56,
+        "18": 2308
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Evelynn.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.04,
+        "3": 9.60625,
+        "4": 10.19875,
+        "5": 10.8175,
+        "6": 11.4625,
+        "7": 12.13375,
+        "8": 12.83125,
+        "9": 13.555,
+        "10": 14.305,
+        "11": 15.08125,
+        "12": 15.88375,
+        "13": 16.7125,
+        "14": 17.5675,
+        "15": 18.44875,
+        "16": 19.35625,
+        "17": 20.29,
+        "18": 21.25
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 37,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.armor/armorperlevel",
+        "角色根记录/Evelynn.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 37,
+        "2": 40.384,
+        "3": 43.9325,
+        "4": 47.6455,
+        "5": 51.523,
+        "6": 55.565,
+        "7": 59.7715,
+        "8": 64.1425,
+        "9": 68.678,
+        "10": 73.378,
+        "11": 78.2425,
+        "12": 83.2715,
+        "13": 88.465,
+        "14": 93.823,
+        "15": 99.3455,
+        "16": 105.0325,
+        "17": 110.884,
+        "18": 116.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Evelynn.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Evelynn.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 63.16,
+        "3": 65.425,
+        "4": 67.795,
+        "5": 70.27,
+        "6": 72.85,
+        "7": 75.535,
+        "8": 78.325,
+        "9": 81.22,
+        "10": 84.22,
+        "11": 87.325,
+        "12": 90.535,
+        "13": 93.85,
+        "14": 97.27,
+        "15": 100.795,
+        "16": 104.425,
+        "17": 108.16,
+        "18": 112
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Evelynn.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Evelynn.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.667,
+      "attackSpeedRatio": 0.667,
+      "growthPercent": 2.1,
+      "sources": [
+        "角色根记录/Evelynn.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.667,
+        "2": 0.677085,
+        "3": 0.68766,
+        "4": 0.698726,
+        "5": 0.710282,
+        "6": 0.722328,
+        "7": 0.734864,
+        "8": 0.74789,
+        "9": 0.761407,
+        "10": 0.775414,
+        "11": 0.789911,
+        "12": 0.804899,
+        "13": 0.820377,
+        "14": 0.836345,
+        "15": 0.852803,
+        "16": 0.869751,
+        "17": 0.88719,
+        "18": 0.905119
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 315,
+      "growth": 42,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.mp/mpperlevel",
+        "角色根记录/Evelynn.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 315,
+        "2": 345.24,
+        "3": 376.95,
+        "4": 410.13,
+        "5": 444.78,
+        "6": 480.9,
+        "7": 518.49,
+        "8": 557.55,
+        "9": 598.08,
+        "10": 640.08,
+        "11": 683.55,
+        "12": 728.49,
+        "13": 774.9,
+        "14": 822.78,
+        "15": 872.13,
+        "16": 922.95,
+        "17": 975.24,
+        "18": 1029
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.11,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Evelynn.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Evelynn.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.11,
+        "2": 8.542,
+        "3": 8.995,
+        "4": 9.469,
+        "5": 9.964,
+        "6": 10.48,
+        "7": 11.017,
+        "8": 11.575,
+        "9": 12.154,
+        "10": 12.754,
+        "11": 13.375,
+        "12": 14.017,
+        "13": 14.68,
+        "14": 15.364,
+        "15": 16.069,
+        "16": 16.795,
+        "17": 17.542,
+        "18": 18.31
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.667,
+    "ratio": 0.667,
+    "growthPercent": 2.1,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Leona",
+  "sourceNumericId": "89",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/leona/leona.bin.json",
+    "path": ".临时原始响应/16.17/Leona.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 49988,
+    "sha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+    "fetchedAt": "2026-09-06T14:26:25.137Z"
+  },
+  "recordKey": "Characters/Leona/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Leona",
+    "baseHPModifiable": {
+      "baseValue": 646,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 101,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.7000000476837158,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.17000000178813934,
+      "__type": "ModifiableFloat"
+    },
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 302,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 40,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.2000000476837158,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.1599999964237213,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 60,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 43,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.799999713897705,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 32,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 2.049999952316284,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 335,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 125,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 2.9000000953674316,
+      "__type": "ModifiableFloat"
+    },
+    "acquisitionRange": 400,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.07083333283662796,
+      "mAttackProbability": 0.5,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.07000000029802322,
+        "mAttackProbability": 0.5,
+        "mAttackName": "LeonaBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackDelayCastOffsetPercent": -0.07000000029802322,
+        "mAttackProbability": 0,
+        "mAttackName": "LeonaBasicAttack3",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.07083333283662796,
+        "mAttackName": "LeonaCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+      "LeonaSolarBarrierAbility/LeonaSolarBarrier",
+      "LeonaZenithBladeAbility/LeonaZenithBlade",
+      "LeonaSolarFlareAbility/LeonaSolarFlare"
+    ],
+    "spells": [
+      "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+      "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+      "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+      "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare"
+    ],
+    "extraSpells": [
+      "LeonaShieldOfDaybreakAttack",
+      "LeonaZenithBladeMissile",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreakAttack",
+      "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBladeMissile",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility",
+      "Characters/Leona/Spells/LeonaSolarBarrierAbility",
+      "Characters/Leona/Spells/LeonaZenithBladeAbility",
+      "Characters/Leona/Spells/LeonaSolarFlareAbility",
+      "Characters/Leona/Spells/LeonaSunlightPassiveAbility"
+    ],
+    "passiveName": "Spell_LeonaSunlightPassive_Name",
+    "passiveLuaName": "",
+    "passiveToolTip": "Spell_LeonaSunlightPassive_Summary",
+    "passiveSpell": "LeonaSunlightPassive",
+    "passive1IconName": "assets/characters/leona/hud/icons2d/leonasunlight.dds",
+    "name": "game_character_displayname_Leona",
+    "selectionHeight": 188.88890075683594,
+    "selectionRadius": 120,
+    "pathfindingCollisionRadius": 35,
+    "{eb74898c}": 0,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1054,
+      "skillOrder": 1,
+      "__type": "ToolEducationData"
+    },
+    "mAbilitySlotCC": [
+      16,
+      0,
+      15,
+      14
+    ],
+    "characterToolData": {
+      "spellData": [
+        {
+          "desc": "Tryndamere's lust for battle becomes so strong that he is unable to die, no matter how wounded he becomes.",
+          "displayName": "Undying Rage",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Tryndamere's lust for battle becomes so strong that he is unable to die, no matter how wounded he becomes.",
+          "displayName": "Undying Rage",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Tryndamere's lust for battle becomes so strong that he is unable to die, no matter how wounded he becomes.",
+          "displayName": "Undying Rage",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Tryndamere's lust for battle becomes so strong that he is unable to die, no matter how wounded he becomes.",
+          "displayName": "Undying Rage",
+          "__type": "ToolSpellDesc"
+        }
+      ],
+      "mapAIPresence": {
+        "0": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "5": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Leona",
+          "level": [
+            1,
+            4,
+            7
+          ],
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "tank",
+      "searchTagsSecondary": "support",
+      "championId": 89,
+      "roles": "SUPPORT",
+      "magicRank": 3,
+      "LevelSpellEffectiveness": 2,
+      "difficultyRank": 4,
+      "description": "game_character_description_Leona",
+      "defenseRank": 8,
+      "classification": "Strong",
+      "ChasingAttackRangePercent": 0.5,
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "attackRank": 4,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "flags": 9446664,
+    "purchaseIdentities": [
+      "Melee"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Resolve",
+    "mCharacterPassiveSpell": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Shared/Spells/GlobalRecallFacingSouth",
+        "SkinFilter": {
+          "skinIds": [
+            4
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Leona/Spells/LeonaProjectIdleParticles",
+        "SkinFilter": {
+          "skinIds": [
+            8
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Leona/Spells/LeonaSkinEclipseManager",
+        "SkinFilter": {
+          "skinIds": [
+            10,
+            11
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Leona/Spells/LeonaSkin34Manager",
+        "SkinFilter": {
+          "skinIds": [
+            34
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Leona/Spells/LeonaSkin64Manager",
+        "SkinFilter": {
+          "skinIds": [
+            64
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

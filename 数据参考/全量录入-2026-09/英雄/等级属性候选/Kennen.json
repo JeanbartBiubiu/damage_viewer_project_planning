@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kennen",
+  "sourceNumericId": "85",
+  "name": "凯南",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 580,
+      "growth": 98,
+      "sources": [
+        "原始资料/zh_CN/champion/Kennen.json:stats.hp/hpperlevel",
+        "角色根记录/Kennen.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 580,
+        "2": 650.56,
+        "3": 724.55,
+        "4": 801.97,
+        "5": 882.82,
+        "6": 967.1,
+        "7": 1054.81,
+        "8": 1145.95,
+        "9": 1240.52,
+        "10": 1338.52,
+        "11": 1439.95,
+        "12": 1544.81,
+        "13": 1653.1,
+        "14": 1764.82,
+        "15": 1879.97,
+        "16": 1998.55,
+        "17": 2120.56,
+        "18": 2246
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Kennen.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Kennen.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.968,
+        "3": 6.45875,
+        "4": 6.97225,
+        "5": 7.5085,
+        "6": 8.0675,
+        "7": 8.64925,
+        "8": 9.25375,
+        "9": 9.881,
+        "10": 10.531,
+        "11": 11.20375,
+        "12": 11.89925,
+        "13": 12.6175,
+        "14": 13.3585,
+        "15": 14.12225,
+        "16": 14.90875,
+        "17": 15.718,
+        "18": 16.55
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 29,
+      "growth": 4.95,
+      "sources": [
+        "原始资料/zh_CN/champion/Kennen.json:stats.armor/armorperlevel",
+        "角色根记录/Kennen.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 32.564,
+        "3": 36.30125,
+        "4": 40.21175,
+        "5": 44.2955,
+        "6": 48.5525,
+        "7": 52.98275,
+        "8": 57.58625,
+        "9": 62.363,
+        "10": 67.313,
+        "11": 72.43625,
+        "12": 77.73275,
+        "13": 83.2025,
+        "14": 88.8455,
+        "15": 94.66175,
+        "16": 100.65125,
+        "17": 106.814,
+        "18": 113.15
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Kennen.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kennen.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 48,
+      "growth": 3.75,
+      "sources": [
+        "角色根记录/Kennen.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 48,
+        "2": 50.7,
+        "3": 53.53125,
+        "4": 56.49375,
+        "5": 59.5875,
+        "6": 62.8125,
+        "7": 66.16875,
+        "8": 69.65625,
+        "9": 73.275,
+        "10": 77.025,
+        "11": 80.90625,
+        "12": 84.91875,
+        "13": 89.0625,
+        "14": 93.3375,
+        "15": 97.74375,
+        "16": 102.28125,
+        "17": 106.95,
+        "18": 111.75
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kennen.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kennen.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.69,
+      "growthPercent": 3.4,
+      "sources": [
+        "角色根记录/Kennen.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.641891,
+        "3": 0.659604,
+        "4": 0.678137,
+        "5": 0.697491,
+        "6": 0.717667,
+        "7": 0.738664,
+        "8": 0.760482,
+        "9": 0.78312,
+        "10": 0.80658,
+        "11": 0.830861,
+        "12": 0.855964,
+        "13": 0.881887,
+        "14": 0.908631,
+        "15": 0.936197,
+        "16": 0.964584,
+        "17": 0.993791,
+        "18": 1.02382
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "能量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.69,
+    "growthPercent": 3.4,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Hecarim",
+  "sourceNumericId": "120",
+  "name": "赫卡里姆",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 625,
+      "growth": 106,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.hp/hpperlevel",
+        "角色根记录/Hecarim.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 625,
+        "2": 701.32,
+        "3": 781.35,
+        "4": 865.09,
+        "5": 952.54,
+        "6": 1043.7,
+        "7": 1138.57,
+        "8": 1237.15,
+        "9": 1339.44,
+        "10": 1445.44,
+        "11": 1555.15,
+        "12": 1668.57,
+        "13": 1785.7,
+        "14": 1906.54,
+        "15": 2031.09,
+        "16": 2159.35,
+        "17": 2291.32,
+        "18": 2427
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Hecarim.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.54,
+        "3": 8.10625,
+        "4": 8.69875,
+        "5": 9.3175,
+        "6": 9.9625,
+        "7": 10.63375,
+        "8": 11.33125,
+        "9": 12.055,
+        "10": 12.805,
+        "11": 13.58125,
+        "12": 14.38375,
+        "13": 15.2125,
+        "14": 16.0675,
+        "15": 16.94875,
+        "16": 17.85625,
+        "17": 18.79,
+        "18": 19.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 5.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.armor/armorperlevel",
+        "角色根记录/Hecarim.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.924,
+        "3": 40.03875,
+        "4": 44.34425,
+        "5": 48.8405,
+        "6": 53.5275,
+        "7": 58.40525,
+        "8": 63.47375,
+        "9": 68.733,
+        "10": 74.183,
+        "11": 79.82375,
+        "12": 85.65525,
+        "13": 91.6775,
+        "14": 97.8905,
+        "15": 104.29425,
+        "16": 110.88875,
+        "17": 117.674,
+        "18": 124.65
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Hecarim.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 66,
+      "growth": 3.7,
+      "sources": [
+        "角色根记录/Hecarim.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 66,
+        "2": 68.664,
+        "3": 71.4575,
+        "4": 74.3805,
+        "5": 77.433,
+        "6": 80.615,
+        "7": 83.9265,
+        "8": 87.3675,
+        "9": 90.938,
+        "10": 94.638,
+        "11": 98.4675,
+        "12": 102.4265,
+        "13": 106.515,
+        "14": 110.733,
+        "15": 115.0805,
+        "16": 119.5575,
+        "17": 124.164,
+        "18": 128.9
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Hecarim.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Hecarim.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.67,
+      "attackSpeedRatio": 0.67,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Hecarim.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.67,
+        "2": 0.68206,
+        "3": 0.694706,
+        "4": 0.707939,
+        "5": 0.721758,
+        "6": 0.736163,
+        "7": 0.751154,
+        "8": 0.766731,
+        "9": 0.782895,
+        "10": 0.799645,
+        "11": 0.816981,
+        "12": 0.834904,
+        "13": 0.853413,
+        "14": 0.872507,
+        "15": 0.892189,
+        "16": 0.912456,
+        "17": 0.93331,
+        "18": 0.95475
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 280,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.mp/mpperlevel",
+        "角色根记录/Hecarim.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 280,
+        "2": 308.8,
+        "3": 339,
+        "4": 370.6,
+        "5": 403.6,
+        "6": 438,
+        "7": 473.8,
+        "8": 511,
+        "9": 549.6,
+        "10": 589.6,
+        "11": 631,
+        "12": 673.8,
+        "13": 718,
+        "14": 763.6,
+        "15": 810.6,
+        "16": 859,
+        "17": 908.8,
+        "18": 960
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Hecarim.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Hecarim.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.576,
+        "3": 8.18,
+        "4": 8.812,
+        "5": 9.472,
+        "6": 10.16,
+        "7": 10.876,
+        "8": 11.62,
+        "9": 12.392,
+        "10": 13.192,
+        "11": 14.02,
+        "12": 14.876,
+        "13": 15.76,
+        "14": 16.672,
+        "15": 17.612,
+        "16": 18.58,
+        "17": 19.576,
+        "18": 20.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.67,
+    "ratio": 0.67,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

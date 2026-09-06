@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Anivia",
+  "sourceNumericId": "34",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/anivia/anivia.bin.json",
+    "path": ".临时原始响应/16.17/Anivia.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 44857,
+    "sha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+    "fetchedAt": "2026-09-06T14:26:12.381Z"
+  },
+  "recordKey": "Characters/Anivia/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Anivia",
+    "baseHPModifiable": {
+      "baseValue": 550,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 92,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.100000023841858,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.10999999940395355,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 120,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 495,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 45,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.600000023841858,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.1599999964237213,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 51,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3.200000047683716,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 19,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.099999904632568,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 30,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 325,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 600,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6579999923706055,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 1.6799999475479126,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "acquisitionRange": 600,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+      "mAttackProbability": 0.6000000238418579,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackProbability": 0.4000000059604645,
+        "mAttackName": "AniviaBasicAttack2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+        "mAttackName": "AniviaCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "FlashFrostAbility/FlashFrost",
+      "CrystallizeAbility/Crystallize",
+      "FrostbiteAbility/Frostbite",
+      "GlacialStormAbility/GlacialStorm"
+    ],
+    "spells": [
+      "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+      "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+      "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+      "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm"
+    ],
+    "extraSpells": [
+      "FlashFrostSpell",
+      "GlacialStormSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Anivia/Spells/FlashFrostAbility/FlashFrostSpell",
+      "Characters/Anivia/Spells/GlacialStormAbility/GlacialStormSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Anivia/Spells/GlacialStormAbility",
+      "Characters/Anivia/Spells/FlashFrostAbility",
+      "Characters/Anivia/Spells/CrystallizeAbility",
+      "Characters/Anivia/Spells/FrostbiteAbility",
+      "Characters/Anivia/Spells/RebirthMarkerAbility"
+    ],
+    "passiveName": "game_character_passiveName_Anivia",
+    "passiveLuaName": "RebirthMarker",
+    "passiveToolTip": "game_character_passiveDescription_Anivia",
+    "passiveSpell": "RebirthMarker",
+    "passive1IconName": "assets/characters/anivia/hud/icons2d/anivia_p.dds",
+    "name": "game_character_displayname_Anivia",
+    "selectionHeight": 140,
+    "selectionRadius": 140,
+    "pathfindingCollisionRadius": 35,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1056,
+      "__type": "ToolEducationData"
+    },
+    "mAbilitySlotCC": [
+      14,
+      0,
+      0,
+      14
+    ],
+    "characterToolData": {
+      "spellData": [
+        {
+          "desc": "Anivia calls forth a gale of snow and ice that damages and chills units in a large area.  The storm may be called forth and cancelled at will.",
+          "displayName": "Glacial Storm",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Anivia calls forth a gale of snow and ice that damages and chills units in a large area.  The storm may be called forth and cancelled at will.",
+          "displayName": "Glacial Storm",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Anivia calls forth a gale of snow and ice that damages and chills units in a large area.  The storm may be called forth and cancelled at will.",
+          "displayName": "Glacial Storm",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Anivia calls forth a gale of snow and ice that damages and chills units in a large area.  The storm may be called forth and cancelled at will.",
+          "displayName": "Glacial Storm",
+          "__type": "ToolSpellDesc"
+        }
+      ],
+      "mapAIPresence": {
+        "0": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "5": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Anivia",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "mage",
+      "championId": 34,
+      "roles": "MAGE",
+      "magicRank": 10,
+      "difficultyRank": 10,
+      "description": "game_character_description_Anivia",
+      "defenseRank": 4,
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "attackRank": 1,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mCharacterPassiveSpell": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+        "mComponentBuffs": [
+          "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthCooldown",
+          "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthReady"
+        ],
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

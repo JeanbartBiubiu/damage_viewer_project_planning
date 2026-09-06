@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Thresh",
+  "sourceNumericId": "412",
+  "name": "锤石",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 620,
+      "growth": 120,
+      "sources": [
+        "原始资料/zh_CN/champion/Thresh.json:stats.hp/hpperlevel",
+        "角色根记录/Thresh.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 620,
+        "2": 706.4,
+        "3": 797,
+        "4": 891.8,
+        "5": 990.8,
+        "6": 1094,
+        "7": 1201.4,
+        "8": 1313,
+        "9": 1428.8,
+        "10": 1548.8,
+        "11": 1673,
+        "12": 1801.4,
+        "13": 1934,
+        "14": 2070.8,
+        "15": 2211.8,
+        "16": 2357,
+        "17": 2506.4,
+        "18": 2660
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Thresh.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Thresh.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.396,
+        "3": 7.81125,
+        "4": 8.24575,
+        "5": 8.6995,
+        "6": 9.1725,
+        "7": 9.66475,
+        "8": 10.17625,
+        "9": 10.707,
+        "10": 11.257,
+        "11": 11.82625,
+        "12": 12.41475,
+        "13": 13.0225,
+        "14": 13.6495,
+        "15": 14.29575,
+        "16": 14.96125,
+        "17": 15.646,
+        "18": 16.35
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Thresh.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Thresh.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 31.116,
+        "3": 32.28625,
+        "4": 33.51075,
+        "5": 34.7895,
+        "6": 36.1225,
+        "7": 37.50975,
+        "8": 38.95125,
+        "9": 40.447,
+        "10": 41.997,
+        "11": 43.60125,
+        "12": 45.25975,
+        "13": 46.9725,
+        "14": 48.7395,
+        "15": 50.56075,
+        "16": 52.43625,
+        "17": 54.366,
+        "18": 56.35
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 56,
+      "growth": 2.2,
+      "sources": [
+        "角色根记录/Thresh.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 56,
+        "2": 57.584,
+        "3": 59.245,
+        "4": 60.983,
+        "5": 62.798,
+        "6": 64.69,
+        "7": 66.659,
+        "8": 68.705,
+        "9": 70.828,
+        "10": 73.028,
+        "11": 75.305,
+        "12": 77.659,
+        "13": 80.09,
+        "14": 82.598,
+        "15": 85.183,
+        "16": 87.845,
+        "17": 90.584,
+        "18": 93.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Thresh.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 450,
+      "growth": null,
+      "sources": [
+        "角色根记录/Thresh.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 450,
+        "2": 450,
+        "3": 450,
+        "4": 450,
+        "5": 450,
+        "6": 450,
+        "7": 450,
+        "8": 450,
+        "9": 450,
+        "10": 450,
+        "11": 450,
+        "12": 450,
+        "13": 450,
+        "14": 450,
+        "15": 450,
+        "16": 450,
+        "17": 450,
+        "18": 450
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.5,
+      "sources": [
+        "角色根记录/Thresh.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.64075,
+        "3": 0.657266,
+        "4": 0.674547,
+        "5": 0.692594,
+        "6": 0.711406,
+        "7": 0.730984,
+        "8": 0.751328,
+        "9": 0.772437,
+        "10": 0.794312,
+        "11": 0.816953,
+        "12": 0.840359,
+        "13": 0.864531,
+        "14": 0.889469,
+        "15": 0.915172,
+        "16": 0.941641,
+        "17": 0.968875,
+        "18": 0.996875
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 274,
+      "growth": 44,
+      "sources": [
+        "原始资料/zh_CN/champion/Thresh.json:stats.mp/mpperlevel",
+        "角色根记录/Thresh.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 274,
+        "2": 305.68,
+        "3": 338.9,
+        "4": 373.66,
+        "5": 409.96,
+        "6": 447.8,
+        "7": 487.18,
+        "8": 528.1,
+        "9": 570.56,
+        "10": 614.56,
+        "11": 660.1,
+        "12": 707.18,
+        "13": 755.8,
+        "14": 805.96,
+        "15": 857.66,
+        "16": 910.9,
+        "17": 965.68,
+        "18": 1022
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Thresh.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Thresh.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.576,
+        "3": 7.18,
+        "4": 7.812,
+        "5": 8.472,
+        "6": 9.16,
+        "7": 9.876,
+        "8": 10.62,
+        "9": 11.392,
+        "10": 12.192,
+        "11": 13.02,
+        "12": 13.876,
+        "13": 14.76,
+        "14": 15.672,
+        "15": 16.612,
+        "16": 17.58,
+        "17": 18.576,
+        "18": 19.6
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "armor",
+      "label": "护甲",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "armorPerLevelModifiable"
+      ],
+      "officialBase": 33,
+      "officialGrowth": 0
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

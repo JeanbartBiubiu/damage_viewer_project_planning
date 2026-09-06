@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Janna",
+  "sourceNumericId": "40",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/janna/janna.bin.json",
+    "path": ".临时原始响应/16.17/Janna.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 53242,
+    "sha256": "8ae0ddf7ef5c4918ded0a72a9309c318b30ea927e3a1b3568e3232217d9a1ff8",
+    "fetchedAt": "2026-09-06T14:26:20.505Z"
+  },
+  "recordKey": "Characters/Janna/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Janna",
+    "baseHPModifiable": {
+      "baseValue": 570,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 90,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.100000023841858,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.10999999940395355,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 120,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 360,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 50,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 2.299999952316284,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.07999999821186066,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 47,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 2.5,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 28,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.5,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 30,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 325,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 550,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 3,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "acquisitionRange": 550,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+      "mAttackProbability": 0.5,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+        "mAttackProbability": 0.5,
+        "mAttackName": "JannaBasicAttack2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+        "mAttackName": "JannaCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "HowlingGaleAbility/HowlingGale",
+      "SowTheWindAbility/SowTheWind",
+      "EyeOfTheStormAbility/EyeOfTheStorm",
+      "ReapTheWhirlwindAbility/ReapTheWhirlwind"
+    ],
+    "spells": [
+      "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale",
+      "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+      "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind"
+    ],
+    "extraSpells": [
+      "HowlingGaleSpell",
+      "JannaCritAttack",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Janna/Spells/HowlingGaleAbility/HowlingGaleSpell",
+      "Characters/Janna/Spells/JannaCritAttack",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Janna/Spells/HowlingGaleAbility",
+      "Characters/Janna/Spells/SowTheWindAbility",
+      "Characters/Janna/Spells/EyeOfTheStormAbility",
+      "Characters/Janna/Spells/ReapTheWhirlwindAbility",
+      "Characters/Janna/Spells/TailwindSelfAbility"
+    ],
+    "passiveName": "game_character_passiveName_Janna",
+    "passiveLuaName": "TailwindSelf",
+    "passiveToolTip": "game_character_passiveDescription_Janna",
+    "passiveRange": 1250,
+    "passive1IconName": "assets/characters/janna/hud/icons2d/jannap.dds",
+    "name": "game_character_displayname_Janna",
+    "mUseCCAnimations": true,
+    "selectionHeight": 200,
+    "selectionRadius": 125,
+    "pathfindingCollisionRadius": 35,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1056,
+      "__type": "ToolEducationData"
+    },
+    "mAbilitySlotCC": [
+      8,
+      14,
+      0,
+      7
+    ],
+    "characterToolData": {
+      "spellData": [
+        {
+          "desc": "Needs text",
+          "displayName": "Monsoon",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Needs text",
+          "displayName": "Monsoon",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Needs text",
+          "displayName": "Monsoon",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Needs text",
+          "displayName": "Monsoon",
+          "__type": "ToolSpellDesc"
+        }
+      ],
+      "mapAIPresence": {
+        "0": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "5": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passLev1Desc": [
+        "5 Astral Spirts"
+      ],
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Janna",
+          "effect": [
+            "-1",
+            "-1",
+            "-1",
+            "-1"
+          ],
+          "level": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "__type": "ToolPassiveData"
+        },
+        {
+          "effect": [
+            "-1",
+            "-1",
+            "-1",
+            "-1"
+          ],
+          "level": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "support",
+      "searchTagsSecondary": "mage",
+      "championId": 40,
+      "roles": "SUPPORT",
+      "magicRank": 7,
+      "Lore2": "poor sod",
+      "LevelSpellEffectiveness": 3,
+      "difficultyRank": 7,
+      "description": "game_character_description_Janna",
+      "defenseRank": 5,
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "attackSpeed": 10,
+      "attackRank": 3,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mCharacterPassiveSpell": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Janna/Spells/ForecastJannaVO",
+        "SkinFilter": {
+          "skinIds": [
+            5
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

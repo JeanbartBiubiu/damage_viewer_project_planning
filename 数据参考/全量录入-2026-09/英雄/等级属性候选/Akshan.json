@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Akshan",
+  "sourceNumericId": "166",
+  "name": "阿克尚",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 107,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.hp/hpperlevel",
+        "角色根记录/Akshan.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 687.04,
+        "3": 767.825,
+        "4": 852.355,
+        "5": 940.63,
+        "6": 1032.65,
+        "7": 1128.415,
+        "8": 1227.925,
+        "9": 1331.18,
+        "10": 1438.18,
+        "11": 1548.925,
+        "12": 1663.415,
+        "13": 1781.65,
+        "14": 1903.63,
+        "15": 2029.355,
+        "16": 2158.825,
+        "17": 2292.04,
+        "18": 2429
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.75,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Akshan.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.75,
+        "2": 4.218,
+        "3": 4.70875,
+        "4": 5.22225,
+        "5": 5.7585,
+        "6": 6.3175,
+        "7": 6.89925,
+        "8": 7.50375,
+        "9": 8.131,
+        "10": 8.781,
+        "11": 9.45375,
+        "12": 10.14925,
+        "13": 10.8675,
+        "14": 11.6085,
+        "15": 12.37225,
+        "16": 13.15875,
+        "17": 13.968,
+        "18": 14.8
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 26,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.armor/armorperlevel",
+        "角色根记录/Akshan.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 26,
+        "2": 29.384,
+        "3": 32.9325,
+        "4": 36.6455,
+        "5": 40.523,
+        "6": 44.565,
+        "7": 48.7715,
+        "8": 53.1425,
+        "9": 57.678,
+        "10": 62.378,
+        "11": 67.2425,
+        "12": 72.2715,
+        "13": 77.465,
+        "14": 82.823,
+        "15": 88.3455,
+        "16": 94.0325,
+        "17": 99.884,
+        "18": 105.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Akshan.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 52,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Akshan.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 52,
+        "2": 54.16,
+        "3": 56.425,
+        "4": 58.795,
+        "5": 61.27,
+        "6": 63.85,
+        "7": 66.535,
+        "8": 69.325,
+        "9": 72.22,
+        "10": 75.22,
+        "11": 78.325,
+        "12": 81.535,
+        "13": 84.85,
+        "14": 88.27,
+        "15": 91.795,
+        "16": 95.425,
+        "17": 99.16,
+        "18": 103
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Akshan.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Akshan.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.638,
+      "attackSpeedRatio": 0.4,
+      "growthPercent": 4,
+      "sources": [
+        "角色根记录/Akshan.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.638,
+        "2": 0.64952,
+        "3": 0.6616,
+        "4": 0.67424,
+        "5": 0.68744,
+        "6": 0.7012,
+        "7": 0.71552,
+        "8": 0.7304,
+        "9": 0.74584,
+        "10": 0.76184,
+        "11": 0.7784,
+        "12": 0.79552,
+        "13": 0.8132,
+        "14": 0.83144,
+        "15": 0.85024,
+        "16": 0.8696,
+        "17": 0.88952,
+        "18": 0.91
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.mp/mpperlevel",
+        "角色根记录/Akshan.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 378.8,
+        "3": 409,
+        "4": 440.6,
+        "5": 473.6,
+        "6": 508,
+        "7": 543.8,
+        "8": 581,
+        "9": 619.6,
+        "10": 659.6,
+        "11": 701,
+        "12": 743.8,
+        "13": 788,
+        "14": 833.6,
+        "15": 880.6,
+        "16": 929,
+        "17": 978.8,
+        "18": 1030
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.2,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Akshan.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Akshan.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.2,
+        "2": 8.704,
+        "3": 9.2325,
+        "4": 9.7855,
+        "5": 10.363,
+        "6": 10.965,
+        "7": 11.5915,
+        "8": 12.2425,
+        "9": 12.918,
+        "10": 13.618,
+        "11": 14.3425,
+        "12": 15.0915,
+        "13": 15.865,
+        "14": 16.663,
+        "15": 17.4855,
+        "16": 18.3325,
+        "17": 19.204,
+        "18": 20.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.638,
+    "ratio": 0.4,
+    "growthPercent": 4,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

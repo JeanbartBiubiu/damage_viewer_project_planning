@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Zaahen",
+  "sourceNumericId": "904",
+  "name": "亚恒",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 114,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.hp/hpperlevel",
+        "角色根记录/Zaahen.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 722.08,
+        "3": 808.15,
+        "4": 898.21,
+        "5": 992.26,
+        "6": 1090.3,
+        "7": 1192.33,
+        "8": 1298.35,
+        "9": 1408.36,
+        "10": 1522.36,
+        "11": 1640.35,
+        "12": 1762.33,
+        "13": 1888.3,
+        "14": 2018.26,
+        "15": 2152.21,
+        "16": 2290.15,
+        "17": 2432.08,
+        "18": 2578
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Zaahen.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.076,
+        "3": 8.68,
+        "4": 9.312,
+        "5": 9.972,
+        "6": 10.66,
+        "7": 11.376,
+        "8": 12.12,
+        "9": 12.892,
+        "10": 13.692,
+        "11": 14.52,
+        "12": 15.376,
+        "13": 16.26,
+        "14": 17.172,
+        "15": 18.112,
+        "16": 19.08,
+        "17": 20.076,
+        "18": 21.1
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 5,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.armor/armorperlevel",
+        "角色根记录/Zaahen.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.6,
+        "3": 43.375,
+        "4": 47.325,
+        "5": 51.45,
+        "6": 55.75,
+        "7": 60.225,
+        "8": 64.875,
+        "9": 69.7,
+        "10": 74.7,
+        "11": 79.875,
+        "12": 85.225,
+        "13": 90.75,
+        "14": 96.45,
+        "15": 102.325,
+        "16": 108.375,
+        "17": 114.6,
+        "18": 121
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Zaahen.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 63,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Zaahen.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 63,
+        "2": 65.88,
+        "3": 68.9,
+        "4": 72.06,
+        "5": 75.36,
+        "6": 78.8,
+        "7": 82.38,
+        "8": 86.1,
+        "9": 89.96,
+        "10": 93.96,
+        "11": 98.1,
+        "12": 102.38,
+        "13": 106.8,
+        "14": 111.36,
+        "15": 116.06,
+        "16": 120.9,
+        "17": 125.88,
+        "18": 131
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zaahen.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zaahen.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Zaahen.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63625,
+        "3": 0.648047,
+        "4": 0.660391,
+        "5": 0.673281,
+        "6": 0.686719,
+        "7": 0.700703,
+        "8": 0.715234,
+        "9": 0.730313,
+        "10": 0.745938,
+        "11": 0.762109,
+        "12": 0.778828,
+        "13": 0.796094,
+        "14": 0.813906,
+        "15": 0.832266,
+        "16": 0.851172,
+        "17": 0.870625,
+        "18": 0.890625
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 55,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.mp/mpperlevel",
+        "角色根记录/Zaahen.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 389.6,
+        "3": 431.125,
+        "4": 474.575,
+        "5": 519.95,
+        "6": 567.25,
+        "7": 616.475,
+        "8": 667.625,
+        "9": 720.7,
+        "10": 775.7,
+        "11": 832.625,
+        "12": 891.475,
+        "13": 952.25,
+        "14": 1014.95,
+        "15": 1079.575,
+        "16": 1146.125,
+        "17": 1214.6,
+        "18": 1285
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.15,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Zaahen.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Zaahen.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.15,
+        "2": 8.69,
+        "3": 9.25625,
+        "4": 9.84875,
+        "5": 10.4675,
+        "6": 11.1125,
+        "7": 11.78375,
+        "8": 12.48125,
+        "9": 13.205,
+        "10": 13.955,
+        "11": 14.73125,
+        "12": 15.53375,
+        "13": 16.3625,
+        "14": 17.2175,
+        "15": 18.09875,
+        "16": 19.00625,
+        "17": 19.94,
+        "18": 20.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

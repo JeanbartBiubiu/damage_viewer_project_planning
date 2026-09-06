@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Urgot",
+  "sourceNumericId": "6",
+  "name": "厄加特",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 655,
+      "growth": 102,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.hp/hpperlevel",
+        "角色根记录/Urgot.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 655,
+        "2": 728.44,
+        "3": 805.45,
+        "4": 886.03,
+        "5": 970.18,
+        "6": 1057.9,
+        "7": 1149.19,
+        "8": 1244.05,
+        "9": 1342.48,
+        "10": 1444.48,
+        "11": 1550.05,
+        "12": 1659.19,
+        "13": 1771.9,
+        "14": 1888.18,
+        "15": 2008.03,
+        "16": 2131.45,
+        "17": 2258.44,
+        "18": 2389
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Urgot.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.004,
+        "3": 8.5325,
+        "4": 9.0855,
+        "5": 9.663,
+        "6": 10.265,
+        "7": 10.8915,
+        "8": 11.5425,
+        "9": 12.218,
+        "10": 12.918,
+        "11": 13.6425,
+        "12": 14.3915,
+        "13": 15.165,
+        "14": 15.963,
+        "15": 16.7855,
+        "16": 17.6325,
+        "17": 18.504,
+        "18": 19.4
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 5,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.armor/armorperlevel",
+        "角色根记录/Urgot.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.6,
+        "3": 43.375,
+        "4": 47.325,
+        "5": 51.45,
+        "6": 55.75,
+        "7": 60.225,
+        "8": 64.875,
+        "9": 69.7,
+        "10": 74.7,
+        "11": 79.875,
+        "12": 85.225,
+        "13": 90.75,
+        "14": 96.45,
+        "15": 102.325,
+        "16": 108.375,
+        "17": 114.6,
+        "18": 121
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Urgot.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 63,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Urgot.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 63,
+        "2": 65.88,
+        "3": 68.9,
+        "4": 72.06,
+        "5": 75.36,
+        "6": 78.8,
+        "7": 82.38,
+        "8": 86.1,
+        "9": 89.96,
+        "10": 93.96,
+        "11": 98.1,
+        "12": 102.38,
+        "13": 106.8,
+        "14": 111.36,
+        "15": 116.06,
+        "16": 120.9,
+        "17": 125.88,
+        "18": 131
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Urgot.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Urgot.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.75,
+      "sources": [
+        "角色根记录/Urgot.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.641875,
+        "3": 0.65957,
+        "4": 0.678086,
+        "5": 0.697422,
+        "6": 0.717578,
+        "7": 0.738555,
+        "8": 0.760352,
+        "9": 0.782969,
+        "10": 0.806406,
+        "11": 0.830664,
+        "12": 0.855742,
+        "13": 0.881641,
+        "14": 0.908359,
+        "15": 0.935898,
+        "16": 0.964258,
+        "17": 0.993437,
+        "18": 1.023438
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 340,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.mp/mpperlevel",
+        "角色根记录/Urgot.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 340,
+        "2": 372.4,
+        "3": 406.375,
+        "4": 441.925,
+        "5": 479.05,
+        "6": 517.75,
+        "7": 558.025,
+        "8": 599.875,
+        "9": 643.3,
+        "10": 688.3,
+        "11": 734.875,
+        "12": 783.025,
+        "13": 832.75,
+        "14": 884.05,
+        "15": 936.925,
+        "16": 991.375,
+        "17": 1047.4,
+        "18": 1105
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.25,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Urgot.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Urgot.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.25,
+        "2": 7.826,
+        "3": 8.43,
+        "4": 9.062,
+        "5": 9.722,
+        "6": 10.41,
+        "7": 11.126,
+        "8": 11.87,
+        "9": 12.642,
+        "10": 13.442,
+        "11": 14.27,
+        "12": 15.126,
+        "13": 16.01,
+        "14": 16.922,
+        "15": 17.862,
+        "16": 18.83,
+        "17": 19.826,
+        "18": 20.85
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3.75,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

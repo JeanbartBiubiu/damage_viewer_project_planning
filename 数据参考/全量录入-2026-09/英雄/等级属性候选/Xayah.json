@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Xayah",
+  "sourceNumericId": "498",
+  "name": "霞",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 107,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.hp/hpperlevel",
+        "角色根记录/Xayah.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 707.04,
+        "3": 787.825,
+        "4": 872.355,
+        "5": 960.63,
+        "6": 1052.65,
+        "7": 1148.415,
+        "8": 1247.925,
+        "9": 1351.18,
+        "10": 1458.18,
+        "11": 1568.925,
+        "12": 1683.415,
+        "13": 1801.65,
+        "14": 1923.63,
+        "15": 2049.355,
+        "16": 2178.825,
+        "17": 2312.04,
+        "18": 2449
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.25,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Xayah.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.25,
+        "2": 3.79,
+        "3": 4.35625,
+        "4": 4.94875,
+        "5": 5.5675,
+        "6": 6.2125,
+        "7": 6.88375,
+        "8": 7.58125,
+        "9": 8.305,
+        "10": 9.055,
+        "11": 9.83125,
+        "12": 10.63375,
+        "13": 11.4625,
+        "14": 12.3175,
+        "15": 13.19875,
+        "16": 14.10625,
+        "17": 15.04,
+        "18": 16
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 25,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.armor/armorperlevel",
+        "角色根记录/Xayah.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 25,
+        "2": 28.024,
+        "3": 31.195,
+        "4": 34.513,
+        "5": 37.978,
+        "6": 41.59,
+        "7": 45.349,
+        "8": 49.255,
+        "9": 53.308,
+        "10": 57.508,
+        "11": 61.855,
+        "12": 66.349,
+        "13": 70.99,
+        "14": 75.778,
+        "15": 80.713,
+        "16": 85.795,
+        "17": 91.024,
+        "18": 96.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Xayah.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 3.5,
+      "sources": [
+        "角色根记录/Xayah.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 62.52,
+        "3": 65.1625,
+        "4": 67.9275,
+        "5": 70.815,
+        "6": 73.825,
+        "7": 76.9575,
+        "8": 80.2125,
+        "9": 83.59,
+        "10": 87.09,
+        "11": 90.7125,
+        "12": 94.4575,
+        "13": 98.325,
+        "14": 102.315,
+        "15": 106.4275,
+        "16": 110.6625,
+        "17": 115.02,
+        "18": 119.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Xayah.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Xayah.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 3.9,
+      "sources": [
+        "角色根记录/Xayah.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.676477,
+        "3": 0.695851,
+        "4": 0.716124,
+        "5": 0.737296,
+        "6": 0.759365,
+        "7": 0.782332,
+        "8": 0.806198,
+        "9": 0.830962,
+        "10": 0.856624,
+        "11": 0.883184,
+        "12": 0.910642,
+        "13": 0.938999,
+        "14": 0.968254,
+        "15": 0.998406,
+        "16": 1.029457,
+        "17": 1.061407,
+        "18": 1.094254
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 340,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.mp/mpperlevel",
+        "角色根记录/Xayah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 340,
+        "2": 368.8,
+        "3": 399,
+        "4": 430.6,
+        "5": 463.6,
+        "6": 498,
+        "7": 533.8,
+        "8": 571,
+        "9": 609.6,
+        "10": 649.6,
+        "11": 691,
+        "12": 733.8,
+        "13": 778,
+        "14": 823.6,
+        "15": 870.6,
+        "16": 919,
+        "17": 968.8,
+        "18": 1020
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.25,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Xayah.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Xayah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.25,
+        "2": 8.826,
+        "3": 9.43,
+        "4": 10.062,
+        "5": 10.722,
+        "6": 11.41,
+        "7": 12.126,
+        "8": 12.87,
+        "9": 13.642,
+        "10": 14.442,
+        "11": 15.27,
+        "12": 16.126,
+        "13": 17.01,
+        "14": 17.922,
+        "15": 18.862,
+        "16": 19.83,
+        "17": 20.826,
+        "18": 21.85
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 3.9,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

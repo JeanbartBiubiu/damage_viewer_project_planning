@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Mordekaiser",
+  "sourceNumericId": "82",
+  "name": "莫德凯撒",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 645,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Mordekaiser.json:stats.hp/hpperlevel",
+        "角色根记录/Mordekaiser.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 645,
+        "2": 719.88,
+        "3": 798.4,
+        "4": 880.56,
+        "5": 966.36,
+        "6": 1055.8,
+        "7": 1148.88,
+        "8": 1245.6,
+        "9": 1345.96,
+        "10": 1449.96,
+        "11": 1557.6,
+        "12": 1668.88,
+        "13": 1783.8,
+        "14": 1902.36,
+        "15": 2024.56,
+        "16": 2150.4,
+        "17": 2279.88,
+        "18": 2413
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 37,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Mordekaiser.json:stats.armor/armorperlevel",
+        "角色根记录/Mordekaiser.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 37,
+        "2": 40.024,
+        "3": 43.195,
+        "4": 46.513,
+        "5": 49.978,
+        "6": 53.59,
+        "7": 57.349,
+        "8": 61.255,
+        "9": 65.308,
+        "10": 69.508,
+        "11": 73.855,
+        "12": 78.349,
+        "13": 82.99,
+        "14": 87.778,
+        "15": 92.713,
+        "16": 97.795,
+        "17": 103.024,
+        "18": 108.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Mordekaiser.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Mordekaiser.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Mordekaiser.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 63.88,
+        "3": 66.9,
+        "4": 70.06,
+        "5": 73.36,
+        "6": 76.8,
+        "7": 80.38,
+        "8": 84.1,
+        "9": 87.96,
+        "10": 91.96,
+        "11": 96.1,
+        "12": 100.38,
+        "13": 104.8,
+        "14": 109.36,
+        "15": 114.06,
+        "16": 118.9,
+        "17": 123.88,
+        "18": 129
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Mordekaiser.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Mordekaiser.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1,
+      "sources": [
+        "角色根记录/Mordekaiser.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.6295,
+        "3": 0.634219,
+        "4": 0.639156,
+        "5": 0.644312,
+        "6": 0.649687,
+        "7": 0.655281,
+        "8": 0.661094,
+        "9": 0.667125,
+        "10": 0.673375,
+        "11": 0.679844,
+        "12": 0.686531,
+        "13": 0.693438,
+        "14": 0.700562,
+        "15": 0.707906,
+        "16": 0.715469,
+        "17": 0.72325,
+        "18": 0.73125
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.75
+    },
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "护盾",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 1,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

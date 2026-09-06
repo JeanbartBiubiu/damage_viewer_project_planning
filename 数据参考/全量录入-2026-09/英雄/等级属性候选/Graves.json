@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Graves",
+  "sourceNumericId": "104",
+  "name": "格雷福斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 625,
+      "growth": 106,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.hp/hpperlevel",
+        "角色根记录/Graves.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 625,
+        "2": 701.32,
+        "3": 781.35,
+        "4": 865.09,
+        "5": 952.54,
+        "6": 1043.7,
+        "7": 1138.57,
+        "8": 1237.15,
+        "9": 1339.44,
+        "10": 1445.44,
+        "11": 1555.15,
+        "12": 1668.57,
+        "13": 1785.7,
+        "14": 1906.54,
+        "15": 2031.09,
+        "16": 2159.35,
+        "17": 2291.32,
+        "18": 2427
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Graves.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.504,
+        "3": 9.0325,
+        "4": 9.5855,
+        "5": 10.163,
+        "6": 10.765,
+        "7": 11.3915,
+        "8": 12.0425,
+        "9": 12.718,
+        "10": 13.418,
+        "11": 14.1425,
+        "12": 14.8915,
+        "13": 15.665,
+        "14": 16.463,
+        "15": 17.2855,
+        "16": 18.1325,
+        "17": 19.004,
+        "18": 19.9
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.armor/armorperlevel",
+        "角色根记录/Graves.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.312,
+        "3": 39.785,
+        "4": 43.419,
+        "5": 47.214,
+        "6": 51.17,
+        "7": 55.287,
+        "8": 59.565,
+        "9": 64.004,
+        "10": 68.604,
+        "11": 73.365,
+        "12": 78.287,
+        "13": 83.37,
+        "14": 88.614,
+        "15": 94.019,
+        "16": 99.585,
+        "17": 105.312,
+        "18": 111.2
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Graves.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 66,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Graves.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 66,
+        "2": 68.88,
+        "3": 71.9,
+        "4": 75.06,
+        "5": 78.36,
+        "6": 81.8,
+        "7": 85.38,
+        "8": 89.1,
+        "9": 92.96,
+        "10": 96.96,
+        "11": 101.1,
+        "12": 105.38,
+        "13": 109.8,
+        "14": 114.36,
+        "15": 119.06,
+        "16": 123.9,
+        "17": 128.88,
+        "18": 134
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Graves.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 425,
+      "growth": null,
+      "sources": [
+        "角色根记录/Graves.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 425,
+        "2": 425,
+        "3": 425,
+        "4": 425,
+        "5": 425,
+        "6": 425,
+        "7": 425,
+        "8": 425,
+        "9": 425,
+        "10": 425,
+        "11": 425,
+        "12": 425,
+        "13": 425,
+        "14": 425,
+        "15": 425,
+        "16": 425,
+        "17": 425,
+        "18": 425
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.475,
+      "attackSpeedRatio": 0.49,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Graves.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.475,
+        "2": 0.485584,
+        "3": 0.496682,
+        "4": 0.508296,
+        "5": 0.520423,
+        "6": 0.533065,
+        "7": 0.546221,
+        "8": 0.559893,
+        "9": 0.574078,
+        "10": 0.588778,
+        "11": 0.603992,
+        "12": 0.619722,
+        "13": 0.635965,
+        "14": 0.652723,
+        "15": 0.669995,
+        "16": 0.687782,
+        "17": 0.706084,
+        "18": 0.7249
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 325,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.mp/mpperlevel",
+        "角色根记录/Graves.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 325,
+        "2": 353.8,
+        "3": 384,
+        "4": 415.6,
+        "5": 448.6,
+        "6": 483,
+        "7": 518.8,
+        "8": 556,
+        "9": 594.6,
+        "10": 634.6,
+        "11": 676,
+        "12": 718.8,
+        "13": 763,
+        "14": 808.6,
+        "15": 855.6,
+        "16": 904,
+        "17": 953.8,
+        "18": 1005
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Graves.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Graves.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.504,
+        "3": 9.0325,
+        "4": 9.5855,
+        "5": 10.163,
+        "6": 10.765,
+        "7": 11.3915,
+        "8": 12.0425,
+        "9": 12.718,
+        "10": 13.418,
+        "11": 14.1425,
+        "12": 14.8915,
+        "13": 15.665,
+        "14": 16.463,
+        "15": 17.2855,
+        "16": 18.1325,
+        "17": 19.004,
+        "18": 19.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.475,
+    "ratio": 0.49,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

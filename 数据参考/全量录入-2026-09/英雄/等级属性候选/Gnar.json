@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Gnar",
+  "sourceNumericId": "150",
+  "name": "纳尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 540,
+      "growth": 79,
+      "sources": [
+        "原始资料/zh_CN/champion/Gnar.json:stats.hp/hpperlevel",
+        "角色根记录/Gnar.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 540,
+        "2": 596.88,
+        "3": 656.525,
+        "4": 718.935,
+        "5": 784.11,
+        "6": 852.05,
+        "7": 922.755,
+        "8": 996.225,
+        "9": 1072.46,
+        "10": 1151.46,
+        "11": 1233.225,
+        "12": 1317.755,
+        "13": 1405.05,
+        "14": 1495.11,
+        "15": 1587.935,
+        "16": 1683.525,
+        "17": 1781.88,
+        "18": 1883
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 4.5,
+      "growth": 1.25,
+      "sources": [
+        "原始资料/zh_CN/champion/Gnar.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Gnar.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 4.5,
+        "2": 5.4,
+        "3": 6.34375,
+        "4": 7.33125,
+        "5": 8.3625,
+        "6": 9.4375,
+        "7": 10.55625,
+        "8": 11.71875,
+        "9": 12.925,
+        "10": 14.175,
+        "11": 15.46875,
+        "12": 16.80625,
+        "13": 18.1875,
+        "14": 19.6125,
+        "15": 21.08125,
+        "16": 22.59375,
+        "17": 24.15,
+        "18": 25.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 3.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Gnar.json:stats.armor/armorperlevel",
+        "角色根记录/Gnar.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 34.664,
+        "3": 37.4575,
+        "4": 40.3805,
+        "5": 43.433,
+        "6": 46.615,
+        "7": 49.9265,
+        "8": 53.3675,
+        "9": 56.938,
+        "10": 60.638,
+        "11": 64.4675,
+        "12": 68.4265,
+        "13": 72.515,
+        "14": 76.733,
+        "15": 81.0805,
+        "16": 85.5575,
+        "17": 90.164,
+        "18": 94.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Gnar.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Gnar.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Gnar.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 62.304,
+        "3": 64.72,
+        "4": 67.248,
+        "5": 69.888,
+        "6": 72.64,
+        "7": 75.504,
+        "8": 78.48,
+        "9": 81.568,
+        "10": 84.768,
+        "11": 88.08,
+        "12": 91.504,
+        "13": 95.04,
+        "14": 98.688,
+        "15": 102.448,
+        "16": 106.32,
+        "17": 110.304,
+        "18": 114.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Gnar.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Gnar.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 6,
+      "sources": [
+        "角色根记录/Gnar.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.652,
+        "3": 0.680312,
+        "4": 0.709937,
+        "5": 0.740875,
+        "6": 0.773125,
+        "7": 0.806688,
+        "8": 0.841562,
+        "9": 0.87775,
+        "10": 0.91525,
+        "11": 0.954063,
+        "12": 0.994188,
+        "13": 1.035625,
+        "14": 1.078375,
+        "15": 1.122437,
+        "16": 1.167813,
+        "17": 1.2145,
+        "18": 1.2625
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "怒气",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 6,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

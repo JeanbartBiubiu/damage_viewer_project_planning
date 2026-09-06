@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Cassiopeia",
+  "sourceNumericId": "69",
+  "name": "卡西奥佩娅",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 98,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.hp/hpperlevel",
+        "角色根记录/Cassiopeia.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 700.56,
+        "3": 774.55,
+        "4": 851.97,
+        "5": 932.82,
+        "6": 1017.1,
+        "7": 1104.81,
+        "8": 1195.95,
+        "9": 1290.52,
+        "10": 1388.52,
+        "11": 1489.95,
+        "12": 1594.81,
+        "13": 1703.1,
+        "14": 1814.82,
+        "15": 1929.97,
+        "16": 2048.55,
+        "17": 2170.56,
+        "18": 2296
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Cassiopeia.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.86,
+        "3": 6.2375,
+        "4": 6.6325,
+        "5": 7.045,
+        "6": 7.475,
+        "7": 7.9225,
+        "8": 8.3875,
+        "9": 8.87,
+        "10": 9.37,
+        "11": 9.8875,
+        "12": 10.4225,
+        "13": 10.975,
+        "14": 11.545,
+        "15": 12.1325,
+        "16": 12.7375,
+        "17": 13.36,
+        "18": 14
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 18,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.armor/armorperlevel",
+        "角色根记录/Cassiopeia.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 18,
+        "2": 21.384,
+        "3": 24.9325,
+        "4": 28.6455,
+        "5": 32.523,
+        "6": 36.565,
+        "7": 40.7715,
+        "8": 45.1425,
+        "9": 49.678,
+        "10": 54.378,
+        "11": 59.2425,
+        "12": 64.2715,
+        "13": 69.465,
+        "14": 74.823,
+        "15": 80.3455,
+        "16": 86.0325,
+        "17": 91.884,
+        "18": 97.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Cassiopeia.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 32.936,
+        "3": 33.9175,
+        "4": 34.9445,
+        "5": 36.017,
+        "6": 37.135,
+        "7": 38.2985,
+        "8": 39.5075,
+        "9": 40.762,
+        "10": 42.062,
+        "11": 43.4075,
+        "12": 44.7985,
+        "13": 46.235,
+        "14": 47.717,
+        "15": 49.2445,
+        "16": 50.8175,
+        "17": 52.436,
+        "18": 54.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 53,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Cassiopeia.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 53,
+        "2": 55.16,
+        "3": 57.425,
+        "4": 59.795,
+        "5": 62.27,
+        "6": 64.85,
+        "7": 67.535,
+        "8": 70.325,
+        "9": 73.22,
+        "10": 76.22,
+        "11": 79.325,
+        "12": 82.535,
+        "13": 85.85,
+        "14": 89.27,
+        "15": 92.795,
+        "16": 96.425,
+        "17": 100.16,
+        "18": 104
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Cassiopeia.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Cassiopeia.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.647,
+      "attackSpeedRatio": 0.647,
+      "growthPercent": 1.5,
+      "sources": [
+        "角色根记录/Cassiopeia.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.647,
+        "2": 0.653988,
+        "3": 0.661315,
+        "4": 0.668982,
+        "5": 0.676988,
+        "6": 0.685335,
+        "7": 0.694021,
+        "8": 0.703046,
+        "9": 0.712412,
+        "10": 0.722117,
+        "11": 0.732161,
+        "12": 0.742546,
+        "13": 0.75327,
+        "14": 0.764333,
+        "15": 0.775737,
+        "16": 0.78748,
+        "17": 0.799563,
+        "18": 0.811985
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 480,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.mp/mpperlevel",
+        "角色根记录/Cassiopeia.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 480,
+        "2": 508.8,
+        "3": 539,
+        "4": 570.6,
+        "5": 603.6,
+        "6": 638,
+        "7": 673.8,
+        "8": 711,
+        "9": 749.6,
+        "10": 789.6,
+        "11": 831,
+        "12": 873.8,
+        "13": 918,
+        "14": 963.6,
+        "15": 1010.6,
+        "16": 1059,
+        "17": 1108.8,
+        "18": 1160
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Cassiopeia.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Cassiopeia.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.647,
+    "ratio": 0.647,
+    "growthPercent": 1.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

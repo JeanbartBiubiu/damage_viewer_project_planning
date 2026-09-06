@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Karthus",
+  "sourceNumericId": "30",
+  "name": "卡尔萨斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 620,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.hp/hpperlevel",
+        "角色根记录/Karthus.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 620,
+        "2": 699.2,
+        "3": 782.25,
+        "4": 869.15,
+        "5": 959.9,
+        "6": 1054.5,
+        "7": 1152.95,
+        "8": 1255.25,
+        "9": 1361.4,
+        "10": 1471.4,
+        "11": 1585.25,
+        "12": 1702.95,
+        "13": 1824.5,
+        "14": 1949.9,
+        "15": 2079.15,
+        "16": 2212.25,
+        "17": 2349.2,
+        "18": 2490
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Karthus.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.896,
+        "3": 7.31125,
+        "4": 7.74575,
+        "5": 8.1995,
+        "6": 8.6725,
+        "7": 9.16475,
+        "8": 9.67625,
+        "9": 10.207,
+        "10": 10.757,
+        "11": 11.32625,
+        "12": 11.91475,
+        "13": 12.5225,
+        "14": 13.1495,
+        "15": 13.79575,
+        "16": 14.46125,
+        "17": 15.146,
+        "18": 15.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 21,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.armor/armorperlevel",
+        "角色根记录/Karthus.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 21,
+        "2": 24.384,
+        "3": 27.9325,
+        "4": 31.6455,
+        "5": 35.523,
+        "6": 39.565,
+        "7": 43.7715,
+        "8": 48.1425,
+        "9": 52.678,
+        "10": 57.378,
+        "11": 62.2425,
+        "12": 67.2715,
+        "13": 72.465,
+        "14": 77.823,
+        "15": 83.3455,
+        "16": 89.0325,
+        "17": 94.884,
+        "18": 100.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Karthus.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 46,
+      "growth": 3.25,
+      "sources": [
+        "角色根记录/Karthus.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 46,
+        "2": 48.34,
+        "3": 50.79375,
+        "4": 53.36125,
+        "5": 56.0425,
+        "6": 58.8375,
+        "7": 61.74625,
+        "8": 64.76875,
+        "9": 67.905,
+        "10": 71.155,
+        "11": 74.51875,
+        "12": 77.99625,
+        "13": 81.5875,
+        "14": 85.2925,
+        "15": 89.11125,
+        "16": 93.04375,
+        "17": 97.09,
+        "18": 101.25
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Karthus.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 450,
+      "growth": null,
+      "sources": [
+        "角色根记录/Karthus.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 450,
+        "2": 450,
+        "3": 450,
+        "4": 450,
+        "5": 450,
+        "6": 450,
+        "7": 450,
+        "8": 450,
+        "9": 450,
+        "10": 450,
+        "11": 450,
+        "12": 450,
+        "13": 450,
+        "14": 450,
+        "15": 450,
+        "16": 450,
+        "17": 450,
+        "18": 450
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.11,
+      "sources": [
+        "角色根记录/Karthus.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.634495,
+        "3": 0.644452,
+        "4": 0.65487,
+        "5": 0.665749,
+        "6": 0.677091,
+        "7": 0.688893,
+        "8": 0.701158,
+        "9": 0.713884,
+        "10": 0.727071,
+        "11": 0.74072,
+        "12": 0.754831,
+        "13": 0.769403,
+        "14": 0.784437,
+        "15": 0.799932,
+        "16": 0.815889,
+        "17": 0.832307,
+        "18": 0.849187
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 467,
+      "growth": 31,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.mp/mpperlevel",
+        "角色根记录/Karthus.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 467,
+        "2": 489.32,
+        "3": 512.725,
+        "4": 537.215,
+        "5": 562.79,
+        "6": 589.45,
+        "7": 617.195,
+        "8": 646.025,
+        "9": 675.94,
+        "10": 706.94,
+        "11": 739.025,
+        "12": 772.195,
+        "13": 806.45,
+        "14": 841.79,
+        "15": 878.215,
+        "16": 915.725,
+        "17": 954.32,
+        "18": 994
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Karthus.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Karthus.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.11,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

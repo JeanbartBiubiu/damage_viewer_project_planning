@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Warwick",
+  "sourceNumericId": "19",
+  "name": "沃里克",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 620,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.hp/hpperlevel",
+        "角色根记录/Warwick.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 620,
+        "2": 691.28,
+        "3": 766.025,
+        "4": 844.235,
+        "5": 925.91,
+        "6": 1011.05,
+        "7": 1099.655,
+        "8": 1191.725,
+        "9": 1287.26,
+        "10": 1386.26,
+        "11": 1488.725,
+        "12": 1594.655,
+        "13": 1704.05,
+        "14": 1816.91,
+        "15": 1933.235,
+        "16": 2053.025,
+        "17": 2176.28,
+        "18": 2303
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 4,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Warwick.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 4,
+        "2": 4.54,
+        "3": 5.10625,
+        "4": 5.69875,
+        "5": 6.3175,
+        "6": 6.9625,
+        "7": 7.63375,
+        "8": 8.33125,
+        "9": 9.055,
+        "10": 9.805,
+        "11": 10.58125,
+        "12": 11.38375,
+        "13": 12.2125,
+        "14": 13.0675,
+        "15": 13.94875,
+        "16": 14.85625,
+        "17": 15.79,
+        "18": 16.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.armor/armorperlevel",
+        "角色根记录/Warwick.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.168,
+        "3": 39.49,
+        "4": 42.966,
+        "5": 46.596,
+        "6": 50.38,
+        "7": 54.318,
+        "8": 58.41,
+        "9": 62.656,
+        "10": 67.056,
+        "11": 71.61,
+        "12": 76.318,
+        "13": 81.18,
+        "14": 86.196,
+        "15": 91.366,
+        "16": 96.69,
+        "17": 102.168,
+        "18": 107.8
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Warwick.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Warwick.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 66.8,
+        "3": 68.6875,
+        "4": 70.6625,
+        "5": 72.725,
+        "6": 74.875,
+        "7": 77.1125,
+        "8": 79.4375,
+        "9": 81.85,
+        "10": 84.35,
+        "11": 86.9375,
+        "12": 89.6125,
+        "13": 92.375,
+        "14": 95.225,
+        "15": 98.1625,
+        "16": 101.1875,
+        "17": 104.3,
+        "18": 107.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Warwick.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Warwick.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.638,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Warwick.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.638,
+        "2": 0.647187,
+        "3": 0.656821,
+        "4": 0.666901,
+        "5": 0.677428,
+        "6": 0.688402,
+        "7": 0.699822,
+        "8": 0.711689,
+        "9": 0.724002,
+        "10": 0.736762,
+        "11": 0.749969,
+        "12": 0.763622,
+        "13": 0.777722,
+        "14": 0.792268,
+        "15": 0.807261,
+        "16": 0.822701,
+        "17": 0.838587,
+        "18": 0.85492
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 280,
+      "growth": 35,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.mp/mpperlevel",
+        "角色根记录/Warwick.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 280,
+        "2": 305.2,
+        "3": 331.625,
+        "4": 359.275,
+        "5": 388.15,
+        "6": 418.25,
+        "7": 449.575,
+        "8": 482.125,
+        "9": 515.9,
+        "10": 550.9,
+        "11": 587.125,
+        "12": 624.575,
+        "13": 663.25,
+        "14": 703.15,
+        "15": 744.275,
+        "16": 786.625,
+        "17": 830.2,
+        "18": 875
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.45,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Warwick.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Warwick.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.45,
+        "2": 7.882,
+        "3": 8.335,
+        "4": 8.809,
+        "5": 9.304,
+        "6": 9.82,
+        "7": 10.357,
+        "8": 10.915,
+        "9": 11.494,
+        "10": 12.094,
+        "11": 12.715,
+        "12": 13.357,
+        "13": 14.02,
+        "14": 14.704,
+        "15": 15.409,
+        "16": 16.135,
+        "17": 16.882,
+        "18": 17.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.638,
+    "ratio": 0.638,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

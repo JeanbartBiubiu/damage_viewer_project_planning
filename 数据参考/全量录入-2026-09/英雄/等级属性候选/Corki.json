@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Corki",
+  "sourceNumericId": "42",
+  "name": "库奇",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 100,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.hp/hpperlevel",
+        "角色根记录/Corki.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 682,
+        "3": 757.5,
+        "4": 836.5,
+        "5": 919,
+        "6": 1005,
+        "7": 1094.5,
+        "8": 1187.5,
+        "9": 1284,
+        "10": 1384,
+        "11": 1487.5,
+        "12": 1594.5,
+        "13": 1705,
+        "14": 1819,
+        "15": 1936.5,
+        "16": 2057.5,
+        "17": 2182,
+        "18": 2310
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Corki.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.896,
+        "3": 6.31125,
+        "4": 6.74575,
+        "5": 7.1995,
+        "6": 7.6725,
+        "7": 8.16475,
+        "8": 8.67625,
+        "9": 9.207,
+        "10": 9.757,
+        "11": 10.32625,
+        "12": 10.91475,
+        "13": 11.5225,
+        "14": 12.1495,
+        "15": 12.79575,
+        "16": 13.46125,
+        "17": 14.146,
+        "18": 14.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 27,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.armor/armorperlevel",
+        "角色根记录/Corki.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 27,
+        "2": 30.24,
+        "3": 33.6375,
+        "4": 37.1925,
+        "5": 40.905,
+        "6": 44.775,
+        "7": 48.8025,
+        "8": 52.9875,
+        "9": 57.33,
+        "10": 61.83,
+        "11": 66.4875,
+        "12": 71.3025,
+        "13": 76.275,
+        "14": 81.405,
+        "15": 86.6925,
+        "16": 92.1375,
+        "17": 97.74,
+        "18": 103.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Corki.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 52,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Corki.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 52,
+        "2": 53.8,
+        "3": 55.6875,
+        "4": 57.6625,
+        "5": 59.725,
+        "6": 61.875,
+        "7": 64.1125,
+        "8": 66.4375,
+        "9": 68.85,
+        "10": 71.35,
+        "11": 73.9375,
+        "12": 76.6125,
+        "13": 79.375,
+        "14": 82.225,
+        "15": 85.1625,
+        "16": 88.1875,
+        "17": 91.3,
+        "18": 94.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 325,
+      "growth": null,
+      "sources": [
+        "角色根记录/Corki.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 325,
+        "2": 325,
+        "3": 325,
+        "4": 325,
+        "5": 325,
+        "6": 325,
+        "7": 325,
+        "8": 325,
+        "9": 325,
+        "10": 325,
+        "11": 325,
+        "12": 325,
+        "13": 325,
+        "14": 325,
+        "15": 325,
+        "16": 325,
+        "17": 325,
+        "18": 325
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Corki.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.644,
+      "attackSpeedRatio": 0.644,
+      "growthPercent": 2.8,
+      "sources": [
+        "角色根记录/Corki.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.644,
+        "2": 0.656983,
+        "3": 0.670597,
+        "4": 0.684842,
+        "5": 0.699719,
+        "6": 0.715226,
+        "7": 0.731365,
+        "8": 0.748135,
+        "9": 0.765536,
+        "10": 0.783568,
+        "11": 0.802231,
+        "12": 0.821525,
+        "13": 0.84145,
+        "14": 0.862007,
+        "15": 0.883194,
+        "16": 0.905013,
+        "17": 0.927463,
+        "18": 0.950544
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.mp/mpperlevel",
+        "角色根记录/Corki.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 378.8,
+        "3": 409,
+        "4": 440.6,
+        "5": 473.6,
+        "6": 508,
+        "7": 543.8,
+        "8": 581,
+        "9": 619.6,
+        "10": 659.6,
+        "11": 701,
+        "12": 743.8,
+        "13": 788,
+        "14": 833.6,
+        "15": 880.6,
+        "16": 929,
+        "17": 978.8,
+        "18": 1030
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.4,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Corki.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Corki.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.4,
+        "2": 7.904,
+        "3": 8.4325,
+        "4": 8.9855,
+        "5": 9.563,
+        "6": 10.165,
+        "7": 10.7915,
+        "8": 11.4425,
+        "9": 12.118,
+        "10": 12.818,
+        "11": 13.5425,
+        "12": 14.2915,
+        "13": 15.065,
+        "14": 15.863,
+        "15": 16.6855,
+        "16": 17.5325,
+        "17": 18.404,
+        "18": 19.3
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.644,
+    "ratio": 0.644,
+    "growthPercent": 2.8,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Rumble",
+  "sourceNumericId": "68",
+  "name": "兰博",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 105,
+      "sources": [
+        "原始资料/zh_CN/champion/Rumble.json:stats.hp/hpperlevel",
+        "角色根记录/Rumble.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 715.6,
+        "3": 794.875,
+        "4": 877.825,
+        "5": 964.45,
+        "6": 1054.75,
+        "7": 1148.725,
+        "8": 1246.375,
+        "9": 1347.7,
+        "10": 1452.7,
+        "11": 1561.375,
+        "12": 1673.725,
+        "13": 1789.75,
+        "14": 1909.45,
+        "15": 2032.825,
+        "16": 2159.875,
+        "17": 2290.6,
+        "18": 2425
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Rumble.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Rumble.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.432,
+        "3": 7.885,
+        "4": 8.359,
+        "5": 8.854,
+        "6": 9.37,
+        "7": 9.907,
+        "8": 10.465,
+        "9": 11.044,
+        "10": 11.644,
+        "11": 12.265,
+        "12": 12.907,
+        "13": 13.57,
+        "14": 14.254,
+        "15": 14.959,
+        "16": 15.685,
+        "17": 16.432,
+        "18": 17.2
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Rumble.json:stats.armor/armorperlevel",
+        "角色根记录/Rumble.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.384,
+        "3": 42.9325,
+        "4": 46.6455,
+        "5": 50.523,
+        "6": 54.565,
+        "7": 58.7715,
+        "8": 63.1425,
+        "9": 67.678,
+        "10": 72.378,
+        "11": 77.2425,
+        "12": 82.2715,
+        "13": 87.465,
+        "14": 92.823,
+        "15": 98.3455,
+        "16": 104.0325,
+        "17": 109.884,
+        "18": 115.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 1.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Rumble.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Rumble.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 29.116,
+        "3": 30.28625,
+        "4": 31.51075,
+        "5": 32.7895,
+        "6": 34.1225,
+        "7": 35.50975,
+        "8": 36.95125,
+        "9": 38.447,
+        "10": 39.997,
+        "11": 41.60125,
+        "12": 43.25975,
+        "13": 44.9725,
+        "14": 46.7395,
+        "15": 48.56075,
+        "16": 50.43625,
+        "17": 52.366,
+        "18": 54.35
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 64,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Rumble.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 64,
+        "2": 66.304,
+        "3": 68.72,
+        "4": 71.248,
+        "5": 73.888,
+        "6": 76.64,
+        "7": 79.504,
+        "8": 82.48,
+        "9": 85.568,
+        "10": 88.768,
+        "11": 92.08,
+        "12": 95.504,
+        "13": 99.04,
+        "14": 102.688,
+        "15": 106.448,
+        "16": 110.32,
+        "17": 114.304,
+        "18": 118.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rumble.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rumble.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.644,
+      "attackSpeedRatio": 0.644,
+      "growthPercent": 1.85,
+      "sources": [
+        "角色根记录/Rumble.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.644,
+        "2": 0.652578,
+        "3": 0.661573,
+        "4": 0.670985,
+        "5": 0.680814,
+        "6": 0.69106,
+        "7": 0.701723,
+        "8": 0.712803,
+        "9": 0.7243,
+        "10": 0.736214,
+        "11": 0.748545,
+        "12": 0.761293,
+        "13": 0.774458,
+        "14": 0.78804,
+        "15": 0.802039,
+        "16": 0.816455,
+        "17": 0.831288,
+        "18": 0.846538
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "热量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.644,
+    "ratio": 0.644,
+    "growthPercent": 1.85,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

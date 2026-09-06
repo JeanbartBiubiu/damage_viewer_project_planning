@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Leblanc",
+  "sourceNumericId": "7",
+  "name": "乐芙兰",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 598,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.hp/hpperlevel",
+        "角色根记录/Leblanc.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 598,
+        "2": 675.76,
+        "3": 757.3,
+        "4": 842.62,
+        "5": 931.72,
+        "6": 1024.6,
+        "7": 1121.26,
+        "8": 1221.7,
+        "9": 1325.92,
+        "10": 1433.92,
+        "11": 1545.7,
+        "12": 1661.26,
+        "13": 1780.6,
+        "14": 1903.72,
+        "15": 2030.62,
+        "16": 2161.3,
+        "17": 2295.76,
+        "18": 2434
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Leblanc.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 7.896,
+        "3": 8.31125,
+        "4": 8.74575,
+        "5": 9.1995,
+        "6": 9.6725,
+        "7": 10.16475,
+        "8": 10.67625,
+        "9": 11.207,
+        "10": 11.757,
+        "11": 12.32625,
+        "12": 12.91475,
+        "13": 13.5225,
+        "14": 14.1495,
+        "15": 14.79575,
+        "16": 15.46125,
+        "17": 16.146,
+        "18": 16.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 22,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.armor/armorperlevel",
+        "角色根记录/Leblanc.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 22,
+        "2": 25.024,
+        "3": 28.195,
+        "4": 31.513,
+        "5": 34.978,
+        "6": 38.59,
+        "7": 42.349,
+        "8": 46.255,
+        "9": 50.308,
+        "10": 54.508,
+        "11": 58.855,
+        "12": 63.349,
+        "13": 67.99,
+        "14": 72.778,
+        "15": 77.713,
+        "16": 82.795,
+        "17": 88.024,
+        "18": 93.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Leblanc.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 2.2,
+      "sources": [
+        "角色根记录/Leblanc.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 56.584,
+        "3": 58.245,
+        "4": 59.983,
+        "5": 61.798,
+        "6": 63.69,
+        "7": 65.659,
+        "8": 67.705,
+        "9": 69.828,
+        "10": 72.028,
+        "11": 74.305,
+        "12": 76.659,
+        "13": 79.09,
+        "14": 81.598,
+        "15": 84.183,
+        "16": 86.845,
+        "17": 89.584,
+        "18": 92.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Leblanc.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Leblanc.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.5,
+      "sources": [
+        "角色根记录/Leblanc.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.66475,
+        "3": 0.671828,
+        "4": 0.679234,
+        "5": 0.686969,
+        "6": 0.695031,
+        "7": 0.703422,
+        "8": 0.712141,
+        "9": 0.721187,
+        "10": 0.730563,
+        "11": 0.740266,
+        "12": 0.750297,
+        "13": 0.760656,
+        "14": 0.771344,
+        "15": 0.782359,
+        "16": 0.793703,
+        "17": 0.805375,
+        "18": 0.817375
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 400,
+      "growth": 25,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.mp/mpperlevel",
+        "角色根记录/Leblanc.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 400,
+        "2": 418,
+        "3": 436.875,
+        "4": 456.625,
+        "5": 477.25,
+        "6": 498.75,
+        "7": 521.125,
+        "8": 544.375,
+        "9": 568.5,
+        "10": 593.5,
+        "11": 619.375,
+        "12": 646.125,
+        "13": 673.75,
+        "14": 702.25,
+        "15": 731.625,
+        "16": 761.875,
+        "17": 793,
+        "18": 825
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Leblanc.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Leblanc.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.625,
+    "growthPercent": 1.5,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

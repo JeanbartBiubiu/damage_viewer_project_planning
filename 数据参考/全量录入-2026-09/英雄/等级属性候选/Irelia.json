@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Irelia",
+  "sourceNumericId": "39",
+  "name": "艾瑞莉娅",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 115,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.hp/hpperlevel",
+        "角色根记录/Irelia.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 712.8,
+        "3": 799.625,
+        "4": 890.475,
+        "5": 985.35,
+        "6": 1084.25,
+        "7": 1187.175,
+        "8": 1294.125,
+        "9": 1405.1,
+        "10": 1520.1,
+        "11": 1639.125,
+        "12": 1762.175,
+        "13": 1889.25,
+        "14": 2020.35,
+        "15": 2155.475,
+        "16": 2294.625,
+        "17": 2437.8,
+        "18": 2585
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.5,
+      "growth": 0.85,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Irelia.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.5,
+        "2": 4.112,
+        "3": 4.75375,
+        "4": 5.42525,
+        "5": 6.1265,
+        "6": 6.8575,
+        "7": 7.61825,
+        "8": 8.40875,
+        "9": 9.229,
+        "10": 10.079,
+        "11": 10.95875,
+        "12": 11.86825,
+        "13": 12.8075,
+        "14": 13.7765,
+        "15": 14.77525,
+        "16": 15.80375,
+        "17": 16.862,
+        "18": 17.95
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.armor/armorperlevel",
+        "角色根记录/Irelia.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.384,
+        "3": 42.9325,
+        "4": 46.6455,
+        "5": 50.523,
+        "6": 54.565,
+        "7": 58.7715,
+        "8": 63.1425,
+        "9": 67.678,
+        "10": 72.378,
+        "11": 77.2425,
+        "12": 82.2715,
+        "13": 87.465,
+        "14": 92.823,
+        "15": 98.3455,
+        "16": 104.0325,
+        "17": 109.884,
+        "18": 115.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Irelia.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 31.476,
+        "3": 33.02375,
+        "4": 34.64325,
+        "5": 36.3345,
+        "6": 38.0975,
+        "7": 39.93225,
+        "8": 41.83875,
+        "9": 43.817,
+        "10": 45.867,
+        "11": 47.98875,
+        "12": 50.18225,
+        "13": 52.4475,
+        "14": 54.7845,
+        "15": 57.19325,
+        "16": 59.67375,
+        "17": 62.226,
+        "18": 64.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 3.5,
+      "sources": [
+        "角色根记录/Irelia.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 67.52,
+        "3": 70.1625,
+        "4": 72.9275,
+        "5": 75.815,
+        "6": 78.825,
+        "7": 81.9575,
+        "8": 85.2125,
+        "9": 88.59,
+        "10": 92.09,
+        "11": 95.7125,
+        "12": 99.4575,
+        "13": 103.325,
+        "14": 107.315,
+        "15": 111.4275,
+        "16": 115.6625,
+        "17": 120.02,
+        "18": 124.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Irelia.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 200,
+      "growth": null,
+      "sources": [
+        "角色根记录/Irelia.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 200,
+        "2": 200,
+        "3": 200,
+        "4": 200,
+        "5": 200,
+        "6": 200,
+        "7": 200,
+        "8": 200,
+        "9": 200,
+        "10": 200,
+        "11": 200,
+        "12": 200,
+        "13": 200,
+        "14": 200,
+        "15": 200,
+        "16": 200,
+        "17": 200,
+        "18": 200
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.656,
+      "attackSpeedRatio": 0.656,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Irelia.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.656,
+        "2": 0.667808,
+        "3": 0.68019,
+        "4": 0.693146,
+        "5": 0.706676,
+        "6": 0.72078,
+        "7": 0.735458,
+        "8": 0.75071,
+        "9": 0.766536,
+        "10": 0.782936,
+        "11": 0.79991,
+        "12": 0.817458,
+        "13": 0.83558,
+        "14": 0.854276,
+        "15": 0.873546,
+        "16": 0.89339,
+        "17": 0.913808,
+        "18": 0.9348
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.mp/mpperlevel",
+        "角色根记录/Irelia.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 386,
+        "3": 423.75,
+        "4": 463.25,
+        "5": 504.5,
+        "6": 547.5,
+        "7": 592.25,
+        "8": 638.75,
+        "9": 687,
+        "10": 737,
+        "11": 788.75,
+        "12": 842.25,
+        "13": 897.5,
+        "14": 954.5,
+        "15": 1013.25,
+        "16": 1073.75,
+        "17": 1136,
+        "18": 1200
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Irelia.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Irelia.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.656,
+    "ratio": 0.656,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

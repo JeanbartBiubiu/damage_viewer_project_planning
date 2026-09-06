@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Rakan",
+  "sourceNumericId": "497",
+  "name": "洛",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Rakan.json:stats.hp/hpperlevel",
+        "角色根记录/Rakan.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 681.28,
+        "3": 756.025,
+        "4": 834.235,
+        "5": 915.91,
+        "6": 1001.05,
+        "7": 1089.655,
+        "8": 1181.725,
+        "9": 1277.26,
+        "10": 1376.26,
+        "11": 1478.725,
+        "12": 1584.655,
+        "13": 1694.05,
+        "14": 1806.91,
+        "15": 1923.235,
+        "16": 2043.025,
+        "17": 2166.28,
+        "18": 2293
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 30,
+      "growth": 4.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Rakan.json:stats.armor/armorperlevel",
+        "角色根记录/Rakan.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 33.528,
+        "3": 37.2275,
+        "4": 41.0985,
+        "5": 45.141,
+        "6": 49.355,
+        "7": 53.7405,
+        "8": 58.2975,
+        "9": 63.026,
+        "10": 67.926,
+        "11": 72.9975,
+        "12": 78.2405,
+        "13": 83.655,
+        "14": 89.241,
+        "15": 94.9985,
+        "16": 100.9275,
+        "17": 107.028,
+        "18": 113.3
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Rakan.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Rakan.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 3.5,
+      "sources": [
+        "角色根记录/Rakan.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 64.52,
+        "3": 67.1625,
+        "4": 69.9275,
+        "5": 72.815,
+        "6": 75.825,
+        "7": 78.9575,
+        "8": 82.2125,
+        "9": 85.59,
+        "10": 89.09,
+        "11": 92.7125,
+        "12": 96.4575,
+        "13": 100.325,
+        "14": 104.315,
+        "15": 108.4275,
+        "16": 112.6625,
+        "17": 117.02,
+        "18": 121.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rakan.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 300,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rakan.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 300,
+        "2": 300,
+        "3": 300,
+        "4": 300,
+        "5": 300,
+        "6": 300,
+        "7": 300,
+        "8": 300,
+        "9": 300,
+        "10": 300,
+        "11": 300,
+        "12": 300,
+        "13": 300,
+        "14": 300,
+        "15": 300,
+        "16": 300,
+        "17": 300,
+        "18": 300
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.635,
+      "attackSpeedRatio": 0.635,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Rakan.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.635,
+        "2": 0.648716,
+        "3": 0.663099,
+        "4": 0.678148,
+        "5": 0.693864,
+        "6": 0.710248,
+        "7": 0.727297,
+        "8": 0.745014,
+        "9": 0.763397,
+        "10": 0.782447,
+        "11": 0.802164,
+        "12": 0.822547,
+        "13": 0.843598,
+        "14": 0.865314,
+        "15": 0.887698,
+        "16": 0.910749,
+        "17": 0.934466,
+        "18": 0.95885
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 315,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Rakan.json:stats.mp/mpperlevel",
+        "角色根记录/Rakan.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 315,
+        "2": 351,
+        "3": 388.75,
+        "4": 428.25,
+        "5": 469.5,
+        "6": 512.5,
+        "7": 557.25,
+        "8": 603.75,
+        "9": 652,
+        "10": 702,
+        "11": 753.75,
+        "12": 807.25,
+        "13": 862.5,
+        "14": 919.5,
+        "15": 978.25,
+        "16": 1038.75,
+        "17": 1101,
+        "18": 1165
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.75,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Rakan.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Rakan.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.75,
+        "2": 9.11,
+        "3": 9.4875,
+        "4": 9.8825,
+        "5": 10.295,
+        "6": 10.725,
+        "7": 11.1725,
+        "8": 11.6375,
+        "9": 12.12,
+        "10": 12.62,
+        "11": 13.1375,
+        "12": 13.6725,
+        "13": 14.225,
+        "14": 14.795,
+        "15": 15.3825,
+        "16": 15.9875,
+        "17": 16.61,
+        "18": 17.25
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.5
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.635,
+    "ratio": 0.635,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

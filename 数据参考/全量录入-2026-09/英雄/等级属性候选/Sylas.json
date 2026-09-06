@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Sylas",
+  "sourceNumericId": "517",
+  "name": "塞拉斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "约定排除，仅保留候选资料",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 600,
+      "growth": 122,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.hp/hpperlevel",
+        "角色根记录/Sylas.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 600,
+        "2": 687.84,
+        "3": 779.95,
+        "4": 876.33,
+        "5": 976.98,
+        "6": 1081.9,
+        "7": 1191.09,
+        "8": 1304.55,
+        "9": 1422.28,
+        "10": 1544.28,
+        "11": 1670.55,
+        "12": 1801.09,
+        "13": 1935.9,
+        "14": 2074.98,
+        "15": 2218.33,
+        "16": 2365.95,
+        "17": 2517.84,
+        "18": 2674
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9,
+      "growth": 0.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Sylas.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9,
+        "2": 9.648,
+        "3": 10.3275,
+        "4": 11.0385,
+        "5": 11.781,
+        "6": 12.555,
+        "7": 13.3605,
+        "8": 14.1975,
+        "9": 15.066,
+        "10": 15.966,
+        "11": 16.8975,
+        "12": 17.8605,
+        "13": 18.855,
+        "14": 19.881,
+        "15": 20.9385,
+        "16": 22.0275,
+        "17": 23.148,
+        "18": 24.3
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 29,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.armor/armorperlevel",
+        "角色根记录/Sylas.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 32.744,
+        "3": 36.67,
+        "4": 40.778,
+        "5": 45.068,
+        "6": 49.54,
+        "7": 54.194,
+        "8": 59.03,
+        "9": 64.048,
+        "10": 69.248,
+        "11": 74.63,
+        "12": 80.194,
+        "13": 85.94,
+        "14": 91.868,
+        "15": 97.978,
+        "16": 104.27,
+        "17": 110.744,
+        "18": 117.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Sylas.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.836,
+        "3": 35.76125,
+        "4": 37.77575,
+        "5": 39.8795,
+        "6": 42.0725,
+        "7": 44.35475,
+        "8": 46.72625,
+        "9": 49.187,
+        "10": 51.737,
+        "11": 54.37625,
+        "12": 57.10475,
+        "13": 59.9225,
+        "14": 62.8295,
+        "15": 65.82575,
+        "16": 68.91125,
+        "17": 72.086,
+        "18": 75.35
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Sylas.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 63.16,
+        "3": 65.425,
+        "4": 67.795,
+        "5": 70.27,
+        "6": 72.85,
+        "7": 75.535,
+        "8": 78.325,
+        "9": 81.22,
+        "10": 84.22,
+        "11": 87.325,
+        "12": 90.535,
+        "13": 93.85,
+        "14": 97.27,
+        "15": 100.795,
+        "16": 104.425,
+        "17": 108.16,
+        "18": 112
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Sylas.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Sylas.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.645,
+      "attackSpeedRatio": 0.645,
+      "growthPercent": 3.5,
+      "sources": [
+        "角色根记录/Sylas.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.645,
+        "2": 0.661254,
+        "3": 0.678298,
+        "4": 0.696132,
+        "5": 0.714757,
+        "6": 0.734171,
+        "7": 0.754376,
+        "8": 0.775371,
+        "9": 0.797156,
+        "10": 0.819731,
+        "11": 0.843096,
+        "12": 0.867251,
+        "13": 0.892196,
+        "14": 0.917932,
+        "15": 0.944457,
+        "16": 0.971773,
+        "17": 0.999879,
+        "18": 1.028775
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 400,
+      "growth": 70,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.mp/mpperlevel",
+        "角色根记录/Sylas.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 400,
+        "2": 450.4,
+        "3": 503.25,
+        "4": 558.55,
+        "5": 616.3,
+        "6": 676.5,
+        "7": 739.15,
+        "8": 804.25,
+        "9": 871.8,
+        "10": 941.8,
+        "11": 1014.25,
+        "12": 1089.15,
+        "13": 1166.5,
+        "14": 1246.3,
+        "15": 1328.55,
+        "16": 1413.25,
+        "17": 1500.4,
+        "18": 1590
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Sylas.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Sylas.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.645,
+    "ratio": 0.645,
+    "growthPercent": 3.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

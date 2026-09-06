@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Elise",
+  "sourceNumericId": "60",
+  "name": "伊莉丝",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 620,
+      "growth": 109,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.hp/hpperlevel",
+        "角色根记录/Elise.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 620,
+        "2": 698.48,
+        "3": 780.775,
+        "4": 866.885,
+        "5": 956.81,
+        "6": 1050.55,
+        "7": 1148.105,
+        "8": 1249.475,
+        "9": 1354.66,
+        "10": 1463.66,
+        "11": 1576.475,
+        "12": 1693.105,
+        "13": 1813.55,
+        "14": 1937.81,
+        "15": 2065.885,
+        "16": 2197.775,
+        "17": 2333.48,
+        "18": 2473
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Elise.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.932,
+        "3": 6.385,
+        "4": 6.859,
+        "5": 7.354,
+        "6": 7.87,
+        "7": 8.407,
+        "8": 8.965,
+        "9": 9.544,
+        "10": 10.144,
+        "11": 10.765,
+        "12": 11.407,
+        "13": 12.07,
+        "14": 12.754,
+        "15": 13.459,
+        "16": 14.185,
+        "17": 14.932,
+        "18": 15.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 30,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.armor/armorperlevel",
+        "角色根记录/Elise.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 33.24,
+        "3": 36.6375,
+        "4": 40.1925,
+        "5": 43.905,
+        "6": 47.775,
+        "7": 51.8025,
+        "8": 55.9875,
+        "9": 60.33,
+        "10": 64.83,
+        "11": 69.4875,
+        "12": 74.3025,
+        "13": 79.275,
+        "14": 84.405,
+        "15": 89.6925,
+        "16": 95.1375,
+        "17": 100.74,
+        "18": 106.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Elise.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Elise.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.16,
+        "3": 59.425,
+        "4": 61.795,
+        "5": 64.27,
+        "6": 66.85,
+        "7": 69.535,
+        "8": 72.325,
+        "9": 75.22,
+        "10": 78.22,
+        "11": 81.325,
+        "12": 84.535,
+        "13": 87.85,
+        "14": 91.27,
+        "15": 94.795,
+        "16": 98.425,
+        "17": 102.16,
+        "18": 106
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Elise.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Elise.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.75,
+      "sources": [
+        "角色根记录/Elise.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.632875,
+        "3": 0.641133,
+        "4": 0.649773,
+        "5": 0.658797,
+        "6": 0.668203,
+        "7": 0.677992,
+        "8": 0.688164,
+        "9": 0.698719,
+        "10": 0.709656,
+        "11": 0.720977,
+        "12": 0.73268,
+        "13": 0.744766,
+        "14": 0.757234,
+        "15": 0.770086,
+        "16": 0.78332,
+        "17": 0.796937,
+        "18": 0.810937
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 324,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.mp/mpperlevel",
+        "角色根记录/Elise.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 324,
+        "2": 360,
+        "3": 397.75,
+        "4": 437.25,
+        "5": 478.5,
+        "6": 521.5,
+        "7": 566.25,
+        "8": 612.75,
+        "9": 661,
+        "10": 711,
+        "11": 762.75,
+        "12": 816.25,
+        "13": 871.5,
+        "14": 928.5,
+        "15": 987.25,
+        "16": 1047.75,
+        "17": 1110,
+        "18": 1174
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Elise.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Elise.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.576,
+        "3": 7.18,
+        "4": 7.812,
+        "5": 8.472,
+        "6": 9.16,
+        "7": 9.876,
+        "8": 10.62,
+        "9": 11.392,
+        "10": 12.192,
+        "11": 13.02,
+        "12": 13.876,
+        "13": 14.76,
+        "14": 15.672,
+        "15": 16.612,
+        "16": 17.58,
+        "17": 18.576,
+        "18": 19.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 1.75,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

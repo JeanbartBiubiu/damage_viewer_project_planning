@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "MasterYi",
+  "sourceNumericId": "11",
+  "name": "易",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 105,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.hp/hpperlevel",
+        "角色根记录/MasterYi.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 715.6,
+        "3": 794.875,
+        "4": 877.825,
+        "5": 964.45,
+        "6": 1054.75,
+        "7": 1148.725,
+        "8": 1246.375,
+        "9": 1347.7,
+        "10": 1452.7,
+        "11": 1561.375,
+        "12": 1673.725,
+        "13": 1789.75,
+        "14": 1909.45,
+        "15": 2032.825,
+        "16": 2159.875,
+        "17": 2290.6,
+        "18": 2425
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/MasterYi.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 7.968,
+        "3": 8.45875,
+        "4": 8.97225,
+        "5": 9.5085,
+        "6": 10.0675,
+        "7": 10.64925,
+        "8": 11.25375,
+        "9": 11.881,
+        "10": 12.531,
+        "11": 13.20375,
+        "12": 13.89925,
+        "13": 14.6175,
+        "14": 15.3585,
+        "15": 16.12225,
+        "16": 16.90875,
+        "17": 17.718,
+        "18": 18.55
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.armor/armorperlevel",
+        "角色根记录/MasterYi.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.24,
+        "3": 39.6375,
+        "4": 43.1925,
+        "5": 46.905,
+        "6": 50.775,
+        "7": 54.8025,
+        "8": 58.9875,
+        "9": 63.33,
+        "10": 67.83,
+        "11": 72.4875,
+        "12": 77.3025,
+        "13": 82.275,
+        "14": 87.405,
+        "15": 92.6925,
+        "16": 98.1375,
+        "17": 103.74,
+        "18": 109.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/MasterYi.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/MasterYi.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 66.8,
+        "3": 68.6875,
+        "4": 70.6625,
+        "5": 72.725,
+        "6": 74.875,
+        "7": 77.1125,
+        "8": 79.4375,
+        "9": 81.85,
+        "10": 84.35,
+        "11": 86.9375,
+        "12": 89.6125,
+        "13": 92.375,
+        "14": 95.225,
+        "15": 98.1625,
+        "16": 101.1875,
+        "17": 104.3,
+        "18": 107.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 355,
+      "growth": null,
+      "sources": [
+        "角色根记录/MasterYi.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 355,
+        "2": 355,
+        "3": 355,
+        "4": 355,
+        "5": 355,
+        "6": 355,
+        "7": 355,
+        "8": 355,
+        "9": 355,
+        "10": 355,
+        "11": 355,
+        "12": 355,
+        "13": 355,
+        "14": 355,
+        "15": 355,
+        "16": 355,
+        "17": 355,
+        "18": 355
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/MasterYi.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.679,
+      "attackSpeedRatio": 0.679,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/MasterYi.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.679,
+        "2": 0.691222,
+        "3": 0.704038,
+        "4": 0.717448,
+        "5": 0.731453,
+        "6": 0.746051,
+        "7": 0.761244,
+        "8": 0.777031,
+        "9": 0.793412,
+        "10": 0.810387,
+        "11": 0.827956,
+        "12": 0.846119,
+        "13": 0.864876,
+        "14": 0.884228,
+        "15": 0.904173,
+        "16": 0.924713,
+        "17": 0.945847,
+        "18": 0.967575
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 251,
+      "growth": 42,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.mp/mpperlevel",
+        "角色根记录/MasterYi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 251,
+        "2": 281.24,
+        "3": 312.95,
+        "4": 346.13,
+        "5": 380.78,
+        "6": 416.9,
+        "7": 454.49,
+        "8": 493.55,
+        "9": 534.08,
+        "10": 576.08,
+        "11": 619.55,
+        "12": 664.49,
+        "13": 710.9,
+        "14": 758.78,
+        "15": 808.13,
+        "16": 858.95,
+        "17": 911.24,
+        "18": 965
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.25,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/MasterYi.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/MasterYi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.25,
+        "2": 7.574,
+        "3": 7.91375,
+        "4": 8.26925,
+        "5": 8.6405,
+        "6": 9.0275,
+        "7": 9.43025,
+        "8": 9.84875,
+        "9": 10.283,
+        "10": 10.733,
+        "11": 11.19875,
+        "12": 11.68025,
+        "13": 12.1775,
+        "14": 12.6905,
+        "15": 13.21925,
+        "16": 13.76375,
+        "17": 14.324,
+        "18": 14.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.679,
+    "ratio": 0.679,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

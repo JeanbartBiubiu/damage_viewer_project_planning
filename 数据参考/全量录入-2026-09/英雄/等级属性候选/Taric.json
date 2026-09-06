@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Taric",
+  "sourceNumericId": "44",
+  "name": "塔里克",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 645,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.hp/hpperlevel",
+        "角色根记录/Taric.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 645,
+        "2": 716.28,
+        "3": 791.025,
+        "4": 869.235,
+        "5": 950.91,
+        "6": 1036.05,
+        "7": 1124.655,
+        "8": 1216.725,
+        "9": 1312.26,
+        "10": 1411.26,
+        "11": 1513.725,
+        "12": 1619.655,
+        "13": 1729.05,
+        "14": 1841.91,
+        "15": 1958.235,
+        "16": 2078.025,
+        "17": 2201.28,
+        "18": 2328
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Taric.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.36,
+        "3": 6.7375,
+        "4": 7.1325,
+        "5": 7.545,
+        "6": 7.975,
+        "7": 8.4225,
+        "8": 8.8875,
+        "9": 9.37,
+        "10": 9.87,
+        "11": 10.3875,
+        "12": 10.9225,
+        "13": 11.475,
+        "14": 12.045,
+        "15": 12.6325,
+        "16": 13.2375,
+        "17": 13.86,
+        "18": 14.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 40,
+      "growth": 4.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.armor/armorperlevel",
+        "角色根记录/Taric.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 40,
+        "2": 43.096,
+        "3": 46.3425,
+        "4": 49.7395,
+        "5": 53.287,
+        "6": 56.985,
+        "7": 60.8335,
+        "8": 64.8325,
+        "9": 68.982,
+        "10": 73.282,
+        "11": 77.7325,
+        "12": 82.3335,
+        "13": 87.085,
+        "14": 91.987,
+        "15": 97.0395,
+        "16": 102.2425,
+        "17": 107.596,
+        "18": 113.1
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Taric.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 29.476,
+        "3": 31.02375,
+        "4": 32.64325,
+        "5": 34.3345,
+        "6": 36.0975,
+        "7": 37.93225,
+        "8": 39.83875,
+        "9": 41.817,
+        "10": 43.867,
+        "11": 45.98875,
+        "12": 48.18225,
+        "13": 50.4475,
+        "14": 52.7845,
+        "15": 55.19325,
+        "16": 57.67375,
+        "17": 60.226,
+        "18": 62.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3.5,
+      "sources": [
+        "角色根记录/Taric.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.52,
+        "3": 60.1625,
+        "4": 62.9275,
+        "5": 65.815,
+        "6": 68.825,
+        "7": 71.9575,
+        "8": 75.2125,
+        "9": 78.59,
+        "10": 82.09,
+        "11": 85.7125,
+        "12": 89.4575,
+        "13": 93.325,
+        "14": 97.315,
+        "15": 101.4275,
+        "16": 105.6625,
+        "17": 110.02,
+        "18": 114.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Taric.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 150,
+      "growth": null,
+      "sources": [
+        "角色根记录/Taric.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 150,
+        "2": 150,
+        "3": 150,
+        "4": 150,
+        "5": 150,
+        "6": 150,
+        "7": 150,
+        "8": 150,
+        "9": 150,
+        "10": 150,
+        "11": 150,
+        "12": 150,
+        "13": 150,
+        "14": 150,
+        "15": 150,
+        "16": 150,
+        "17": 150,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Taric.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.634,
+        "3": 0.643437,
+        "4": 0.653312,
+        "5": 0.663625,
+        "6": 0.674375,
+        "7": 0.685562,
+        "8": 0.697187,
+        "9": 0.70925,
+        "10": 0.72175,
+        "11": 0.734688,
+        "12": 0.748063,
+        "13": 0.761875,
+        "14": 0.776125,
+        "15": 0.790813,
+        "16": 0.805937,
+        "17": 0.8215,
+        "18": 0.8375
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 60,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.mp/mpperlevel",
+        "角色根记录/Taric.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 343.2,
+        "3": 388.5,
+        "4": 435.9,
+        "5": 485.4,
+        "6": 537,
+        "7": 590.7,
+        "8": 646.5,
+        "9": 704.4,
+        "10": 764.4,
+        "11": 826.5,
+        "12": 890.7,
+        "13": 957,
+        "14": 1025.4,
+        "15": 1095.9,
+        "16": 1168.5,
+        "17": 1243.2,
+        "18": 1320
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Taric.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Taric.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.076,
+        "3": 9.68,
+        "4": 10.312,
+        "5": 10.972,
+        "6": 11.66,
+        "7": 12.376,
+        "8": 13.12,
+        "9": 13.892,
+        "10": 14.692,
+        "11": 15.52,
+        "12": 16.376,
+        "13": 17.26,
+        "14": 18.172,
+        "15": 19.112,
+        "16": 20.08,
+        "17": 21.076,
+        "18": 22.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}
