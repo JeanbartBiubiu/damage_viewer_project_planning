@@ -28,9 +28,12 @@ import {
   characterFieldIssues,
   describeAttributeProgression,
   generateIncrementingLevelValues,
+  generatePerLevelValues,
+  getAttributeGenerationMode,
   isAttributeConfigured,
   normalizeLevelValues,
-  removeConfiguredAttribute
+  removeConfiguredAttribute,
+  type AttributeGenerationMode
 } from './characterForm';
 
 type CharacterAttributesModalProps = {
@@ -43,8 +46,6 @@ type CharacterAttributesModalProps = {
   onSaved: () => void;
   onDirtyChange: (dirty: boolean) => void;
 };
-
-type GenerationMode = 'fixed' | 'increment';
 
 function formatValue(value: number): string {
   return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(8)));
@@ -75,9 +76,10 @@ export function CharacterAttributesModal({
   const [attributeEditorVisible, setAttributeEditorVisible] = useState(false);
   const [editingAttributeKey, setEditingAttributeKey] = useState('');
   const [editingExisting, setEditingExisting] = useState(false);
-  const [generationMode, setGenerationMode] = useState<GenerationMode>('fixed');
+  const [generationMode, setGenerationMode] = useState<AttributeGenerationMode>('fixed');
   const [generationStart, setGenerationStart] = useState<number | undefined>();
   const [generationIncrement, setGenerationIncrement] = useState<number | undefined>(0);
+  const [generationLevelText, setGenerationLevelText] = useState('');
   const [generationError, setGenerationError] = useState<string | null>(null);
 
   const levels = useMemo(() => Array.from(
@@ -162,12 +164,12 @@ export function CharacterAttributesModal({
     const second = configured && minLevel < maxLevel
       ? values[String(minLevel + 1)]?.[selected.attributeKey]
       : undefined;
-    const summary = describeAttributeProgression(values, selected.attributeKey, minLevel, maxLevel);
     setEditingAttributeKey(selected.attributeKey);
     setEditingExisting(configured);
-    setGenerationMode(summary === '固定' || !configured ? 'fixed' : 'increment');
+    setGenerationMode(getAttributeGenerationMode(values, selected.attributeKey, minLevel, maxLevel));
     setGenerationStart(start);
     setGenerationIncrement(second === undefined ? 0 : Number((second - start).toFixed(8)));
+    setGenerationLevelText(configured ? levels.map((level) => String(values[String(level)]![selected.attributeKey]!)).join('\n') : '');
     setGenerationError(null);
     setAttributeEditorVisible(true);
   };
@@ -177,31 +179,47 @@ export function CharacterAttributesModal({
     setGenerationMode('fixed');
     setGenerationStart(0);
     setGenerationIncrement(0);
+    setGenerationLevelText('');
     setGenerationError(null);
   };
 
   const applyAttributeEditor = () => {
     const attribute = attributes.find((item) => item.attributeKey === editingAttributeKey);
-    const increment = generationMode === 'fixed' ? 0 : generationIncrement;
-    if (!attribute || generationStart === undefined || increment === undefined) {
-      setGenerationError('属性数值不能为空。');
+    if (!attribute) {
+      setGenerationError('请选择属性。');
       return;
     }
-    if (attribute.valueType === 'INTEGER'
-      && (!Number.isInteger(generationStart) || !Number.isInteger(increment))) {
-      setGenerationError('整数属性的数值和每级增量必须是整数。');
-      return;
+    let next: CharacterLevelValues;
+    if (generationMode === 'levels') {
+      const result = generatePerLevelValues(values, attribute, minLevel, maxLevel, generationLevelText);
+      if (result.error !== null) {
+        setGenerationError(result.error);
+        return;
+      }
+      next = result.levelValues;
+    } else {
+      const increment = generationMode === 'fixed' ? 0 : generationIncrement;
+      if (generationStart === undefined || increment === undefined) {
+        setGenerationError('属性数值不能为空。');
+        return;
+      }
+      if (!Number.isFinite(generationStart) || !Number.isFinite(increment)) {
+        setGenerationError('属性数值和每级增量必须为有限数。');
+        return;
+      }
+      if (attribute.valueType === 'INTEGER'
+        && (!Number.isInteger(generationStart) || !Number.isInteger(increment))) {
+        setGenerationError('整数属性的数值和每级增量必须是整数。');
+        return;
+      }
+      next = generateIncrementingLevelValues(values, attribute.attributeKey, minLevel, maxLevel, generationStart, increment);
     }
-    const next = generateIncrementingLevelValues(
-      values,
-      attribute.attributeKey,
-      minLevel,
-      maxLevel,
-      generationStart,
-      increment
-    );
     for (const level of levels) {
       const value = next[String(level)]?.[attribute.attributeKey] ?? 0;
+      if (!Number.isFinite(value)) {
+        setGenerationError(`Lv${level} 的数值必须为有限数。`);
+        return;
+      }
       if ((attribute.minValue !== null && value < attribute.minValue)
         || (attribute.maxValue !== null && value > attribute.maxValue)) {
         setGenerationError(`Lv${level} 的数值超出属性范围。`);
@@ -394,15 +412,29 @@ export function CharacterAttributesModal({
             </Form.Item>
             <Form.Item label="生成方式" required>
               <Radio.Group
+                aria-label="属性录入方式"
                 type="button"
                 value={generationMode}
-                onChange={(value) => setGenerationMode(value === 'increment' ? 'increment' : 'fixed')}
+                onChange={(value) => {
+                  setGenerationMode(value === 'levels' ? 'levels' : value === 'increment' ? 'increment' : 'fixed');
+                  setGenerationError(null);
+                }}
               >
                 <Radio value="fixed">固定</Radio>
                 <Radio value="increment">每级递增</Radio>
+                <Radio value="levels">逐级录入</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item label={`Lv${minLevel} 数值`} required>
+            {generationMode === 'levels' ? (
+              <Form.Item label="各级数值" required extra={`按 Lv${minLevel} 至 Lv${maxLevel} 顺序输入 ${levels.length} 个数值，可用空白、换行或中英文逗号分隔。`}>
+                <Input.TextArea
+                  aria-label="各级数值"
+                  value={generationLevelText}
+                  autoSize={{ minRows: 4, maxRows: 12 }}
+                  onChange={setGenerationLevelText}
+                />
+              </Form.Item>
+            ) : <Form.Item label={`Lv${minLevel} 数值`} required>
               <InputNumber
                 aria-label={`Lv${minLevel} 数值`}
                 value={generationStart}
@@ -410,7 +442,7 @@ export function CharacterAttributesModal({
                 style={{ width: '100%' }}
                 onChange={setGenerationStart}
               />
-            </Form.Item>
+            </Form.Item>}
             {generationMode === 'increment' ? (
               <Form.Item label="每级增量" required>
                 <InputNumber
