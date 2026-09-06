@@ -9,7 +9,6 @@
 CREATE TABLE public.games (
     game_id varchar(64) PRIMARY KEY,
     game_name varchar(100) NOT NULL,
-    game_img_url text,
     created_at timestamp DEFAULT NOW(),
     CONSTRAINT ck_games_game_id_format CHECK (game_id ~ '^[a-z0-9_]+$')
 );
@@ -3004,3 +3003,55 @@ COMMENT ON COLUMN public.images.name IS '同一游戏内忽略大小写唯一的
 COMMENT ON COLUMN public.images.image_base64 IS '已由客户端处理且通过后端校验的PNG或JPEG数据地址';
 COMMENT ON COLUMN public.images.mime_type IS '后端从图片内容识别的真实媒体类型';
 COMMENT ON COLUMN public.images.byte_size IS 'Base64解码后的文件字节数';
+
+-- 阶段 9：角色、装备的技能挂载和七类代表图片。
+CREATE TABLE public.character_skill_relations (
+    game_id varchar(64) NOT NULL,
+    character_key varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_character_skill_relations PRIMARY KEY (game_id, character_key, skill_key),
+    CONSTRAINT fk_character_skill_relations_character FOREIGN KEY (game_id, character_key)
+        REFERENCES public.characters (game_id, character_key) ON DELETE CASCADE,
+    CONSTRAINT fk_character_skill_relations_skill FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT,
+    CONSTRAINT ck_character_skill_relations_sort_order CHECK (sort_order >= 0)
+);
+CREATE INDEX ix_character_skill_relations_skill
+    ON public.character_skill_relations (skill_key, game_id, character_key);
+COMMENT ON TABLE public.character_skill_relations IS '角色挂载技能';
+
+CREATE TABLE public.equipment_skill_relations (
+    game_id varchar(64) NOT NULL,
+    equipment_key varchar(64) NOT NULL,
+    skill_key varchar(64) NOT NULL,
+    sort_order integer NOT NULL DEFAULT 0,
+    CONSTRAINT pk_equipment_skill_relations PRIMARY KEY (game_id, equipment_key, skill_key),
+    CONSTRAINT fk_equipment_skill_relations_equipment FOREIGN KEY (game_id, equipment_key)
+        REFERENCES public.equipment (game_id, equipment_key) ON DELETE CASCADE,
+    CONSTRAINT fk_equipment_skill_relations_skill FOREIGN KEY (game_id, skill_key)
+        REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT,
+    CONSTRAINT ck_equipment_skill_relations_sort_order CHECK (sort_order >= 0)
+);
+CREATE INDEX ix_equipment_skill_relations_skill
+    ON public.equipment_skill_relations (skill_key, game_id, equipment_key);
+COMMENT ON TABLE public.equipment_skill_relations IS '装备挂载技能';
+
+CREATE TABLE public.image_relations (
+    game_id varchar(64) NOT NULL,
+    source_type varchar(16) NOT NULL,
+    source_parent_key varchar(64) NOT NULL,
+    source_key varchar(64) NOT NULL,
+    image_key varchar(128) NOT NULL,
+    CONSTRAINT pk_image_relations PRIMARY KEY (game_id, source_type, source_parent_key, source_key),
+    CONSTRAINT ck_image_relations_source_type
+        CHECK (source_type IN ('GAME', 'CHARACTER', 'ATTRIBUTE', 'EQUIPMENT', 'SKILL', 'SKILL_EFFECT', 'STATUS')),
+    CONSTRAINT ck_image_relations_parent
+        CHECK ((source_type = 'SKILL_EFFECT' AND btrim(source_parent_key) <> '')
+            OR (source_type <> 'SKILL_EFFECT' AND source_parent_key = '')),
+    CONSTRAINT ck_image_relations_source_key CHECK (btrim(source_key) <> ''),
+    CONSTRAINT ck_image_relations_game CHECK (source_type <> 'GAME' OR source_key = game_id),
+    CONSTRAINT ck_image_relations_image_key CHECK (btrim(image_key) <> '')
+);
+CREATE INDEX ix_image_relations_image ON public.image_relations (game_id, image_key, source_type);
+COMMENT ON TABLE public.image_relations IS '代表图片关联；无外键，由后端校验存在性并在来源删除时清理';

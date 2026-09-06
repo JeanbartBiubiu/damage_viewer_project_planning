@@ -16,13 +16,13 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
@@ -136,26 +136,20 @@ public class SkillEffectService {
     private final SkillMapper skillMapper;
     private final SkillEffectMapper mapper;
     private final SkillTriggerRuleService triggerRuleService;
+    private final ImageRelationMapper imageRelationMapper;
 
-    public SkillEffectService(
-        GamesMapper gamesMapper,
-        SkillMapper skillMapper,
-        SkillEffectMapper mapper
-    ) {
-        this(gamesMapper, skillMapper, mapper, null);
-    }
-
-    @Autowired
     public SkillEffectService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillEffectMapper mapper,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        ImageRelationMapper imageRelationMapper
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
+        this.imageRelationMapper = imageRelationMapper;
     }
 
     @Transactional(readOnly = true)
@@ -357,6 +351,7 @@ public class SkillEffectService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex, true, false);
         }
+        imageRelationMapper.deleteForSource(gameId, "SKILL_EFFECT", skillKey, effectKey);
     }
 
     private SkillEffectDetailResponse requireDetail(String gameId, String skillKey, String effectKey) {

@@ -5,9 +5,18 @@
 <mapper namespace="xyz.game.datamanage.mapper.GamesMapper">
 
     <select id="listGames" resultType="map">
-        SELECT game_id AS "gameId", game_name AS "gameName", game_img_url AS "gameImgUrl"
-        FROM public.games
-        ORDER BY game_id
+        SELECT g.game_id AS "gameId", g.game_name AS "gameName",
+               r.image_key AS "representativeImageKey",
+               (r.image_key IS NOT NULL AND i.image_key IS NULL) AS "representativeImageDangling"
+        FROM public.games g
+        LEFT JOIN public.image_relations r
+          ON r.game_id = g.game_id
+         AND r.source_type = 'GAME'
+         AND r.source_parent_key = ''
+         AND r.source_key = g.game_id
+        LEFT JOIN public.images i
+          ON i.game_id = r.game_id AND i.image_key = r.image_key
+        ORDER BY g.game_id
     </select>
 
     <select id="countGames" resultType="long">

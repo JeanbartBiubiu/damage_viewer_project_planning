@@ -2,6 +2,7 @@ package xyz.game.datamanage.service.skill;
 
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,19 +13,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
+import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
 import xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper;
 import xyz.game.datamanage.mapper.skillparameter.SkillParameterMapper;
 import xyz.game.datamanage.mapper.skillprocess.SkillProcessMapper;
+import xyz.game.datamanage.mapper.skillrelation.SkillRelationMapper;
 import xyz.game.datamanage.model.skill.SkillCategoryLockRow;
 import xyz.game.datamanage.model.skill.SkillCategoryRelationRow;
 import xyz.game.datamanage.model.skill.SkillCreateRequest;
@@ -56,31 +58,9 @@ public class SkillService {
     private final SkillInternalStateMapper internalStateMapper;
     private final SkillParameterLevelService levelService;
     private final SkillTriggerRuleService triggerRuleService;
+    private final ImageRelationMapper imageRelationMapper;
+    private final SkillRelationMapper skillRelationMapper;
 
-    public SkillService(
-        GamesMapper gamesMapper,
-        SkillMapper mapper,
-        SkillParameterMapper parameterMapper,
-        SkillFormulaMapper formulaMapper,
-        SkillEffectMapper effectMapper,
-        SkillProcessMapper processMapper,
-        SkillInternalStateMapper internalStateMapper,
-        SkillParameterLevelService levelService
-    ) {
-        this(
-            gamesMapper,
-            mapper,
-            parameterMapper,
-            formulaMapper,
-            effectMapper,
-            processMapper,
-            internalStateMapper,
-            levelService,
-            null
-        );
-    }
-
-    @Autowired
     public SkillService(
         GamesMapper gamesMapper,
         SkillMapper mapper,
@@ -90,7 +70,9 @@ public class SkillService {
         SkillProcessMapper processMapper,
         SkillInternalStateMapper internalStateMapper,
         SkillParameterLevelService levelService,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        ImageRelationMapper imageRelationMapper,
+        SkillRelationMapper skillRelationMapper
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
@@ -101,6 +83,8 @@ public class SkillService {
         this.internalStateMapper = internalStateMapper;
         this.levelService = levelService;
         this.triggerRuleService = triggerRuleService;
+        this.imageRelationMapper = imageRelationMapper;
+        this.skillRelationMapper = skillRelationMapper;
     }
 
     @Transactional(readOnly = true)
@@ -195,24 +179,35 @@ public class SkillService {
         if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw notFound(skillKey);
         }
+        if (skillRelationMapper.countBySkill(gameId, skillKey) > 0) {
+            throw inUse();
+        }
         if (triggerRuleService != null) {
             triggerRuleService.assertSourceSkillNotReferenced(gameId, skillKey);
         }
         if (effectMapper.countExternalSkillScopeReferences(gameId, skillKey) > 0) {
             throw inUse();
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.deleteAllForSkill(gameId, skillKey);
+        try {
+            if (triggerRuleService != null) {
+                triggerRuleService.deleteAllForSkill(gameId, skillKey);
+            }
+            effectMapper.deleteLifecycleOperationDetailsForSkill(gameId, skillKey);
+            processMapper.deleteAllForSkill(gameId, skillKey);
+            effectMapper.deleteAllForSkill(gameId, skillKey);
+            internalStateMapper.deleteAllForSkill(gameId, skillKey);
+            formulaMapper.deleteAllForSkill(gameId, skillKey);
+            parameterMapper.deleteAllForSkill(gameId, skillKey);
+            if (mapper.delete(gameId, skillKey) == 0) {
+                throw notFound(skillKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            if (hasSqlState(ex, "23503")) {
+                throw inUse();
+            }
+            throw ex;
         }
-        effectMapper.deleteLifecycleOperationDetailsForSkill(gameId, skillKey);
-        processMapper.deleteAllForSkill(gameId, skillKey);
-        effectMapper.deleteAllForSkill(gameId, skillKey);
-        internalStateMapper.deleteAllForSkill(gameId, skillKey);
-        formulaMapper.deleteAllForSkill(gameId, skillKey);
-        parameterMapper.deleteAllForSkill(gameId, skillKey);
-        if (mapper.delete(gameId, skillKey) == 0) {
-            throw notFound(skillKey);
-        }
+        imageRelationMapper.deleteForSkill(gameId, skillKey);
     }
 
     private void rearrangeSkillLevelParametersIfNeeded(
@@ -532,7 +527,7 @@ public class SkillService {
     }
 
     private static ApiException inUse() {
-        return conflict("409.SKILL_IN_USE", "技能已被其他技能的冷却变化或其他技能范围引用，不能删除", "skillKey");
+        return conflict("409.SKILL_IN_USE", "技能已被角色、装备或其他技能引用，不能删除", "skillKey");
     }
 
     private static ApiException unknownCategory(int index) {
@@ -584,6 +579,15 @@ public class SkillService {
             }
         }
         return result.toString();
+    }
+
+    private static boolean hasSqlState(Throwable throwable, String state) {
+        for (Throwable current = throwable; current != null; current = current.getCause()) {
+            if (current instanceof SQLException sqlException && state.equals(sqlException.getSQLState())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static Map<String, String> fieldIssue(String field, String code, String message) {
