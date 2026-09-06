@@ -65,6 +65,7 @@ const EVENT_VALUE_KEYS = new Set([
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
   'REMAINING_MS',
@@ -303,9 +304,11 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       break;
     case 'EVENT_VALUE_COMPARE':
       if (
-        typeof detail.eventValueKey !== 'string'
+        Object.keys(detail).length !== 3
+        || typeof detail.eventValueKey !== 'string'
         || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
+        || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator)
         || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
@@ -326,7 +329,7 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   if (sourceType === 'EVENT_VALUE') {
-    if (typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
+    if (Object.keys(detail).length !== 1 || typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
       protocolError(`${path}.detail.eventValueKey`);
     }
   }
