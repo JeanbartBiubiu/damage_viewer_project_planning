@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Udyr",
+  "sourceNumericId": "77",
+  "name": "乌迪尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 664,
+      "growth": 92,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.hp/hpperlevel",
+        "角色根记录/Udyr.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 664,
+        "2": 730.24,
+        "3": 799.7,
+        "4": 872.38,
+        "5": 948.28,
+        "6": 1027.4,
+        "7": 1109.74,
+        "8": 1195.3,
+        "9": 1284.08,
+        "10": 1376.08,
+        "11": 1471.3,
+        "12": 1569.74,
+        "13": 1671.4,
+        "14": 1776.28,
+        "15": 1884.38,
+        "16": 1995.7,
+        "17": 2110.24,
+        "18": 2228
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Udyr.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.54,
+        "3": 7.10625,
+        "4": 7.69875,
+        "5": 8.3175,
+        "6": 8.9625,
+        "7": 9.63375,
+        "8": 10.33125,
+        "9": 11.055,
+        "10": 11.805,
+        "11": 12.58125,
+        "12": 13.38375,
+        "13": 14.2125,
+        "14": 15.0675,
+        "15": 15.94875,
+        "16": 16.85625,
+        "17": 17.79,
+        "18": 18.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 31,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.armor/armorperlevel",
+        "角色根记录/Udyr.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 31,
+        "2": 34.384,
+        "3": 37.9325,
+        "4": 41.6455,
+        "5": 45.523,
+        "6": 49.565,
+        "7": 53.7715,
+        "8": 58.1425,
+        "9": 62.678,
+        "10": 67.378,
+        "11": 72.2425,
+        "12": 77.2715,
+        "13": 82.465,
+        "14": 87.823,
+        "15": 93.3455,
+        "16": 99.0325,
+        "17": 104.884,
+        "18": 110.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Udyr.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Udyr.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 64.88,
+        "3": 67.9,
+        "4": 71.06,
+        "5": 74.36,
+        "6": 77.8,
+        "7": 81.38,
+        "8": 85.1,
+        "9": 88.96,
+        "10": 92.96,
+        "11": 97.1,
+        "12": 101.38,
+        "13": 105.8,
+        "14": 110.36,
+        "15": 115.06,
+        "16": 119.9,
+        "17": 124.88,
+        "18": 130
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Udyr.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Udyr.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.65,
+      "attackSpeedRatio": 0.65,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Udyr.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.65,
+        "2": 0.66404,
+        "3": 0.678763,
+        "4": 0.694168,
+        "5": 0.710255,
+        "6": 0.727025,
+        "7": 0.744478,
+        "8": 0.762613,
+        "9": 0.78143,
+        "10": 0.80093,
+        "11": 0.821113,
+        "12": 0.841978,
+        "13": 0.863525,
+        "14": 0.885755,
+        "15": 0.908668,
+        "16": 0.932263,
+        "17": 0.95654,
+        "18": 0.9815
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 271,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.mp/mpperlevel",
+        "角色根记录/Udyr.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 271,
+        "2": 307,
+        "3": 344.75,
+        "4": 384.25,
+        "5": 425.5,
+        "6": 468.5,
+        "7": 513.25,
+        "8": 559.75,
+        "9": 608,
+        "10": 658,
+        "11": 709.75,
+        "12": 763.25,
+        "13": 818.5,
+        "14": 875.5,
+        "15": 934.25,
+        "16": 994.75,
+        "17": 1057,
+        "18": 1121
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Udyr.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Udyr.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 7.824,
+        "3": 8.16375,
+        "4": 8.51925,
+        "5": 8.8905,
+        "6": 9.2775,
+        "7": 9.68025,
+        "8": 10.09875,
+        "9": 10.533,
+        "10": 10.983,
+        "11": 11.44875,
+        "12": 11.93025,
+        "13": 12.4275,
+        "14": 12.9405,
+        "15": 13.46925,
+        "16": 14.01375,
+        "17": 14.574,
+        "18": 15.15
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.65,
+    "ratio": 0.65,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

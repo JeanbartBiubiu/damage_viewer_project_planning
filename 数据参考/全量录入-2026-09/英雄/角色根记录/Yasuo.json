@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Yasuo",
+  "sourceNumericId": "157",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/yasuo/yasuo.bin.json",
+    "path": ".临时原始响应/16.17/Yasuo.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 118242,
+    "sha256": "416432b0550ce038d32f2b593e8155aff7fafd834ee8048a1b64acd5c8d81f40",
+    "fetchedAt": "2026-09-06T14:26:48.942Z"
+  },
+  "recordKey": "Characters/Yasuo/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Yasuo",
+    "baseHPModifiable": {
+      "baseValue": 590,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 110,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.18000000715255737,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 103,
+    "primaryAbilityResource": {
+      "arType": 11,
+      "{c4ab3550}": {
+        "baseValue": 0,
+        "__type": "ModifiableFloat"
+      },
+      "arIncrements": 100,
+      "arMaxSegments": 10,
+      "arAllowMaxValueToBeOverridden": true,
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 60,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 2.5,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 32,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.599999904632568,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 32,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 2.049999952316284,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 345,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 175,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6970000267028809,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.6700000166893005,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 3.5,
+      "__type": "ModifiableFloat"
+    },
+    "acquisitionRange": 400,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.07999999821186066,
+      "mAttackDelayCastOffsetPercentAttackSpeedRatio": 1,
+      "mAttackProbability": 1,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackName": "YasuoBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "YasuoBasicAttack3",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "YasuoBasicAttack4",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercentAttackSpeedRatio": 1,
+        "mAttackName": "YasuoCritAttack",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "YasuoCritAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "YasuoCritAttack3",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "YasuoCritAttack4",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+      "YasuoWAbility/YasuoW",
+      "YasuoEAbility/YasuoE",
+      "YasuoRAbility/YasuoR"
+    ],
+    "spells": [
+      "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+      "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+      "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+      "Characters/Yasuo/Spells/YasuoRAbility/YasuoR"
+    ],
+    "extraSpells": [
+      "YasuoDummySpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Yasuo/Spells/YasuoDummySpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Yasuo/Spells/YasuoRAbility",
+      "Characters/Yasuo/Spells/YasuoQ1WrapperAbility",
+      "Characters/Yasuo/Spells/YasuoWAbility",
+      "Characters/Yasuo/Spells/YasuoEAbility",
+      "Characters/Yasuo/Spells/YasuoPassiveAbility"
+    ],
+    "passiveName": "game_character_passiveName_Yasuo",
+    "passiveLuaName": "YasuoPassive",
+    "passiveToolTip": "game_character_passiveDescription_Yasuo",
+    "passive1IconName": "assets/characters/yasuo/hud/icons2d/yasuo_passive.dds",
+    "name": "game_character_displayname_Yasuo",
+    "weaponMaterials": [
+      "YasuoBasicAttack",
+      "YasuoBasicAttack",
+      "YasuoBasicAttack"
+    ],
+    "selectionHeight": 180,
+    "selectionRadius": 120,
+    "pathfindingCollisionRadius": 32,
+    "{eb74898c}": 0,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1055,
+      "__type": "ToolEducationData"
+    },
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "intro": true,
+          "{42ac598e}": true,
+          "{e9f30ef6}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Yasuo",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "fighter",
+      "searchTagsSecondary": "assassin",
+      "championId": 157,
+      "roles": "BRAWLER",
+      "PARFadeColor": "0 0 0",
+      "magicRank": 4,
+      "LevelSpellEffectiveness": 2,
+      "difficultyRank": 10,
+      "description": "game_character_description_Yasuo",
+      "defenseRank": 4,
+      "classification": "Strong",
+      "ChasingAttackRangePercent": 0.5,
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "{aa75da9d}": false,
+      "attackRank": 8,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "flags": 8398092,
+    "purchaseIdentities": [
+      "Melee"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Precision",
+    "mPerkReplacements": {
+      "mReplacements": [
+        {
+          "mReplaceTarget": "Perks/Styles/Sorcery/ManaflowBand",
+          "mReplaceWith": "Perks/Styles/Sorcery/NullifyingOrb",
+          "__type": "PerkReplacement"
+        },
+        {
+          "mReplaceTarget": "Perks/Styles/Precision/PresenceOfMind",
+          "mReplaceWith": "Perks/Styles/Precision/Triumph",
+          "__type": "PerkReplacement"
+        }
+      ],
+      "__type": "PerkReplacementList"
+    },
+    "mCharacterPassiveSpell": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+        "mComponentBuffs": [
+          "Characters/Yasuo/Spells/YasuoPassiveCounter"
+        ],
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Yasuo/Spells/YasuoAnimationManager",
+        "mComponentBuffs": [
+          "Characters/Yasuo/Spells/YasuoIsInCombat",
+          "Characters/Yasuo/Spells/YasuoNotInCombat"
+        ],
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Yasuo/Spells/YasuoSkin54Manager",
+        "SkinFilter": {
+          "skinIds": [
+            54,
+            55
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Yasuo/Spells/YasuoSkin87Manager",
+        "SkinFilter": {
+          "skinIds": [
+            87
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

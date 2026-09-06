@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Ambessa",
+  "sourceNumericId": "799",
+  "name": "安蓓萨",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Ambessa.json:stats.hp/hpperlevel",
+        "角色根记录/Ambessa.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 709.2,
+        "3": 792.25,
+        "4": 879.15,
+        "5": 969.9,
+        "6": 1064.5,
+        "7": 1162.95,
+        "8": 1265.25,
+        "9": 1371.4,
+        "10": 1481.4,
+        "11": 1595.25,
+        "12": 1712.95,
+        "13": 1834.5,
+        "14": 1959.9,
+        "15": 2089.15,
+        "16": 2222.25,
+        "17": 2359.2,
+        "18": 2500
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Ambessa.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Ambessa.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.04,
+        "3": 9.60625,
+        "4": 10.19875,
+        "5": 10.8175,
+        "6": 11.4625,
+        "7": 12.13375,
+        "8": 12.83125,
+        "9": 13.555,
+        "10": 14.305,
+        "11": 15.08125,
+        "12": 15.88375,
+        "13": 16.7125,
+        "14": 17.5675,
+        "15": 18.44875,
+        "16": 19.35625,
+        "17": 20.29,
+        "18": 21.25
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 4.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Ambessa.json:stats.armor/armorperlevel",
+        "角色根记录/Ambessa.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.528,
+        "3": 42.2275,
+        "4": 46.0985,
+        "5": 50.141,
+        "6": 54.355,
+        "7": 58.7405,
+        "8": 63.2975,
+        "9": 68.026,
+        "10": 72.926,
+        "11": 77.9975,
+        "12": 83.2405,
+        "13": 88.655,
+        "14": 94.241,
+        "15": 99.9985,
+        "16": 105.9275,
+        "17": 112.028,
+        "18": 118.3
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Ambessa.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Ambessa.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 63,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Ambessa.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 63,
+        "2": 65.16,
+        "3": 67.425,
+        "4": 69.795,
+        "5": 72.27,
+        "6": 74.85,
+        "7": 77.535,
+        "8": 80.325,
+        "9": 83.22,
+        "10": 86.22,
+        "11": 89.325,
+        "12": 92.535,
+        "13": 95.85,
+        "14": 99.27,
+        "15": 102.795,
+        "16": 106.425,
+        "17": 110.16,
+        "18": 114
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ambessa.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ambessa.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Ambessa.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63625,
+        "3": 0.648047,
+        "4": 0.660391,
+        "5": 0.673281,
+        "6": 0.686719,
+        "7": 0.700703,
+        "8": 0.715234,
+        "9": 0.730313,
+        "10": 0.745938,
+        "11": 0.762109,
+        "12": 0.778828,
+        "13": 0.796094,
+        "14": 0.813906,
+        "15": 0.832266,
+        "16": 0.851172,
+        "17": 0.870625,
+        "18": 0.890625
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "能量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

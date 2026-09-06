@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "LeeSin",
+  "sourceNumericId": "64",
+  "name": "李青",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 645,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/LeeSin.json:stats.hp/hpperlevel",
+        "角色根记录/LeeSin.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 645,
+        "2": 722.76,
+        "3": 804.3,
+        "4": 889.62,
+        "5": 978.72,
+        "6": 1071.6,
+        "7": 1168.26,
+        "8": 1268.7,
+        "9": 1372.92,
+        "10": 1480.92,
+        "11": 1592.7,
+        "12": 1708.26,
+        "13": 1827.6,
+        "14": 1950.72,
+        "15": 2077.62,
+        "16": 2208.3,
+        "17": 2342.76,
+        "18": 2481
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/LeeSin.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/LeeSin.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.004,
+        "3": 8.5325,
+        "4": 9.0855,
+        "5": 9.663,
+        "6": 10.265,
+        "7": 10.8915,
+        "8": 11.5425,
+        "9": 12.218,
+        "10": 12.918,
+        "11": 13.6425,
+        "12": 14.3915,
+        "13": 15.165,
+        "14": 15.963,
+        "15": 16.7855,
+        "16": 17.6325,
+        "17": 18.504,
+        "18": 19.4
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/LeeSin.json:stats.armor/armorperlevel",
+        "角色根记录/LeeSin.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.24,
+        "3": 42.6375,
+        "4": 46.1925,
+        "5": 49.905,
+        "6": 53.775,
+        "7": 57.8025,
+        "8": 61.9875,
+        "9": 66.33,
+        "10": 70.83,
+        "11": 75.4875,
+        "12": 80.3025,
+        "13": 85.275,
+        "14": 90.405,
+        "15": 95.6925,
+        "16": 101.1375,
+        "17": 106.74,
+        "18": 112.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/LeeSin.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/LeeSin.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 66,
+      "growth": 3.4,
+      "sources": [
+        "角色根记录/LeeSin.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 66,
+        "2": 68.448,
+        "3": 71.015,
+        "4": 73.701,
+        "5": 76.506,
+        "6": 79.43,
+        "7": 82.473,
+        "8": 85.635,
+        "9": 88.916,
+        "10": 92.316,
+        "11": 95.835,
+        "12": 99.473,
+        "13": 103.23,
+        "14": 107.106,
+        "15": 111.101,
+        "16": 115.215,
+        "17": 119.448,
+        "18": 123.8
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/LeeSin.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/LeeSin.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.651,
+      "attackSpeedRatio": 0.651,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/LeeSin.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.651,
+        "2": 0.665062,
+        "3": 0.679807,
+        "4": 0.695235,
+        "5": 0.711348,
+        "6": 0.728144,
+        "7": 0.745623,
+        "8": 0.763786,
+        "9": 0.782632,
+        "10": 0.802162,
+        "11": 0.822376,
+        "12": 0.843273,
+        "13": 0.864854,
+        "14": 0.887118,
+        "15": 0.910065,
+        "16": 0.933697,
+        "17": 0.958012,
+        "18": 0.98301
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "能量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.651,
+    "ratio": 0.651,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

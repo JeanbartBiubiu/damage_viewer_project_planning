@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Seraphine",
+  "sourceNumericId": "147",
+  "name": "萨勒芬妮",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 570,
+      "growth": 95,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.hp/hpperlevel",
+        "角色根记录/Seraphine.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 570,
+        "2": 638.4,
+        "3": 710.125,
+        "4": 785.175,
+        "5": 863.55,
+        "6": 945.25,
+        "7": 1030.275,
+        "8": 1118.625,
+        "9": 1210.3,
+        "10": 1305.3,
+        "11": 1403.625,
+        "12": 1505.275,
+        "13": 1610.25,
+        "14": 1718.55,
+        "15": 1830.175,
+        "16": 1945.125,
+        "17": 2063.4,
+        "18": 2185
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Seraphine.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.932,
+        "3": 7.385,
+        "4": 7.859,
+        "5": 8.354,
+        "6": 8.87,
+        "7": 9.407,
+        "8": 9.965,
+        "9": 10.544,
+        "10": 11.144,
+        "11": 11.765,
+        "12": 12.407,
+        "13": 13.07,
+        "14": 13.754,
+        "15": 14.459,
+        "16": 15.185,
+        "17": 15.932,
+        "18": 16.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 26,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.armor/armorperlevel",
+        "角色根记录/Seraphine.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 26,
+        "2": 29.024,
+        "3": 32.195,
+        "4": 35.513,
+        "5": 38.978,
+        "6": 42.59,
+        "7": 46.349,
+        "8": 50.255,
+        "9": 54.308,
+        "10": 58.508,
+        "11": 62.855,
+        "12": 67.349,
+        "13": 71.99,
+        "14": 76.778,
+        "15": 81.713,
+        "16": 86.795,
+        "17": 92.024,
+        "18": 97.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Seraphine.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 50,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Seraphine.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 50,
+        "2": 52.16,
+        "3": 54.425,
+        "4": 56.795,
+        "5": 59.27,
+        "6": 61.85,
+        "7": 64.535,
+        "8": 67.325,
+        "9": 70.22,
+        "10": 73.22,
+        "11": 76.325,
+        "12": 79.535,
+        "13": 82.85,
+        "14": 86.27,
+        "15": 89.795,
+        "16": 93.425,
+        "17": 97.16,
+        "18": 101
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Seraphine.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Seraphine.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.669,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Seraphine.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.669,
+        "2": 0.678,
+        "3": 0.687438,
+        "4": 0.697313,
+        "5": 0.707625,
+        "6": 0.718375,
+        "7": 0.729563,
+        "8": 0.741187,
+        "9": 0.75325,
+        "10": 0.76575,
+        "11": 0.778688,
+        "12": 0.792063,
+        "13": 0.805875,
+        "14": 0.820125,
+        "15": 0.834813,
+        "16": 0.849938,
+        "17": 0.8655,
+        "18": 0.8815
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 360,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.mp/mpperlevel",
+        "角色根记录/Seraphine.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 360,
+        "2": 388.8,
+        "3": 419,
+        "4": 450.6,
+        "5": 483.6,
+        "6": 518,
+        "7": 553.8,
+        "8": 591,
+        "9": 629.6,
+        "10": 669.6,
+        "11": 711,
+        "12": 753.8,
+        "13": 798,
+        "14": 843.6,
+        "15": 890.6,
+        "16": 939,
+        "17": 988.8,
+        "18": 1040
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 11.5,
+      "growth": 0.95,
+      "sources": [
+        "原始资料/zh_CN/champion/Seraphine.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Seraphine.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 11.5,
+        "2": 12.184,
+        "3": 12.90125,
+        "4": 13.65175,
+        "5": 14.4355,
+        "6": 15.2525,
+        "7": 16.10275,
+        "8": 16.98625,
+        "9": 17.903,
+        "10": 18.853,
+        "11": 19.83625,
+        "12": 20.85275,
+        "13": 21.9025,
+        "14": 22.9855,
+        "15": 24.10175,
+        "16": 25.25125,
+        "17": 26.434,
+        "18": 27.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.669,
+    "ratio": 0.625,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

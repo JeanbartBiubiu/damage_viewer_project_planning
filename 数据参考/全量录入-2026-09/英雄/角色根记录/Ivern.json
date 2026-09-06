@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Ivern",
+  "sourceNumericId": "427",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/ivern/ivern.bin.json",
+    "path": ".临时原始响应/16.17/Ivern.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 58989,
+    "sha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e",
+    "fetchedAt": "2026-09-06T14:26:20.866Z"
+  },
+  "recordKey": "Characters/Ivern/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Ivern",
+    "baseHPModifiable": {
+      "baseValue": 630,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 99,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.399999976158142,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.17000000178813934,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 135,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 450,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 60,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.2000000476837158,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.15000000596046448,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 50,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 27,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.699999809265137,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 30,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 330,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 475,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6439999938011169,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.6439999938011169,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 3.4000000953674316,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+      "mAttackProbability": 0.75,
+      "mAttackName": "IvernBasicAttackRanged",
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackProbability": 0.25,
+        "mAttackName": "IvernBasicAttackRanged2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackName": "IvernBasicAttackRanged2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "IvernQAbility/IvernQ",
+      "IvernWAbility/IvernW",
+      "IvernEAbility/IvernE",
+      "IvernRAbility/IvernR"
+    ],
+    "spells": [
+      "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+      "Characters/Ivern/Spells/IvernWAbility/IvernW",
+      "Characters/Ivern/Spells/IvernEAbility/IvernE",
+      "Characters/Ivern/Spells/IvernRAbility/IvernR"
+    ],
+    "mAbilities": [
+      "Characters/Ivern/Spells/IvernRAbility",
+      "Characters/Ivern/Spells/IvernQAbility",
+      "Characters/Ivern/Spells/IvernPAbility",
+      "Characters/Ivern/Spells/IvernWAbility",
+      "Characters/Ivern/Spells/IvernEAbility"
+    ],
+    "passiveName": "game_character_passiveName_Ivern",
+    "passiveLuaName": "IvernP",
+    "passiveToolTip": "game_character_passiveDescription_Ivern",
+    "passive1IconName": "assets/characters/ivern/hud/icons2d/ivernp.dds",
+    "friendlyTooltip": "game_character_friendlyTooltip_Ivern",
+    "enemyTooltip": "game_character_enemyTooltip_Ivern",
+    "name": "game_character_displayname_Ivern",
+    "outlineBBoxExpansion": 80,
+    "selectionHeight": 250,
+    "selectionRadius": 140,
+    "pathfindingCollisionRadius": 40,
+    "overrideGameplayCollisionRadius": 70,
+    "unitTagsString": "Champion | Special_MonsterIgnores",
+    "friendlyUxOverrideTeam": 300,
+    "friendlyUxOverrideIncludeTagsString": "Monster | Monster_Large",
+    "friendlyUxOverrideExcludeTagsString": "Monster_Epic",
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "__type": "ToolAiPresence"
+        },
+        "1": {
+          "__type": "ToolAiPresence"
+        },
+        "2": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Ivern",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "support",
+      "searchTagsSecondary": "mage",
+      "championId": 427,
+      "roles": "SUPPORT",
+      "magicRank": 7,
+      "LevelSpellEffectiveness": 3,
+      "difficultyRank": 7,
+      "description": "game_character_description_Ivern",
+      "defenseRank": 5,
+      "ChasingAttackRangePercent": 0.75,
+      "{aa75da9d}": false,
+      "attackRank": 3,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mCharacterPassiveSpell": "Characters/Ivern/Spells/IvernPAbility/IvernP",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Ivern/Spells/IvernPAbility/IvernP",
+        "mChildSpells": [
+          "Characters/Ivern/Spells/IvernRAbility/IvernRMissile"
+        ],
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

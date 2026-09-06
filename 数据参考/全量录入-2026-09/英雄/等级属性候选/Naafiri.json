@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Naafiri",
+  "sourceNumericId": "950",
+  "name": "纳亚菲利",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 105,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.hp/hpperlevel",
+        "角色根记录/Naafiri.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 685.6,
+        "3": 764.875,
+        "4": 847.825,
+        "5": 934.45,
+        "6": 1024.75,
+        "7": 1118.725,
+        "8": 1216.375,
+        "9": 1317.7,
+        "10": 1422.7,
+        "11": 1531.375,
+        "12": 1643.725,
+        "13": 1759.75,
+        "14": 1879.45,
+        "15": 2002.825,
+        "16": 2129.875,
+        "17": 2260.6,
+        "18": 2395
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.25,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Naafiri.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.25,
+        "2": 6.682,
+        "3": 7.135,
+        "4": 7.609,
+        "5": 8.104,
+        "6": 8.62,
+        "7": 9.157,
+        "8": 9.715,
+        "9": 10.294,
+        "10": 10.894,
+        "11": 11.515,
+        "12": 12.157,
+        "13": 12.82,
+        "14": 13.504,
+        "15": 14.209,
+        "16": 14.935,
+        "17": 15.682,
+        "18": 16.45
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 28,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.armor/armorperlevel",
+        "角色根记录/Naafiri.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 31.024,
+        "3": 34.195,
+        "4": 37.513,
+        "5": 40.978,
+        "6": 44.59,
+        "7": 48.349,
+        "8": 52.255,
+        "9": 56.308,
+        "10": 60.508,
+        "11": 64.855,
+        "12": 69.349,
+        "13": 73.99,
+        "14": 78.778,
+        "15": 83.713,
+        "16": 88.795,
+        "17": 94.024,
+        "18": 99.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Naafiri.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 2,
+      "sources": [
+        "角色根记录/Naafiri.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 56.44,
+        "3": 57.95,
+        "4": 59.53,
+        "5": 61.18,
+        "6": 62.9,
+        "7": 64.69,
+        "8": 66.55,
+        "9": 68.48,
+        "10": 70.48,
+        "11": 72.55,
+        "12": 74.69,
+        "13": 76.9,
+        "14": 79.18,
+        "15": 81.53,
+        "16": 83.95,
+        "17": 86.44,
+        "18": 89
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Naafiri.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Naafiri.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.663,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.1,
+      "sources": [
+        "角色根记录/Naafiri.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.663,
+        "2": 0.67245,
+        "3": 0.682359,
+        "4": 0.692728,
+        "5": 0.703556,
+        "6": 0.714844,
+        "7": 0.726591,
+        "8": 0.738797,
+        "9": 0.751463,
+        "10": 0.764588,
+        "11": 0.778172,
+        "12": 0.792216,
+        "13": 0.806719,
+        "14": 0.821681,
+        "15": 0.837103,
+        "16": 0.852984,
+        "17": 0.869325,
+        "18": 0.886125
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 400,
+      "growth": 55,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.mp/mpperlevel",
+        "角色根记录/Naafiri.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 400,
+        "2": 439.6,
+        "3": 481.125,
+        "4": 524.575,
+        "5": 569.95,
+        "6": 617.25,
+        "7": 666.475,
+        "8": 717.625,
+        "9": 770.7,
+        "10": 825.7,
+        "11": 882.625,
+        "12": 941.475,
+        "13": 1002.25,
+        "14": 1064.95,
+        "15": 1129.575,
+        "16": 1196.125,
+        "17": 1264.6,
+        "18": 1335
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 1,
+      "sources": [
+        "原始资料/zh_CN/champion/Naafiri.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Naafiri.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.22,
+        "3": 8.975,
+        "4": 9.765,
+        "5": 10.59,
+        "6": 11.45,
+        "7": 12.345,
+        "8": 13.275,
+        "9": 14.24,
+        "10": 15.24,
+        "11": 16.275,
+        "12": 17.345,
+        "13": 18.45,
+        "14": 19.59,
+        "15": 20.765,
+        "16": 21.975,
+        "17": 23.22,
+        "18": 24.5
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.663,
+    "ratio": 0.625,
+    "growthPercent": 2.1,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

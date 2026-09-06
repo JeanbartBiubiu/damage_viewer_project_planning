@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Nocturne",
+  "sourceNumericId": "56",
+  "name": "魔腾",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 109,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.hp/hpperlevel",
+        "角色根记录/Nocturne.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 718.48,
+        "3": 800.775,
+        "4": 886.885,
+        "5": 976.81,
+        "6": 1070.55,
+        "7": 1168.105,
+        "8": 1269.475,
+        "9": 1374.66,
+        "10": 1483.66,
+        "11": 1596.475,
+        "12": 1713.105,
+        "13": 1833.55,
+        "14": 1957.81,
+        "15": 2085.885,
+        "16": 2217.775,
+        "17": 2353.48,
+        "18": 2493
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Nocturne.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.54,
+        "3": 8.10625,
+        "4": 8.69875,
+        "5": 9.3175,
+        "6": 9.9625,
+        "7": 10.63375,
+        "8": 11.33125,
+        "9": 12.055,
+        "10": 12.805,
+        "11": 13.58125,
+        "12": 14.38375,
+        "13": 15.2125,
+        "14": 16.0675,
+        "15": 16.94875,
+        "16": 17.85625,
+        "17": 18.79,
+        "18": 19.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.armor/armorperlevel",
+        "角色根记录/Nocturne.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.024,
+        "3": 42.195,
+        "4": 45.513,
+        "5": 48.978,
+        "6": 52.59,
+        "7": 56.349,
+        "8": 60.255,
+        "9": 64.308,
+        "10": 68.508,
+        "11": 72.855,
+        "12": 77.349,
+        "13": 81.99,
+        "14": 86.778,
+        "15": 91.713,
+        "16": 96.795,
+        "17": 102.024,
+        "18": 107.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 1.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Nocturne.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.116,
+        "3": 34.28625,
+        "4": 35.51075,
+        "5": 36.7895,
+        "6": 38.1225,
+        "7": 39.50975,
+        "8": 40.95125,
+        "9": 42.447,
+        "10": 43.997,
+        "11": 45.60125,
+        "12": 47.25975,
+        "13": 48.9725,
+        "14": 50.7395,
+        "15": 52.56075,
+        "16": 54.43625,
+        "17": 56.366,
+        "18": 58.35
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 2.6,
+      "sources": [
+        "角色根记录/Nocturne.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 63.872,
+        "3": 65.835,
+        "4": 67.889,
+        "5": 70.034,
+        "6": 72.27,
+        "7": 74.597,
+        "8": 77.015,
+        "9": 79.524,
+        "10": 82.124,
+        "11": 84.815,
+        "12": 87.597,
+        "13": 90.47,
+        "14": 93.434,
+        "15": 96.489,
+        "16": 99.635,
+        "17": 102.872,
+        "18": 106.2
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nocturne.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nocturne.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.721,
+      "attackSpeedRatio": 0.721,
+      "growthPercent": 2.7,
+      "sources": [
+        "角色根记录/Nocturne.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.721,
+        "2": 0.735016,
+        "3": 0.749714,
+        "4": 0.765093,
+        "5": 0.781153,
+        "6": 0.797895,
+        "7": 0.815318,
+        "8": 0.833422,
+        "9": 0.852208,
+        "10": 0.871675,
+        "11": 0.891823,
+        "12": 0.912653,
+        "13": 0.934164,
+        "14": 0.956356,
+        "15": 0.97923,
+        "16": 1.002785,
+        "17": 1.027021,
+        "18": 1.051939
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 275,
+      "growth": 35,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.mp/mpperlevel",
+        "角色根记录/Nocturne.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 275,
+        "2": 300.2,
+        "3": 326.625,
+        "4": 354.275,
+        "5": 383.15,
+        "6": 413.25,
+        "7": 444.575,
+        "8": 477.125,
+        "9": 510.9,
+        "10": 545.9,
+        "11": 582.125,
+        "12": 619.575,
+        "13": 658.25,
+        "14": 698.15,
+        "15": 739.275,
+        "16": 781.625,
+        "17": 825.2,
+        "18": 870
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Nocturne.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Nocturne.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.324,
+        "3": 7.66375,
+        "4": 8.01925,
+        "5": 8.3905,
+        "6": 8.7775,
+        "7": 9.18025,
+        "8": 9.59875,
+        "9": 10.033,
+        "10": 10.483,
+        "11": 10.94875,
+        "12": 11.43025,
+        "13": 11.9275,
+        "14": 12.4405,
+        "15": 12.96925,
+        "16": 13.51375,
+        "17": 14.074,
+        "18": 14.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.721,
+    "ratio": 0.721,
+    "growthPercent": 2.7,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

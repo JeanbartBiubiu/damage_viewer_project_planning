@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Taliyah",
+  "sourceNumericId": "163",
+  "name": "塔莉垭",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 550,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.hp/hpperlevel",
+        "角色根记录/Taliyah.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 550,
+        "2": 624.88,
+        "3": 703.4,
+        "4": 785.56,
+        "5": 871.36,
+        "6": 960.8,
+        "7": 1053.88,
+        "8": 1150.6,
+        "9": 1250.96,
+        "10": 1354.96,
+        "11": 1462.6,
+        "12": 1573.88,
+        "13": 1688.8,
+        "14": 1807.36,
+        "15": 1929.56,
+        "16": 2055.4,
+        "17": 2184.88,
+        "18": 2318
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Taliyah.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.968,
+        "3": 7.45875,
+        "4": 7.97225,
+        "5": 8.5085,
+        "6": 9.0675,
+        "7": 9.64925,
+        "8": 10.25375,
+        "9": 10.881,
+        "10": 11.531,
+        "11": 12.20375,
+        "12": 12.89925,
+        "13": 13.6175,
+        "14": 14.3585,
+        "15": 15.12225,
+        "16": 15.90875,
+        "17": 16.718,
+        "18": 17.55
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 18,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.armor/armorperlevel",
+        "角色根记录/Taliyah.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 18,
+        "2": 21.384,
+        "3": 24.9325,
+        "4": 28.6455,
+        "5": 32.523,
+        "6": 36.565,
+        "7": 40.7715,
+        "8": 45.1425,
+        "9": 49.678,
+        "10": 54.378,
+        "11": 59.2425,
+        "12": 64.2715,
+        "13": 69.465,
+        "14": 74.823,
+        "15": 80.3455,
+        "16": 86.0325,
+        "17": 91.884,
+        "18": 97.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Taliyah.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 28.936,
+        "3": 29.9175,
+        "4": 30.9445,
+        "5": 32.017,
+        "6": 33.135,
+        "7": 34.2985,
+        "8": 35.5075,
+        "9": 36.762,
+        "10": 38.062,
+        "11": 39.4075,
+        "12": 40.7985,
+        "13": 42.235,
+        "14": 43.717,
+        "15": 45.2445,
+        "16": 46.8175,
+        "17": 48.436,
+        "18": 50.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 58,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Taliyah.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 58,
+        "2": 60.376,
+        "3": 62.8675,
+        "4": 65.4745,
+        "5": 68.197,
+        "6": 71.035,
+        "7": 73.9885,
+        "8": 77.0575,
+        "9": 80.242,
+        "10": 83.542,
+        "11": 86.9575,
+        "12": 90.4885,
+        "13": 94.135,
+        "14": 97.897,
+        "15": 101.7745,
+        "16": 105.7675,
+        "17": 109.876,
+        "18": 114.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Taliyah.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Taliyah.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.36,
+      "sources": [
+        "角色根记录/Taliyah.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.66412,
+        "3": 0.670538,
+        "4": 0.677253,
+        "5": 0.684265,
+        "6": 0.691575,
+        "7": 0.699183,
+        "8": 0.707088,
+        "9": 0.71529,
+        "10": 0.72379,
+        "11": 0.732588,
+        "12": 0.741683,
+        "13": 0.751075,
+        "14": 0.760765,
+        "15": 0.770753,
+        "16": 0.781038,
+        "17": 0.79162,
+        "18": 0.8025
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 470,
+      "growth": 30,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.mp/mpperlevel",
+        "角色根记录/Taliyah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 470,
+        "2": 491.6,
+        "3": 514.25,
+        "4": 537.95,
+        "5": 562.7,
+        "6": 588.5,
+        "7": 615.35,
+        "8": 643.25,
+        "9": 672.2,
+        "10": 702.2,
+        "11": 733.25,
+        "12": 765.35,
+        "13": 798.5,
+        "14": 832.7,
+        "15": 867.95,
+        "16": 904.25,
+        "17": 941.6,
+        "18": 980
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Taliyah.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Taliyah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.625,
+    "growthPercent": 1.36,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

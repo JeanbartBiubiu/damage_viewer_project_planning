@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Illaoi",
+  "sourceNumericId": "420",
+  "name": "俄洛伊",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 656,
+      "growth": 115,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.hp/hpperlevel",
+        "角色根记录/Illaoi.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 656,
+        "2": 738.8,
+        "3": 825.625,
+        "4": 916.475,
+        "5": 1011.35,
+        "6": 1110.25,
+        "7": 1213.175,
+        "8": 1320.125,
+        "9": 1431.1,
+        "10": 1546.1,
+        "11": 1665.125,
+        "12": 1788.175,
+        "13": 1915.25,
+        "14": 2046.35,
+        "15": 2181.475,
+        "16": 2320.625,
+        "17": 2463.8,
+        "18": 2611
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9.5,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Illaoi.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9.5,
+        "2": 10.076,
+        "3": 10.68,
+        "4": 11.312,
+        "5": 11.972,
+        "6": 12.66,
+        "7": 13.376,
+        "8": 14.12,
+        "9": 14.892,
+        "10": 15.692,
+        "11": 16.52,
+        "12": 17.376,
+        "13": 18.26,
+        "14": 19.172,
+        "15": 20.112,
+        "16": 21.08,
+        "17": 22.076,
+        "18": 23.1
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 5,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.armor/armorperlevel",
+        "角色根记录/Illaoi.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.6,
+        "3": 42.375,
+        "4": 46.325,
+        "5": 50.45,
+        "6": 54.75,
+        "7": 59.225,
+        "8": 63.875,
+        "9": 68.7,
+        "10": 73.7,
+        "11": 78.875,
+        "12": 84.225,
+        "13": 89.75,
+        "14": 95.45,
+        "15": 101.325,
+        "16": 107.375,
+        "17": 113.6,
+        "18": 120
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Illaoi.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 5,
+      "sources": [
+        "角色根记录/Illaoi.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 68.6,
+        "3": 72.375,
+        "4": 76.325,
+        "5": 80.45,
+        "6": 84.75,
+        "7": 89.225,
+        "8": 93.875,
+        "9": 98.7,
+        "10": 103.7,
+        "11": 108.875,
+        "12": 114.225,
+        "13": 119.75,
+        "14": 125.45,
+        "15": 131.325,
+        "16": 137.375,
+        "17": 143.6,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Illaoi.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Illaoi.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Illaoi.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63625,
+        "3": 0.648047,
+        "4": 0.660391,
+        "5": 0.673281,
+        "6": 0.686719,
+        "7": 0.700703,
+        "8": 0.715234,
+        "9": 0.730313,
+        "10": 0.745938,
+        "11": 0.762109,
+        "12": 0.778828,
+        "13": 0.796094,
+        "14": 0.813906,
+        "15": 0.832266,
+        "16": 0.851172,
+        "17": 0.870625,
+        "18": 0.890625
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.mp/mpperlevel",
+        "角色根记录/Illaoi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 386,
+        "3": 423.75,
+        "4": 463.25,
+        "5": 504.5,
+        "6": 547.5,
+        "7": 592.25,
+        "8": 638.75,
+        "9": 687,
+        "10": 737,
+        "11": 788.75,
+        "12": 842.25,
+        "13": 897.5,
+        "14": 954.5,
+        "15": 1013.25,
+        "16": 1073.75,
+        "17": 1136,
+        "18": 1200
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Illaoi.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Illaoi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.04,
+        "3": 8.60625,
+        "4": 9.19875,
+        "5": 9.8175,
+        "6": 10.4625,
+        "7": 11.13375,
+        "8": 11.83125,
+        "9": 12.555,
+        "10": 13.305,
+        "11": 14.08125,
+        "12": 14.88375,
+        "13": 15.7125,
+        "14": 16.5675,
+        "15": 17.44875,
+        "16": 18.35625,
+        "17": 19.29,
+        "18": 20.25
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

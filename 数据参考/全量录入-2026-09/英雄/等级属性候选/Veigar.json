@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Veigar",
+  "sourceNumericId": "45",
+  "name": "维迦",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 580,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.hp/hpperlevel",
+        "角色根记录/Veigar.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 580,
+        "2": 657.76,
+        "3": 739.3,
+        "4": 824.62,
+        "5": 913.72,
+        "6": 1006.6,
+        "7": 1103.26,
+        "8": 1203.7,
+        "9": 1307.92,
+        "10": 1415.92,
+        "11": 1527.7,
+        "12": 1643.26,
+        "13": 1762.6,
+        "14": 1885.72,
+        "15": 2012.62,
+        "16": 2143.3,
+        "17": 2277.76,
+        "18": 2416
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Veigar.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.932,
+        "3": 7.385,
+        "4": 7.859,
+        "5": 8.354,
+        "6": 8.87,
+        "7": 9.407,
+        "8": 9.965,
+        "9": 10.544,
+        "10": 11.144,
+        "11": 11.765,
+        "12": 12.407,
+        "13": 13.07,
+        "14": 13.754,
+        "15": 14.459,
+        "16": 15.185,
+        "17": 15.932,
+        "18": 16.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 18,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.armor/armorperlevel",
+        "角色根记录/Veigar.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 18,
+        "2": 21.744,
+        "3": 25.67,
+        "4": 29.778,
+        "5": 34.068,
+        "6": 38.54,
+        "7": 43.194,
+        "8": 48.03,
+        "9": 53.048,
+        "10": 58.248,
+        "11": 63.63,
+        "12": 69.194,
+        "13": 74.94,
+        "14": 80.868,
+        "15": 86.978,
+        "16": 93.27,
+        "17": 99.744,
+        "18": 106.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Veigar.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 32.936,
+        "3": 33.9175,
+        "4": 34.9445,
+        "5": 36.017,
+        "6": 37.135,
+        "7": 38.2985,
+        "8": 39.5075,
+        "9": 40.762,
+        "10": 42.062,
+        "11": 43.4075,
+        "12": 44.7985,
+        "13": 46.235,
+        "14": 47.717,
+        "15": 49.2445,
+        "16": 50.8175,
+        "17": 52.436,
+        "18": 54.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 52,
+      "growth": 2.7,
+      "sources": [
+        "角色根记录/Veigar.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 52,
+        "2": 53.944,
+        "3": 55.9825,
+        "4": 58.1155,
+        "5": 60.343,
+        "6": 62.665,
+        "7": 65.0815,
+        "8": 67.5925,
+        "9": 70.198,
+        "10": 72.898,
+        "11": 75.6925,
+        "12": 78.5815,
+        "13": 81.565,
+        "14": 84.643,
+        "15": 87.8155,
+        "16": 91.0825,
+        "17": 94.444,
+        "18": 97.9
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Veigar.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Veigar.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.24,
+      "sources": [
+        "角色根记录/Veigar.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63508,
+        "3": 0.64565,
+        "4": 0.65671,
+        "5": 0.66826,
+        "6": 0.6803,
+        "7": 0.69283,
+        "8": 0.70585,
+        "9": 0.71936,
+        "10": 0.73336,
+        "11": 0.74785,
+        "12": 0.76283,
+        "13": 0.7783,
+        "14": 0.79426,
+        "15": 0.81071,
+        "16": 0.82765,
+        "17": 0.84508,
+        "18": 0.863
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 490,
+      "growth": 26,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.mp/mpperlevel",
+        "角色根记录/Veigar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 490,
+        "2": 508.72,
+        "3": 528.35,
+        "4": 548.89,
+        "5": 570.34,
+        "6": 592.7,
+        "7": 615.97,
+        "8": 640.15,
+        "9": 665.24,
+        "10": 691.24,
+        "11": 718.15,
+        "12": 745.97,
+        "13": 774.7,
+        "14": 804.34,
+        "15": 834.89,
+        "16": 866.35,
+        "17": 898.72,
+        "18": 932
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Veigar.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Veigar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.24,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

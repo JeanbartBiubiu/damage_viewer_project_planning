@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-06T14:33:12.913Z",
+  "range": {
+    "min": 1,
+    "max": 18
+  },
+  "ordinaryFormula": "base + growth * (level - 1) * (0.7025 + 0.0175 * (level - 1))",
+  "attackSpeedFormula": "baseAttackSpeed + attackSpeedRatio * growthPercent / 100 * (level - 1) * (0.7025 + 0.0175 * (level - 1))",
+  "growthFactors": {
+    "1": 0,
+    "2": 0.72,
+    "3": 1.475,
+    "4": 2.265,
+    "5": 3.09,
+    "6": 3.95,
+    "7": 4.845,
+    "8": 5.775,
+    "9": 6.74,
+    "10": 7.74,
+    "11": 8.775,
+    "12": 9.845,
+    "13": 10.95,
+    "14": 12.09,
+    "15": 13.265,
+    "16": 14.475,
+    "17": 15.72,
+    "18": 17
+  },
+  "precision": "候选数值按 6 位小数输出；原始浮点数完整保留在角色根记录中。",
+  "sourceRefs": [
+    {
+      "url": "https://leagueoflegends.fandom.com/wiki/Champion_statistic",
+      "kind": "社区机制说明的历史页面，网页检索可读",
+      "retrievedAt": "2026-09-06",
+      "supports": "普通成长公式及攻速收益系数公式；不是官方游戏引擎源码。"
+    },
+    {
+      "url": "https://wiki.leagueoflegends.com/en-us/Attack_timer",
+      "kind": "现行社区 Wiki 攻速页面的检索内容",
+      "retrievedAt": "2026-09-06",
+      "supports": "成长系数示例和攻速基值、收益系数不能混用。"
+    },
+    {
+      "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-26-1-notes/",
+      "kind": "Riot 官方补丁说明",
+      "retrievedAt": "2026-09-06",
+      "supports": "上路任务奖励可将等级上限提高到 20；当前候选仅沿用上一阶段 1–18 级，不代表覆盖全部上路等级。"
+    }
+  ],
+  "localFormulaEvidence": [
+    {
+      "path": "../../lol-wiki-current-champions/raw/akshan-p.wikitext",
+      "sha256": "bc3e9755350acf3c4f7ca6e31fff142b64c8311b2f34f2a52f2aa59d0284a44c",
+      "purpose": "已有冻结 Wiki 原文中的相同成长因子；不将其数值混作本轮英雄资料版本。"
+    },
+    {
+      "path": "../../lol-wiki-current-champions/raw/kaisa-q.wikitext",
+      "sha256": "2726b38d35468b228eacd318bf184fda85026ba7f4f106602c2a45d427f90b31",
+      "purpose": "已有冻结 Wiki 原文中的相同成长因子；不将其数值混作本轮英雄资料版本。"
+    },
+    {
+      "path": "../../lol-wiki-current-champions/raw/graves-p.wikitext",
+      "sha256": "b3d7e8cbb019e02277f933819b5f22a0d26cc6ffd947e62d0f17bd1028e15ab8",
+      "purpose": "已有冻结 Wiki 原文中的相同成长因子；不将其数值混作本轮英雄资料版本。"
+    }
+  ],
+  "evidenceBoundary": "沿用上一阶段通用等级曲线，并对照社区机制说明、已有冻结原文及数学端点；本次未取得可读官方旧补丁全文或游戏引擎源码，所以等级图仍为录入候选，未声称实际对局验收。",
+  "boundaries": [
+    "只表示角色基础数值与自然成长，不包含被动、技能、装备、符文、叠层和形态变化。",
+    "普通法力以官方明确资源类型和字段生成；其余特殊资源暂不生成资源等级图。",
+    "缺少成长字段时保留缺失，不用官方可疑零值兜底。",
+    "上路 19–20 级未生成；记录为本轮数据范围缺口。"
+  ]
+}

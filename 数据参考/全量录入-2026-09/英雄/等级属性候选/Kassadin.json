@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kassadin",
+  "sourceNumericId": "38",
+  "name": "卡萨丁",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 646,
+      "growth": 113,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.hp/hpperlevel",
+        "角色根记录/Kassadin.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 646,
+        "2": 727.36,
+        "3": 812.675,
+        "4": 901.945,
+        "5": 995.17,
+        "6": 1092.35,
+        "7": 1193.485,
+        "8": 1298.575,
+        "9": 1407.62,
+        "10": 1520.62,
+        "11": 1637.575,
+        "12": 1758.485,
+        "13": 1883.35,
+        "14": 2012.17,
+        "15": 2144.945,
+        "16": 2281.675,
+        "17": 2422.36,
+        "18": 2567
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Kassadin.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.36,
+        "3": 6.7375,
+        "4": 7.1325,
+        "5": 7.545,
+        "6": 7.975,
+        "7": 8.4225,
+        "8": 8.8875,
+        "9": 9.37,
+        "10": 9.87,
+        "11": 10.3875,
+        "12": 10.9225,
+        "13": 11.475,
+        "14": 12.045,
+        "15": 12.6325,
+        "16": 13.2375,
+        "17": 13.86,
+        "18": 14.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 21,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.armor/armorperlevel",
+        "角色根记录/Kassadin.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 21,
+        "2": 23.88,
+        "3": 26.9,
+        "4": 30.06,
+        "5": 33.36,
+        "6": 36.8,
+        "7": 40.38,
+        "8": 44.1,
+        "9": 47.96,
+        "10": 51.96,
+        "11": 56.1,
+        "12": 60.38,
+        "13": 64.8,
+        "14": 69.36,
+        "15": 74.06,
+        "16": 78.9,
+        "17": 83.88,
+        "18": 89
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kassadin.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 59,
+      "growth": 3.9,
+      "sources": [
+        "角色根记录/Kassadin.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 59,
+        "2": 61.808,
+        "3": 64.7525,
+        "4": 67.8335,
+        "5": 71.051,
+        "6": 74.405,
+        "7": 77.8955,
+        "8": 81.5225,
+        "9": 85.286,
+        "10": 89.186,
+        "11": 93.2225,
+        "12": 97.3955,
+        "13": 101.705,
+        "14": 106.151,
+        "15": 110.7335,
+        "16": 115.4525,
+        "17": 120.308,
+        "18": 125.3
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kassadin.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 150,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kassadin.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 150,
+        "2": 150,
+        "3": 150,
+        "4": 150,
+        "5": 150,
+        "6": 150,
+        "7": 150,
+        "8": 150,
+        "9": 150,
+        "10": 150,
+        "11": 150,
+        "12": 150,
+        "13": 150,
+        "14": 150,
+        "15": 150,
+        "16": 150,
+        "17": 150,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.64,
+      "attackSpeedRatio": 0.64,
+      "growthPercent": 3.7,
+      "sources": [
+        "角色根记录/Kassadin.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.64,
+        "2": 0.65705,
+        "3": 0.674928,
+        "4": 0.693635,
+        "5": 0.713171,
+        "6": 0.733536,
+        "7": 0.75473,
+        "8": 0.776752,
+        "9": 0.799603,
+        "10": 0.823283,
+        "11": 0.847792,
+        "12": 0.87313,
+        "13": 0.899296,
+        "14": 0.926291,
+        "15": 0.954115,
+        "16": 0.982768,
+        "17": 1.01225,
+        "18": 1.04256
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 400,
+      "growth": 87,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.mp/mpperlevel",
+        "角色根记录/Kassadin.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 400,
+        "2": 462.64,
+        "3": 528.325,
+        "4": 597.055,
+        "5": 668.83,
+        "6": 743.65,
+        "7": 821.515,
+        "8": 902.425,
+        "9": 986.38,
+        "10": 1073.38,
+        "11": 1163.425,
+        "12": 1256.515,
+        "13": 1352.65,
+        "14": 1451.83,
+        "15": 1554.055,
+        "16": 1659.325,
+        "17": 1767.64,
+        "18": 1879
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Kassadin.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Kassadin.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.576,
+        "3": 7.18,
+        "4": 7.812,
+        "5": 8.472,
+        "6": 9.16,
+        "7": 9.876,
+        "8": 10.62,
+        "9": 11.392,
+        "10": 12.192,
+        "11": 13.02,
+        "12": 13.876,
+        "13": 14.76,
+        "14": 15.672,
+        "15": 16.612,
+        "16": 17.58,
+        "17": 18.576,
+        "18": 19.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.64,
+    "ratio": 0.64,
+    "growthPercent": 3.7,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Garen",
+  "sourceNumericId": "86",
+  "name": "盖伦",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 690,
+      "growth": 98,
+      "sources": [
+        "原始资料/zh_CN/champion/Garen.json:stats.hp/hpperlevel",
+        "角色根记录/Garen.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 690,
+        "2": 760.56,
+        "3": 834.55,
+        "4": 911.97,
+        "5": 992.82,
+        "6": 1077.1,
+        "7": 1164.81,
+        "8": 1255.95,
+        "9": 1350.52,
+        "10": 1448.52,
+        "11": 1549.95,
+        "12": 1654.81,
+        "13": 1763.1,
+        "14": 1874.82,
+        "15": 1989.97,
+        "16": 2108.55,
+        "17": 2230.56,
+        "18": 2356
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Garen.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Garen.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.36,
+        "3": 8.7375,
+        "4": 9.1325,
+        "5": 9.545,
+        "6": 9.975,
+        "7": 10.4225,
+        "8": 10.8875,
+        "9": 11.37,
+        "10": 11.87,
+        "11": 12.3875,
+        "12": 12.9225,
+        "13": 13.475,
+        "14": 14.045,
+        "15": 14.6325,
+        "16": 15.2375,
+        "17": 15.86,
+        "18": 16.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 38,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Garen.json:stats.armor/armorperlevel",
+        "角色根记录/Garen.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 38,
+        "2": 41.024,
+        "3": 44.195,
+        "4": 47.513,
+        "5": 50.978,
+        "6": 54.59,
+        "7": 58.349,
+        "8": 62.255,
+        "9": 66.308,
+        "10": 70.508,
+        "11": 74.855,
+        "12": 79.349,
+        "13": 83.99,
+        "14": 88.778,
+        "15": 93.713,
+        "16": 98.795,
+        "17": 104.024,
+        "18": 109.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 1.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Garen.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Garen.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.116,
+        "3": 34.28625,
+        "4": 35.51075,
+        "5": 36.7895,
+        "6": 38.1225,
+        "7": 39.50975,
+        "8": 40.95125,
+        "9": 42.447,
+        "10": 43.997,
+        "11": 45.60125,
+        "12": 47.25975,
+        "13": 48.9725,
+        "14": 50.7395,
+        "15": 52.56075,
+        "16": 54.43625,
+        "17": 56.366,
+        "18": 58.35
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 69,
+      "growth": 4.5,
+      "sources": [
+        "角色根记录/Garen.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 69,
+        "2": 72.24,
+        "3": 75.6375,
+        "4": 79.1925,
+        "5": 82.905,
+        "6": 86.775,
+        "7": 90.8025,
+        "8": 94.9875,
+        "9": 99.33,
+        "10": 103.83,
+        "11": 108.4875,
+        "12": 113.3025,
+        "13": 118.275,
+        "14": 123.405,
+        "15": 128.6925,
+        "16": 134.1375,
+        "17": 139.74,
+        "18": 145.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Garen.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Garen.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.65,
+      "sources": [
+        "角色根记录/Garen.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.641425,
+        "3": 0.658648,
+        "4": 0.67667,
+        "5": 0.695491,
+        "6": 0.715109,
+        "7": 0.735527,
+        "8": 0.756742,
+        "9": 0.778756,
+        "10": 0.801569,
+        "11": 0.82518,
+        "12": 0.849589,
+        "13": 0.874797,
+        "14": 0.900803,
+        "15": 0.927608,
+        "16": 0.955211,
+        "17": 0.983613,
+        "18": 1.012812
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "无",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3.65,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

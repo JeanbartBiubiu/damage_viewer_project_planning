@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Samira",
+  "sourceNumericId": "360",
+  "name": "莎弥拉",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.hp/hpperlevel",
+        "角色根记录/Samira.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 707.76,
+        "3": 789.3,
+        "4": 874.62,
+        "5": 963.72,
+        "6": 1056.6,
+        "7": 1153.26,
+        "8": 1253.7,
+        "9": 1357.92,
+        "10": 1465.92,
+        "11": 1577.7,
+        "12": 1693.26,
+        "13": 1812.6,
+        "14": 1935.72,
+        "15": 2062.62,
+        "16": 2193.3,
+        "17": 2327.76,
+        "18": 2466
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.25,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Samira.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.25,
+        "2": 3.646,
+        "3": 4.06125,
+        "4": 4.49575,
+        "5": 4.9495,
+        "6": 5.4225,
+        "7": 5.91475,
+        "8": 6.42625,
+        "9": 6.957,
+        "10": 7.507,
+        "11": 8.07625,
+        "12": 8.66475,
+        "13": 9.2725,
+        "14": 9.8995,
+        "15": 10.54575,
+        "16": 11.21125,
+        "17": 11.896,
+        "18": 12.6
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 26,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.armor/armorperlevel",
+        "角色根记录/Samira.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 26,
+        "2": 29.384,
+        "3": 32.9325,
+        "4": 36.6455,
+        "5": 40.523,
+        "6": 44.565,
+        "7": 48.7715,
+        "8": 53.1425,
+        "9": 57.678,
+        "10": 62.378,
+        "11": 67.2425,
+        "12": 72.2715,
+        "13": 77.465,
+        "14": 82.823,
+        "15": 88.3455,
+        "16": 94.0325,
+        "17": 99.884,
+        "18": 105.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Samira.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 57,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Samira.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 57,
+        "2": 59.16,
+        "3": 61.425,
+        "4": 63.795,
+        "5": 66.27,
+        "6": 68.85,
+        "7": 71.535,
+        "8": 74.325,
+        "9": 77.22,
+        "10": 80.22,
+        "11": 83.325,
+        "12": 86.535,
+        "13": 89.85,
+        "14": 93.27,
+        "15": 96.795,
+        "16": 100.425,
+        "17": 104.16,
+        "18": 108
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Samira.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Samira.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 3.3,
+      "sources": [
+        "角色根记录/Samira.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.673634,
+        "3": 0.690028,
+        "4": 0.707182,
+        "5": 0.725096,
+        "6": 0.74377,
+        "7": 0.763204,
+        "8": 0.783398,
+        "9": 0.804352,
+        "10": 0.826066,
+        "11": 0.84854,
+        "12": 0.871774,
+        "13": 0.895768,
+        "14": 0.920522,
+        "15": 0.946036,
+        "16": 0.97231,
+        "17": 0.999344,
+        "18": 1.027138
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 349,
+      "growth": 38,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.mp/mpperlevel",
+        "角色根记录/Samira.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 349,
+        "2": 376.36,
+        "3": 405.05,
+        "4": 435.07,
+        "5": 466.42,
+        "6": 499.1,
+        "7": 533.11,
+        "8": 568.45,
+        "9": 605.12,
+        "10": 643.12,
+        "11": 682.45,
+        "12": 723.11,
+        "13": 765.1,
+        "14": 808.42,
+        "15": 853.07,
+        "16": 899.05,
+        "17": 946.36,
+        "18": 995
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.2,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Samira.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Samira.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.2,
+        "2": 8.704,
+        "3": 9.2325,
+        "4": 9.7855,
+        "5": 10.363,
+        "6": 10.965,
+        "7": 11.5915,
+        "8": 12.2425,
+        "9": 12.918,
+        "10": 13.618,
+        "11": 14.3425,
+        "12": 15.0915,
+        "13": 15.865,
+        "14": 16.663,
+        "15": 17.4855,
+        "16": 18.3325,
+        "17": 19.204,
+        "18": 20.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 3.3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

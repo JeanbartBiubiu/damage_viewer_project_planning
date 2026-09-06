@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Volibear",
+  "sourceNumericId": "106",
+  "name": "沃利贝尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.hp/hpperlevel",
+        "角色根记录/Volibear.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 724.88,
+        "3": 803.4,
+        "4": 885.56,
+        "5": 971.36,
+        "6": 1060.8,
+        "7": 1153.88,
+        "8": 1250.6,
+        "9": 1350.96,
+        "10": 1454.96,
+        "11": 1562.6,
+        "12": 1673.88,
+        "13": 1788.8,
+        "14": 1907.36,
+        "15": 2029.56,
+        "16": 2155.4,
+        "17": 2284.88,
+        "18": 2418
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Volibear.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9,
+        "2": 9.54,
+        "3": 10.10625,
+        "4": 10.69875,
+        "5": 11.3175,
+        "6": 11.9625,
+        "7": 12.63375,
+        "8": 13.33125,
+        "9": 14.055,
+        "10": 14.805,
+        "11": 15.58125,
+        "12": 16.38375,
+        "13": 17.2125,
+        "14": 18.0675,
+        "15": 18.94875,
+        "16": 19.85625,
+        "17": 20.79,
+        "18": 21.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.armor/armorperlevel",
+        "角色根记录/Volibear.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.744,
+        "3": 42.67,
+        "4": 46.778,
+        "5": 51.068,
+        "6": 55.54,
+        "7": 60.194,
+        "8": 65.03,
+        "9": 70.048,
+        "10": 75.248,
+        "11": 80.63,
+        "12": 86.194,
+        "13": 91.94,
+        "14": 97.868,
+        "15": 103.978,
+        "16": 110.27,
+        "17": 116.744,
+        "18": 123.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Volibear.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 3.5,
+      "sources": [
+        "角色根记录/Volibear.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 67.52,
+        "3": 70.1625,
+        "4": 72.9275,
+        "5": 75.815,
+        "6": 78.825,
+        "7": 81.9575,
+        "8": 85.2125,
+        "9": 88.59,
+        "10": 92.09,
+        "11": 95.7125,
+        "12": 99.4575,
+        "13": 103.325,
+        "14": 107.315,
+        "15": 111.4275,
+        "16": 115.6625,
+        "17": 120.02,
+        "18": 124.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Volibear.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 150,
+      "growth": null,
+      "sources": [
+        "角色根记录/Volibear.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 150,
+        "2": 150,
+        "3": 150,
+        "4": 150,
+        "5": 150,
+        "6": 150,
+        "7": 150,
+        "8": 150,
+        "9": 150,
+        "10": 150,
+        "11": 150,
+        "12": 150,
+        "13": 150,
+        "14": 150,
+        "15": 150,
+        "16": 150,
+        "17": 150,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.7,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Volibear.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63508,
+        "3": 0.64565,
+        "4": 0.65671,
+        "5": 0.66826,
+        "6": 0.6803,
+        "7": 0.69283,
+        "8": 0.70585,
+        "9": 0.71936,
+        "10": 0.73336,
+        "11": 0.74785,
+        "12": 0.76283,
+        "13": 0.7783,
+        "14": 0.79426,
+        "15": 0.81071,
+        "16": 0.82765,
+        "17": 0.84508,
+        "18": 0.863
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 70,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.mp/mpperlevel",
+        "角色根记录/Volibear.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 400.4,
+        "3": 453.25,
+        "4": 508.55,
+        "5": 566.3,
+        "6": 626.5,
+        "7": 689.15,
+        "8": 754.25,
+        "9": 821.8,
+        "10": 891.8,
+        "11": 964.25,
+        "12": 1039.15,
+        "13": 1116.5,
+        "14": 1196.3,
+        "15": 1278.55,
+        "16": 1363.25,
+        "17": 1450.4,
+        "18": 1540
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6.25,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Volibear.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Volibear.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.25,
+        "2": 6.61,
+        "3": 6.9875,
+        "4": 7.3825,
+        "5": 7.795,
+        "6": 8.225,
+        "7": 8.6725,
+        "8": 9.1375,
+        "9": 9.62,
+        "10": 10.12,
+        "11": 10.6375,
+        "12": 11.1725,
+        "13": 11.725,
+        "14": 12.295,
+        "15": 12.8825,
+        "16": 13.4875,
+        "17": 14.11,
+        "18": 14.75
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.7,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

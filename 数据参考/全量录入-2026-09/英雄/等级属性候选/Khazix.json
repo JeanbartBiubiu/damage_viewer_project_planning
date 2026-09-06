@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Khazix",
+  "sourceNumericId": "121",
+  "name": "卡兹克",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 643,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.hp/hpperlevel",
+        "角色根记录/Khazix.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 643,
+        "2": 714.28,
+        "3": 789.025,
+        "4": 867.235,
+        "5": 948.91,
+        "6": 1034.05,
+        "7": 1122.655,
+        "8": 1214.725,
+        "9": 1310.26,
+        "10": 1409.26,
+        "11": 1511.725,
+        "12": 1617.655,
+        "13": 1727.05,
+        "14": 1839.91,
+        "15": 1956.235,
+        "16": 2076.025,
+        "17": 2199.28,
+        "18": 2326
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Khazix.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.04,
+        "3": 8.60625,
+        "4": 9.19875,
+        "5": 9.8175,
+        "6": 10.4625,
+        "7": 11.13375,
+        "8": 11.83125,
+        "9": 12.555,
+        "10": 13.305,
+        "11": 14.08125,
+        "12": 14.88375,
+        "13": 15.7125,
+        "14": 16.5675,
+        "15": 17.44875,
+        "16": 18.35625,
+        "17": 19.29,
+        "18": 20.25
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.armor/armorperlevel",
+        "角色根记录/Khazix.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.024,
+        "3": 38.195,
+        "4": 41.513,
+        "5": 44.978,
+        "6": 48.59,
+        "7": 52.349,
+        "8": 56.255,
+        "9": 60.308,
+        "10": 64.508,
+        "11": 68.855,
+        "12": 73.349,
+        "13": 77.99,
+        "14": 82.778,
+        "15": 87.713,
+        "16": 92.795,
+        "17": 98.024,
+        "18": 103.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Khazix.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 3.1,
+      "sources": [
+        "角色根记录/Khazix.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 62.232,
+        "3": 64.5725,
+        "4": 67.0215,
+        "5": 69.579,
+        "6": 72.245,
+        "7": 75.0195,
+        "8": 77.9025,
+        "9": 80.894,
+        "10": 83.994,
+        "11": 87.2025,
+        "12": 90.5195,
+        "13": 93.945,
+        "14": 97.479,
+        "15": 101.1215,
+        "16": 104.8725,
+        "17": 108.732,
+        "18": 112.7
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Khazix.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Khazix.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.668,
+      "attackSpeedRatio": 0.668,
+      "growthPercent": 2.7,
+      "sources": [
+        "角色根记录/Khazix.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.668,
+        "2": 0.680986,
+        "3": 0.694603,
+        "4": 0.708852,
+        "5": 0.723731,
+        "6": 0.739242,
+        "7": 0.755384,
+        "8": 0.772158,
+        "9": 0.789563,
+        "10": 0.807599,
+        "11": 0.826266,
+        "12": 0.845564,
+        "13": 0.865494,
+        "14": 0.886055,
+        "15": 0.907248,
+        "16": 0.929071,
+        "17": 0.951526,
+        "18": 0.974612
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 327,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.mp/mpperlevel",
+        "角色根记录/Khazix.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 327,
+        "2": 355.8,
+        "3": 386,
+        "4": 417.6,
+        "5": 450.6,
+        "6": 485,
+        "7": 520.8,
+        "8": 558,
+        "9": 596.6,
+        "10": 636.6,
+        "11": 678,
+        "12": 720.8,
+        "13": 765,
+        "14": 810.6,
+        "15": 857.6,
+        "16": 906,
+        "17": 955.8,
+        "18": 1007
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.59,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Khazix.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Khazix.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.59,
+        "2": 7.95,
+        "3": 8.3275,
+        "4": 8.7225,
+        "5": 9.135,
+        "6": 9.565,
+        "7": 10.0125,
+        "8": 10.4775,
+        "9": 10.96,
+        "10": 11.46,
+        "11": 11.9775,
+        "12": 12.5125,
+        "13": 13.065,
+        "14": 13.635,
+        "15": 14.2225,
+        "16": 14.8275,
+        "17": 15.45,
+        "18": 16.09
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.668,
+    "ratio": 0.668,
+    "growthPercent": 2.7,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Jhin",
+  "sourceNumericId": "202",
+  "name": "烬",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 655,
+      "growth": 107,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.hp/hpperlevel",
+        "角色根记录/Jhin.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 655,
+        "2": 732.04,
+        "3": 812.825,
+        "4": 897.355,
+        "5": 985.63,
+        "6": 1077.65,
+        "7": 1173.415,
+        "8": 1272.925,
+        "9": 1376.18,
+        "10": 1483.18,
+        "11": 1593.925,
+        "12": 1708.415,
+        "13": 1826.65,
+        "14": 1948.63,
+        "15": 2074.355,
+        "16": 2203.825,
+        "17": 2337.04,
+        "18": 2474
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.75,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Jhin.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.75,
+        "2": 4.146,
+        "3": 4.56125,
+        "4": 4.99575,
+        "5": 5.4495,
+        "6": 5.9225,
+        "7": 6.41475,
+        "8": 6.92625,
+        "9": 7.457,
+        "10": 8.007,
+        "11": 8.57625,
+        "12": 9.16475,
+        "13": 9.7725,
+        "14": 10.3995,
+        "15": 11.04575,
+        "16": 11.71125,
+        "17": 12.396,
+        "18": 13.1
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.armor/armorperlevel",
+        "角色根记录/Jhin.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 27.384,
+        "3": 30.9325,
+        "4": 34.6455,
+        "5": 38.523,
+        "6": 42.565,
+        "7": 46.7715,
+        "8": 51.1425,
+        "9": 55.678,
+        "10": 60.378,
+        "11": 65.2425,
+        "12": 70.2715,
+        "13": 75.465,
+        "14": 80.823,
+        "15": 86.3455,
+        "16": 92.0325,
+        "17": 97.884,
+        "18": 103.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Jhin.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 4.4,
+      "sources": [
+        "角色根记录/Jhin.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 64.168,
+        "3": 67.49,
+        "4": 70.966,
+        "5": 74.596,
+        "6": 78.38,
+        "7": 82.318,
+        "8": 86.41,
+        "9": 90.656,
+        "10": 95.056,
+        "11": 99.61,
+        "12": 104.318,
+        "13": 109.18,
+        "14": 114.196,
+        "15": 119.366,
+        "16": 124.69,
+        "17": 130.168,
+        "18": 135.8
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Jhin.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Jhin.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.mp/mpperlevel",
+        "角色根记录/Jhin.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 336,
+        "3": 373.75,
+        "4": 413.25,
+        "5": 454.5,
+        "6": 497.5,
+        "7": 542.25,
+        "8": 588.75,
+        "9": 637,
+        "10": 687,
+        "11": 738.75,
+        "12": 792.25,
+        "13": 847.5,
+        "14": 904.5,
+        "15": 963.25,
+        "16": 1023.75,
+        "17": 1086,
+        "18": 1150
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Jhin.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Jhin.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.576,
+        "3": 7.18,
+        "4": 7.812,
+        "5": 8.472,
+        "6": 9.16,
+        "7": 9.876,
+        "8": 10.62,
+        "9": 11.392,
+        "10": 12.192,
+        "11": 13.02,
+        "12": 13.876,
+        "13": 14.76,
+        "14": 15.672,
+        "15": 16.612,
+        "16": 17.58,
+        "17": 18.576,
+        "18": 19.6
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "attackspeed",
+      "label": "攻击速度",
+      "reason": "攻速基值、收益系数或普通成长字段缺失，可能涉及特殊攻速机制，暂不生成"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0,
+    "growthPercent": null,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,3769 @@
+{
+  "sourceVersion": "16.17.1",
+  "note": "首批候选仅按常见录入形态选择，未承诺五名英雄的机制简单或数值完整。原始属性、技能数值和说明可用于准备页面；未解占位和被动数值仍需补证，不能以零替代。",
+  "champions": [
+    {
+      "sourceChampionId": "Garen",
+      "sourceNumericId": "86",
+      "name": "德玛西亚之力",
+      "title": "盖伦",
+      "englishName": "Garen",
+      "tags": [
+        "Fighter",
+        "Tank"
+      ],
+      "resourceType": "无",
+      "rawBaseStats": {
+        "hp": 690,
+        "hpperlevel": 98,
+        "mp": 0,
+        "mpperlevel": 0,
+        "movespeed": 340,
+        "armor": 38,
+        "armorperlevel": 4.2,
+        "spellblock": 32,
+        "spellblockperlevel": 1.55,
+        "attackrange": 175,
+        "hpregen": 8,
+        "hpregenperlevel": 0.5,
+        "mpregen": 0,
+        "mpregenperlevel": 0,
+        "crit": 0,
+        "critperlevel": 0,
+        "attackdamage": 69,
+        "attackdamageperlevel": 0,
+        "attackspeedperlevel": 3.65,
+        "attackspeed": 0.625
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/Garen.png",
+      "primarySources": [
+        {
+          "path": "原始资料/zh_CN/champion/Garen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Garen.json",
+          "fetchedAt": "2026-09-06T14:12:47.375Z",
+          "byteSize": 13028,
+          "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+        },
+        {
+          "path": "原始资料/en_US/champion/Garen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Garen.json",
+          "fetchedAt": "2026-09-06T14:13:00.865Z",
+          "byteSize": 12736,
+          "sha256": "084ab22eb9106290451fe02a2abd547591a9cb82f9e9956314965d8ddff2314a"
+        }
+      ],
+      "entryStatus": "待录入",
+      "exclusionReason": null,
+      "systemCharacterKey": null,
+      "skills": [
+        {
+          "slot": "P",
+          "name": "坚韧",
+          "englishName": "Perseverance",
+          "description": "如果盖伦近期没有受到伤害或者被敌方技能命中，那么他会每秒回复若干百分比的总生命值。",
+          "tooltip": null,
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/passive/Garen_Passive.png",
+          "rawFields": null,
+          "placeholders": [],
+          "unresolvedPlaceholders": [],
+          "supplementSources": [],
+          "sourceCoverage": "仅被动说明和图片；无完整结构化数值与触发规则",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": []
+        },
+        {
+          "slot": "Q",
+          "name": "致命打击",
+          "englishName": "Decisive Strike",
+          "description": "盖伦的移动速度获得爆发性提升，同时移除身上的所有减速效果。他的下次攻击将打击敌人的要害部位，造成额外伤害并将目标沉默。",
+          "tooltip": "盖伦移除身上的所有<status>减速</status>效果并获得<speed>{{ movementspeedamount*100 }}%移动速度</speed>，持续{{ movementspeedduration }}秒。<br /><br />他的下次攻击会使目标<status>沉默</status>{{ silenceduration }}秒并造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/GarenQ.png",
+          "rawFields": {
+            "id": "GarenQ",
+            "maxrank": 5,
+            "cooldown": [
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "cooldownBurn": "8",
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "costBurn": "0",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "rangeBurn": "300",
+            "resource": "无消耗",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "移动速度时长"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ movementspeedduration }} -> {{ movementspeeddurationNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "movementspeedamount*100",
+            "movementspeedduration",
+            "silenceduration",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "movementspeedamount*100",
+            "movementspeedduration",
+            "silenceduration",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "movementspeedamount*100",
+            "movementspeedduration",
+            "silenceduration",
+            "totaldamage"
+          ]
+        },
+        {
+          "slot": "W",
+          "name": "勇气",
+          "englishName": "Courage",
+          "description": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。",
+          "tooltip": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>{{ resistsfortooltip }}额外护甲</scaleArmor>和<scaleMR>{{ resistsfortooltip }}额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>{{ resistgainonkilltooltip }}双抗</attention>，至多至最大值<attention>{{ resistmax }}</attention>。<br /><br /><spellActive>主动：</spellActive>盖伦加固他的勇气{{ drduration }}秒，使即将到来的伤害降低{{ drpercent*100 }}%。他还会获得持续{{ upfrontduration }}秒的<shield>{{ totalshield }}护盾值</shield>和<slow>{{ upfronttenacity*100 }}%韧性</slow>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/GarenW.png",
+          "rawFields": {
+            "id": "GarenW",
+            "maxrank": 5,
+            "cooldown": [
+              22,
+              19.5,
+              17,
+              14.5,
+              12
+            ],
+            "cooldownBurn": "22/19.5/17/14.5/12",
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "costBurn": "0",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "rangeBurn": "0",
+            "resource": "无消耗",
+            "leveltip": {
+              "label": [
+                "护盾值",
+                "伤害减免",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ baseshield }} -> {{ baseshieldNL }}",
+                "{{ drpercent*100.000000 }}% -> {{ drpercentnl*100.000000 }}%",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "drduration",
+            "drpercent*100",
+            "resistgainonkilltooltip",
+            "resistmax",
+            "resistsfortooltip",
+            "spellmodifierdescriptionappend",
+            "totalshield",
+            "upfrontduration",
+            "upfronttenacity*100"
+          ],
+          "unresolvedPlaceholders": [
+            "drduration",
+            "drpercent*100",
+            "resistgainonkilltooltip",
+            "resistmax",
+            "resistsfortooltip",
+            "spellmodifierdescriptionappend",
+            "totalshield",
+            "upfrontduration",
+            "upfronttenacity*100"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "drduration",
+            "drpercent*100",
+            "resistgainonkilltooltip",
+            "resistmax",
+            "resistsfortooltip",
+            "totalshield",
+            "upfrontduration",
+            "upfronttenacity*100"
+          ]
+        },
+        {
+          "slot": "E",
+          "name": "审判",
+          "englishName": "Judgment",
+          "description": "盖伦快速地旋转身体挥舞大剑，并对邻近敌人造成物理伤害。",
+          "tooltip": "盖伦快速地旋舞大剑，持续{{ duration }}秒，每旋转一圈造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>，共旋转{{ f1 }}圈。相距最近的敌人受到<physicalDamage>{{ nearestenemybonus*100 }}%提升伤害</physicalDamage>。被{{ stackstoshred }}圈旋转命中的敌方英雄会损失<scaleArmor>{{ shredamount*100 }}%护甲</scaleArmor>，持续{{ shredduration }}秒。<br /><br /><recast>再次施放</recast>：盖伦提前结束这个技能。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/GarenE.png",
+          "rawFields": {
+            "id": "GarenE",
+            "maxrank": 5,
+            "cooldown": [
+              9,
+              8.25,
+              7.5,
+              6.75,
+              6
+            ],
+            "cooldownBurn": "9/8.25/7.5/6.75/6",
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "costBurn": "0",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              325,
+              325,
+              325,
+              325,
+              325
+            ],
+            "rangeBurn": "325",
+            "resource": "无消耗",
+            "leveltip": {
+              "label": [
+                "每圈旋转的基础伤害",
+                "每一圈的攻击力收益",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ basedamagepertick }} -> {{ basedamagepertickNL }}",
+                "{{ adratiopertick*100.000000 }}% -> {{ adratioperticknl*100.000000 }}%",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "duration",
+            "f1",
+            "nearestenemybonus*100",
+            "shredamount*100",
+            "shredduration",
+            "spellmodifierdescriptionappend",
+            "stackstoshred",
+            "totaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "duration",
+            "f1",
+            "nearestenemybonus*100",
+            "shredamount*100",
+            "shredduration",
+            "spellmodifierdescriptionappend",
+            "stackstoshred",
+            "totaldamage"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "duration",
+            "f1",
+            "nearestenemybonus*100",
+            "shredamount*100",
+            "shredduration",
+            "stackstoshred",
+            "totaldamage"
+          ]
+        },
+        {
+          "slot": "R",
+          "name": "德玛西亚正义",
+          "englishName": "Demacian Justice",
+          "description": "盖伦召唤德玛西亚之力，试图处决一名敌方英雄。",
+          "tooltip": "盖伦召唤德玛西亚之力来击杀他的敌人，造成<trueDamage>{{ basedamage }}外加{{ executedamage*100 }}%已损失生命值的真实伤害</trueDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/GarenR.png",
+          "rawFields": {
+            "id": "GarenR",
+            "maxrank": 3,
+            "cooldown": [
+              120,
+              100,
+              80
+            ],
+            "cooldownBurn": "120/100/80",
+            "cost": [
+              0,
+              0,
+              0
+            ],
+            "costBurn": "0",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              400,
+              400,
+              400
+            ],
+            "rangeBurn": "400",
+            "resource": "无消耗",
+            "leveltip": {
+              "label": [
+                "冷却时间",
+                "伤害",
+                "百分比已损失生命值伤害"
+              ],
+              "effect": [
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ executedamage*100.000000 }}% -> {{ executedamagenl*100.000000 }}%"
+              ]
+            }
+          },
+          "placeholders": [
+            "basedamage",
+            "executedamage*100",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "basedamage",
+            "executedamage*100",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "basedamage",
+            "executedamage*100"
+          ]
+        }
+      ],
+      "chineseChampionName": "盖伦",
+      "chineseChampionTitle": "德玛西亚之力",
+      "attributeReview": {
+        "status": "待核对",
+        "attackdamageperlevel": {
+          "status": "已补充来源，待页面核对",
+          "rawValue": 0,
+          "supportedValue": 4.5,
+          "evidencePath": "全英雄成长核对.json",
+          "recordPath": "角色根记录/Garen.json",
+          "recordKey": "Characters/Garen/CharacterRecords/Root",
+          "fieldPath": "damagePerLevelModifiable.baseValue",
+          "reason": "同补丁客户端角色根记录已与英雄ID、官方基础攻击力对齐，沿用三名英雄交叉核对的成长字段含义。"
+        }
+      }
+    },
+    {
+      "sourceChampionId": "Ashe",
+      "sourceNumericId": "22",
+      "name": "寒冰射手",
+      "title": "艾希",
+      "englishName": "Ashe",
+      "tags": [
+        "Marksman",
+        "Support"
+      ],
+      "resourceType": "法力",
+      "rawBaseStats": {
+        "hp": 610,
+        "hpperlevel": 101,
+        "mp": 280,
+        "mpperlevel": 35,
+        "movespeed": 325,
+        "armor": 26,
+        "armorperlevel": 4.6,
+        "spellblock": 33,
+        "spellblockperlevel": 1.1,
+        "attackrange": 600,
+        "hpregen": 3.5,
+        "hpregenperlevel": 0.55,
+        "mpregen": 7,
+        "mpregenperlevel": 0.65,
+        "crit": 0,
+        "critperlevel": 0,
+        "attackdamage": 59,
+        "attackdamageperlevel": 0,
+        "attackspeedperlevel": 3,
+        "attackspeed": 0.658
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/Ashe.png",
+      "primarySources": [
+        {
+          "path": "原始资料/zh_CN/champion/Ashe.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ashe.json",
+          "fetchedAt": "2026-09-06T14:12:44.526Z",
+          "byteSize": 16326,
+          "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb"
+        },
+        {
+          "path": "原始资料/en_US/champion/Ashe.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ashe.json",
+          "fetchedAt": "2026-09-06T14:12:58.297Z",
+          "byteSize": 15496,
+          "sha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95"
+        }
+      ],
+      "entryStatus": "待录入",
+      "exclusionReason": null,
+      "systemCharacterKey": null,
+      "skills": [
+        {
+          "slot": "P",
+          "name": "冰霜射击",
+          "englishName": "Frost Shot",
+          "description": "艾希的攻击会让目标减速，并使艾希对这些目标造成更高伤害。<br><br>艾希的暴击不会造成额外伤害，但会对目标施加一个强化版减速效果。",
+          "tooltip": null,
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/passive/Ashe_P.png",
+          "rawFields": null,
+          "placeholders": [],
+          "unresolvedPlaceholders": [],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_ashe|P|冰霜射击",
+              "ownerId": "hero_ashe",
+              "wikiChampionTitle": "Ashe",
+              "skillKey": "P",
+              "requestTitle": "Template:Data Ashe/I",
+              "zhDisplayName": "冰霜射击",
+              "pageId": 1306803,
+              "id": "ashe-p",
+              "resolvedTitle": "Template:Data Ashe/Frost Shot",
+              "revisionId": 4038216,
+              "revisionTimestamp": "2026-06-30T07:27:41Z",
+              "contentSha256": "def2547f895e1533754e9265fd36f995a30258f11ca947cd737a70ea17df51da",
+              "rawByteSize": 1880,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Frost%20Shot",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "仅被动说明和图片；无完整结构化数值与触发规则",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": []
+        },
+        {
+          "slot": "Q",
+          "name": "射手的专注",
+          "englishName": "Ranger's Focus",
+          "description": "艾希会在攻击时聚集【全神贯注】效果。在【全神贯注】到达最大值时，艾希就能施放【射手的专注】来消耗掉所有【全神贯注】效果，以临时提升她的攻击速度，并在持续期间将她的普攻转变为一阵强力的飓风箭阵。",
+          "tooltip": "<spellPassive>被动：</spellPassive>艾希的攻击提供一层持续{{ stackduration }}秒的效果。在{{ maxstacks }}层时，她就可以激活这个技能。<br /><br /><spellPassive>主动：</spellPassive>艾希获得<attackSpeed>{{ bonusas }}%攻击速度</attackSpeed>并且她的攻击转而造成<physicalDamage>{{ empowereddamage }}伤害</physicalDamage>，持续{{ buffduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/AsheQ.png",
+          "rawFields": {
+            "id": "AsheQ",
+            "maxrank": 5,
+            "cooldown": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cooldownBurn": "0",
+            "cost": [
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "costBurn": "30",
+            "effect": [
+              null,
+              [
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              [
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              [
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              [
+                20,
+                30,
+                40,
+                50,
+                60
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "4",
+              "4",
+              "6",
+              "20/30/40/50/60",
+              "0",
+              "0",
+              "1",
+              "1",
+              "1",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "rangeBurn": "400",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "攻击速度",
+                "飓风箭阵的攻击力收益系数"
+              ],
+              "effect": [
+                "{{ bonusas }}% -> {{ bonusasNL }}%",
+                "{{ damageperstrike*100.000000 }}% -> {{ damageperstrikenl*100.000000 }}%"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "bonusas",
+            "buffduration",
+            "cost",
+            "empowereddamage",
+            "maxstacks",
+            "spellmodifierdescriptionappend",
+            "stackduration"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "bonusas",
+            "buffduration",
+            "empowereddamage",
+            "maxstacks",
+            "spellmodifierdescriptionappend",
+            "stackduration"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_ashe|Q|射手的专注",
+              "ownerId": "hero_ashe",
+              "wikiChampionTitle": "Ashe",
+              "skillKey": "Q",
+              "requestTitle": "Template:Data Ashe/Q",
+              "zhDisplayName": "射手的专注",
+              "pageId": 1306805,
+              "id": "ashe-q",
+              "resolvedTitle": "Template:Data Ashe/Ranger's Focus",
+              "revisionId": 4016907,
+              "revisionTimestamp": "2026-05-13T12:53:47Z",
+              "contentSha256": "3a6bf74888a0cc48333f5d9058feb129d5326eb3b898f76aa7740d61fdf5948b",
+              "rawByteSize": 4499,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Ranger's%20Focus",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "bonusas",
+            "buffduration",
+            "empowereddamage",
+            "maxstacks",
+            "stackduration"
+          ]
+        },
+        {
+          "slot": "W",
+          "name": "万箭齐发",
+          "englishName": "Volley",
+          "description": "艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。",
+          "tooltip": "艾希射出一排共{{ numberofarrowstooltip }}支箭矢，每支箭矢造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。敌方单位可以一次性格挡多支箭矢，但只会受到一次伤害。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/Volley.png",
+          "rawFields": {
+            "id": "Volley",
+            "maxrank": 5,
+            "cooldown": [
+              18,
+              14.5,
+              11,
+              7.5,
+              4
+            ],
+            "cooldownBurn": "18/14.5/11/7.5/4",
+            "cost": [
+              75,
+              70,
+              65,
+              60,
+              55
+            ],
+            "costBurn": "75/70/65/60/55",
+            "effect": [
+              null,
+              [
+                5,
+                7,
+                9,
+                11,
+                13
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "5/7/9/11/13",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1200,
+              1200,
+              1200,
+              1200,
+              1200
+            ],
+            "rangeBurn": "1200",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "已发射的箭矢数",
+                "伤害",
+                "冷却时间",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ numberofarrowstooltip }} -> {{ numberofarrowstooltipNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "numberofarrowstooltip",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "numberofarrowstooltip",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_ashe|W|万箭齐发",
+              "ownerId": "hero_ashe",
+              "wikiChampionTitle": "Ashe",
+              "skillKey": "W",
+              "requestTitle": "Template:Data Ashe/W",
+              "zhDisplayName": "万箭齐发",
+              "pageId": 1306807,
+              "id": "ashe-w",
+              "resolvedTitle": "Template:Data Ashe/Volley",
+              "revisionId": 4007430,
+              "revisionTimestamp": "2026-04-11T18:11:13Z",
+              "contentSha256": "7e12c2b27533ff696411e2eff05d7f5b5c9e3b1ad45f09e017df2a764abb5e28",
+              "rawByteSize": 2034,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Volley",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "numberofarrowstooltip",
+            "totaldamage"
+          ]
+        },
+        {
+          "slot": "E",
+          "name": "鹰击长空",
+          "englishName": "Hawkshot",
+          "description": "艾希将她的猎鹰之灵派去执行侦查任务，可派往地图上的任意地点。",
+          "tooltip": "艾希派出一只鹰，在地图上的任一位置提供5秒的视野。它还会在飞行时显形附近的区域。<br /><br />这个技能可持有2层充能（{{ chargecooldown }}秒充能时间）。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/AsheSpiritOfTheHawk.png",
+          "rawFields": {
+            "id": "AsheSpiritOfTheHawk",
+            "maxrank": 5,
+            "cooldown": [
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "cooldownBurn": "5",
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "costBurn": "0",
+            "effect": [
+              null,
+              [
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              [
+                50,
+                90,
+                130,
+                170,
+                210
+              ],
+              [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "3",
+              "50/90/130/170/210",
+              "25000",
+              "5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              25000,
+              25000,
+              25000,
+              25000,
+              25000
+            ],
+            "rangeBurn": "25000",
+            "resource": "无消耗",
+            "leveltip": {
+              "label": [
+                "充能时间"
+              ],
+              "effect": [
+                "{{ ammorechargetime }} -> {{ ammorechargetimeNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "chargecooldown",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "chargecooldown",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_ashe|E|鹰击长空",
+              "ownerId": "hero_ashe",
+              "wikiChampionTitle": "Ashe",
+              "skillKey": "E",
+              "requestTitle": "Template:Data Ashe/E",
+              "zhDisplayName": "鹰击长空",
+              "pageId": 1306809,
+              "id": "ashe-e",
+              "resolvedTitle": "Template:Data Ashe/Hawkshot",
+              "revisionId": 3936951,
+              "revisionTimestamp": "2025-07-27T11:52:18Z",
+              "contentSha256": "218c7d2ecbf561f64b35a97e57f47a853a036a4923517eb278b572a7640dedc0",
+              "rawByteSize": 2051,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Hawkshot",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "chargecooldown"
+          ]
+        },
+        {
+          "slot": "R",
+          "name": "魔法水晶箭",
+          "englishName": "Enchanted Crystal Arrow",
+          "description": "艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。",
+          "tooltip": "艾希射出魔法水晶箭，<status>晕眩</status>命中的第一个敌方英雄，并造成<magicDamage>{{ rmaindamage }}魔法伤害</magicDamage>。<status>晕眩</status>时长取决于飞行距离，至多{{ maxstunduration }}秒。目标周围的敌人会受到<spellName>冰霜射击</spellName>的<status>减速</status>效果。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/EnchantedCrystalArrow.png",
+          "rawFields": {
+            "id": "EnchantedCrystalArrow",
+            "maxrank": 3,
+            "cooldown": [
+              100,
+              80,
+              60
+            ],
+            "cooldownBurn": "100/80/60",
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "costBurn": "100",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              25000,
+              25000,
+              25000
+            ],
+            "rangeBurn": "25000",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ rbasedamage }} -> {{ rbasedamageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "maxstunduration",
+            "rmaindamage",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "maxstunduration",
+            "rmaindamage",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_ashe|R|魔法水晶箭",
+              "ownerId": "hero_ashe",
+              "wikiChampionTitle": "Ashe",
+              "skillKey": "R",
+              "requestTitle": "Template:Data Ashe/R",
+              "zhDisplayName": "魔法水晶箭",
+              "pageId": 1306811,
+              "id": "ashe-r",
+              "resolvedTitle": "Template:Data Ashe/Enchanted Crystal Arrow",
+              "revisionId": 4026934,
+              "revisionTimestamp": "2026-06-10T19:09:50Z",
+              "contentSha256": "1d9ccefa98a41e57a088e76aaca16f7a78141e7373616520e2d6ba13f450664f",
+              "rawByteSize": 2394,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Ashe/Enchanted%20Crystal%20Arrow",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "maxstunduration",
+            "rmaindamage"
+          ]
+        }
+      ],
+      "chineseChampionName": "艾希",
+      "chineseChampionTitle": "寒冰射手",
+      "attributeReview": {
+        "status": "待核对",
+        "attackdamageperlevel": {
+          "status": "已补充来源，待页面核对",
+          "rawValue": 0,
+          "supportedValue": 3.5,
+          "evidencePath": "全英雄成长核对.json",
+          "recordPath": "角色根记录/Ashe.json",
+          "recordKey": "Characters/Ashe/CharacterRecords/Root",
+          "fieldPath": "damagePerLevelModifiable.baseValue",
+          "reason": "同补丁客户端角色根记录已与英雄ID、官方基础攻击力对齐，沿用三名英雄交叉核对的成长字段含义。"
+        }
+      }
+    },
+    {
+      "sourceChampionId": "Lux",
+      "sourceNumericId": "99",
+      "name": "光辉女郎",
+      "title": "拉克丝",
+      "englishName": "Lux",
+      "tags": [
+        "Mage",
+        "Support"
+      ],
+      "resourceType": "法力",
+      "rawBaseStats": {
+        "hp": 580,
+        "hpperlevel": 99,
+        "mp": 440,
+        "mpperlevel": 23.5,
+        "movespeed": 330,
+        "armor": 21,
+        "armorperlevel": 5.2,
+        "spellblock": 30,
+        "spellblockperlevel": 1.3,
+        "attackrange": 550,
+        "hpregen": 5.5,
+        "hpregenperlevel": 0.55,
+        "mpregen": 9,
+        "mpregenperlevel": 0.8,
+        "crit": 0,
+        "critperlevel": 0,
+        "attackdamage": 54,
+        "attackdamageperlevel": 0,
+        "attackspeedperlevel": 3,
+        "attackspeed": 0.669
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/Lux.png",
+      "primarySources": [
+        {
+          "path": "原始资料/zh_CN/champion/Lux.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lux.json",
+          "fetchedAt": "2026-09-06T14:12:49.777Z",
+          "byteSize": 15354,
+          "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+        },
+        {
+          "path": "原始资料/en_US/champion/Lux.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lux.json",
+          "fetchedAt": "2026-09-06T14:13:02.452Z",
+          "byteSize": 14376,
+          "sha256": "c84ee27aa017c145900b232087833f444150f572165106c7b643ad844af4e9cd"
+        }
+      ],
+      "entryStatus": "待录入",
+      "exclusionReason": null,
+      "systemCharacterKey": null,
+      "skills": [
+        {
+          "slot": "P",
+          "name": "光芒四射",
+          "englishName": "Illumination",
+          "description": "拉克丝的伤害类技能会对敌人施加【启明】效果，持续若干秒。拉克丝的下一次攻击将会消耗【启明】效果，来对目标造成额外魔法伤害（基于拉克丝等级）。",
+          "tooltip": null,
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/passive/LuxIlluminatingFraulein.png",
+          "rawFields": null,
+          "placeholders": [],
+          "unresolvedPlaceholders": [],
+          "supplementSources": [],
+          "sourceCoverage": "仅被动说明和图片；无完整结构化数值与触发规则",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": []
+        },
+        {
+          "slot": "Q",
+          "name": "光之束缚",
+          "englishName": "Light Binding",
+          "description": "拉克丝释放一个光球，束缚并伤害最多两个敌方单位。",
+          "tooltip": "拉克丝朝目标地点发射一团光球，<status>束缚</status>前2名敌人{{ rootduration }}秒并对每个敌人造<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/LuxLightBinding.png",
+          "rawFields": {
+            "id": "LuxLightBinding",
+            "maxrank": 5,
+            "cooldown": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "cooldownBurn": "10",
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "costBurn": "50",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "2",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1175,
+              1175,
+              1175,
+              1175,
+              1175
+            ],
+            "rangeBurn": "1175",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "伤害"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "rootduration",
+            "spellmodifierdescriptionappend",
+            "totaldamagett"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "rootduration",
+            "spellmodifierdescriptionappend",
+            "totaldamagett"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "rootduration",
+            "totaldamagett"
+          ]
+        },
+        {
+          "slot": "W",
+          "name": "曲光屏障",
+          "englishName": "Prismatic Barrier",
+          "description": "拉克丝掷出她的魔杖，魔杖所触及的友方单位会有光环环绕，保护他们免受敌方伤害。",
+          "tooltip": "拉克丝扔出她的魔杖，为它途经的友军提供持续{{ shieldduration }}秒的<shield>{{ totalshieldtt }}护盾</shield>。随后它会折返，为它途经的友军提供等额的<shield>护盾</shield>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/LuxPrismaticWave.png",
+          "rawFields": {
+            "id": "LuxPrismaticWave",
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              11.5,
+              11,
+              10.5,
+              10
+            ],
+            "cooldownBurn": "12/11.5/11/10.5/10",
+            "cost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "costBurn": "60/65/70/75/80",
+            "effect": [
+              null,
+              [
+                2,
+                4,
+                6,
+                8,
+                10
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              [
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "2/4/6/8/10",
+              "0",
+              "2.5",
+              "100",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1150,
+              1150,
+              1150,
+              1150,
+              1150
+            ],
+            "rangeBurn": "1150",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "护盾值",
+                "冷却时间",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ baseshieldamount }} -> {{ baseshieldamountNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "shieldduration",
+            "spellmodifierdescriptionappend",
+            "totalshieldtt"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "shieldduration",
+            "spellmodifierdescriptionappend",
+            "totalshieldtt"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "shieldduration",
+            "totalshieldtt"
+          ]
+        },
+        {
+          "slot": "E",
+          "name": "透光奇点",
+          "englishName": "Lucent Singularity",
+          "description": "朝一个区域发射一个不规则的扭曲之光，减速附近敌人。拉克丝可以引爆它，对敌人造成区域性伤害。",
+          "tooltip": "拉克丝创造一个光明地带，显形该区域并使区域中的敌人<status>减速</status>{{ slowpercent }}%。在{{ slowzoneduration }}秒后或<recast>再次施放</recast>这个技能后，它会爆炸，造成<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>并<status>减速</status>额外的{{ slowlingerduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/LuxLightStrikeKugel.png",
+          "rawFields": {
+            "id": "LuxLightStrikeKugel",
+            "maxrank": 5,
+            "cooldown": [
+              10,
+              9.5,
+              9,
+              8.5,
+              8
+            ],
+            "cooldownBurn": "10/9.5/9/8.5/8",
+            "cost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "costBurn": "70/80/90/100/110",
+            "effect": [
+              null,
+              [
+                25,
+                30,
+                35,
+                40,
+                45
+              ],
+              [
+                65,
+                115,
+                165,
+                215,
+                265
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              [
+                310,
+                310,
+                310,
+                310,
+                310
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "25/30/35/40/45",
+              "65/115/165/215/265",
+              "5",
+              "310",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1100,
+              1100,
+              1100,
+              1100,
+              1100
+            ],
+            "rangeBurn": "1100",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "移动减速",
+                "@AbilityResourceName@消耗",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ slowpercent }}% -> {{ slowpercentNL }}%",
+                "{{ cost }} -> {{ costNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "slowlingerduration",
+            "slowpercent",
+            "slowzoneduration",
+            "spellmodifierdescriptionappend",
+            "totaldamagett"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "slowlingerduration",
+            "slowpercent",
+            "slowzoneduration",
+            "spellmodifierdescriptionappend",
+            "totaldamagett"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "slowlingerduration",
+            "slowpercent",
+            "slowzoneduration",
+            "totaldamagett"
+          ]
+        },
+        {
+          "slot": "R",
+          "name": "终极闪光",
+          "englishName": "Final Spark",
+          "description": "在积蓄能量之后，拉克丝发射一束光波，对该区域所有目标造成伤害。此外，该技能触发拉克丝的被动技能并刷新光芒四射减益的持续时间。",
+          "tooltip": "拉克丝发射一束耀目的光能射线，对一条直线上的所有敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/LuxR.png",
+          "rawFields": {
+            "id": "LuxR",
+            "maxrank": 3,
+            "cooldown": [
+              60,
+              50,
+              40
+            ],
+            "cooldownBurn": "60/50/40",
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "costBurn": "100",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              3340,
+              3340,
+              3340
+            ],
+            "rangeBurn": "3340",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ damage }} -> {{ damageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "totaldamage"
+          ]
+        }
+      ],
+      "chineseChampionName": "拉克丝",
+      "chineseChampionTitle": "光辉女郎",
+      "attributeReview": {
+        "status": "待核对",
+        "attackdamageperlevel": {
+          "status": "已补充来源，待页面核对",
+          "rawValue": 0,
+          "supportedValue": 3.299999952316284,
+          "evidencePath": "全英雄成长核对.json",
+          "recordPath": "角色根记录/Lux.json",
+          "recordKey": "Characters/Lux/CharacterRecords/Root",
+          "fieldPath": "damagePerLevelModifiable.baseValue",
+          "reason": "同补丁客户端角色根记录已与英雄ID、官方基础攻击力对齐，沿用三名英雄交叉核对的成长字段含义。"
+        }
+      }
+    },
+    {
+      "sourceChampionId": "Malphite",
+      "sourceNumericId": "54",
+      "name": "熔岩巨兽",
+      "title": "墨菲特",
+      "englishName": "Malphite",
+      "tags": [
+        "Tank",
+        "Mage"
+      ],
+      "resourceType": "法力",
+      "rawBaseStats": {
+        "hp": 665,
+        "hpperlevel": 104,
+        "mp": 280,
+        "mpperlevel": 60,
+        "movespeed": 335,
+        "armor": 40,
+        "armorperlevel": 4.95,
+        "spellblock": 28,
+        "spellblockperlevel": 2.05,
+        "attackrange": 125,
+        "hpregen": 7,
+        "hpregenperlevel": 0.55,
+        "mpregen": 7.3,
+        "mpregenperlevel": 0.55,
+        "crit": 0,
+        "critperlevel": 0,
+        "attackdamage": 62,
+        "attackdamageperlevel": 0,
+        "attackspeedperlevel": 3.4,
+        "attackspeed": 0.736
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/Malphite.png",
+      "primarySources": [
+        {
+          "path": "原始资料/zh_CN/champion/Malphite.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malphite.json",
+          "fetchedAt": "2026-09-06T14:12:49.517Z",
+          "byteSize": 13633,
+          "sha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"
+        },
+        {
+          "path": "原始资料/en_US/champion/Malphite.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Malphite.json",
+          "fetchedAt": "2026-09-06T14:13:02.821Z",
+          "byteSize": 13145,
+          "sha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707"
+        }
+      ],
+      "entryStatus": "待录入",
+      "exclusionReason": null,
+      "systemCharacterKey": null,
+      "skills": [
+        {
+          "slot": "P",
+          "name": "花岗岩护盾",
+          "englishName": "Granite Shield",
+          "description": "墨菲特被岩石护盾保护，最多吸收10%最大生命值的伤害，若数秒内墨菲特未受到攻击，护盾将重置。",
+          "tooltip": null,
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/passive/Malphite_GraniteShield.png",
+          "rawFields": null,
+          "placeholders": [],
+          "unresolvedPlaceholders": [],
+          "supplementSources": [],
+          "sourceCoverage": "仅被动说明和图片；无完整结构化数值与触发规则",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": []
+        },
+        {
+          "slot": "Q",
+          "name": "地震碎片",
+          "englishName": "Seismic Shard",
+          "description": "墨菲特发出一块大地碎片穿过他敌人处的地面，在碰撞时造成伤害并且偷取移动速度3秒。",
+          "tooltip": "墨菲特朝一名敌人发出一块大地碎片，造成<magicDamage>{{ qdamagecalc }}魔法伤害</magicDamage>和持续{{ slowduration }}秒的{{ speedsteal }}%<status>减速</status>。墨菲特还会窃取该<status>被减速</status>的数额，从而将它作为持续{{ slowduration }}秒的<speed>移动速度</speed>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/SeismicShard.png",
+          "rawFields": {
+            "id": "SeismicShard",
+            "maxrank": 5,
+            "cooldown": [
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "cooldownBurn": "8",
+            "cost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "costBurn": "70/75/80/85/90",
+            "effect": [
+              null,
+              [
+                70,
+                120,
+                170,
+                220,
+                270
+              ],
+              [
+                20,
+                25,
+                30,
+                35,
+                40
+              ],
+              [
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "70/120/170/220/270",
+              "20/25/30/35/40",
+              "3",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              625,
+              625,
+              625,
+              625,
+              625
+            ],
+            "rangeBurn": "625",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "@AbilityResourceName@消耗",
+                "伤害",
+                "减速"
+              ],
+              "effect": [
+                "{{ cost }} -> {{ costNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ speedsteal }}% -> {{ speedstealNL }}%"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "qdamagecalc",
+            "slowduration",
+            "speedsteal",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "qdamagecalc",
+            "slowduration",
+            "speedsteal",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "qdamagecalc",
+            "slowduration",
+            "speedsteal"
+          ]
+        },
+        {
+          "slot": "W",
+          "name": "雷霆拍击",
+          "englishName": "Thunderclap",
+          "description": "墨菲特的攻击蕴含着如此惊人的力道以至于它引发了一次音爆。在接下来的数秒里，他的攻击会在他面前引发余波。",
+          "tooltip": "<spellPassive>被动：</spellPassive>墨菲特获得<scaleArmor>{{ bonusarmorpassive*100 }}%护甲(%i:scaleArmor%{{ f1 }})</scaleArmor>。这个效果会在<spellName>花岗岩护盾</spellName>激活时提升至<scaleArmor>{{ bonusarmorpassive*300 }}% (%i:scaleArmor%{{ f2 }})</scaleArmor>。<br /><br /><spellPassive>主动：</spellPassive>墨菲特的下次攻击造成额外的<physicalDamage>{{ totalbonusdamage }}物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>，并会引发一阵余震，以在其方向造成<physicalDamage>{{ thunderclapsplash }}物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>。在接下来的{{ thunderclapbuffduration }}秒内，他的攻击会继续引发余震 %i:OnHit% <OnHit>攻击特效</OnHit>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/Obduracy.png",
+          "rawFields": {
+            "id": "Obduracy",
+            "maxrank": 5,
+            "cooldown": [
+              10,
+              9.5,
+              9,
+              8.5,
+              8
+            ],
+            "cooldownBurn": "10/9.5/9/8.5/8",
+            "cost": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ],
+            "costBurn": "30/35/40/45/50",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "rangeBurn": "400",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "@AbilityResourceName@消耗",
+                "护甲",
+                "伤害",
+                "余波溅射伤害",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ cost }} -> {{ costNL }}",
+                "{{ bonusarmorpassive*100.000000 }}% -> {{ bonusarmorpassivenl*100.000000 }}%",
+                "{{ thunderclapbasedamage }} -> {{ thunderclapbasedamageNL }}",
+                "{{ thunderclapsplashdamage }} -> {{ thunderclapsplashdamageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "bonusarmorpassive*100",
+            "bonusarmorpassive*300",
+            "cost",
+            "f1",
+            "f2",
+            "spellmodifierdescriptionappend",
+            "thunderclapbuffduration",
+            "thunderclapsplash",
+            "totalbonusdamage"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "bonusarmorpassive*100",
+            "bonusarmorpassive*300",
+            "f1",
+            "f2",
+            "spellmodifierdescriptionappend",
+            "thunderclapbuffduration",
+            "thunderclapsplash",
+            "totalbonusdamage"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "bonusarmorpassive*100",
+            "bonusarmorpassive*300",
+            "f1",
+            "f2",
+            "thunderclapbuffduration",
+            "thunderclapsplash",
+            "totalbonusdamage"
+          ]
+        },
+        {
+          "slot": "E",
+          "name": "大地震颤",
+          "englishName": "Ground Slam",
+          "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。",
+          "tooltip": "墨菲特锤击地面，对周围敌人造成<magicDamage>{{ edamagecalc }}魔法伤害</magicDamage>并减少他们{{ asreduction }}%<attackSpeed>攻击速度</attackSpeed>，持续{{ duration }}秒。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/Landslide.png",
+          "rawFields": {
+            "id": "Landslide",
+            "maxrank": 5,
+            "cooldown": [
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "cooldownBurn": "7",
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "costBurn": "50/55/60/65/70",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "rangeBurn": "400",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "攻击速度减少",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ asreduction }}% -> {{ asreductionNL }}%",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "asreduction",
+            "cost",
+            "duration",
+            "edamagecalc",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "asreduction",
+            "duration",
+            "edamagecalc",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "asreduction",
+            "duration",
+            "edamagecalc"
+          ]
+        },
+        {
+          "slot": "R",
+          "name": "势不可挡",
+          "englishName": "Unstoppable Force",
+          "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。",
+          "tooltip": "墨菲特携着山崩之力冲锋，进行不可阻挡的突进。在突进结束时，墨菲特会<status>击飞</status>{{ knockupduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/UFSlash.png",
+          "rawFields": {
+            "id": "UFSlash",
+            "maxrank": 3,
+            "cooldown": [
+              130,
+              115,
+              100
+            ],
+            "cooldownBurn": "130/115/100",
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "costBurn": "100",
+            "effect": [
+              null,
+              [
+                1.5,
+                1.75,
+                2
+              ],
+              [
+                200,
+                300,
+                400
+              ],
+              [
+                1.5,
+                1.5,
+                1.5
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "1.5/1.75/2",
+              "200/300/400",
+              "1.5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1000,
+              1000,
+              1000
+            ],
+            "rangeBurn": "1000",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "冷却时间",
+                "伤害"
+              ],
+              "effect": [
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "knockupduration",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "knockupduration",
+            "spellmodifierdescriptionappend",
+            "totaldamage"
+          ],
+          "supplementSources": [],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "knockupduration",
+            "totaldamage"
+          ]
+        }
+      ],
+      "chineseChampionName": "墨菲特",
+      "chineseChampionTitle": "熔岩巨兽",
+      "attributeReview": {
+        "status": "待核对",
+        "attackdamageperlevel": {
+          "status": "已补充来源，待页面核对",
+          "rawValue": 0,
+          "supportedValue": 4,
+          "evidencePath": "全英雄成长核对.json",
+          "recordPath": "角色根记录/Malphite.json",
+          "recordKey": "Characters/Malphite/CharacterRecords/Root",
+          "fieldPath": "damagePerLevelModifiable.baseValue",
+          "reason": "同补丁客户端角色根记录已与英雄ID、官方基础攻击力对齐，沿用三名英雄交叉核对的成长字段含义。"
+        }
+      }
+    },
+    {
+      "sourceChampionId": "MissFortune",
+      "sourceNumericId": "21",
+      "name": "赏金猎人",
+      "title": "厄运小姐",
+      "englishName": "Miss Fortune",
+      "tags": [
+        "Marksman",
+        "Mage"
+      ],
+      "resourceType": "法力",
+      "rawBaseStats": {
+        "hp": 625,
+        "hpperlevel": 100,
+        "mp": 300,
+        "mpperlevel": 40,
+        "movespeed": 325,
+        "armor": 25,
+        "armorperlevel": 4,
+        "spellblock": 33,
+        "spellblockperlevel": 1.1,
+        "attackrange": 550,
+        "hpregen": 3.75,
+        "hpregenperlevel": 0.65,
+        "mpregen": 8,
+        "mpregenperlevel": 0.8,
+        "crit": 0,
+        "critperlevel": 0,
+        "attackdamage": 55,
+        "attackdamageperlevel": 0,
+        "attackspeedperlevel": 3,
+        "attackspeed": 0.656
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/MissFortune.png",
+      "primarySources": [
+        {
+          "path": "原始资料/zh_CN/champion/MissFortune.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/MissFortune.json",
+          "fetchedAt": "2026-09-06T14:12:49.782Z",
+          "byteSize": 15504,
+          "sha256": "5eeb47c09a79fbe5300cf58c266a7fd4db4431f2e8db24757e828c09d9559a0d"
+        },
+        {
+          "path": "原始资料/en_US/champion/MissFortune.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/MissFortune.json",
+          "fetchedAt": "2026-09-06T14:13:02.952Z",
+          "byteSize": 14887,
+          "sha256": "428fed550291e9f903538b705ce407aac5c4fa24c918cb85ed3f3338f21a9505"
+        }
+      ],
+      "entryStatus": "待录入",
+      "exclusionReason": null,
+      "systemCharacterKey": null,
+      "skills": [
+        {
+          "slot": "P",
+          "name": "厄运的眷顾",
+          "englishName": "Love Tap",
+          "description": "在对一个新目标进行普攻时，厄运小姐会造成额外物理伤害。",
+          "tooltip": null,
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/passive/MissFortune_W.png",
+          "rawFields": null,
+          "placeholders": [],
+          "unresolvedPlaceholders": [],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_missfortune|P|厄运的眷顾",
+              "ownerId": "hero_missfortune",
+              "wikiChampionTitle": "Miss Fortune",
+              "skillKey": "P",
+              "requestTitle": "Template:Data Miss Fortune/I",
+              "zhDisplayName": "厄运的眷顾",
+              "pageId": 1308249,
+              "id": "missfortune-p",
+              "resolvedTitle": "Template:Data Miss Fortune/Love Tap",
+              "revisionId": 4027989,
+              "revisionTimestamp": "2026-06-13T08:29:13Z",
+              "contentSha256": "2ed72684109983e9116050fcc34d6536903b9d04c0569f6633f4b734daae7527",
+              "rawByteSize": 1271,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Love%20Tap",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "仅被动说明和图片；无完整结构化数值与触发规则",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": []
+        },
+        {
+          "slot": "Q",
+          "name": "一箭双雕",
+          "englishName": "Double Up",
+          "description": "厄运小姐向敌人发射子弹，伤害他们以及他们后面的目标。两次攻击都可以施加【厄运的眷顾】。",
+          "tooltip": "厄运小姐发射一次弹跳射击，对一个敌人及其身后的另一个敌人造成<physicalDamage>{{ totaldamagetooltip }}物理伤害</physicalDamage>。<br /><br />第二段射击可以暴击以造成<physicalDamage>{{ totaldamagecrit }}物理伤害</physicalDamage>。如果第一段射击击杀了目标，则第二段射击必定暴击。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/MissFortuneRicochetShot.png",
+          "rawFields": {
+            "id": "MissFortuneRicochetShot",
+            "maxrank": 5,
+            "cooldown": [
+              7,
+              6,
+              5,
+              4,
+              3
+            ],
+            "cooldownBurn": "7/6/5/4/3",
+            "cost": [
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "costBurn": "40",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                20,
+                45,
+                70,
+                95,
+                120
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              [
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              [
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              [
+                110,
+                110,
+                110,
+                110,
+                110
+              ],
+              [
+                160,
+                160,
+                160,
+                160,
+                160
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "20/45/70/95/120",
+              "0",
+              "0",
+              "40",
+              "20",
+              "40",
+              "110",
+              "160",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              650,
+              650,
+              650,
+              650,
+              650
+            ],
+            "rangeBurn": "650",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "冷却时间",
+                "伤害"
+              ],
+              "effect": [
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "cost",
+            "spellmodifierdescriptionappend",
+            "totaldamagecrit",
+            "totaldamagetooltip"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "spellmodifierdescriptionappend",
+            "totaldamagecrit",
+            "totaldamagetooltip"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_missfortune|Q|一箭双雕",
+              "ownerId": "hero_missfortune",
+              "wikiChampionTitle": "Miss Fortune",
+              "skillKey": "Q",
+              "requestTitle": "Template:Data Miss Fortune/Q",
+              "zhDisplayName": "一箭双雕",
+              "pageId": 1308251,
+              "id": "missfortune-q",
+              "resolvedTitle": "Template:Data Miss Fortune/Double Up",
+              "revisionId": 3993572,
+              "revisionTimestamp": "2026-02-22T16:04:29Z",
+              "contentSha256": "0a54b482c654246ae877966b87882d49ab73fc9fad075e5483a04b3b7081e1ed",
+              "rawByteSize": 3102,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Double%20Up",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "totaldamagecrit",
+            "totaldamagetooltip"
+          ]
+        },
+        {
+          "slot": "W",
+          "name": "大步流星",
+          "englishName": "Strut",
+          "description": "厄运小姐在不被攻击时会被动获得移动速度加成。可以主动施放这个技能来获得短时间的攻击速度加成。在【大步流星】尚未冷却完毕时，【厄运的眷顾】可减少【大步流星】的剩余持续时间。",
+          "tooltip": "<passive>被动：</passive>如果{{ passivebasemsooc }}秒内没有受到伤害，厄运小姐就会获得<speed>{{ passivebasems }}移动速度</speed>。再过{{ passivemaxmsextraooc }}秒后，这个加成会提升至<speed>{{ passivemaxms }}</speed>。<br /><br /><active>主动：</active>获得被动效果的全额<speed>移动速度</speed>加成并提供<attackSpeed>{{ activeas*100 }}%攻击速度</attackSpeed>，持续{{ activeduration }} 秒。<br /><br /><spellName>厄运的眷顾</spellName>会使这个技能的冷却时间缩短{{ lovetaprefund }}秒。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/MissFortuneViciousStrikes.png",
+          "rawFields": {
+            "id": "MissFortuneViciousStrikes",
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cooldownBurn": "12",
+            "cost": [
+              45,
+              45,
+              45,
+              45,
+              45
+            ],
+            "costBurn": "45",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "rangeBurn": "600",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "攻击速度",
+                "移动速度",
+                "最大移动速度"
+              ],
+              "effect": [
+                "{{ activeas*100.000000 }}% -> {{ activeasnl*100.000000 }}%",
+                "{{ passivebasems }} -> {{ passivebasemsNL }}",
+                "{{ passivemaxms }} -> {{ passivemaxmsNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "activeas*100",
+            "activeduration",
+            "cost",
+            "lovetaprefund",
+            "passivebasems",
+            "passivebasemsooc",
+            "passivemaxms",
+            "passivemaxmsextraooc",
+            "spellmodifierdescriptionappend"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "activeas*100",
+            "activeduration",
+            "lovetaprefund",
+            "passivebasems",
+            "passivebasemsooc",
+            "passivemaxms",
+            "passivemaxmsextraooc",
+            "spellmodifierdescriptionappend"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_missfortune|W|大步流星",
+              "ownerId": "hero_missfortune",
+              "wikiChampionTitle": "Miss Fortune",
+              "skillKey": "W",
+              "requestTitle": "Template:Data Miss Fortune/W",
+              "zhDisplayName": "大步流星",
+              "pageId": 1332679,
+              "id": "missfortune-w",
+              "resolvedTitle": "Template:Data Miss Fortune/Strut",
+              "revisionId": 4015416,
+              "revisionTimestamp": "2026-05-04T14:29:06Z",
+              "contentSha256": "ce7f3c75f7fde611ed0edd3f61b0ac306fb9896038f81214a88998ca84bd892f",
+              "rawByteSize": 1652,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Strut",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "activeas*100",
+            "activeduration",
+            "lovetaprefund",
+            "passivebasems",
+            "passivebasemsooc",
+            "passivemaxms",
+            "passivemaxmsextraooc"
+          ]
+        },
+        {
+          "slot": "E",
+          "name": "枪林弹雨",
+          "englishName": "Make It Rain",
+          "description": "厄运小姐发射一阵弹雨来获得目标区域的视野，对敌人造成几波伤害，并减缓他们的移动速度。",
+          "tooltip": "厄运小姐发射一阵弹雨，来显形一个区域，造成{{ totalslowamount }}<status>减速</status>和每秒<magicDamage>{{ totaldamagepersecond }}魔法伤害</magicDamage>，持续{{ baseduration }}秒(总共<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>)。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/MissFortuneScattershot.png",
+          "rawFields": {
+            "id": "MissFortuneScattershot",
+            "maxrank": 5,
+            "cooldown": [
+              18,
+              17,
+              16,
+              15,
+              14
+            ],
+            "cooldownBurn": "18/17/16/15/14",
+            "cost": [
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "costBurn": "80",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ],
+            "rangeBurn": "1000",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "每秒伤害",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ basedamagepersecond }} -> {{ basedamagepersecondNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "baseduration",
+            "cost",
+            "spellmodifierdescriptionappend",
+            "totaldamage",
+            "totaldamagepersecond",
+            "totalslowamount"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "baseduration",
+            "spellmodifierdescriptionappend",
+            "totaldamage",
+            "totaldamagepersecond",
+            "totalslowamount"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_missfortune|E|枪林弹雨",
+              "ownerId": "hero_missfortune",
+              "wikiChampionTitle": "Miss Fortune",
+              "skillKey": "E",
+              "requestTitle": "Template:Data Miss Fortune/E",
+              "zhDisplayName": "枪林弹雨",
+              "pageId": 1308255,
+              "id": "missfortune-e",
+              "resolvedTitle": "Template:Data Miss Fortune/Make It Rain",
+              "revisionId": 3936384,
+              "revisionTimestamp": "2025-07-24T15:45:56Z",
+              "contentSha256": "a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7",
+              "rawByteSize": 1210,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Make%20It%20Rain",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "baseduration",
+            "totaldamage",
+            "totaldamagepersecond",
+            "totalslowamount"
+          ]
+        },
+        {
+          "slot": "R",
+          "name": "弹幕时间",
+          "englishName": "Bullet Time",
+          "description": "厄运小姐向她面前的锥形范围内引导一阵子弹风暴，对敌人造成大量伤害。这个技能的每波子弹都可以暴击。",
+          "tooltip": "厄运小姐向前方锥形地带引导一阵弹幕，{{ basechannelduration }}秒内持续发射共{{ basewaves }}波子弹，每波弹幕造成<physicalDamage>{{ physicaldamageperwave }}物理伤害</physicalDamage>(总共<physicalDamage>{{ totalphysicaldamage }}物理伤害</physicalDamage>)。<br /><br />每一波均可触发暴击，造成%i:scaleCrit%<physicalDamage>{{ critdamageperwave }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/spell/MissFortuneBulletTime.png",
+          "rawFields": {
+            "id": "MissFortuneBulletTime",
+            "maxrank": 3,
+            "cooldown": [
+              120,
+              110,
+              100
+            ],
+            "cooldownBurn": "120/110/100",
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "costBurn": "100",
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "datavalues": {},
+            "range": [
+              25000,
+              25000,
+              25000
+            ],
+            "rangeBurn": "25000",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "leveltip": {
+              "label": [
+                "弹织成幕",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ basewaves }} -> {{ basewavesNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            }
+          },
+          "placeholders": [
+            "abilityresourcename",
+            "basechannelduration",
+            "basewaves",
+            "cost",
+            "critdamageperwave",
+            "physicaldamageperwave",
+            "spellmodifierdescriptionappend",
+            "totalphysicaldamage"
+          ],
+          "unresolvedPlaceholders": [
+            "abilityresourcename",
+            "basechannelduration",
+            "basewaves",
+            "critdamageperwave",
+            "physicaldamageperwave",
+            "spellmodifierdescriptionappend",
+            "totalphysicaldamage"
+          ],
+          "supplementSources": [
+            {
+              "candidateKey": "hero_skill|hero_missfortune|R|弹幕时间",
+              "ownerId": "hero_missfortune",
+              "wikiChampionTitle": "Miss Fortune",
+              "skillKey": "R",
+              "requestTitle": "Template:Data Miss Fortune/R",
+              "zhDisplayName": "弹幕时间",
+              "pageId": 1308257,
+              "id": "missfortune-r",
+              "resolvedTitle": "Template:Data Miss Fortune/Bullet Time",
+              "revisionId": 3987215,
+              "revisionTimestamp": "2026-01-25T03:47:11Z",
+              "contentSha256": "354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a",
+              "rawByteSize": 3021,
+              "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Template%3AData%20Miss%20Fortune/Bullet%20Time",
+              "sameVersionAsPrimarySource": false
+            }
+          ],
+          "sourceCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断",
+          "numericReviewStatus": "待核对",
+          "mechanismReviewStatus": "待核对",
+          "entryStatus": "待录入",
+          "exclusionReason": null,
+          "unresolvedMechanismPlaceholders": [
+            "basechannelduration",
+            "basewaves",
+            "critdamageperwave",
+            "physicaldamageperwave",
+            "totalphysicaldamage"
+          ]
+        }
+      ],
+      "chineseChampionName": "厄运小姐",
+      "chineseChampionTitle": "赏金猎人",
+      "attributeReview": {
+        "status": "待核对",
+        "attackdamageperlevel": {
+          "status": "已补充来源，待页面核对",
+          "rawValue": 0,
+          "supportedValue": 2.4000000953674316,
+          "evidencePath": "全英雄成长核对.json",
+          "recordPath": "角色根记录/MissFortune.json",
+          "recordKey": "Characters/MissFortune/CharacterRecords/Root",
+          "fieldPath": "damagePerLevelModifiable.baseValue",
+          "reason": "同补丁客户端角色根记录已与英雄ID、官方基础攻击力对齐，沿用三名英雄交叉核对的成长字段含义。"
+        }
+      }
+    }
+  ]
+}

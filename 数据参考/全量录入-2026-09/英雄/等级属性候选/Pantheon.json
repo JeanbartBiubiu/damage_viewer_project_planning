@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Pantheon",
+  "sourceNumericId": "80",
+  "name": "潘森",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 109,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.hp/hpperlevel",
+        "角色根记录/Pantheon.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 728.48,
+        "3": 810.775,
+        "4": 896.885,
+        "5": 986.81,
+        "6": 1080.55,
+        "7": 1178.105,
+        "8": 1279.475,
+        "9": 1384.66,
+        "10": 1493.66,
+        "11": 1606.475,
+        "12": 1723.105,
+        "13": 1843.55,
+        "14": 1967.81,
+        "15": 2095.885,
+        "16": 2227.775,
+        "17": 2363.48,
+        "18": 2503
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Pantheon.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.468,
+        "3": 6.95875,
+        "4": 7.47225,
+        "5": 8.0085,
+        "6": 8.5675,
+        "7": 9.14925,
+        "8": 9.75375,
+        "9": 10.381,
+        "10": 11.031,
+        "11": 11.70375,
+        "12": 12.39925,
+        "13": 13.1175,
+        "14": 13.8585,
+        "15": 14.62225,
+        "16": 15.40875,
+        "17": 16.218,
+        "18": 17.05
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 40,
+      "growth": 4.95,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.armor/armorperlevel",
+        "角色根记录/Pantheon.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 40,
+        "2": 43.564,
+        "3": 47.30125,
+        "4": 51.21175,
+        "5": 55.2955,
+        "6": 59.5525,
+        "7": 63.98275,
+        "8": 68.58625,
+        "9": 73.363,
+        "10": 78.313,
+        "11": 83.43625,
+        "12": 88.73275,
+        "13": 94.2025,
+        "14": 99.8455,
+        "15": 105.66175,
+        "16": 111.65125,
+        "17": 117.814,
+        "18": 124.15
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Pantheon.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 29.476,
+        "3": 31.02375,
+        "4": 32.64325,
+        "5": 34.3345,
+        "6": 36.0975,
+        "7": 37.93225,
+        "8": 39.83875,
+        "9": 41.817,
+        "10": 43.867,
+        "11": 45.98875,
+        "12": 48.18225,
+        "13": 50.4475,
+        "14": 52.7845,
+        "15": 55.19325,
+        "16": 57.67375,
+        "17": 60.226,
+        "18": 62.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 64,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Pantheon.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 64,
+        "2": 66.376,
+        "3": 68.8675,
+        "4": 71.4745,
+        "5": 74.197,
+        "6": 77.035,
+        "7": 79.9885,
+        "8": 83.0575,
+        "9": 86.242,
+        "10": 89.542,
+        "11": 92.9575,
+        "12": 96.4885,
+        "13": 100.135,
+        "14": 103.897,
+        "15": 107.7745,
+        "16": 111.7675,
+        "17": 115.876,
+        "18": 120.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Pantheon.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Pantheon.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2.95,
+      "sources": [
+        "角色根记录/Pantheon.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.671976,
+        "3": 0.686631,
+        "4": 0.701966,
+        "5": 0.71798,
+        "6": 0.734673,
+        "7": 0.752046,
+        "8": 0.770099,
+        "9": 0.78883,
+        "10": 0.808241,
+        "11": 0.828332,
+        "12": 0.849101,
+        "13": 0.87055,
+        "14": 0.892679,
+        "15": 0.915487,
+        "16": 0.938974,
+        "17": 0.963141,
+        "18": 0.987987
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 317,
+      "growth": 31,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.mp/mpperlevel",
+        "角色根记录/Pantheon.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 317,
+        "2": 339.32,
+        "3": 362.725,
+        "4": 387.215,
+        "5": 412.79,
+        "6": 439.45,
+        "7": 467.195,
+        "8": 496.025,
+        "9": 525.94,
+        "10": 556.94,
+        "11": 589.025,
+        "12": 622.195,
+        "13": 656.45,
+        "14": 691.79,
+        "15": 728.215,
+        "16": 765.725,
+        "17": 804.32,
+        "18": 844
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.35,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Pantheon.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Pantheon.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.35,
+        "2": 7.674,
+        "3": 8.01375,
+        "4": 8.36925,
+        "5": 8.7405,
+        "6": 9.1275,
+        "7": 9.53025,
+        "8": 9.94875,
+        "9": 10.383,
+        "10": 10.833,
+        "11": 11.29875,
+        "12": 11.78025,
+        "13": 12.2775,
+        "14": 12.7905,
+        "15": 13.31925,
+        "16": 13.86375,
+        "17": 14.424,
+        "18": 15
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2.95,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

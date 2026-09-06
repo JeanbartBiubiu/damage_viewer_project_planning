@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kayle",
+  "sourceNumericId": "10",
+  "name": "凯尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 670,
+      "growth": 92,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayle.json:stats.hp/hpperlevel",
+        "角色根记录/Kayle.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 670,
+        "2": 736.24,
+        "3": 805.7,
+        "4": 878.38,
+        "5": 954.28,
+        "6": 1033.4,
+        "7": 1115.74,
+        "8": 1201.3,
+        "9": 1290.08,
+        "10": 1382.08,
+        "11": 1477.3,
+        "12": 1575.74,
+        "13": 1677.4,
+        "14": 1782.28,
+        "15": 1890.38,
+        "16": 2001.7,
+        "17": 2116.24,
+        "18": 2234
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 26,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayle.json:stats.armor/armorperlevel",
+        "角色根记录/Kayle.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 26,
+        "2": 29.024,
+        "3": 32.195,
+        "4": 35.513,
+        "5": 38.978,
+        "6": 42.59,
+        "7": 46.349,
+        "8": 50.255,
+        "9": 54.308,
+        "10": 58.508,
+        "11": 62.855,
+        "12": 67.349,
+        "13": 71.99,
+        "14": 76.778,
+        "15": 81.713,
+        "16": 86.795,
+        "17": 92.024,
+        "18": 97.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 22,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayle.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kayle.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 22,
+        "2": 22.936,
+        "3": 23.9175,
+        "4": 24.9445,
+        "5": 26.017,
+        "6": 27.135,
+        "7": 28.2985,
+        "8": 29.5075,
+        "9": 30.762,
+        "10": 32.062,
+        "11": 33.4075,
+        "12": 34.7985,
+        "13": 36.235,
+        "14": 37.717,
+        "15": 39.2445,
+        "16": 40.8175,
+        "17": 42.436,
+        "18": 44.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 50,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Kayle.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 50,
+        "2": 51.8,
+        "3": 53.6875,
+        "4": 55.6625,
+        "5": 57.725,
+        "6": 59.875,
+        "7": 62.1125,
+        "8": 64.4375,
+        "9": 66.85,
+        "10": 69.35,
+        "11": 71.9375,
+        "12": 74.6125,
+        "13": 77.375,
+        "14": 80.225,
+        "15": 83.1625,
+        "16": 86.1875,
+        "17": 89.3,
+        "18": 92.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kayle.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kayle.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.667,
+      "growthPercent": 1.5,
+      "sources": [
+        "角色根记录/Kayle.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.632204,
+        "3": 0.639757,
+        "4": 0.647661,
+        "5": 0.655915,
+        "6": 0.66452,
+        "7": 0.673474,
+        "8": 0.682779,
+        "9": 0.692434,
+        "10": 0.702439,
+        "11": 0.712794,
+        "12": 0.723499,
+        "13": 0.734555,
+        "14": 0.74596,
+        "15": 0.757716,
+        "16": 0.769822,
+        "17": 0.782279,
+        "18": 0.795085
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 330,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayle.json:stats.mp/mpperlevel",
+        "角色根记录/Kayle.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 330,
+        "2": 366,
+        "3": 403.75,
+        "4": 443.25,
+        "5": 484.5,
+        "6": 527.5,
+        "7": 572.25,
+        "8": 618.75,
+        "9": 667,
+        "10": 717,
+        "11": 768.75,
+        "12": 822.25,
+        "13": 877.5,
+        "14": 934.5,
+        "15": 993.25,
+        "16": 1053.75,
+        "17": 1116,
+        "18": 1180
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayle.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Kayle.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.5
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.667,
+    "growthPercent": 1.5,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

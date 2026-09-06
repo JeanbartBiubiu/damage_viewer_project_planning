@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Trundle",
+  "sourceNumericId": "48",
+  "name": "特朗德尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.hp/hpperlevel",
+        "角色根记录/Trundle.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 729.2,
+        "3": 812.25,
+        "4": 899.15,
+        "5": 989.9,
+        "6": 1084.5,
+        "7": 1182.95,
+        "8": 1285.25,
+        "9": 1391.4,
+        "10": 1501.4,
+        "11": 1615.25,
+        "12": 1732.95,
+        "13": 1854.5,
+        "14": 1979.9,
+        "15": 2109.15,
+        "16": 2242.25,
+        "17": 2379.2,
+        "18": 2520
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Trundle.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.54,
+        "3": 7.10625,
+        "4": 7.69875,
+        "5": 8.3175,
+        "6": 8.9625,
+        "7": 9.63375,
+        "8": 10.33125,
+        "9": 11.055,
+        "10": 11.805,
+        "11": 12.58125,
+        "12": 13.38375,
+        "13": 14.2125,
+        "14": 15.0675,
+        "15": 15.94875,
+        "16": 16.85625,
+        "17": 17.79,
+        "18": 18.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 37,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.armor/armorperlevel",
+        "角色根记录/Trundle.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 37,
+        "2": 40.24,
+        "3": 43.6375,
+        "4": 47.1925,
+        "5": 50.905,
+        "6": 54.775,
+        "7": 58.8025,
+        "8": 62.9875,
+        "9": 67.33,
+        "10": 71.83,
+        "11": 76.4875,
+        "12": 81.3025,
+        "13": 86.275,
+        "14": 91.405,
+        "15": 96.6925,
+        "16": 102.1375,
+        "17": 107.74,
+        "18": 113.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Trundle.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 4.5,
+      "sources": [
+        "角色根记录/Trundle.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 71.24,
+        "3": 74.6375,
+        "4": 78.1925,
+        "5": 81.905,
+        "6": 85.775,
+        "7": 89.8025,
+        "8": 93.9875,
+        "9": 98.33,
+        "10": 102.83,
+        "11": 107.4875,
+        "12": 112.3025,
+        "13": 117.275,
+        "14": 122.405,
+        "15": 127.6925,
+        "16": 133.1375,
+        "17": 138.74,
+        "18": 144.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Trundle.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Trundle.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.67,
+      "attackSpeedRatio": 0.67,
+      "growthPercent": 2.9,
+      "sources": [
+        "角色根记录/Trundle.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.67,
+        "2": 0.68399,
+        "3": 0.698659,
+        "4": 0.714009,
+        "5": 0.730039,
+        "6": 0.746749,
+        "7": 0.764138,
+        "8": 0.782208,
+        "9": 0.800958,
+        "10": 0.820388,
+        "11": 0.840498,
+        "12": 0.861288,
+        "13": 0.882759,
+        "14": 0.904909,
+        "15": 0.927739,
+        "16": 0.951249,
+        "17": 0.97544,
+        "18": 1.00031
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 340,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.mp/mpperlevel",
+        "角色根记录/Trundle.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 340,
+        "2": 372.4,
+        "3": 406.375,
+        "4": 441.925,
+        "5": 479.05,
+        "6": 517.75,
+        "7": 558.025,
+        "8": 599.875,
+        "9": 643.3,
+        "10": 688.3,
+        "11": 734.875,
+        "12": 783.025,
+        "13": 832.75,
+        "14": 884.05,
+        "15": 936.925,
+        "16": 991.375,
+        "17": 1047.4,
+        "18": 1105
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Trundle.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Trundle.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 7.932,
+        "3": 8.385,
+        "4": 8.859,
+        "5": 9.354,
+        "6": 9.87,
+        "7": 10.407,
+        "8": 10.965,
+        "9": 11.544,
+        "10": 12.144,
+        "11": 12.765,
+        "12": 13.407,
+        "13": 14.07,
+        "14": 14.754,
+        "15": 15.459,
+        "16": 16.185,
+        "17": 16.932,
+        "18": 17.7
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.67,
+    "ratio": 0.67,
+    "growthPercent": 2.9,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

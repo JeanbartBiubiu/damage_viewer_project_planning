@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Milio",
+  "sourceNumericId": "902",
+  "name": "米利欧",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 560,
+      "growth": 88,
+      "sources": [
+        "原始资料/zh_CN/champion/Milio.json:stats.hp/hpperlevel",
+        "角色根记录/Milio.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 560,
+        "2": 623.36,
+        "3": 689.8,
+        "4": 759.32,
+        "5": 831.92,
+        "6": 907.6,
+        "7": 986.36,
+        "8": 1068.2,
+        "9": 1153.12,
+        "10": 1241.12,
+        "11": 1332.2,
+        "12": 1426.36,
+        "13": 1523.6,
+        "14": 1623.92,
+        "15": 1727.32,
+        "16": 1833.8,
+        "17": 1943.36,
+        "18": 2056
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 26,
+      "growth": 4.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Milio.json:stats.armor/armorperlevel",
+        "角色根记录/Milio.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 26,
+        "2": 29.312,
+        "3": 32.785,
+        "4": 36.419,
+        "5": 40.214,
+        "6": 44.17,
+        "7": 48.287,
+        "8": 52.565,
+        "9": 57.004,
+        "10": 61.604,
+        "11": 66.365,
+        "12": 71.287,
+        "13": 76.37,
+        "14": 81.614,
+        "15": 87.019,
+        "16": 92.585,
+        "17": 98.312,
+        "18": 104.2
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Milio.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Milio.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 48,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Milio.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 48,
+        "2": 50.304,
+        "3": 52.72,
+        "4": 55.248,
+        "5": 57.888,
+        "6": 60.64,
+        "7": 63.504,
+        "8": 66.48,
+        "9": 69.568,
+        "10": 72.768,
+        "11": 76.08,
+        "12": 79.504,
+        "13": 83.04,
+        "14": 86.688,
+        "15": 90.448,
+        "16": 94.32,
+        "17": 98.304,
+        "18": 102.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Milio.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Milio.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Milio.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.6385,
+        "3": 0.652656,
+        "4": 0.667469,
+        "5": 0.682937,
+        "6": 0.699063,
+        "7": 0.715844,
+        "8": 0.733281,
+        "9": 0.751375,
+        "10": 0.770125,
+        "11": 0.789531,
+        "12": 0.809594,
+        "13": 0.830313,
+        "14": 0.851687,
+        "15": 0.873719,
+        "16": 0.896406,
+        "17": 0.91975,
+        "18": 0.94375
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 365,
+      "growth": 43,
+      "sources": [
+        "原始资料/zh_CN/champion/Milio.json:stats.mp/mpperlevel",
+        "角色根记录/Milio.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 365,
+        "2": 395.96,
+        "3": 428.425,
+        "4": 462.395,
+        "5": 497.87,
+        "6": 534.85,
+        "7": 573.335,
+        "8": 613.325,
+        "9": 654.82,
+        "10": 697.82,
+        "11": 742.325,
+        "12": 788.335,
+        "13": 835.85,
+        "14": 884.87,
+        "15": 935.395,
+        "16": 987.425,
+        "17": 1040.96,
+        "18": 1096
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 11.5,
+      "growth": 0.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Milio.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Milio.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 11.5,
+        "2": 11.788,
+        "3": 12.09,
+        "4": 12.406,
+        "5": 12.736,
+        "6": 13.08,
+        "7": 13.438,
+        "8": 13.81,
+        "9": 14.196,
+        "10": 14.596,
+        "11": 15.01,
+        "12": 15.438,
+        "13": 15.88,
+        "14": 16.336,
+        "15": 16.806,
+        "16": 17.29,
+        "17": 17.788,
+        "18": 18.3
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.5
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

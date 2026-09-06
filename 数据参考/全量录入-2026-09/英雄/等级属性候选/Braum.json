@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Braum",
+  "sourceNumericId": "201",
+  "name": "布隆",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 112,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.hp/hpperlevel",
+        "角色根记录/Braum.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 690.64,
+        "3": 775.2,
+        "4": 863.68,
+        "5": 956.08,
+        "6": 1052.4,
+        "7": 1152.64,
+        "8": 1256.8,
+        "9": 1364.88,
+        "10": 1476.88,
+        "11": 1592.8,
+        "12": 1712.64,
+        "13": 1836.4,
+        "14": 1964.08,
+        "15": 2095.68,
+        "16": 2231.2,
+        "17": 2370.64,
+        "18": 2514
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 1,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Braum.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.22,
+        "3": 9.975,
+        "4": 10.765,
+        "5": 11.59,
+        "6": 12.45,
+        "7": 13.345,
+        "8": 14.275,
+        "9": 15.24,
+        "10": 16.24,
+        "11": 17.275,
+        "12": 18.345,
+        "13": 19.45,
+        "14": 20.59,
+        "15": 21.765,
+        "16": 22.975,
+        "17": 24.22,
+        "18": 25.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 5,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.armor/armorperlevel",
+        "角色根记录/Braum.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.6,
+        "3": 42.375,
+        "4": 46.325,
+        "5": 50.45,
+        "6": 54.75,
+        "7": 59.225,
+        "8": 63.875,
+        "9": 68.7,
+        "10": 73.7,
+        "11": 78.875,
+        "12": 84.225,
+        "13": 89.75,
+        "14": 95.45,
+        "15": 101.325,
+        "16": 107.375,
+        "17": 113.6,
+        "18": 120
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Braum.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Braum.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.304,
+        "3": 59.72,
+        "4": 62.248,
+        "5": 64.888,
+        "6": 67.64,
+        "7": 70.504,
+        "8": 73.48,
+        "9": 76.568,
+        "10": 79.768,
+        "11": 83.08,
+        "12": 86.504,
+        "13": 90.04,
+        "14": 93.688,
+        "15": 97.448,
+        "16": 101.32,
+        "17": 105.304,
+        "18": 109.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Braum.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Braum.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.644,
+      "attackSpeedRatio": 0.644,
+      "growthPercent": 3.5,
+      "sources": [
+        "角色根记录/Braum.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.644,
+        "2": 0.660229,
+        "3": 0.677246,
+        "4": 0.695053,
+        "5": 0.713649,
+        "6": 0.733033,
+        "7": 0.753206,
+        "8": 0.774169,
+        "9": 0.79592,
+        "10": 0.81846,
+        "11": 0.841789,
+        "12": 0.865906,
+        "13": 0.890813,
+        "14": 0.916509,
+        "15": 0.942993,
+        "16": 0.970267,
+        "17": 0.998329,
+        "18": 1.02718
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 311,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.mp/mpperlevel",
+        "角色根记录/Braum.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 311,
+        "2": 343.4,
+        "3": 377.375,
+        "4": 412.925,
+        "5": 450.05,
+        "6": 488.75,
+        "7": 529.025,
+        "8": 570.875,
+        "9": 614.3,
+        "10": 659.3,
+        "11": 705.875,
+        "12": 754.025,
+        "13": 803.75,
+        "14": 855.05,
+        "15": 907.925,
+        "16": 962.375,
+        "17": 1018.4,
+        "18": 1076
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Braum.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Braum.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.576,
+        "3": 8.18,
+        "4": 8.812,
+        "5": 9.472,
+        "6": 10.16,
+        "7": 10.876,
+        "8": 11.62,
+        "9": 12.392,
+        "10": 13.192,
+        "11": 14.02,
+        "12": 14.876,
+        "13": 15.76,
+        "14": 16.672,
+        "15": 17.612,
+        "16": 18.58,
+        "17": 19.576,
+        "18": 20.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.644,
+    "ratio": 0.644,
+    "growthPercent": 3.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

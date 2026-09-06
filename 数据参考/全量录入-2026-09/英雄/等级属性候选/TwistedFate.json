@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "TwistedFate",
+  "sourceNumericId": "4",
+  "name": "崔斯特",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 604,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.hp/hpperlevel",
+        "角色根记录/TwistedFate.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 604,
+        "2": 681.76,
+        "3": 763.3,
+        "4": 848.62,
+        "5": 937.72,
+        "6": 1030.6,
+        "7": 1127.26,
+        "8": 1227.7,
+        "9": 1331.92,
+        "10": 1439.92,
+        "11": 1551.7,
+        "12": 1667.26,
+        "13": 1786.6,
+        "14": 1909.72,
+        "15": 2036.62,
+        "16": 2167.3,
+        "17": 2301.76,
+        "18": 2440
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/TwistedFate.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.932,
+        "3": 6.385,
+        "4": 6.859,
+        "5": 7.354,
+        "6": 7.87,
+        "7": 8.407,
+        "8": 8.965,
+        "9": 9.544,
+        "10": 10.144,
+        "11": 10.765,
+        "12": 11.407,
+        "13": 12.07,
+        "14": 12.754,
+        "15": 13.459,
+        "16": 14.185,
+        "17": 14.932,
+        "18": 15.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 4.35,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.armor/armorperlevel",
+        "角色根记录/TwistedFate.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 27.132,
+        "3": 30.41625,
+        "4": 33.85275,
+        "5": 37.4415,
+        "6": 41.1825,
+        "7": 45.07575,
+        "8": 49.12125,
+        "9": 53.319,
+        "10": 57.669,
+        "11": 62.17125,
+        "12": 66.82575,
+        "13": 71.6325,
+        "14": 76.5915,
+        "15": 81.70275,
+        "16": 86.96625,
+        "17": 92.382,
+        "18": 97.95
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/TwistedFate.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 52,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/TwistedFate.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 52,
+        "2": 53.8,
+        "3": 55.6875,
+        "4": 57.6625,
+        "5": 59.725,
+        "6": 61.875,
+        "7": 64.1125,
+        "8": 66.4375,
+        "9": 68.85,
+        "10": 71.35,
+        "11": 73.9375,
+        "12": 76.6125,
+        "13": 79.375,
+        "14": 82.225,
+        "15": 85.1625,
+        "16": 88.1875,
+        "17": 91.3,
+        "18": 94.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/TwistedFate.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/TwistedFate.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.651,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/TwistedFate.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.636718,
+        "3": 0.649006,
+        "4": 0.661863,
+        "5": 0.67529,
+        "6": 0.689286,
+        "7": 0.703852,
+        "8": 0.718988,
+        "9": 0.734693,
+        "10": 0.750969,
+        "11": 0.767813,
+        "12": 0.785227,
+        "13": 0.803211,
+        "14": 0.821765,
+        "15": 0.840888,
+        "16": 0.860581,
+        "17": 0.880843,
+        "18": 0.901675
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 333,
+      "growth": 39,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.mp/mpperlevel",
+        "角色根记录/TwistedFate.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 333,
+        "2": 361.08,
+        "3": 390.525,
+        "4": 421.335,
+        "5": 453.51,
+        "6": 487.05,
+        "7": 521.955,
+        "8": 558.225,
+        "9": 595.86,
+        "10": 634.86,
+        "11": 675.225,
+        "12": 716.955,
+        "13": 760.05,
+        "14": 804.51,
+        "15": 850.335,
+        "16": 897.525,
+        "17": 946.08,
+        "18": 996
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/TwistedFate.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/TwistedFate.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.651,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

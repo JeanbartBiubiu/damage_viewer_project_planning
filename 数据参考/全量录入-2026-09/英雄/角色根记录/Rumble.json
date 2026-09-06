@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Rumble",
+  "sourceNumericId": "68",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+    "path": ".临时原始响应/16.17/Rumble.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 67100,
+    "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+    "fetchedAt": "2026-09-06T14:26:35.520Z"
+  },
+  "recordKey": "Characters/Rumble/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Rumble",
+    "baseHPModifiable": {
+      "baseValue": 640,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 105,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.399999976158142,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.11999999731779099,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 110,
+    "primaryAbilityResource": {
+      "arType": 7,
+      "{726ee5cd}": {
+        "baseValue": 150,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 0,
+        "__type": "ModifiableFloat"
+      },
+      "arIncrements": 50,
+      "arMaxSegments": 2,
+      "arHasRegenText": false,
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 64,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3.200000047683716,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 36,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.699999809265137,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 28,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.5499999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 345,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 125,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6439999938011169,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.6439999938011169,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 1.850000023841858,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "acquisitionRange": 600,
+    "basicAttack": {
+      "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+      "mAttackProbability": 0.5,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackProbability": 0.5,
+        "mAttackName": "RumbleBasicAttack2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+        "mAttackName": "RumbleCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "RumbleFlameThrowerAbility/RumbleFlameThrower",
+      "RumbleShieldAbility/RumbleShield",
+      "RumbleGrenadeAbility/RumbleGrenade",
+      "RumbleCarpetBombAbility/RumbleCarpetBomb"
+    ],
+    "spells": [
+      "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+      "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+      "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+      "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb"
+    ],
+    "extraSpells": [
+      "RumbleFlameThrowerSpray",
+      "RumbleCarpetBombMissile",
+      "RumbleCarpetBombDummy",
+      "RumbleGrenadeMissile",
+      "RumbleFlameThrowerSpraySuper",
+      "RumbleOverheatAttack",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrowerSpray",
+      "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBombMissile",
+      "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBombDummy",
+      "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenadeMissile",
+      "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrowerSpraySuper",
+      "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleOverheatAttack",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Rumble/Spells/RumbleFlameThrowerAbility",
+      "Characters/Rumble/Spells/RumbleShieldAbility",
+      "Characters/Rumble/Spells/RumbleGrenadeAbility",
+      "Characters/Rumble/Spells/RumbleCarpetBombAbility",
+      "Characters/Rumble/Spells/RumbleHeatSystemAbility"
+    ],
+    "passiveName": "Spell_RumbleHeatSystem_Name",
+    "passiveLuaName": "",
+    "passiveToolTip": "Spell_RumbleHeatSystem_Summary",
+    "passiveSpell": "RumbleHeatSystem",
+    "passive1IconName": "assets/characters/rumble/hud/icons2d/rumble_junkyardtitan1.dds",
+    "name": "game_character_displayname_Rumble",
+    "selectionHeight": 170,
+    "selectionRadius": 140,
+    "pathfindingCollisionRadius": 35,
+    "overrideGameplayCollisionRadius": 80,
+    "{eb74898c}": 0,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1054,
+      "__type": "ToolEducationData"
+    },
+    "mAbilitySlotCC": [
+      0,
+      0,
+      14,
+      14
+    ],
+    "characterToolData": {
+      "sound": {
+        "attack": [
+          "Alstair_Attack1.wav",
+          "Alstair_Attack2.wav",
+          "Alstair_Attack3.wav",
+          "Alstair_Attack4.wav"
+        ],
+        "click": [
+          "Alstair_Click1.wav",
+          "Alstair_Click2.wav",
+          "Alstair_Click3.wav",
+          "Alstair_Click4.wav"
+        ],
+        "move": [
+          "Alstair_Move1.wav",
+          "Alstair_Move2.wav",
+          "Alstair_Move3.wav",
+          "Alstair_Move4.wav"
+        ],
+        "ready": "Alstair_Taunt.wav",
+        "__type": "ToolSoundData"
+      },
+      "spellData": [
+        {
+          "desc": "Alistar lets out a wild roar, removing all debuffs, temporarily increasing his health, and becoming Spell Immune for a duration.",
+          "displayName": "Unbreakable Will",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Alistar lets out a wild roar, removing all debuffs, temporarily increasing his health, and becoming Spell Immune for a duration.",
+          "displayName": "Unbreakable Will",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Alistar lets out a wild roar, removing all debuffs, temporarily increasing his health, and becoming Spell Immune for a duration.",
+          "displayName": "Unbreakable Will",
+          "__type": "ToolSpellDesc"
+        },
+        {
+          "desc": "Alistar lets out a wild roar, removing all debuffs, temporarily increasing his health, and becoming Spell Immune for a duration.",
+          "displayName": "Unbreakable Will",
+          "__type": "ToolSpellDesc"
+        }
+      ],
+      "mapAIPresence": {
+        "0": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "5": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passLev1Desc": [
+        "\"Adds +400 Hit Points.\"",
+        "\"Adds +600 Hit Points.\""
+      ],
+      "passiveData": [
+        {
+          "name": "Spell_RumbleHeatSystem_Name",
+          "level": [
+            6,
+            12,
+            18
+          ],
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "fighter",
+      "searchTagsSecondary": "mage",
+      "championId": 68,
+      "roles": "MAGE",
+      "PARFadeColor": "55 55 55",
+      "magicRank": 8,
+      "LevelSpellEffectiveness": 3,
+      "difficultyRank": 10,
+      "description": "game_character_description_Rumble",
+      "defenseRank": 6,
+      "classification": "Strong",
+      "ChasingAttackRangePercent": 0.5,
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "attackRank": 3,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "flags": 8398088,
+    "purchaseIdentities": [
+      "Melee"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mPerkReplacements": {
+      "mReplacements": [
+        {
+          "mReplaceTarget": "Perks/Styles/Sorcery/ManaflowBand",
+          "mReplaceWith": "Perks/Styles/Sorcery/NullifyingOrb",
+          "__type": "PerkReplacement"
+        },
+        {
+          "mReplaceTarget": "Perks/Styles/Resolve/Aftershock",
+          "mReplaceWith": "Perks/Styles/Resolve/GraspOfTheUndying",
+          "__type": "PerkReplacement"
+        },
+        {
+          "mReplaceTarget": "Perks/Styles/Precision/PresenceOfMind",
+          "mReplaceWith": "Perks/Styles/Precision/Triumph",
+          "__type": "PerkReplacement"
+        },
+        {
+          "mReplaceTarget": "Perks/Styles/Inspiration/GlacialAugment",
+          "mReplaceWith": "Perks/Styles/Inspiration/FirstStrike",
+          "__type": "PerkReplacement"
+        }
+      ],
+      "__type": "PerkReplacementList"
+    },
+    "mCharacterPassiveSpell": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Shared/Spells/GlobalRunCycleManager",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

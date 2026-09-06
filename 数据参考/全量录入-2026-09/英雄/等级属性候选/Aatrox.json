@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Aatrox",
+  "sourceNumericId": "266",
+  "name": "亚托克斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 114,
+      "sources": [
+        "原始资料/zh_CN/champion/Aatrox.json:stats.hp/hpperlevel",
+        "角色根记录/Aatrox.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 732.08,
+        "3": 818.15,
+        "4": 908.21,
+        "5": 1002.26,
+        "6": 1100.3,
+        "7": 1202.33,
+        "8": 1308.35,
+        "9": 1418.36,
+        "10": 1532.36,
+        "11": 1650.35,
+        "12": 1772.33,
+        "13": 1898.3,
+        "14": 2028.26,
+        "15": 2162.21,
+        "16": 2300.15,
+        "17": 2442.08,
+        "18": 2588
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Aatrox.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Aatrox.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3,
+        "2": 3.36,
+        "3": 3.7375,
+        "4": 4.1325,
+        "5": 4.545,
+        "6": 4.975,
+        "7": 5.4225,
+        "8": 5.8875,
+        "9": 6.37,
+        "10": 6.87,
+        "11": 7.3875,
+        "12": 7.9225,
+        "13": 8.475,
+        "14": 9.045,
+        "15": 9.6325,
+        "16": 10.2375,
+        "17": 10.86,
+        "18": 11.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 38,
+      "growth": 4.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Aatrox.json:stats.armor/armorperlevel",
+        "角色根记录/Aatrox.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 38,
+        "2": 41.456,
+        "3": 45.08,
+        "4": 48.872,
+        "5": 52.832,
+        "6": 56.96,
+        "7": 61.256,
+        "8": 65.72,
+        "9": 70.352,
+        "10": 75.152,
+        "11": 80.12,
+        "12": 85.256,
+        "13": 90.56,
+        "14": 96.032,
+        "15": 101.672,
+        "16": 107.48,
+        "17": 113.456,
+        "18": 119.6
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Aatrox.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Aatrox.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 5,
+      "sources": [
+        "角色根记录/Aatrox.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 63.6,
+        "3": 67.375,
+        "4": 71.325,
+        "5": 75.45,
+        "6": 79.75,
+        "7": 84.225,
+        "8": 88.875,
+        "9": 93.7,
+        "10": 98.7,
+        "11": 103.875,
+        "12": 109.225,
+        "13": 114.75,
+        "14": 120.45,
+        "15": 126.325,
+        "16": 132.375,
+        "17": 138.6,
+        "18": 145
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Aatrox.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Aatrox.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.651,
+      "attackSpeedRatio": 0.651,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Aatrox.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.651,
+        "2": 0.662718,
+        "3": 0.675006,
+        "4": 0.687863,
+        "5": 0.70129,
+        "6": 0.715286,
+        "7": 0.729852,
+        "8": 0.744988,
+        "9": 0.760694,
+        "10": 0.776969,
+        "11": 0.793813,
+        "12": 0.811227,
+        "13": 0.829211,
+        "14": 0.847765,
+        "15": 0.866888,
+        "16": 0.886581,
+        "17": 0.906843,
+        "18": 0.927675
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "鲜血魔井",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.651,
+    "ratio": 0.651,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

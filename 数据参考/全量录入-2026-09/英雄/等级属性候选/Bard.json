@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Bard",
+  "sourceNumericId": "432",
+  "name": "巴德",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 103,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.hp/hpperlevel",
+        "角色根记录/Bard.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 704.16,
+        "3": 781.925,
+        "4": 863.295,
+        "5": 948.27,
+        "6": 1036.85,
+        "7": 1129.035,
+        "8": 1224.825,
+        "9": 1324.22,
+        "10": 1427.22,
+        "11": 1533.825,
+        "12": 1644.035,
+        "13": 1757.85,
+        "14": 1875.27,
+        "15": 1996.295,
+        "16": 2120.925,
+        "17": 2249.16,
+        "18": 2381
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Bard.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.896,
+        "3": 6.31125,
+        "4": 6.74575,
+        "5": 7.1995,
+        "6": 7.6725,
+        "7": 8.16475,
+        "8": 8.67625,
+        "9": 9.207,
+        "10": 9.757,
+        "11": 10.32625,
+        "12": 10.91475,
+        "13": 11.5225,
+        "14": 12.1495,
+        "15": 12.79575,
+        "16": 13.46125,
+        "17": 14.146,
+        "18": 14.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 34,
+      "growth": 5,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.armor/armorperlevel",
+        "角色根记录/Bard.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 34,
+        "2": 37.6,
+        "3": 41.375,
+        "4": 45.325,
+        "5": 49.45,
+        "6": 53.75,
+        "7": 58.225,
+        "8": 62.875,
+        "9": 67.7,
+        "10": 72.7,
+        "11": 77.875,
+        "12": 83.225,
+        "13": 88.75,
+        "14": 94.45,
+        "15": 100.325,
+        "16": 106.375,
+        "17": 112.6,
+        "18": 119
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Bard.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 52,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Bard.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 52,
+        "2": 54.16,
+        "3": 56.425,
+        "4": 58.795,
+        "5": 61.27,
+        "6": 63.85,
+        "7": 66.535,
+        "8": 69.325,
+        "9": 72.22,
+        "10": 75.22,
+        "11": 78.325,
+        "12": 81.535,
+        "13": 84.85,
+        "14": 88.27,
+        "15": 91.795,
+        "16": 95.425,
+        "17": 99.16,
+        "18": 103
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Bard.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Bard.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Bard.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.667475,
+        "3": 0.677411,
+        "4": 0.687807,
+        "5": 0.698664,
+        "6": 0.709982,
+        "7": 0.72176,
+        "8": 0.733999,
+        "9": 0.746698,
+        "10": 0.759858,
+        "11": 0.773479,
+        "12": 0.78756,
+        "13": 0.802102,
+        "14": 0.817104,
+        "15": 0.832567,
+        "16": 0.848491,
+        "17": 0.864875,
+        "18": 0.88172
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.mp/mpperlevel",
+        "角色根记录/Bard.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 386,
+        "3": 423.75,
+        "4": 463.25,
+        "5": 504.5,
+        "6": 547.5,
+        "7": 592.25,
+        "8": 638.75,
+        "9": 687,
+        "10": 737,
+        "11": 788.75,
+        "12": 842.25,
+        "13": 897.5,
+        "14": 954.5,
+        "15": 1013.25,
+        "16": 1073.75,
+        "17": 1136,
+        "18": 1200
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Bard.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Bard.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.324,
+        "3": 6.66375,
+        "4": 7.01925,
+        "5": 7.3905,
+        "6": 7.7775,
+        "7": 8.18025,
+        "8": 8.59875,
+        "9": 9.033,
+        "10": 9.483,
+        "11": 9.94875,
+        "12": 10.43025,
+        "13": 10.9275,
+        "14": 11.4405,
+        "15": 11.96925,
+        "16": 12.51375,
+        "17": 13.074,
+        "18": 13.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

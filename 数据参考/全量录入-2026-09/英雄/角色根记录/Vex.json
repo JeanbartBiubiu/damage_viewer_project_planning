@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Vex",
+  "sourceNumericId": "711",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/vex/vex.bin.json",
+    "path": ".临时原始响应/16.17/Vex.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 51010,
+    "sha256": "e0c8d923b81cc8b3dd8ea14e4fa8a135e1f1c8f1fdfca9fcc35b722069c5300d",
+    "fetchedAt": "2026-09-06T14:26:45.913Z"
+  },
+  "recordKey": "Characters/Vex/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Vex",
+    "baseHPModifiable": {
+      "baseValue": 590,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 104,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.11999999731779099,
+      "__type": "ModifiableFloat"
+    },
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 490,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 32,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.2000000476837158,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.1599999964237213,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "secondaryAbilityResource": {
+      "arType": 5,
+      "{726ee5cd}": {
+        "baseValue": 30,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 0,
+        "__type": "ModifiableFloat"
+      },
+      "arIncrements": 5,
+      "arMaxSegments": 6,
+      "arAllowMaxValueToBeOverridden": true,
+      "arOverrideSmallPipName": "JhinSmall",
+      "arOverrideLargePipName": "JhinLarge",
+      "arOverrideSpacerName": "PipSpacer1",
+      "{4eb6a404}": 2,
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 54,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 2.75,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 23,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.449999809265137,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 28,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 335,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 550,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6690000295639038,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 1,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "basicAttack": {
+      "mAttackTotalTime": 1.600000023841858,
+      "mAttackCastTime": 0.25,
+      "mAttackProbability": 0.5,
+      "mAttackName": "VexBasicAttack",
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackProbability": 0.5,
+        "mAttackName": "VexBasicAttack2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackTotalTime": 1.600000023841858,
+        "mAttackCastTime": 0.25,
+        "mAttackName": "VexCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "VexQAbility/VexQ",
+      "VexWAbility/VexW",
+      "VexEAbility/VexE",
+      "VexRAbility/VexR"
+    ],
+    "spells": [
+      "Characters/Vex/Spells/VexQAbility/VexQ",
+      "Characters/Vex/Spells/VexWAbility/VexW",
+      "Characters/Vex/Spells/VexEAbility/VexE",
+      "Characters/Vex/Spells/VexRAbility/VexR"
+    ],
+    "extraSpells": [
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "VexPGloomAttack",
+      "BaseSpell",
+      "BaseSpell",
+      "VexPGloomAttackMissile",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "{698a4767}",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "{0d649899}",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Vex/Spells/VexRAbility",
+      "Characters/Vex/Spells/VexQAbility",
+      "Characters/Vex/Spells/VexWAbility",
+      "Characters/Vex/Spells/VexEAbility",
+      "Characters/Vex/Spells/VexPAbility"
+    ],
+    "passiveLuaName": "VexP",
+    "passiveSpell": "VexP",
+    "passive1IconName": "assets/characters/vex/hud/icons2d/icons_vex_passive.dds",
+    "name": "game_character_displayname_Vex",
+    "mUseCCAnimations": true,
+    "selectionHeight": 100,
+    "selectionRadius": 100,
+    "pathfindingCollisionRadius": 30,
+    "overrideGameplayCollisionRadius": 55,
+    "unitTagsString": "Champion",
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "{ca762bfc}": true,
+          "{b75b2ab8}": true,
+          "{b66d0e47}": true,
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        },
+        "5": {
+          "{6175bb7b}": true,
+          "__type": "ToolAiPresence"
+        }
+      },
+      "searchTags": "mage",
+      "championId": 711,
+      "roles": "MAGE",
+      "description": "game_character_description_Vex",
+      "botEnabled": true,
+      "botEnabledMM": true,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "flags": 9446656,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mCharacterPassiveSpell": "Characters/Vex/Spells/VexPAbility/VexP",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Vex/Spells/VexPAbility/VexP",
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Illaoi",
+  "sourceNumericId": "420",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/illaoi/illaoi.bin.json",
+    "path": ".临时原始响应/16.17/Illaoi.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 45671,
+    "sha256": "5857ec6b4261135ad82c721a193124e03d399ce18bc229491e4fde05065e4d0c",
+    "fetchedAt": "2026-09-06T14:26:19.729Z"
+  },
+  "recordKey": "Characters/Illaoi/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Illaoi",
+    "baseHPModifiable": {
+      "baseValue": 656,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 115,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.899999976158142,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.1599999964237213,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 112,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 350,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 50,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.5,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.15000000596046448,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 65,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 5,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 35,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 5,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 32,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 2.049999952316284,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 350,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 125,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 2.5,
+      "__type": "ModifiableFloat"
+    },
+    "acquisitionRange": 600,
+    "basicAttack": {
+      "mAttackTotalTime": 1.75,
+      "mAttackCastTime": 0.375,
+      "mAttackProbability": 1,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackName": "IllaoiBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "IllaoiBasicAttack3",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackName": "IllaoiCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "IllaoiQAbility/IllaoiQ",
+      "IllaoiWAbility/IllaoiW",
+      "IllaoiEAbility/IllaoiE",
+      "IllaoiRAbility/IllaoiR"
+    ],
+    "spells": [
+      "Characters/Illaoi/Spells/IllaoiQAbility/IllaoiQ",
+      "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiW",
+      "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiE",
+      "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR"
+    ],
+    "extraSpells": [
+      "IllaoiEMis",
+      "IllaoiWAttack",
+      "IllaoiDummySpell",
+      "IllaoiESpiritMissile",
+      "IllaoiBasicAttackTurret",
+      "IllaoiTentacleHeal",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiEMis",
+      "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiWAttack",
+      "Characters/Illaoi/Spells/IllaoiDummySpell",
+      "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiESpiritMissile",
+      "Characters/Illaoi/Spells/IllaoiBasicAttackTurret",
+      "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiTentacleHeal",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Illaoi/Spells/IllaoiQAbility",
+      "Characters/Illaoi/Spells/IllaoiWAbility",
+      "Characters/Illaoi/Spells/IllaoiEAbility",
+      "Characters/Illaoi/Spells/IllaoiRAbility",
+      "Characters/Illaoi/Spells/IllaoiPassiveAbility"
+    ],
+    "passiveName": "Spell_IllaoiPassive_Name",
+    "passiveLuaName": "",
+    "passiveToolTip": "Spell_IllaoiPassive_Summary",
+    "passiveSpell": "IllaoiPassive",
+    "passive1IconName": "assets/characters/illaoi/hud/icons2d/illaoi_p.dds",
+    "name": "game_character_displayname_Illaoi",
+    "selectionHeight": 100,
+    "selectionRadius": 100,
+    "pathfindingCollisionRadius": 35,
+    "{eb74898c}": 0,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1054,
+      "__type": "ToolEducationData"
+    },
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "__type": "ToolAiPresence"
+        },
+        "1": {
+          "__type": "ToolAiPresence"
+        },
+        "2": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passLev1Desc": [
+        "+40% Mana Point regeneration.",
+        "+60% Mana Point regeneration.",
+        "+80% Mana Point regeneration."
+      ],
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Illaoi",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "fighter",
+      "searchTagsSecondary": "tank",
+      "championId": 420,
+      "roles": "BRAWLER",
+      "magicRank": 3,
+      "difficultyRank": 4,
+      "description": "game_character_description_Illaoi",
+      "defenseRank": 6,
+      "classification": "Deadly",
+      "ChasingAttackRangePercent": 0.30000001192092896,
+      "{aa75da9d}": false,
+      "attackRank": 8,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "flags": 8398600,
+    "purchaseIdentities": [
+      "Melee"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Resolve",
+    "mPerkReplacements": {
+      "mReplacements": [
+        {
+          "mReplaceTarget": "Perks/Styles/Resolve/Aftershock",
+          "mReplaceWith": "Perks/Styles/Resolve/GraspOfTheUndying",
+          "__type": "PerkReplacement"
+        },
+        {
+          "mReplaceTarget": "Perks/Styles/Inspiration/GlacialAugment",
+          "mReplaceWith": "Perks/Styles/Inspiration/FirstStrike",
+          "__type": "PerkReplacement"
+        }
+      ],
+      "__type": "PerkReplacementList"
+    },
+    "mCharacterPassiveSpell": "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiPassive",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiPassive",
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

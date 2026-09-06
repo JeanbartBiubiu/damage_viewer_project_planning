@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kalista",
+  "sourceNumericId": "429",
+  "name": "卡莉丝塔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 560,
+      "growth": 114,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.hp/hpperlevel",
+        "角色根记录/Kalista.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 560,
+        "2": 642.08,
+        "3": 728.15,
+        "4": 818.21,
+        "5": 912.26,
+        "6": 1010.3,
+        "7": 1112.33,
+        "8": 1218.35,
+        "9": 1328.36,
+        "10": 1442.36,
+        "11": 1560.35,
+        "12": 1682.33,
+        "13": 1808.3,
+        "14": 1938.26,
+        "15": 2072.21,
+        "16": 2210.15,
+        "17": 2352.08,
+        "18": 2498
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 4,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Kalista.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 4,
+        "2": 4.54,
+        "3": 5.10625,
+        "4": 5.69875,
+        "5": 6.3175,
+        "6": 6.9625,
+        "7": 7.63375,
+        "8": 8.33125,
+        "9": 9.055,
+        "10": 9.805,
+        "11": 10.58125,
+        "12": 11.38375,
+        "13": 12.2125,
+        "14": 13.0675,
+        "15": 13.94875,
+        "16": 14.85625,
+        "17": 15.79,
+        "18": 16.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.armor/armorperlevel",
+        "角色根记录/Kalista.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 27.744,
+        "3": 31.67,
+        "4": 35.778,
+        "5": 40.068,
+        "6": 44.54,
+        "7": 49.194,
+        "8": 54.03,
+        "9": 59.048,
+        "10": 64.248,
+        "11": 69.63,
+        "12": 75.194,
+        "13": 80.94,
+        "14": 86.868,
+        "15": 92.978,
+        "16": 99.27,
+        "17": 105.744,
+        "18": 112.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kalista.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 57,
+      "growth": 4.75,
+      "sources": [
+        "角色根记录/Kalista.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 57,
+        "2": 60.42,
+        "3": 64.00625,
+        "4": 67.75875,
+        "5": 71.6775,
+        "6": 75.7625,
+        "7": 80.01375,
+        "8": 84.43125,
+        "9": 89.015,
+        "10": 93.765,
+        "11": 98.68125,
+        "12": 103.76375,
+        "13": 109.0125,
+        "14": 114.4275,
+        "15": 120.00875,
+        "16": 125.75625,
+        "17": 131.67,
+        "18": 137.75
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kalista.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kalista.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.694,
+      "attackSpeedRatio": 0.694,
+      "growthPercent": 4.5,
+      "sources": [
+        "角色根记录/Kalista.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.694,
+        "2": 0.716486,
+        "3": 0.740064,
+        "4": 0.764736,
+        "5": 0.790501,
+        "6": 0.817358,
+        "7": 0.845309,
+        "8": 0.874353,
+        "9": 0.90449,
+        "10": 0.93572,
+        "11": 0.968043,
+        "12": 1.001459,
+        "13": 1.035969,
+        "14": 1.071571,
+        "15": 1.108266,
+        "16": 1.146054,
+        "17": 1.184936,
+        "18": 1.22491
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.mp/mpperlevel",
+        "角色根记录/Kalista.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 332.4,
+        "3": 366.375,
+        "4": 401.925,
+        "5": 439.05,
+        "6": 477.75,
+        "7": 518.025,
+        "8": 559.875,
+        "9": 603.3,
+        "10": 648.3,
+        "11": 694.875,
+        "12": 743.025,
+        "13": 792.75,
+        "14": 844.05,
+        "15": 896.925,
+        "16": 951.375,
+        "17": 1007.4,
+        "18": 1065
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6.3,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Kalista.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Kalista.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.3,
+        "2": 6.876,
+        "3": 7.48,
+        "4": 8.112,
+        "5": 8.772,
+        "6": 9.46,
+        "7": 10.176,
+        "8": 10.92,
+        "9": 11.692,
+        "10": 12.492,
+        "11": 13.32,
+        "12": 14.176,
+        "13": 15.06,
+        "14": 15.972,
+        "15": 16.912,
+        "16": 17.88,
+        "17": 18.876,
+        "18": 19.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.694,
+    "ratio": 0.694,
+    "growthPercent": 4.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Tryndamere",
+  "sourceNumericId": "23",
+  "name": "泰达米尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 696,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/Tryndamere.json:stats.hp/hpperlevel",
+        "角色根记录/Tryndamere.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 696,
+        "2": 773.76,
+        "3": 855.3,
+        "4": 940.62,
+        "5": 1029.72,
+        "6": 1122.6,
+        "7": 1219.26,
+        "8": 1319.7,
+        "9": 1423.92,
+        "10": 1531.92,
+        "11": 1643.7,
+        "12": 1759.26,
+        "13": 1878.6,
+        "14": 2001.72,
+        "15": 2128.62,
+        "16": 2259.3,
+        "17": 2393.76,
+        "18": 2532
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Tryndamere.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Tryndamere.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.148,
+        "3": 9.8275,
+        "4": 10.5385,
+        "5": 11.281,
+        "6": 12.055,
+        "7": 12.8605,
+        "8": 13.6975,
+        "9": 14.566,
+        "10": 15.466,
+        "11": 16.3975,
+        "12": 17.3605,
+        "13": 18.355,
+        "14": 19.381,
+        "15": 20.4385,
+        "16": 21.5275,
+        "17": 22.648,
+        "18": 23.8
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Tryndamere.json:stats.armor/armorperlevel",
+        "角色根记录/Tryndamere.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.456,
+        "3": 40.08,
+        "4": 43.872,
+        "5": 47.832,
+        "6": 51.96,
+        "7": 56.256,
+        "8": 60.72,
+        "9": 65.352,
+        "10": 70.152,
+        "11": 75.12,
+        "12": 80.256,
+        "13": 85.56,
+        "14": 91.032,
+        "15": 96.672,
+        "16": 102.48,
+        "17": 108.456,
+        "18": 114.6
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Tryndamere.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Tryndamere.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 66,
+      "growth": 4.5,
+      "sources": [
+        "角色根记录/Tryndamere.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 66,
+        "2": 69.24,
+        "3": 72.6375,
+        "4": 76.1925,
+        "5": 79.905,
+        "6": 83.775,
+        "7": 87.8025,
+        "8": 91.9875,
+        "9": 96.33,
+        "10": 100.83,
+        "11": 105.4875,
+        "12": 110.3025,
+        "13": 115.275,
+        "14": 120.405,
+        "15": 125.6925,
+        "16": 131.1375,
+        "17": 136.74,
+        "18": 142.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Tryndamere.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Tryndamere.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.67,
+      "attackSpeedRatio": 0.725,
+      "growthPercent": 3.4,
+      "sources": [
+        "角色根记录/Tryndamere.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.67,
+        "2": 0.687748,
+        "3": 0.706359,
+        "4": 0.725832,
+        "5": 0.746169,
+        "6": 0.767367,
+        "7": 0.789429,
+        "8": 0.812354,
+        "9": 0.836141,
+        "10": 0.860791,
+        "11": 0.886304,
+        "12": 0.912679,
+        "13": 0.939918,
+        "14": 0.968019,
+        "15": 0.996982,
+        "16": 1.026809,
+        "17": 1.057498,
+        "18": 1.08905
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "怒气",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.67,
+    "ratio": 0.725,
+    "growthPercent": 3.4,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Nunu",
+  "sourceNumericId": "20",
+  "name": "努努和威朗普",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 610,
+      "growth": 90,
+      "sources": [
+        "原始资料/zh_CN/champion/Nunu.json:stats.hp/hpperlevel",
+        "角色根记录/Nunu.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 610,
+        "2": 674.8,
+        "3": 742.75,
+        "4": 813.85,
+        "5": 888.1,
+        "6": 965.5,
+        "7": 1046.05,
+        "8": 1129.75,
+        "9": 1216.6,
+        "10": 1306.6,
+        "11": 1399.75,
+        "12": 1496.05,
+        "13": 1595.5,
+        "14": 1698.1,
+        "15": 1803.85,
+        "16": 1912.75,
+        "17": 2024.8,
+        "18": 2140
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 29,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Nunu.json:stats.armor/armorperlevel",
+        "角色根记录/Nunu.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 32.024,
+        "3": 35.195,
+        "4": 38.513,
+        "5": 41.978,
+        "6": 45.59,
+        "7": 49.349,
+        "8": 53.255,
+        "9": 57.308,
+        "10": 61.508,
+        "11": 65.855,
+        "12": 70.349,
+        "13": 74.99,
+        "14": 79.778,
+        "15": 84.713,
+        "16": 89.795,
+        "17": 95.024,
+        "18": 100.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Nunu.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Nunu.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Nunu.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 63.16,
+        "3": 65.425,
+        "4": 67.795,
+        "5": 70.27,
+        "6": 72.85,
+        "7": 75.535,
+        "8": 78.325,
+        "9": 81.22,
+        "10": 84.22,
+        "11": 87.325,
+        "12": 90.535,
+        "13": 93.85,
+        "14": 97.27,
+        "15": 100.795,
+        "16": 104.425,
+        "17": 108.16,
+        "18": 112
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nunu.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nunu.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.25,
+      "sources": [
+        "角色根记录/Nunu.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.635125,
+        "3": 0.645742,
+        "4": 0.656852,
+        "5": 0.668453,
+        "6": 0.680547,
+        "7": 0.693133,
+        "8": 0.706211,
+        "9": 0.719781,
+        "10": 0.733844,
+        "11": 0.748398,
+        "12": 0.763445,
+        "13": 0.778984,
+        "14": 0.795016,
+        "15": 0.811539,
+        "16": 0.828555,
+        "17": 0.846063,
+        "18": 0.864062
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 280,
+      "growth": 42,
+      "sources": [
+        "原始资料/zh_CN/champion/Nunu.json:stats.mp/mpperlevel",
+        "角色根记录/Nunu.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 280,
+        "2": 310.24,
+        "3": 341.95,
+        "4": 375.13,
+        "5": 409.78,
+        "6": 445.9,
+        "7": 483.49,
+        "8": 522.55,
+        "9": 563.08,
+        "10": 605.08,
+        "11": 648.55,
+        "12": 693.49,
+        "13": 739.9,
+        "14": 787.78,
+        "15": 837.13,
+        "16": 887.95,
+        "17": 940.24,
+        "18": 994
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Nunu.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Nunu.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.36,
+        "3": 7.7375,
+        "4": 8.1325,
+        "5": 8.545,
+        "6": 8.975,
+        "7": 9.4225,
+        "8": 9.8875,
+        "9": 10.37,
+        "10": 10.87,
+        "11": 11.3875,
+        "12": 11.9225,
+        "13": 12.475,
+        "14": 13.045,
+        "15": 13.6325,
+        "16": 14.2375,
+        "17": 14.86,
+        "18": 15.5
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.8
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.25,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

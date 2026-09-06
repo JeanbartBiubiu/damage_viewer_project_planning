@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Alistar",
+  "sourceNumericId": "12",
+  "name": "阿利斯塔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 685,
+      "growth": 120,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.hp/hpperlevel",
+        "角色根记录/Alistar.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 685,
+        "2": 771.4,
+        "3": 862,
+        "4": 956.8,
+        "5": 1055.8,
+        "6": 1159,
+        "7": 1266.4,
+        "8": 1378,
+        "9": 1493.8,
+        "10": 1613.8,
+        "11": 1738,
+        "12": 1866.4,
+        "13": 1999,
+        "14": 2135.8,
+        "15": 2276.8,
+        "16": 2422,
+        "17": 2571.4,
+        "18": 2725
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.85,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Alistar.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.112,
+        "3": 9.75375,
+        "4": 10.42525,
+        "5": 11.1265,
+        "6": 11.8575,
+        "7": 12.61825,
+        "8": 13.40875,
+        "9": 14.229,
+        "10": 15.079,
+        "11": 15.95875,
+        "12": 16.86825,
+        "13": 17.8075,
+        "14": 18.7765,
+        "15": 19.77525,
+        "16": 20.80375,
+        "17": 21.862,
+        "18": 22.95
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 40,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.armor/armorperlevel",
+        "角色根记录/Alistar.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 40,
+        "2": 43.384,
+        "3": 46.9325,
+        "4": 50.6455,
+        "5": 54.523,
+        "6": 58.565,
+        "7": 62.7715,
+        "8": 67.1425,
+        "9": 71.678,
+        "10": 76.378,
+        "11": 81.2425,
+        "12": 86.2715,
+        "13": 91.465,
+        "14": 96.823,
+        "15": 102.3455,
+        "16": 108.0325,
+        "17": 113.884,
+        "18": 119.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Alistar.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 3.75,
+      "sources": [
+        "角色根记录/Alistar.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 64.7,
+        "3": 67.53125,
+        "4": 70.49375,
+        "5": 73.5875,
+        "6": 76.8125,
+        "7": 80.16875,
+        "8": 83.65625,
+        "9": 87.275,
+        "10": 91.025,
+        "11": 94.90625,
+        "12": 98.91875,
+        "13": 103.0625,
+        "14": 107.3375,
+        "15": 111.74375,
+        "16": 116.28125,
+        "17": 120.95,
+        "18": 125.75
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Alistar.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Alistar.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.125,
+      "sources": [
+        "角色根记录/Alistar.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.634563,
+        "3": 0.64459,
+        "4": 0.655082,
+        "5": 0.666039,
+        "6": 0.677461,
+        "7": 0.689348,
+        "8": 0.701699,
+        "9": 0.714516,
+        "10": 0.727797,
+        "11": 0.741543,
+        "12": 0.755754,
+        "13": 0.77043,
+        "14": 0.78557,
+        "15": 0.801176,
+        "16": 0.817246,
+        "17": 0.833781,
+        "18": 0.850781
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.mp/mpperlevel",
+        "角色根记录/Alistar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 378.8,
+        "3": 409,
+        "4": 440.6,
+        "5": 473.6,
+        "6": 508,
+        "7": 543.8,
+        "8": 581,
+        "9": 619.6,
+        "10": 659.6,
+        "11": 701,
+        "12": 743.8,
+        "13": 788,
+        "14": 833.6,
+        "15": 880.6,
+        "16": 929,
+        "17": 978.8,
+        "18": 1030
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Alistar.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Alistar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.076,
+        "3": 9.68,
+        "4": 10.312,
+        "5": 10.972,
+        "6": 11.66,
+        "7": 12.376,
+        "8": 13.12,
+        "9": 13.892,
+        "10": 14.692,
+        "11": 15.52,
+        "12": 16.376,
+        "13": 17.26,
+        "14": 18.172,
+        "15": 19.112,
+        "16": 20.08,
+        "17": 21.076,
+        "18": 22.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 2.125,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

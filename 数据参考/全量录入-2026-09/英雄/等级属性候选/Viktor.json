@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Viktor",
+  "sourceNumericId": "112",
+  "name": "维克托",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 600,
+      "growth": 100,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.hp/hpperlevel",
+        "角色根记录/Viktor.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 600,
+        "2": 672,
+        "3": 747.5,
+        "4": 826.5,
+        "5": 909,
+        "6": 995,
+        "7": 1084.5,
+        "8": 1177.5,
+        "9": 1274,
+        "10": 1374,
+        "11": 1477.5,
+        "12": 1584.5,
+        "13": 1695,
+        "14": 1809,
+        "15": 1926.5,
+        "16": 2047.5,
+        "17": 2172,
+        "18": 2300
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Viktor.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.468,
+        "3": 8.95875,
+        "4": 9.47225,
+        "5": 10.0085,
+        "6": 10.5675,
+        "7": 11.14925,
+        "8": 11.75375,
+        "9": 12.381,
+        "10": 13.031,
+        "11": 13.70375,
+        "12": 14.39925,
+        "13": 15.1175,
+        "14": 15.8585,
+        "15": 16.62225,
+        "16": 17.40875,
+        "17": 18.218,
+        "18": 19.05
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 23,
+      "growth": 4.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.armor/armorperlevel",
+        "角色根记录/Viktor.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 23,
+        "2": 26.168,
+        "3": 29.49,
+        "4": 32.966,
+        "5": 36.596,
+        "6": 40.38,
+        "7": 44.318,
+        "8": 48.41,
+        "9": 52.656,
+        "10": 57.056,
+        "11": 61.61,
+        "12": 66.318,
+        "13": 71.18,
+        "14": 76.196,
+        "15": 81.366,
+        "16": 86.69,
+        "17": 92.168,
+        "18": 97.8
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Viktor.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 53,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Viktor.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 53,
+        "2": 55.16,
+        "3": 57.425,
+        "4": 59.795,
+        "5": 62.27,
+        "6": 64.85,
+        "7": 67.535,
+        "8": 70.325,
+        "9": 73.22,
+        "10": 76.22,
+        "11": 79.325,
+        "12": 82.535,
+        "13": 85.85,
+        "14": 89.27,
+        "15": 92.795,
+        "16": 96.425,
+        "17": 100.16,
+        "18": 104
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Viktor.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Viktor.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2.11,
+      "sources": [
+        "角色根记录/Viktor.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.667996,
+        "3": 0.678479,
+        "4": 0.689447,
+        "5": 0.700901,
+        "6": 0.712841,
+        "7": 0.725267,
+        "8": 0.738179,
+        "9": 0.751577,
+        "10": 0.765461,
+        "11": 0.77983,
+        "12": 0.794686,
+        "13": 0.810028,
+        "14": 0.825855,
+        "15": 0.842169,
+        "16": 0.858968,
+        "17": 0.876253,
+        "18": 0.894025
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 405,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.mp/mpperlevel",
+        "角色根记录/Viktor.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 405,
+        "2": 437.4,
+        "3": 471.375,
+        "4": 506.925,
+        "5": 544.05,
+        "6": 582.75,
+        "7": 623.025,
+        "8": 664.875,
+        "9": 708.3,
+        "10": 753.3,
+        "11": 799.875,
+        "12": 848.025,
+        "13": 897.75,
+        "14": 949.05,
+        "15": 1001.925,
+        "16": 1056.375,
+        "17": 1112.4,
+        "18": 1170
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Viktor.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Viktor.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2.11,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}
