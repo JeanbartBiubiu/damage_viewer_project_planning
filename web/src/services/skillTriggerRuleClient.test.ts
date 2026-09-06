@@ -557,3 +557,28 @@ describe('命中目标类别响应', () => {
     expect(() => parseSkillTriggerRuleDetail(withCategory(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
   });
 });
+
+describe('技能命中法术护盾事件值响应', () => {
+  const valueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED';
+  const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0.5 } };
+  const response = (condition: unknown = conditionDetail, binding: unknown = { eventValueKey: valueKey }) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_q' } },
+    conditionGroups: [{ groupKey: 'unblocked', name: '命中结果', sortOrder: 0, conditions: [{ conditionKey: 'shield', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 0, detail: condition }] }],
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{ bindingKey: 'shield', parameterKey: 'blocked', sourceType: 'EVENT_VALUE', detail: binding }] }]
+  });
+  it('同时读取条件和绑定，比较取值保留小数', () => {
+    const parsed = parseSkillTriggerRuleDetail(response());
+    expect(parsed.conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+    expect(parsed.actions[0].runtimeInputBindings[0].detail).toEqual({ eventValueKey: valueKey });
+  });
+  it.each([null, [valueKey], 'SKILL_HIT_SHIELD_BLOCKED', 'skill_hit_spell_shield_blocked'])('拒绝非法事件值 %j', (eventValueKey) => {
+    expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+  it('拒绝混合字段和非法比较符，不接受客户端自填阻挡结果', () => {
+    for (const extra of [{ subject: 'CURRENT_TARGET' }, { value: 0 }, { comparator: 'UNKNOWN' }]) {
+      expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+    }
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey: valueKey, value: 1 }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});

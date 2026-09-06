@@ -256,6 +256,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
   'REMAINING_MS',
@@ -515,6 +516,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   CHARGE_DURATION_MS: '实际蓄力毫秒数',
   RECAST_COUNT: '当前过程已重施次数',
   HIT_INDEX: '当前命中序号',
+  SKILL_HIT_SPELL_SHIELD_BLOCKED: '技能命中被法术护盾阻挡',
   LIFECYCLE_STACKS: '当前生命周期层数',
   PERIOD_INDEX: '当前周期序号',
   REMAINING_MS: '当前生命周期剩余毫秒数',
@@ -541,6 +543,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   CHARGE_DURATION_MS: 'DECIMAL',
   RECAST_COUNT: 'INTEGER',
   HIT_INDEX: 'INTEGER',
+  SKILL_HIT_SPELL_SHIELD_BLOCKED: 'INTEGER',
   LIFECYCLE_STACKS: 'INTEGER',
   PERIOD_INDEX: 'INTEGER',
   REMAINING_MS: 'DECIMAL',
@@ -1281,7 +1284,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
-  SKILL_HIT: ['HIT_INDEX'],
+  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
   LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
@@ -1357,7 +1360,7 @@ export function eventValueDomain(key: SkillTriggerEventValueKey): SkillTriggerVa
 
 export function eventValueOptionLabel(key: SkillTriggerEventValueKey): string {
   const label = SKILL_TRIGGER_EVENT_VALUE_LABELS[key];
-  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED') {
+  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
     return `${label}（${SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT}）`;
   }
   return label;

@@ -74,6 +74,7 @@ export type SkillTriggerEventValueKey =
   | 'CHARGE_DURATION_MS'
   | 'RECAST_COUNT'
   | 'HIT_INDEX'
+  | 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
   | 'LIFECYCLE_STACKS'
   | 'PERIOD_INDEX'
   | 'REMAINING_MS'

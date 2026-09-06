@@ -591,6 +591,7 @@ export function SkillTriggerConditionEditorModal({
                   required
                   extra={
                     current.detail.eventValueKey === 'BLOCKED'
+                    || current.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
                     || current.detail.eventValueKey === 'IMMUNE'
                     || current.detail.eventValueKey === 'KILLED'
                       ? SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT
