@@ -12,7 +12,7 @@
 
 - `src/App.tsx`：应用外壳、路由、API 基址和本地状态；根地址与未知 Hash 落到 `#/attributes`
 - `src/pages/admin/attributes/`：属性管理（`#/attributes`）
-- `src/pages/admin/characters/`：角色管理（`#/characters`）
+- `src/pages/admin/characters/`：角色管理（`#/characters`）；关联技能行可直接「录入技能」，进入选中技能的参数、公式、效果、过程和触发编辑入口；「返回角色技能」重新打开同一角色的关联弹窗，并保留角色列表筛选。
 - `src/pages/admin/equipment/`：装备管理（`#/equipment`）
 - `src/pages/admin/skill-categories/`：技能分类管理（`#/skill-categories`）
 - `src/pages/admin/damage-types/`：伤害类型管理（`#/damage-types`）

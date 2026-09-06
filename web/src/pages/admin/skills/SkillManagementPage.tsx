@@ -31,12 +31,19 @@ import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
 import { SkillTriggerRuleManagementModal } from './triggers/SkillTriggerRuleManagementModal';
 import { SKILL_TRIGGER_ENTRY_LABEL } from './triggers/triggerRuleForm';
+import { loadFocusedSkill } from './focusedSkill';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
+  focus?: {
+    skillKey: string;
+    characterKey: string;
+    characterName: string;
+    onReturn: () => void;
+  };
 };
 
 type StatusFilter = SkillStatus | '';
@@ -75,8 +82,10 @@ export function SkillManagementPage({
   apiBaseUrl,
   selectedGameId,
   adminToken,
-  onDirtyChange
+  onDirtyChange,
+  focus
 }: SkillManagementPageProps) {
+  const focusedSkillKey = focus?.skillKey;
   const [keywordDraft, setKeywordDraft] = useState('');
   const [statusDraft, setStatusDraft] = useState<StatusFilter>('');
   const [appliedQuery, setAppliedQuery] = useState<SkillListQuery>(EMPTY_QUERY);
@@ -147,7 +156,9 @@ export function SkillManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token, query);
+      const result = focusedSkillKey
+        ? { data: { items: [await loadFocusedSkill(apiBaseUrl, selectedGameId, focusedSkillKey, token)], total: 1 } }
+        : await listSkills(apiBaseUrl, selectedGameId, token, query);
       if (skillRequestSerial.current !== serial) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -159,7 +170,7 @@ export function SkillManagementPage({
     } finally {
       if (skillRequestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [adminToken, apiBaseUrl, selectedGameId, focusedSkillKey]);
 
   const loadCategories = useCallback(async () => {
     const serial = categoryRequestSerial.current + 1;
@@ -401,9 +412,10 @@ export function SkillManagementPage({
   return (
     <div className="page-stack">
       <Panel
-        title="技能管理"
+        title={focus ? `技能录入${items[0] ? ` · ${items[0].name}` : ''}` : '技能管理'}
         actions={
           <Space>
+            {focus ? <Button type="primary" onClick={focus.onReturn}>返回角色技能</Button> : null}
             <Button
               loading={loading}
               disabled={!selectedGameId || !adminToken.trim()}
@@ -412,11 +424,11 @@ export function SkillManagementPage({
                 void loadCategories();
               }}
             >刷新</Button>
-            <Button
+            {!focus ? <Button
               type="primary"
               disabled={!selectedGameId || !adminToken.trim() || !categoryDirectoryReady}
               onClick={() => setEditor({ mode: 'create', skill: null })}
-            >新增技能</Button>
+            >新增技能</Button> : null}
           </Space>
         }
       >
@@ -437,7 +449,9 @@ export function SkillManagementPage({
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
+        {focus ? <Alert type="info" content={`来自角色：${focus.characterName}（${focus.characterKey}）。正在录入下方这一项技能；完成后返回角色技能可继续录入其他技能。`} style={{ marginBottom: 16 }} /> : null}
+
+        {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <span>关键词</span>
             <Input
@@ -471,10 +485,10 @@ export function SkillManagementPage({
             <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
             <Button onClick={resetQuery}>重置</Button>
           </Space>
-        </div>
+        </div> : null}
 
         <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
-          共 {total} 条技能
+          {focus ? `当前技能标识：${focus.skillKey}` : `共 ${total} 条技能`}
         </Typography.Text>
         <Table
           className="data-table-shell"
