@@ -1,0 +1,57 @@
+{
+  "sourceFile": "Mordekaiser.json",
+  "characterKey": "champion_mordekaiser",
+  "name": "莫德凯撒",
+  "sourceNumericId": "82",
+  "checkedAt": "2026-09-06T18:25:01.554Z",
+  "sourceMissing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.75
+    },
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "护盾",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "status": "checked",
+  "differences": [],
+  "missingValues": [],
+  "sourceMissingConfigured": [],
+  "extraConfigured": [],
+  "unknownSourceRows": [],
+  "characterGet": {
+    "status": 200,
+    "ms": 36
+  },
+  "actualCharacter": {
+    "characterKey": "champion_mordekaiser",
+    "name": "莫德凯撒",
+    "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。"
+  },
+  "attributesGet": {
+    "status": 200,
+    "ms": 58
+  },
+  "explicitSourceAttributeKeys": [
+    "hp",
+    "armor",
+    "magic_resistance",
+    "attack_damage",
+    "move_speed",
+    "attack_range",
+    "attack_speed"
+  ],
+  "sourceExplicitAttributeCount": 7,
+  "sourceExplicitValueCount": 126,
+  "actualAttributeKeyCount": 7,
+  "actualLevelValueCount": 126
+}

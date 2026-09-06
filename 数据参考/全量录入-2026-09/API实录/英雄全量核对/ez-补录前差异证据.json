@@ -1,0 +1,191 @@
+{
+  "sourceFile": "Ezreal.json",
+  "characterKey": "ez",
+  "name": "伊泽瑞尔",
+  "sourceNumericId": "81",
+  "checkedAt": "2026-09-06T18:20:58.708Z",
+  "sourceMissing": [],
+  "status": "differences_found",
+  "differences": [
+    {
+      "kind": "value",
+      "level": "9",
+      "attributeKey": "attack_speed",
+      "source": 0.730313,
+      "actual": 0.730312,
+      "delta": -0.0000010000000000287557
+    }
+  ],
+  "missingValues": [],
+  "sourceMissingConfigured": [],
+  "extraConfigured": [
+    {
+      "attributeKey": "armor_pen_flat",
+      "levels": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0
+      }
+    },
+    {
+      "attributeKey": "armor_pen_percent",
+      "levels": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0
+      }
+    },
+    {
+      "attributeKey": "energy",
+      "levels": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0
+      }
+    },
+    {
+      "attributeKey": "ability_power",
+      "levels": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0
+      }
+    },
+    {
+      "attributeKey": "bonus_attack_speed_percent",
+      "levels": {
+        "1": 0,
+        "2": 0.018,
+        "3": 0.036875,
+        "4": 0.056625,
+        "5": 0.07725,
+        "6": 0.09875,
+        "7": 0.121125,
+        "8": 0.144375,
+        "9": 0.1685,
+        "10": 0.1935,
+        "11": 0.219375,
+        "12": 0.246125,
+        "13": 0.27375,
+        "14": 0.30225,
+        "15": 0.331625,
+        "16": 0.361875,
+        "17": 0.393,
+        "18": 0.425
+      }
+    },
+    {
+      "attributeKey": "critical_strike_chance",
+      "levels": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0
+      }
+    }
+  ],
+  "unknownSourceRows": [],
+  "characterGet": {
+    "status": 200,
+    "ms": 24
+  },
+  "actualCharacter": {
+    "characterKey": "ez",
+    "name": "伊泽瑞尔",
+    "description": "探险家·伊泽瑞尔。基础及等级属性采用官方静态资料 16.17.1；攻击力成长由同补丁客户端 16.17.8104348 补证为 3.75，按等级成长曲线展开至 1～18 级。技能资料沿用已有逐项来源，尚未完成本轮全技能版本核对。"
+  },
+  "attributesGet": {
+    "status": 200,
+    "ms": 49
+  },
+  "explicitSourceAttributeKeys": [
+    "hp",
+    "hp_regen",
+    "armor",
+    "magic_resistance",
+    "attack_damage",
+    "move_speed",
+    "attack_range",
+    "attack_speed",
+    "mana",
+    "mana_regen"
+  ],
+  "sourceExplicitAttributeCount": 10,
+  "sourceExplicitValueCount": 180,
+  "actualAttributeKeyCount": 16,
+  "actualLevelValueCount": 288
+}

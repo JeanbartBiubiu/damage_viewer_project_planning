@@ -1,0 +1,48 @@
+{
+  "sourceFile": "Garen.json",
+  "characterKey": "champion_garen",
+  "name": "盖伦",
+  "sourceNumericId": "86",
+  "checkedAt": "2026-09-06T18:17:47.786Z",
+  "sourceMissing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "无",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "status": "checked",
+  "differences": [],
+  "missingValues": [],
+  "sourceMissingConfigured": [],
+  "extraConfigured": [],
+  "unknownSourceRows": [],
+  "characterGet": {
+    "status": 200,
+    "ms": 37
+  },
+  "actualCharacter": {
+    "characterKey": "champion_garen",
+    "name": "盖伦",
+    "description": "德玛西亚之力·盖伦。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。"
+  },
+  "attributesGet": {
+    "status": 200,
+    "ms": 44
+  },
+  "explicitSourceAttributeKeys": [
+    "hp",
+    "hp_regen",
+    "armor",
+    "magic_resistance",
+    "attack_damage",
+    "move_speed",
+    "attack_range",
+    "attack_speed"
+  ],
+  "sourceExplicitAttributeCount": 8,
+  "sourceExplicitValueCount": 144,
+  "actualAttributeKeyCount": 8,
+  "actualLevelValueCount": 144
+}
