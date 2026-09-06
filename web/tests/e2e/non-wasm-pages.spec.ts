@@ -5453,8 +5453,8 @@ test.describe('skill management without Wasm', () => {
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toBeVisible();
     await expect(createModal.getByLabel('事件来源对象', { exact: true })).toHaveCount(0);
     await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('任意技能');
-    await chooseSelectOption(page, createModal, '联动来源技能', '枯萎箭袋');
-    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('枯萎箭袋');
+    await chooseSelectOption(page, createModal, '联动来源技能', '枯萎箭袋（varus_w）');
+    await expect(createModal.getByLabel('联动来源技能', { exact: true })).toContainText('枯萎箭袋（varus_w）');
 
     await createModal.getByRole('button', { name: '新增条件组', exact: true }).click();
     await createModal.getByLabel('条件组名称', { exact: true }).fill('联动次数');

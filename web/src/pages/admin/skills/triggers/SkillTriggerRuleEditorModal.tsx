@@ -781,7 +781,7 @@ export function SkillTriggerRuleEditorModal({
         .filter((item) => item.status === 'ENABLED' || item.skillKey === currentKey)
         .map((item) => ({
           value: item.skillKey,
-          label: disabledName(item.name, item.skillKey, item.status === 'DISABLED'),
+          label: disabledName(item.name ? `${item.name}（${item.skillKey}）` : item.skillKey, item.skillKey, item.status === 'DISABLED'),
           disabled: item.status === 'DISABLED' && item.skillKey !== currentKey
         }))
     ];
