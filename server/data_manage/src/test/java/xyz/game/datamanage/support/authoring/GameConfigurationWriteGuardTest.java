@@ -22,6 +22,8 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -270,6 +272,38 @@ class GameConfigurationWriteGuardTest {
         }));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", failure.getCode());
         assertTrue(failure.getDetails().toString().contains("conditionGroups[0].conditions[0].detail.subject"));
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"ATTRIBUTE_REMOVED", "INTEGER", "FIXED", "EVENT_CHANGED"})
+    void sourceCastCostFinalChangesRollBackBusinessWrites(String change) throws Exception {
+        Connection connection = connection();
+        List<Map<String, Object>> catalog = new java.util.ArrayList<>();
+        catalog.add(Map.of("target_type", "SKILL", "skill_key", "", "object_key", "source_skill"));
+        catalog.add(Map.of("target_type", "PARAMETER", "skill_key", "skill", "object_key", "cost"));
+        if (!"ATTRIBUTE_REMOVED".equals(change)) catalog.add(Map.of("target_type", "ATTRIBUTE", "skill_key", "", "object_key", "mana"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(catalog);
+        List<Map<String, Object>> objects = SourceCastResourceCostSemanticsTest.objects(
+            "EVENT_CHANGED".equals(change) ? "SKILL_USED" : "SKILL_HIT", "source_skill", "{\"attributeKey\":\"mana\"}")
+            .stream().map(a -> Map.<String, Object>of("source_type", a.type().name(), "skill_key", a.skillKey(),
+                "source_key", a.key(), "data", a.data().toString())).toList();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(objects);
+        if (!"ATTRIBUTE_REMOVED".equals(change)) {
+            when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+                "skill_key", "skill", "parameter_key", "cost", "value_type", "INTEGER".equals(change) ? "INTEGER" : "DECIMAL",
+                "value_mode", "FIXED".equals(change) ? "FIXED" : "RUNTIME_INPUT", "fixed_value", BigDecimal.ZERO)));
+        }
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE source cost configuration for test");
+            return null;
+        }));
+        assertEquals("ATTRIBUTE_REMOVED".equals(change) ? "409.SKILL_OBJECT_REFERENCE_INVALID" : "400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("actions[0].runtimeInputBindings[0]"));
+        verify(jdbc).update("UPDATE source cost configuration for test");
         verify(jdbc, never()).update(DELETE_SQL, "lol");
         verify(connection).rollback();
         verify(connection, never()).commit();
