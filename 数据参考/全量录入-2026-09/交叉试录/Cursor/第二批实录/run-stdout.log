@@ -1,0 +1,49 @@
+FRESH_RUN
+LOCAL_PLACEHOLDER_APPLIED
+LOCAL_PLACEHOLDER_READY
+ENTRY_STARTED total=20 completedOk=0
+CHAMPION_START key=champion_malzahar index=1/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_malzahar index=1/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=1
+CHAMPION_START key=champion_maokai index=2/20 attrs=9 expected=9 missing=hp_regen
+CHAMPION_DONE key=champion_maokai index=2/20 ok=true attrs=9 readbacks=9 missing=hp_regen mismatches=0 completedOk=2
+CHAMPION_START key=champion_masteryi index=3/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_masteryi index=3/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=3
+CHAMPION_START key=champion_nami index=4/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_nami index=4/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=4
+CHAMPION_START key=champion_nasus index=5/20 attrs=10 expected=10 missing=none
+BATCH_HANDOFF 1-5 file=小批-01.json
+CHAMPION_DONE key=champion_nasus index=5/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=5
+CHAMPION_START key=champion_nautilus index=6/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_nautilus index=6/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=6
+CHAMPION_START key=champion_nocturne index=7/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_nocturne index=7/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=7
+CHAMPION_START key=champion_nunu index=8/20 attrs=9 expected=9 missing=hp_regen
+CHAMPION_DONE key=champion_nunu index=8/20 ok=true attrs=9 readbacks=9 missing=hp_regen mismatches=0 completedOk=8
+CHAMPION_START key=champion_olaf index=9/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_olaf index=9/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=9
+CHAMPION_START key=champion_orianna index=10/20 attrs=10 expected=10 missing=none
+BATCH_HANDOFF 6-10 file=小批-02.json
+CHAMPION_DONE key=champion_orianna index=10/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=10
+CHAMPION_START key=champion_pantheon index=11/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_pantheon index=11/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=11
+CHAMPION_START key=champion_poppy index=12/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_poppy index=12/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=12
+CHAMPION_START key=champion_quinn index=13/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_quinn index=13/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=13
+CHAMPION_START key=champion_rammus index=14/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_rammus index=14/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=14
+CHAMPION_START key=champion_rakan index=15/20 attrs=9 expected=9 missing=hp_regen
+BATCH_HANDOFF 11-15 file=小批-03.json
+CHAMPION_DONE key=champion_rakan index=15/20 ok=true attrs=9 readbacks=9 missing=hp_regen mismatches=0 completedOk=15
+CHAMPION_START key=champion_rell index=16/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_rell index=16/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=16
+CHAMPION_START key=champion_renata index=17/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_renata index=17/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=17
+CHAMPION_START key=champion_ryze index=18/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_ryze index=18/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=18
+CHAMPION_START key=champion_samira index=19/20 attrs=10 expected=10 missing=none
+CHAMPION_DONE key=champion_samira index=19/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=19
+CHAMPION_START key=champion_sejuani index=20/20 attrs=10 expected=10 missing=none
+BATCH_HANDOFF 16-20 file=小批-04.json
+CHAMPION_DONE key=champion_sejuani index=20/20 ok=true attrs=10 readbacks=10 missing=none mismatches=0 completedOk=20
+ENTRY_COMPLETE completedOk=20/20 failures=0
