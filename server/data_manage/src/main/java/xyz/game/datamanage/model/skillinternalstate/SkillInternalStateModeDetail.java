@@ -32,23 +32,23 @@ public record SkillInternalStateModeDetail(
     @JsonCreator
     static SkillInternalStateModeDetail fromJson(
         @JsonProperty("options") List<SkillInternalStateModeOption> options,
-        @JsonProperty("initialValueFormulaKey") JsonNode initialValueFormulaKey,
-        @JsonProperty("maxValueFormulaKey") JsonNode maxValueFormulaKey,
-        @JsonProperty("recoveryIntervalFormulaKey") JsonNode recoveryIntervalFormulaKey,
+        @JsonProperty("initialValue") JsonNode initialValue,
+        @JsonProperty("maxValue") JsonNode maxValue,
+        @JsonProperty("recoveryIntervalValue") JsonNode recoveryIntervalValue,
         @JsonProperty("recoveryMode") JsonNode recoveryMode,
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
-        @JsonProperty("durationFormulaKey") JsonNode durationFormulaKey,
+        @JsonProperty("durationValue") JsonNode durationValue,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateModeDetail(
             options,
             SkillInternalStateDetailFieldCapture.captureForeign(
-                "initialValueFormulaKey", initialValueFormulaKey,
-                "maxValueFormulaKey", maxValueFormulaKey,
-                "recoveryIntervalFormulaKey", recoveryIntervalFormulaKey,
+                "initialValue", initialValue,
+                "maxValue", maxValue,
+                "recoveryIntervalValue", recoveryIntervalValue,
                 "recoveryMode", recoveryMode,
                 "initialEnabled", initialEnabled,
-                "durationFormulaKey", durationFormulaKey
+                "durationValue", durationValue
             ),
             SkillInternalStateDetailFieldCapture.captureUnknown(unknown)
         );

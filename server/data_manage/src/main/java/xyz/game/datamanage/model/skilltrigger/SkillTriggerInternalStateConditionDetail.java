@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerInternalStateConditionDetail(
     String stateKey,
@@ -14,7 +16,8 @@ public record SkillTriggerInternalStateConditionDetail(
     String optionKey,
     Boolean expectedBoolean,
     SkillTriggerComparator comparator,
-    String comparisonFormulaKey,
+    @Valid
+    SkillNumericValue comparisonValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillTriggerConditionDetail {
@@ -22,7 +25,6 @@ public record SkillTriggerInternalStateConditionDetail(
     public SkillTriggerInternalStateConditionDetail {
         stateKey = trim(stateKey);
         optionKey = trim(optionKey);
-        comparisonFormulaKey = trim(comparisonFormulaKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillTriggerDetailFieldCapture.normalize(unknownFields);
     }
@@ -33,9 +35,9 @@ public record SkillTriggerInternalStateConditionDetail(
         String optionKey,
         Boolean expectedBoolean,
         SkillTriggerComparator comparator,
-        String comparisonFormulaKey
+        SkillNumericValue comparisonValue
     ) {
-        this(stateKey, valueKind, optionKey, expectedBoolean, comparator, comparisonFormulaKey, Set.of(), Set.of());
+        this(stateKey, valueKind, optionKey, expectedBoolean, comparator, comparisonValue, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -45,7 +47,7 @@ public record SkillTriggerInternalStateConditionDetail(
         @JsonProperty("optionKey") String optionKey,
         @JsonProperty("expectedBoolean") Boolean expectedBoolean,
         @JsonProperty("comparator") SkillTriggerComparator comparator,
-        @JsonProperty("comparisonFormulaKey") String comparisonFormulaKey,
+        @JsonProperty("comparisonValue") SkillNumericValue comparisonValue,
         @JsonProperty("statusKey") JsonNode statusKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
@@ -55,7 +57,7 @@ public record SkillTriggerInternalStateConditionDetail(
             optionKey,
             expectedBoolean,
             comparator,
-            comparisonFormulaKey,
+            comparisonValue,
             SkillTriggerDetailFieldCapture.captureForeign("statusKey", statusKey),
             SkillTriggerDetailFieldCapture.captureUnknown(unknown)
         );

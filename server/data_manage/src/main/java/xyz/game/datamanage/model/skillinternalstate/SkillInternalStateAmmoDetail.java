@@ -5,37 +5,38 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.Set;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillInternalStateAmmoDetail(
-    String initialValueFormulaKey,
-    String maxValueFormulaKey,
-    String recoveryIntervalFormulaKey,
+    @Valid
+    SkillNumericValue initialValue,
+    @Valid
+    SkillNumericValue maxValue,
+    @Valid
+    SkillNumericValue recoveryIntervalValue,
     SkillInternalStateAmmoRecoveryMode recoveryMode,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillInternalStateDetail {
 
     public SkillInternalStateAmmoDetail {
-        initialValueFormulaKey = initialValueFormulaKey == null ? null : initialValueFormulaKey.trim();
-        maxValueFormulaKey = maxValueFormulaKey == null ? null : maxValueFormulaKey.trim();
-        recoveryIntervalFormulaKey =
-            recoveryIntervalFormulaKey == null ? null : recoveryIntervalFormulaKey.trim();
         foreignFields = SkillInternalStateDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillInternalStateDetailFieldCapture.normalize(unknownFields);
     }
 
     public SkillInternalStateAmmoDetail(
-        String initialValueFormulaKey,
-        String maxValueFormulaKey,
-        String recoveryIntervalFormulaKey,
+        SkillNumericValue initialValue,
+        SkillNumericValue maxValue,
+        SkillNumericValue recoveryIntervalValue,
         SkillInternalStateAmmoRecoveryMode recoveryMode
     ) {
         this(
-            initialValueFormulaKey,
-            maxValueFormulaKey,
-            recoveryIntervalFormulaKey,
+            initialValue,
+            maxValue,
+            recoveryIntervalValue,
             recoveryMode,
             Set.of(),
             Set.of()
@@ -44,24 +45,24 @@ public record SkillInternalStateAmmoDetail(
 
     @JsonCreator
     static SkillInternalStateAmmoDetail fromJson(
-        @JsonProperty("initialValueFormulaKey") String initialValueFormulaKey,
-        @JsonProperty("maxValueFormulaKey") String maxValueFormulaKey,
-        @JsonProperty("recoveryIntervalFormulaKey") String recoveryIntervalFormulaKey,
+        @JsonProperty("initialValue") SkillNumericValue initialValue,
+        @JsonProperty("maxValue") SkillNumericValue maxValue,
+        @JsonProperty("recoveryIntervalValue") SkillNumericValue recoveryIntervalValue,
         @JsonProperty("recoveryMode") SkillInternalStateAmmoRecoveryMode recoveryMode,
         @JsonProperty("options") JsonNode options,
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
-        @JsonProperty("durationFormulaKey") JsonNode durationFormulaKey,
+        @JsonProperty("durationValue") JsonNode durationValue,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateAmmoDetail(
-            initialValueFormulaKey,
-            maxValueFormulaKey,
-            recoveryIntervalFormulaKey,
+            initialValue,
+            maxValue,
+            recoveryIntervalValue,
             recoveryMode,
             SkillInternalStateDetailFieldCapture.captureForeign(
                 "options", options,
                 "initialEnabled", initialEnabled,
-                "durationFormulaKey", durationFormulaKey
+                "durationValue", durationValue
             ),
             SkillInternalStateDetailFieldCapture.captureUnknown(unknown)
         );

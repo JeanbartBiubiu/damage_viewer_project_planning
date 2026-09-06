@@ -14,6 +14,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,7 @@ class GameConfigurationWriteGuardTest {
             "409.SKILL_FORMULA_IN_USE", "技能公式被引用"));
         when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCED_SQL, "lol", "FORMULA", "ez_q", "damage"))
             .thenReturn(List.of(Map.of("source_skill_key", "ez_q", "source_type", "EFFECT", "source_key", "hit",
-                "field_path", "results[0].valueRule.formulaKey", "target_type", "FORMULA", "target_skill_key", "ez_q",
+                "field_path", "results[0].valueRule.value.formulaKey", "target_type", "FORMULA", "target_skill_key", "ez_q",
                 "target_key", "damage", "target_sub_key", "")));
         Connection connection = connection();
         ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
@@ -180,7 +181,7 @@ class GameConfigurationWriteGuardTest {
             return null;
         }));
         assertEquals("409.SKILL_FORMULA_IN_USE", error.getCode());
-        assertTrue(error.getDetails().get("fieldIssues").toString().contains("results[0].valueRule.formulaKey"));
+        assertTrue(error.getDetails().get("fieldIssues").toString().contains("results[0].valueRule.value.formulaKey"));
         verify(connection).rollback();
         assertTrue(!GameConfigurationWriteGuard.REFERENCED_SQL.contains("target_sub_key ="));
     }
@@ -194,6 +195,60 @@ class GameConfigurationWriteGuardTest {
             return null;
         });
         verify(connection).commit();
+    }
+
+    @Test
+    void finalLevelExpansionZeroRollsBackBusinessWriteBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "ez_q", "object_key", "count")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "PROCESS", "skill_key", "ez_q", "source_key", "cast", "data", """
+                {"steps":[{"stepKey":"repeat","stepType":"MULTI_HIT","detail":{
+                  "repeatCountValue":{"kind":"PARAMETER","parameterKey":"count"}}}],
+                 "cooldown":null,"effectBindings":[],"stateOperations":[]}
+                """)));
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "ez_q", "parameter_key", "count", "value_type", "INTEGER", "value_mode", "SKILL_LEVEL",
+            "level_values", "{\"1\":1,\"2\":0}")));
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE parameter levels for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("VALUE_RANGE_INVALID"));
+        verify(jdbc).update("UPDATE parameter levels for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
+    @Test
+    void finalProtectionCooldownParameterChangedToZeroRollsBackBusinessWrite() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "ez_q", "object_key", "cooldown")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "TRIGGER", "skill_key", "ez_q", "source_key", "rule", "data", """
+                {"eventSource":{"eventType":"BASIC_ATTACK_START","detail":{}},"conditionGroups":[],"actions":[],
+                 "limits":{"perTargetCooldown":{"durationValue":{"kind":"PARAMETER","parameterKey":"cooldown"}}}}
+                """)));
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "ez_q", "parameter_key", "cooldown", "value_type", "DECIMAL", "value_mode", "FIXED",
+            "fixed_value", BigDecimal.ZERO)));
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE protection cooldown for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("VALUE_RANGE_INVALID"));
+        assertTrue(failure.getDetails().toString().contains("perTargetCooldown.durationValue"));
+        verify(jdbc).update("UPDATE protection cooldown for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
     }
 
     private static Map<String, Object> formulaRow() {

@@ -1,20 +1,24 @@
 package xyz.game.datamanage.model.skilleffect;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillEffectValueRuleRequest(
-    @NotBlank(message = "公式标识不能为空")
-    String formulaKey,
+    @NotNull(message = "数值取值不能为空")
+    @Valid
+    SkillNumericValue value,
     @NotNull(message = "固定倍率不能为空")
     @DecimalMin(value = "0", inclusive = true, message = "固定倍率不能小于0")
     BigDecimal fixedMultiplier,
     BigDecimal fixedMinValue,
     BigDecimal fixedMaxValue
 ) {
-    public SkillEffectValueRuleRequest {
-        formulaKey = formulaKey == null ? null : formulaKey.trim();
+    @JsonAnySetter
+    public void rejectUnknownField(String fieldName, Object ignored) {
+        throw new IllegalArgumentException("未知字段：" + fieldName);
     }
 }
