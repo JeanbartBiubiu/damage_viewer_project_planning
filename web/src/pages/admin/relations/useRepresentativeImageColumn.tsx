@@ -3,10 +3,10 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useEffect, useState } from 'react';
 import { ResourceImageThumb } from '../../../components/ResourceImageThumb';
 import { getErrorMessage } from '../../../services/apiClient';
-import { getRepresentativeImage } from '../../../services/imageRelationClient';
 import type { ImageRelationTarget, RepresentativeImage } from '../../../types/imageRelation';
 import { CachedImagePreview } from './CachedImagePreview';
 import { imageTargetIdentity } from './imageRelationForm';
+import { readTableRepresentativeImage } from './representativeImageRequests';
 
 type Context = {
   apiBaseUrl: string;
@@ -27,16 +27,17 @@ function RepresentativeImageCell({ apiBaseUrl, selectedGameId, adminToken, targe
 
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
     setImage(null);
     setError(null);
     setLoading(canLoad);
     if (canLoad && selectedGameId) {
-      void getRepresentativeImage(apiBaseUrl, selectedGameId, { kind, key, skillKey, name: '' }, adminToken.trim())
+      void readTableRepresentativeImage(apiBaseUrl, selectedGameId, { kind, key, skillKey, name: '' }, adminToken.trim(), controller.signal)
         .then(result => { if (active) setImage(result.data.image); })
         .catch(cause => { if (active) setError(getErrorMessage(cause)); })
         .finally(() => { if (active) setLoading(false); });
     }
-    return () => { active = false; };
+    return () => { active = false; controller.abort(); };
     // 刷新列表获得新记录时，重新读取关系；普通页面重绘不重复请求。
   }, [apiBaseUrl, selectedGameId, adminToken, kind, key, skillKey, record, canLoad]);
 
