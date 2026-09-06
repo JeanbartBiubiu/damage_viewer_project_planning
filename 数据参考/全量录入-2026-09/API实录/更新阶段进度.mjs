@@ -12,6 +12,8 @@ const skills = read('API实录/技能/summary.json');
 const skillPlan = read('英雄技能全量页面输入/skills-basic-plan.json').skills;
 const equipment = read('API实录/装备/summary.json');
 const pureEquipment = read('实录记录.json');
+const heroSkillImages = read('API实录/图片/full-relation-verification.json');
+const equipmentImages = read('API实录/装备图片/代表图关系最终核对.json');
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
 assert.equal(heroes.totals.valueDifferences, 0);
@@ -19,6 +21,12 @@ assert.equal(skills.verifiedSkills, 855);
 assert.equal(skills.verifiedRelations, 855);
 assert.equal(equipment.results.filter(x => x.status === 'completed').length, 134);
 assert.equal(pureEquipment.records.length, 47);
+assert.equal(heroSkillImages.summary.checked, 1026);
+assert.equal(heroSkillImages.summary.failures, 0);
+assert.equal(heroSkillImages.summary.disabled, 0);
+assert.equal(equipmentImages.linked, 134);
+assert.equal(equipmentImages.failed, 0);
+assert.equal(equipmentImages.disabled, 0);
 
 const entries = fs.readFileSync(path.join(root, '英雄/录入进度.jsonl'), 'utf8').trim().split(/\r?\n/).map(JSON.parse);
 for (const entry of entries) {
@@ -55,7 +63,10 @@ const summary = {
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
   equipment: { count: 181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
     evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成，主动被动效果尚待配置' },
-  images: { status: '以独立图片批次最终回读及页面同步记录为准', evidence: ['API实录/图片', 'API实录/装备图片'] },
+  images: { objectUses: 1207, heroes: 171, skills: 855, equipment: 181,
+    status: '代表图关系与内容核对完成；页面同步后全部正式对象缩略图加载成功',
+    browserCacheRecords: 3202, browserReadFailures: 0,
+    evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },
   deferred: ['斗魂竞技场海克斯', '海克斯大乱斗海克斯', '既定召唤与变形等机制排除项'],
   runtimeValidation: '未执行',
