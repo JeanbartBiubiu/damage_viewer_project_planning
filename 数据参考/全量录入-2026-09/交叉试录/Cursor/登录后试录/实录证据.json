@@ -1,0 +1,1847 @@
+{
+  "executor": "Cursor",
+  "startedAt": "2026-09-06T15:54:54.185Z",
+  "finishedAt": "2026-09-06T15:56:20.396Z",
+  "browserConnection": {
+    "catalogBrowserTools": false,
+    "independentPlaywrightPage": true,
+    "headless": false,
+    "waitedForUserLogin": true
+  },
+  "login": {
+    "tokenConfiguredVisible": true,
+    "gameIdVisible": "GameId lol",
+    "tokenWarningVisible": false,
+    "queryAvailable": true,
+    "canWrite": true,
+    "waitStartedAt": "2026-09-06T15:54:56.034Z",
+    "loggedInAt": "2026-09-06T15:55:20.364Z",
+    "stopReason": null
+  },
+  "duplicateChecks": [
+    {
+      "keyword": "champion_malphite",
+      "empty": true,
+      "count": 0,
+      "keys": [],
+      "names": []
+    },
+    {
+      "keyword": "墨菲特",
+      "empty": false,
+      "count": 1,
+      "keys": [
+        "champion_malphite"
+      ],
+      "names": [
+        "墨菲特"
+      ]
+    },
+    {
+      "keyword": "熔岩巨兽",
+      "empty": true,
+      "count": 0,
+      "keys": [],
+      "names": []
+    },
+    {
+      "keyword": "champion_missfortune",
+      "empty": true,
+      "count": 0,
+      "keys": [],
+      "names": []
+    },
+    {
+      "keyword": "厄运小姐",
+      "empty": true,
+      "count": 0,
+      "keys": [],
+      "names": []
+    },
+    {
+      "keyword": "赏金猎人",
+      "empty": true,
+      "count": 0,
+      "keys": [],
+      "names": []
+    }
+  ],
+  "writes": [
+    {
+      "object": "champion_malphite",
+      "action": "skip-create-already-exists",
+      "name": "墨菲特"
+    },
+    {
+      "object": "champion_malphite",
+      "action": "update-character",
+      "name": "墨菲特"
+    },
+    {
+      "object": "hp",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "hp_regen",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "armor",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "magic_resistance",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "attack_damage",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "move_speed",
+      "action": "apply-attribute",
+      "mode": "fixed",
+      "levels": 18
+    },
+    {
+      "object": "attack_range",
+      "action": "apply-attribute",
+      "mode": "fixed",
+      "levels": 18
+    },
+    {
+      "object": "attack_speed",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "mana",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "mana_regen",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "champion_malphite",
+      "action": "save-parent-attributes"
+    },
+    {
+      "object": "champion_missfortune",
+      "action": "create-character",
+      "name": "厄运小姐"
+    },
+    {
+      "object": "hp",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "hp_regen",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "armor",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "magic_resistance",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "attack_damage",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "move_speed",
+      "action": "apply-attribute",
+      "mode": "fixed",
+      "levels": 18
+    },
+    {
+      "object": "attack_range",
+      "action": "apply-attribute",
+      "mode": "fixed",
+      "levels": 18
+    },
+    {
+      "object": "attack_speed",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "mana",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "mana_regen",
+      "action": "apply-attribute",
+      "mode": "levels",
+      "levels": 18
+    },
+    {
+      "object": "champion_missfortune",
+      "action": "save-parent-attributes"
+    }
+  ],
+  "readbacks": [
+    {
+      "object": "champion_malphite",
+      "attributes": [
+        {
+          "system": "hp",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "665",
+            "739.88",
+            "818.4",
+            "900.56",
+            "986.36",
+            "1075.8",
+            "1168.88",
+            "1265.6",
+            "1365.96",
+            "1469.96",
+            "1577.6",
+            "1688.88",
+            "1803.8",
+            "1922.36",
+            "2044.56",
+            "2170.4",
+            "2299.88",
+            "2433"
+          ]
+        },
+        {
+          "system": "hp_regen",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "7",
+            "7.396",
+            "7.81125",
+            "8.24575",
+            "8.6995",
+            "9.1725",
+            "9.66475",
+            "10.17625",
+            "10.707",
+            "11.257",
+            "11.82625",
+            "12.41475",
+            "13.0225",
+            "13.6495",
+            "14.29575",
+            "14.96125",
+            "15.646",
+            "16.35"
+          ]
+        },
+        {
+          "system": "armor",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "40",
+            "43.564",
+            "47.30125",
+            "51.21175",
+            "55.2955",
+            "59.5525",
+            "63.98275",
+            "68.58625",
+            "73.363",
+            "78.313",
+            "83.43625",
+            "88.73275",
+            "94.2025",
+            "99.8455",
+            "105.66175",
+            "111.65125",
+            "117.814",
+            "124.15"
+          ]
+        },
+        {
+          "system": "magic_resistance",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "28",
+            "29.476",
+            "31.02375",
+            "32.64325",
+            "34.3345",
+            "36.0975",
+            "37.93225",
+            "39.83875",
+            "41.817",
+            "43.867",
+            "45.98875",
+            "48.18225",
+            "50.4475",
+            "52.7845",
+            "55.19325",
+            "57.67375",
+            "60.226",
+            "62.85"
+          ]
+        },
+        {
+          "system": "attack_damage",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "62",
+            "64.88",
+            "67.9",
+            "71.06",
+            "74.36",
+            "77.8",
+            "81.38",
+            "85.1",
+            "88.96",
+            "92.96",
+            "97.1",
+            "101.38",
+            "105.8",
+            "110.36",
+            "115.06",
+            "119.9",
+            "124.88",
+            "130"
+          ]
+        },
+        {
+          "system": "move_speed",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335",
+            "335"
+          ]
+        },
+        {
+          "system": "attack_range",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125"
+          ]
+        },
+        {
+          "system": "attack_speed",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "0.736",
+            "0.751618",
+            "0.767996",
+            "0.785132",
+            "0.803028",
+            "0.821683",
+            "0.841098",
+            "0.861271",
+            "0.882204",
+            "0.903896",
+            "0.926347",
+            "0.949558",
+            "0.973527",
+            "0.998256",
+            "1.023744",
+            "1.049992",
+            "1.076998",
+            "1.104764"
+          ]
+        },
+        {
+          "system": "mana",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "280",
+            "323.2",
+            "368.5",
+            "415.9",
+            "465.4",
+            "517",
+            "570.7",
+            "626.5",
+            "684.4",
+            "744.4",
+            "806.5",
+            "870.7",
+            "937",
+            "1005.4",
+            "1075.9",
+            "1148.5",
+            "1223.2",
+            "1300"
+          ]
+        },
+        {
+          "system": "mana_regen",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "7.3",
+            "7.696",
+            "8.11125",
+            "8.54575",
+            "8.9995",
+            "9.4725",
+            "9.96475",
+            "10.47625",
+            "11.007",
+            "11.557",
+            "12.12625",
+            "12.71475",
+            "13.3225",
+            "13.9495",
+            "14.59575",
+            "15.26125",
+            "15.946",
+            "16.65"
+          ]
+        }
+      ]
+    },
+    {
+      "object": "champion_missfortune",
+      "attributes": [
+        {
+          "system": "hp",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "625",
+            "697",
+            "772.5",
+            "851.5",
+            "934",
+            "1020",
+            "1109.5",
+            "1202.5",
+            "1299",
+            "1399",
+            "1502.5",
+            "1609.5",
+            "1720",
+            "1834",
+            "1951.5",
+            "2072.5",
+            "2197",
+            "2325"
+          ]
+        },
+        {
+          "system": "hp_regen",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "3.75",
+            "4.218",
+            "4.70875",
+            "5.22225",
+            "5.7585",
+            "6.3175",
+            "6.89925",
+            "7.50375",
+            "8.131",
+            "8.781",
+            "9.45375",
+            "10.14925",
+            "10.8675",
+            "11.6085",
+            "12.37225",
+            "13.15875",
+            "13.968",
+            "14.8"
+          ]
+        },
+        {
+          "system": "armor",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "25",
+            "27.88",
+            "30.9",
+            "34.06",
+            "37.36",
+            "40.8",
+            "44.38",
+            "48.1",
+            "51.96",
+            "55.96",
+            "60.1",
+            "64.38",
+            "68.8",
+            "73.36",
+            "78.06",
+            "82.9",
+            "87.88",
+            "93"
+          ]
+        },
+        {
+          "system": "magic_resistance",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "33",
+            "33.792",
+            "34.6225",
+            "35.4915",
+            "36.399",
+            "37.345",
+            "38.3295",
+            "39.3525",
+            "40.414",
+            "41.514",
+            "42.6525",
+            "43.8295",
+            "45.045",
+            "46.299",
+            "47.5915",
+            "48.9225",
+            "50.292",
+            "51.7"
+          ]
+        },
+        {
+          "system": "attack_damage",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "55",
+            "56.728",
+            "58.54",
+            "60.436",
+            "62.416",
+            "64.48",
+            "66.628",
+            "68.86",
+            "71.176",
+            "73.576",
+            "76.06",
+            "78.628",
+            "81.28",
+            "84.016",
+            "86.836",
+            "89.74",
+            "92.728",
+            "95.8"
+          ]
+        },
+        {
+          "system": "move_speed",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325",
+            "325"
+          ]
+        },
+        {
+          "system": "attack_range",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550",
+            "550"
+          ]
+        },
+        {
+          "system": "attack_speed",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "0.656",
+            "0.67017",
+            "0.685028",
+            "0.700575",
+            "0.716811",
+            "0.733736",
+            "0.75135",
+            "0.769652",
+            "0.788643",
+            "0.808323",
+            "0.828692",
+            "0.84975",
+            "0.871496",
+            "0.893931",
+            "0.917055",
+            "0.940868",
+            "0.96537",
+            "0.99056"
+          ]
+        },
+        {
+          "system": "mana",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "300",
+            "328.8",
+            "359",
+            "390.6",
+            "423.6",
+            "458",
+            "493.8",
+            "531",
+            "569.6",
+            "609.6",
+            "651",
+            "693.8",
+            "738",
+            "783.6",
+            "830.6",
+            "879",
+            "928.8",
+            "980"
+          ]
+        },
+        {
+          "system": "mana_regen",
+          "mismatchCount": 0,
+          "mismatches": [],
+          "actual": [
+            "8",
+            "8.576",
+            "9.18",
+            "9.812",
+            "10.472",
+            "11.16",
+            "11.876",
+            "12.62",
+            "13.392",
+            "14.192",
+            "15.02",
+            "15.876",
+            "16.76",
+            "17.672",
+            "18.612",
+            "19.58",
+            "20.576",
+            "21.6"
+          ]
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "screenshots": [
+    "login-waiting.png",
+    "login-detected.png",
+    "champion_malphite-attributes-before-save.png",
+    "champion_malphite-attributes-reread.png",
+    "champion_missfortune-attributes-before-save.png",
+    "champion_missfortune-attributes-reread.png",
+    "characters-page-after-entry.png"
+  ],
+  "network": {
+    "note": "只记录方法、路径和状态码，不记录请求头、Cookie 或令牌。",
+    "apiCalls": [
+      {
+        "method": "GET",
+        "path": "/api/games",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/games",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/games/lol/characters/champion_malphite",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/level-config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/attributes",
+        "status": 200
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/games/lol/characters/champion_malphite/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/level-config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/games/lol/characters",
+        "status": 201
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/level-config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/attributes",
+        "status": 200
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/level-config",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_missfortune/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_varus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ahri/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_caitlyn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_malphite/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_darius/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lucian/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_tristana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_lux/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_garen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/ez/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_ashe/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_draven/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/characters/champion_morgana/representative-image",
+        "status": 200
+      }
+    ]
+  },
+  "pageErrors": []
+}
