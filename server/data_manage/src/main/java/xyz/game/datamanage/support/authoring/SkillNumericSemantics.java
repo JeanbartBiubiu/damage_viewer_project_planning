@@ -286,6 +286,19 @@ public final class SkillNumericSemantics {
                     Parameter p = parameters.get(rule.skillKey() + "/" + key);
                     if (!bound.add(key)) throw invalid(rule, path, "BINDING_DUPLICATE", "同一参数不能重复绑定");
                     if (p == null || !"RUNTIME_INPUT".equals(p.valueMode()) || !required.contains(key)) throw invalid(rule, path, "BINDING_EXTRA", "绑定参数不是该动作需要的计算时输入");
+                    if ("SOURCE_CAST_RESOURCE_COST".equals(text(binding, "sourceType"))) {
+                        JsonNode detail = binding.path("detail");
+                        if (!detail.isObject() || detail.size() != 1 || !detail.path("attributeKey").isTextual()
+                            || detail.path("attributeKey").asText().isBlank()) {
+                            throw invalid(rule, path + ".detail", "VALUE_SHAPE_INVALID", "来源施放消耗明细只能包含资源属性标识");
+                        }
+                        JsonNode event = rule.data().path("eventSource");
+                        if (!"SKILL_HIT".equals(text(event, "eventType"))
+                            || !SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
+                                xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.SKILL_HIT, text(event.path("detail"), "sourceSkillKey"))) {
+                            throw invalid(rule, path + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE", "来源施放消耗仅适用于明确来源技能的技能命中事件");
+                        }
+                    }
                     if ("INTEGER".equals(p.valueType()) && bindingDomain(binding) == SkillTriggerValueDomain.DECIMAL) throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "小数来源不能绑定整数参数");
                 }
                 if (!bound.containsAll(required)) throw invalid(rule, "actions[" + i + "].runtimeInputBindings", "BINDING_MISSING", "动作需要的计算时输入缺少绑定");
@@ -298,6 +311,7 @@ public final class SkillNumericSemantics {
             return switch (text(binding, "sourceType")) {
                 case "INTERNAL_STATE", "COMBAT_STATUS" -> "REMAINING_MS".equals(text(detail, "valueKind")) ? SkillTriggerValueDomain.DECIMAL : SkillTriggerValueDomain.INTEGER;
                 case "EVENT_VALUE" -> SkillTriggerEventCapabilities.valueDomain(SkillTriggerEventValueKey.valueOf(text(detail, "eventValueKey")));
+                case "SOURCE_CAST_RESOURCE_COST" -> SkillTriggerValueDomain.DECIMAL;
                 case "PRIOR_ACTION_RESULT" -> SkillTriggerPriorResultOutputs.valueDomain(SkillTriggerPriorResultOutputKind.valueOf(text(detail, "outputKind")));
                 default -> null;
             };

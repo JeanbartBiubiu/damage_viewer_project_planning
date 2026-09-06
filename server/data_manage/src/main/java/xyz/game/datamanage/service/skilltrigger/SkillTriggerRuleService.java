@@ -101,6 +101,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSourceCastResourceCostBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
@@ -2003,6 +2004,23 @@ public class SkillTriggerRuleService {
                 }
                 sourceDomain = SkillTriggerEventCapabilities.valueDomain(detail.eventValueKey());
             }
+            case SOURCE_CAST_RESOURCE_COST -> {
+                if (!(binding.detail() instanceof SkillTriggerSourceCastResourceCostBindingDetail detail)) {
+                    bindingIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail"),
+                        "TYPE_MISMATCH", "来源施放消耗明细形状不合法"));
+                    return;
+                }
+                if (detail.attributeKey() == null) {
+                    bindingIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail.attributeKey"),
+                        "REQUIRED", "资源属性不能为空"));
+                }
+                String sourceSkill = eventSource.detail() instanceof SkillTriggerSkillEventDetail skillEvent ? skillEvent.sourceSkillKey() : null;
+                if (!SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(eventSource.eventType(), sourceSkill)) {
+                    referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "sourceType"),
+                        "EVENT_VALUE_NOT_AVAILABLE", "来源施放消耗仅适用于明确来源技能的技能命中事件"));
+                }
+                sourceDomain = SkillTriggerValueDomain.DECIMAL;
+            }
             case PRIOR_ACTION_RESULT -> {
                 if (!(binding.detail() instanceof SkillTriggerPriorResultBindingDetail detail)) {
                     bindingIssues.add(fieldIssue(
@@ -2331,6 +2349,11 @@ public class SkillTriggerRuleService {
             if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.INTERNAL_STATE
                 && binding.detail() instanceof SkillTriggerInternalStateBindingDetail detail) {
                 refs.addState(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.stateKey"), detail.stateKey()));
+            } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.SOURCE_CAST_RESOURCE_COST
+                && binding.detail() instanceof SkillTriggerSourceCastResourceCostBindingDetail detail) {
+                if (detail.attributeKey() != null) {
+                    refs.addAttribute(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.attributeKey"), detail.attributeKey()));
+                }
             } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.COMBAT_STATUS
                 && binding.detail() instanceof SkillTriggerCombatStatusBindingDetail detail) {
                 refs.addStatus(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.statusKey"), detail.statusKey()));
