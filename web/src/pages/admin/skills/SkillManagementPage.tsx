@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -307,7 +309,12 @@ export function SkillManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Skill>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'skill', key: record.skillKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '技能名称', dataIndex: 'name', width: 180 },
     { title: '技能标识', dataIndex: 'skillKey', width: 190 },
     { title: '最高等级', dataIndex: 'maxLevel', width: 100 },
@@ -348,10 +355,17 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 680,
+      width: 520,
       fixed: 'right',
       render: (_value, record: Skill) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
+            target={{ kind: 'skill', key: record.skillKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', skill: record })}>查看</Button>
           <Button
             size="mini"
@@ -469,7 +483,7 @@ export function SkillManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1680 }}
+          scroll={{ x: 1654 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>

@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -125,7 +127,12 @@ export function CharacterManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Character>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'character', key: record.characterKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '角色名称', dataIndex: 'name', width: 180 },
     { title: '角色标识', dataIndex: 'characterKey', width: 190 },
     {
@@ -142,10 +149,17 @@ export function CharacterManagementPage({
     },
     {
       title: '操作',
-      width: 290,
+      width: 480,
       fixed: 'right',
       render: (_value, record: Character) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.characterKey}`}
+            target={{ kind: 'character', key: record.characterKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', character: record })}>查看</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', character: record })}>编辑</Button>
           <Button size="mini" type="primary" onClick={() => setAttributesTarget(record)}>等级属性</Button>
@@ -210,7 +224,7 @@ export function CharacterManagementPage({
           data={characters}
           pagination={false}
           rowKey={(record: Character) => record.characterKey}
-          scroll={{ x: 950 }}
+          scroll={{ x: 1344 }}
           noDataElement={<Empty description="暂无角色" />}
         />
       </Panel>

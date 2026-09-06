@@ -14,24 +14,24 @@ describe('apiClient.listGames', () => {
     vi.restoreAllMocks();
   });
 
-  it('keeps gameId, gameName and nullable gameImgUrl', async () => {
+  it('keeps gameId, gameName and nullable representativeImageKey', async () => {
     const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       expect(String(input)).toBe('http://localhost:8080/api/games');
       return jsonResponse(200, [
-        { gameId: 'lol', gameName: '英雄联盟', gameImgUrl: 'lol.png' },
-        { gameId: 'demo', gameName: 'Demo Arena', gameImgUrl: null }
+        { gameId: 'lol', gameName: '英雄联盟', representativeImageKey: 'lol.png' },
+        { gameId: 'demo', gameName: 'Demo Arena', representativeImageKey: null }
       ]);
     });
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await listGames('http://localhost:8080');
     expect(result.data).toEqual([
-      { gameId: 'lol', gameName: '英雄联盟', gameImgUrl: 'lol.png' },
-      { gameId: 'demo', gameName: 'Demo Arena', gameImgUrl: null }
+      { gameId: 'lol', gameName: '英雄联盟', representativeImageKey: 'lol.png' },
+      { gameId: 'demo', gameName: 'Demo Arena', representativeImageKey: null }
     ]);
   });
 
-  it('drops progressionSchema and missing gameImgUrl becomes null', async () => {
+  it('drops progressionSchema and missing representativeImageKey becomes null', async () => {
     const fetchMock = vi.fn(async () =>
       jsonResponse(200, [
         {
@@ -44,7 +44,7 @@ describe('apiClient.listGames', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await listGames('http://localhost:8080');
-    expect(result.data).toEqual([{ gameId: 'lol', gameName: '英雄联盟', gameImgUrl: null }]);
+    expect(result.data).toEqual([{ gameId: 'lol', gameName: '英雄联盟', representativeImageKey: null }]);
     expect(result.data[0]).not.toHaveProperty('progressionSchema');
   });
 });

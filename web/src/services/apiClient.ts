@@ -100,7 +100,7 @@ function normalizeGameSummary(value: unknown): GameSummary {
   return {
     gameId: typeof record.gameId === 'string' ? record.gameId : '',
     gameName: typeof record.gameName === 'string' ? record.gameName : '',
-    gameImgUrl: typeof record.gameImgUrl === 'string' ? record.gameImgUrl : null
+    representativeImageKey: typeof record.representativeImageKey === 'string' ? record.representativeImageKey : null
   };
 }
 
