@@ -10,6 +10,8 @@ export type CharacterDraft = {
 
 export type CharacterDraftErrors = Partial<Record<keyof CharacterDraft, string>>;
 
+export type AttributeGenerationMode = 'fixed' | 'increment' | 'levels';
+
 export function validateCharacterDraft(
   draft: CharacterDraft,
   includeCharacterKey: boolean
@@ -98,21 +100,69 @@ export function describeAttributeProgression(
   if (!isAttributeConfigured(source, attributeKey, minLevel, maxLevel)) {
     return '未配置';
   }
+  const mode = getAttributeGenerationMode(source, attributeKey, minLevel, maxLevel);
+  if (mode === 'fixed') return '固定';
+  if (mode === 'levels') return '逐级变化';
+  const increment = Number((source[String(minLevel + 1)]![attributeKey]! - source[String(minLevel)]![attributeKey]!).toFixed(8));
+  return `${increment >= 0 ? '+' : ''}${increment} / level`;
+}
+
+export function getAttributeGenerationMode(
+  source: CharacterLevelValues,
+  attributeKey: string,
+  minLevel: number,
+  maxLevel: number
+): AttributeGenerationMode {
+  if (!isAttributeConfigured(source, attributeKey, minLevel, maxLevel)) return 'fixed';
   const values = Array.from(
     { length: maxLevel - minLevel + 1 },
     (_, index) => source[String(minLevel + index)]![attributeKey]!
   );
   if (values.every((value) => value === values[0])) {
-    return '固定';
+    return 'fixed';
   }
   const increment = Number((values[1]! - values[0]!).toFixed(8));
   const linear = values.every((value, index) =>
-    Math.abs(value - (values[0]! + index * increment)) < 1e-8
+    value === Number((values[0]! + index * increment).toFixed(8))
   );
-  if (!linear) {
-    return '逐级变化';
+  return linear ? 'increment' : 'levels';
+}
+
+export function generatePerLevelValues(
+  source: CharacterLevelValues,
+  attribute: Pick<Attribute, 'attributeKey' | 'valueType' | 'minValue' | 'maxValue'>,
+  minLevel: number,
+  maxLevel: number,
+  text: string
+): { levelValues: CharacterLevelValues; error: null } | { levelValues: null; error: string } {
+  const entries = text.trim() ? text.trim().split(/[\s,，]+/u).filter(Boolean) : [];
+  const count = maxLevel - minLevel + 1;
+  if (entries.length !== count) {
+    return { levelValues: null, error: `请按 Lv${minLevel} 至 Lv${maxLevel} 的顺序输入 ${count} 个数值，当前为 ${entries.length} 个。` };
   }
-  return `${increment >= 0 ? '+' : ''}${increment} / level`;
+  const numbers = entries.map(Number);
+  for (let index = 0; index < numbers.length; index += 1) {
+    const value = numbers[index]!;
+    const level = minLevel + index;
+    if (!Number.isFinite(value)) {
+      return { levelValues: null, error: `Lv${level} 的数值必须为有限数。` };
+    }
+    if (attribute.valueType === 'INTEGER' && !Number.isInteger(value)) {
+      return { levelValues: null, error: `Lv${level} 的数值必须是整数。` };
+    }
+    if ((attribute.minValue !== null && value < attribute.minValue)
+      || (attribute.maxValue !== null && value > attribute.maxValue)) {
+      return { levelValues: null, error: `Lv${level} 的数值超出属性范围。` };
+    }
+  }
+  const levelValues: CharacterLevelValues = Object.fromEntries(
+    Object.entries(source).map(([level, values]) => [level, { ...values }])
+  );
+  numbers.forEach((value, index) => {
+    const level = String(minLevel + index);
+    levelValues[level] = { ...(levelValues[level] ?? {}), [attribute.attributeKey]: value };
+  });
+  return { levelValues, error: null };
 }
 
 export function generateIncrementingLevelValues(
@@ -131,7 +181,7 @@ export function generateIncrementingLevelValues(
     const value = startValue + (level - minLevel) * increment;
     result[levelKey] = {
       ...(result[levelKey] ?? {}),
-      [attributeKey]: Number(value.toFixed(8))
+      [attributeKey]: increment === 0 ? startValue : Number(value.toFixed(8))
     };
   }
   return result;
