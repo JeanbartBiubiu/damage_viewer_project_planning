@@ -102,6 +102,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSourceCastResourceCostBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetCategoryConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
@@ -117,6 +118,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
+import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
 
 @Service
 @Validated
@@ -1209,6 +1211,13 @@ public class SkillTriggerRuleService {
                 }
                 issues.addAll(SkillLifecycleConditionSemantics.shapeIssues(detail, prefix + ".detail"));
             }
+            case TARGET_CATEGORY_CHECK -> {
+                if (!(condition.detail() instanceof SkillTriggerTargetCategoryConditionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "命中类别条件明细形状不合法"));
+                    return;
+                }
+                issues.addAll(SkillTargetCategoryConditionSemantics.shapeIssues(detail, prefix + ".detail"));
+            }
             case INTERNAL_STATE_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail)) {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态检查条件明细形状不合法"));
@@ -1719,6 +1728,9 @@ public class SkillTriggerRuleService {
         Map<String, SkillTriggerInternalStateLockRow> states,
         List<Map<String, String>> issues
     ) {
+        if (condition.conditionType() == SkillTriggerConditionType.TARGET_CATEGORY_CHECK) {
+            issues.addAll(SkillTargetCategoryConditionSemantics.eventIssues(eventSource.eventType(), prefix + ".detail"));
+        }
         if (condition.conditionType() == SkillTriggerConditionType.LIFECYCLE_CHECK
             && condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail) {
             issues.addAll(SkillLifecycleConditionSemantics.subjectIssues(detail,
@@ -2297,6 +2309,7 @@ public class SkillTriggerRuleService {
                     refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }
             }
+            case TARGET_CATEGORY_CHECK -> { /* 固定类别不引用技能目录或执行对象。 */ }
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();

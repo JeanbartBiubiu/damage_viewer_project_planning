@@ -302,6 +302,7 @@ public final class SkillObjectReferences {
                     local(detail, dp, "effectKey", TargetType.LIFECYCLE);
                     formulas(detail, dp, "comparisonValue");
                 }
+                case "TARGET_CATEGORY_CHECK" -> { /* 固定类别不生成引用。 */ }
                 case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
                 default -> throw shape(path, "未知触发条件类型");
             }

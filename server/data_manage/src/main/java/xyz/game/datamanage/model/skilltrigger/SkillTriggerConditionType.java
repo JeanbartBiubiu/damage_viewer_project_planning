@@ -5,5 +5,6 @@ public enum SkillTriggerConditionType {
     STATUS_CHECK,
     INTERNAL_STATE_CHECK,
     LIFECYCLE_CHECK,
+    TARGET_CATEGORY_CHECK,
     EVENT_VALUE_COMPARE
 }
