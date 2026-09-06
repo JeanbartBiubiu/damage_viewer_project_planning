@@ -187,7 +187,7 @@
               "detail": {
                 "attributeKey": "hp_regen",
                 "operation": "INCREASE",
-                "modifierZoneKey": null
+                "modifierZoneKey": "attribute_flat_add"
               }
             }
           ]
@@ -402,7 +402,7 @@
               "detail": {
                 "attributeKey": "move_speed_percent",
                 "operation": "INCREASE",
-                "modifierZoneKey": null
+                "modifierZoneKey": "attribute_flat_add"
               }
             }
           ]
@@ -828,7 +828,7 @@
               "detail": {
                 "attributeKey": "armor",
                 "operation": "INCREASE",
-                "modifierZoneKey": null
+                "modifierZoneKey": "attribute_flat_add"
               }
             },
             {
@@ -858,7 +858,7 @@
               "detail": {
                 "attributeKey": "magic_resistance",
                 "operation": "INCREASE",
-                "modifierZoneKey": null
+                "modifierZoneKey": "attribute_flat_add"
               }
             }
           ]
@@ -960,9 +960,9 @@
           ]
         },
         {
-          "effectKey": "upfront_defense",
-          "name": "勇气短时护盾与韧性",
-          "description": null,
+          "effectKey": "upfront_shield",
+          "name": "勇气短时护盾",
+          "description": "护盾耗尽按现有契约提前结束本效果；韧性放在独立效果，避免随护盾耗尽消失。",
           "sortOrder": 2,
           "lifecycle": {
             "durationValue": {
@@ -1013,7 +1013,35 @@
                 "absorbedDamageTypeKey": null,
                 "decayMode": "NONE"
               }
+            }
+          ]
+        },
+        {
+          "effectKey": "upfront_tenacity",
+          "name": "勇气短时韧性",
+          "description": "与护盾共用750毫秒参数，但生命周期独立，护盾耗尽不结束本效果。",
+          "sortOrder": 3,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "upfront_duration_ms"
             },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
             {
               "resultKey": "tenacity",
               "name": "提高韧性",
@@ -1041,7 +1069,7 @@
               "detail": {
                 "attributeKey": "tenacity_percent",
                 "operation": "INCREASE",
-                "modifierZoneKey": null
+                "modifierZoneKey": "attribute_flat_add"
               }
             }
           ]
@@ -1053,7 +1081,7 @@
           "processKey": "cast",
           "name": "施放勇气",
           "activationType": "ACTIVE",
-          "description": "主动施放立即开始 4 秒减伤和 0.75 秒护盾/韧性；没有额外施法延迟。",
+          "description": "主动施放立即开始 4 秒减伤和各自独立的 0.75 秒护盾、韧性；没有额外施法延迟。",
           "sortOrder": 0,
           "cooldown": {
             "durationValue": {
@@ -1086,8 +1114,17 @@
               "sortOrder": 0
             },
             {
-              "bindingKey": "upfront",
-              "effectKey": "upfront_defense",
+              "bindingKey": "upfront_shield",
+              "effectKey": "upfront_shield",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 0
+            },
+            {
+              "bindingKey": "upfront_tenacity",
+              "effectKey": "upfront_tenacity",
               "moment": {
                 "momentType": "PROCESS_START",
                 "stepKey": null
@@ -1129,7 +1166,7 @@
       ],
       "componentNotes": [
         "被动以同一来源永久效果的层数表达，无需再造第二份内部计数器。",
-        "主动护盾/韧性为同一个 750 毫秒生命周期，护盾耗尽不能错误移除同生命周期韧性。",
+        "按现有普通护盾契约，耗尽会结束所属生命周期；主动护盾与韧性必须拆成两个效果，共用750毫秒参数，在同一施法开始时分别挂接。",
         "当前 W 满层后不再额外提高 10% 双抗；官方 25.11 已删除。",
         "乘区映射、不同韧性来源组合、永久实例跨死亡保留未核前，不把完整执行行为标记通过。"
       ],

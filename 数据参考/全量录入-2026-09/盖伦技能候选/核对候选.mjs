@@ -31,6 +31,11 @@ for (const s of data.skills) {
     for (const v of Object.values(obj)) if (typeof v === 'object') visit(v);
   };
   visit(s);
+  for (const e of s.effects) for (const r of e.results) {
+    if (r.resultType === 'ATTRIBUTE_CHANGE' && r.lifecycleBehavior?.moment === 'PERSISTENT' && ['INCREASE', 'DECREASE'].includes(r.detail.operation)) {
+      assert(r.detail.modifierZoneKey, `${s.slot}.${e.effectKey}.${r.resultKey} 持续属性变化缺少乘区`);
+    }
+  }
   for (const p of s.parameters) if (p.valueMode === 'SKILL_LEVEL') assert.deepEqual(Object.keys(p.levelValues), Array.from({ length: s.skill.maxLevel }, (_, i) => String(i + 1)));
   for (const p of s.processes) {
     assert(p.effectBindings.length + p.stateOperations.length > 0, '不允许制造空过程');
@@ -38,6 +43,14 @@ for (const s of data.skills) {
   }
   for (const r of s.triggerRules) for (const a of r.actions) if (a.actionType === 'EXECUTE_EFFECT') assert(es.has(a.detail.effectKey));
 }
+// 护盾耗尽只应结束护盾，不能让同一次施放的韧性提前消失。
+const courage = data.skills.find(s => s.slot === 'W');
+const shieldEffect = courage.effects.find(e => e.results.some(r => r.resultType === 'NORMAL_SHIELD'));
+const tenacityEffect = courage.effects.find(e => e.results.some(r => r.detail.attributeKey === 'tenacity_percent'));
+assert(shieldEffect && tenacityEffect);
+assert.notEqual(shieldEffect.effectKey, tenacityEffect.effectKey, 'W护盾与韧性不能共用会随护盾耗尽结束的生命周期');
+assert.deepEqual(shieldEffect.lifecycle.durationValue, tenacityEffect.lifecycle.durationValue);
+for (const effect of [shieldEffect, tenacityEffect]) assert(courage.processes.some(p => p.effectBindings.some(b => b.effectKey === effect.effectKey)));
 const evaluate = (slot, key, rank, level, attrs) => {
   const s = data.skills.find(s => s.slot === slot);
   const expr = s.formulas.find(f => f.formulaKey === key).expression;

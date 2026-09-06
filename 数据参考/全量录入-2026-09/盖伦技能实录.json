@@ -209,12 +209,53 @@
           }
         }
       ],
-      "effects": "待录",
+      "effects": [
+        {
+          "effectKey": "bonus_damage",
+          "name": "Q 强化普攻额外伤害",
+          "description": "只配置强化普攻额外部分；普攻本体由普通攻击流程结算，重置攻击和消耗强化次数的触发机制待补。",
+          "sortOrder": 2,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "额外物理伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "bonus_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
       "processesAndRules": "待录并核对明确缺口",
       "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "已直接上传、自动关联并关闭重开回读；见主负责人角色技能图片实录.json",
       "runtimeValidation": "未执行",
-      "formulasSavedAndReadBack": true
+      "formulasSavedAndReadBack": true,
+      "effectsSavedAndReadBack": true,
+      "effectsReadbackEvidence": "盖伦效果回读-2026-09-07.md"
     },
     {
       "skillKey": "garen_w",
@@ -377,12 +418,130 @@
           }
         }
       ],
-      "effects": "待录",
+      "effects": [
+        {
+          "effectKey": "upfront_shield",
+          "name": "勇气短时护盾",
+          "description": "护盾耗尽按现有契约提前结束本效果；韧性放在独立效果，避免随护盾耗尽消失。",
+          "sortOrder": 2,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "upfront_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "shield",
+              "name": "勇气护盾",
+              "resultType": "NORMAL_SHIELD",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "shield"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "upfront_tenacity",
+          "name": "勇气短时韧性",
+          "description": "独立保持750毫秒，不随勇气护盾耗尽提前结束。",
+          "sortOrder": 3,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "upfront_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "tenacity",
+              "name": "勇气韧性提升",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "tenacity_ratio"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "tenacity_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
       "processesAndRules": "待录并核对明确缺口",
       "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "已直接上传、自动关联并关闭重开回读；见主负责人角色技能图片实录.json",
       "runtimeValidation": "未执行",
-      "formulasSavedAndReadBack": true
+      "formulasSavedAndReadBack": true,
+      "effectsSavedAndReadBack": true,
+      "effectsReadbackEvidence": "盖伦效果回读-2026-09-07.md"
     },
     {
       "skillKey": "garen_e",
@@ -669,12 +828,97 @@
           }
         }
       ],
-      "effects": "待录",
+      "effects": [
+        {
+          "effectKey": "spin_damage",
+          "name": "E 一圈普通目标伤害",
+          "description": "仅普通目标的一圈伤害，旋转次数、范围命中及目标筛选待补；与最近目标效果二选一，不叠加结算。",
+          "sortOrder": 0,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "每圈物理伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage_per_spin"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "SOURCE_CRIT_CHANCE",
+                  "multiplierValue": {
+                    "kind": "FORMULA",
+                    "formulaKey": "critical_multiplier"
+                  }
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "nearest_spin_damage",
+          "name": "E 一圈最近目标伤害",
+          "description": "与普通目标效果二选一，不可同一次命中同时结算两份；最近目标判断、旋转次数和范围命中待补。",
+          "sortOrder": 1,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "最近目标每圈物理伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "nearest_damage_per_spin"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "SOURCE_CRIT_CHANCE",
+                  "multiplierValue": {
+                    "kind": "FORMULA",
+                    "formulaKey": "critical_multiplier"
+                  }
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
       "processesAndRules": "待录并核对明确缺口",
       "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "已直接上传、自动关联并关闭重开回读；见主负责人角色技能图片实录.json",
       "runtimeValidation": "未执行",
-      "formulasSavedAndReadBack": true
+      "formulasSavedAndReadBack": true,
+      "effectsSavedAndReadBack": true,
+      "effectsReadbackEvidence": "盖伦效果回读-2026-09-07.md"
     },
     {
       "skillKey": "garen_r",
@@ -839,5 +1083,5 @@
       "effectsSavedAndReadBack": true
     }
   ],
-  "lastReadBackAt": "2026-09-07T00:07:00+08:00"
+  "lastReadBackAt": "2026-09-07T00:54:48.5218272+08:00"
 }
