@@ -1,0 +1,49 @@
+{
+  "itemId": "3046",
+  "equipmentKey": "item_3046",
+  "name": "幻影之舞",
+  "plannedDirectAttributes": {
+    "bonus_attack_speed_percent": 0.65,
+    "critical_strike_chance": 0.25,
+    "move_speed_percent": 0.1
+  },
+  "sourceVersion": "16.17.1",
+  "sourceDescriptionText": "65%攻击速度\n25%暴击几率\n10%移动速度\n\n幽影华尔兹变为幽灵状态。",
+  "startedAt": "2026-09-06T18:10:42.231Z",
+  "action": "reused",
+  "actualEquipment": {
+    "equipmentKey": "item_3046",
+    "name": "幻影之舞",
+    "description": "来源：官方16.17.1装备3046。 原始说明：65%攻击速度 25%暴击几率 10%移动速度 幽影华尔兹变为幽灵状态。 被动与主动效果尚待配置。"
+  },
+  "planDifference": {
+    "expected": {
+      "name": "幻影之舞",
+      "description": "来源：官方16.17.1装备3046。 原始说明：65%攻击速度\n25%暴击几率\n10%移动速度\n\n幽影华尔兹变为幽灵状态。 被动与主动效果尚待配置。"
+    },
+    "actual": {
+      "name": "幻影之舞",
+      "description": "来源：官方16.17.1装备3046。 原始说明：65%攻击速度 25%暴击几率 10%移动速度 幽影华尔兹变为幽灵状态。 被动与主动效果尚待配置。"
+    }
+  },
+  "beforeAttributeValues": {
+    "move_speed_percent": 0.1,
+    "bonus_attack_speed_percent": 0.65,
+    "critical_strike_chance": 0.25
+  },
+  "expectedAttributeValues": {
+    "move_speed_percent": 0.1,
+    "bonus_attack_speed_percent": 0.65,
+    "critical_strike_chance": 0.25
+  },
+  "attributePutStatus": "not_needed",
+  "readbackStatus": 200,
+  "readbackAttributeValues": {
+    "move_speed_percent": 0.1,
+    "bonus_attack_speed_percent": 0.65,
+    "critical_strike_chance": 0.25
+  },
+  "readbackMatches": true,
+  "status": "completed",
+  "completedAt": "2026-09-06T18:10:42.362Z"
+}

@@ -1,0 +1,45 @@
+{
+  "itemId": "3047",
+  "equipmentKey": "item_3047",
+  "name": "铁板靴",
+  "plannedDirectAttributes": {
+    "armor": 25,
+    "move_speed": 45
+  },
+  "sourceVersion": "16.17.1",
+  "sourceDescriptionText": "25护甲\n45移动速度\n\n镀板\n使即将到来的攻击伤害降低10%。",
+  "startedAt": "2026-09-06T18:10:42.363Z",
+  "action": "reused",
+  "actualEquipment": {
+    "equipmentKey": "item_3047",
+    "name": "铁板靴",
+    "description": "来源：官方16.17.1装备3047。 原始说明：25护甲 45移动速度 镀板 使即将到来的攻击伤害降低10%。 被动与主动效果尚待配置。"
+  },
+  "planDifference": {
+    "expected": {
+      "name": "铁板靴",
+      "description": "来源：官方16.17.1装备3047。 原始说明：25护甲\n45移动速度\n\n镀板\n使即将到来的攻击伤害降低10%。 被动与主动效果尚待配置。"
+    },
+    "actual": {
+      "name": "铁板靴",
+      "description": "来源：官方16.17.1装备3047。 原始说明：25护甲 45移动速度 镀板 使即将到来的攻击伤害降低10%。 被动与主动效果尚待配置。"
+    }
+  },
+  "beforeAttributeValues": {
+    "move_speed": 45,
+    "armor": 25
+  },
+  "expectedAttributeValues": {
+    "move_speed": 45,
+    "armor": 25
+  },
+  "attributePutStatus": "not_needed",
+  "readbackStatus": 200,
+  "readbackAttributeValues": {
+    "move_speed": 45,
+    "armor": 25
+  },
+  "readbackMatches": true,
+  "status": "completed",
+  "completedAt": "2026-09-06T18:10:42.483Z"
+}
