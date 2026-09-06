@@ -17,5 +17,5 @@ export type ApiErrorResponse = {
 export type GameSummary = {
   gameId: string;
   gameName: string;
-  gameImgUrl: string | null;
+  representativeImageKey: string | null;
 };
