@@ -5824,6 +5824,64 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('damage-dealt event values');
   });
 
+  test('persists action moves and numeric sort edits when editing an existing trigger rule', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    mock.skillTriggerRules = [{
+      gameId: GAME_ID, skillKey: 'varus_w', ruleKey: 'existing_order', name: '已有规则顺序',
+      description: null, sortOrder: 0,
+      eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: null } },
+      conditionGroups: [], perTargetCooldown: null, maxTriggersPerProcess: null,
+      actions: [
+        { actionKey: 'apply_damage', name: '造成伤害', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
+          targetContext: 'CURRENT_TARGET', detail: { effectKey: 'on_hit_results' }, runtimeInputBindings: [], resultModifiers: [] },
+        { actionKey: 'start_cast', name: '启动过程', actionType: 'START_PROCESS', sortOrder: 20,
+          targetContext: 'CURRENT_TARGET', detail: { processKey: 'primary_cast' }, runtimeInputBindings: [], resultModifiers: [] }
+      ],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+    let detailReads = 0;
+    page.on('request', (request) => {
+      if (request.method() === 'GET' && new URL(request.url()).pathname.endsWith('/trigger-rules/existing_order')) detailReads += 1;
+    });
+    await openSkills(page);
+    const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    await shell.locator('tr', { hasText: 'existing_order' }).getByRole('button', { name: '编辑', exact: true }).click();
+    let editor = visibleModal(page, '编辑规则');
+    await expect(editor.getByText('1. 造成伤害', { exact: true })).toBeVisible();
+    await editor.getByRole('button', { name: '下移', exact: true }).first().click();
+    await expect(editor.getByText('1. 启动过程', { exact: true })).toBeVisible();
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editor).toBeHidden();
+    expect(detailReads).toBe(1);
+    expect(mock.skillTriggerRules[0]!.actions.map((action) => [action.actionKey, action.sortOrder]))
+      .toEqual([['start_cast', 10], ['apply_damage', 20]]);
+
+    await shell.locator('tr', { hasText: 'existing_order' }).getByRole('button', { name: '编辑', exact: true }).click();
+    editor = visibleModal(page, '编辑规则');
+    await expect(editor.getByText('1. 启动过程', { exact: true })).toBeVisible();
+    await editor.getByRole('button', { name: '编辑', exact: true }).first().click();
+    const actionEditor = visibleModal(page, '编辑动作');
+    await actionEditor.getByLabel('动作排序', { exact: true }).fill('30');
+    await actionEditor.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(actionEditor).toBeHidden();
+    await expect(editor.getByText('1. 造成伤害', { exact: true })).toBeVisible();
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editor).toBeHidden();
+    expect(detailReads).toBe(2);
+    expect(mock.skillTriggerRules[0]!.actions.map((action) => [action.actionKey, action.sortOrder]))
+      .toEqual([['apply_damage', 20], ['start_cast', 30]]);
+
+    await shell.locator('tr', { hasText: 'existing_order' }).getByRole('button', { name: '编辑', exact: true }).click();
+    editor = visibleModal(page, '编辑规则');
+    await expect(editor.getByText('1. 造成伤害', { exact: true })).toBeVisible();
+    await expect(editor.getByText('2. 启动过程', { exact: true })).toBeVisible();
+    await editor.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(editor).toBeHidden();
+    diagnostics.assertClean('existing trigger action order persists without dirty-state reloads');
+  });
+
   test('confirms stale prior-result cleanup after reordering actions and can cancel', async ({ page }) => {
     test.setTimeout(90_000);
     const mock = new MockApi();
