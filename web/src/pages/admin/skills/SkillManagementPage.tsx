@@ -503,18 +503,21 @@ export function SkillManagementPage({
         />
       </Panel>
 
-      <SkillEditorModal
-        visible={editor !== null}
-        mode={editor?.mode ?? 'view'}
-        skill={editor?.skill ?? null}
-        skillCategories={categories}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => setEditor(null)}
-        onSaved={handleSaved}
-        onDirtyChange={onDirtyChange}
-      />
+      {editor ? (
+        <SkillEditorModal
+          key={`${apiBaseUrl}:${selectedGameId}:${editor.mode}:${editor.skill?.skillKey ?? 'new'}`}
+          visible
+          mode={editor.mode}
+          skill={editor.skill}
+          skillCategories={categories}
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          adminToken={adminToken}
+          onClose={() => setEditor(null)}
+          onSaved={handleSaved}
+          onDirtyChange={onDirtyChange}
+        />
+      ) : null}
 
       <SkillParameterFormulaModal
         visible={parameterFormulaTarget !== null}
