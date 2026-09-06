@@ -2385,19 +2385,26 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.STATUS_CHECK,
         SKILL_TRIGGER_SUBJECT_LABELS[condition.detail.subject],
         condition.detail.statusKey,
-        SKILL_TRIGGER_STATUS_CHECK_LABELS[condition.detail.checkKind]
+        SKILL_TRIGGER_STATUS_CHECK_LABELS[condition.detail.checkKind],
+        ...(condition.detail.checkKind === 'STACKS_COMPARE' || condition.detail.checkKind === 'REMAINING_MS_COMPARE'
+          ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
+          : [])
       ].join(' / ');
     case 'INTERNAL_STATE_CHECK':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.INTERNAL_STATE_CHECK,
         condition.detail.stateKey,
-        SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind]
+        SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind],
+        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'REMAINING_MS'
+          ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
+          : [])
       ].join(' / ');
     case 'EVENT_VALUE_COMPARE':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.EVENT_VALUE_COMPARE,
         SKILL_TRIGGER_EVENT_VALUE_LABELS[condition.detail.eventValueKey],
-        SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator]
+        SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
+        numericValueSummary(condition.detail.comparisonValue)
       ].join(' / ');
   }
 }
