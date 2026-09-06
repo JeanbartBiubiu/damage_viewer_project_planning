@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T18:30:07.950Z",
+  "generatedAt": "2026-09-06T19:13:04.846Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -32,10 +32,17 @@
     "status": "主体与明确直接属性完成，主动被动效果尚待配置"
   },
   "images": {
-    "status": "以独立图片批次最终回读及页面同步记录为准",
+    "objectUses": 1207,
+    "heroes": 171,
+    "skills": 855,
+    "equipment": 181,
+    "status": "代表图关系与内容核对完成；页面同步后全部正式对象缩略图加载成功",
+    "browserCacheRecords": 3202,
+    "browserReadFailures": 0,
     "evidence": [
-      "API实录/图片",
-      "API实录/装备图片"
+      "API实录/图片/full-relation-verification.json",
+      "API实录/装备图片/代表图关系最终核对.json",
+      "API实录/页面验收-2026-09-07.md"
     ]
   },
   "runes": {
