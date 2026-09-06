@@ -1201,8 +1201,18 @@
           AND b.moment = 'PERSISTENT'
     </select>
 
+    <select id="findLifecycleScope" resultType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope">
+        SELECT lifecycle->>'instanceScope'
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
+    </select>
+
     <select id="countEffectReferences" resultType="long">
         SELECT
+            (SELECT COUNT(1)
+             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleConditions"/>)
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          +
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleResultEvents"/>)
              WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
@@ -1294,6 +1304,10 @@
 
     <select id="countLifecycleReferences" resultType="long">
         SELECT
+            (SELECT COUNT(1)
+             FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleConditions"/>)
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+          +
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleEvents"/>)
              WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
