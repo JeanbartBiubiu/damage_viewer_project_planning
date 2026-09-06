@@ -2,27 +2,482 @@
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "method": "真实浏览器页面填写、保存父对象、关闭后重新打开核对",
-  "batch": "2026-09-06-基础装备01至02",
-  "evidenceWindowLocal": "2026-09-06 22:12至22:49 +08:00",
+  "batch": "2026-09-06-纯属性装备47件",
+  "evidenceWindowLocal": "2026-09-06 22:12至23:25 +08:00",
   "records": [
-    {"key":"item_1036","name":"长剑","attributes":{"attack_damage":10},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1037","name":"十字镐","attributes":{"attack_damage":25},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1038","name":"暴风之剑","attributes":{"attack_damage":40},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1028","name":"红水晶","attributes":{"hp":150},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1027","name":"蓝水晶","attributes":{"mana":300},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1029","name":"布甲","attributes":{"armor":15},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1031","name":"锁子甲","attributes":{"armor":40},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1033","name":"抗魔斗篷","attributes":{"magic_resistance":20},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1052","name":"增幅典籍","attributes":{"ability_power":20},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1026","name":"爆裂魔杖","attributes":{"ability_power":45},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1001","name":"鞋子","attributes":{"move_speed":25},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1004","name":"仙女护符","attributes":{"base_mana_regen_percent":0.5},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1006","name":"治疗宝珠","attributes":{"base_hp_regen_percent":1},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1011","name":"巨人腰带","attributes":{"hp":350},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1018","name":"灵巧披风","attributes":{"critical_strike_chance":0.15},"dataStatus":"直接属性已录并回读","imageStatus":"待补"},
-    {"key":"item_1042","name":"短剑","attributes":{"bonus_attack_speed_percent":0.1},"dataStatus":"直接属性已录并回读","imageStatus":"待补"}
+    {
+      "key": "item_1036",
+      "name": "长剑",
+      "attributes": {
+        "attack_damage": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1037",
+      "name": "十字镐",
+      "attributes": {
+        "attack_damage": 25
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1038",
+      "name": "暴风之剑",
+      "attributes": {
+        "attack_damage": 40
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1028",
+      "name": "红水晶",
+      "attributes": {
+        "hp": 150
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1027",
+      "name": "蓝水晶",
+      "attributes": {
+        "mana": 300
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1029",
+      "name": "布甲",
+      "attributes": {
+        "armor": 15
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1031",
+      "name": "锁子甲",
+      "attributes": {
+        "armor": 40
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1033",
+      "name": "抗魔斗篷",
+      "attributes": {
+        "magic_resistance": 20
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1052",
+      "name": "增幅典籍",
+      "attributes": {
+        "ability_power": 20
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1026",
+      "name": "爆裂魔杖",
+      "attributes": {
+        "ability_power": 45
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1001",
+      "name": "鞋子",
+      "attributes": {
+        "move_speed": 25
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1004",
+      "name": "仙女护符",
+      "attributes": {
+        "base_mana_regen_percent": 0.5
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1006",
+      "name": "治疗宝珠",
+      "attributes": {
+        "base_hp_regen_percent": 1
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1011",
+      "name": "巨人腰带",
+      "attributes": {
+        "hp": 350
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1018",
+      "name": "灵巧披风",
+      "attributes": {
+        "critical_strike_chance": 0.15
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1042",
+      "name": "短剑",
+      "attributes": {
+        "bonus_attack_speed_percent": 0.1
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1053",
+      "name": "吸血鬼节杖",
+      "attributes": {
+        "attack_damage": 15,
+        "life_steal_percent": 0.07
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "duolan_jian",
+      "name": "多兰之刃",
+      "attributes": {
+        "attack_damage": 10,
+        "hp": 80,
+        "omnivamp_percent": 0.025
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1057",
+      "name": "负极斗篷",
+      "attributes": {
+        "magic_resistance": 45
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1058",
+      "name": "无用大棒",
+      "attributes": {
+        "ability_power": 65
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_1086",
+      "name": "多兰之弓",
+      "attributes": {
+        "attack_damage": 8,
+        "bonus_attack_speed_percent": 0.15,
+        "omnivamp_percent": 0.015
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_2019",
+      "name": "钢铁印章",
+      "attributes": {
+        "attack_damage": 15,
+        "armor": 30
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_2020",
+      "name": "残暴之力",
+      "attributes": {
+        "attack_damage": 25,
+        "ability_haste": 10,
+        "armor_pen_flat": 5
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_2021",
+      "name": "掘道钻头",
+      "attributes": {
+        "attack_damage": 15,
+        "hp": 250
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_2022",
+      "name": "荧尘",
+      "attributes": {
+        "ability_haste": 5
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3006",
+      "name": "狂战士胫甲",
+      "attributes": {
+        "bonus_attack_speed_percent": 0.3,
+        "move_speed": 45
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3020",
+      "name": "法师之靴",
+      "attributes": {
+        "magic_pen_flat": 12,
+        "move_speed": 45
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3024",
+      "name": "冰川圆盾",
+      "attributes": {
+        "armor": 25,
+        "mana": 300,
+        "ability_haste": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3031",
+      "name": "无尽之刃",
+      "attributes": {
+        "attack_damage": 75,
+        "critical_strike_chance": 0.25,
+        "critical_strike_damage_bonus_percent": 0.3
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3035",
+      "name": "最后的轻语",
+      "attributes": {
+        "attack_damage": 20,
+        "armor_pen_percent": 0.18
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3051",
+      "name": "缚炉之斧",
+      "attributes": {
+        "attack_damage": 20,
+        "bonus_attack_speed_percent": 0.2
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3066",
+      "name": "带翼的月板甲",
+      "attributes": {
+        "hp": 200,
+        "move_speed_percent": 0.04
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3067",
+      "name": "燃烧宝石",
+      "attributes": {
+        "hp": 200,
+        "ability_haste": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3086",
+      "name": "狂热",
+      "attributes": {
+        "bonus_attack_speed_percent": 0.15,
+        "critical_strike_chance": 0.15,
+        "move_speed_percent": 0.04
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3108",
+      "name": "恶魔法典",
+      "attributes": {
+        "ability_power": 25,
+        "ability_haste": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3111",
+      "name": "水银之靴",
+      "attributes": {
+        "magic_resistance": 20,
+        "move_speed": 45,
+        "tenacity_percent": 0.3
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3113",
+      "name": "以太精魂",
+      "attributes": {
+        "ability_power": 30,
+        "move_speed_percent": 0.04
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3114",
+      "name": "禁忌雕像",
+      "attributes": {
+        "base_mana_regen_percent": 0.5,
+        "heal_shield_power_percent": 0.08
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3133",
+      "name": "考尔菲德的战锤",
+      "attributes": {
+        "attack_damage": 20,
+        "ability_haste": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3134",
+      "name": "锯齿短匕",
+      "attributes": {
+        "attack_damage": 20,
+        "armor_pen_flat": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3135",
+      "name": "虚空之杖",
+      "attributes": {
+        "ability_power": 95,
+        "magic_pen_percent": 0.4
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3211",
+      "name": "幽魂斗篷",
+      "attributes": {
+        "hp": 200,
+        "magic_resistance": 35,
+        "base_hp_regen_percent": 1
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_3801",
+      "name": "晶体护腕",
+      "attributes": {
+        "hp": 200,
+        "base_hp_regen_percent": 1
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_4630",
+      "name": "枯萎珠宝",
+      "attributes": {
+        "ability_power": 25,
+        "magic_pen_percent": 0.13
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_4642",
+      "name": "班德尔玻璃镜",
+      "attributes": {
+        "ability_power": 20,
+        "base_mana_regen_percent": 1,
+        "ability_haste": 10
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_6670",
+      "name": "正午箭袋",
+      "attributes": {
+        "attack_damage": 15,
+        "critical_strike_chance": 0.2
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    },
+    {
+      "key": "item_6690",
+      "name": "剑翎",
+      "attributes": {
+        "attack_damage": 15,
+        "move_speed_percent": 0.04
+      },
+      "dataStatus": "直接属性已录并回读",
+      "imageStatus": "待补"
+    }
   ],
-  "existingPreserved": ["character:ez", "equipment:duolan_jian", "equipment:duolanjie"],
+  "existingPreserved": [
+    "character:ez",
+    "equipment:duolan_jian",
+    "equipment:duolanjie"
+  ],
   "runtimeValidation": "未执行",
-  "note": "资料全集与待录清单不代表已写入业务系统；本文件仅列出实际页面保存并回读的对象。金额、合成说明仅保留在说明中，不声称已表达购买或合成机制。"
+  "note": "资料全集与待录清单不代表已写入业务系统；本文件仅列出实际页面保存并回读的对象。金额、合成说明仅保留在说明中，不声称已表达购买或合成机制。",
+  "coverage": {
+    "pureAttributeItems": 47,
+    "purchaseAndCrafting": "仅说明，未建立机制",
+    "updatedExisting": 1,
+    "images": "待补",
+    "newEquipment": 46
+  }
 }
