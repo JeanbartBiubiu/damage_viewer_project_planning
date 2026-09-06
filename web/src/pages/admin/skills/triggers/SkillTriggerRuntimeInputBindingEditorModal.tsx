@@ -11,6 +11,8 @@ import {
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { Attribute } from '../../../../types/attribute';
+import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
@@ -59,6 +61,7 @@ import {
   switchBindingSourceType,
   valueKindsForInternalState,
   type PriorSourceActionOption,
+  type CatalogLoadState,
   type SkillTriggerActionDraft
 } from './triggerRuleForm';
 
@@ -145,6 +148,10 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   mode: SkillTriggerRuntimeInputBindingEditorMode;
   binding: SkillTriggerRuntimeInputBinding | null;
   existingBindingKeys: readonly string[];
+  originalSourceType?: SkillTriggerRuntimeInputSourceType;
+  attributes: readonly Attribute[];
+  attributesLoadState?: CatalogLoadState;
+  onRetryAttributes: () => Promise<void>;
   reachableParameters: readonly SkillParameter[];
   currentBindings: readonly SkillTriggerRuntimeInputBinding[];
   eventSource: SkillTriggerEventSource;
@@ -173,6 +180,10 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   mode,
   binding,
   existingBindingKeys,
+  originalSourceType,
+  attributes,
+  attributesLoadState,
+  onRetryAttributes,
   reachableParameters,
   currentBindings,
   eventSource,
@@ -195,6 +206,10 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   );
   const [sourceEffectLoading, setSourceEffectLoading] = useState(false);
   const [sourceEffectError, setSourceEffectError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const sourceCostError = current.sourceType === 'SOURCE_CAST_RESOURCE_COST'
+    ? sourceCastResourceCostError(current, eventSource, reachableParameters, attributes, attributesLoadState)
+    : null;
   const allowedValues = allowedEventValuesFor(eventSource);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const earlierActions = useMemo(
@@ -252,6 +267,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
     setSelectedOutputKind(initialPriorResultOutputSelection(mode, binding));
     setSourceEffectError(null);
     setSourceEffectLoading(false);
+    setLocalError(null);
   }, [binding, mode, visible]);
 
   useEffect(() => {
@@ -328,6 +344,15 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   };
 
   const confirmBinding = () => {
+    if (mode === 'create' && existingBindingKeys.includes(current.bindingKey)) {
+      setLocalError('绑定标识已使用；更换来源请使用新标识。');
+      return;
+    }
+    if (originalSourceType && originalSourceType !== current.sourceType) {
+      setLocalError('已有绑定不能更改来源种类；请删除后以新标识新增。');
+      return;
+    }
+    if (sourceCostError) return;
     if (current.sourceType === 'PRIOR_ACTION_RESULT') {
       const confirmed = confirmedPriorResultBinding(current, effectiveOutputKind);
       if (!confirmed) return;
@@ -371,7 +396,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
           <Button onClick={onClose}>取消</Button>
           <Button
             type="primary"
-            disabled={disabled || !priorResultConfirmReady}
+            disabled={disabled || !priorResultConfirmReady || Boolean(sourceCostError)}
             onClick={confirmBinding}
           >
             确定
@@ -380,6 +405,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+        {localError ? <Alert type="error" content={localError} /> : null}
         <Table
           size="small"
           pagination={false}
@@ -405,17 +431,19 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               disabled={disabled}
               options={reachableParameters.map((item) => ({
                 value: item.parameterKey,
+                disabled: current.sourceType === 'SOURCE_CAST_RESOURCE_COST' && (item.valueType !== 'DECIMAL' || item.valueMode !== 'RUNTIME_INPUT'),
                 label: `${item.name}（${item.parameterKey} / ${SKILL_TRIGGER_VALUE_TYPE_LABELS[item.valueType]}）`
               }))}
               onChange={(value) => setCurrent({ ...current, parameterKey: String(value ?? '') })}
             />
           </Form.Item>
-          <Form.Item label="来源种类" required>
+          <Form.Item label="来源种类" required extra={originalSourceType ? '已有绑定不能更改来源种类；请删除后以新标识新增。' : undefined}>
             <Select
               aria-label="来源种类"
               value={current.sourceType}
-              disabled={disabled}
+              disabled={disabled || Boolean(originalSourceType)}
               options={SKILL_TRIGGER_SOURCE_TYPES
+                .filter((value) => value !== 'SOURCE_CAST_RESOURCE_COST' || allowsSourceCastResourceCost(eventSource) || originalSourceType === value)
                 .filter((value) => value !== 'EVENT_VALUE' || allowedValues.length > 0)
                 .filter((value) => value !== 'PRIOR_ACTION_RESULT' || earlierActions.length > 0)
                 .map((value) => ({ value, label: SKILL_TRIGGER_SOURCE_TYPE_LABELS[value] }))}
@@ -425,6 +453,23 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               }}
             />
           </Form.Item>
+
+          {current.sourceType === 'SOURCE_CAST_RESOURCE_COST' ? (
+            <>
+              <Alert type="info" content="读取本次命中所属原始施放的资源消耗，来源技能沿用事件选择；该值为非负十进制，真实零消耗与缺少上下文不同。" />
+              {sourceCostError ? <Alert type="warning" content={sourceCostError} /> : null}
+              <Form.Item label="消耗属性" required>
+                <Select
+                  aria-label="消耗属性"
+                  value={current.detail.attributeKey || undefined}
+                  disabled={disabled || attributesLoadState !== 'ready'}
+                  options={attributes.map((item) => ({ value: item.attributeKey, label: `${item.name}（${item.attributeKey}）${item.status === 'DISABLED' ? '（已停用）' : ''}` }))}
+                  onChange={(value) => setCurrent({ ...current, detail: { attributeKey: String(value ?? '') } })}
+                />
+              </Form.Item>
+              <Button disabled={disabled || attributesLoadState === 'loading'} loading={attributesLoadState === 'loading'} onClick={() => void onRetryAttributes()}>刷新属性目录</Button>
+            </>
+          ) : null}
 
           {current.sourceType === 'INTERNAL_STATE' ? (
             <>

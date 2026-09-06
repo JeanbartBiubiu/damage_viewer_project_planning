@@ -54,6 +54,7 @@ const SOURCE_TYPES = new Set([
   'INTERNAL_STATE',
   'COMBAT_STATUS',
   'EVENT_VALUE',
+  'SOURCE_CAST_RESOURCE_COST',
   'PRIOR_ACTION_RESULT'
 ]);
 
@@ -318,6 +319,12 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
   if (sourceType === 'EVENT_VALUE') {
     if (typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
       protocolError(`${path}.detail.eventValueKey`);
+    }
+  }
+  if (sourceType === 'SOURCE_CAST_RESOURCE_COST') {
+    if (Object.keys(detail).length !== 1 || typeof detail.attributeKey !== 'string'
+      || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.attributeKey)) {
+      protocolError(`${path}.detail`);
     }
   }
   if (sourceType === 'PRIOR_ACTION_RESULT') {

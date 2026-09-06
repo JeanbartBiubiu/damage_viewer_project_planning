@@ -522,3 +522,20 @@ describe('生命周期条件响应分支', () => {
     expect(() => parseSkillTriggerRuleDetail(withCondition(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
   });
 });
+
+describe('来源施放资源消耗响应', () => {
+  const withBinding = (bindingDetail: unknown) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_q' } },
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{ bindingKey: 'cast_cost', parameterKey: 'source_cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: bindingDetail }] }]
+  });
+  it('只读取 attributeKey，不复制来源技能或取值字段', () => {
+    expect(parseSkillTriggerRuleDetail(withBinding({ attributeKey: 'mana' })).actions[0].runtimeInputBindings[0]).toEqual({
+      bindingKey: 'cast_cost', parameterKey: 'source_cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' }
+    });
+  });
+  it.each([null, {}, [], { attributeKey: null }, { attributeKey: '' }, { attributeKey: 0 }, { attributeKey: ['mana'] },
+    { attributeKey: 'mana', sourceSkillKey: 'ezreal_q' }, { attributeKey: 'mana', value: 0 }, { attributeKey: 'mana', eventValueKey: 'HIT_INDEX' }, { attributeKey: 'bad-key' }
+  ])('拒绝缺失、错误类型及混合明细 %j', (bindingDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withBinding(bindingDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
