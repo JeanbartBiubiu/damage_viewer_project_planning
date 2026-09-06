@@ -12,9 +12,10 @@ type ContextProps = {
   onDirtyChange: (dirty: boolean) => void;
 };
 
-export function ObjectRelationActions({ target, onImageSaved, ...context }: ContextProps & {
+export function ObjectRelationActions({ target, onImageSaved, onOpenSkills, ...context }: ContextProps & {
   target: ImageRelationTarget;
   onImageSaved?: () => void;
+  onOpenSkills?: () => void;
 }) {
   const [active, setActive] = useState<'skills' | 'image' | null>(null);
   const { apiBaseUrl, selectedGameId, adminToken, onDirtyChange } = context;
@@ -24,7 +25,7 @@ export function ObjectRelationActions({ target, onImageSaved, ...context }: Cont
   const close = () => { setActive(null); onDirtyChange(false); };
   const disabled = !selectedGameId || !adminToken.trim() || (target.kind === 'skillEffect' && !target.skillKey);
   return <>
-    {skillTarget ? <Button size="mini" disabled={disabled} onClick={() => setActive('skills')}>
+    {skillTarget ? <Button size="mini" disabled={disabled} onClick={() => onOpenSkills ? onOpenSkills() : setActive('skills')}>
       {target.kind === 'skill' ? '挂载对象' : '关联技能'}
     </Button> : null}
     <Button size="mini" disabled={disabled} onClick={() => setActive('image')}>代表图片</Button>
