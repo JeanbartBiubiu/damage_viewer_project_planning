@@ -3620,6 +3620,59 @@ test.describe('status management without Wasm', () => {
 });
 
 test.describe('skill management without Wasm', () => {
+  test('starts each skill editor session without the previous skill categories', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skillCategories = [
+      { gameId: GAME_ID, skillCategoryKey: 'passive', name: '被动技能', description: null,
+        status: 'ENABLED', sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT },
+      { gameId: GAME_ID, skillCategoryKey: 'basic', name: '普通技能', description: null,
+        status: 'ENABLED', sortOrder: 1, createdAt: CREATED_AT, updatedAt: UPDATED_AT }
+    ];
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    await expect(page.getByText('暂无技能', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '新增技能', exact: true }).click();
+    const passive = visibleModal(page, '新增技能');
+    await passive.getByLabel('技能标识', { exact: true }).fill('entry_p');
+    await passive.getByLabel('技能名称', { exact: true }).fill('录入被动');
+    await passive.getByLabel('排序', { exact: true }).fill('37');
+    await passive.getByLabel('技能分类', { exact: true }).click();
+    await page.getByRole('option', { name: '被动技能', exact: true }).click();
+    await passive.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(passive).toBeHidden();
+    expect(mock.skills.find((skill) => skill.skillKey === 'entry_p')?.skillCategoryKeys).toEqual(['passive']);
+
+    await page.getByRole('button', { name: '新增技能', exact: true }).click();
+    const basic = visibleModal(page, '新增技能');
+    await expect(basic.getByLabel('技能标识', { exact: true })).toHaveValue('');
+    await expect(basic.getByLabel('技能名称', { exact: true })).toHaveValue('');
+    await expect(basic.getByLabel('最高等级', { exact: true })).toHaveValue('1');
+    await expect(basic.getByLabel('排序', { exact: true })).toHaveValue('0');
+    await expect(basic.getByLabel('技能分类', { exact: true })).not.toContainText('被动技能');
+    await basic.getByLabel('技能标识', { exact: true }).fill('entry_q');
+    await basic.getByLabel('技能名称', { exact: true }).fill('录入普通技能');
+    await basic.getByLabel('最高等级', { exact: true }).fill('5');
+    await basic.getByLabel('技能分类', { exact: true }).click();
+    await page.getByRole('option', { name: '普通技能', exact: true }).click();
+    await basic.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(basic).toBeHidden();
+    expect(mock.skills.find((skill) => skill.skillKey === 'entry_q')?.skillCategoryKeys).toEqual(['basic']);
+    await expect(skillRow(page, 'entry_q')).toContainText('普通技能');
+    await expect(skillRow(page, 'entry_q')).not.toContainText('被动技能');
+
+    await skillRow(page, 'entry_p').getByRole('button', { name: '编辑', exact: true }).click();
+    const firstEdit = visibleModal(page, '编辑技能');
+    await expect(firstEdit.getByLabel('技能标识', { exact: true })).toHaveValue('entry_p');
+    await firstEdit.getByRole('button', { name: '取消', exact: true }).click();
+    await skillRow(page, 'entry_q').getByRole('button', { name: '编辑', exact: true }).click();
+    const secondEdit = visibleModal(page, '编辑技能');
+    await expect(secondEdit.getByLabel('技能标识', { exact: true })).toHaveValue('entry_q');
+    await expect(secondEdit.getByLabel('技能分类', { exact: true })).toContainText('普通技能');
+    await expect(secondEdit.getByLabel('技能分类', { exact: true })).not.toContainText('被动技能');
+    diagnostics.assertClean('consecutive skill editor sessions');
+  });
+
   test('manages skill basics, multiple categories and stable status filtering', async ({ page }, testInfo) => {
     const mock = new MockApi();
     mock.skillCategories = [
