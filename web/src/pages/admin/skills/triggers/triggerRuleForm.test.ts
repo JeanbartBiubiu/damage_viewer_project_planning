@@ -47,6 +47,7 @@ import {
   groupConditionSummary,
   isFailProcessLast,
   isSpellShieldEventEffect,
+  isTriggerRuleDraftDirty,
   lifecycleEventEffects,
   moveActionDrafts,
   nextDraftKey,
@@ -961,6 +962,40 @@ describe('detail to draft create/update round-trip', () => {
 });
 
 describe('condition group ordering and OR/AND summaries', () => {
+  it('keeps independent draft identities when editable group keys and sort order change', () => {
+    const first = createEmptyGroupDraft([]);
+    const second = createEmptyGroupDraft([first.groupKey]);
+    expect(first.draftId).toBeTruthy();
+    expect(second.draftId).not.toBe(first.draftId);
+    const renamed = { ...first, groupKey: 'z_target' };
+    expect(sortGroupDrafts([renamed, second]).map((group) => group.draftId)).toEqual([second.draftId, first.draftId]);
+    const reordered = sortGroupDrafts([{ ...renamed, sortOrder: '0' }, second]);
+    expect(reordered.map((group) => group.draftId)).toEqual([first.draftId, second.draftId]);
+    expect(reordered[0].groupKey).toBe('z_target');
+    expect(reordered[1].groupKey).toBe(second.groupKey);
+  });
+
+  it('ignores reloaded draft identities for dirty checks while retaining business changes', () => {
+    const baseline = fromDetail(RICH_DETAIL);
+    const reloaded = fromDetail(RICH_DETAIL);
+    expect(reloaded.conditionGroups[0].draftId).not.toBe(baseline.conditionGroups[0].draftId);
+    expect(isTriggerRuleDraftDirty(reloaded, baseline)).toBe(false);
+    const changed = { ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, name: '已修改名称' } : group) };
+    expect(isTriggerRuleDraftDirty(changed, baseline)).toBe(true);
+    expect(isTriggerRuleDraftDirty({ ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, groupKey: 'renamed' } : group) }, baseline)).toBe(true);
+    expect(isTriggerRuleDraftDirty({ ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, sortOrder: '900' } : group) }, baseline)).toBe(true);
+  });
+
+  it('omits draft identities from create and update payloads and preserves them through cleanup', () => {
+    const draft = fromDetail(RICH_DETAIL);
+    for (const request of [toCreateRequest(draft), toUpdateRequest(draft)]) {
+      expect(JSON.stringify(request)).not.toContain('draftId');
+      expect(Object.keys(request.conditionGroups[0]).sort()).toEqual(['conditions', 'groupKey', 'name', 'sortOrder']);
+    }
+    const cleaned = applyEventSwitchCleanup(draft, createEmptyEventSource('SKILL_USED'));
+    expect(cleaned.conditionGroups.map((group) => group.draftId)).toEqual(draft.conditionGroups.map((group) => group.draftId));
+  });
+
   it('sorts groups and conditions by sortOrder then stable key, and summarizes AND within a group', () => {
     expect(SKILL_TRIGGER_CONDITION_GROUP_HINT).toBe(
       '不添加条件时直接触发；多个条件组满足任意一组即可，同一组内必须全部满足。'

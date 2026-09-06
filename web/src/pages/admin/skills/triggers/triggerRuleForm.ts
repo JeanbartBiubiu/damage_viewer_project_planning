@@ -713,6 +713,7 @@ export type SkillTriggerConditionDraft =
   | SkillTriggerEventValueCompareConditionDraft;
 
 export type SkillTriggerConditionGroupDraft = {
+  draftId: string;
   groupKey: string;
   name: string;
   sortOrder: string;
@@ -1138,6 +1139,7 @@ export function createEmptyConditionDraft(
 
 export function createEmptyGroupDraft(existingKeys: readonly string[]): SkillTriggerConditionGroupDraft {
   return {
+    draftId: crypto.randomUUID(),
     groupKey: nextDraftKey(existingKeys, 'group'),
     name: '',
     sortOrder: '10',
@@ -1913,6 +1915,7 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
     sortOrder: String(detail.sortOrder),
     eventSource: detail.eventSource,
     conditionGroups: detail.conditionGroups.map((group) => ({
+      draftId: crypto.randomUUID(),
       groupKey: group.groupKey,
       name: group.name,
       sortOrder: String(group.sortOrder),
@@ -1930,6 +1933,14 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
 function normalizeDescription(raw: string): string | null {
   const trimmed = raw.trim();
   return trimmed === '' ? null : trimmed;
+}
+
+export function isTriggerRuleDraftDirty(draft: SkillTriggerRuleDraft, baseline: SkillTriggerRuleDraft): boolean {
+  const businessFields = (value: SkillTriggerRuleDraft) => ({
+    ...value,
+    conditionGroups: value.conditionGroups.map(({ draftId: _draftId, ...group }) => group)
+  });
+  return JSON.stringify(businessFields(draft)) !== JSON.stringify(businessFields(baseline));
 }
 
 function toCondition(condition: SkillTriggerConditionDraft, sortOrder: number): SkillTriggerCondition {
