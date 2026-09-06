@@ -1,0 +1,50 @@
+{
+  "executor": "Cursor",
+  "startedAt": "2026-09-06T15:25:16.577Z",
+  "finishedAt": "2026-09-06T15:25:18.600Z",
+  "browserConnection": {
+    "catalogBrowserTools": false,
+    "cdpPortsTried": [
+      9222,
+      9229,
+      9223,
+      9224,
+      9333,
+      9334,
+      18800
+    ],
+    "cdpConnected": false,
+    "independentPlaywrightPage": true,
+    "headless": false
+  },
+  "login": {
+    "tokenConfiguredVisible": false,
+    "gameIdVisible": "GameId lol",
+    "tokenWarningVisible": true,
+    "canWrite": false,
+    "stopReason": "当前会话没有可用的已授权浏览器连接；独立 Playwright 页面侧栏显示 Token 未配置，不能填写或生成管理凭据，已停止业务写入。"
+  },
+  "duplicateChecks": [],
+  "writes": [],
+  "readbacks": [],
+  "failures": [],
+  "screenshots": [
+    "characters-page-login-probe.png"
+  ],
+  "network": {
+    "note": "只记录方法、路径和状态码，不记录请求头、Cookie 或令牌。",
+    "apiCalls": [
+      {
+        "method": "GET",
+        "path": "/api/games",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/games",
+        "status": 200
+      }
+    ]
+  },
+  "pageErrors": []
+}
