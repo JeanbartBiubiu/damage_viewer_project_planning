@@ -1,7 +1,7 @@
 {
   "gameId": "lol",
   "date": "2026-09-06",
-  "method": "真实页面填写并保存，关闭参数与公式窗口后重开逐项回读",
+  "method": "真实页面填写并保存，关闭后重开核对参数、公式、关联和已录效果；各部分分别记账",
   "source": "盖伦技能候选/盖伦技能录入候选.json",
   "overallStatus": "部分录入",
   "skills": [
@@ -53,12 +53,36 @@
         }
       ],
       "parametersSavedAndReadBack": true,
-      "formulas": "待录",
+      "formulas": [
+        {
+          "formulaKey": "regen_per_5s",
+          "name": "被动提供的每 5 秒生命回复",
+          "description": "总生命值 × 等级回复比例；此值不是每秒治疗，也不是瞬时直接治疗。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "regen_ratio_per_5s"
+              }
+            ]
+          }
+        }
+      ],
       "effects": "待录",
       "processesAndRules": "待录并核对明确缺口",
-      "characterRelation": "待关联",
+      "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "待补",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "formulasSavedAndReadBack": true
     },
     {
       "skillKey": "garen_q",
@@ -151,12 +175,46 @@
         }
       ],
       "parametersSavedAndReadBack": true,
-      "formulas": "待录",
+      "formulas": [
+        {
+          "formulaKey": "bonus_damage",
+          "name": "Q 额外伤害",
+          "description": "普通攻击由普通攻击流程结算；这里只增加不暴击的额外部分。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
       "effects": "待录",
       "processesAndRules": "待录并核对明确缺口",
-      "characterRelation": "待关联",
+      "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "待补",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "formulasSavedAndReadBack": true
     },
     {
       "skillKey": "garen_w",
@@ -285,12 +343,46 @@
         }
       ],
       "parametersSavedAndReadBack": true,
-      "formulas": "待录",
+      "formulas": [
+        {
+          "formulaKey": "shield",
+          "name": "W 护盾量",
+          "description": "基础护盾 + 0.18×额外生命；基础生命成长不重复计入。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_hp_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
       "effects": "待录",
       "processesAndRules": "待录并核对明确缺口",
-      "characterRelation": "待关联",
+      "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "待补",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "formulasSavedAndReadBack": true
     },
     {
       "skillKey": "garen_e",
@@ -449,12 +541,140 @@
         }
       ],
       "parametersSavedAndReadBack": true,
-      "formulas": "待录",
+      "formulas": [
+        {
+          "formulaKey": "damage_per_spin",
+          "name": "每圈普通目标伤害",
+          "description": "基础伤害 + 总攻击力×技能等级系数。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_per_spin"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio_per_spin"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "nearest_damage_per_spin",
+          "name": "每圈最近目标伤害",
+          "description": "只供“当前命中目标是最近敌人”时使用；现有事件不能自动识别该条件。",
+          "sortOrder": 1,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage_per_spin"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ad_ratio_per_spin"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "nearest_bonus"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "critical_multiplier",
+          "name": "E 暴击伤害倍率",
+          "description": "盖伦普通攻击基础暴击倍率 2。E=1+0.3×(2+额外暴伤百分点−1)=1.3+0.3×额外暴伤；无尽额外0.3时为1.39。",
+          "sortOrder": 2,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_bonus_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "critical_strike_damage_bonus_percent",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
       "effects": "待录",
       "processesAndRules": "待录并核对明确缺口",
-      "characterRelation": "待关联",
+      "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "待补",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "formulasSavedAndReadBack": true
     },
     {
       "skillKey": "garen_r",
@@ -537,12 +757,87 @@
         }
       ],
       "parametersSavedAndReadBack": true,
-      "formulas": "待录",
-      "effects": "待录",
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "name": "德玛西亚正义真实伤害",
+          "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "MISSING"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_hp_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "justice_damage",
+          "name": "德玛西亚正义命中伤害",
+          "description": "普通伤害结果；仍服从护盾、免疫和生命下限。不使用 EXECUTE。",
+          "sortOrder": 0,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "真实伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及确有必要的例外补齐，空列表不表示该伤害不吸血。",
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": "RESULT",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "real",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
       "processesAndRules": "待录并核对明确缺口",
-      "characterRelation": "待关联",
+      "characterRelation": "已关联champion_garen，P/Q/W/E/R顺序为0/1/2/3/4，关闭后重开确认",
       "image": "待补",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "formulasSavedAndReadBack": true,
+      "effectsSavedAndReadBack": true
     }
-  ]
+  ],
+  "lastReadBackAt": "2026-09-07T00:07:00+08:00"
 }
