@@ -23,4 +23,3 @@ const rb=await api(`/equipment/${encodeURIComponent(key)}/attributes`);ev.readba
 const catRes=await api('/attributes');if(catRes.status!==200)throw new Error('attribute catalog '+catRes.status);const catalog=new Set((catRes.body?.items??[]).map(x=>x.attributeKey));const listRes=await api('/equipment');if(listRes.status!==200)throw new Error('equipment list '+listRes.status);
 const todo=all?candidates:candidates.filter(c=>keyOf(c)===target);if(!todo.length)throw new Error('target not found '+target);const results=[];for(const c of todo){const e=await processOne(c,catalog);results.push(e);console.log(JSON.stringify({itemId:c.itemId,key:keyOf(c),status:e.status,action:e.action,attrs:Object.keys(e.plannedDirectAttributes??{}).length,readbackMatches:e.readbackMatches}));}
 const summaryPath=path.join(OUT,all?'summary.json':`summary-${target}.json`);fs.writeFileSync(summaryPath,JSON.stringify({generatedAt:new Date().toISOString(),count:results.length,results},null,2));
-
