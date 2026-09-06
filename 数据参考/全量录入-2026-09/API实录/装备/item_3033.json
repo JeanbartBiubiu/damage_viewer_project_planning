@@ -1,0 +1,49 @@
+{
+  "itemId": "3033",
+  "equipmentKey": "item_3033",
+  "name": "凡性的提醒",
+  "plannedDirectAttributes": {
+    "attack_damage": 35,
+    "armor_pen_percent": 0.3,
+    "critical_strike_chance": 0.25
+  },
+  "sourceVersion": "16.17.1",
+  "sourceDescriptionText": "35攻击力\n30%护甲穿透\n25%暴击几率\n\n重伤\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。",
+  "startedAt": "2026-09-06T18:10:41.725Z",
+  "action": "reused",
+  "actualEquipment": {
+    "equipmentKey": "item_3033",
+    "name": "凡性的提醒",
+    "description": "来源：官方16.17.1装备3033。 原始说明：35攻击力 30%护甲穿透 25%暴击几率 重伤 对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。"
+  },
+  "planDifference": {
+    "expected": {
+      "name": "凡性的提醒",
+      "description": "来源：官方16.17.1装备3033。 原始说明：35攻击力\n30%护甲穿透\n25%暴击几率\n\n重伤\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。"
+    },
+    "actual": {
+      "name": "凡性的提醒",
+      "description": "来源：官方16.17.1装备3033。 原始说明：35攻击力 30%护甲穿透 25%暴击几率 重伤 对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。"
+    }
+  },
+  "beforeAttributeValues": {
+    "armor_pen_percent": 0.3,
+    "attack_damage": 35,
+    "critical_strike_chance": 0.25
+  },
+  "expectedAttributeValues": {
+    "armor_pen_percent": 0.3,
+    "attack_damage": 35,
+    "critical_strike_chance": 0.25
+  },
+  "attributePutStatus": "not_needed",
+  "readbackStatus": 200,
+  "readbackAttributeValues": {
+    "armor_pen_percent": 0.3,
+    "attack_damage": 35,
+    "critical_strike_chance": 0.25
+  },
+  "readbackMatches": true,
+  "status": "completed",
+  "completedAt": "2026-09-06T18:10:41.849Z"
+}
