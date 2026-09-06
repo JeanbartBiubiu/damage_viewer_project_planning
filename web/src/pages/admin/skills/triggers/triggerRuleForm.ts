@@ -1,4 +1,6 @@
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
+import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
+import type { Attribute } from '../../../../types/attribute';
 import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
 import { numericValueError, numericValueSummary, numericValuesIn } from '../numericValueForm';
 import { type NumericValue } from '../../../../types/numericValue';
@@ -61,6 +63,7 @@ import type {
   SkillTriggerRuleDetail,
   SkillTriggerRuntimeInputBinding,
   SkillTriggerRuntimeInputSourceType,
+  SkillTriggerSourceCastResourceCostBinding,
   SkillTriggerStatusChangeKind,
   SkillTriggerStatusCheckDetail,
   SkillTriggerStatusCheckKind,
@@ -233,6 +236,7 @@ export const SKILL_TRIGGER_SOURCE_TYPES = [
   'INTERNAL_STATE',
   'COMBAT_STATUS',
   'EVENT_VALUE',
+  'SOURCE_CAST_RESOURCE_COST',
   'PRIOR_ACTION_RESULT'
 ] as const satisfies readonly SkillTriggerRuntimeInputSourceType[];
 
@@ -573,6 +577,7 @@ export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
   INTERNAL_STATE: '技能内部状态',
   COMBAT_STATUS: '战斗状态',
   EVENT_VALUE: '当前事件值',
+  SOURCE_CAST_RESOURCE_COST: '来源施放资源消耗',
   PRIOR_ACTION_RESULT: '更早动作结果'
 } as const satisfies { [K in SkillTriggerRuntimeInputSourceType]: string };
 
@@ -998,6 +1003,9 @@ export function createEmptyBindingDetail(
   sourceType: 'EVENT_VALUE'
 ): SkillTriggerEventValueBindingDetail;
 export function createEmptyBindingDetail(
+  sourceType: 'SOURCE_CAST_RESOURCE_COST'
+): SkillTriggerSourceCastResourceCostBinding['detail'];
+export function createEmptyBindingDetail(
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBindingDetail;
 export function createEmptyBindingDetail(
@@ -1019,6 +1027,8 @@ export function createEmptyBindingDetail(
       };
     case 'EVENT_VALUE':
       return { eventValueKey: 'HIT_INDEX' };
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return { attributeKey: '' };
     case 'PRIOR_ACTION_RESULT':
       return {
         sourceActionKey: '',
@@ -1179,6 +1189,10 @@ export function createEmptyBinding(
 ): SkillTriggerEventValueBinding;
 export function createEmptyBinding(
   existingKeys: readonly string[],
+  sourceType: 'SOURCE_CAST_RESOURCE_COST'
+): SkillTriggerSourceCastResourceCostBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBinding;
 export function createEmptyBinding(
@@ -1200,6 +1214,8 @@ export function createEmptyBinding(
       return { ...base, sourceType, detail: createEmptyBindingDetail('COMBAT_STATUS') };
     case 'EVENT_VALUE':
       return { ...base, sourceType, detail: createEmptyBindingDetail('EVENT_VALUE') };
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('SOURCE_CAST_RESOURCE_COST') };
     case 'PRIOR_ACTION_RESULT':
       return { ...base, sourceType, detail: createEmptyBindingDetail('PRIOR_ACTION_RESULT') };
   }
@@ -2081,6 +2097,9 @@ export function analyzeEventSwitchImpact(
   const clearsEventSourceRefs = usesEventSourceSubject(draft) && !eventHasEventSource(nextSource.eventType);
   const clearsProcessLimit = draft.maxTriggersPerProcessEnabled && nextSource.eventType !== 'PROCESS_MOMENT';
   const parts: string[] = [];
+  if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
+    parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');
+  }
   if (staleValues.length > 0) {
     parts.push(`将清除不再可用的事件值：${staleValues.map((key) => SKILL_TRIGGER_EVENT_VALUE_LABELS[key]).join('、')}`);
   }
@@ -2140,9 +2159,12 @@ function cleanupConditionForEventSwitch(
 function cleanupBindingForEventSwitch(
   binding: SkillTriggerRuntimeInputBinding,
   hasEventSource: boolean,
-  allowed: readonly SkillTriggerEventValueKey[]
+  allowed: readonly SkillTriggerEventValueKey[],
+  nextSource: SkillTriggerEventSource
 ): SkillTriggerRuntimeInputBinding | null {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return allowsSourceCastResourceCost(nextSource) ? binding : null;
     case 'EVENT_VALUE': {
       if (!allowed.includes(binding.detail.eventValueKey)) return null;
       return binding;
@@ -2160,11 +2182,12 @@ function cleanupBindingForEventSwitch(
 function cleanupActionForEventSwitch(
   action: SkillTriggerActionDraft,
   hasEventSource: boolean,
-  allowed: readonly SkillTriggerEventValueKey[]
+  allowed: readonly SkillTriggerEventValueKey[],
+  nextSource: SkillTriggerEventSource
 ): SkillTriggerActionDraft {
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
-    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed);
+    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource);
     if (next) runtimeInputBindings.push(next);
   }
   if (action.actionType === 'FAIL_PROCESS') {
@@ -2193,7 +2216,7 @@ export function applyEventSwitchCleanup(
     return { ...group, conditions };
   });
   const nextActions = draft.actions.map((action) => (
-    cleanupActionForEventSwitch(action, hasEventSource, allowed)
+    cleanupActionForEventSwitch(action, hasEventSource, allowed, nextSource)
   ));
   return {
     ...draft,
@@ -2356,6 +2379,8 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
 
 export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SOURCE_CAST_RESOURCE_COST} / ${binding.detail.attributeKey}`;
     case 'INTERNAL_STATE':
       return [
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.INTERNAL_STATE,
@@ -2483,6 +2508,8 @@ export function sourceValueDomain(
   binding: SkillTriggerRuntimeInputBinding
 ): SkillTriggerValueDomain | null {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return 'DECIMAL';
     case 'INTERNAL_STATE':
       return binding.detail.valueKind === 'REMAINING_MS' ? 'DECIMAL' : 'INTEGER';
     case 'COMBAT_STATUS':
@@ -2792,6 +2819,7 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft, catalogs:
     }
   }
   for (const action of draft.actions) {
+    if (action.runtimeInputBindings.some((item) => item.sourceType === 'SOURCE_CAST_RESOURCE_COST')) required.add('attributes');
     if (action.runtimeInputBindings.some((item) => item.sourceType === 'INTERNAL_STATE')) {
       required.add('internalStates');
     }
@@ -2917,6 +2945,7 @@ export function validateSkillTriggerDraft(
     catalogStates?: Partial<Record<SkillTriggerCatalogKind, CatalogLoadState>>;
     formulasByKey?: ReadonlyMap<string, SkillFormula>;
     parameters?: readonly SkillParameter[];
+    attributes?: readonly Pick<Attribute, 'attributeKey'>[];
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
     damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
@@ -3104,6 +3133,11 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].parameterKey`, '同一参数不能重复绑定。');
       }
       parameterKeys.add(binding.parameterKey);
+      if (binding.sourceType === 'SOURCE_CAST_RESOURCE_COST') {
+        const reachable = reachableRuntimeInputParameters(collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters ?? []);
+        const error = sourceCastResourceCostError(binding, draft.eventSource, reachable, options.attributes ?? [], options.catalogStates?.attributes);
+        if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
+      }
       if (binding.sourceType === 'EVENT_VALUE' && !allowedValues.includes(binding.detail.eventValueKey)) {
         pushError(
           nestedErrors,

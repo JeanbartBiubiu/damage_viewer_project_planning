@@ -41,6 +41,7 @@ export type SkillTriggerRuntimeInputSourceType =
   | 'INTERNAL_STATE'
   | 'COMBAT_STATUS'
   | 'EVENT_VALUE'
+  | 'SOURCE_CAST_RESOURCE_COST'
   | 'PRIOR_ACTION_RESULT';
 
 export type SkillTriggerEventUseKind = 'ACTIVE' | 'CONSUMABLE' | 'ANY';
@@ -494,6 +495,13 @@ export type SkillTriggerEventValueBindingDetail = {
   eventValueKey: SkillTriggerEventValueKey;
 };
 
+export type SkillTriggerSourceCastResourceCostBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'SOURCE_CAST_RESOURCE_COST';
+  detail: { attributeKey: string };
+};
+
 export type SkillTriggerPriorResultBindingDetail = {
   sourceActionKey: string;
   sourceResultKey: string;
@@ -532,6 +540,7 @@ export type SkillTriggerRuntimeInputBinding =
   | SkillTriggerInternalStateBinding
   | SkillTriggerCombatStatusBinding
   | SkillTriggerEventValueBinding
+  | SkillTriggerSourceCastResourceCostBinding
   | SkillTriggerPriorResultBinding;
 
 export type SkillTriggerResultModifier = {
