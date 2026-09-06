@@ -1,0 +1,548 @@
+{
+  "gameId": "lol",
+  "date": "2026-09-06",
+  "method": "真实页面填写并保存，关闭参数与公式窗口后重开逐项回读",
+  "source": "盖伦技能候选/盖伦技能录入候选.json",
+  "overallStatus": "部分录入",
+  "skills": [
+    {
+      "skillKey": "garen_p",
+      "name": "盖伦·坚韧",
+      "slot": "P",
+      "basicSaved": true,
+      "maxLevel": 1,
+      "parameters": [
+        {
+          "parameterKey": "regen_ratio_per_5s",
+          "name": "每 5 秒最大生命回复比例",
+          "valueType": "DECIMAL",
+          "valueMode": "CHARACTER_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.015,
+            "2": 0.017,
+            "3": 0.019,
+            "4": 0.021,
+            "5": 0.023,
+            "6": 0.025,
+            "7": 0.033,
+            "8": 0.041,
+            "9": 0.049,
+            "10": 0.057,
+            "11": 0.065,
+            "12": 0.073,
+            "13": 0.081,
+            "14": 0.085,
+            "15": 0.089,
+            "16": 0.093,
+            "17": 0.097,
+            "18": 0.101
+          },
+          "description": "当前客户端 RegenCalc 分段曲线；每 5 秒单位由官方 9.20 说明与 Wiki 补证。1–18 级。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "damage_pause_ms",
+          "name": "受影响后暂停回复时长（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null,
+          "description": "客户端 DamageTimer；仅召唤师峡谷，不取竞技场覆盖值。",
+          "sortOrder": 1
+        }
+      ],
+      "parametersSavedAndReadBack": true,
+      "formulas": "待录",
+      "effects": "待录",
+      "processesAndRules": "待录并核对明确缺口",
+      "characterRelation": "待关联",
+      "image": "待补",
+      "runtimeValidation": "未执行"
+    },
+    {
+      "skillKey": "garen_q",
+      "name": "盖伦·致命打击",
+      "slot": "Q",
+      "basicSaved": true,
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "强化普攻额外基础伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 60,
+            "3": 90,
+            "4": 120,
+            "5": 150
+          },
+          "description": "客户端 BaseDamage。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "name": "额外伤害总攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null,
+          "description": "客户端完整攻击系数 1.5 减去普通攻击自带的 1.0；不要再叠加 1.5。",
+          "sortOrder": 1
+        },
+        {
+          "parameterKey": "move_speed_ratio",
+          "name": "移速提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.35,
+          "levelValues": null,
+          "description": "比例 0.35=35%。",
+          "sortOrder": 2
+        },
+        {
+          "parameterKey": "move_duration_ms",
+          "name": "移速持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1400,
+            "2": 1950,
+            "3": 2500,
+            "4": 3050,
+            "5": 3600
+          },
+          "description": "客户端当前值；官方 26.5 交叉核对。",
+          "sortOrder": 3
+        },
+        {
+          "parameterKey": "silence_duration_ms",
+          "name": "沉默基础时长（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "目标韧性是否缩短状态时长属于全局控制规则。",
+          "sortOrder": 4
+        },
+        {
+          "parameterKey": "attack_window_ms",
+          "name": "强化普攻保留时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4500,
+          "levelValues": null,
+          "description": "客户端 AttackWindow。",
+          "sortOrder": 5
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null,
+          "description": "施放 Q 时开始。",
+          "sortOrder": 6
+        }
+      ],
+      "parametersSavedAndReadBack": true,
+      "formulas": "待录",
+      "effects": "待录",
+      "processesAndRules": "待录并核对明确缺口",
+      "characterRelation": "待关联",
+      "image": "待补",
+      "runtimeValidation": "未执行"
+    },
+    {
+      "skillKey": "garen_w",
+      "name": "盖伦·勇气",
+      "slot": "W",
+      "basicSaved": true,
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "resist_per_kill",
+          "name": "每次击杀提供双抗",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null,
+          "description": "客户端值。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "resist_max",
+          "name": "最大额外双抗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "当前 30。",
+          "sortOrder": 1
+        },
+        {
+          "parameterKey": "max_stacks",
+          "name": "被动最大层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 150,
+          "levelValues": null,
+          "description": "30/0.2=150；每单位 1 层。",
+          "sortOrder": 2
+        },
+        {
+          "parameterKey": "reduction_ratio",
+          "name": "承受伤害减少比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.29,
+            "3": 0.33,
+            "4": 0.37,
+            "5": 0.41
+          },
+          "description": "当前 25/29/33/37/41%，不是所有等级 30%。",
+          "sortOrder": 3
+        },
+        {
+          "parameterKey": "reduction_duration_ms",
+          "name": "减伤持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null,
+          "description": "固定 4 秒。",
+          "sortOrder": 4
+        },
+        {
+          "parameterKey": "tenacity_ratio",
+          "name": "韧性提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "0.6=60%；全局不同来源韧性组合仍需核对。",
+          "sortOrder": 5
+        },
+        {
+          "parameterKey": "upfront_duration_ms",
+          "name": "护盾及韧性时长（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null,
+          "description": "固定 750 毫秒。",
+          "sortOrder": 6
+        },
+        {
+          "parameterKey": "base_shield",
+          "name": "基础护盾",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 65,
+            "2": 85,
+            "3": 105,
+            "4": 125,
+            "5": 145
+          },
+          "description": "当前 65/85/105/125/145。",
+          "sortOrder": 7
+        },
+        {
+          "parameterKey": "bonus_hp_ratio",
+          "name": "护盾额外生命系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.18,
+          "levelValues": null,
+          "description": "18%额外生命，不是最大生命。",
+          "sortOrder": 8
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 22000,
+            "2": 19500,
+            "3": 17000,
+            "4": 14500,
+            "5": 12000
+          },
+          "description": "客户端与 Data Dragon 相同。",
+          "sortOrder": 9
+        }
+      ],
+      "parametersSavedAndReadBack": true,
+      "formulas": "待录",
+      "effects": "待录",
+      "processesAndRules": "待录并核对明确缺口",
+      "characterRelation": "待关联",
+      "image": "待补",
+      "runtimeValidation": "未执行"
+    },
+    {
+      "skillKey": "garen_e",
+      "name": "盖伦·审判",
+      "slot": "E",
+      "basicSaved": true,
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "base_damage_per_spin",
+          "name": "每圈基础伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 4,
+            "2": 7,
+            "3": 10,
+            "4": 13,
+            "5": 16
+          },
+          "description": "当前客户端；已不带旧的随英雄等级额外伤害。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "ad_ratio_per_spin",
+          "name": "每圈总攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.4,
+            "2": 0.43,
+            "3": 0.46,
+            "4": 0.49,
+            "5": 0.52
+          },
+          "description": "官方 26.5 与客户端一致。",
+          "sortOrder": 1
+        },
+        {
+          "parameterKey": "base_spins",
+          "name": "基础圈数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7,
+          "levelValues": null,
+          "description": "只作为基础项，不能把整次技能固定为 7 圈。",
+          "sortOrder": 2
+        },
+        {
+          "parameterKey": "as_per_spin",
+          "name": "每增加一圈所需有效额外攻速",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null,
+          "description": "0.25=25%；仅装备及自然等级来源的额外攻速。",
+          "sortOrder": 3
+        },
+        {
+          "parameterKey": "duration_ms",
+          "name": "旋转总时长（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "固定 3000。",
+          "sortOrder": 4
+        },
+        {
+          "parameterKey": "shred_hits",
+          "name": "同一英雄触发削甲所需命中",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null,
+          "description": "第 6 圈命中触发，逐目标累计。",
+          "sortOrder": 5
+        },
+        {
+          "parameterKey": "shred_ratio",
+          "name": "削甲比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null,
+          "description": "目标护甲减少 25%。",
+          "sortOrder": 6
+        },
+        {
+          "parameterKey": "shred_duration_ms",
+          "name": "削甲持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "description": "6000。",
+          "sortOrder": 7
+        },
+        {
+          "parameterKey": "nearest_bonus",
+          "name": "最近敌人额外伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null,
+          "description": "最近目标 ×1.25；不是只有单个目标时才增伤。",
+          "sortOrder": 8
+        },
+        {
+          "parameterKey": "crit_bonus_ratio",
+          "name": "额外暴击伤害折算系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null,
+          "description": "官方 26.1：只取普通攻击额外暴击伤害的 30%。",
+          "sortOrder": 9
+        },
+        {
+          "parameterKey": "one",
+          "name": "单位倍率常数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "公式常数。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "旋转结束后基础冷却（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 9000,
+            "2": 8250,
+            "3": 7500,
+            "4": 6750,
+            "5": 6000
+          },
+          "description": "9/8.25/7.5/6.75/6 秒；不返还提前结束的剩余旋转时间。",
+          "sortOrder": 11
+        },
+        {
+          "parameterKey": "radius",
+          "name": "范围半径",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 325,
+          "levelValues": null,
+          "description": "官方 Data Dragon 为 325；客户端 castRange 不能当实际伤害半径。",
+          "sortOrder": 12
+        }
+      ],
+      "parametersSavedAndReadBack": true,
+      "formulas": "待录",
+      "effects": "待录",
+      "processesAndRules": "待录并核对明确缺口",
+      "characterRelation": "待关联",
+      "image": "待补",
+      "runtimeValidation": "未执行"
+    },
+    {
+      "skillKey": "garen_r",
+      "name": "盖伦·德玛西亚正义",
+      "slot": "R",
+      "basicSaved": true,
+      "maxLevel": 3,
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "基础真实伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 125,
+            "2": 200,
+            "3": 275
+          },
+          "description": "官方 26.14 与当前客户端确认 125/200/275。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "missing_hp_ratio",
+          "name": "目标已损失生命系数",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.3,
+            "3": 0.35
+          },
+          "description": "25/30/35%，名称含 Execute 不表示无条件处决。",
+          "sortOrder": 1
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "description": "120/100/80 秒。",
+          "sortOrder": 2
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 435,
+          "levelValues": null,
+          "description": "客户端 spellCastTime≈0.435，Wiki 常规施法时间补证；失败/无敌交互另列。",
+          "sortOrder": 3
+        },
+        {
+          "parameterKey": "reveal_duration_ms",
+          "name": "提供视野时长（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "官方 9.20 及当前客户端 RevealDuration。",
+          "sortOrder": 4
+        },
+        {
+          "parameterKey": "cast_range",
+          "name": "施法距离",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 400,
+          "levelValues": null,
+          "description": "官方 Data Dragon 400。",
+          "sortOrder": 5
+        }
+      ],
+      "parametersSavedAndReadBack": true,
+      "formulas": "待录",
+      "effects": "待录",
+      "processesAndRules": "待录并核对明确缺口",
+      "characterRelation": "待关联",
+      "image": "待补",
+      "runtimeValidation": "未执行"
+    }
+  ]
+}
