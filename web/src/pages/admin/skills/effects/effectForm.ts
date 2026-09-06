@@ -782,6 +782,26 @@ export function skillEffectToDraft(effect: SkillEffect): SkillEffectDraft {
   };
 }
 
+export function skillEffectToCopyDraft(effect: SkillEffect): SkillEffectDraft {
+  const draft = skillEffectToDraft(structuredClone(effect));
+  draft.effectKey = '';
+  draft.originalLifecycleEnabled = false;
+  draft.originalInstanceScope = '';
+  draft.results = draft.results.map((result) => ({
+    ...result,
+    originalResultType: null,
+    originalDamageTypeKey: null,
+    originalModifierZoneKey: null,
+    originalAbsorbedDamageTypeKey: null,
+    originalAttributeKey: null,
+    originalAffectedSkillKeys: [],
+    originalSkillCategoryKeys: [],
+    originalStatusKey: null,
+    originalTargetEffectKey: null
+  }));
+  return draft;
+}
+
 export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffectResultDraft {
   const valueRule = result.valueRule;
   const draft = createEmptyResultDraft(result.resultType);

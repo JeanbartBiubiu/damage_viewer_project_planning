@@ -194,7 +194,7 @@ export function SkillEffectManagementModal({
     },
     {
       title: '操作',
-      width: 340,
+      width: 440,
       render: (_value, record: SkillEffectSummary) => (
         <Space size="mini" wrap>
           <ObjectRelationActions
@@ -209,6 +209,9 @@ export function SkillEffectManagementModal({
           </Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', effect: record })}>
             编辑
+          </Button>
+          <Button size="mini" onClick={() => setEditor({ mode: 'copy', effect: record })}>
+            复制为新效果
           </Button>
           <Button
             size="mini"

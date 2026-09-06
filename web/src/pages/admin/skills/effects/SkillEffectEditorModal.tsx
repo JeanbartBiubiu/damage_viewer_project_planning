@@ -87,6 +87,7 @@ import {
   isPersistentOnlyResultType,
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
+  skillEffectToCopyDraft,
   skillEffectToDraft,
   sortResultDrafts,
   validateSkillEffectDraft,
@@ -97,7 +98,7 @@ import {
   type SkillEffectResultIndexError
 } from './effectForm';
 
-export type SkillEffectEditorMode = 'create' | 'view' | 'edit';
+export type SkillEffectEditorMode = 'create' | 'copy' | 'view' | 'edit';
 
 type SkillEffectEditorModalProps = {
   visible: boolean;
@@ -125,6 +126,7 @@ const EMPTY_RESULT_ERRORS: SkillEffectResultDraftErrors = {};
 
 function titleFor(mode: SkillEffectEditorMode): string {
   if (mode === 'create') return '新增效果';
+  if (mode === 'copy') return '复制为新效果';
   if (mode === 'edit') return '编辑效果';
   return '查看效果';
 }
@@ -354,7 +356,7 @@ export function SkillEffectEditorModal({
   const skillSerial = useRef(0);
   const skillCategorySerial = useRef(0);
   const readOnly = mode === 'view';
-  const closeBlocked = saving || (mode === 'edit' && loadingDetail);
+  const closeBlocked = saving || (!readOnly && loadingDetail);
 
   const reportDirty = useCallback((next: SkillEffectDraft, currentBaseline: SkillEffectDraft) => {
     onDirtyChange(
@@ -551,7 +553,7 @@ export function SkillEffectEditorModal({
         token
       );
       if (detailSerial.current !== serial) return;
-      const next = skillEffectToDraft(result.data);
+      const next = mode === 'copy' ? skillEffectToCopyDraft(result.data) : skillEffectToDraft(result.data);
       setDraft(next);
       setBaseline(next);
       setDetailReady(true);
@@ -657,14 +659,14 @@ export function SkillEffectEditorModal({
   };
 
   const save = async () => {
-    if (readOnly || saving || !detailReady || (mode === 'edit' && loadingDetail)) return;
+    if (readOnly || saving || !detailReady || loadingDetail) return;
     const sorted = { ...draft, results: sortResultDrafts(draft.results) };
     const validation = validateSkillEffectDraft(sorted, {
       parameters, parametersLoadState,
-      includeEffectKey: mode === 'create',
+      includeEffectKey: mode === 'create' || mode === 'copy',
       catalog: {
         parentSkillKey: skill.skillKey,
-        parentEffectKey: mode === 'create' ? sorted.effectKey.trim() : (effect?.effectKey ?? sorted.effectKey),
+        parentEffectKey: mode === 'create' || mode === 'copy' ? sorted.effectKey.trim() : (effect?.effectKey ?? sorted.effectKey),
         formulas,
         effects: effectSummaries,
         damageTypes: [],
@@ -702,7 +704,7 @@ export function SkillEffectEditorModal({
           }
         }
       }
-      const result = mode === 'create'
+      const result = mode === 'create' || mode === 'copy'
         ? await createSkillEffect(
             apiBaseUrl,
             selectedGameId,
@@ -942,7 +944,7 @@ export function SkillEffectEditorModal({
             {!readOnly ? (
               <Button
                 type="primary"
-                loading={saving || (mode === 'edit' && loadingDetail)}
+                loading={saving || loadingDetail}
                 disabled={!detailReady || hasUnconfiguredLifecycleResults(draft)}
                 onClick={() => void save()}
               >
@@ -953,6 +955,9 @@ export function SkillEffectEditorModal({
         }
       >
         <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+          {mode === 'copy' ? (
+            <Alert type="info" content="填写新的效果标识后保存。公式及其他引用仍指向原有对象，请核对后调整；已有规则不会自动切换到新效果。" />
+          ) : null}
           {saveError ? <Alert type="error" content={saveError} /> : null}
           {loadError ? (
             <Alert
@@ -1002,7 +1007,7 @@ export function SkillEffectEditorModal({
               <Input
                 aria-label="效果标识"
                 value={draft.effectKey}
-                disabled={readOnly || mode !== 'create' || saving}
+                disabled={readOnly || (mode !== 'create' && mode !== 'copy') || saving}
                 maxLength={64}
                 onChange={(value) => patchField('effectKey', value)}
               />
