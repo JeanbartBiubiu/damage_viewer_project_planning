@@ -1,0 +1,97 @@
+{
+  "checkedAt": "2026-09-06T15:30:22.423Z",
+  "result": "通过",
+  "candidateSha256": "ecd15d2a65c21a79a69dea1611b190049fe582da9734096ce277d0e50ce7d239",
+  "sourceFilesVerified": 3,
+  "skills": 5,
+  "typeCheck": {
+    "frontendRoot": "C:/project/damage_web_dev/web",
+    "typescriptVersion": "5.9.3",
+    "result": "当前前端请求类型通过；目录引用与游戏机制语义仍须页面/运行验证"
+  },
+  "mathematicalExamples": [
+    {
+      "slot": "P",
+      "key": "regen_per_5s",
+      "rank": 1,
+      "level": 13,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "expected": 81,
+      "actual": 81
+    },
+    {
+      "slot": "Q",
+      "key": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 100
+      },
+      "expected": 80,
+      "actual": 80
+    },
+    {
+      "slot": "W",
+      "key": "shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.BONUS": 400
+      },
+      "expected": 137,
+      "actual": 137
+    },
+    {
+      "slot": "E",
+      "key": "damage_per_spin",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 100
+      },
+      "expected": 68,
+      "actual": 68
+    },
+    {
+      "slot": "E",
+      "key": "nearest_damage_per_spin",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 100
+      },
+      "expected": 85,
+      "actual": 85
+    },
+    {
+      "slot": "E",
+      "key": "critical_multiplier",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.3
+      },
+      "expected": 1.39,
+      "actual": 1.3900000000000001
+    },
+    {
+      "slot": "R",
+      "key": "damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "TARGET.hp.MISSING": 1000
+      },
+      "expected": 625,
+      "actual": 625
+    }
+  ],
+  "unverified": [
+    "未写业务接口或数据库",
+    "未通过页面录入",
+    "未执行游戏技能运行验证",
+    "未把占位目录键或缺口标记为完成"
+  ]
+}
