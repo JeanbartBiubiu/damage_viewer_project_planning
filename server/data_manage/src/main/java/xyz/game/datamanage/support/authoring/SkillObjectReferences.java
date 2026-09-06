@@ -331,6 +331,7 @@ public final class SkillObjectReferences {
                         child(bindingDetail, dp, "optionKey", TargetType.OPTION, text(bindingDetail, "stateKey"));
                     }
                     case "COMBAT_STATUS" -> statusSource(bindingDetail, dp);
+                    case "SOURCE_CAST_RESOURCE_COST" -> dictionary(bindingDetail, dp, "attributeKey", TargetType.ATTRIBUTE);
                     case "PRIOR_ACTION_RESULT" -> {
                         child(bindingDetail, dp, "sourceActionKey", TargetType.ACTION, source.key());
                         JsonNode sourceAction = actionsByKey.get(text(bindingDetail, "sourceActionKey"));

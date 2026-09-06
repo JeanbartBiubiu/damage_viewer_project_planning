@@ -24,6 +24,7 @@ public final class SkillTriggerRuntimeInputBindingDeserializer
                 case INTERNAL_STATE -> SkillTriggerInternalStateBindingDetail.class;
                 case COMBAT_STATUS -> SkillTriggerCombatStatusBindingDetail.class;
                 case EVENT_VALUE -> SkillTriggerEventValueBindingDetail.class;
+                case SOURCE_CAST_RESOURCE_COST -> SkillTriggerSourceCastResourceCostBindingDetail.class;
                 case PRIOR_ACTION_RESULT -> SkillTriggerPriorResultBindingDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);

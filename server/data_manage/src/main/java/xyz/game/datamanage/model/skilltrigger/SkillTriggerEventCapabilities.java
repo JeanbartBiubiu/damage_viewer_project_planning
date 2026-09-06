@@ -34,6 +34,10 @@ public final class SkillTriggerEventCapabilities {
         return eventType != null && EMPTY_DETAIL_EVENTS.contains(eventType);
     }
 
+    public static boolean sourceCastResourceCostAvailable(SkillTriggerEventType eventType, String sourceSkillKey) {
+        return eventType == SkillTriggerEventType.SKILL_HIT && sourceSkillKey != null && !sourceSkillKey.isBlank();
+    }
+
     public static SkillTriggerValueDomain valueDomain(SkillTriggerEventValueKey valueKey) {
         if (valueKey == null) {
             return null;
