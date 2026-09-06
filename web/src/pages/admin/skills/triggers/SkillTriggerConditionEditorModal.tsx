@@ -1,10 +1,13 @@
 import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError, lifecycleNeedsSubject, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
+import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
+import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
+  Checkbox,
   Form,
   Input,
   Modal,
@@ -126,7 +129,7 @@ export function SkillTriggerConditionEditorModal({
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
-  );
+  ).filter((value) => value !== 'TARGET_CATEGORY_CHECK' || allowsTargetCategoryCheck(eventSource.eventType) || originalConditionType === value);
 
   useEffect(() => {
     if (!visible) return;
@@ -156,6 +159,10 @@ export function SkillTriggerConditionEditorModal({
   };
 
   const confirm = () => {
+    if (current.conditionType === 'TARGET_CATEGORY_CHECK') {
+      const error = targetCategoryConditionError(current.detail, eventSource.eventType);
+      if (error) { setLocalError(error); return; }
+    }
     if (current.conditionType === 'LIFECYCLE_CHECK') {
       if (effectsLoadState === 'error') { setLocalError('效果目录加载失败，请重试后选择生命周期。'); return; }
       const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions, { parameters, formulas }, { parametersState: parametersLoadState }, skillKey);
@@ -165,7 +172,7 @@ export function SkillTriggerConditionEditorModal({
       setLocalError('当前事件没有可比较的事件值。');
       return;
     }
-    if (current.detail.comparator !== null) {
+    if (current.conditionType !== 'TARGET_CATEGORY_CHECK' && current.detail.comparator !== null) {
       const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
       if (error) { setLocalError(error); return; }
     }
@@ -244,6 +251,21 @@ export function SkillTriggerConditionEditorModal({
               onChange={(value) => setCurrent({ ...current, sortOrder: value })}
             />
           </Form.Item>
+
+          {current.conditionType === 'TARGET_CATEGORY_CHECK' ? (
+            <Form.Item label="命中目标类别" required extra="固定判断本次实际命中目标，匹配所选任一类别。">
+              <Checkbox.Group
+                aria-label="命中目标类别"
+                value={current.detail.categories}
+                disabled={disabled}
+                options={SKILL_TRIGGER_TARGET_CATEGORIES.map((value) => ({ value, label: TARGET_CATEGORY_LABELS[value] }))}
+                onChange={(categories) => {
+                  setCurrent({ ...current, detail: { categories: categories as SkillTriggerTargetCategory[] } });
+                  setLocalError(null);
+                }}
+              />
+            </Form.Item>
+          ) : null}
 
           {current.conditionType === 'ATTRIBUTE_COMPARE' ? (
             <>
