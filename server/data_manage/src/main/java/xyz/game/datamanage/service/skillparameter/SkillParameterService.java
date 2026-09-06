@@ -30,6 +30,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class SkillParameterService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_parameters";
     private static final String PARAMETER_REFERENCE_CONSTRAINT = "fk_skill_formula_nodes_parameter";
     private static final String TRIGGER_PARAMETER_CONSTRAINT = "fk_skill_trigger_runtime_bindings_parameter";
@@ -44,9 +46,10 @@ public class SkillParameterService {
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillParameterMapper parameterMapper,
-        SkillParameterLevelService levelService
+        SkillParameterLevelService levelService,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
-        this(gamesMapper, skillMapper, parameterMapper, levelService, null);
+        this(gamesMapper, skillMapper, parameterMapper, levelService, null, configurationWrites);
     }
 
     @Autowired
@@ -55,13 +58,16 @@ public class SkillParameterService {
         SkillMapper skillMapper,
         SkillParameterMapper parameterMapper,
         SkillParameterLevelService levelService,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.parameterMapper = parameterMapper;
         this.levelService = levelService;
         this.triggerRuleService = triggerRuleService;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -96,6 +102,7 @@ public class SkillParameterService {
         String skillKey,
         @Valid SkillParameterCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedValues values = validateCreate(request);
         LevelConfigResponse levelConfig = null;
@@ -149,6 +156,7 @@ public class SkillParameterService {
         String parameterKey,
         @Valid SkillParameterUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedValues values = validateUpdate(request, parameterKey);
         LevelConfigResponse levelConfig = null;
@@ -199,6 +207,7 @@ public class SkillParameterService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String parameterKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (skillMapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw skillNotFound(skillKey);
@@ -212,6 +221,8 @@ public class SkillParameterService {
         if (triggerRuleService != null) {
             triggerRuleService.assertParameterDeletable(gameId, skillKey, parameterKey);
         }
+        configurationWrites.assertNotReferenced(gameId, "PARAMETER", skillKey, parameterKey,
+            "409.SKILL_PARAMETER_IN_USE", "技能参数已被引用，不能删除");
         try {
             if (parameterMapper.delete(gameId, skillKey, parameterKey) == 0) {
                 throw parameterNotFound(parameterKey);

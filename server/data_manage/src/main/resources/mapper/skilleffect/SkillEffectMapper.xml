@@ -27,164 +27,10 @@
             <arg column="name" javaType="java.lang.String"/>
             <arg column="description" javaType="java.lang.String"/>
             <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="results" javaType="java.lang.String"/>
+            <arg column="lifecycle" javaType="java.lang.String"/>
             <arg column="created_at" javaType="java.time.OffsetDateTime"/>
             <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="resultRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="name" javaType="java.lang.String"/>
-            <arg column="result_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResultType"/>
-            <arg column="target" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectTarget"/>
-            <arg column="description" javaType="java.lang.String"/>
-            <arg column="sort_order" javaType="java.lang.Integer"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="valueRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultValueRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="formula_key" javaType="java.lang.String"/>
-            <arg column="fixed_multiplier" javaType="java.math.BigDecimal"/>
-            <arg column="fixed_min_value" javaType="java.math.BigDecimal"/>
-            <arg column="fixed_max_value" javaType="java.math.BigDecimal"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="damageRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="damage_type_key" javaType="java.lang.String"/>
-            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageDeliveryKind"/>
-            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="spellShieldPolicyRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldPolicyRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="block_scope" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="criticalPolicyRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicyRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="critical_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode"/>
-            <arg column="multiplier_formula_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="vampRuleRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="vamp_type" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectVampType"/>
-            <arg column="basis_output_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind"/>
-            <arg column="efficiency_formula_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="normalShieldInteractionRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldInteractionRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="absorbed_damage_type_key" javaType="java.lang.String"/>
-            <arg column="decay_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDecayMode"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="damageModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="modifier_zone_key" javaType="java.lang.String"/>
-            <arg column="direction" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
-            <arg column="damage_type_key" javaType="java.lang.String"/>
-            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind"/>
-            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind"/>
-            <arg column="critical_filter" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCriticalFilter"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="healingModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="modifier_zone_key" javaType="java.lang.String"/>
-            <arg column="direction" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDirection"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
-            <arg column="healing_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectHealingKind"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="damageImmunityRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectDamageImmunityDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="damage_type_key" javaType="java.lang.String"/>
-            <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterDeliveryKind"/>
-            <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectDamageFilterOriginKind"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="healthFloorRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="attribute_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="executeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="attribute_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="attributeChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="attribute_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeOperation"/>
-            <arg column="modifier_zone_key" javaType="java.lang.String"/>
         </constructor>
     </resultMap>
 
@@ -193,78 +39,6 @@
             <arg column="modifier_zone_key" javaType="java.lang.String"/>
             <arg column="domain" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneDomain"/>
             <arg column="status" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneStatus"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="resourceChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="attribute_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectResourceChangeOperation"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="cooldownChangeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="skillScopeRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="skillTargetRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillTargetRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="affected_skill_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="skillCategoryTargetRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectSkillCategoryTargetRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="skill_category_key" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="hasteModifierRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectModifierOperation"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="statusOperationRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="status_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation"/>
         </constructor>
     </resultMap>
 
@@ -285,31 +59,6 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="lifecycleBehaviorRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="moment" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment"/>
-            <arg column="value_read_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleValueReadMode"/>
-            <arg column="stack_value_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleStackValueMode"/>
-            <arg column="reapplication_value_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleReapplicationValueMode"/>
-            <arg column="periodic_execution_mode" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecyclePeriodicExecutionMode"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="lifecycleOperationRow" type="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetailRow">
-        <constructor>
-            <arg column="game_id" javaType="java.lang.String"/>
-            <arg column="skill_key" javaType="java.lang.String"/>
-            <arg column="effect_key" javaType="java.lang.String"/>
-            <arg column="result_key" javaType="java.lang.String"/>
-            <arg column="target_effect_key" javaType="java.lang.String"/>
-            <arg column="operation" javaType="xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperation"/>
-        </constructor>
-    </resultMap>
-
     <resultMap id="catalogLock" type="xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow">
         <constructor>
             <arg column="ref_key" javaType="java.lang.String"/>
@@ -318,33 +67,24 @@
     </resultMap>
 
     <select id="listSummaries" resultMap="summary">
-        SELECT e.game_id, e.skill_key, e.effect_key, e.name, e.description, e.sort_order,
-               CAST(COUNT(r.result_key) AS integer) AS result_count,
-               BOOL_OR(l.effect_key IS NOT NULL) AS lifecycle_enabled,
-               e.created_at, e.updated_at
-        FROM public.skill_effects e
-        LEFT JOIN public.skill_effect_results r
-          ON r.game_id = e.game_id
-         AND r.skill_key = e.skill_key
-         AND r.effect_key = e.effect_key
-        LEFT JOIN public.skill_effect_lifecycles l
-          ON l.game_id = e.game_id
-         AND l.skill_key = e.skill_key
-         AND l.effect_key = e.effect_key
-        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
-        GROUP BY e.game_id, e.skill_key, e.effect_key, e.name, e.description,
-                 e.sort_order, e.created_at, e.updated_at
-        ORDER BY e.sort_order ASC, e.effect_key ASC
+        SELECT game_id, skill_key, effect_key, name, description, sort_order,
+               jsonb_array_length(results) AS result_count, lifecycle IS NOT NULL AS lifecycle_enabled,
+               created_at, updated_at
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
+        ORDER BY sort_order ASC, effect_key ASC
     </select>
 
     <select id="findEffect" resultMap="effectRow">
-        SELECT game_id, skill_key, effect_key, name, description, sort_order, created_at, updated_at
+        SELECT game_id, skill_key, effect_key, name, description, sort_order,
+               results::text AS results, lifecycle::text AS lifecycle, created_at, updated_at
         FROM public.skill_effects
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
     </select>
 
     <select id="findEffectForUpdate" resultMap="effectRow">
-        SELECT game_id, skill_key, effect_key, name, description, sort_order, created_at, updated_at
+        SELECT game_id, skill_key, effect_key, name, description, sort_order,
+               results::text AS results, lifecycle::text AS lifecycle, created_at, updated_at
         FROM public.skill_effects
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
         FOR UPDATE
@@ -358,18 +98,17 @@
 
     <insert id="insertEffect">
         INSERT INTO public.skill_effects (
-            game_id, skill_key, effect_key, name, description, sort_order
+            game_id, skill_key, effect_key, name, description, sort_order, results, lifecycle
         ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{name}, #{description}, #{sortOrder}
+            #{gameId}, #{skillKey}, #{effectKey}, #{name}, #{description}, #{sortOrder},
+            CAST(#{results} AS jsonb), CAST(#{lifecycle,jdbcType=VARCHAR} AS jsonb)
         )
     </insert>
 
     <update id="updateEffect">
         UPDATE public.skill_effects
-        SET name = #{name},
-            description = #{description},
-            sort_order = #{sortOrder},
-            updated_at = now()
+        SET name = #{name}, description = #{description}, sort_order = #{sortOrder},
+            results = CAST(#{results} AS jsonb), lifecycle = CAST(#{lifecycle,jdbcType=VARCHAR} AS jsonb), updated_at = now()
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
     </update>
 
@@ -383,548 +122,19 @@
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
     </delete>
 
-    <select id="listResults" resultMap="resultRow">
-        SELECT game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
-        FROM public.skill_effect_results
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-        ORDER BY sort_order ASC, result_key ASC
-    </select>
-
-    <select id="listResultsForUpdate" resultMap="resultRow">
-        SELECT game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
-        FROM public.skill_effect_results
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-        ORDER BY result_key ASC
-        FOR UPDATE
-    </select>
-
-    <insert id="insertResult">
-        INSERT INTO public.skill_effect_results (
-            game_id, skill_key, effect_key, result_key, name, result_type, target, description, sort_order
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{name},
-            #{resultType}, #{target}, #{description}, #{sortOrder}
-        )
-    </insert>
-
-    <update id="updateResult">
-        UPDATE public.skill_effect_results
-        SET name = #{name},
-            target = #{target},
-            description = #{description},
-            sort_order = #{sortOrder}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <delete id="deleteResults">
-        DELETE FROM public.skill_effect_results
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key IN
-        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
-            #{resultKey}
-        </foreach>
-    </delete>
-
-    <select id="listValues" resultMap="valueRow">
-        SELECT game_id, skill_key, effect_key, result_key, formula_key,
-               fixed_multiplier, fixed_min_value, fixed_max_value
-        FROM public.skill_effect_result_values
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertValue">
-        INSERT INTO public.skill_effect_result_values (
-            game_id, skill_key, effect_key, result_key, formula_key,
-            fixed_multiplier, fixed_min_value, fixed_max_value
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{formulaKey},
-            #{fixedMultiplier}, #{fixedMinValue}, #{fixedMaxValue}
-        )
-    </insert>
-
-    <update id="updateValue">
-        UPDATE public.skill_effect_result_values
-        SET formula_key = #{formulaKey},
-            fixed_multiplier = #{fixedMultiplier},
-            fixed_min_value = #{fixedMinValue},
-            fixed_max_value = #{fixedMaxValue}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <delete id="deleteValue">
-        DELETE FROM public.skill_effect_result_values
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </delete>
-
-    <select id="listSpellShieldPolicies" resultMap="spellShieldPolicyRow">
-        SELECT game_id, skill_key, effect_key, result_key, block_scope
-        FROM public.skill_effect_result_spell_shield_policies
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertSpellShieldPolicy">
-        INSERT INTO public.skill_effect_result_spell_shield_policies (
-            game_id, skill_key, effect_key, result_key, block_scope
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{blockScope}
-        )
-    </insert>
-
-    <update id="updateSpellShieldPolicy">
-        UPDATE public.skill_effect_result_spell_shield_policies
-        SET block_scope = #{blockScope}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <delete id="deleteSpellShieldPolicy">
-        DELETE FROM public.skill_effect_result_spell_shield_policies
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </delete>
-
-    <select id="listDamageDetails" resultMap="damageRow">
-        SELECT game_id, skill_key, effect_key, result_key, damage_type_key,
-               delivery_kind, origin_kind
-        FROM public.skill_effect_damage_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertDamageDetail">
-        INSERT INTO public.skill_effect_damage_details (
-            game_id, skill_key, effect_key, result_key, damage_type_key,
-            delivery_kind, origin_kind
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey},
-            #{deliveryKind}, #{originKind}
-        )
-    </insert>
-
-    <update id="updateDamageDetail">
-        UPDATE public.skill_effect_damage_details
-        SET damage_type_key = #{damageTypeKey},
-            delivery_kind = #{deliveryKind},
-            origin_kind = #{originKind}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listCriticalPolicies" resultMap="criticalPolicyRow">
-        SELECT game_id, skill_key, effect_key, result_key, critical_mode, multiplier_formula_key
-        FROM public.skill_effect_result_critical_policies
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertCriticalPolicy">
-        INSERT INTO public.skill_effect_result_critical_policies (
-            game_id, skill_key, effect_key, result_key, critical_mode, multiplier_formula_key
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{criticalMode}, #{multiplierFormulaKey}
-        )
-    </insert>
-
-    <update id="updateCriticalPolicy">
-        UPDATE public.skill_effect_result_critical_policies
-        SET critical_mode = #{criticalMode},
-            multiplier_formula_key = #{multiplierFormulaKey}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listVampRules" resultMap="vampRuleRow">
-        SELECT game_id, skill_key, effect_key, result_key, vamp_type,
-               basis_output_kind, efficiency_formula_key
-        FROM public.skill_effect_result_vamp_rules
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-        ORDER BY result_key, CASE vamp_type
-            WHEN 'LIFE_STEAL' THEN 1
-            WHEN 'OMNIVAMP' THEN 2
-            WHEN 'PHYSICAL_VAMP' THEN 3
-            WHEN 'SPELL_VAMP' THEN 4
-            ELSE 99 END
-    </select>
-
-    <insert id="insertVampRule">
-        INSERT INTO public.skill_effect_result_vamp_rules (
-            game_id, skill_key, effect_key, result_key, vamp_type,
-            basis_output_kind, efficiency_formula_key
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{vampType},
-            #{basisOutputKind}, #{efficiencyFormulaKey}
-        )
-    </insert>
-
-    <delete id="deleteVampRules">
-        DELETE FROM public.skill_effect_result_vamp_rules
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </delete>
-
-    <select id="listNormalShieldInteractions" resultMap="normalShieldInteractionRow">
-        SELECT game_id, skill_key, effect_key, result_key, absorbed_damage_type_key, decay_mode
-        FROM public.skill_effect_result_normal_shield_interactions
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertNormalShieldInteraction">
-        INSERT INTO public.skill_effect_result_normal_shield_interactions (
-            game_id, skill_key, effect_key, result_key, absorbed_damage_type_key, decay_mode
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{absorbedDamageTypeKey}, #{decayMode}
-        )
-    </insert>
-
-    <update id="updateNormalShieldInteraction">
-        UPDATE public.skill_effect_result_normal_shield_interactions
-        SET absorbed_damage_type_key = #{absorbedDamageTypeKey},
-            decay_mode = #{decayMode}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listDamageModifierDetails" resultMap="damageModifierRow">
-        SELECT game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation,
-               damage_type_key, delivery_kind, origin_kind, critical_filter
-        FROM public.skill_effect_damage_modifier_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertDamageModifierDetail">
-        INSERT INTO public.skill_effect_damage_modifier_details (
-            game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation,
-            damage_type_key, delivery_kind, origin_kind, critical_filter
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{modifierZoneKey}, #{direction}, #{operation},
-            #{damageTypeKey}, #{deliveryKind}, #{originKind}, #{criticalFilter}
-        )
-    </insert>
-
-    <update id="updateDamageModifierDetail">
-        UPDATE public.skill_effect_damage_modifier_details
-        SET modifier_zone_key = #{modifierZoneKey}, direction = #{direction},
-            operation = #{operation}, damage_type_key = #{damageTypeKey},
-            delivery_kind = #{deliveryKind}, origin_kind = #{originKind}, critical_filter = #{criticalFilter}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey} AND result_key = #{resultKey}
-    </update>
-
-    <select id="listHealingModifierDetails" resultMap="healingModifierRow">
-        SELECT game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation, healing_kind
-        FROM public.skill_effect_healing_modifier_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertHealingModifierDetail">
-        INSERT INTO public.skill_effect_healing_modifier_details (
-            game_id, skill_key, effect_key, result_key, modifier_zone_key, direction, operation, healing_kind
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{modifierZoneKey},
-            #{direction}, #{operation}, #{healingKind}
-        )
-    </insert>
-
-    <update id="updateHealingModifierDetail">
-        UPDATE public.skill_effect_healing_modifier_details
-        SET modifier_zone_key = #{modifierZoneKey}, direction = #{direction},
-            operation = #{operation}, healing_kind = #{healingKind}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey} AND result_key = #{resultKey}
-    </update>
-
-    <select id="listDamageImmunityDetails" resultMap="damageImmunityRow">
-        SELECT game_id, skill_key, effect_key, result_key, damage_type_key, delivery_kind, origin_kind
-        FROM public.skill_effect_damage_immunity_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertDamageImmunityDetail">
-        INSERT INTO public.skill_effect_damage_immunity_details (
-            game_id, skill_key, effect_key, result_key, damage_type_key, delivery_kind, origin_kind
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{damageTypeKey}, #{deliveryKind}, #{originKind}
-        )
-    </insert>
-
-    <update id="updateDamageImmunityDetail">
-        UPDATE public.skill_effect_damage_immunity_details
-        SET damage_type_key = #{damageTypeKey}, delivery_kind = #{deliveryKind}, origin_kind = #{originKind}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey} AND result_key = #{resultKey}
-    </update>
-
-    <select id="listHealthFloorDetails" resultMap="healthFloorRow">
-        SELECT game_id, skill_key, effect_key, result_key, attribute_key
-        FROM public.skill_effect_health_floor_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertHealthFloorDetail">
-        INSERT INTO public.skill_effect_health_floor_details (
-            game_id, skill_key, effect_key, result_key, attribute_key
-        ) VALUES (#{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey})
-    </insert>
-
-    <update id="updateHealthFloorDetail">
-        UPDATE public.skill_effect_health_floor_details
-        SET attribute_key = #{attributeKey}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey} AND result_key = #{resultKey}
-    </update>
-
-    <select id="listExecuteDetails" resultMap="executeRow">
-        SELECT game_id, skill_key, effect_key, result_key, attribute_key
-        FROM public.skill_effect_execute_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertExecuteDetail">
-        INSERT INTO public.skill_effect_execute_details (
-            game_id, skill_key, effect_key, result_key, attribute_key
-        ) VALUES (#{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey})
-    </insert>
-
-    <update id="updateExecuteDetail">
-        UPDATE public.skill_effect_execute_details
-        SET attribute_key = #{attributeKey}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey} AND result_key = #{resultKey}
-    </update>
-
-    <select id="listAttributeChangeDetails" resultMap="attributeChangeRow">
-        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation, modifier_zone_key
-        FROM public.skill_effect_attribute_change_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertAttributeChangeDetail">
-        INSERT INTO public.skill_effect_attribute_change_details (
-            game_id, skill_key, effect_key, result_key, attribute_key, operation, modifier_zone_key
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}, #{modifierZoneKey}
-        )
-    </insert>
-
-    <update id="updateAttributeChangeDetail">
-        UPDATE public.skill_effect_attribute_change_details
-        SET attribute_key = #{attributeKey},
-            operation = #{operation},
-            modifier_zone_key = #{modifierZoneKey}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listResourceChangeDetails" resultMap="resourceChangeRow">
-        SELECT game_id, skill_key, effect_key, result_key, attribute_key, operation
-        FROM public.skill_effect_resource_change_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertResourceChangeDetail">
-        INSERT INTO public.skill_effect_resource_change_details (
-            game_id, skill_key, effect_key, result_key, attribute_key, operation
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{attributeKey}, #{operation}
-        )
-    </insert>
-
-    <update id="updateResourceChangeDetail">
-        UPDATE public.skill_effect_resource_change_details
-        SET attribute_key = #{attributeKey},
-            operation = #{operation}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listCooldownChangeDetails" resultMap="cooldownChangeRow">
-        SELECT game_id, skill_key, effect_key, result_key, operation
-        FROM public.skill_effect_cooldown_change_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertCooldownChangeDetail">
-        INSERT INTO public.skill_effect_cooldown_change_details (
-            game_id, skill_key, effect_key, result_key, operation
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{operation}
-        )
-    </insert>
-
-    <update id="updateCooldownChangeDetail">
-        UPDATE public.skill_effect_cooldown_change_details
-        SET operation = #{operation}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listSkillScopes" resultMap="skillScopeRow">
-        SELECT game_id, skill_key, effect_key, result_key, mode
-        FROM public.skill_effect_result_skill_scopes
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <select id="listSkillTargets" resultMap="skillTargetRow">
-        SELECT t.game_id, t.skill_key, t.effect_key, t.result_key, t.affected_skill_key
-        FROM public.skill_effect_result_skill_targets t
-        JOIN public.skills s
-          ON s.game_id = t.game_id
-         AND s.skill_key = t.affected_skill_key
-        WHERE t.game_id = #{gameId}
-          AND t.skill_key = #{skillKey}
-          AND t.effect_key = #{effectKey}
-        ORDER BY s.sort_order, t.affected_skill_key
-    </select>
-
-    <select id="listSkillCategoryTargets" resultMap="skillCategoryTargetRow">
-        SELECT t.game_id, t.skill_key, t.effect_key, t.result_key, t.skill_category_key
-        FROM public.skill_effect_result_skill_category_targets t
-        JOIN public.skill_categories c
-          ON c.game_id = t.game_id
-         AND c.skill_category_key = t.skill_category_key
-        WHERE t.game_id = #{gameId}
-          AND t.skill_key = #{skillKey}
-          AND t.effect_key = #{effectKey}
-        ORDER BY c.sort_order, t.skill_category_key
-    </select>
-
-    <insert id="insertSkillScope">
-        INSERT INTO public.skill_effect_result_skill_scopes (
-            game_id, skill_key, effect_key, result_key, mode
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{mode}
-        )
-    </insert>
-
-    <update id="updateSkillScope">
-        UPDATE public.skill_effect_result_skill_scopes
-        SET mode = #{mode}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <insert id="insertSkillTarget">
-        INSERT INTO public.skill_effect_result_skill_targets (
-            game_id, skill_key, effect_key, result_key, affected_skill_key
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{affectedSkillKey}
-        )
-    </insert>
-
-    <delete id="deleteSkillTargets">
-        DELETE FROM public.skill_effect_result_skill_targets
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </delete>
-
-    <insert id="insertSkillCategoryTarget">
-        INSERT INTO public.skill_effect_result_skill_category_targets (
-            game_id, skill_key, effect_key, result_key, skill_category_key
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{skillCategoryKey}
-        )
-    </insert>
-
-    <delete id="deleteSkillCategoryTargets">
-        DELETE FROM public.skill_effect_result_skill_category_targets
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </delete>
-
-    <select id="listHasteModifierDetails" resultMap="hasteModifierRow">
-        SELECT game_id, skill_key, effect_key, result_key, operation
-        FROM public.skill_effect_haste_modifier_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertHasteModifierDetail">
-        INSERT INTO public.skill_effect_haste_modifier_details (
-            game_id, skill_key, effect_key, result_key, operation
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{operation}
-        )
-    </insert>
-
-    <update id="updateHasteModifierDetail">
-        UPDATE public.skill_effect_haste_modifier_details
-        SET operation = #{operation}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <select id="listStatusOperationDetails" resultMap="statusOperationRow">
-        SELECT game_id, skill_key, effect_key, result_key, status_key, operation
-        FROM public.skill_effect_status_operation_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertStatusOperationDetail">
-        INSERT INTO public.skill_effect_status_operation_details (
-            game_id, skill_key, effect_key, result_key, status_key, operation
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{statusKey}, #{operation}
-        )
-    </insert>
-
-    <update id="updateStatusOperationDetail">
-        UPDATE public.skill_effect_status_operation_details
-        SET status_key = #{statusKey},
-            operation = #{operation}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
     <select id="countExternalSkillScopeReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_result_skill_targets
-        WHERE game_id = #{gameId}
-          AND affected_skill_key = #{skillKey}
-          AND skill_key &lt;&gt; #{skillKey}
+        FROM public.skill_effects e
+        CROSS JOIN LATERAL jsonb_array_elements(e.results) r
+        CROSS JOIN LATERAL jsonb_array_elements_text(r #> '{detail,affectedSkillScope,skillKeys}') target(skill_key)
+        WHERE e.game_id = #{gameId} AND e.skill_key &lt;&gt; #{skillKey} AND target.skill_key = #{skillKey}
     </select>
 
     <select id="countProcessBindings" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_process_effect_bindings
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
+        FROM public.skill_processes p
+        CROSS JOIN LATERAL jsonb_array_elements(p.effect_bindings) binding
+        WHERE p.game_id = #{gameId} AND p.skill_key = #{skillKey} AND binding ->> 'effectKey' = #{effectKey}
     </select>
 
     <select id="lockFormulas" resultType="string">
@@ -1013,175 +223,37 @@
     </select>
 
     <select id="listRuntimeInputFormulaKeys" resultType="string">
-        SELECT DISTINCT n.formula_key
-        FROM public.skill_formula_nodes n
+        SELECT DISTINCT f.formula_key
+        FROM public.skill_formulas f
+        CROSS JOIN LATERAL jsonb_path_query(f.expression, '$.**.parameterKey') n(parameter_key)
         JOIN public.skill_parameters p
-          ON p.game_id = n.game_id
-         AND p.skill_key = n.skill_key
-         AND p.parameter_key = n.parameter_key
-        WHERE n.game_id = #{gameId}
-          AND n.skill_key = #{skillKey}
-          AND n.formula_key IN
+          ON p.game_id = f.game_id AND p.skill_key = f.skill_key AND p.parameter_key = n.parameter_key #>> '{}'
+        WHERE f.game_id = #{gameId} AND f.skill_key = #{skillKey}
+          AND f.formula_key IN
         <foreach collection="keys" item="key" open="(" separator="," close=")">
             #{key}
         </foreach>
           AND p.value_mode = 'RUNTIME_INPUT'
-        ORDER BY n.formula_key
+        ORDER BY f.formula_key
     </select>
-
-    <select id="findLifecycle" resultMap="lifecycleRow">
-        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
-               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
-               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
-               first_periodic_execution
-        FROM public.skill_effect_lifecycles
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <select id="findLifecycleForUpdate" resultMap="lifecycleRow">
-        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
-               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
-               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
-               first_periodic_execution
-        FROM public.skill_effect_lifecycles
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-        FOR UPDATE
-    </select>
-
-    <insert id="insertLifecycle">
-        INSERT INTO public.skill_effect_lifecycles (
-            game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
-            application_stacks_formula_key, instance_scope, reapplication_stack_mode,
-            reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
-            first_periodic_execution
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{durationFormulaKey}, #{maxStacksFormulaKey},
-            #{applicationStacksFormulaKey}, #{instanceScope}, #{reapplicationStackMode},
-            #{reapplicationDurationMode}, #{expiryMode}, #{periodicIntervalFormulaKey},
-            #{firstPeriodicExecution}
-        )
-    </insert>
-
-    <update id="updateLifecycle">
-        UPDATE public.skill_effect_lifecycles
-        SET duration_formula_key = #{durationFormulaKey},
-            max_stacks_formula_key = #{maxStacksFormulaKey},
-            application_stacks_formula_key = #{applicationStacksFormulaKey},
-            instance_scope = #{instanceScope},
-            reapplication_stack_mode = #{reapplicationStackMode},
-            reapplication_duration_mode = #{reapplicationDurationMode},
-            expiry_mode = #{expiryMode},
-            periodic_interval_formula_key = #{periodicIntervalFormulaKey},
-            first_periodic_execution = #{firstPeriodicExecution}
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </update>
-
-    <delete id="deleteLifecycle">
-        DELETE FROM public.skill_effect_lifecycles
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </delete>
-
-    <select id="listLifecycleBehaviors" resultMap="lifecycleBehaviorRow">
-        SELECT game_id, skill_key, effect_key, result_key, moment, value_read_mode,
-               stack_value_mode, reapplication_value_mode, periodic_execution_mode
-        FROM public.skill_effect_result_lifecycle_behaviors
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertLifecycleBehavior">
-        INSERT INTO public.skill_effect_result_lifecycle_behaviors (
-            game_id, skill_key, effect_key, result_key, moment, value_read_mode,
-            stack_value_mode, reapplication_value_mode, periodic_execution_mode
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{moment}, #{valueReadMode},
-            #{stackValueMode}, #{reapplicationValueMode}, #{periodicExecutionMode}
-        )
-    </insert>
-
-    <update id="updateLifecycleBehavior">
-        UPDATE public.skill_effect_result_lifecycle_behaviors
-        SET moment = #{moment},
-            value_read_mode = #{valueReadMode},
-            stack_value_mode = #{stackValueMode},
-            reapplication_value_mode = #{reapplicationValueMode},
-            periodic_execution_mode = #{periodicExecutionMode}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <delete id="deleteLifecycleBehaviors">
-        DELETE FROM public.skill_effect_result_lifecycle_behaviors
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key IN
-        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
-            #{resultKey}
-        </foreach>
-    </delete>
-
-    <delete id="deleteAllLifecycleBehaviors">
-        DELETE FROM public.skill_effect_result_lifecycle_behaviors
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </delete>
-
-    <select id="listLifecycleOperationDetails" resultMap="lifecycleOperationRow">
-        SELECT game_id, skill_key, effect_key, result_key, target_effect_key, operation
-        FROM public.skill_effect_lifecycle_operation_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey}
-    </select>
-
-    <insert id="insertLifecycleOperationDetail">
-        INSERT INTO public.skill_effect_lifecycle_operation_details (
-            game_id, skill_key, effect_key, result_key, target_effect_key, operation
-        ) VALUES (
-            #{gameId}, #{skillKey}, #{effectKey}, #{resultKey}, #{targetEffectKey}, #{operation}
-        )
-    </insert>
-
-    <update id="updateLifecycleOperationDetail">
-        UPDATE public.skill_effect_lifecycle_operation_details
-        SET target_effect_key = #{targetEffectKey},
-            operation = #{operation}
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key = #{resultKey}
-    </update>
-
-    <delete id="deleteLifecycleOperationDetails">
-        DELETE FROM public.skill_effect_lifecycle_operation_details
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key = #{effectKey}
-          AND result_key IN
-        <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
-            #{resultKey}
-        </foreach>
-    </delete>
-
-    <delete id="deleteLifecycleOperationDetailsForSkill">
-        DELETE FROM public.skill_effect_lifecycle_operation_details
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey}
-    </delete>
 
     <select id="countLifecycleOperationReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_lifecycle_operation_details
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND target_effect_key = #{targetEffectKey}
+        FROM public.skill_effects e
+        CROSS JOIN LATERAL jsonb_array_elements(e.results) r
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+          AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
+          AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
     </select>
 
     <select id="countRefreshOperationReferences" resultType="long">
         SELECT COUNT(1)
-        FROM public.skill_effect_lifecycle_operation_details
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND target_effect_key = #{targetEffectKey}
-          AND operation = 'REFRESH'
+        FROM public.skill_effects e
+        CROSS JOIN LATERAL jsonb_array_elements(e.results) r
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+          AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
+          AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
+          AND r #>> '{detail,operation}' = 'REFRESH'
     </select>
 
     <select id="lockEffects" resultType="string">
@@ -1198,14 +270,18 @@
     </select>
 
     <select id="lockLifecycles" resultMap="lifecycleRow">
-        SELECT game_id, skill_key, effect_key, duration_formula_key, max_stacks_formula_key,
-               application_stacks_formula_key, instance_scope, reapplication_stack_mode,
-               reapplication_duration_mode, expiry_mode, periodic_interval_formula_key,
-               first_periodic_execution
-        FROM public.skill_effect_lifecycles
-        WHERE game_id = #{gameId}
-          AND skill_key = #{skillKey}
-          AND effect_key IN
+        SELECT game_id, skill_key, effect_key,
+               lifecycle ->> 'durationFormulaKey' AS duration_formula_key,
+               lifecycle ->> 'maxStacksFormulaKey' AS max_stacks_formula_key,
+               lifecycle ->> 'applicationStacksFormulaKey' AS application_stacks_formula_key,
+               lifecycle ->> 'instanceScope' AS instance_scope,
+               lifecycle ->> 'reapplicationStackMode' AS reapplication_stack_mode,
+               lifecycle ->> 'reapplicationDurationMode' AS reapplication_duration_mode,
+               lifecycle ->> 'expiryMode' AS expiry_mode,
+               lifecycle ->> 'periodicIntervalFormulaKey' AS periodic_interval_formula_key,
+               lifecycle ->> 'firstPeriodicExecution' AS first_periodic_execution
+        FROM public.skill_effects
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND lifecycle IS NOT NULL AND effect_key IN
         <foreach collection="keys" item="key" open="(" separator="," close=")">
             #{key}
         </foreach>

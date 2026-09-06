@@ -83,9 +83,10 @@ final class SkillTriggerRuleTestSupport {
             gamesMapper,
             skillMapper,
             mapper,
-            new SkillTriggerRuleAssembler(mapper),
+            new SkillTriggerRuleAssembler(),
             new SkillTriggerRuntimeInputAnalyzer(mapper),
-            new SkillTriggerCycleValidator(mapper)
+            new SkillTriggerCycleValidator(mapper),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
         );
     }
 
@@ -94,6 +95,25 @@ final class SkillTriggerRuleTestSupport {
         SkillMapper skillMapper,
         SkillTriggerRuleMapper mapper
     ) {
+        // Capture the actual root write and deserialize those bytes for later GET/update calls.
+        Map<String, SkillTriggerRuleRow> stored = new java.util.HashMap<>();
+        org.mockito.stubbing.Answer<Integer> save = invocation -> {
+            SkillTriggerRuleRow row = new SkillTriggerRuleRow(
+                invocation.getArgument(0), invocation.getArgument(1), invocation.getArgument(2),
+                invocation.getArgument(3), invocation.getArgument(4), invocation.getArgument(5),
+                SkillTriggerEventType.valueOf(invocation.getArgument(6)), TS, TS,
+                invocation.getArgument(7), invocation.getArgument(8), invocation.getArgument(9), invocation.getArgument(10));
+            stored.put(row.ruleKey(), row);
+            return 1;
+        };
+        lenient().when(mapper.insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenAnswer(save);
+        lenient().when(mapper.updateRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+            .thenAnswer(save);
+        lenient().when(mapper.findRule(eq(GAME_ID), eq(SKILL_KEY), anyString()))
+            .thenAnswer(invocation -> stored.get(invocation.getArgument(2)));
+        lenient().when(mapper.findRuleForUpdate(eq(GAME_ID), eq(SKILL_KEY), anyString()))
+            .thenAnswer(invocation -> stored.get(invocation.getArgument(2)));
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         lenient().when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         lenient().when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
@@ -135,54 +155,12 @@ final class SkillTriggerRuleTestSupport {
         lenient().when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(processShape(PROCESS_KEY)));
         lenient().when(mapper.countRuntimeInputNodes(eq(GAME_ID), eq(SKILL_KEY), anyString())).thenReturn(0L);
         lenient().when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of());
-        lenient().when(mapper.insertRule(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.updateRule(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertAction(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertEffectAction(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertProcessAction(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertSkillEvent(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertProcessEvent(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertResultEvent(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertLifecycleEvent(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertStatusEvent(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertHealthEvent(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertInternalStateEvent(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertSubjectEvent(any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertSpellShieldBlockedEvent(any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertLinkEvent(any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertConditionGroup(any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertCondition(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertBinding(any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertModifier(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertCooldown(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.insertProcessLimit(any(), any(), any(), any(), any())).thenReturn(1);
-        lenient().when(mapper.deleteRule(eq(GAME_ID), eq(SKILL_KEY), anyString())).thenReturn(1);
-        lenient().when(mapper.deleteChildren(any(), any(), any())).thenReturn(1);
+        lenient().when(mapper.deleteRule(eq(GAME_ID), eq(SKILL_KEY), anyString()))
+            .thenAnswer(invocation -> stored.remove(invocation.getArgument(2)) == null ? 0 : 1);
         lenient().when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         lenient().when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         lenient().when(mapper.listCooldownsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         lenient().when(mapper.listProcessLimitsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
-    }
-
-    static void stubAssembleExecuteEffect(
-        SkillTriggerRuleMapper mapper,
-        String ruleKey,
-        String name,
-        SkillTriggerEventType eventType,
-        String actionKey,
-        String effectKey
-    ) {
-        lenient().when(mapper.findRule(GAME_ID, SKILL_KEY, ruleKey)).thenReturn(ruleRow(ruleKey, name, eventType));
-        lenient().when(mapper.findRuleForUpdate(GAME_ID, SKILL_KEY, ruleKey)).thenReturn(ruleRow(ruleKey, name, eventType));
-        lenient().when(mapper.listActions(GAME_ID, SKILL_KEY, ruleKey)).thenReturn(List.of(
-            new SkillTriggerActionRow(
-                GAME_ID, SKILL_KEY, ruleKey, actionKey, "执行", SkillTriggerActionType.EXECUTE_EFFECT, 10,
-                SkillTriggerTargetContext.CURRENT_TARGET
-            )
-        ));
-        lenient().when(mapper.listEffectActions(GAME_ID, SKILL_KEY, ruleKey)).thenReturn(List.of(
-            new SkillTriggerEffectActionRow(GAME_ID, SKILL_KEY, ruleKey, actionKey, effectKey)
-        ));
     }
 
     static SkillTriggerRuleCreateRequest emptyEventExecute(
@@ -373,7 +351,10 @@ final class SkillTriggerRuleTestSupport {
     }
 
     static SkillTriggerRuleRow ruleRow(String ruleKey, String name, SkillTriggerEventType eventType) {
-        return new SkillTriggerRuleRow(GAME_ID, SKILL_KEY, ruleKey, name, null, 10, eventType, TS, TS);
+        return new SkillTriggerRuleRow(GAME_ID, SKILL_KEY, ruleKey, name, null, 10, eventType, TS, TS,
+            xyz.game.datamanage.support.authoring.AggregateJson.write(
+                new SkillTriggerEventSource(eventType, new SkillTriggerEmptyEventDetail())),
+            "[]", "[]", "{\"perTargetCooldown\":null,\"maxTriggersPerProcess\":null}");
     }
 
     static SkillTriggerActionRow executeActionRow(String ruleKey, String actionKey) {

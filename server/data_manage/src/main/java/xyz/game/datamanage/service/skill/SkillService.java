@@ -45,6 +45,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class SkillService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skills";
     private static final String DISABLED = "DISABLED";
@@ -72,7 +74,8 @@ public class SkillService {
         SkillParameterLevelService levelService,
         SkillTriggerRuleService triggerRuleService,
         ImageRelationMapper imageRelationMapper,
-        SkillRelationMapper skillRelationMapper
+        SkillRelationMapper skillRelationMapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
@@ -85,6 +88,8 @@ public class SkillService {
         this.triggerRuleService = triggerRuleService;
         this.imageRelationMapper = imageRelationMapper;
         this.skillRelationMapper = skillRelationMapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -119,6 +124,7 @@ public class SkillService {
 
     @Transactional
     public SkillResponse create(String gameId, @Valid SkillCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         List<String> categoryKeys = validateCreate(request);
         if (mapper.countByKey(gameId, request.skillKey()) > 0) {
@@ -144,6 +150,7 @@ public class SkillService {
 
     @Transactional
     public SkillResponse update(String gameId, String skillKey, @Valid SkillUpdateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         SkillRow locked = mapper.findByIdForUpdate(gameId, skillKey);
         if (locked == null) {
@@ -175,6 +182,7 @@ public class SkillService {
 
     @Transactional
     public void delete(String gameId, String skillKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw notFound(skillKey);
@@ -192,7 +200,6 @@ public class SkillService {
             if (triggerRuleService != null) {
                 triggerRuleService.deleteAllForSkill(gameId, skillKey);
             }
-            effectMapper.deleteLifecycleOperationDetailsForSkill(gameId, skillKey);
             processMapper.deleteAllForSkill(gameId, skillKey);
             effectMapper.deleteAllForSkill(gameId, skillKey);
             internalStateMapper.deleteAllForSkill(gameId, skillKey);

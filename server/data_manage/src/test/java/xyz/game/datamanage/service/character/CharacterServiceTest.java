@@ -68,7 +68,7 @@ class CharacterServiceTest {
             levelService,
             objectMapper,
             imageRelationMapper
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         lenient().when(characterMapper.findLevelConfig(GAME_ID)).thenReturn(new LevelConfigResponse(GAME_ID, 1, 2));
         lenient().when(characterMapper.lockGame(GAME_ID)).thenReturn(1);

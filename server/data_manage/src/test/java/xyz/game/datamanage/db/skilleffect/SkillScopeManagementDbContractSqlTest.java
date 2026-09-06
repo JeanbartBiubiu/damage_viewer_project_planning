@@ -9,146 +9,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
-import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
 
-/** Static SQL contract for public skill scope and skill haste modifier. */
+/** 历史兼容迁移的安全边界；当前聚合业务行为由 SkillEffectServiceTest 覆盖。 */
 class SkillScopeManagementDbContractSqlTest {
 
-    private static final List<String> NEW_TABLES = List.of(
-        "skill_effect_result_skill_scopes",
-        "skill_effect_result_skill_targets",
-        "skill_effect_result_skill_category_targets",
-        "skill_effect_haste_modifier_details"
-    );
-
-    private static final List<String> RESULT_TYPES = List.of(
-        "ATTACK_LINK_APPLICATION", "ATTRIBUTE_CHANGE", "COOLDOWN_CHANGE", "DAMAGE",
-        "DAMAGE_IMMUNITY", "DAMAGE_MODIFIER", "DIRECT_HEAL", "EXECUTE",
-        "HEALING_MODIFIER", "HEALTH_FLOOR", "HIT_LINK_APPLICATION",
-        "LIFECYCLE_OPERATION", "NORMAL_SHIELD", "RESOURCE_CHANGE", "SKILL_HASTE_MODIFIER",
-        "SPELL_SHIELD", "STATUS_OPERATION"
-    );
-
-    private static String schema;
-    private static String triggers;
     private static String migration;
 
     @BeforeAll
     static void loadArtifacts() throws IOException {
-        schema = read("db/game_manage/schema.sql");
-        triggers = read("db/game_manage/triggers.sql");
         migration = read("db/game_manage/migrations/compatibility/skill_scope_management_migration.sql");
-    }
-
-    @Test
-    void currentSchemaOwnsCurrentParentsAndSeventeenResults() {
-        List<String> created = extractCreateTableNames(schema);
-        assertEquals(91, created.size());
-        assertEquals(17, SkillEffectResultType.values().length);
-        assertEquals(21, SkillTriggerEventType.values().length);
-        assertEquals(10, SkillTriggerPriorResultOutputKind.values().length);
-        assertEquals(23, SkillTriggerEventValueKey.values().length);
-        for (String table : NEW_TABLES) {
-            assertTrue(created.contains(table), () -> "missing " + table);
-        }
-        assertFalse(created.contains("skill_effect_cooldown_change_targets"));
-        assertFalse(schema.contains("CREATE TABLE public.skill_effect_cooldown_change_targets"));
-
-        List<String> types = extractQuotedUppercase(extractConstraint(
-            extractCreateTable(schema, "skill_effect_results"),
-            "ck_skill_effect_results_type"
-        ));
-        assertEquals(RESULT_TYPES, types);
-    }
-
-    @Test
-    void newTablesUseCompositeKeysRestrictCatalogDeletesAndOmitJsonbArrays() {
-        String scopes = normalize(extractCreateTable(schema, "skill_effect_result_skill_scopes"));
-        assertTrue(scopes.contains("primary key (game_id, skill_key, effect_key, result_key)"));
-        assertTrue(scopes.contains("constraint fk_skill_effect_result_skill_scopes_result"));
-        assertTrue(scopes.contains("on delete cascade"));
-        assertTrue(scopes.contains("mode in ('all', 'skills', 'categories')"));
-
-        String skills = normalize(extractCreateTable(schema, "skill_effect_result_skill_targets"));
-        assertTrue(skills.contains(
-            "primary key (game_id, skill_key, effect_key, result_key, affected_skill_key)"
-        ));
-        assertTrue(skills.contains("constraint fk_skill_effect_result_skill_targets_scope"));
-        assertTrue(skills.contains("constraint fk_skill_effect_result_skill_targets_skill"));
-        assertTrue(Pattern.compile(
-            "(?is)fk_skill_effect_result_skill_targets_scope.*?on delete cascade"
-        ).matcher(skills).find());
-        assertFalse(Pattern.compile(
-            "(?is)fk_skill_effect_result_skill_targets_skill[^,]*on delete cascade"
-        ).matcher(skills).find());
-        assertTrue(normalize(schema).contains(
-            "create index ix_skill_effect_result_skill_targets_skill "
-                + "on public.skill_effect_result_skill_targets "
-                + "(game_id, affected_skill_key, skill_key, effect_key, result_key)"
-        ));
-
-        String categories = normalize(extractCreateTable(schema, "skill_effect_result_skill_category_targets"));
-        assertTrue(categories.contains(
-            "primary key (game_id, skill_key, effect_key, result_key, skill_category_key)"
-        ));
-        assertTrue(categories.contains("constraint fk_skill_effect_result_skill_category_targets_scope"));
-        assertTrue(categories.contains("constraint fk_skill_effect_result_skill_category_targets_category"));
-        assertTrue(Pattern.compile(
-            "(?is)fk_skill_effect_result_skill_category_targets_scope.*?on delete cascade"
-        ).matcher(categories).find());
-        assertFalse(Pattern.compile(
-            "(?is)fk_skill_effect_result_skill_category_targets_category[^,]*on delete cascade"
-        ).matcher(categories).find());
-        assertTrue(normalize(schema).contains(
-            "create index ix_skill_effect_result_skill_category_targets_category "
-                + "on public.skill_effect_result_skill_category_targets "
-                + "(game_id, skill_category_key, skill_key, effect_key, result_key)"
-        ));
-
-        String haste = normalize(extractCreateTable(schema, "skill_effect_haste_modifier_details"));
-        assertTrue(haste.contains("primary key (game_id, skill_key, effect_key, result_key)"));
-        assertTrue(haste.contains("constraint fk_skill_effect_haste_modifier_details_result"));
-        assertTrue(haste.contains("on delete cascade"));
-        assertTrue(haste.contains("operation in ('increase', 'decrease')"));
-        assertFalse(haste.contains("modifier_zone"));
-        assertFalse(haste.contains("affected_skill"));
-
-        for (String table : NEW_TABLES) {
-            String body = normalize(extractCreateTable(schema, table));
-            assertFalse(body.contains("jsonb"), () -> table + " must not use jsonb");
-            assertFalse(body.contains("json "), () -> table + " must not use json");
-            assertFalse(body.contains("integer[]"), () -> table + " must not use arrays");
-            assertFalse(body.contains("text[]"), () -> table + " must not use arrays");
-            assertFalse(body.contains("varchar[]"), () -> table + " must not use arrays");
-            assertFalse(body.contains("object_type"), () -> table + " must not be polymorphic");
-        }
-    }
-
-    @Test
-    void deferredShapeWatchesPublicScopeAndHasteAndDropsOldTargetAssertion() {
-        String normalized = normalize(triggers);
-        assertTrue(normalized.contains("v_skill_scope_count int"));
-        assertTrue(normalized.contains("v_haste_count int"));
-        assertTrue(normalized.contains("v_result_type = 'skill_haste_modifier'"));
-        assertTrue(normalized.contains("all skill scope must not have targets at commit"));
-        assertTrue(normalized.contains("skills scope requires explicit skills at commit"));
-        assertTrue(normalized.contains("categories scope requires skill categories at commit"));
-        assertFalse(normalized.contains("v_cooldown_target_count"));
-        assertFalse(triggers.contains("'skill_effect_cooldown_change_targets'"));
-        for (String table : NEW_TABLES) {
-            assertTrue(triggers.contains("'" + table + "'"), () -> "deferred list missing " + table);
-        }
-        assertTrue(triggers.contains("SKILL_HASTE_MODIFIER snapshot merge invalid"));
-        assertTrue(triggers.contains("'SKILL_HASTE_MODIFIER'"));
     }
 
     @Test
@@ -181,24 +54,8 @@ class SkillScopeManagementDbContractSqlTest {
         assertTrue(normalized.contains("unknown structure")
             || normalized.contains("skill_effect_result_skill_scopes unknown structure"));
         assertTrue(normalized.contains("v_state") || normalized.contains("v_new_count = 0"));
-        assertFalse(normalized.contains("jsonb"));
         assertFalse(Pattern.compile("(?is)\\bdrop\\s+table\\s+[^;]*\\bcascade\\b").matcher(normalized).find());
         assertFalse(normalized.contains("insert into public.skill_effect_haste_modifier_details"));
-    }
-
-    @Test
-    void migrationCreateTableBodiesMatchCurrentSchema() {
-        for (String table : NEW_TABLES) {
-            String schemaTable = normalize(stripIfNotExists(extractCreateTable(schema, table)));
-            String migrationTable = normalize(stripIfNotExists(extractCreateTable(migration, table)));
-            assertEquals(schemaTable, migrationTable, () -> "CREATE TABLE drifted for " + table);
-        }
-        assertTrue(normalize(migration).contains(
-            "create index if not exists ix_skill_effect_result_skill_targets_skill"
-        ));
-        assertTrue(normalize(migration).contains(
-            "create index if not exists ix_skill_effect_result_skill_category_targets_category"
-        ));
     }
 
     @Test
@@ -229,49 +86,6 @@ class SkillScopeManagementDbContractSqlTest {
             throw new AssertionError("missing function " + name);
         }
         return matcher.group();
-    }
-
-    private static String stripIfNotExists(String sql) {
-        return sql.replaceAll("(?i)IF\\s+NOT\\s+EXISTS\\s+", "");
-    }
-
-    private static List<String> extractCreateTableNames(String sql) {
-        Matcher matcher = Pattern.compile("(?m)^CREATE TABLE public\\.([a-z0-9_]+)").matcher(sql);
-        List<String> names = new ArrayList<>();
-        while (matcher.find()) {
-            names.add(matcher.group(1));
-        }
-        return names;
-    }
-
-    private static String extractCreateTable(String sql, String tableName) {
-        Matcher matcher = Pattern.compile(
-            "(?is)CREATE\\s+TABLE(?:\\s+IF\\s+NOT\\s+EXISTS)?\\s+public\\." + Pattern.quote(tableName)
-                + "\\s*\\((.*?)\\n\\);"
-        ).matcher(sql);
-        if (!matcher.find()) {
-            throw new AssertionError("missing CREATE TABLE public." + tableName);
-        }
-        return matcher.group();
-    }
-
-    private static String extractConstraint(String tableSql, String constraintName) {
-        Matcher matcher = Pattern.compile(
-            "(?is)CONSTRAINT\\s+" + Pattern.quote(constraintName) + "\\s+CHECK\\s*\\((.*?)\\)\\s*(?:,|\\n\\))"
-        ).matcher(tableSql);
-        if (!matcher.find()) {
-            throw new AssertionError("missing constraint " + constraintName);
-        }
-        return matcher.group(1);
-    }
-
-    private static List<String> extractQuotedUppercase(String sql) {
-        Matcher matcher = Pattern.compile("'([A-Z_]+)'").matcher(sql);
-        List<String> values = new ArrayList<>();
-        while (matcher.find()) {
-            values.add(matcher.group(1));
-        }
-        return values.stream().sorted().toList();
     }
 
     private static int count(String sql, String token) {

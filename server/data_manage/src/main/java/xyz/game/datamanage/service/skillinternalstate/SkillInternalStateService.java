@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -22,19 +21,14 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skillinternalstate.SkillInternalStateMapper;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoDetail;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoDetailRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetail;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetailRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetail;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetailRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCreateRequest;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetailResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetail;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetailRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeOption;
-import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateModeOptionRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateRow;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
@@ -42,25 +36,16 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 
 @Service
 @Validated
 public class SkillInternalStateService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Logger log = LoggerFactory.getLogger(SkillInternalStateService.class);
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_internal_states";
-    private static final String STATE_IN_USE_CONSTRAINT = "fk_skill_process_state_operations_state";
-    private static final String OPTION_IN_USE_CONSTRAINT = "fk_skill_process_state_operations_option";
-    private static final Set<String> TRIGGER_STATE_IN_USE_CONSTRAINTS = Set.of(
-        "fk_skill_trigger_istate_events_state",
-        "fk_skill_trigger_istate_cond_state",
-        "fk_skill_trigger_istate_bind_state"
-    );
-    private static final Set<String> TRIGGER_OPTION_IN_USE_CONSTRAINTS = Set.of(
-        "fk_skill_trigger_istate_cond_option",
-        "fk_skill_trigger_istate_bind_option"
-    );
-
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillInternalStateMapper mapper;
@@ -69,9 +54,10 @@ public class SkillInternalStateService {
     public SkillInternalStateService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
-        SkillInternalStateMapper mapper
+        SkillInternalStateMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
-        this(gamesMapper, skillMapper, mapper, null);
+        this(gamesMapper, skillMapper, mapper, null, configurationWrites);
     }
 
     @Autowired
@@ -79,12 +65,15 @@ public class SkillInternalStateService {
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillInternalStateMapper mapper,
-        SkillTriggerRuleService triggerRuleService
+        SkillTriggerRuleService triggerRuleService,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
         this.triggerRuleService = triggerRuleService;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -108,6 +97,7 @@ public class SkillInternalStateService {
         String skillKey,
         @Valid SkillInternalStateCreateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedState values = validateCreate(request);
         lockParentSkill(gameId, skillKey);
@@ -125,9 +115,9 @@ public class SkillInternalStateService {
                 values.stateType(),
                 values.scope(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                writeDetail(values.detail())
             );
-            insertDetail(gameId, skillKey, values.stateKey(), values);
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
@@ -141,6 +131,7 @@ public class SkillInternalStateService {
         String stateKey,
         @Valid SkillInternalStateUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedState values = validateUpdate(request, stateKey);
         lockParentSkill(gameId, skillKey);
@@ -160,9 +151,7 @@ public class SkillInternalStateService {
         lockAndValidateFormulas(gameId, skillKey, refs);
         try {
             if (values.stateType() == SkillInternalStateType.MODE) {
-                replaceModeOptions(gameId, skillKey, stateKey, ((SkillInternalStateModeDetail) values.detail()).options());
-            } else {
-                updateTypedDetail(gameId, skillKey, stateKey, values);
+                validateRemovedModeOptions(existing, ((SkillInternalStateModeDetail) values.detail()).options());
             }
             if (mapper.updateState(
                 gameId,
@@ -170,7 +159,8 @@ public class SkillInternalStateService {
                 stateKey,
                 values.name(),
                 values.description(),
-                values.sortOrder()
+                values.sortOrder(),
+                writeDetail(values.detail())
             ) == 0) {
                 throw stateNotFound(stateKey);
             }
@@ -182,6 +172,7 @@ public class SkillInternalStateService {
 
     @Transactional
     public void delete(String gameId, String skillKey, String stateKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         lockParentSkill(gameId, skillKey);
         if (mapper.findStateForUpdate(gameId, skillKey, stateKey) == null) {
@@ -211,84 +202,41 @@ public class SkillInternalStateService {
     }
 
     private SkillInternalStateDetailResponse assembleDetail(SkillInternalStateRow state) {
-        String gameId = state.gameId();
-        String skillKey = state.skillKey();
-        String stateKey = state.stateKey();
-        SkillInternalStateCounterDetailRow counter = mapper.findCounterDetail(gameId, skillKey, stateKey);
-        SkillInternalStateAmmoDetailRow ammo = mapper.findAmmoDetail(gameId, skillKey, stateKey);
-        SkillInternalStateFlagDetailRow flag = mapper.findFlagDetail(gameId, skillKey, stateKey);
-        SkillInternalStateCooldownDetailRow cooldown = mapper.findCooldownDetail(gameId, skillKey, stateKey);
-        List<SkillInternalStateModeOptionRow> options =
-            nullToEmpty(mapper.listModeOptions(gameId, skillKey, stateKey));
-        int present = countPresent(counter, ammo, flag, cooldown) + (options.isEmpty() ? 0 : 1);
-        SkillInternalStateDetail detail = switch (state.stateType()) {
-            case COUNTER -> {
-                if (counter == null || ammo != null || flag != null || cooldown != null || !options.isEmpty()
-                    || present != 1) {
-                    throw corrupt(gameId, skillKey, stateKey, "COUNTER形状损坏");
-                }
-                yield new SkillInternalStateCounterDetail(
-                    counter.initialValueFormulaKey(),
-                    counter.maxValueFormulaKey()
-                );
-            }
-            case AMMO -> {
-                if (ammo == null || counter != null || flag != null || cooldown != null || !options.isEmpty()
-                    || present != 1) {
-                    throw corrupt(gameId, skillKey, stateKey, "AMMO形状损坏");
-                }
-                yield new SkillInternalStateAmmoDetail(
-                    ammo.initialValueFormulaKey(),
-                    ammo.maxValueFormulaKey(),
-                    ammo.recoveryIntervalFormulaKey(),
-                    ammo.recoveryMode()
-                );
-            }
-            case MODE -> {
-                if (counter != null || ammo != null || flag != null || cooldown != null || options.size() < 2) {
-                    throw corrupt(gameId, skillKey, stateKey, "MODE形状损坏");
-                }
-                long initialCount = options.stream().filter(row -> Boolean.TRUE.equals(row.initial())).count();
-                if (initialCount != 1) {
-                    throw corrupt(gameId, skillKey, stateKey, "MODE初始选项损坏");
-                }
-                yield new SkillInternalStateModeDetail(options.stream()
-                    .map(row -> new SkillInternalStateModeOption(
-                        row.optionKey(),
-                        row.name(),
-                        row.sortOrder(),
-                        row.initial()
-                    ))
-                    .toList());
-            }
-            case FLAG -> {
-                if (flag == null || counter != null || ammo != null || cooldown != null || !options.isEmpty()
-                    || present != 1) {
-                    throw corrupt(gameId, skillKey, stateKey, "FLAG形状损坏");
-                }
-                yield new SkillInternalStateFlagDetail(flag.initialEnabled());
-            }
-            case INTERNAL_COOLDOWN -> {
-                if (cooldown == null || counter != null || ammo != null || flag != null || !options.isEmpty()
-                    || present != 1) {
-                    throw corrupt(gameId, skillKey, stateKey, "INTERNAL_COOLDOWN形状损坏");
-                }
-                yield new SkillInternalStateCooldownDetail(cooldown.durationFormulaKey());
-            }
-        };
+        SkillInternalStateDetail detail = readDetail(state);
         return new SkillInternalStateDetailResponse(
-            state.gameId(),
-            state.skillKey(),
-            state.stateKey(),
-            state.name(),
-            state.stateType(),
-            state.scope(),
-            state.description(),
-            state.sortOrder(),
-            detail,
-            state.createdAt(),
-            state.updatedAt()
+            state.gameId(), state.skillKey(), state.stateKey(), state.name(), state.stateType(), state.scope(),
+            state.description(), state.sortOrder(), detail, state.createdAt(), state.updatedAt()
         );
+    }
+
+    private SkillInternalStateDetail readDetail(SkillInternalStateRow state) {
+        try {
+            Class<? extends SkillInternalStateDetail> detailType = switch (state.stateType()) {
+                case COUNTER -> SkillInternalStateCounterDetail.class;
+                case AMMO -> SkillInternalStateAmmoDetail.class;
+                case MODE -> SkillInternalStateModeDetail.class;
+                case FLAG -> SkillInternalStateFlagDetail.class;
+                case INTERNAL_COOLDOWN -> SkillInternalStateCooldownDetail.class;
+            };
+            SkillInternalStateDetail detail = AggregateJson.read(state.detailJson(), detailType);
+            collectAndValidateDetail(validateCommon(
+                state.stateKey(), state.name(), state.stateType(), state.scope(), state.description(),
+                state.sortOrder(), detail, false
+            ), false);
+            return detail;
+        } catch (RuntimeException ex) {
+            throw corrupt(state.gameId(), state.skillKey(), state.stateKey(), "内部状态明细损坏");
+        }
+    }
+
+    private String writeDetail(SkillInternalStateDetail detail) {
+        if (detail instanceof SkillInternalStateModeDetail mode) {
+            return AggregateJson.write(new SkillInternalStateModeDetail(mode.options().stream()
+                .sorted(Comparator.comparing(SkillInternalStateModeOption::sortOrder)
+                    .thenComparing(SkillInternalStateModeOption::optionKey))
+                .toList()));
+        }
+        return AggregateJson.write(detail);
     }
 
     private ValidatedState validateCreate(SkillInternalStateCreateRequest request) {
@@ -443,144 +391,23 @@ public class SkillInternalStateService {
         }
     }
 
-    private void insertDetail(String gameId, String skillKey, String stateKey, ValidatedState values) {
-        switch (values.stateType()) {
-            case COUNTER -> {
-                SkillInternalStateCounterDetail counter = (SkillInternalStateCounterDetail) values.detail();
-                mapper.insertCounterDetail(
-                    gameId, skillKey, stateKey, counter.initialValueFormulaKey(), counter.maxValueFormulaKey()
-                );
-            }
-            case AMMO -> {
-                SkillInternalStateAmmoDetail ammo = (SkillInternalStateAmmoDetail) values.detail();
-                mapper.insertAmmoDetail(
-                    gameId,
-                    skillKey,
-                    stateKey,
-                    ammo.initialValueFormulaKey(),
-                    ammo.maxValueFormulaKey(),
-                    ammo.recoveryIntervalFormulaKey(),
-                    ammo.recoveryMode()
-                );
-            }
-            case MODE -> {
-                for (SkillInternalStateModeOption option : ((SkillInternalStateModeDetail) values.detail()).options()) {
-                    mapper.insertModeOption(
-                        gameId,
-                        skillKey,
-                        stateKey,
-                        option.optionKey(),
-                        option.name(),
-                        option.sortOrder(),
-                        option.initial()
-                    );
-                }
-            }
-            case FLAG -> mapper.insertFlagDetail(
-                gameId,
-                skillKey,
-                stateKey,
-                ((SkillInternalStateFlagDetail) values.detail()).initialEnabled()
-            );
-            case INTERNAL_COOLDOWN -> mapper.insertCooldownDetail(
-                gameId,
-                skillKey,
-                stateKey,
-                ((SkillInternalStateCooldownDetail) values.detail()).durationFormulaKey()
-            );
-        }
-    }
-
-    private void updateTypedDetail(String gameId, String skillKey, String stateKey, ValidatedState values) {
-        switch (values.stateType()) {
-            case COUNTER -> {
-                SkillInternalStateCounterDetail counter = (SkillInternalStateCounterDetail) values.detail();
-                mapper.updateCounterDetail(
-                    gameId, skillKey, stateKey, counter.initialValueFormulaKey(), counter.maxValueFormulaKey()
-                );
-            }
-            case AMMO -> {
-                SkillInternalStateAmmoDetail ammo = (SkillInternalStateAmmoDetail) values.detail();
-                mapper.updateAmmoDetail(
-                    gameId,
-                    skillKey,
-                    stateKey,
-                    ammo.initialValueFormulaKey(),
-                    ammo.maxValueFormulaKey(),
-                    ammo.recoveryIntervalFormulaKey(),
-                    ammo.recoveryMode()
-                );
-            }
-            case FLAG -> mapper.updateFlagDetail(
-                gameId,
-                skillKey,
-                stateKey,
-                ((SkillInternalStateFlagDetail) values.detail()).initialEnabled()
-            );
-            case INTERNAL_COOLDOWN -> mapper.updateCooldownDetail(
-                gameId,
-                skillKey,
-                stateKey,
-                ((SkillInternalStateCooldownDetail) values.detail()).durationFormulaKey()
-            );
-            case MODE -> {
-            }
-        }
-    }
-
-    private void replaceModeOptions(
-        String gameId,
-        String skillKey,
-        String stateKey,
+    private void validateRemovedModeOptions(
+        SkillInternalStateRow existing,
         List<SkillInternalStateModeOption> options
     ) {
-        List<SkillInternalStateModeOptionRow> existing =
-            nullToEmpty(mapper.listModeOptionsForUpdate(gameId, skillKey, stateKey));
-        Set<String> existingKeys = new LinkedHashSet<>();
-        for (SkillInternalStateModeOptionRow row : existing) {
-            existingKeys.add(row.optionKey());
-        }
-        Set<String> requestedKeys = new LinkedHashSet<>();
-        for (SkillInternalStateModeOption option : options) {
-            requestedKeys.add(option.optionKey());
-        }
-        List<String> removed = new ArrayList<>();
-        for (String key : existingKeys) {
-            if (!requestedKeys.contains(key)) {
-                removed.add(key);
-            }
-        }
-        if (!removed.isEmpty() && mapper.countOptionOperations(gameId, skillKey, stateKey, removed) > 0) {
+        Set<String> requestedKeys = options.stream().map(SkillInternalStateModeOption::optionKey)
+            .collect(java.util.stream.Collectors.toSet());
+        List<String> removed = ((SkillInternalStateModeDetail) readDetail(existing)).options().stream()
+            .map(SkillInternalStateModeOption::optionKey).filter(key -> !requestedKeys.contains(key)).toList();
+        if (!removed.isEmpty() && mapper.countOptionOperations(
+            existing.gameId(), existing.skillKey(), existing.stateKey(), removed
+        ) > 0) {
             throw optionInUse();
         }
         if (!removed.isEmpty() && triggerRuleService != null) {
-            triggerRuleService.assertOptionsNotReferenced(gameId, skillKey, stateKey, removed);
-        }
-        if (!removed.isEmpty()) {
-            mapper.deleteModeOptions(gameId, skillKey, stateKey, removed);
-        }
-        for (SkillInternalStateModeOption option : options) {
-            if (existingKeys.contains(option.optionKey())) {
-                mapper.updateModeOption(
-                    gameId,
-                    skillKey,
-                    stateKey,
-                    option.optionKey(),
-                    option.name(),
-                    option.sortOrder(),
-                    option.initial()
-                );
-            } else {
-                mapper.insertModeOption(
-                    gameId,
-                    skillKey,
-                    stateKey,
-                    option.optionKey(),
-                    option.name(),
-                    option.sortOrder(),
-                    option.initial()
-                );
-            }
+            triggerRuleService.assertOptionsNotReferenced(
+                existing.gameId(), existing.skillKey(), existing.stateKey(), removed
+            );
         }
     }
 
@@ -749,22 +576,6 @@ public class SkillInternalStateService {
         if (text.contains(PRIMARY_KEY_CONSTRAINT)) {
             return keyExists();
         }
-        if (text.contains(STATE_IN_USE_CONSTRAINT)) {
-            return stateInUse();
-        }
-        if (text.contains(OPTION_IN_USE_CONSTRAINT)) {
-            return optionInUse();
-        }
-        for (String constraint : TRIGGER_OPTION_IN_USE_CONSTRAINTS) {
-            if (text.contains(constraint)) {
-                return optionInUse();
-            }
-        }
-        for (String constraint : TRIGGER_STATE_IN_USE_CONSTRAINTS) {
-            if (text.contains(constraint)) {
-                return stateInUse();
-            }
-        }
         return ex;
     }
 
@@ -787,16 +598,6 @@ public class SkillInternalStateService {
             return "detail.options[" + index + "]";
         }
         return "detail.options[" + index + "]." + suffix;
-    }
-
-    private static int countPresent(Object... values) {
-        int count = 0;
-        for (Object value : values) {
-            if (value != null) {
-                count++;
-            }
-        }
-        return count;
     }
 
     private static <T> List<T> nullToEmpty(List<T> values) {

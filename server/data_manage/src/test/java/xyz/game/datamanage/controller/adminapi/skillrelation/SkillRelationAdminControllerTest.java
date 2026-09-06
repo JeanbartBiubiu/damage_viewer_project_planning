@@ -55,6 +55,7 @@ import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 @WebMvcTest(controllers = {CharacterSkillRelationAdminController.class, EquipmentSkillRelationAdminController.class})
 @Import({AdminAuthFilter.class, GlobalExceptionHandler.class, SkillRelationService.class, SkillRelationAdminControllerTest.Transactions.class})
 class SkillRelationAdminControllerTest {
+    @MockitoBean private xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
     @Autowired private MockMvc mockMvc;
     @Autowired private RecordingTransactionManager transactions;

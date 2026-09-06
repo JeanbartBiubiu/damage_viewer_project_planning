@@ -26,6 +26,8 @@ import xyz.game.datamanage.support.error.ApiException;
 @Validated
 public class SkillCategoryService {
 
+    private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
+
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_categories";
     private static final String NAME_UNIQUE_CONSTRAINT = "uq_skill_categories_name";
@@ -33,9 +35,13 @@ public class SkillCategoryService {
     private final GamesMapper gamesMapper;
     private final SkillCategoryMapper mapper;
 
-    public SkillCategoryService(GamesMapper gamesMapper, SkillCategoryMapper mapper) {
+    public SkillCategoryService(GamesMapper gamesMapper, SkillCategoryMapper mapper,
+        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
+    ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
+
+        this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
 
     @Transactional(readOnly = true)
@@ -63,6 +69,7 @@ public class SkillCategoryService {
 
     @Transactional
     public SkillCategoryResponse create(String gameId, @Valid SkillCategoryCreateRequest request) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateCreate(request);
         if (mapper.countByKey(gameId, request.skillCategoryKey()) > 0) {
@@ -92,6 +99,7 @@ public class SkillCategoryService {
         String skillCategoryKey,
         @Valid SkillCategoryUpdateRequest request
     ) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
         if (mapper.findByIdForUpdate(gameId, skillCategoryKey) == null) {
@@ -119,10 +127,13 @@ public class SkillCategoryService {
 
     @Transactional
     public void delete(String gameId, String skillCategoryKey) {
+        configurationWrites.begin(gameId);
         requireGame(gameId);
         if (mapper.findByIdForUpdate(gameId, skillCategoryKey) == null) {
             throw notFound(skillCategoryKey);
         }
+        configurationWrites.assertNotReferenced(gameId, "CATEGORY", "", skillCategoryKey,
+            "409.SKILL_CATEGORY_IN_USE", "技能分类已被引用，不能删除");
         try {
             if (mapper.delete(gameId, skillCategoryKey) == 0) {
                 throw notFound(skillCategoryKey);

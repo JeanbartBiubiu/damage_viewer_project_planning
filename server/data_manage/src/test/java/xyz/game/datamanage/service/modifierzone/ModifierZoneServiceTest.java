@@ -38,7 +38,7 @@ class ModifierZoneServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new ModifierZoneService(gamesMapper, mapper);
+        service = new ModifierZoneService(gamesMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 

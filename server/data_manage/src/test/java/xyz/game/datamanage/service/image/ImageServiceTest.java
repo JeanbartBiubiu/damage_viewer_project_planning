@@ -51,7 +51,7 @@ class ImageServiceTest {
             gamesMapper,
             mapper,
             new ImageContentValidator()
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames("lol")).thenReturn(1L);
     }
 

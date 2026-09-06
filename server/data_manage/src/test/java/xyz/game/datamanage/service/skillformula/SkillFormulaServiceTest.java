@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -21,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +42,6 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeStatusRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode;
-import xyz.game.datamanage.model.skillformula.SkillFormulaNodeRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaNodeType;
 import xyz.game.datamanage.model.skillformula.SkillFormulaOperation;
 import xyz.game.datamanage.model.skillformula.SkillFormulaOperationNode;
@@ -53,6 +50,7 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 
 @ExtendWith(MockitoExtension.class)
 class SkillFormulaServiceTest {
@@ -69,7 +67,7 @@ class SkillFormulaServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillFormulaService(gamesMapper, skillMapper, formulaMapper);
+        service = new SkillFormulaService(gamesMapper, skillMapper, formulaMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -94,147 +92,50 @@ class SkillFormulaServiceTest {
     @Test
     void createsNestedExpressionWithAllNodeKindsOperationsAndAttributeKinds() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.countByKey(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(0L);
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenAnswer(invocation -> new ArrayList<>((Collection<?>) invocation.getArgument(2)));
         when(formulaMapper.findAttributesByKeys(eq(GAME_ID), anyCollection()))
-            .thenReturn(List.of(
-                new SkillFormulaAttributeStatusRow("hp", "ENABLED"),
-                new SkillFormulaAttributeStatusRow("ad", "ENABLED")
-            ));
-        when(formulaMapper.insert(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), eq("已损失生命值伤害"),
-            isNull(), eq(10)
-        )).thenReturn(1);
-
-        AtomicReference<List<SkillFormulaNodeRow>> saved = new AtomicReference<>();
-        when(formulaMapper.batchInsertNodes(anyList())).thenAnswer(invocation -> {
-            List<SkillFormulaNodeRow> nodes = invocation.getArgument(0);
-            saved.set(List.copyOf(nodes));
-            return nodes.size();
-        });
-        when(formulaMapper.findById(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenAnswer(invocation -> {
-            List<SkillFormulaNodeRow> nodes = new ArrayList<>(saved.get());
-            SkillFormulaNodeRow first = nodes.remove(0);
-            nodes.add(first);
-            return nodes;
-        });
-
-        SkillFormulaDetailResponse detail = service.create(
-            GAME_ID,
-            SKILL_KEY,
-            new SkillFormulaCreateRequest(FORMULA_KEY, "已损失生命值伤害", null, 10, allKindsExpression())
-        );
-
-        assertEquals(FORMULA_KEY, detail.formulaKey());
-        SkillFormulaOperationNode root = assertInstanceOf(SkillFormulaOperationNode.class, detail.expression());
-        assertEquals(SkillFormulaOperation.MULTIPLY, root.operation());
-        SkillFormulaAttributeNode left = assertInstanceOf(SkillFormulaAttributeNode.class, root.operands().get(0));
-        assertEquals(AttributeOwner.TARGET, left.attributeOwner());
-        assertEquals("hp", left.attributeKey());
-        assertEquals(AttributeValueKind.MISSING, left.attributeValueKind());
-        assertInstanceOf(SkillFormulaOperationNode.class, root.operands().get(1));
-
-        @SuppressWarnings("unchecked")
-        ArgumentCaptor<List<SkillFormulaNodeRow>> nodesCaptor = ArgumentCaptor.forClass(List.class);
-        verify(formulaMapper).batchInsertNodes(nodesCaptor.capture());
-        assertTrue(nodesCaptor.getValue().stream().noneMatch(node -> node.nodeId() == null));
-
+            .thenReturn(List.of(new SkillFormulaAttributeStatusRow("hp", "ENABLED"),
+                new SkillFormulaAttributeStatusRow("ad", "ENABLED")));
+        captureInsert(FORMULA_KEY, "已损失生命值伤害");
+        SkillFormulaExpressionNode expression = allKindsExpression();
+        SkillFormulaDetailResponse detail = service.create(GAME_ID, SKILL_KEY,
+            new SkillFormulaCreateRequest(FORMULA_KEY, "已损失生命值伤害", null, 10, expression));
+        assertEquals(expression, detail.expression());
+        ArgumentCaptor<String> expressionCaptor = ArgumentCaptor.forClass(String.class);
         InOrder order = inOrder(skillMapper, formulaMapper);
         order.verify(skillMapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
-        order.verify(formulaMapper).insert(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), anyString(), any(), eq(10)
-        );
-        order.verify(formulaMapper).batchInsertNodes(anyList());
+        order.verify(formulaMapper).insert(eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY),
+            anyString(), any(), eq(10), expressionCaptor.capture());
+        assertEquals(AggregateJson.tree(AggregateJson.write(expression)),
+            AggregateJson.tree(expressionCaptor.getValue()));
     }
 
     @Test
     void createsAcceptsRuntimeInputParameterReference() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.countByKey(GAME_ID, SKILL_KEY, "stack_damage")).thenReturn(0L);
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of("current_stacks", "damage_per_stack"));
-        when(formulaMapper.insert(
-            eq(GAME_ID), eq(SKILL_KEY), eq("stack_damage"), eq("层数伤害"),
-            isNull(), eq(1)
-        )).thenReturn(1);
-        AtomicReference<List<SkillFormulaNodeRow>> saved = new AtomicReference<>();
-        when(formulaMapper.batchInsertNodes(anyList())).thenAnswer(invocation -> {
-            saved.set(List.copyOf(invocation.getArgument(0)));
-            return saved.get().size();
-        });
-        when(formulaMapper.findById(GAME_ID, SKILL_KEY, "stack_damage"))
-            .thenReturn(formulaRow("stack_damage", "层数伤害"));
-        when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, "stack_damage"))
-            .thenAnswer(invocation -> saved.get());
-
-        SkillFormulaDetailResponse detail = service.create(
-            GAME_ID,
-            SKILL_KEY,
-            new SkillFormulaCreateRequest(
-                "stack_damage",
-                "层数伤害",
-                null,
-                1,
-                new SkillFormulaOperationNode(
-                    SkillFormulaOperation.MULTIPLY,
-                    List.of(
-                        new SkillFormulaParameterNode("current_stacks"),
-                        new SkillFormulaParameterNode("damage_per_stack")
-                    )
-                )
-            )
-        );
-        SkillFormulaOperationNode root = assertInstanceOf(SkillFormulaOperationNode.class, detail.expression());
-        assertEquals("current_stacks",
-            ((SkillFormulaParameterNode) root.operands().get(0)).parameterKey());
-        assertEquals("damage_per_stack",
-            ((SkillFormulaParameterNode) root.operands().get(1)).parameterKey());
+        captureInsert("stack_damage", "层数伤害");
+        SkillFormulaExpressionNode expression = new SkillFormulaOperationNode(SkillFormulaOperation.MULTIPLY,
+            List.of(new SkillFormulaParameterNode("current_stacks"), new SkillFormulaParameterNode("damage_per_stack")));
+        SkillFormulaDetailResponse detail = service.create(GAME_ID, SKILL_KEY,
+            new SkillFormulaCreateRequest("stack_damage", "层数伤害", null, 1, expression));
+        assertEquals(expression, detail.expression());
     }
 
     @Test
     void preservesOperandOrderAcrossAllOperations() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of("left_param", "right_param"));
+        captureInsert("ordered", "顺序");
         for (SkillFormulaOperation operation : SkillFormulaOperation.values()) {
-            when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-            when(formulaMapper.countByKey(GAME_ID, SKILL_KEY, "ordered")).thenReturn(0L);
-            when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of("left_param", "right_param"));
-            when(formulaMapper.insert(
-                eq(GAME_ID), eq(SKILL_KEY), eq("ordered"), eq("顺序"),
-                isNull(), eq(1)
-            )).thenReturn(1);
-            AtomicReference<List<SkillFormulaNodeRow>> saved = new AtomicReference<>();
-            when(formulaMapper.batchInsertNodes(anyList())).thenAnswer(invocation -> {
-                saved.set(List.copyOf(invocation.getArgument(0)));
-                return saved.get().size();
-            });
-            when(formulaMapper.findById(GAME_ID, SKILL_KEY, "ordered"))
-                .thenReturn(formulaRow("ordered", "顺序"));
-            when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, "ordered"))
-                .thenAnswer(invocation -> saved.get());
-
-            SkillFormulaDetailResponse detail = service.create(
-                GAME_ID,
-                SKILL_KEY,
-                new SkillFormulaCreateRequest(
-                    "ordered",
-                    "顺序",
-                    null,
-                    1,
-                    new SkillFormulaOperationNode(
-                        operation,
-                        List.of(
-                            new SkillFormulaParameterNode("left_param"),
-                            new SkillFormulaParameterNode("right_param")
-                        )
-                    )
-                )
-            );
-            SkillFormulaOperationNode root = assertInstanceOf(SkillFormulaOperationNode.class, detail.expression());
-            assertEquals(operation, root.operation());
-            assertEquals("left_param", ((SkillFormulaParameterNode) root.operands().get(0)).parameterKey());
-            assertEquals("right_param", ((SkillFormulaParameterNode) root.operands().get(1)).parameterKey());
+            SkillFormulaExpressionNode expression = new SkillFormulaOperationNode(operation,
+                List.of(new SkillFormulaParameterNode("left_param"), new SkillFormulaParameterNode("right_param")));
+            SkillFormulaDetailResponse detail = service.create(GAME_ID, SKILL_KEY,
+                new SkillFormulaCreateRequest("ordered", "顺序", null, 1, expression));
+            assertEquals(expression, detail.expression());
         }
     }
 
@@ -283,7 +184,7 @@ class SkillFormulaServiceTest {
         );
         assertEquals("400.VALIDATION_FAILED", operandError.getCode());
         assertFieldIssueContains(operandError, "OPERAND_COUNT");
-        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any());
+        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any(), any());
         verify(skillMapper, never()).findByIdForUpdate(any(), any());
     }
 
@@ -360,7 +261,7 @@ class SkillFormulaServiceTest {
         );
         assertEquals("400.VALIDATION_FAILED", attributeError.getCode());
         assertFieldIssueContains(attributeError, "expression.operation");
-        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any());
+        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any(), any());
         verify(skillMapper, never()).findByIdForUpdate(any(), any());
     }
 
@@ -401,7 +302,7 @@ class SkillFormulaServiceTest {
         assertEquals("UNKNOWN_SKILL_PARAMETER", issues.get(0).get("code"));
         assertEquals("expression.operands[1].attributeKey", issues.get(1).get("field"));
         assertEquals("UNKNOWN_ATTRIBUTE", issues.get(1).get("code"));
-        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any());
+        verify(formulaMapper, never()).insert(any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -443,19 +344,7 @@ class SkillFormulaServiceTest {
             ));
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of("ratio"));
-        when(formulaMapper.deleteNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1);
-        when(formulaMapper.update(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), eq("保留停用"), isNull(), eq(2)
-        )).thenReturn(1);
-        AtomicReference<List<SkillFormulaNodeRow>> saved = new AtomicReference<>();
-        when(formulaMapper.batchInsertNodes(anyList())).thenAnswer(invocation -> {
-            saved.set(List.copyOf(invocation.getArgument(0)));
-            return saved.get().size();
-        });
-        when(formulaMapper.findById(GAME_ID, SKILL_KEY, FORMULA_KEY))
-            .thenReturn(formulaRow(FORMULA_KEY, "保留停用"));
-        when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, FORMULA_KEY))
-            .thenAnswer(invocation -> saved.get());
+        captureUpdate(FORMULA_KEY, "保留停用");
 
         SkillFormulaDetailResponse kept = service.update(
             GAME_ID,
@@ -519,43 +408,16 @@ class SkillFormulaServiceTest {
     }
 
     @Test
-    void updateDeletesNodesThenUpdatesThenInsertsAndFailsClosedOnInsertError() {
+    void updateWritesExpressionAtomicallyAndDoesNotReadBackOnFailure() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.listAttributeRefs(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(List.of());
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of("ratio"));
-        when(formulaMapper.deleteNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1);
-        when(formulaMapper.update(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), eq("更新失败"), isNull(), eq(3)
-        )).thenReturn(1);
-        when(formulaMapper.batchInsertNodes(anyList()))
-            .thenThrow(new DataIntegrityViolationException("insert failed"));
-
-        assertThrows(
-            DataIntegrityViolationException.class,
-            () -> service.update(
-                GAME_ID,
-                SKILL_KEY,
-                FORMULA_KEY,
-                new SkillFormulaUpdateRequest(
-                    null,
-                    "更新失败",
-                    null,
-                    3,
-                    new SkillFormulaParameterNode("ratio")
-                )
-            )
-        );
-
-        InOrder order = inOrder(skillMapper, formulaMapper);
-        order.verify(skillMapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
-        order.verify(formulaMapper).findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY);
-        order.verify(formulaMapper).deleteNodes(GAME_ID, SKILL_KEY, FORMULA_KEY);
-        order.verify(formulaMapper).update(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), eq("更新失败"), any(), eq(3)
-        );
-        order.verify(formulaMapper).batchInsertNodes(anyList());
+        when(formulaMapper.update(eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY),
+            eq("更新失败"), isNull(), eq(3), anyString()))
+            .thenThrow(new DataIntegrityViolationException("update failed"));
+        assertThrows(DataIntegrityViolationException.class, () -> service.update(GAME_ID, SKILL_KEY,
+            FORMULA_KEY, new SkillFormulaUpdateRequest(null, "更新失败", null, 3, new SkillFormulaParameterNode("ratio"))));
         verify(formulaMapper, never()).findById(GAME_ID, SKILL_KEY, FORMULA_KEY);
     }
 
@@ -563,105 +425,19 @@ class SkillFormulaServiceTest {
     void updateAndDeleteLockParentSkillThenFormula() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.listAttributeRefs(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(List.of());
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of("ratio"));
-        when(formulaMapper.deleteNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1);
-        when(formulaMapper.update(
-            eq(GAME_ID), eq(SKILL_KEY), eq(FORMULA_KEY), eq("更新"), isNull(), eq(1)
-        )).thenReturn(1);
-        AtomicReference<List<SkillFormulaNodeRow>> saved = new AtomicReference<>();
-        when(formulaMapper.batchInsertNodes(anyList())).thenAnswer(invocation -> {
-            saved.set(List.copyOf(invocation.getArgument(0)));
-            return saved.get().size();
-        });
-        when(formulaMapper.findById(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, FORMULA_KEY))
-            .thenAnswer(invocation -> saved.get());
-
-        service.update(
-            GAME_ID,
-            SKILL_KEY,
-            FORMULA_KEY,
-            new SkillFormulaUpdateRequest(null, "更新", null, 1, new SkillFormulaParameterNode("ratio"))
-        );
-
+        captureUpdate(FORMULA_KEY, "更新");
+        service.update(GAME_ID, SKILL_KEY, FORMULA_KEY,
+            new SkillFormulaUpdateRequest(null, "更新", null, 1, new SkillFormulaParameterNode("ratio")));
         when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1);
         service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY);
-
         InOrder order = inOrder(skillMapper, formulaMapper);
         order.verify(skillMapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(formulaMapper).findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY);
         order.verify(skillMapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
         order.verify(formulaMapper).findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY);
         order.verify(formulaMapper).delete(GAME_ID, SKILL_KEY, FORMULA_KEY);
-    }
-
-    @Test
-    void mapsSkillEffectResultValueFormulaFkToStableInUseError() {
-        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
-            new DataIntegrityViolationException(
-                "insert or update on table violates foreign key constraint "
-                    + "fk_skill_effect_result_values_formula"
-            )
-        );
-
-        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
-        verify(formulaMapper).delete(GAME_ID, SKILL_KEY, FORMULA_KEY);
-    }
-
-    @Test
-    void mapsProcessDelayFormulaFkToStableInUseError() {
-        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
-            new DataIntegrityViolationException(
-                "insert or update on table violates foreign key constraint "
-                    + "fk_skill_process_delay_formula"
-            )
-        );
-        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
-    }
-
-    @Test
-    void mapsInternalCounterFormulaFkToStableInUseError() {
-        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
-            new DataIntegrityViolationException(
-                "insert or update on table violates foreign key constraint "
-                    + "fk_skill_internal_counter_initial_formula"
-            )
-        );
-        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
-    }
-
-    @Test
-    void mapsLifecycleDurationFormulaFkToStableInUseError() {
-        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
-            new DataIntegrityViolationException(
-                "update or delete on table violates foreign key constraint "
-                    + "fk_skill_effect_lifecycles_duration_formula"
-            )
-        );
-        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
-    }
-
-    @Test
-    void mapsStateOperationValueFormulaFkToStableInUseError() {
-        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenThrow(
-            new DataIntegrityViolationException(
-                "insert or update on table violates foreign key constraint "
-                    + "fk_skill_process_state_operation_value_formula"
-            )
-        );
-        assertCode("409.SKILL_FORMULA_IN_USE", () -> service.delete(GAME_ID, SKILL_KEY, FORMULA_KEY));
     }
 
     @Test
@@ -702,7 +478,7 @@ class SkillFormulaServiceTest {
         when(formulaMapper.countByKey(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(0L);
         when(formulaMapper.findExistingParameterKeys(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of("ratio"));
-        when(formulaMapper.insert(any(), any(), any(), any(), any(), any()))
+        when(formulaMapper.insert(any(), any(), any(), any(), any(), any(), any()))
             .thenThrow(new DataIntegrityViolationException("violates pk_skill_formulas"));
         assertCode(
             "409.SKILL_FORMULA_KEY_EXISTS",
@@ -729,27 +505,15 @@ class SkillFormulaServiceTest {
     }
 
     @Test
-    void rebuildDetectsCorruptionInsteadOfReturningPartialTree() {
+    void readRejectsMalformedOrOverLimitStoredExpression() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        when(formulaMapper.findById(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
-        UUID rootId = UUID.randomUUID();
-        UUID orphanId = UUID.randomUUID();
-        when(formulaMapper.listNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(List.of(
-            new SkillFormulaNodeRow(
-                GAME_ID, SKILL_KEY, FORMULA_KEY, rootId, null, (short) 0,
-                SkillFormulaNodeType.PARAMETER, null, "ratio", null, null, null
-            ),
-            new SkillFormulaNodeRow(
-                GAME_ID, SKILL_KEY, FORMULA_KEY, orphanId, null, (short) 0,
-                SkillFormulaNodeType.PARAMETER, null, "other", null, null, null
-            )
-        ));
-
-        ApiException exception = assertThrows(
-            ApiException.class,
-            () -> service.get(GAME_ID, SKILL_KEY, FORMULA_KEY)
-        );
-        assertEquals("500.INTERNAL_ERROR", exception.getCode());
+        for (String invalid : List.of("null", "{}", "{",
+            "{\"nodeType\":\"OPERATION\",\"operation\":\"ADD\",\"operands\":[]}",
+            AggregateJson.write(deepExpression(33)))) {
+            when(formulaMapper.findById(GAME_ID, SKILL_KEY, FORMULA_KEY))
+                .thenReturn(formulaRow(FORMULA_KEY, "损坏", invalid));
+            assertCode("500.INTERNAL_ERROR", () -> service.get(GAME_ID, SKILL_KEY, FORMULA_KEY));
+        }
     }
 
     @Test
@@ -758,7 +522,7 @@ class SkillFormulaServiceTest {
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
         SkillFormulaService guarded = new SkillFormulaService(
             gamesMapper, skillMapper, formulaMapper, triggerRuleService
-        );
+        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
         org.mockito.Mockito.doThrow(new ApiException(
@@ -868,10 +632,30 @@ class SkillFormulaServiceTest {
         return formulaRow(FORMULA_KEY, "已损失生命值伤害");
     }
 
+    private void captureInsert(String formulaKey, String name) {
+        AtomicReference<String> saved = new AtomicReference<>();
+        when(formulaMapper.insert(eq(GAME_ID), eq(SKILL_KEY), eq(formulaKey), anyString(), any(), any(), anyString()))
+            .thenAnswer(invocation -> { saved.set(invocation.getArgument(6)); return 1; });
+        when(formulaMapper.findById(GAME_ID, SKILL_KEY, formulaKey))
+            .thenAnswer(invocation -> formulaRow(formulaKey, name, saved.get()));
+    }
+
+    private void captureUpdate(String formulaKey, String name) {
+        AtomicReference<String> saved = new AtomicReference<>();
+        when(formulaMapper.update(eq(GAME_ID), eq(SKILL_KEY), eq(formulaKey), anyString(), any(), any(), anyString()))
+            .thenAnswer(invocation -> { saved.set(invocation.getArgument(6)); return 1; });
+        when(formulaMapper.findById(GAME_ID, SKILL_KEY, formulaKey))
+            .thenAnswer(invocation -> formulaRow(formulaKey, name, saved.get()));
+    }
+
     private static SkillFormulaRow formulaRow(String formulaKey, String name) {
+        return formulaRow(formulaKey, name, AggregateJson.write(new SkillFormulaParameterNode("ratio")));
+    }
+
+    private static SkillFormulaRow formulaRow(String formulaKey, String name, String expression) {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-26T08:00:00Z");
         return new SkillFormulaRow(
-            GAME_ID, SKILL_KEY, formulaKey, name, null, 10, timestamp, timestamp
+            GAME_ID, SKILL_KEY, formulaKey, name, null, 10, expression, timestamp, timestamp
         );
     }
 
