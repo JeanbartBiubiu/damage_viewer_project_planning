@@ -41,6 +41,7 @@ export type SkillRelationsModalProps = {
   adminToken: string;
   onClose: () => void;
   onDirtyChange?: (dirty: boolean) => void;
+  onEditSkill?: (skillKey: string) => void;
 };
 
 type RelationRow = {
@@ -69,7 +70,7 @@ function initialDrafts(): Record<SkillRelationOwnerKind, SkillRelationAddDraft> 
 }
 
 export function SkillRelationsModal({
-  visible, target, apiBaseUrl, selectedGameId, adminToken, onClose, onDirtyChange
+  visible, target, apiBaseUrl, selectedGameId, adminToken, onClose, onDirtyChange, onEditSkill
 }: SkillRelationsModalProps) {
   const kind = target?.kind;
   const targetKey = target?.key;
@@ -160,7 +161,7 @@ export function SkillRelationsModal({
   useEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
   useEffect(() => () => { dirtyCallback.current?.(false); }, []);
 
-  const close = () => {
+  const leave = (afterLeave: () => void) => {
     if (activeWrite.current === scope) return;
     const finish = () => {
       if (currentScope.current !== scope) return;
@@ -168,7 +169,7 @@ export function SkillRelationsModal({
       setDrafts(initialDrafts());
       setSortEdits({});
       dirtyCallback.current?.(false);
-      onClose();
+      afterLeave();
     };
     if (dirty) {
       Modal.confirm({
@@ -177,6 +178,13 @@ export function SkillRelationsModal({
         okText: '放弃修改', cancelText: '继续编辑', onOk: finish
       });
     } else finish();
+  };
+
+  const close = () => leave(onClose);
+
+  const openSkill = (row: RelationRow) => {
+    if (!ready || !onEditSkill || kind === 'skill') return;
+    leave(() => onEditSkill(row.skillKey));
   };
 
   const write = async (action: () => Promise<unknown>, afterSuccess: () => void, message: string) => {
@@ -303,9 +311,10 @@ export function SkillRelationsModal({
         )
       },
       {
-        title: '操作', width: 180,
+        title: '操作', width: onEditSkill && kind !== 'skill' ? 280 : 180,
         render: (_value, row: RelationRow) => (
           <Space size="mini">
+            {onEditSkill && kind !== 'skill' ? <Button size="mini" type="primary" disabled={!ready} onClick={() => openSkill(row)}>录入技能</Button> : null}
             <Button size="mini" disabled={!ready || sortEdits[row.identity] === undefined} onClick={() => saveSort(row)}>保存排序</Button>
             <Button size="mini" status="danger" disabled={!ready} onClick={() => removeRelation(row)}>移除</Button>
           </Space>
