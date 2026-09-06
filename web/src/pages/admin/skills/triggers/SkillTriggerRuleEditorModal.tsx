@@ -128,6 +128,7 @@ import {
   sortActionDrafts,
   sortConditionDrafts,
   sortGroupDrafts,
+  isTriggerRuleDraftDirty,
   targetContextOptionsForEvent,
   toCreateRequest,
   toUpdateRequest,
@@ -277,7 +278,7 @@ export function SkillTriggerRuleEditorModal({
 
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
   const subEditorOpen = conditionEditor !== null || actionEditor !== null;
-  const dirty = visible && JSON.stringify(draft) !== JSON.stringify(baseline);
+  const dirty = visible && isTriggerRuleDraftDirty(draft, baseline);
   const selectedProcess = draft.eventSource.eventType === 'PROCESS_MOMENT'
     ? processByKey.get(draft.eventSource.detail.processKey) ?? null
     : null;
@@ -295,7 +296,7 @@ export function SkillTriggerRuleEditorModal({
   const sortedActions = useMemo(() => sortActionDrafts(draft.actions), [draft.actions]);
 
   const reportDirty = useCallback((next: SkillTriggerRuleDraft, currentBaseline: SkillTriggerRuleDraft) => {
-    onDirtyChange(JSON.stringify(next) !== JSON.stringify(currentBaseline));
+    onDirtyChange(isTriggerRuleDraftDirty(next, currentBaseline));
   }, [onDirtyChange]);
 
   const patchDraft = (next: SkillTriggerRuleDraft) => {
@@ -1319,7 +1320,7 @@ export function SkillTriggerRuleEditorModal({
             </Button>
           </Space>
           {sortedGroups.map((group, groupIndex) => (
-            <div key={group.groupKey}>
+            <div key={group.draftId}>
               {groupIndex > 0 ? <div>{SKILL_TRIGGER_GROUP_OR_LABEL}</div> : null}
               <Card
                 title={group.name || group.groupKey}

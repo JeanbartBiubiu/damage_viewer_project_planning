@@ -749,6 +749,7 @@ describe('fixed result modifier validation and numeric-result eligibility', () =
         {
           groupKey: 'group_1',
           name: '条件',
+          draftId: 'binding-draft',
           sortOrder: '10',
           conditions: [
             {

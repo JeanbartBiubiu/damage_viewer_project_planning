@@ -6811,3 +6811,75 @@ test('target category condition saves and reopens all categories and confirms in
   await page.keyboard.press('Escape');
   diagnostics.assertClean('target category selection and event cleanup');
 });
+
+test('condition group key typing keeps focus and identity through equal-order rename and reorder', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+  const create = visibleModal(page, '新增规则');
+  await create.getByLabel('规则标识', { exact: true }).fill('group_focus');
+  await create.getByLabel('规则名称', { exact: true }).fill('条件组输入焦点');
+  await chooseTriggerEventType(page, create, '技能命中');
+  await create.getByRole('button', { name: '编辑', exact: true }).first().click();
+  await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), { name: '命中伤害', effectName: '命中结果' });
+  await create.getByRole('button', { name: '新增条件组', exact: true }).click();
+  await create.getByLabel('条件组名称', { exact: true }).fill('第一组');
+  await create.getByRole('button', { name: '新增条件组', exact: true }).click();
+  await create.getByLabel('条件组名称', { exact: true }).last().fill('第二组');
+  const groupCard = (name: string, modal: Locator = create) => modal.locator('.arco-card').filter({
+    has: page.locator(`input[aria-label="条件组名称"][value="${name}"]`)
+  });
+  const keyInput = groupCard('第一组').getByLabel('条件组标识', { exact: true });
+  const originalKeyNode = await keyInput.elementHandle();
+  await keyInput.click();
+  await page.keyboard.press('ControlOrMeta+A');
+  await page.keyboard.press('Backspace');
+  await expect(keyInput).toBeFocused();
+  let typed = '';
+  for (const character of 'z_valid_mark_target') {
+    await page.keyboard.type(character);
+    typed += character;
+    await expect(keyInput).toBeFocused();
+    await expect(keyInput).toHaveValue(typed);
+  }
+  expect(await originalKeyNode!.evaluate((node) => node === document.activeElement && node.isConnected)).toBe(true);
+  await expect(groupCard('第二组').getByLabel('条件组标识', { exact: true })).toHaveValue('group_2');
+  expect(await create.getByLabel('条件组名称', { exact: true }).evaluateAll((nodes) => nodes.map((node) => (node as HTMLInputElement).value))).toEqual(['第二组', '第一组']);
+
+  const sortInput = groupCard('第一组').getByLabel('条件组排序', { exact: true });
+  const originalSortNode = await sortInput.elementHandle();
+  await sortInput.click();
+  await page.keyboard.press('ControlOrMeta+A');
+  await page.keyboard.press('Backspace');
+  await expect(sortInput).toBeFocused();
+  for (const character of '50') {
+    await page.keyboard.type(character);
+    await expect(sortInput).toBeFocused();
+  }
+  expect(await originalSortNode!.evaluate((node) => node === document.activeElement && node.isConnected)).toBe(true);
+  await expect(sortInput).toHaveValue('50');
+  await expect(groupCard('第二组').getByLabel('条件组排序', { exact: true })).toHaveValue('10');
+  for (const [name, category] of [['第一组', '英雄'], ['第二组', '小兵']]) {
+    await groupCard(name).getByRole('button', { name: '编辑', exact: true }).click();
+    const condition = visibleModal(page, '编辑条件');
+    await chooseSelectOption(page, condition, '条件种类', '命中目标类别');
+    await condition.getByText(category, { exact: true }).click();
+    await condition.getByRole('button', { name: '确定', exact: true }).click();
+  }
+  await saveOpenModal(create);
+  const request = mock.writes.find((item) => item.method === 'POST' && item.path.endsWith('/trigger-rules') && item.body.ruleKey === 'group_focus')!.body;
+  expect(JSON.stringify(request)).not.toContain('draftId');
+  expect((request.conditionGroups as Json[]).map((group) => [group.groupKey, group.name, group.sortOrder, group.conditions[0].detail.categories])).toEqual([
+    ['group_2', '第二组', 10, ['MINION']], ['z_valid_mark_target', '第一组', 50, ['CHAMPION']]
+  ]);
+  await shell.locator('tr', { hasText: 'group_focus' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑规则');
+  await expect(groupCard('第一组', reopened).getByLabel('条件组标识', { exact: true })).toHaveValue('z_valid_mark_target');
+  await expect(groupCard('第二组', reopened).getByLabel('条件组标识', { exact: true })).toHaveValue('group_2');
+  await reopened.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(reopened).toBeHidden();
+  diagnostics.assertClean('condition group typing and reorder preserve identity');
+});
