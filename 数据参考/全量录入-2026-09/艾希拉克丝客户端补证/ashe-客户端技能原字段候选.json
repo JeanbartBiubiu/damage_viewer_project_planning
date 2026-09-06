@@ -1,0 +1,1615 @@
+{
+  "champion": "Ashe",
+  "sourceType": "CommunityDragon 16.17 客户端提取文件（社区提取，不称 Riot 官方 API）",
+  "ddragonVersion": "16.17.1",
+  "slots": {
+    "P": {
+      "ddragon": {
+        "id": null,
+        "name": "Frost Shot",
+        "cooldown": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cost": [
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "range": [
+          400,
+          400,
+          400,
+          400,
+          400
+        ]
+      },
+      "primary": {
+        "path": "Characters/Ashe/Spells/AshePassiveAbility/AshePassive",
+        "score": 23,
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "__type"
+        ],
+        "mSpellKeys": [
+          "DataValues",
+          "DataValuesModeOverride",
+          "mSpellCalculations",
+          "{fe87f21e}",
+          "mImgIconName",
+          "castRange",
+          "castRangeValues",
+          "mFloatVarsDecimals",
+          "mClientData",
+          "__type"
+        ],
+        "fieldExtracts": [
+          {
+            "path": [
+              "DataValues"
+            ],
+            "value": [
+              {
+                "name": "SlowDuration",
+                "values": [
+                  2,
+                  2,
+                  2,
+                  2,
+                  2,
+                  2,
+                  2
+                ],
+                "__type": "SpellDataValue"
+              }
+            ]
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "SlowDuration",
+                    "values": [
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "SlowAmount": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 0.20000000298023224,
+                    "mEndValue": 0.30000001192092896,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "EmpoweredSlowAmount": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 0.4000000059604645,
+                    "mEndValue": 0.6000000238418579,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "DamageBonus": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mStat": 8,
+                    "mSubpart": {
+                      "mSubparts": [
+                        {
+                          "mNumber": 1,
+                          "__type": "NumberCalculationPart"
+                        },
+                        {
+                          "mStat": 9,
+                          "mStatFormula": 2,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    "__type": "StatBySubPartCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "{da9201cc}": {
+                "mMultiplier": {
+                  "mStat": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                "{72c5c2a8}": 0,
+                "mModifiedGameCalculation": "DamageBonus",
+                "__type": "GameCalculationModified"
+              }
+            }
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "SlowDuration",
+                    "values": [
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "SlowAmount": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 0.20000000298023224,
+                    "mEndValue": 0.30000001192092896,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "EmpoweredSlowAmount": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 0.4000000059604645,
+                    "mEndValue": 0.6000000238418579,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "DamageBonus": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mStat": 8,
+                    "mSubpart": {
+                      "mSubparts": [
+                        {
+                          "mNumber": 1,
+                          "__type": "NumberCalculationPart"
+                        },
+                        {
+                          "mStat": 9,
+                          "mStatFormula": 2,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    "__type": "StatBySubPartCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "{da9201cc}": {
+                "mMultiplier": {
+                  "mStat": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                "{72c5c2a8}": 0,
+                "mModifiedGameCalculation": "DamageBonus",
+                "__type": "GameCalculationModified"
+              }
+            }
+          }
+        ]
+      },
+      "alternatePaths": [
+        "Characters/Ashe/Spells/AsheQAbility/AsheQAttackNoOnHit",
+        "Characters/Ashe/Spells/AsheQAbility/AsheQ",
+        "Characters/Ashe/Spells/AsheQAbility/AsheQAttack",
+        "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRightAttack",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyAttack",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank3",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank2",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank5",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank4",
+        "Characters/Ashe/Spells/VolleyAbility/Volley",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyAttackWithSound",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyCenterAttack",
+        "Characters/Ashe/Spells/AsheBasicAttack2",
+        "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk",
+        "{93b9a272}",
+        "Characters/Ashe/Spells/AshePassiveAbility/AshePassive",
+        "Characters/Ashe/Spells/AsheBasicAttack",
+        "{c267946f}",
+        "Characters/Ashe/Spells/ItemHurricaneAsheAttack"
+      ]
+    },
+    "Q": {
+      "ddragon": {
+        "id": "AsheQ",
+        "name": "Ranger's Focus",
+        "cooldown": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cost": [
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "range": [
+          400,
+          400,
+          400,
+          400,
+          400
+        ]
+      },
+      "primary": {
+        "path": "Characters/Ashe/Spells/AsheQAbility/AsheQ",
+        "score": 21,
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "mSpellKeys": [
+          "flags",
+          "mAffectsTypeFlags",
+          "mRequiredUnitTags",
+          "mAlternateName",
+          "mSpellTags",
+          "mEffectAmount",
+          "DataValues",
+          "mSpellCalculations",
+          "mCoefficient",
+          "mCoefficient2",
+          "mAnimationName",
+          "mImgIconName",
+          "spellCastTime",
+          "spellTotalTime",
+          "cooldownTime",
+          "Cooldown",
+          "mPingableWhileDisabled",
+          "mFloatVarsDecimals",
+          "mana",
+          "manaValues",
+          "mTargetingTypeData",
+          "mClientData",
+          "__type"
+        ],
+        "fieldExtracts": [
+          {
+            "path": [
+              "DataValues"
+            ],
+            "value": [
+              {
+                "name": "DamagePerStrike",
+                "values": [
+                  1.0499999523162842,
+                  1.100000023841858,
+                  1.149999976158142,
+                  1.2000000476837158,
+                  1.25,
+                  1.2999999523162842,
+                  1.350000023841858
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "ShotsPerStrike",
+                "values": [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "StackDuration",
+                "values": [
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "MaxStacks",
+                "values": [
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "BuffDuration",
+                "values": [
+                  6,
+                  6,
+                  6,
+                  6,
+                  6,
+                  6,
+                  6
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "BonusAS",
+                "values": [
+                  20,
+                  20,
+                  30,
+                  40,
+                  50,
+                  60,
+                  60
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "TimerDuration",
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "StackFalloffDuration",
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              }
+            ]
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "EmpoweredDamage": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStat": 2,
+                    "mDataValue": "DamagePerStrike",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "cooldownTime"
+            ],
+            "value": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "{0a3e0478}": 0,
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "mana"
+            ],
+            "value": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ]
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ],
+              "{0a3e0478}": 30,
+              "__type": "{630af303}"
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "EmpoweredDamage": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mStat": 2,
+                    "mDataValue": "DamagePerStrike",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "{0a3e0478}": 0,
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ],
+              "{0a3e0478}": 30,
+              "__type": "{630af303}"
+            }
+          }
+        ]
+      },
+      "alternatePaths": [
+        "Characters/Ashe/Spells/AsheQAbility/AsheQAttackNoOnHit",
+        "Characters/Ashe/Spells/AsheQAbility/AsheQ",
+        "Characters/Ashe/Spells/AsheQAbility/AsheQAttack"
+      ]
+    },
+    "W": {
+      "ddragon": {
+        "id": "Volley",
+        "name": "Volley",
+        "cooldown": [
+          18,
+          14.5,
+          11,
+          7.5,
+          4
+        ],
+        "cost": [
+          75,
+          70,
+          65,
+          60,
+          55
+        ],
+        "range": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ]
+      },
+      "primary": {
+        "path": "Characters/Ashe/Spells/VolleyAbility/Volley",
+        "score": 21,
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpellKeys": [
+          "mAffectsTypeFlags",
+          "mAlternateName",
+          "mSpellTags",
+          "mEffectAmount",
+          "DataValues",
+          "DataValuesModeOverride",
+          "{f9c2333e}",
+          "mSpellCalculations",
+          "mAnimationName",
+          "mImgIconName",
+          "spellCastTime",
+          "spellTotalTime",
+          "cooldownTime",
+          "Cooldown",
+          "mCantCancelWhileWindingUp",
+          "mSpellRevealsChampion",
+          "useAnimatorFramerate",
+          "castRange",
+          "castRangeValues",
+          "castRangeDisplayOverride",
+          "castRadius",
+          "castConeAngle",
+          "castConeDistance",
+          "castFrame",
+          "missileSpeed",
+          "mFloatVarsDecimals",
+          "mana",
+          "manaValues",
+          "mTargetingTypeData",
+          "mCastingBreaksStealth",
+          "mClientData",
+          "__type"
+        ],
+        "fieldExtracts": [
+          {
+            "path": [
+              "DataValues"
+            ],
+            "value": [
+              {
+                "name": "BaseDamage",
+                "values": [
+                  25,
+                  60,
+                  95,
+                  130,
+                  165,
+                  200,
+                  235
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "NumberOfArrowsTooltip",
+                "values": [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "ADRatio",
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              }
+            ]
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "BaseDamage",
+                    "values": [
+                      25,
+                      65,
+                      105,
+                      145,
+                      185,
+                      225,
+                      265
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "ADRatio",
+                    "values": [
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "TotalDamage": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "BaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mStatFormula": 2,
+                    "mDataValue": "ADRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "cooldownTime"
+            ],
+            "value": [
+              18,
+              18,
+              14.5,
+              11,
+              7.5,
+              4,
+              4
+            ]
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                18,
+                18,
+                14.5,
+                11,
+                7.5,
+                4,
+                4
+              ],
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "mana"
+            ],
+            "value": [
+              75,
+              70,
+              65,
+              60,
+              55,
+              50
+            ]
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                75,
+                70,
+                65,
+                60,
+                55,
+                50
+              ],
+              "{0a3e0478}": 75,
+              "__type": "{630af303}"
+            }
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "BaseDamage",
+                    "values": [
+                      25,
+                      65,
+                      105,
+                      145,
+                      185,
+                      225,
+                      265
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "ADRatio",
+                    "values": [
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158,
+                      1.2000000476837158
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "TotalDamage": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "BaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mStatFormula": 2,
+                    "mDataValue": "ADRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                18,
+                18,
+                14.5,
+                11,
+                7.5,
+                4,
+                4
+              ],
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                75,
+                70,
+                65,
+                60,
+                55,
+                50
+              ],
+              "{0a3e0478}": 75,
+              "__type": "{630af303}"
+            }
+          }
+        ]
+      },
+      "alternatePaths": [
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRightAttack",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyAttack",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank3",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank2",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank5",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyRank4",
+        "Characters/Ashe/Spells/VolleyAbility/Volley",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyAttackWithSound",
+        "Characters/Ashe/Spells/VolleyAbility/VolleyCenterAttack"
+      ]
+    },
+    "E": {
+      "ddragon": {
+        "id": "AsheSpiritOfTheHawk",
+        "name": "Hawkshot",
+        "cooldown": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "cost": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "range": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ]
+      },
+      "primary": {
+        "path": "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk",
+        "score": 21,
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "__type"
+        ],
+        "mSpellKeys": [
+          "mAffectsTypeFlags",
+          "mAlternateName",
+          "mSpellTags",
+          "mEffectAmount",
+          "DataValues",
+          "mSpellCalculations",
+          "mCoefficient",
+          "mAnimationName",
+          "mImgIconName",
+          "spellCastTime",
+          "spellTotalTime",
+          "cooldownTime",
+          "Cooldown",
+          "mMaxAmmo",
+          "mAmmoRechargeTime",
+          "mCantCancelWhileWindingUp",
+          "mProjectTargetToCastRange",
+          "mSpellRevealsChampion",
+          "mUseMinimapTargeting",
+          "castRange",
+          "castRangeValues",
+          "castRadius",
+          "castConeDistance",
+          "luaOnMissileUpdateDistanceInterval",
+          "mMissileSpec",
+          "mCastType",
+          "castFrame",
+          "missileSpeed",
+          "mMissileEffectKey",
+          "bHaveHitBone",
+          "mFloatVarsDecimals",
+          "selectionPriority",
+          "mTargetingTypeData",
+          "mClientData",
+          "__type"
+        ],
+        "fieldExtracts": [
+          {
+            "path": [
+              "DataValues"
+            ],
+            "value": [
+              {
+                "name": "BaseCooldown",
+                "values": [
+                  100,
+                  90,
+                  80,
+                  70,
+                  60,
+                  50,
+                  40
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "VisionDuration",
+                "values": [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                "__type": "SpellDataValue"
+              }
+            ]
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "ChargeCooldown": {
+                "mSimpleTooltipCalculationDisplay": 5,
+                "mExpandedTooltipCalculationDisplay": 5,
+                "tooltipOnly": true,
+                "mFormulaParts": [
+                  {
+                    "mPart1": {
+                      "__type": "CooldownMultiplierCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "BaseCooldown",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "cooldownTime"
+            ],
+            "value": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "{0a3e0478}": 5,
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "ChargeCooldown": {
+                "mSimpleTooltipCalculationDisplay": 5,
+                "mExpandedTooltipCalculationDisplay": 5,
+                "tooltipOnly": true,
+                "mFormulaParts": [
+                  {
+                    "mPart1": {
+                      "__type": "CooldownMultiplierCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "BaseCooldown",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations",
+              "ChargeCooldown"
+            ],
+            "value": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "__type": "CooldownMultiplierCalculationPart"
+                  },
+                  "mPart2": {
+                    "mDataValue": "BaseCooldown",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "{0a3e0478}": 5,
+              "__type": "{0a0eddc9}"
+            }
+          }
+        ]
+      },
+      "alternatePaths": [
+        "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk"
+      ]
+    },
+    "R": {
+      "ddragon": {
+        "id": "EnchantedCrystalArrow",
+        "name": "Enchanted Crystal Arrow",
+        "cooldown": [
+          100,
+          80,
+          60
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          25000,
+          25000,
+          25000
+        ]
+      },
+      "primary": {
+        "path": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+        "score": 21,
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "mSpellKeys": [
+          "mAffectsTypeFlags",
+          "mRequiredUnitTags",
+          "mAlternateName",
+          "mSpellTags",
+          "DataValues",
+          "DataValuesModeOverride",
+          "mSpellCalculations",
+          "mAnimationName",
+          "mImgIconName",
+          "mMinimapIconName",
+          "spellCastTime",
+          "spellTotalTime",
+          "cooldownTime",
+          "Cooldown",
+          "mCantCancelWhileWindingUp",
+          "mSpellRevealsChampion",
+          "mUseMinimapTargeting",
+          "mMinimapIconRotation",
+          "useAnimatorFramerate",
+          "castRange",
+          "castRangeValues",
+          "castRadius",
+          "castConeDistance",
+          "luaOnMissileUpdateDistanceInterval",
+          "mMissileSpec",
+          "mCastType",
+          "castFrame",
+          "missileSpeed",
+          "mMissileEffectKey",
+          "mLineWidth",
+          "mana",
+          "manaValues",
+          "mTargetingTypeData",
+          "mCastingBreaksStealth",
+          "mClientData",
+          "__type"
+        ],
+        "fieldExtracts": [
+          {
+            "path": [
+              "DataValues"
+            ],
+            "value": [
+              {
+                "name": "RBaseDamage",
+                "values": [
+                  0,
+                  200,
+                  400,
+                  600,
+                  800,
+                  1000,
+                  1200
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "MinStunDuration",
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "MaxStunDuration",
+                "values": [
+                  3.5,
+                  3.5,
+                  3.5,
+                  3.5,
+                  3.5,
+                  3.5,
+                  3.5
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "SlowRadius",
+                "values": [
+                  400,
+                  400,
+                  400,
+                  400,
+                  400,
+                  400,
+                  400
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "AoECoefficient",
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              },
+              {
+                "name": "APRatio",
+                "values": [
+                  1.2000000476837158,
+                  1.2000000476837158,
+                  1.2000000476837158,
+                  1.2000000476837158,
+                  1.2000000476837158,
+                  1.2000000476837158,
+                  1.2000000476837158
+                ],
+                "__type": "SpellDataValue"
+              }
+            ]
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "MinStunDuration",
+                    "values": [
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "MaxStunDuration",
+                    "values": [
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "APRatio",
+                    "values": [
+                      2,
+                      2,
+                      2,
+                      2,
+                      2,
+                      2,
+                      2
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "RMainDamage": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "RBaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "APRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{6b932875}": {
+                "mMultiplier": {
+                  "mDataValue": "AoeCoefficient",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mModifiedGameCalculation": "RMainDamage",
+                "__type": "GameCalculationModified"
+              }
+            }
+          },
+          {
+            "path": [
+              "cooldownTime"
+            ],
+            "value": [
+              100,
+              100,
+              80,
+              60,
+              60,
+              60,
+              60
+            ]
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                100,
+                100,
+                80,
+                60,
+                60,
+                60,
+                60
+              ],
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "mana"
+            ],
+            "value": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                100,
+                100,
+                100,
+                0,
+                0,
+                0
+              ],
+              "__type": "{630af303}"
+            }
+          },
+          {
+            "path": [
+              "DataValuesModeOverride"
+            ],
+            "value": {
+              "cherry": {
+                "SpellDataValues": [
+                  {
+                    "name": "MinStunDuration",
+                    "values": [
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5,
+                      1.5
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "MaxStunDuration",
+                    "values": [
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5,
+                      4.5
+                    ],
+                    "__type": "SpellDataValue"
+                  },
+                  {
+                    "name": "APRatio",
+                    "values": [
+                      2,
+                      2,
+                      2,
+                      2,
+                      2,
+                      2,
+                      2
+                    ],
+                    "__type": "SpellDataValue"
+                  }
+                ],
+                "__type": "SpellDataValueVector"
+              }
+            }
+          },
+          {
+            "path": [
+              "mSpellCalculations"
+            ],
+            "value": {
+              "RMainDamage": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "RBaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "APRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{6b932875}": {
+                "mMultiplier": {
+                  "mDataValue": "AoeCoefficient",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mModifiedGameCalculation": "RMainDamage",
+                "__type": "GameCalculationModified"
+              }
+            }
+          },
+          {
+            "path": [
+              "Cooldown"
+            ],
+            "value": {
+              "values": [
+                100,
+                100,
+                80,
+                60,
+                60,
+                60,
+                60
+              ],
+              "__type": "{0a0eddc9}"
+            }
+          },
+          {
+            "path": [
+              "manaValues"
+            ],
+            "value": {
+              "values": [
+                100,
+                100,
+                100,
+                0,
+                0,
+                0
+              ],
+              "__type": "{630af303}"
+            }
+          }
+        ]
+      },
+      "alternatePaths": [
+        "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow"
+      ]
+    }
+  },
+  "notes": [
+    "客户端字段仅作原值候选，不能据此宣称服务端机制已完整录入。",
+    "等级数组保留原始层级；不把 level0 自动解释为 rank1。",
+    "无语义 effect[] 与 25000 范围值不转成业务数值或效果。",
+    "DataValues、SpellCalculations及资源/冷却字段按原路径原值摘录，语义待后续核对。"
+  ]
+}
