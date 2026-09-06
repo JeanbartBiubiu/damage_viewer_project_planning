@@ -202,6 +202,10 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ## 验证入口与证据边界
 
+角色录入检查使用 `GET /api/admin/games/{gameId}/characters/{characterKey}/authoring-check`，在可重复读的只读事务中检查当前角色与直接挂载的技能。报告区分结构错误、人工待核对和未执行的战斗运行；缺失角色或游戏返回 404，读取失败不会返回空的成功报告。它读取现有引用索引并核对完整目标键，不写报告表、不重建引用，也不作为保存或发布门槛。
+
+角色检查定向验证为 `mvn "-Dtest=CharacterAuthoringCheckServiceTest,CharacterAuthoringCheckMapperTest,CharacterAuthoringCheckAdminControllerTest" test`。结构检查覆盖原始等级属性图、已读对象基本字段及直接执行入口；不执行公式、战斗机制或跨技能递归分析。
+
 只修改文档时核对链接、命令和差异，不需要运行 Maven。实现变更先运行受影响测试，功能收尾运行 `mvn test`；配置、依赖或启动装配变化增加 `mvn package`。移除旧类后若出现与源码不符的测试结果，使用 `mvn clean test` 清除旧编译产物。
 
 当前聚合存储与引用保护的针对性入口：
