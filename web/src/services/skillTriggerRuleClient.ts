@@ -43,6 +43,7 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
 const CONDITION_TYPES = new Set([
   'ATTRIBUTE_COMPARE',
   'STATUS_CHECK',
+  'LIFECYCLE_CHECK',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ]);
@@ -269,6 +270,17 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
         protocolError(`${path}.detail`);
       }
       break;
+    case 'LIFECYCLE_CHECK': {
+      const allowed = ['effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'];
+      if (Object.keys(detail).length !== allowed.length || Object.keys(detail).some((key) => !allowed.includes(key))) protocolError(`${path}.detail`);
+      if (typeof detail.effectKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.effectKey)) protocolError(`${path}.detail.effectKey`);
+      if (detail.subject !== null && (typeof detail.subject !== 'string' || !['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE'].includes(detail.subject))) protocolError(`${path}.detail.subject`);
+      if (detail.checkKind === 'STACKS_COMPARE') {
+        if (typeof detail.comparator !== 'string' || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator) || !isNumericValue(detail.comparisonValue)) protocolError(`${path}.detail`);
+        if (detail.comparisonValue.kind === 'FIXED' && (!Number.isInteger(detail.comparisonValue.value) || detail.comparisonValue.value < 0)) protocolError(`${path}.detail.comparisonValue`);
+      } else if ((detail.checkKind !== 'PRESENT' && detail.checkKind !== 'ABSENT') || detail.comparator !== null || detail.comparisonValue !== null) protocolError(`${path}.detail`);
+      break;
+    }
     case 'STATUS_CHECK':
       if (typeof detail.checkKind !== 'string' || typeof detail.statusKey !== 'string') {
         protocolError(`${path}.detail`);

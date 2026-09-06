@@ -1,3 +1,4 @@
+import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError, lifecycleNeedsSubject, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
@@ -19,6 +20,7 @@ import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { GameStatus } from '../../../../types/status';
 import type {
   SkillTriggerConditionType,
+  SkillTriggerLifecycleCheckKind,
   SkillTriggerEventSource,
   SkillTriggerInternalStateValueKind,
   SkillTriggerStatusCheckKind,
@@ -67,6 +69,10 @@ type SkillTriggerConditionEditorModalProps = {
   mode: SkillTriggerConditionEditorMode;
   draft: SkillTriggerConditionDraft | null;
   existingKeys: readonly string[];
+  skillKey: string;
+  originalConditionType?: SkillTriggerConditionType;
+  effectsLoadState?: 'idle' | 'loading' | 'ready' | 'error';
+  onRetryLifecycleEffects: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
   attributes: readonly Attribute[];
   statuses: readonly GameStatus[];
@@ -94,6 +100,10 @@ export function SkillTriggerConditionEditorModal({
   mode,
   draft,
   existingKeys,
+  skillKey,
+  originalConditionType,
+  effectsLoadState,
+  onRetryLifecycleEffects,
   eventSource,
   attributes,
   statuses,
@@ -111,6 +121,7 @@ export function SkillTriggerConditionEditorModal({
     draft ?? createEmptyConditionDraft(existingKeys)
   );
   const [localError, setLocalError] = useState<string | null>(null);
+  const [reloadingEffects, setReloadingEffects] = useState(false);
   const allowedValues = allowedEventValuesFor(eventSource);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
@@ -132,6 +143,9 @@ export function SkillTriggerConditionEditorModal({
     [current, internalStates]
   );
 
+  const lifecycleEffects = lifecycleConditionEffects(effects, skillKey);
+  const selectedLifecycle = current.conditionType === 'LIFECYCLE_CHECK' ? lifecycleEffects.find((item) => item.effectKey === current.detail.effectKey) : undefined;
+
   const errorFor = (suffix: string): string | undefined => (
     fieldErrors.find((item) => item.path.endsWith(suffix))?.message
   );
@@ -142,6 +156,11 @@ export function SkillTriggerConditionEditorModal({
   };
 
   const confirm = () => {
+    if (current.conditionType === 'LIFECYCLE_CHECK') {
+      if (effectsLoadState === 'error') { setLocalError('效果目录加载失败，请重试后选择生命周期。'); return; }
+      const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions, { parameters, formulas }, { parametersState: parametersLoadState }, skillKey);
+      if (issue) { setLocalError(issue.message); return; }
+    }
     if (current.conditionType === 'EVENT_VALUE_COMPARE' && allowedValues.length === 0) {
       setLocalError('当前事件没有可比较的事件值。');
       return;
@@ -184,18 +203,18 @@ export function SkillTriggerConditionEditorModal({
       footer={
         <Space>
           <Button onClick={onClose}>取消</Button>
-          <Button type="primary" disabled={disabled} onClick={confirm}>确定</Button>
+          <Button type="primary" disabled={disabled || reloadingEffects} onClick={confirm}>确定</Button>
         </Space>
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {localError ? <Alert type="error" content={localError} /> : null}
         <Form layout="vertical">
-          <Form.Item label="条件种类" required>
+          <Form.Item label="条件种类" required extra={originalConditionType ? '已有条件不能更改种类；请删除后以新标识新增。' : undefined}>
             <Select
               aria-label="条件种类"
               value={current.conditionType}
-              disabled={disabled}
+              disabled={disabled || originalConditionType !== undefined}
               options={conditionTypes.map((value) => ({
                 value,
                 label: SKILL_TRIGGER_CONDITION_TYPE_LABELS[value]
@@ -401,6 +420,51 @@ export function SkillTriggerConditionEditorModal({
                   </Form.Item>
                 </>
               ) : null}
+            </>
+          ) : null}
+
+          {current.conditionType === 'LIFECYCLE_CHECK' ? (
+            <>
+              {effectsLoadState === 'error' ? <Alert type="error" content="效果目录加载失败，不能保存未知生命周期引用。" /> : null}
+              <Form.Item label="生命周期效果" required help={errorFor('detail.effectKey')}
+                extra={<Button size="mini" loading={reloadingEffects} disabled={disabled || reloadingEffects} onClick={async () => {
+                  setReloadingEffects(true);
+                  try { await onRetryLifecycleEffects(); } finally { setReloadingEffects(false); }
+                }}>刷新生命周期候选</Button>}>
+                <Select aria-label="生命周期效果" value={current.detail.effectKey || undefined} disabled={disabled}
+                  options={lifecycleEffects.map((item) => ({ value: item.effectKey, label: item.name + '（' + item.effectKey + '）' }))}
+                  onChange={(key) => {
+                    const effect = lifecycleEffects.find((item) => item.effectKey === key);
+                    if (effect) { setCurrent({ ...current, detail: changeLifecycleEffect(current.detail, effect) }); setLocalError(null); }
+                  }} />
+              </Form.Item>
+              {lifecycleNeedsSubject(selectedLifecycle) ? (
+                <Form.Item label="生命周期主体" required help={errorFor('detail.subject')}>
+                  <Select aria-label="生命周期主体" value={current.detail.subject ?? undefined} disabled={disabled}
+                    options={subjectOptions.map((value) => ({ value, label: SKILL_TRIGGER_SUBJECT_LABELS[value] }))}
+                    onChange={(subject) => setCurrent({ ...current, detail: { ...current.detail, subject: subject as SkillTriggerSubject } })} />
+                </Form.Item>
+              ) : selectedLifecycle ? <Alert type="info" content={selectedLifecycle.lifecycle?.instanceScope === 'SKILL' ? '读取当前技能效果的唯一实例，无需选择主体。' : '读取当前技能拥有者的实例，无需选择主体。'} /> : null}
+              <Form.Item label="生命周期检查方式" required>
+                <Select aria-label="生命周期检查方式" value={current.detail.checkKind} disabled={disabled}
+                  options={Object.entries(LIFECYCLE_CHECK_LABELS).map(([value, label]) => ({ value, label }))}
+                  onChange={(kind) => { setCurrent({ ...current, detail: changeLifecycleCheckKind(current.detail, kind as SkillTriggerLifecycleCheckKind) }); setLocalError(null); }} />
+              </Form.Item>
+              {current.detail.checkKind === 'STACKS_COMPARE' ? (
+                <>
+                  <Form.Item label="比较符" required>
+                    <Select aria-label="生命周期比较符" value={current.detail.comparator} disabled={disabled}
+                      options={SKILL_TRIGGER_COMPARATORS.map((value) => ({ value, label: SKILL_TRIGGER_COMPARATOR_LABELS[value] }))}
+                      onChange={(comparator) => setCurrent({ ...current, detail: { ...current.detail, checkKind: 'STACKS_COMPARE', comparator: comparator as import('../../../../types/skillTriggerRule').SkillTriggerComparator, comparisonValue: current.detail.comparisonValue! } })} />
+                  </Form.Item>
+                  <Form.Item label="层数比较取值" required extra="不存在的实例层数为 0；比较取值须为非负整数，不能使用计算时传入参数。" help={errorFor('detail.comparisonValue')}>
+                    <NumericValueField aria-label="层数比较取值" value={current.detail.comparisonValue} disabled={disabled}
+                      parameters={parameters} parametersLoadState={parametersLoadState} formulas={formulas}
+                      onChange={(comparisonValue) => setCurrent({ ...current, detail: { ...current.detail, checkKind: 'STACKS_COMPARE', comparator: current.detail.comparator!, comparisonValue: comparisonValue! } })} />
+                  </Form.Item>
+                </>
+              ) : null}
+              <Alert type="info" content="读取本条规则动作执行前的当前生命周期实例。" />
             </>
           ) : null}
 
