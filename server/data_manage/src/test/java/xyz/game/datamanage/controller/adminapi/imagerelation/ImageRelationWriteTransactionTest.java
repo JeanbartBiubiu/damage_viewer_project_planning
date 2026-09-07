@@ -105,6 +105,29 @@ class ImageRelationWriteTransactionTest {
     }
 
     @Test
+    void cacheConditionsWorkWithoutCompiledParameterNames() {
+        var noParameterNames = new org.springframework.core.ParameterNameDiscoverer() {
+            @Override public String[] getParameterNames(java.lang.reflect.Method method) { return null; }
+            @Override public String[] getParameterNames(java.lang.reflect.Constructor<?> constructor) { return null; }
+        };
+        var parser = new org.springframework.expression.spel.standard.SpelExpressionParser();
+        for (var method : ImageRelationService.class.getDeclaredMethods()) {
+            var eviction = method.getAnnotation(org.springframework.cache.annotation.CacheEvict.class);
+            if (eviction == null) continue;
+            for (var source : xyz.game.datamanage.model.imagerelation.ImageRelationSource.values()) {
+                Object[] arguments = method.getParameterCount() == 5
+                    ? new Object[] {"lol", source, "", "sample", request()}
+                    : new Object[] {"lol", source, "", "sample"};
+                var evaluation = new org.springframework.context.expression.MethodBasedEvaluationContext(
+                    new Object(), method, arguments, noParameterNames);
+                assertEquals(source == xyz.game.datamanage.model.imagerelation.ImageRelationSource.GAME,
+                    parser.parseExpression(eviction.condition()).getValue(evaluation, Boolean.class),
+                    method.getName() + ":" + source);
+            }
+        }
+    }
+
+    @Test
     void rejectedGameWriteDoesNotEvictOrLog() {
         cache.put("all:stage9", "原摘要");
         assertThrows(ApiException.class, () -> controller.put(Map.of("gameId", "lol"),
