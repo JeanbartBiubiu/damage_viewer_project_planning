@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T19:13:04.846Z",
+  "generatedAt": "2026-09-07T15:31:45.234Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -29,14 +29,16 @@
       "实录记录.json",
       "API实录/装备/summary.json"
     ],
-    "status": "主体与明确直接属性完成，主动被动效果尚待配置"
+    "status": "主体与明确直接属性完成；两项普攻特效部分录入，其余机制继续补录"
   },
   "images": {
     "objectUses": 1207,
     "heroes": 171,
     "skills": 855,
     "equipment": 181,
-    "status": "代表图关系与内容核对完成；页面同步后全部正式对象缩略图加载成功",
+    "additionalEquipmentSkillRepresentativeReuses": 2,
+    "additionalEquipmentSkillEvidence": "装备技能实录/Luna第一批/主负责人复核.json",
+    "status": "原 1207 个主体代表图历史证据保留；新增装备技能代表图复用 2 项另列，未将两者合并宣称为 1209 项整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
@@ -54,5 +56,68 @@
     "海克斯大乱斗海克斯",
     "既定召唤与变形等机制排除项"
   ],
+  "mechanismBatches": {
+    "asheWAndR": {
+      "skills": [
+        "ashe_w",
+        "ashe_r"
+      ],
+      "parameters": 13,
+      "formulas": 2,
+      "effects": 4,
+      "status": "部分录入",
+      "runtimeValidation": "未执行",
+      "evidence": "艾希技能实录第一批/独立核对.json"
+    },
+    "luxFirstBatch": {
+      "skills": [
+        "lux_p",
+        "lux_q",
+        "lux_w",
+        "lux_e",
+        "lux_r"
+      ],
+      "parameters": 37,
+      "formulas": 5,
+      "effects": 8,
+      "processes": 4,
+      "triggerRules": 2,
+      "status": "部分录入",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/回读摘要.json"
+      }
+    },
+    "itemOnHit": {
+      "skills": [
+        "item_3091_passive",
+        "item_3115_passive"
+      ],
+      "parameters": 3,
+      "formulas": 1,
+      "effects": 2,
+      "triggerRules": 2,
+      "equipmentRelations": 2,
+      "representativeImageReuses": 2,
+      "status": "部分录入",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第一批/主负责人复核.json"
+    },
+    "oneVOneScopeFiltering": {
+      "completeSkippedSkills": [
+        "ashe_e",
+        "twistedfate_p",
+        "zilean_p"
+      ],
+      "mixedSkills": [
+        "draven_p",
+        "gangplank_q",
+        "lux_w"
+      ],
+      "status": "范围已收窄；范围外跳过不计为待补机制或系统阻塞",
+      "evidence": "1V1范围筛选/处置清单.json"
+    }
+  },
   "runtimeValidation": "未执行"
 }
