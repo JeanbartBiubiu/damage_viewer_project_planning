@@ -43,6 +43,10 @@ const publicParameterSecondEvidence = '技能公共参数第二批/独立核对.
 const publicParametersSecond = read(publicParameterSecondEvidence);
 assert.equal(publicParametersSecond.passed, true);
 assert.deepEqual(publicParametersSecond.counts, {verifiedParameters:95, verifiedSkills:57, created:0, missing:0, conflicts:0});
+const publicParameterThirdEvidence = '技能公共参数第三批/独立核对.json';
+const publicParametersThird = read(publicParameterThirdEvidence);
+assert.equal(publicParametersThird.passed, true);
+assert.deepEqual(publicParametersThird.counts, {verifiedParameters:151, verifiedSkills:83, created:0, missing:0, conflicts:0});
 const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
 const nasusMechanism = read(nasusEvidence);
 const nasusInitializationEvidence = '内瑟斯技能实录第一批/初始化回读.json';
@@ -140,7 +144,7 @@ for (const entry of entries) {
   }
 }
 const scopeEvidence = '1V1范围筛选/处置清单.json';
-for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence]]) {
+for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence], [publicParametersThird, publicParameterThirdEvidence]]) {
 for (const skillKey of new Set(parameterBatch.records.map(record => record.skillKey))) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -150,6 +154,15 @@ for (const skillKey of new Set(parameterBatch.records.map(record => record.skill
     checkedAt: records.at(-1).checkedAt, evidence: parameterEvidence };
   entry.note += ` 已补录并回读 ${records.length} 项基础冷却或法力参数；不计为完整技能。`;
 }
+}
+for (const candidateEvidence of ['技能公共参数实录/公共参数候选.json','技能公共参数第二批/公共参数候选.json','技能公共参数第三批/公共参数候选.json']) {
+  for (const skipped of read(candidateEvidence).excludedSkillFields.filter(row=>row.status==='范围外跳过'&&!row.field)) {
+    const entry=entries.find(row=>row.objectType==='技能'&&row.systemObjectKey===skipped.skillKey);
+    assert.ok(entry, skipped.skillKey);
+    entry.status='约定排除';
+    entry.scopeDisposition={classification:'范围外技能',status:'范围外跳过',decision:skipped.reason,systemBlocking:false,evidence:candidateEvidence};
+    entry.note=`主体及角色关联保留；${skipped.reason} 不计为待补机制或系统阻塞。`;
+  }
 }
 for (const item of scopeItems) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === item.skillKey);
@@ -209,6 +222,11 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  publicParametersThirdBatch: {
+    heroes:publicParametersThird.selectedHeroes, skills:publicParametersThird.counts.verifiedSkills,
+    parameters:publicParametersThird.counts.verifiedParameters,
+    status:'公共参数已保存并回读，完整技能机制继续录入', runtimeValidation:'未执行', evidence:publicParameterThirdEvidence,
+  },
   equipmentFifthBatch: {
     skills:equipmentFifth.objects.map(record=>record.skillKey), parameters:9, formulas:0, effects:3, triggerRules:3,
     equipmentRelations:6, representativeImageReuses:6,
