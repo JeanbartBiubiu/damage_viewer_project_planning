@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T16:39:09.704Z",
+  "generatedAt": "2026-09-07T17:12:19.265Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -60,6 +60,54 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "heroSecondBatch": {
+      "skills": [
+        "malphite_p",
+        "malphite_q",
+        "malphite_w",
+        "malphite_e",
+        "malphite_r",
+        "missfortune_p",
+        "missfortune_q",
+        "missfortune_w",
+        "missfortune_e",
+        "missfortune_r",
+        "annie_p",
+        "annie_q",
+        "annie_w",
+        "annie_e",
+        "annie_r",
+        "brand_p",
+        "brand_q",
+        "brand_w",
+        "brand_e",
+        "brand_r"
+      ],
+      "parameters": 124,
+      "formulas": 27,
+      "effects": 39,
+      "processes": 7,
+      "internalStates": 0,
+      "triggerRules": 9,
+      "status": "部分录入",
+      "executor": "Codex执行代理接手Cursor中断批次",
+      "arithmeticCases": 70,
+      "invariantChecks": 8,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:\\project\\damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/回读摘要.json"
+      }
+    },
+    "nasusInitialization": {
+      "skills": [
+        "nasus_p"
+      ],
+      "triggerRules": 1,
+      "status": "当前1～18级范围被动配置已验收",
+      "runtimeValidation": "未执行",
+      "evidence": "内瑟斯技能实录第一批/初始化回读.json"
+    },
     "equipmentSecondBatch": {
       "skills": [
         "item_3075_passive",

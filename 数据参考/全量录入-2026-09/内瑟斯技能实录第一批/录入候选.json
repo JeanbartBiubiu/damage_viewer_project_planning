@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T16:26:52.138Z",
+  "generatedAt": "2026-09-07T17:06:33.141Z",
   "source": {
     "championId": "Nasus",
     "chineseName": "沙漠死神",
@@ -734,14 +734,12 @@
               }
             }
           ],
-          "description": "无限期自身属性效果，按当前角色等级读取。没有初始化事件挂接，不表示已自动生效；并非直接治疗。",
+          "description": "无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。",
           "sortOrder": 10
         }
       ],
       "processes": [],
-      "gaps": [
-        "现有管理结构缺少来源初始化完成事件；随等级读取已经可表达，不必新增等级变化事件。"
-      ]
+      "gaps": []
     },
     {
       "slot": "Q",
