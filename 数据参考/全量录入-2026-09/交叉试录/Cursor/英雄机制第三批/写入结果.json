@@ -1,0 +1,162 @@
+{
+  "startedAt": "2026-09-07T18:03:43.505Z",
+  "mode": "explicit-apply-missing-only",
+  "skills": [
+    "lucian_p"
+  ],
+  "preflight": [
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "empowered_window_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "second_shot_ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "base_second_shot_crit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_granted_attacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_max_attacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "second_shot_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "second_shot_crit_multiplier",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "vigilance_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "effects",
+      "id": "second_shot",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "effects",
+      "id": "vigilance_bonus",
+      "action": "missing"
+    }
+  ],
+  "writes": [
+    {
+      "at": "2026-09-07T18:03:44.808Z",
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:45.565Z",
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_total_ad_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:46.147Z",
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:46.623Z",
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_granted_attacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:47.086Z",
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_max_attacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:47.591Z",
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "vigilance_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:03:48.079Z",
+      "skillKey": "lucian_p",
+      "kind": "effects",
+      "id": "vigilance_bonus",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    }
+  ],
+  "conflicts": [],
+  "failures": [],
+  "finishedAt": "2026-09-07T18:03:48.080Z"
+}
