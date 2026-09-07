@@ -40,7 +40,7 @@ public class ImageRelationService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#sourceType.name() == 'GAME'")
+    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#p1.name() == 'GAME'")
     public RepresentativeImageResponse put(
         String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey,
         RepresentativeImageRequest request
@@ -63,7 +63,7 @@ public class ImageRelationService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#sourceType.name() == 'GAME'")
+    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#p1.name() == 'GAME'")
     public void delete(String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey) {
         configurationWrites.begin(gameId);
         RepresentativeImageResponse.Image current = readCurrent(gameId, sourceType, sourceParentKey, sourceKey);
