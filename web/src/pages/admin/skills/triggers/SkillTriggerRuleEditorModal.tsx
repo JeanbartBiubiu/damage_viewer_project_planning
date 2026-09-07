@@ -75,10 +75,12 @@ import {
   SKILL_TRIGGER_CYCLE_HINT,
   SKILL_TRIGGER_CYCLE_MESSAGE,
   SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
+  SKILL_TRIGGER_SOURCE_INITIALIZED_HINT,
   SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
   SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
   SKILL_TRIGGER_EVENT_TYPE_LABELS,
+  SKILL_TRIGGER_EVENT_CAPABILITIES,
   SKILL_TRIGGER_EVENT_TYPES,
   SKILL_TRIGGER_GROUP_AND_LABEL,
   SKILL_TRIGGER_GROUP_OR_LABEL,
@@ -1279,6 +1281,9 @@ export function SkillTriggerRuleEditorModal({
                 )}
               />
             </Form.Item>
+            {draft.eventSource.eventType === 'SOURCE_INITIALIZED' ? (
+              <Alert type="info" content={`${SKILL_TRIGGER_SOURCE_INITIALIZED_HINT} ${SKILL_TRIGGER_EVENT_CAPABILITIES.SOURCE_INITIALIZED.currentTargetBinding}`} />
+            ) : null}
             {renderEventSourceFields({
               eventSource: draft.eventSource,
               disabled: saving,
