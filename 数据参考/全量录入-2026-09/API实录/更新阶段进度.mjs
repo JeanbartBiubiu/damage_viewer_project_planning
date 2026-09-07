@@ -20,6 +20,10 @@ const asheMechanism = read('艾希技能实录第一批/独立核对.json');
 const equipmentMechanism = read('装备技能实录/Luna第一批/主负责人复核.json');
 const equipmentSecondEvidence = '装备技能实录/Luna第二批/主负责人复核.json';
 const equipmentSecond = read(equipmentSecondEvidence);
+const equipmentThirdEvidence = '装备技能实录/Luna第三批/主负责人复核.json';
+const equipmentThird = read(equipmentThirdEvidence);
+assert.equal(equipmentThird.passed, true);
+assert.equal(equipmentThird.components, 76);
 assert.equal(equipmentSecond.passed, true);
 assert.equal(equipmentSecond.components, 52);
 assert.equal(equipmentSecond.records.length, 6);
@@ -189,6 +193,11 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  equipmentThirdBatch: {
+    skills:equipmentThird.records.map(record=>record.skillKey), parameters:41, formulas:8, effects:9, triggerRules:0,
+    equipmentRelations:6, representativeImageReuses:6, directAttributesAdded:1,
+    status:equipmentThird.status, runtimeValidation:equipmentThird.runtimeValidation, evidence:equipmentThirdEvidence,
+  },
   heroSecondBatch: {
     skills:Object.keys(heroSecond.skills), ...heroSecond.totals, status:'部分录入',
     executor:heroSecond.executor, arithmeticCases:heroSecond.arithmetic, invariantChecks:heroSecond.invariants,
@@ -274,11 +283,12 @@ const summary = {
   skills: { metadata: 855, characterRelations: 855, createdByApiThisStage: 835, previouslyAuthored: 20,
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
   equipment: { count: 181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
-    evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成；八项装备技能已有组成，完整触发与其余机制继续补录' },
+    additionalDirectAttributes:1, additionalDirectAttributeEvidence:equipmentThirdEvidence,
+    evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成；十四项装备技能已有组成，完整触发与其余机制继续补录' },
   images: { objectUses: 1207, heroes: 171, skills: 855, equipment: 181,
-    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses,
-    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence],
-    status: '原1207个主体代表图历史证据保留；新增装备技能代表图两批共8项复用另列，不宣称全部对象已整体重验',
+    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses,
+    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence],
+    status: '原1207个主体代表图历史证据保留；新增装备技能代表图三批共14项复用另列，不宣称全部对象已整体重验',
     browserCacheRecords: 3202, browserReadFailures: 0,
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },

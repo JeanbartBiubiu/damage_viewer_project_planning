@@ -1,0 +1,3111 @@
+{
+  "checkedAt": "2026-09-07T17:20:44.359Z",
+  "records": [
+    {
+      "equipmentKey": "item_1054",
+      "skillKey": "item_1054_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_1054_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_1054_passive",
+            "name": "多兰之盾·耐久专注",
+            "description": "保存受英雄伤害后的8秒回复参数、近战40与远程30的回复上限、群体或周期伤害的治疗效能。已损失生命到总回复量的函数与刷新接线待补。每5秒固定4点回复已归入装备hp_regen直接属性，小兵额外伤害按本轮范围排除。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:41.676872Z",
+            "description": "保存受英雄伤害后的8秒回复参数、近战40与远程30的回复上限、群体或周期伤害的治疗效能。已损失生命到总回复量的函数与刷新接线待补。每5秒固定4点回复已归入装备hp_regen直接属性，小兵额外伤害按本轮范围排除。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "多兰之盾·耐久专注",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_1054_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T17:17:20.477423Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_1054_passive/parameters/hero_damage_regen_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "hero_damage_regen_duration_ms",
+            "name": "受击回复持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "description": "承受英雄伤害后的回复持续时间，单位：毫秒。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:42.453758Z",
+            "description": "承受英雄伤害后的回复持续时间，单位：毫秒。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "受击回复持续时间",
+            "parameterKey": "hero_damage_regen_duration_ms",
+            "skillKey": "item_1054_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:44:42.453758Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_1054_passive/parameters/hero_damage_regen_cap_melee",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "hero_damage_regen_cap_melee",
+            "name": "近战受击回复上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "受击回复近战上限，单位：生命点。具体函数待证。",
+            "sortOrder": 30
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:42.881565Z",
+            "description": "受击回复近战上限，单位：生命点。具体函数待证。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战受击回复上限",
+            "parameterKey": "hero_damage_regen_cap_melee",
+            "skillKey": "item_1054_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:44:42.881565Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_1054_passive/parameters/hero_damage_regen_cap_ranged",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "hero_damage_regen_cap_ranged",
+            "name": "远程受击回复上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "受击回复远程上限，单位：生命点；不是0.66乘近战上限。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:43.212429Z",
+            "description": "受击回复远程上限，单位：生命点；不是0.66乘近战上限。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程受击回复上限",
+            "parameterKey": "hero_damage_regen_cap_ranged",
+            "skillKey": "item_1054_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:44:43.212429Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_1054_passive/parameters/area_periodic_heal_efficiency",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "area_periodic_heal_efficiency",
+            "name": "群体周期治疗效能",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6600000262260437,
+            "levelValues": null,
+            "description": "群体或周期伤害触发的治疗效能，小数1表示100%；不作为远程上限。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:43.621936Z",
+            "description": "群体或周期伤害触发的治疗效能，小数1表示100%；不作为远程上限。",
+            "fixedValue": 0.6600000262260437,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "群体周期治疗效能",
+            "parameterKey": "area_periodic_heal_efficiency",
+            "skillKey": "item_1054_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:44:43.621936Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_1054",
+        "equipmentName": "多兰之盾",
+        "gameId": "lol",
+        "skillKey": "item_1054_passive",
+        "skillName": "多兰之盾·耐久专注",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_1054"
+    },
+    {
+      "equipmentKey": "item_3153",
+      "skillKey": "item_3153_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_3153_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_3153_passive",
+            "name": "破败王者之刃·雾之锋与抓挠之影",
+            "description": "保存当前生命值百分比普攻额外物理伤害的近战与远程分支，以及三次攻击英雄后的30%减速1秒和冷却15秒参数。攻击计数窗口字段存在但当前脚本读取、目标独立计数和切换目标行为未证。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:46.638094Z",
+            "description": "保存当前生命值百分比普攻额外物理伤害的近战与远程分支，以及三次攻击英雄后的30%减速1秒和冷却15秒参数。攻击计数窗口字段存在但当前脚本读取、目标独立计数和切换目标行为未证。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "破败王者之刃·雾之锋与抓挠之影",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3153_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T17:17:20.872751Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/on_hit_damage_ratio_melee",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "on_hit_damage_ratio_melee",
+            "name": "近战当前生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.09000000357627869,
+            "levelValues": null,
+            "description": "目标当前生命值的额外物理伤害比例，小数1表示100%。",
+            "sortOrder": 10
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:47.039944Z",
+            "description": "目标当前生命值的额外物理伤害比例，小数1表示100%。",
+            "fixedValue": 0.09000000357627869,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战当前生命伤害比例",
+            "parameterKey": "on_hit_damage_ratio_melee",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:44:47.039944Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/on_hit_damage_ratio_ranged",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "on_hit_damage_ratio_ranged",
+            "name": "远程当前生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.05999999865889549,
+            "levelValues": null,
+            "description": "目标当前生命值的额外物理伤害比例，小数1表示100%。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:47.431762Z",
+            "description": "目标当前生命值的额外物理伤害比例，小数1表示100%。",
+            "fixedValue": 0.05999999865889549,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程当前生命伤害比例",
+            "parameterKey": "on_hit_damage_ratio_ranged",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:44:47.431762Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/attack_counter_window_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "attack_counter_window_ms",
+            "name": "攻击计数原始窗口",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端原始字段AttackCounterDuration=6秒；当前生效脚本是否读取、计时起点和刷新方式未证，不作为已确认规则。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:48.136149Z",
+            "description": "客户端原始字段AttackCounterDuration=6秒；当前生效脚本是否读取、计时起点和刷新方式未证，不作为已确认规则。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "攻击计数原始窗口",
+            "parameterKey": "attack_counter_window_ms",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:44:48.136149Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/slow_ratio",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "slow_ratio",
+            "name": "三次攻击减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.30000001192092896,
+            "levelValues": null,
+            "description": "三次攻击英雄后的减速比例，小数0.3表示30%。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:48.462103Z",
+            "description": "三次攻击英雄后的减速比例，小数0.3表示30%。",
+            "fixedValue": 0.30000001192092896,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "三次攻击减速比例",
+            "parameterKey": "slow_ratio",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:44:48.462103Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/slow_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "slow_duration_ms",
+            "name": "减速持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "减速持续时间，单位：毫秒。",
+            "sortOrder": 60
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:48.833654Z",
+            "description": "减速持续时间，单位：毫秒。",
+            "fixedValue": 1000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "减速持续时间",
+            "parameterKey": "slow_duration_ms",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:44:48.833654Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/parameters/slow_cooldown_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "slow_cooldown_ms",
+            "name": "抓挠之影冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15000,
+            "levelValues": null,
+            "description": "抓挠之影冷却时间，单位：毫秒。",
+            "sortOrder": 70
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:49.173155Z",
+            "description": "抓挠之影冷却时间，单位：毫秒。",
+            "fixedValue": 15000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "抓挠之影冷却",
+            "parameterKey": "slow_cooldown_ms",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T16:44:49.173155Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/formulas/on_hit_damage_melee",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "on_hit_damage_melee",
+            "name": "近战当前生命值额外伤害",
+            "description": "目标当前生命值乘以近战9%比例。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_damage_ratio_melee"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "CURRENT"
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:49.580413Z",
+            "description": "目标当前生命值乘以近战9%比例。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_damage_ratio_melee"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "TARGET",
+                  "attributeValueKind": "CURRENT",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "on_hit_damage_melee",
+            "gameId": "lol",
+            "name": "近战当前生命值额外伤害",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:44:49.580413Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/formulas/on_hit_damage_ranged",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "on_hit_damage_ranged",
+            "name": "远程当前生命值额外伤害",
+            "description": "目标当前生命值乘以远程6%比例。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_damage_ratio_ranged"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "CURRENT"
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:49.972634Z",
+            "description": "目标当前生命值乘以远程6%比例。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_damage_ratio_ranged"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "TARGET",
+                  "attributeValueKind": "CURRENT",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "on_hit_damage_ranged",
+            "gameId": "lol",
+            "name": "远程当前生命值额外伤害",
+            "skillKey": "item_3153_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:44:49.972634Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/effects/on_hit_damage_melee",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "on_hit_damage_melee",
+            "name": "近战雾之锋伤害",
+            "description": "目标当前生命值9%的额外物理伤害；普攻触发和小兵野怪上限分支待接。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "近战当前生命额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "目标当前生命值9%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "on_hit_damage_melee"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:50.303687Z",
+            "description": "目标当前生命值9%的额外物理伤害；普攻触发和小兵野怪上限分支待接。",
+            "effectKey": "on_hit_damage_melee",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "近战雾之锋伤害",
+            "results": [
+              {
+                "description": "目标当前生命值9%。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "近战当前生命额外物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage_melee",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3153_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:44:50.303687Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3153_passive/effects/on_hit_damage_ranged",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "on_hit_damage_ranged",
+            "name": "远程雾之锋伤害",
+            "description": "目标当前生命值6%的额外物理伤害；普攻触发和小兵野怪上限分支待接。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "远程当前生命额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "目标当前生命值6%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "on_hit_damage_ranged"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:50.677764Z",
+            "description": "目标当前生命值6%的额外物理伤害；普攻触发和小兵野怪上限分支待接。",
+            "effectKey": "on_hit_damage_ranged",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "远程雾之锋伤害",
+            "results": [
+              {
+                "description": "目标当前生命值6%。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "远程当前生命额外物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage_ranged",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3153_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:44:50.677764Z"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_3153",
+        "equipmentName": "破败王者之刃",
+        "gameId": "lol",
+        "skillKey": "item_3153_passive",
+        "skillName": "破败王者之刃·雾之锋与抓挠之影",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_3153"
+    },
+    {
+      "equipmentKey": "item_3155",
+      "skillKey": "item_3155_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_3155_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_3155_passive",
+            "name": "海克斯饮魔刀·救主灵刃",
+            "description": "保存魔法伤害将生命值压到30%以下时获得魔法伤害护盾、护盾持续2.5秒和冷却90秒，以及客户端近战护盾等级插值起值110、终值280、远程乘75%的参数。等级插值默认范围和逐等级计算尚未证，未将起终值冒充固定护盾。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:51.912805Z",
+            "description": "保存魔法伤害将生命值压到30%以下时获得魔法伤害护盾、护盾持续2.5秒和冷却90秒，以及客户端近战护盾等级插值起值110、终值280、远程乘75%的参数。等级插值默认范围和逐等级计算尚未证，未将起终值冒充固定护盾。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "海克斯饮魔刀·救主灵刃",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3155_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T16:44:51.912805Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/low_health_threshold",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "low_health_threshold",
+            "name": "低生命阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.30000001192092896,
+            "levelValues": null,
+            "description": "受到将使生命值跌至30%以下的魔法伤害时触发，小数1表示100%。",
+            "sortOrder": 10
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:52.274905Z",
+            "description": "受到将使生命值跌至30%以下的魔法伤害时触发，小数1表示100%。",
+            "fixedValue": 0.30000001192092896,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "低生命阈值",
+            "parameterKey": "low_health_threshold",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T17:17:21.219466Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/shield_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_duration_ms",
+            "name": "魔法护盾持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "护盾持续时间，单位：毫秒。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:52.663914Z",
+            "description": "护盾持续时间，单位：毫秒。",
+            "fixedValue": 2500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "魔法护盾持续时间",
+            "parameterKey": "shield_duration_ms",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:44:52.663914Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/cooldown_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "cooldown_ms",
+            "name": "救主灵刃冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "冷却时间，单位：毫秒。",
+            "sortOrder": 30
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:52.993787Z",
+            "description": "冷却时间，单位：毫秒。",
+            "fixedValue": 90000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃冷却",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:44:52.993787Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/melee_shield_start",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "melee_shield_start",
+            "name": "近战护盾插值起值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 110,
+            "levelValues": null,
+            "description": "客户端等级插值起值，单位：护盾点；不是固定护盾。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:53.343569Z",
+            "description": "客户端等级插值起值，单位：护盾点；不是固定护盾。",
+            "fixedValue": 110,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战护盾插值起值",
+            "parameterKey": "melee_shield_start",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:44:53.343569Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/melee_shield_end",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "melee_shield_end",
+            "name": "近战护盾插值终值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 280,
+            "levelValues": null,
+            "description": "客户端等级插值终值，单位：护盾点；默认等级范围待证。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:53.679829Z",
+            "description": "客户端等级插值终值，单位：护盾点；默认等级范围待证。",
+            "fixedValue": 280,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战护盾插值终值",
+            "parameterKey": "melee_shield_end",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:44:53.679829Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3155_passive/parameters/ranged_shield_multiplier",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "ranged_shield_multiplier",
+            "name": "远程护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "远程护盾为近战计算结果的75%，小数1表示100%。",
+            "sortOrder": 60
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:54.181468Z",
+            "description": "远程护盾为近战计算结果的75%，小数1表示100%。",
+            "fixedValue": 0.75,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程护盾倍率",
+            "parameterKey": "ranged_shield_multiplier",
+            "skillKey": "item_3155_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:44:54.181468Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_3155",
+        "equipmentName": "海克斯饮魔刀",
+        "gameId": "lol",
+        "skillKey": "item_3155_passive",
+        "skillName": "海克斯饮魔刀·救主灵刃",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_3155"
+    },
+    {
+      "equipmentKey": "item_3156",
+      "skillKey": "item_3156_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_3156_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_3156_passive",
+            "name": "玛莫提乌斯之噬·救主灵刃",
+            "description": "保存魔法伤害低于30%生命阈值触发、近战200加150%额外攻击力魔法护盾、远程75%分支、护盾3秒、冷却90秒及10%全能吸血组成。全能吸血持续到战斗状态结束，但战斗状态进入、续期、退出与原始BuffDuration/BuffExtension的读取关系未证。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:55.423142Z",
+            "description": "保存魔法伤害低于30%生命阈值触发、近战200加150%额外攻击力魔法护盾、远程75%分支、护盾3秒、冷却90秒及10%全能吸血组成。全能吸血持续到战斗状态结束，但战斗状态进入、续期、退出与原始BuffDuration/BuffExtension的读取关系未证。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "玛莫提乌斯之噬·救主灵刃",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3156_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T16:44:55.423142Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/shield_base",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_base",
+            "name": "近战护盾基础值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 200,
+            "levelValues": null,
+            "description": "近战护盾基础值，单位：护盾点。",
+            "sortOrder": 10
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:55.808942Z",
+            "description": "近战护盾基础值，单位：护盾点。",
+            "fixedValue": 200,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战护盾基础值",
+            "parameterKey": "shield_base",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:44:55.808942Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/low_health_threshold",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "low_health_threshold",
+            "name": "低生命阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.30000001192092896,
+            "levelValues": null,
+            "description": "受到将使生命值跌至30%以下的魔法伤害时触发，小数1表示100%。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:56.139902Z",
+            "description": "受到将使生命值跌至30%以下的魔法伤害时触发，小数1表示100%。",
+            "fixedValue": 0.30000001192092896,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "低生命阈值",
+            "parameterKey": "low_health_threshold",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:17:22.72638Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/shield_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "魔法伤害护盾持续时间，单位：毫秒。",
+            "sortOrder": 30
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:56.540937Z",
+            "description": "魔法伤害护盾持续时间，单位：毫秒。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾持续时间",
+            "parameterKey": "shield_duration_ms",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:44:56.540937Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/shield_bonus_ad_ratio",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_bonus_ad_ratio",
+            "name": "额外攻击力护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.5,
+            "levelValues": null,
+            "description": "近战护盾对额外攻击力的倍率，小数1表示100%。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:56.893379Z",
+            "description": "近战护盾对额外攻击力的倍率，小数1表示100%。",
+            "fixedValue": 1.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "额外攻击力护盾倍率",
+            "parameterKey": "shield_bonus_ad_ratio",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:44:56.893379Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/ranged_shield_multiplier",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "ranged_shield_multiplier",
+            "name": "远程护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "远程护盾为近战计算结果的75%，小数1表示100%。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:57.247777Z",
+            "description": "远程护盾为近战计算结果的75%，小数1表示100%。",
+            "fixedValue": 0.75,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程护盾倍率",
+            "parameterKey": "ranged_shield_multiplier",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:44:57.247777Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/omnivamp_bonus",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "omnivamp_bonus",
+            "name": "全能吸血增加",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.10000000149011612,
+            "levelValues": null,
+            "description": "救主灵刃触发后增加10%全能吸血，小数1表示100%。",
+            "sortOrder": 60
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:57.661369Z",
+            "description": "救主灵刃触发后增加10%全能吸血，小数1表示100%。",
+            "fixedValue": 0.10000000149011612,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "全能吸血增加",
+            "parameterKey": "omnivamp_bonus",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:44:57.661369Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/cooldown_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "cooldown_ms",
+            "name": "救主灵刃冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "冷却时间，单位：毫秒。",
+            "sortOrder": 70
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:57.980678Z",
+            "description": "冷却时间，单位：毫秒。",
+            "fixedValue": 90000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃冷却",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T16:44:57.980678Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/source_buff_duration_s",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "source_buff_duration_s",
+            "name": "客户端原始BuffDuration",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5,
+            "levelValues": null,
+            "description": "客户端原始字段；当前绑定文案未证明它就是脱战判定时长，不直接用于效果生命周期。",
+            "sortOrder": 80
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:58.357297Z",
+            "description": "客户端原始字段；当前绑定文案未证明它就是脱战判定时长，不直接用于效果生命周期。",
+            "fixedValue": 5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "客户端原始BuffDuration",
+            "parameterKey": "source_buff_duration_s",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-07T16:44:58.357297Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/parameters/source_buff_extension_s",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "source_buff_extension_s",
+            "name": "客户端原始BuffExtension",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "客户端原始字段；当前绑定关系未证明其刷新规则，不直接用于效果生命周期。",
+            "sortOrder": 90
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:58.682981Z",
+            "description": "客户端原始字段；当前绑定关系未证明其刷新规则，不直接用于效果生命周期。",
+            "fixedValue": 3,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "客户端原始BuffExtension",
+            "parameterKey": "source_buff_extension_s",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 90,
+            "updatedAt": "2026-09-07T16:44:58.682981Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/formulas/shield_melee",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "shield_melee",
+            "name": "近战魔法护盾",
+            "description": "200加额外攻击力的150%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "SUBTRACT",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BASE"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:44:59.065404Z",
+            "description": "200加额外攻击力的150%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BASE",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "SUBTRACT"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "shield_melee",
+            "gameId": "lol",
+            "name": "近战魔法护盾",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:44:59.065404Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/formulas/shield_ranged",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "shield_ranged",
+            "name": "远程魔法护盾",
+            "description": "近战护盾计算结果乘75%。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_shield_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "TOTAL"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BASE"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:45:27.842599Z",
+            "description": "近战护盾计算结果乘75%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_shield_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "attributeKey": "attack_damage",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            },
+                            {
+                              "attributeKey": "attack_damage",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "BASE",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "SUBTRACT"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "shield_ranged",
+            "gameId": "lol",
+            "name": "远程魔法护盾",
+            "skillKey": "item_3156_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:45:27.842599Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/effects/shield_melee",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "shield_melee",
+            "name": "近战救主魔法护盾",
+            "description": "近战分支：200加额外攻击力150%的魔法护盾，持续3秒。触发时的来源对象近战/远程攻击类型分支待接。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "近战魔法护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": "200加额外攻击力150%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_melee"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:45:28.189943Z",
+            "description": "近战分支：200加额外攻击力150%的魔法护盾，持续3秒。触发时的来源对象近战/远程攻击类型分支待接。",
+            "effectKey": "shield_melee",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "近战救主魔法护盾",
+            "results": [
+              {
+                "description": "200加额外攻击力150%。",
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "近战魔法护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield_melee",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3156_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T17:17:21.534344Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/effects/shield_ranged",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "shield_ranged",
+            "name": "远程救主魔法护盾",
+            "description": "远程分支：近战护盾计算结果75%，持续3秒。触发时的来源对象近战/远程攻击类型分支待接。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "远程魔法护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": "近战护盾计算结果乘75%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_ranged"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:45:28.597546Z",
+            "description": "远程分支：近战护盾计算结果75%，持续3秒。触发时的来源对象近战/远程攻击类型分支待接。",
+            "effectKey": "shield_ranged",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "远程救主魔法护盾",
+            "results": [
+              {
+                "description": "近战护盾计算结果乘75%。",
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "远程魔法护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield_ranged",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3156_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:17:22.137159Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_3156_passive/effects/omnivamp_bonus",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "omnivamp_bonus",
+            "name": "救主全能吸血增加",
+            "description": "触发后增加10%全能吸血；战斗状态结束的移除时点未接线，因此保留为可独立配置的效果组成。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "omnivamp",
+                "name": "全能吸血增加",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": "增加10%全能吸血。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "omnivamp_bonus"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "omnivamp_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:31.851058Z",
+            "description": "触发后增加10%全能吸血；战斗状态结束的移除时点未接线，因此保留为可独立配置的效果组成。",
+            "effectKey": "omnivamp_bonus",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": null,
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "救主全能吸血增加",
+            "results": [
+              {
+                "description": "增加10%全能吸血。",
+                "detail": {
+                  "attributeKey": "omnivamp_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "全能吸血增加",
+                "resultKey": "omnivamp",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "omnivamp_bonus"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3156_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:55:31.851058Z"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_3156",
+        "equipmentName": "玛莫提乌斯之噬",
+        "gameId": "lol",
+        "skillKey": "item_3156_passive",
+        "skillName": "玛莫提乌斯之噬·救主灵刃",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_3156"
+    },
+    {
+      "equipmentKey": "item_6673",
+      "skillKey": "item_6673_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_6673_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_6673_passive",
+            "name": "不朽盾弓·救主灵刃",
+            "description": "保存任意伤害将生命值压到30%以下时触发、护盾持续3秒、冷却90秒，以及客户端等级分段护盾原始字段：1级400、9级分段点、此后每级增加30、远程乘80%。分段计算器和外层计算类型语义尚未核对，未将400或8秒旧字段误作完整效果。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:33.131966Z",
+            "description": "保存任意伤害将生命值压到30%以下时触发、护盾持续3秒、冷却90秒，以及客户端等级分段护盾原始字段：1级400、9级分段点、此后每级增加30、远程乘80%。分段计算器和外层计算类型语义尚未核对，未将400或8秒旧字段误作完整效果。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "不朽盾弓·救主灵刃",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_6673_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T16:55:33.131966Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/health_threshold",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "health_threshold",
+            "name": "低生命阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.30000001192092896,
+            "levelValues": null,
+            "description": "受到伤害后生命值低于30%时触发，小数1表示100%。",
+            "sortOrder": 10
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:33.483202Z",
+            "description": "受到伤害后生命值低于30%时触发，小数1表示100%。",
+            "fixedValue": 0.30000001192092896,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "低生命阈值",
+            "parameterKey": "health_threshold",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:55:33.483202Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/shield_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "护盾持续时间，单位：毫秒。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:33.890262Z",
+            "description": "护盾持续时间，单位：毫秒。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾持续时间",
+            "parameterKey": "shield_duration_ms",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:55:33.890262Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/cooldown_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "cooldown_ms",
+            "name": "救主灵刃冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "冷却时间，单位：毫秒。",
+            "sortOrder": 30
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:34.220039Z",
+            "description": "冷却时间，单位：毫秒。",
+            "fixedValue": 90000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃冷却",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:55:34.220039Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/shield_level_one",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_level_one",
+            "name": "一级护盾原始值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 400,
+            "levelValues": null,
+            "description": "客户端分段计算的1级起值，单位：护盾点；不是所有等级固定值。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:34.678089Z",
+            "description": "客户端分段计算的1级起值，单位：护盾点；不是所有等级固定值。",
+            "fixedValue": 400,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "一级护盾原始值",
+            "parameterKey": "shield_level_one",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:55:34.678089Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/shield_level_breakpoint",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_level_breakpoint",
+            "name": "护盾等级分段点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 9,
+            "levelValues": null,
+            "description": "客户端分段计算的等级分段点。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:34.996345Z",
+            "description": "客户端分段计算的等级分段点。",
+            "fixedValue": 9,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾等级分段点",
+            "parameterKey": "shield_level_breakpoint",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:55:34.996345Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/shield_bonus_per_level",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_bonus_per_level",
+            "name": "分段后每级增加",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "分段点及之后每级增加的护盾值，单位：护盾点。",
+            "sortOrder": 60
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:35.373584Z",
+            "description": "分段点及之后每级增加的护盾值，单位：护盾点。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "分段后每级增加",
+            "parameterKey": "shield_bonus_per_level",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:55:35.373584Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6673_passive/parameters/ranged_shield_multiplier",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "ranged_shield_multiplier",
+            "name": "远程护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "远程护盾为近战计算结果的80%，小数1表示100%。",
+            "sortOrder": 70
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:35.738927Z",
+            "description": "远程护盾为近战计算结果的80%，小数1表示100%。",
+            "fixedValue": 0.8,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程护盾倍率",
+            "parameterKey": "ranged_shield_multiplier",
+            "skillKey": "item_6673_passive",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T16:55:35.738927Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_6673",
+        "equipmentName": "不朽盾弓",
+        "gameId": "lol",
+        "skillKey": "item_6673_passive",
+        "skillName": "不朽盾弓·救主灵刃",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_6673"
+    },
+    {
+      "equipmentKey": "item_6692",
+      "skillKey": "item_6692_passive",
+      "components": [
+        {
+          "endpoint": "/skills/item_6692_passive",
+          "kind": "skills",
+          "expected": {
+            "skillKey": "item_6692_passive",
+            "name": "星蚀·永升之月",
+            "description": "保存2秒内两次独立攻击或技能命中同一英雄后的目标最大生命值物理伤害、近战与远程护盾公式、护盾持续2秒和冷却6秒。持续伤害、同一技能多段及复合攻击的独立命中去重规则未证，因此本批不把触发条件扩大为任意命中。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:36.815363Z",
+            "description": "保存2秒内两次独立攻击或技能命中同一英雄后的目标最大生命值物理伤害、近战与远程护盾公式、护盾持续2秒和冷却6秒。持续伤害、同一技能多段及复合攻击的独立命中去重规则未证，因此本批不把触发条件扩大为任意命中。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "星蚀·永升之月",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_6692_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T16:55:36.815363Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/trigger_window_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "trigger_window_ms",
+            "name": "独立命中触发窗口",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "两次独立攻击或技能命中的时间窗口，单位：毫秒。",
+            "sortOrder": 10
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:37.206983Z",
+            "description": "两次独立攻击或技能命中的时间窗口，单位：毫秒。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "独立命中触发窗口",
+            "parameterKey": "trigger_window_ms",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:55:37.206983Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/required_independent_hits",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "required_independent_hits",
+            "name": "所需独立命中次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "同一英雄需要的独立攻击或技能命中次数。",
+            "sortOrder": 20
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:37.548163Z",
+            "description": "同一英雄需要的独立攻击或技能命中次数。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "所需独立命中次数",
+            "parameterKey": "required_independent_hits",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:55:37.548163Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/melee_max_hp_damage_ratio",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "melee_max_hp_damage_ratio",
+            "name": "近战最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.0799999982118607,
+            "levelValues": null,
+            "description": "目标最大生命值的物理伤害比例，小数1表示100%。",
+            "sortOrder": 30
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:37.90845Z",
+            "description": "目标最大生命值的物理伤害比例，小数1表示100%。",
+            "fixedValue": 0.0799999982118607,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战最大生命伤害比例",
+            "parameterKey": "melee_max_hp_damage_ratio",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:55:37.90845Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/ranged_max_hp_damage_multiplier",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "ranged_max_hp_damage_multiplier",
+            "name": "远程最大生命伤害倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.625,
+            "levelValues": null,
+            "description": "远程为近战最大生命伤害的62.5%，小数1表示100%。",
+            "sortOrder": 40
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:38.276913Z",
+            "description": "远程为近战最大生命伤害的62.5%，小数1表示100%。",
+            "fixedValue": 0.625,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程最大生命伤害倍率",
+            "parameterKey": "ranged_max_hp_damage_multiplier",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:55:38.276913Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/shield_base",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_base",
+            "name": "近战护盾基础值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 150,
+            "levelValues": null,
+            "description": "近战护盾基础值，单位：护盾点。",
+            "sortOrder": 50
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:38.608477Z",
+            "description": "近战护盾基础值，单位：护盾点。",
+            "fixedValue": 150,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "近战护盾基础值",
+            "parameterKey": "shield_base",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:55:38.608477Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/shield_bonus_ad_ratio",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_bonus_ad_ratio",
+            "name": "额外攻击力护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4000000059604645,
+            "levelValues": null,
+            "description": "近战护盾对额外攻击力的倍率，小数1表示100%。",
+            "sortOrder": 60
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:38.99608Z",
+            "description": "近战护盾对额外攻击力的倍率，小数1表示100%。",
+            "fixedValue": 0.4000000059604645,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "额外攻击力护盾倍率",
+            "parameterKey": "shield_bonus_ad_ratio",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:55:38.99608Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/ranged_shield_multiplier",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "ranged_shield_multiplier",
+            "name": "远程护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "远程护盾为近战计算结果的50%，小数1表示100%。",
+            "sortOrder": 70
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:39.316091Z",
+            "description": "远程护盾为近战计算结果的50%，小数1表示100%。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "远程护盾倍率",
+            "parameterKey": "ranged_shield_multiplier",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T16:55:39.316091Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/shield_duration_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "护盾持续时间，单位：毫秒。",
+            "sortOrder": 80
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:39.659006Z",
+            "description": "护盾持续时间，单位：毫秒。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾持续时间",
+            "parameterKey": "shield_duration_ms",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-07T16:55:39.659006Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/parameters/cooldown_ms",
+          "kind": "parameters",
+          "expected": {
+            "parameterKey": "cooldown_ms",
+            "name": "永升之月冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "冷却时间，单位：毫秒。",
+            "sortOrder": 90
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:39.965706Z",
+            "description": "冷却时间，单位：毫秒。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "永升之月冷却",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 90,
+            "updatedAt": "2026-09-07T16:55:39.965706Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/formulas/max_hp_damage_melee",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "max_hp_damage_melee",
+            "name": "近战最大生命值伤害",
+            "description": "目标最大生命值乘以8%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "melee_max_hp_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:40.357036Z",
+            "description": "目标最大生命值乘以8%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "melee_max_hp_damage_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "TARGET",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "max_hp_damage_melee",
+            "gameId": "lol",
+            "name": "近战最大生命值伤害",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:55:40.357036Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/formulas/max_hp_damage_ranged",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "max_hp_damage_ranged",
+            "name": "远程最大生命值伤害",
+            "description": "近战最大生命值伤害乘远程62.5%倍率。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_max_hp_damage_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "melee_max_hp_damage_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:40.716006Z",
+            "description": "近战最大生命值伤害乘远程62.5%倍率。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_max_hp_damage_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "melee_max_hp_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "max_hp_damage_ranged",
+            "gameId": "lol",
+            "name": "远程最大生命值伤害",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:55:40.716006Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/formulas/shield_melee",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "shield_melee",
+            "name": "近战星蚀护盾",
+            "description": "150加额外攻击力40%。",
+            "sortOrder": 30,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "SUBTRACT",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BASE"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:41.119416Z",
+            "description": "150加额外攻击力40%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BASE",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "SUBTRACT"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "shield_melee",
+            "gameId": "lol",
+            "name": "近战星蚀护盾",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:55:41.119416Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/formulas/shield_ranged",
+          "kind": "formulas",
+          "expected": {
+            "formulaKey": "shield_ranged",
+            "name": "远程星蚀护盾",
+            "description": "近战护盾计算结果乘50%。",
+            "sortOrder": 40,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_shield_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "TOTAL"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BASE"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:41.507842Z",
+            "description": "近战护盾计算结果乘50%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_shield_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "attributeKey": "attack_damage",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            },
+                            {
+                              "attributeKey": "attack_damage",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "BASE",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "SUBTRACT"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "shield_ranged",
+            "gameId": "lol",
+            "name": "远程星蚀护盾",
+            "skillKey": "item_6692_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:55:41.507842Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/effects/max_hp_damage_melee",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "max_hp_damage_melee",
+            "name": "近战永升之月伤害",
+            "description": "触发后造成目标最大生命值8%的物理伤害；两次独立命中去重规则待接。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "近战最大生命物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "目标最大生命值8%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "max_hp_damage_melee"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:41.858197Z",
+            "description": "触发后造成目标最大生命值8%的物理伤害；两次独立命中去重规则待接。",
+            "effectKey": "max_hp_damage_melee",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "近战永升之月伤害",
+            "results": [
+              {
+                "description": "目标最大生命值8%。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "近战最大生命物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "max_hp_damage_melee",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_6692_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:55:41.858197Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/effects/max_hp_damage_ranged",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "max_hp_damage_ranged",
+            "name": "远程永升之月伤害",
+            "description": "触发后造成目标最大生命值5%的物理伤害；两次独立命中去重规则待接。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "远程最大生命物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "目标最大生命值5%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "max_hp_damage_ranged"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:42.20619Z",
+            "description": "触发后造成目标最大生命值5%的物理伤害；两次独立命中去重规则待接。",
+            "effectKey": "max_hp_damage_ranged",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "远程永升之月伤害",
+            "results": [
+              {
+                "description": "目标最大生命值5%。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "远程最大生命物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "max_hp_damage_ranged",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_6692_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:55:42.20619Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/effects/shield_melee",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "shield_melee",
+            "name": "近战永升之月护盾",
+            "description": "近战分支：150加额外攻击力40%，持续2秒。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "近战星蚀护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": "150加额外攻击力40%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_melee"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:42.564477Z",
+            "description": "近战分支：150加额外攻击力40%，持续2秒。",
+            "effectKey": "shield_melee",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "近战永升之月护盾",
+            "results": [
+              {
+                "description": "150加额外攻击力40%。",
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "近战星蚀护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield_melee",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_6692_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:55:42.564477Z"
+          },
+          "matches": true
+        },
+        {
+          "endpoint": "/skills/item_6692_passive/effects/shield_ranged",
+          "kind": "effects",
+          "expected": {
+            "effectKey": "shield_ranged",
+            "name": "远程永升之月护盾",
+            "description": "远程分支：近战护盾计算结果50%，持续2秒。",
+            "sortOrder": 40,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "远程星蚀护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": "近战护盾计算结果乘50%。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_ranged"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-07T16:55:42.946071Z",
+            "description": "远程分支：近战护盾计算结果50%，持续2秒。",
+            "effectKey": "shield_ranged",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "远程永升之月护盾",
+            "results": [
+              {
+                "description": "近战护盾计算结果乘50%。",
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "远程星蚀护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield_ranged",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_6692_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:55:42.946071Z"
+          },
+          "matches": true
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_6692",
+        "equipmentName": "星蚀",
+        "gameId": "lol",
+        "skillKey": "item_6692_passive",
+        "skillName": "星蚀·永升之月",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "imageKey": "item_6692"
+    }
+  ],
+  "components": 76,
+  "counts": {
+    "skills": 6,
+    "parameters": 41,
+    "formulas": 8,
+    "effects": 9,
+    "triggerRules": 0,
+    "equipmentRelations": 6,
+    "representativeImageReuses": 6
+  },
+  "passed": true,
+  "status": "部分录入，完整触发及待核公式继续处理",
+  "runtimeValidation": "未执行",
+  "directAttributeCorrection": {
+    "attributeValues": {
+      "hp": 110,
+      "hp_regen": 4
+    },
+    "equipmentKey": "item_1054"
+  },
+  "removedComponentsAbsent": 6,
+  "browser": {
+    "checkedAt": "2026-09-08",
+    "observations": [
+      "技能列表显示玛莫提乌斯代表图",
+      "近战魔法护盾为施法者、按来源对象、持续时间参数、magic专用护盾",
+      "多兰盾装备属性显示生命110、每5秒生命回复4",
+      "多兰盾挂载item_1054_passive，名称耐久专注、启用、排序10"
+    ]
+  }
+}
