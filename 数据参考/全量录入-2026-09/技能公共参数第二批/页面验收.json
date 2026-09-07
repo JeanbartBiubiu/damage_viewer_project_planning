@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-08",
+  "method": "主负责人通过CUA操作真实浏览器，查询技能并打开参数与公式窗口",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "checks": [
+    {"skillKey":"kassadin_r","representativeImageVisible":true,"manaCost":40,"cooldownMs":[5000,3500,2000],"detailDescriptionVerified":"此40法力仅为零层数基础消耗，连续施放的层数倍率另行配置。","passed":true},
+    {"skillKey":"ryze_q","representativeImageVisible":true,"cooldownMs":5000,"manaCostBySkillLevel":[40,38,36,34,32],"passed":true}
+  ],
+  "uiObservation":"嵌套窗口关闭有短暂过渡；等待详情隐藏后再关闭父窗口并查询，未修改业务数据。",
+  "runtimeValidation":"未执行"
+}

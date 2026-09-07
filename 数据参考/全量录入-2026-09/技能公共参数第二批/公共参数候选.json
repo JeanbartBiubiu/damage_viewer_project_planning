@@ -1,0 +1,6040 @@
+{
+  "generatedAt": "2026-09-07T17:38:17.419Z",
+  "selectedHeroes": [
+    "Amumu",
+    "Malzahar",
+    "Gragas",
+    "Karthus",
+    "Kassadin",
+    "Kennen",
+    "Lissandra",
+    "Nautilus",
+    "Orianna",
+    "Rammus",
+    "Renekton",
+    "Rumble",
+    "Ryze",
+    "Sion",
+    "Skarner",
+    "Syndra"
+  ],
+  "excludedSkillFields": [
+    {
+      "skillKey": "amumu_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "amumu_w",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "amumu_w",
+      "field": "mana_cost",
+      "status": "待核对",
+      "reason": "资源文字不是明确的单次法力消耗，需另核对持续扣除/动态消耗。",
+      "resource": "每秒{{ cost }}{{ abilityresourcename }}"
+    },
+    {
+      "skillKey": "malzahar_w",
+      "status": "范围外跳过",
+      "reason": "约定后置：虚空虫群独立召唤物；本批不为其新增组成。"
+    },
+    {
+      "skillKey": "gragas_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "karthus_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "karthus_e",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "karthus_e",
+      "field": "mana_cost",
+      "status": "待核对",
+      "reason": "资源文字不是明确的单次法力消耗，需另核对持续扣除/动态消耗。",
+      "resource": "每秒{{ cost }}法力"
+    },
+    {
+      "skillKey": "kennen_q",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为能量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "kennen_w",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为能量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "kennen_e",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "kennen_e",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为能量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "kennen_r",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为能量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "lissandra_e",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "rammus_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "rammus_w",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "renekton_q",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为怒气，不建立法力消耗。"
+    },
+    {
+      "skillKey": "renekton_w",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为怒气，不建立法力消耗。"
+    },
+    {
+      "skillKey": "renekton_e",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "renekton_e",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为怒气，不建立法力消耗。"
+    },
+    {
+      "skillKey": "renekton_r",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为怒气，不建立法力消耗。"
+    },
+    {
+      "skillKey": "rumble_q",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为热量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "rumble_w",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为热量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "rumble_e",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "rumble_e",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为热量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "rumble_r",
+      "field": "mana_cost",
+      "status": "不适用",
+      "reason": "英雄资源为热量，不建立法力消耗。"
+    },
+    {
+      "skillKey": "sion_w",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "sion_w",
+      "field": "mana_cost",
+      "status": "待核对",
+      "reason": "法力缺失、为零或两来源无法逐级对齐；不自动补零。",
+      "official": [
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "client": [
+        65,
+        70,
+        75,
+        80,
+        85,
+        90
+      ]
+    },
+    {
+      "skillKey": "sion_r",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "skarner_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "syndra_q",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    },
+    {
+      "skillKey": "syndra_w",
+      "field": "cooldown_ms",
+      "status": "待核对",
+      "reason": "含充能/再施放/开关；区分施放间隔、整体冷却与充能恢复后再采用。"
+    }
+  ],
+  "entries": [
+    {
+      "championId": "Amumu",
+      "skillKey": "amumu_q",
+      "name": "绷带牵引",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Amumu.spells[0].cost",
+          "clientPointer": "Characters/Amumu/Spells/BandageTossAbility/BandageToss/mSpell/mana",
+          "officialValues": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientRawValues": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Amumu.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+          "fetchedAt": "2026-09-06T14:12:44.169Z",
+          "byteSize": 13973,
+          "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+        },
+        "client": {
+          "path": "客户端原文/Amumu.json.gz",
+          "sha256": "d4902e3cf57aace35eb28d9645bd14b394039d5345fd7c5de602b05d7f75c660",
+          "compressedSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+          "byteSize": 42103,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/amumu/amumu.bin.json",
+          "fetchedAt": "2026-09-06T14:26:12.354Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Amumu",
+      "skillKey": "amumu_w",
+      "name": "绝望光环",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Amumu.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+          "fetchedAt": "2026-09-06T14:12:44.169Z",
+          "byteSize": 13973,
+          "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+        },
+        "client": {
+          "path": "客户端原文/Amumu.json.gz",
+          "sha256": "d4902e3cf57aace35eb28d9645bd14b394039d5345fd7c5de602b05d7f75c660",
+          "compressedSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+          "byteSize": 42103,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/amumu/amumu.bin.json",
+          "fetchedAt": "2026-09-06T14:26:12.354Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Amumu",
+      "skillKey": "amumu_e",
+      "name": "阿木木的愤怒",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Amumu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 35,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Amumu.spells[2].cooldown",
+          "clientPointer": "Characters/Amumu/Spells/TantrumAbility/Tantrum/mSpell/cooldownTime",
+          "officialValues": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "clientRawValues": [
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            4
+          ],
+          "clientOffset": 1,
+          "values": [
+            9000,
+            8000,
+            7000,
+            6000,
+            5000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Amumu.spells[2].cost",
+          "clientPointer": "Characters/Amumu/Spells/TantrumAbility/Tantrum/mSpell/mana",
+          "officialValues": [
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "clientRawValues": [
+            35,
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "clientOffset": 0,
+          "values": [
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Amumu.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+          "fetchedAt": "2026-09-06T14:12:44.169Z",
+          "byteSize": 13973,
+          "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+        },
+        "client": {
+          "path": "客户端原文/Amumu.json.gz",
+          "sha256": "d4902e3cf57aace35eb28d9645bd14b394039d5345fd7c5de602b05d7f75c660",
+          "compressedSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+          "byteSize": 42103,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/amumu/amumu.bin.json",
+          "fetchedAt": "2026-09-06T14:26:12.354Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Amumu",
+      "skillKey": "amumu_r",
+      "name": "木乃伊之咒",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150000,
+            "2": 125000,
+            "3": 100000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Amumu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Amumu.spells[3].cooldown",
+          "clientPointer": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy/mSpell/cooldownTime",
+          "officialValues": [
+            150,
+            125,
+            100
+          ],
+          "clientRawValues": [
+            150,
+            150,
+            125,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 1,
+          "values": [
+            150000,
+            125000,
+            100000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Amumu.spells[3].cost",
+          "clientPointer": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy/mSpell/mana",
+          "officialValues": [
+            100,
+            150,
+            200
+          ],
+          "clientRawValues": [
+            100,
+            150,
+            200,
+            80,
+            80,
+            0
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            150,
+            200
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Amumu.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+          "fetchedAt": "2026-09-06T14:12:44.169Z",
+          "byteSize": 13973,
+          "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+        },
+        "client": {
+          "path": "客户端原文/Amumu.json.gz",
+          "sha256": "d4902e3cf57aace35eb28d9645bd14b394039d5345fd7c5de602b05d7f75c660",
+          "compressedSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+          "byteSize": 42103,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/amumu/amumu.bin.json",
+          "fetchedAt": "2026-09-06T14:26:12.354Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Malzahar",
+      "skillKey": "malzahar_q",
+      "name": "虚空召唤",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Malzahar.spells[0].cooldown",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ/mSpell/cooldownTime",
+          "officialValues": [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "clientRawValues": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            6000,
+            6000,
+            6000,
+            6000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Malzahar.spells[0].cost",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ/mSpell/mana",
+          "officialValues": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientRawValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Malzahar.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malzahar.json",
+          "fetchedAt": "2026-09-06T14:12:49.613Z",
+          "byteSize": 14092,
+          "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+        },
+        "client": {
+          "path": "客户端原文/Malzahar.json.gz",
+          "sha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+          "compressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+          "byteSize": 57674,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/malzahar/malzahar.bin.json",
+          "fetchedAt": "2026-09-06T14:26:26.689Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Malzahar",
+      "skillKey": "malzahar_e",
+      "name": "煞星幻象",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Malzahar.spells[2].cooldown",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE/mSpell/cooldownTime",
+          "officialValues": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "clientRawValues": [
+            11,
+            11,
+            10,
+            9,
+            8,
+            7,
+            7
+          ],
+          "clientOffset": 1,
+          "values": [
+            11000,
+            10000,
+            9000,
+            8000,
+            7000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Malzahar.spells[2].cost",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE/mSpell/mana",
+          "officialValues": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "clientRawValues": [
+            60,
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Malzahar.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malzahar.json",
+          "fetchedAt": "2026-09-06T14:12:49.613Z",
+          "byteSize": 14092,
+          "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+        },
+        "client": {
+          "path": "客户端原文/Malzahar.json.gz",
+          "sha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+          "compressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+          "byteSize": 57674,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/malzahar/malzahar.bin.json",
+          "fetchedAt": "2026-09-06T14:26:26.689Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Malzahar",
+      "skillKey": "malzahar_r",
+      "name": "冥府之握",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 140000,
+            "2": 110000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Malzahar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Malzahar.spells[3].cooldown",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR/mSpell/cooldownTime",
+          "officialValues": [
+            140,
+            110,
+            80
+          ],
+          "clientRawValues": [
+            140,
+            140,
+            110,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 1,
+          "values": [
+            140000,
+            110000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Malzahar.spells[3].cost",
+          "clientPointer": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Malzahar.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malzahar.json",
+          "fetchedAt": "2026-09-06T14:12:49.613Z",
+          "byteSize": 14092,
+          "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+        },
+        "client": {
+          "path": "客户端原文/Malzahar.json.gz",
+          "sha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+          "compressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+          "byteSize": 57674,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/malzahar/malzahar.bin.json",
+          "fetchedAt": "2026-09-06T14:26:26.689Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Gragas",
+      "skillKey": "gragas_q",
+      "name": "滚动酒桶",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 80,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Gragas.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Gragas.spells[0].cost",
+          "clientPointer": "Characters/Gragas/Spells/GragasQAbility/GragasQ/mSpell/mana",
+          "officialValues": [
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientRawValues": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 0,
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Gragas.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+          "fetchedAt": "2026-09-06T14:12:47.103Z",
+          "byteSize": 12557,
+          "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+        },
+        "client": {
+          "path": "客户端原文/Gragas.json.gz",
+          "sha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+          "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+          "byteSize": 55746,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gragas/gragas.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.990Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Gragas",
+      "skillKey": "gragas_w",
+      "name": "醉酒狂暴",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Gragas.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Gragas.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Gragas.spells[1].cooldown",
+          "clientPointer": "Characters/Gragas/Spells/GragasWAbility/GragasW/mSpell/cooldownTime",
+          "officialValues": [
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "clientRawValues": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "clientOffset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Gragas.spells[1].cost",
+          "clientPointer": "Characters/Gragas/Spells/GragasWAbility/GragasW/mSpell/mana",
+          "officialValues": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "clientRawValues": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "clientOffset": 0,
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Gragas.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+          "fetchedAt": "2026-09-06T14:12:47.103Z",
+          "byteSize": 12557,
+          "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+        },
+        "client": {
+          "path": "客户端原文/Gragas.json.gz",
+          "sha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+          "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+          "byteSize": 55746,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gragas/gragas.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.990Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Gragas",
+      "skillKey": "gragas_e",
+      "name": "肉弹冲击",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 14000,
+            "2": 13500,
+            "3": 13000,
+            "4": 12500,
+            "5": 12000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Gragas.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Gragas.spells[2].cooldown",
+          "clientPointer": "Characters/Gragas/Spells/GragasEAbility/GragasE/mSpell/cooldownTime",
+          "officialValues": [
+            14,
+            13.5,
+            13,
+            12.5,
+            12
+          ],
+          "clientRawValues": [
+            14,
+            14,
+            13.5,
+            13,
+            12.5,
+            12,
+            12
+          ],
+          "clientOffset": 1,
+          "values": [
+            14000,
+            13500,
+            13000,
+            12500,
+            12000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Gragas.spells[2].cost",
+          "clientPointer": "Characters/Gragas/Spells/GragasEAbility/GragasE/mSpell/mana",
+          "officialValues": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientRawValues": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Gragas.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+          "fetchedAt": "2026-09-06T14:12:47.103Z",
+          "byteSize": 12557,
+          "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+        },
+        "client": {
+          "path": "客户端原文/Gragas.json.gz",
+          "sha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+          "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+          "byteSize": 55746,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gragas/gragas.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.990Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Gragas",
+      "skillKey": "gragas_r",
+      "name": "爆破酒桶",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100000,
+            "2": 85000,
+            "3": 70000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Gragas.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Gragas.spells[3].cooldown",
+          "clientPointer": "Characters/Gragas/Spells/GragasRAbility/GragasR/mSpell/cooldownTime",
+          "officialValues": [
+            100,
+            85,
+            70
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            85,
+            70,
+            70,
+            70,
+            70
+          ],
+          "clientOffset": 1,
+          "values": [
+            100000,
+            85000,
+            70000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Gragas.spells[3].cost",
+          "clientPointer": "Characters/Gragas/Spells/GragasRAbility/GragasR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Gragas.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+          "fetchedAt": "2026-09-06T14:12:47.103Z",
+          "byteSize": 12557,
+          "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+        },
+        "client": {
+          "path": "客户端原文/Gragas.json.gz",
+          "sha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+          "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+          "byteSize": 55746,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gragas/gragas.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.990Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Karthus",
+      "skillKey": "karthus_q",
+      "name": "荒芜",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 25,
+            "3": 30,
+            "4": 35,
+            "5": 40
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Karthus.spells[0].cost",
+          "clientPointer": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1/mSpell/mana",
+          "officialValues": [
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "clientRawValues": [
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "clientOffset": 0,
+          "values": [
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Karthus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+          "fetchedAt": "2026-09-06T14:12:48.761Z",
+          "byteSize": 11486,
+          "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+        },
+        "client": {
+          "path": "客户端原文/Karthus.json.gz",
+          "sha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+          "compressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+          "byteSize": 72809,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/karthus/karthus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.753Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Karthus",
+      "skillKey": "karthus_w",
+      "name": "痛苦之墙",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Karthus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 70,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Karthus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Karthus.spells[1].cooldown",
+          "clientPointer": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain/mSpell/cooldownTime",
+          "officialValues": [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "clientRawValues": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "clientOffset": 1,
+          "values": [
+            15000,
+            15000,
+            15000,
+            15000,
+            15000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Karthus.spells[1].cost",
+          "clientPointer": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain/mSpell/mana",
+          "officialValues": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "clientRawValues": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "clientOffset": 0,
+          "values": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Karthus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+          "fetchedAt": "2026-09-06T14:12:48.761Z",
+          "byteSize": 11486,
+          "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+        },
+        "client": {
+          "path": "客户端原文/Karthus.json.gz",
+          "sha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+          "compressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+          "byteSize": 72809,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/karthus/karthus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.753Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Karthus",
+      "skillKey": "karthus_e",
+      "name": "亵渎",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Karthus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+          "fetchedAt": "2026-09-06T14:12:48.761Z",
+          "byteSize": 11486,
+          "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+        },
+        "client": {
+          "path": "客户端原文/Karthus.json.gz",
+          "sha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+          "compressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+          "byteSize": 72809,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/karthus/karthus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.753Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Karthus",
+      "skillKey": "karthus_r",
+      "name": "安魂曲",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200000,
+            "2": 180000,
+            "3": 160000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Karthus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Karthus.spells[3].cooldown",
+          "clientPointer": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne/mSpell/cooldownTime",
+          "officialValues": [
+            200,
+            180,
+            160
+          ],
+          "clientRawValues": [
+            200,
+            200,
+            180,
+            160,
+            180,
+            180,
+            200
+          ],
+          "clientOffset": 1,
+          "values": [
+            200000,
+            180000,
+            160000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Karthus.spells[3].cost",
+          "clientPointer": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Karthus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+          "fetchedAt": "2026-09-06T14:12:48.761Z",
+          "byteSize": 11486,
+          "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+        },
+        "client": {
+          "path": "客户端原文/Karthus.json.gz",
+          "sha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+          "compressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+          "byteSize": 72809,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/karthus/karthus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.753Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kassadin",
+      "skillKey": "kassadin_q",
+      "name": "虚无法球",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 9000,
+            "2": 8500,
+            "3": 8000,
+            "4": 7500,
+            "5": 7000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kassadin.spells[0].cooldown",
+          "clientPointer": "Characters/Kassadin/Spells/NullLanceAbility/NullLance/mSpell/cooldownTime",
+          "officialValues": [
+            9,
+            8.5,
+            8,
+            7.5,
+            7
+          ],
+          "clientRawValues": [
+            9,
+            9,
+            8.5,
+            8,
+            7.5,
+            7,
+            8
+          ],
+          "clientOffset": 1,
+          "values": [
+            9000,
+            8500,
+            8000,
+            7500,
+            7000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Kassadin.spells[0].cost",
+          "clientPointer": "Characters/Kassadin/Spells/NullLanceAbility/NullLance/mSpell/mana",
+          "officialValues": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientRawValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+          "fetchedAt": "2026-09-06T14:12:48.394Z",
+          "byteSize": 11848,
+          "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+        },
+        "client": {
+          "path": "客户端原文/Kassadin.json.gz",
+          "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+          "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "byteSize": 41633,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.316Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kassadin",
+      "skillKey": "kassadin_w",
+      "name": "虚空之刃",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kassadin.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Kassadin.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kassadin.spells[1].cooldown",
+          "clientPointer": "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientRawValues": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            7000,
+            7000,
+            7000,
+            7000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Kassadin.spells[1].cost",
+          "clientPointer": "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade/mSpell/mana",
+          "officialValues": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "clientRawValues": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "clientOffset": 0,
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+          "fetchedAt": "2026-09-06T14:12:48.394Z",
+          "byteSize": 11848,
+          "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+        },
+        "client": {
+          "path": "客户端原文/Kassadin.json.gz",
+          "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+          "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "byteSize": 41633,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.316Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kassadin",
+      "skillKey": "kassadin_e",
+      "name": "能量脉冲",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 21000,
+            "2": 20000,
+            "3": 19000,
+            "4": 18000,
+            "5": 17000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kassadin.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Kassadin.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kassadin.spells[2].cooldown",
+          "clientPointer": "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse/mSpell/cooldownTime",
+          "officialValues": [
+            21,
+            20,
+            19,
+            18,
+            17
+          ],
+          "clientRawValues": [
+            22,
+            21,
+            20,
+            19,
+            18,
+            17,
+            16
+          ],
+          "clientOffset": 1,
+          "values": [
+            21000,
+            20000,
+            19000,
+            18000,
+            17000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Kassadin.spells[2].cost",
+          "clientPointer": "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse/mSpell/mana",
+          "officialValues": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientRawValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+          "fetchedAt": "2026-09-06T14:12:48.394Z",
+          "byteSize": 11848,
+          "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+        },
+        "client": {
+          "path": "客户端原文/Kassadin.json.gz",
+          "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+          "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "byteSize": 41633,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.316Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kassadin",
+      "skillKey": "kassadin_r",
+      "name": "虚空行走",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 5000,
+            "2": 3500,
+            "3": 2000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kassadin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Kassadin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为零层数基础消耗，连续施放的层数倍率另行配置。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kassadin.spells[3].cooldown",
+          "clientPointer": "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk/mSpell/cooldownTime",
+          "officialValues": [
+            5,
+            3.5,
+            2
+          ],
+          "clientRawValues": [
+            5,
+            5,
+            3.5,
+            2,
+            2,
+            2,
+            2
+          ],
+          "clientOffset": 1,
+          "values": [
+            5000,
+            3500,
+            2000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Kassadin.spells[3].cost",
+          "clientPointer": "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk/mSpell/mana",
+          "officialValues": [
+            40,
+            40,
+            40
+          ],
+          "clientRawValues": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "clientOffset": 0,
+          "values": [
+            40,
+            40,
+            40
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+          "fetchedAt": "2026-09-06T14:12:48.394Z",
+          "byteSize": 11848,
+          "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+        },
+        "client": {
+          "path": "客户端原文/Kassadin.json.gz",
+          "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+          "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "byteSize": 41633,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.316Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kennen",
+      "skillKey": "kennen_q",
+      "name": "奥义！千鸟",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 7000,
+            "2": 6250,
+            "3": 5500,
+            "4": 4750,
+            "5": 4000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kennen.spells[0].cooldown",
+          "clientPointer": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            6.25,
+            5.5,
+            4.75,
+            4
+          ],
+          "clientRawValues": [
+            9,
+            7,
+            6.25,
+            5.5,
+            4.75,
+            4,
+            4
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            6250,
+            5500,
+            4750,
+            4000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kennen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+          "fetchedAt": "2026-09-06T14:12:49.102Z",
+          "byteSize": 11162,
+          "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+        },
+        "client": {
+          "path": "客户端原文/Kennen.json.gz",
+          "sha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802",
+          "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+          "byteSize": 51726,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kennen/kennen.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.972Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kennen",
+      "skillKey": "kennen_w",
+      "name": "奥义！电刃",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 13000,
+            "2": 11250,
+            "3": 9500,
+            "4": 7750,
+            "5": 6000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kennen.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kennen.spells[1].cooldown",
+          "clientPointer": "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight/mSpell/cooldownTime",
+          "officialValues": [
+            13,
+            11.25,
+            9.5,
+            7.75,
+            6
+          ],
+          "clientRawValues": [
+            13,
+            13,
+            11.25,
+            9.5,
+            7.75,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            13000,
+            11250,
+            9500,
+            7750,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kennen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+          "fetchedAt": "2026-09-06T14:12:49.102Z",
+          "byteSize": 11162,
+          "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+        },
+        "client": {
+          "path": "客户端原文/Kennen.json.gz",
+          "sha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802",
+          "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+          "byteSize": 51726,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kennen/kennen.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.972Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kennen",
+      "skillKey": "kennen_e",
+      "name": "奥义！雷铠",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kennen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+          "fetchedAt": "2026-09-06T14:12:49.102Z",
+          "byteSize": 11162,
+          "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+        },
+        "client": {
+          "path": "客户端原文/Kennen.json.gz",
+          "sha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802",
+          "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+          "byteSize": 51726,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kennen/kennen.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.972Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Kennen",
+      "skillKey": "kennen_r",
+      "name": "秘奥义！万雷天牢引",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 120000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Kennen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Kennen.spells[3].cooldown",
+          "clientPointer": "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            120,
+            120
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            120,
+            120,
+            120,
+            120,
+            120
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            120000,
+            120000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kennen.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+          "fetchedAt": "2026-09-06T14:12:49.102Z",
+          "byteSize": 11162,
+          "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+        },
+        "client": {
+          "path": "客户端原文/Kennen.json.gz",
+          "sha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802",
+          "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+          "byteSize": 51726,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kennen/kennen.bin.json",
+          "fetchedAt": "2026-09-06T14:26:23.972Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Lissandra",
+      "skillKey": "lissandra_q",
+      "name": "寒冰碎片",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 55,
+            "2": 60,
+            "3": 65,
+            "4": 70,
+            "5": 75
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Lissandra.spells[0].cooldown",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "clientRawValues": [
+            8,
+            7,
+            6,
+            5,
+            4,
+            3,
+            3
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            6000,
+            5000,
+            4000,
+            3000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Lissandra.spells[0].cost",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ/mSpell/mana",
+          "officialValues": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "clientRawValues": [
+            55,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientOffset": 0,
+          "values": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Lissandra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+          "fetchedAt": "2026-09-06T14:12:49.495Z",
+          "byteSize": 13742,
+          "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+        },
+        "client": {
+          "path": "客户端原文/Lissandra.json.gz",
+          "sha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+          "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+          "byteSize": 67303,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lissandra/lissandra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:25.749Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Lissandra",
+      "skillKey": "lissandra_w",
+      "name": "冰霜之环",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Lissandra.spells[1].cooldown",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW/mSpell/cooldownTime",
+          "officialValues": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "clientRawValues": [
+            10,
+            10,
+            9.5,
+            9,
+            8.5,
+            8,
+            8
+          ],
+          "clientOffset": 1,
+          "values": [
+            10000,
+            9500,
+            9000,
+            8500,
+            8000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Lissandra.spells[1].cost",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW/mSpell/mana",
+          "officialValues": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "clientRawValues": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "clientOffset": 0,
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Lissandra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+          "fetchedAt": "2026-09-06T14:12:49.495Z",
+          "byteSize": 13742,
+          "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+        },
+        "client": {
+          "path": "客户端原文/Lissandra.json.gz",
+          "sha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+          "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+          "byteSize": 67303,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lissandra/lissandra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:25.749Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Lissandra",
+      "skillKey": "lissandra_e",
+      "name": "冰川之径",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 85,
+            "3": 90,
+            "4": 95,
+            "5": 100
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Lissandra.spells[2].cost",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE/mSpell/mana",
+          "officialValues": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "clientRawValues": [
+            80,
+            85,
+            90,
+            95,
+            100,
+            105
+          ],
+          "clientOffset": 0,
+          "values": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Lissandra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+          "fetchedAt": "2026-09-06T14:12:49.495Z",
+          "byteSize": 13742,
+          "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+        },
+        "client": {
+          "path": "客户端原文/Lissandra.json.gz",
+          "sha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+          "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+          "byteSize": 67303,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lissandra/lissandra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:25.749Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Lissandra",
+      "skillKey": "lissandra_r",
+      "name": "冰封陵墓",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Lissandra.spells[3].cooldown",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            100,
+            80
+          ],
+          "clientRawValues": [
+            10,
+            120,
+            100,
+            80,
+            10,
+            10,
+            10
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            100000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Lissandra.spells[3].cost",
+          "clientPointer": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Lissandra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+          "fetchedAt": "2026-09-06T14:12:49.495Z",
+          "byteSize": 13742,
+          "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+        },
+        "client": {
+          "path": "客户端原文/Lissandra.json.gz",
+          "sha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+          "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+          "byteSize": 67303,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lissandra/lissandra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:25.749Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Nautilus",
+      "skillKey": "nautilus_q",
+      "name": "疏通航道",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Nautilus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Nautilus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Nautilus.spells[0].cooldown",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag/mSpell/cooldownTime",
+          "officialValues": [
+            14,
+            13,
+            12,
+            11,
+            10
+          ],
+          "clientRawValues": [
+            14,
+            14,
+            13,
+            12,
+            11,
+            10,
+            9
+          ],
+          "clientOffset": 1,
+          "values": [
+            14000,
+            13000,
+            12000,
+            11000,
+            10000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Nautilus.spells[0].cost",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag/mSpell/mana",
+          "officialValues": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientRawValues": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nautilus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+          "fetchedAt": "2026-09-06T14:12:50.878Z",
+          "byteSize": 12923,
+          "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+        },
+        "client": {
+          "path": "客户端原文/Nautilus.json.gz",
+          "sha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+          "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+          "byteSize": 57497,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nautilus/nautilus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:29.652Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Nautilus",
+      "skillKey": "nautilus_w",
+      "name": "泰坦之怒",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Nautilus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Nautilus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Nautilus.spells[1].cooldown",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze/mSpell/cooldownTime",
+          "officialValues": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientRawValues": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientOffset": 1,
+          "values": [
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Nautilus.spells[1].cost",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze/mSpell/mana",
+          "officialValues": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientRawValues": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nautilus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+          "fetchedAt": "2026-09-06T14:12:50.878Z",
+          "byteSize": 12923,
+          "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+        },
+        "client": {
+          "path": "客户端原文/Nautilus.json.gz",
+          "sha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+          "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+          "byteSize": 57497,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nautilus/nautilus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:29.652Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Nautilus",
+      "skillKey": "nautilus_e",
+      "name": "暗流涌动",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Nautilus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Nautilus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Nautilus.spells[2].cooldown",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            6.5,
+            6,
+            5.5,
+            5
+          ],
+          "clientRawValues": [
+            7.5,
+            7,
+            6.5,
+            6,
+            5.5,
+            5,
+            5
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            6500,
+            6000,
+            5500,
+            5000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Nautilus.spells[2].cost",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone/mSpell/mana",
+          "officialValues": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "clientRawValues": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nautilus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+          "fetchedAt": "2026-09-06T14:12:50.878Z",
+          "byteSize": 12923,
+          "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+        },
+        "client": {
+          "path": "客户端原文/Nautilus.json.gz",
+          "sha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+          "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+          "byteSize": 57497,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nautilus/nautilus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:29.652Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Nautilus",
+      "skillKey": "nautilus_r",
+      "name": "深海冲击",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Nautilus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Nautilus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Nautilus.spells[3].cooldown",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            100,
+            80
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            100000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Nautilus.spells[3].cost",
+          "clientPointer": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            0
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nautilus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+          "fetchedAt": "2026-09-06T14:12:50.878Z",
+          "byteSize": 12923,
+          "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+        },
+        "client": {
+          "path": "客户端原文/Nautilus.json.gz",
+          "sha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+          "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+          "byteSize": 57497,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nautilus/nautilus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:29.652Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Orianna",
+      "skillKey": "orianna_q",
+      "name": "指令：攻击",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Orianna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 35,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Orianna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Orianna.spells[0].cooldown",
+          "clientPointer": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "clientRawValues": [
+            7,
+            7,
+            6,
+            5,
+            4,
+            3,
+            3
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            6000,
+            5000,
+            4000,
+            3000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Orianna.spells[0].cost",
+          "clientPointer": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand/mSpell/mana",
+          "officialValues": [
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "clientRawValues": [
+            35,
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "clientOffset": 0,
+          "values": [
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 12461,
+          "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+        },
+        "client": {
+          "path": "客户端原文/Orianna.json.gz",
+          "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+          "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+          "byteSize": 55437,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+          "fetchedAt": "2026-09-06T14:26:32.199Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Orianna",
+      "skillKey": "orianna_w",
+      "name": "指令：杂音",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Orianna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Orianna.spells[1].cooldown",
+          "clientPointer": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientRawValues": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            7000,
+            7000,
+            7000,
+            7000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Orianna.spells[1].cost",
+          "clientPointer": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand/mSpell/mana",
+          "officialValues": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientRawValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 12461,
+          "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+        },
+        "client": {
+          "path": "客户端原文/Orianna.json.gz",
+          "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+          "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+          "byteSize": 55437,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+          "fetchedAt": "2026-09-06T14:26:32.199Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Orianna",
+      "skillKey": "orianna_e",
+      "name": "指令：防卫",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Orianna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Orianna.spells[2].cooldown",
+          "clientPointer": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand/mSpell/cooldownTime",
+          "officialValues": [
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "clientRawValues": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "clientOffset": 1,
+          "values": [
+            9000,
+            9000,
+            9000,
+            9000,
+            9000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Orianna.spells[2].cost",
+          "clientPointer": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand/mSpell/mana",
+          "officialValues": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientRawValues": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 12461,
+          "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+        },
+        "client": {
+          "path": "客户端原文/Orianna.json.gz",
+          "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+          "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+          "byteSize": 55437,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+          "fetchedAt": "2026-09-06T14:26:32.199Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Orianna",
+      "skillKey": "orianna_r",
+      "name": "指令：冲击波",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 110000,
+            "2": 95000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Orianna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Orianna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Orianna.spells[3].cooldown",
+          "clientPointer": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand/mSpell/cooldownTime",
+          "officialValues": [
+            110,
+            95,
+            80
+          ],
+          "clientRawValues": [
+            110,
+            110,
+            95,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 1,
+          "values": [
+            110000,
+            95000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Orianna.spells[3].cost",
+          "clientPointer": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 12461,
+          "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+        },
+        "client": {
+          "path": "客户端原文/Orianna.json.gz",
+          "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+          "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+          "byteSize": 55437,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+          "fetchedAt": "2026-09-06T14:26:32.199Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rammus",
+      "skillKey": "rammus_q",
+      "name": "动力冲刺",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Rammus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Rammus.spells[0].cost",
+          "clientPointer": "Characters/Rammus/Spells/PowerBallAbility/PowerBall/mSpell/mana",
+          "officialValues": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientRawValues": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rammus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rammus.json",
+          "fetchedAt": "2026-09-06T14:12:52.623Z",
+          "byteSize": 11643,
+          "sha256": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007"
+        },
+        "client": {
+          "path": "客户端原文/Rammus.json.gz",
+          "sha256": "133cba51c5b859dbd603381c349733816e974a2d1e2c85eab87bce71b851fdfc",
+          "compressedSha256": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+          "byteSize": 49127,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rammus/rammus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:33.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rammus",
+      "skillKey": "rammus_w",
+      "name": "尖刺防御",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Rammus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Rammus.spells[1].cost",
+          "clientPointer": "Characters/Rammus/Spells/DefensiveBallCurlAbility/DefensiveBallCurl/mSpell/mana",
+          "officialValues": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "clientRawValues": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "clientOffset": 0,
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rammus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rammus.json",
+          "fetchedAt": "2026-09-06T14:12:52.623Z",
+          "byteSize": 11643,
+          "sha256": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007"
+        },
+        "client": {
+          "path": "客户端原文/Rammus.json.gz",
+          "sha256": "133cba51c5b859dbd603381c349733816e974a2d1e2c85eab87bce71b851fdfc",
+          "compressedSha256": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+          "byteSize": 49127,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rammus/rammus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:33.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rammus",
+      "skillKey": "rammus_e",
+      "name": "狂乱嘲讽",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Rammus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Rammus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Rammus.spells[2].cooldown",
+          "clientPointer": "Characters/Rammus/Spells/PuncturingTauntAbility/PuncturingTaunt/mSpell/cooldownTime",
+          "officialValues": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientRawValues": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientOffset": 1,
+          "values": [
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Rammus.spells[2].cost",
+          "clientPointer": "Characters/Rammus/Spells/PuncturingTauntAbility/PuncturingTaunt/mSpell/mana",
+          "officialValues": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientRawValues": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rammus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rammus.json",
+          "fetchedAt": "2026-09-06T14:12:52.623Z",
+          "byteSize": 11643,
+          "sha256": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007"
+        },
+        "client": {
+          "path": "客户端原文/Rammus.json.gz",
+          "sha256": "133cba51c5b859dbd603381c349733816e974a2d1e2c85eab87bce71b851fdfc",
+          "compressedSha256": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+          "byteSize": 49127,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rammus/rammus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:33.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rammus",
+      "skillKey": "rammus_r",
+      "name": "冲天猛撞",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Rammus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Rammus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Rammus.spells[3].cooldown",
+          "clientPointer": "Characters/Rammus/Spells/Tremors2Ability/Tremors2/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            105,
+            90
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            105,
+            90,
+            90,
+            90,
+            90
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            105000,
+            90000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Rammus.spells[3].cost",
+          "clientPointer": "Characters/Rammus/Spells/Tremors2Ability/Tremors2/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rammus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rammus.json",
+          "fetchedAt": "2026-09-06T14:12:52.623Z",
+          "byteSize": 11643,
+          "sha256": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007"
+        },
+        "client": {
+          "path": "客户端原文/Rammus.json.gz",
+          "sha256": "133cba51c5b859dbd603381c349733816e974a2d1e2c85eab87bce71b851fdfc",
+          "compressedSha256": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+          "byteSize": 49127,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rammus/rammus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:33.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Renekton",
+      "skillKey": "renekton_q",
+      "name": "巨鳄狂袭",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Renekton.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Renekton.spells[0].cooldown",
+          "clientPointer": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave/mSpell/cooldownTime",
+          "officialValues": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientRawValues": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "clientOffset": 1,
+          "values": [
+            7000,
+            7000,
+            7000,
+            7000,
+            7000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+          "fetchedAt": "2026-09-06T14:12:53.387Z",
+          "byteSize": 14709,
+          "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+        },
+        "client": {
+          "path": "客户端原文/Renekton.json.gz",
+          "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+          "byteSize": 51573,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+          "fetchedAt": "2026-09-06T14:26:34.266Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Renekton",
+      "skillKey": "renekton_w",
+      "name": "冷酷捕猎",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 14000,
+            "3": 12000,
+            "4": 10000,
+            "5": 8000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Renekton.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Renekton.spells[1].cooldown",
+          "clientPointer": "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute/mSpell/cooldownTime",
+          "officialValues": [
+            16,
+            14,
+            12,
+            10,
+            8
+          ],
+          "clientRawValues": [
+            0,
+            16,
+            14,
+            12,
+            10,
+            8,
+            0
+          ],
+          "clientOffset": 1,
+          "values": [
+            16000,
+            14000,
+            12000,
+            10000,
+            8000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+          "fetchedAt": "2026-09-06T14:12:53.387Z",
+          "byteSize": 14709,
+          "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+        },
+        "client": {
+          "path": "客户端原文/Renekton.json.gz",
+          "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+          "byteSize": 51573,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+          "fetchedAt": "2026-09-06T14:26:34.266Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Renekton",
+      "skillKey": "renekton_e",
+      "name": "横冲直撞",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+          "fetchedAt": "2026-09-06T14:12:53.387Z",
+          "byteSize": 14709,
+          "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+        },
+        "client": {
+          "path": "客户端原文/Renekton.json.gz",
+          "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+          "byteSize": 51573,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+          "fetchedAt": "2026-09-06T14:26:34.266Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Renekton",
+      "skillKey": "renekton_r",
+      "name": "终极统治",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Renekton.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Renekton.spells[3].cooldown",
+          "clientPointer": "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            100,
+            80
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            100000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+          "fetchedAt": "2026-09-06T14:12:53.387Z",
+          "byteSize": 14709,
+          "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+        },
+        "client": {
+          "path": "客户端原文/Renekton.json.gz",
+          "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+          "byteSize": 51573,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+          "fetchedAt": "2026-09-06T14:26:34.266Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rumble",
+      "skillKey": "rumble_q",
+      "name": "纵火盛宴",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Rumble.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Rumble.spells[0].cooldown",
+          "clientPointer": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower/mSpell/cooldownTime",
+          "officialValues": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "clientRawValues": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            10000,
+            9000,
+            8000,
+            7000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+          "fetchedAt": "2026-09-06T14:12:52.487Z",
+          "byteSize": 11612,
+          "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+        },
+        "client": {
+          "path": "客户端原文/Rumble.json.gz",
+          "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+          "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+          "byteSize": 67100,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.520Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rumble",
+      "skillKey": "rumble_w",
+      "name": "破碎护盾",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Rumble.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Rumble.spells[1].cooldown",
+          "clientPointer": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield/mSpell/cooldownTime",
+          "officialValues": [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "clientRawValues": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            6000,
+            6000,
+            6000,
+            6000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+          "fetchedAt": "2026-09-06T14:12:52.487Z",
+          "byteSize": 11612,
+          "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+        },
+        "client": {
+          "path": "客户端原文/Rumble.json.gz",
+          "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+          "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+          "byteSize": 67100,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.520Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rumble",
+      "skillKey": "rumble_e",
+      "name": "电子鱼叉",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+          "fetchedAt": "2026-09-06T14:12:52.487Z",
+          "byteSize": 11612,
+          "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+        },
+        "client": {
+          "path": "客户端原文/Rumble.json.gz",
+          "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+          "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+          "byteSize": 67100,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.520Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Rumble",
+      "skillKey": "rumble_r",
+      "name": "恒温灼烧",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 130000,
+            "2": 105000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Rumble.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Rumble.spells[3].cooldown",
+          "clientPointer": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb/mSpell/cooldownTime",
+          "officialValues": [
+            130,
+            105,
+            80
+          ],
+          "clientRawValues": [
+            130,
+            130,
+            105,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientOffset": 1,
+          "values": [
+            130000,
+            105000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+          "fetchedAt": "2026-09-06T14:12:52.487Z",
+          "byteSize": 11612,
+          "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+        },
+        "client": {
+          "path": "客户端原文/Rumble.json.gz",
+          "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+          "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+          "byteSize": 67100,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.520Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Ryze",
+      "skillKey": "ryze_q",
+      "name": "超负荷",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Ryze.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 38,
+            "3": 36,
+            "4": 34,
+            "5": 32
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Ryze.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Ryze.spells[0].cooldown",
+          "clientPointer": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper/mSpell/cooldownTime",
+          "officialValues": [
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "clientRawValues": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "clientOffset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Ryze.spells[0].cost",
+          "clientPointer": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper/mSpell/mana",
+          "officialValues": [
+            40,
+            38,
+            36,
+            34,
+            32
+          ],
+          "clientRawValues": [
+            40,
+            38,
+            36,
+            34,
+            32,
+            32
+          ],
+          "clientOffset": 0,
+          "values": [
+            40,
+            38,
+            36,
+            34,
+            32
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+          "fetchedAt": "2026-09-06T14:12:53.304Z",
+          "byteSize": 12533,
+          "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+        },
+        "client": {
+          "path": "客户端原文/Ryze.json.gz",
+          "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+          "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+          "byteSize": 56189,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.594Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Ryze",
+      "skillKey": "ryze_w",
+      "name": "符文禁锢",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 11000,
+            "2": 10500,
+            "3": 10000,
+            "4": 9500,
+            "5": 9000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Ryze.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Ryze.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Ryze.spells[1].cooldown",
+          "clientPointer": "Characters/Ryze/Spells/RyzeWAbility/RyzeW/mSpell/cooldownTime",
+          "officialValues": [
+            11,
+            10.5,
+            10,
+            9.5,
+            9
+          ],
+          "clientRawValues": [
+            11,
+            11,
+            10.5,
+            10,
+            9.5,
+            9,
+            8.5
+          ],
+          "clientOffset": 1,
+          "values": [
+            11000,
+            10500,
+            10000,
+            9500,
+            9000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Ryze.spells[1].cost",
+          "clientPointer": "Characters/Ryze/Spells/RyzeWAbility/RyzeW/mSpell/mana",
+          "officialValues": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "clientRawValues": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+          "fetchedAt": "2026-09-06T14:12:53.304Z",
+          "byteSize": 12533,
+          "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+        },
+        "client": {
+          "path": "客户端原文/Ryze.json.gz",
+          "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+          "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+          "byteSize": 56189,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.594Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Ryze",
+      "skillKey": "ryze_e",
+      "name": "法术涌动",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 3500,
+            "2": 3250,
+            "3": 3000,
+            "4": 2750,
+            "5": 2500
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Ryze.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 45,
+            "3": 55,
+            "4": 65,
+            "5": 75
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Ryze.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Ryze.spells[2].cooldown",
+          "clientPointer": "Characters/Ryze/Spells/RyzeEAbility/RyzeE/mSpell/cooldownTime",
+          "officialValues": [
+            3.5,
+            3.25,
+            3,
+            2.75,
+            2.5
+          ],
+          "clientRawValues": [
+            3.75,
+            3.5,
+            3.25,
+            3,
+            2.75,
+            2.5,
+            2.5
+          ],
+          "clientOffset": 1,
+          "values": [
+            3500,
+            3250,
+            3000,
+            2750,
+            2500
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Ryze.spells[2].cost",
+          "clientPointer": "Characters/Ryze/Spells/RyzeEAbility/RyzeE/mSpell/mana",
+          "officialValues": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ],
+          "clientRawValues": [
+            35,
+            45,
+            55,
+            65,
+            75,
+            85
+          ],
+          "clientOffset": 0,
+          "values": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+          "fetchedAt": "2026-09-06T14:12:53.304Z",
+          "byteSize": 12533,
+          "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+        },
+        "client": {
+          "path": "客户端原文/Ryze.json.gz",
+          "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+          "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+          "byteSize": 56189,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.594Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Ryze",
+      "skillKey": "ryze_r",
+      "name": "曲境折跃",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 180000,
+            "2": 160000,
+            "3": 140000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Ryze.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Ryze.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Ryze.spells[3].cooldown",
+          "clientPointer": "Characters/Ryze/Spells/RyzeRAbility/RyzeR/mSpell/cooldownTime",
+          "officialValues": [
+            180,
+            160,
+            140
+          ],
+          "clientRawValues": [
+            180,
+            180,
+            160,
+            140,
+            140,
+            140,
+            140
+          ],
+          "clientOffset": 1,
+          "values": [
+            180000,
+            160000,
+            140000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Ryze.spells[3].cost",
+          "clientPointer": "Characters/Ryze/Spells/RyzeRAbility/RyzeR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+          "fetchedAt": "2026-09-06T14:12:53.304Z",
+          "byteSize": 12533,
+          "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+        },
+        "client": {
+          "path": "客户端原文/Ryze.json.gz",
+          "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+          "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+          "byteSize": 56189,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.594Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Sion",
+      "skillKey": "sion_q",
+      "name": "残虐猛击",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Sion.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 45,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Sion.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Sion.spells[0].cooldown",
+          "clientPointer": "Characters/Sion/Spells/SionQAbility/SionQ/mSpell/cooldownTime",
+          "officialValues": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "clientRawValues": [
+            11,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            10000,
+            9000,
+            8000,
+            7000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Sion.spells[0].cost",
+          "clientPointer": "Characters/Sion/Spells/SionQAbility/SionQ/mSpell/mana",
+          "officialValues": [
+            45,
+            45,
+            45,
+            45,
+            45
+          ],
+          "clientRawValues": [
+            45,
+            45,
+            45,
+            45,
+            45,
+            45
+          ],
+          "clientOffset": 0,
+          "values": [
+            45,
+            45,
+            45,
+            45,
+            45
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Sion.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+          "fetchedAt": "2026-09-06T14:12:53.872Z",
+          "byteSize": 15562,
+          "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+        },
+        "client": {
+          "path": "客户端原文/Sion.json.gz",
+          "sha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448",
+          "compressedSha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+          "byteSize": 94148,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sion/sion.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.312Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Sion",
+      "skillKey": "sion_w",
+      "name": "灵魂熔炉",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [],
+      "proofs": [],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Sion.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+          "fetchedAt": "2026-09-06T14:12:53.872Z",
+          "byteSize": 15562,
+          "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+        },
+        "client": {
+          "path": "客户端原文/Sion.json.gz",
+          "sha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448",
+          "compressedSha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+          "byteSize": 94148,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sion/sion.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.312Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Sion",
+      "skillKey": "sion_e",
+      "name": "杀手怒吼",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Sion.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 40,
+            "3": 45,
+            "4": 50,
+            "5": 55
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Sion.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Sion.spells[2].cooldown",
+          "clientPointer": "Characters/Sion/Spells/SionEAbility/SionE/mSpell/cooldownTime",
+          "officialValues": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "clientRawValues": [
+            13,
+            12,
+            11,
+            10,
+            9,
+            8,
+            8
+          ],
+          "clientOffset": 1,
+          "values": [
+            12000,
+            11000,
+            10000,
+            9000,
+            8000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Sion.spells[2].cost",
+          "clientPointer": "Characters/Sion/Spells/SionEAbility/SionE/mSpell/mana",
+          "officialValues": [
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "clientRawValues": [
+            35,
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Sion.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+          "fetchedAt": "2026-09-06T14:12:53.872Z",
+          "byteSize": 15562,
+          "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+        },
+        "client": {
+          "path": "客户端原文/Sion.json.gz",
+          "sha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448",
+          "compressedSha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+          "byteSize": 94148,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sion/sion.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.312Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Sion",
+      "skillKey": "sion_r",
+      "name": "蛮横冲撞",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Sion.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Sion.spells[3].cost",
+          "clientPointer": "Characters/Sion/Spells/SionRAbility/SionR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Sion.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+          "fetchedAt": "2026-09-06T14:12:53.872Z",
+          "byteSize": 15562,
+          "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+        },
+        "client": {
+          "path": "客户端原文/Sion.json.gz",
+          "sha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448",
+          "compressedSha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+          "byteSize": 94148,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sion/sion.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.312Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Skarner",
+      "skillKey": "skarner_q",
+      "name": "撼地 / 擎天",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Skarner.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Skarner.spells[0].cost",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerQAbility/SkarnerQ/mSpell/mana",
+          "officialValues": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "clientRawValues": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "clientOffset": 0,
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Skarner.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Skarner.json",
+          "fetchedAt": "2026-09-06T14:12:54.103Z",
+          "byteSize": 10433,
+          "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+        },
+        "client": {
+          "path": "客户端原文/Skarner.json.gz",
+          "sha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1",
+          "compressedSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+          "byteSize": 54092,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/skarner/skarner.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.489Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Skarner",
+      "skillKey": "skarner_w",
+      "name": "震地壁垒",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Skarner.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Skarner.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Skarner.spells[1].cooldown",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerWAbility/SkarnerW/mSpell/cooldownTime",
+          "officialValues": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "clientRawValues": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            10000,
+            9000,
+            8000,
+            7000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Skarner.spells[1].cost",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerWAbility/SkarnerW/mSpell/mana",
+          "officialValues": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "clientRawValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Skarner.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Skarner.json",
+          "fetchedAt": "2026-09-06T14:12:54.103Z",
+          "byteSize": 10433,
+          "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+        },
+        "client": {
+          "path": "客户端原文/Skarner.json.gz",
+          "sha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1",
+          "compressedSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+          "byteSize": 54092,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/skarner/skarner.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.489Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Skarner",
+      "skillKey": "skarner_e",
+      "name": "以绪塔尔冲击",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 22000,
+            "2": 21000,
+            "3": 20000,
+            "4": 19000,
+            "5": 18000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Skarner.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Skarner.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Skarner.spells[2].cooldown",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerEAbility/SkarnerE/mSpell/cooldownTime",
+          "officialValues": [
+            22,
+            21,
+            20,
+            19,
+            18
+          ],
+          "clientRawValues": [
+            23,
+            22,
+            21,
+            20,
+            19,
+            18,
+            18
+          ],
+          "clientOffset": 1,
+          "values": [
+            22000,
+            21000,
+            20000,
+            19000,
+            18000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Skarner.spells[2].cost",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerEAbility/SkarnerE/mSpell/mana",
+          "officialValues": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "clientRawValues": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Skarner.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Skarner.json",
+          "fetchedAt": "2026-09-06T14:12:54.103Z",
+          "byteSize": 10433,
+          "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+        },
+        "client": {
+          "path": "客户端原文/Skarner.json.gz",
+          "sha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1",
+          "compressedSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+          "byteSize": 54092,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/skarner/skarner.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.489Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Skarner",
+      "skillKey": "skarner_r",
+      "name": "毒刺贯体",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Skarner.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Skarner.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Skarner.spells[3].cooldown",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerRAbility/SkarnerR/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            105,
+            90
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            105,
+            90,
+            90,
+            90,
+            90
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            105000,
+            90000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Skarner.spells[3].cost",
+          "clientPointer": "Characters/Skarner/Spells/SkarnerRAbility/SkarnerR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Skarner.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Skarner.json",
+          "fetchedAt": "2026-09-06T14:12:54.103Z",
+          "byteSize": 10433,
+          "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+        },
+        "client": {
+          "path": "客户端原文/Skarner.json.gz",
+          "sha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1",
+          "compressedSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+          "byteSize": 54092,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/skarner/skarner.bin.json",
+          "fetchedAt": "2026-09-06T14:26:38.489Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Syndra",
+      "skillKey": "syndra_q",
+      "name": "暗黑法球",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Syndra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Syndra.spells[0].cost",
+          "clientPointer": "Characters/Syndra/Spells/SyndraQAbility/SyndraQ/mSpell/mana",
+          "officialValues": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "clientRawValues": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            60
+          ],
+          "clientOffset": 0,
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+          "fetchedAt": "2026-09-06T14:12:54.736Z",
+          "byteSize": 16022,
+          "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+        },
+        "client": {
+          "path": "客户端原文/Syndra.json.gz",
+          "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+          "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+          "byteSize": 99307,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:39.938Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Syndra",
+      "skillKey": "syndra_w",
+      "name": "驱使念力",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Syndra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Syndra.spells[1].cost",
+          "clientPointer": "Characters/Syndra/Spells/SyndraWAbility/SyndraW/mSpell/mana",
+          "officialValues": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "clientRawValues": [
+            60,
+            70,
+            80,
+            90,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+          "fetchedAt": "2026-09-06T14:12:54.736Z",
+          "byteSize": 16022,
+          "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+        },
+        "client": {
+          "path": "客户端原文/Syndra.json.gz",
+          "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+          "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+          "byteSize": 99307,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:39.938Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Syndra",
+      "skillKey": "syndra_e",
+      "name": "弱者退散",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15000,
+          "levelValues": null,
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Syndra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Syndra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Syndra.spells[2].cooldown",
+          "clientPointer": "Characters/Syndra/Spells/SyndraEAbility/SyndraE/mSpell/cooldownTime",
+          "officialValues": [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "clientRawValues": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "clientOffset": 1,
+          "values": [
+            15000,
+            15000,
+            15000,
+            15000,
+            15000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Syndra.spells[2].cost",
+          "clientPointer": "Characters/Syndra/Spells/SyndraEAbility/SyndraE/mSpell/mana",
+          "officialValues": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientRawValues": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientOffset": 0,
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+          "fetchedAt": "2026-09-06T14:12:54.736Z",
+          "byteSize": 16022,
+          "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+        },
+        "client": {
+          "path": "客户端原文/Syndra.json.gz",
+          "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+          "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+          "byteSize": 99307,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:39.938Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    },
+    {
+      "championId": "Syndra",
+      "skillKey": "syndra_r",
+      "name": "能量倾泻",
+      "maxLevel": 3,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Syndra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "sortOrder": 110,
+          "description": "DDragon16.17.1 Syndra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Syndra.spells[3].cooldown",
+          "clientPointer": "Characters/Syndra/Spells/SyndraRAbility/SyndraR/mSpell/cooldownTime",
+          "officialValues": [
+            120,
+            100,
+            80
+          ],
+          "clientRawValues": [
+            120,
+            120,
+            100,
+            80,
+            60,
+            60,
+            60
+          ],
+          "clientOffset": 1,
+          "values": [
+            120000,
+            100000,
+            80000
+          ],
+          "unit": "秒转换为毫秒"
+        },
+        {
+          "parameterKey": "mana_cost",
+          "officialPointer": "data.Syndra.spells[3].cost",
+          "clientPointer": "Characters/Syndra/Spells/SyndraRAbility/SyndraR/mSpell/mana",
+          "officialValues": [
+            100,
+            100,
+            100
+          ],
+          "clientRawValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientOffset": 0,
+          "values": [
+            100,
+            100,
+            100
+          ],
+          "unit": "法力值；未接入实际扣除时点"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+          "fetchedAt": "2026-09-06T14:12:54.736Z",
+          "byteSize": 16022,
+          "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+        },
+        "client": {
+          "path": "客户端原文/Syndra.json.gz",
+          "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+          "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+          "byteSize": 99307,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:39.938Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    }
+  ],
+  "totals": {
+    "heroes": 16,
+    "slotsVisited": 64,
+    "skillsWithParameters": 57,
+    "parameters": 95
+  },
+  "runtimeValidation": "未执行"
+}
