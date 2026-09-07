@@ -9,6 +9,7 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 public final class SkillTriggerEventCapabilities {
 
     private static final Set<SkillTriggerEventType> EVENT_SOURCE_EVENTS = EnumSet.of(
+        SkillTriggerEventType.SOURCE_INITIALIZED,
         SkillTriggerEventType.DAMAGE_PENDING,
         SkillTriggerEventType.DAMAGE_TAKEN,
         SkillTriggerEventType.STATUS_CHANGED,
@@ -17,6 +18,7 @@ public final class SkillTriggerEventCapabilities {
     );
 
     private static final Set<SkillTriggerEventType> EMPTY_DETAIL_EVENTS = EnumSet.of(
+        SkillTriggerEventType.SOURCE_INITIALIZED,
         SkillTriggerEventType.BASIC_ATTACK_START,
         SkillTriggerEventType.BASIC_ATTACK_HIT,
         SkillTriggerEventType.CONTROL_RECEIVED,
@@ -134,6 +136,7 @@ public final class SkillTriggerEventCapabilities {
 
     public static Map<SkillTriggerEventType, String> currentTargetBindings() {
         return Map.ofEntries(
+            Map.entry(SkillTriggerEventType.SOURCE_INITIALIZED, "被初始化的来源对象自身；不是其战斗目标"),
             Map.entry(SkillTriggerEventType.SKILL_USED, "该次技能使用的显式目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.BASIC_ATTACK_START, "本次普通攻击目标"),
             Map.entry(SkillTriggerEventType.BASIC_ATTACK_HIT, "本次普通攻击命中的对象"),

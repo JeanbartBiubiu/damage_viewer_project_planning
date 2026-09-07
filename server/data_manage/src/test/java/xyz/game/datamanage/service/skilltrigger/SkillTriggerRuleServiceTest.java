@@ -726,9 +726,15 @@ class SkillTriggerRuleServiceTest {
     }
 
     @Test
-    void capabilitiesTableCoversAllTwentyOneEventsAndRejectsValueReached() {
-        assertEquals(21, SkillTriggerEventType.values().length);
-        assertEquals(21, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+    void capabilitiesTableCoversAllEventsAndRejectsValueReached() {
+        assertEquals(22, SkillTriggerEventType.values().length);
+        assertEquals(22, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.SOURCE_INITIALIZED));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.SOURCE_INITIALIZED));
+        for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
+            assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+                SkillTriggerEventType.SOURCE_INITIALIZED, valueKey, null, null));
+        }
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT));
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.HIT_LINK_APPLIED));
         assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.ATTACK_LINK_APPLIED));
@@ -763,6 +769,7 @@ class SkillTriggerRuleServiceTest {
         ));
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) {
             if (type != SkillTriggerEventType.DAMAGE_PENDING
+                && type != SkillTriggerEventType.SOURCE_INITIALIZED
                 && type != SkillTriggerEventType.DAMAGE_TAKEN
                 && type != SkillTriggerEventType.STATUS_CHANGED
                 && type != SkillTriggerEventType.CONTROL_RECEIVED

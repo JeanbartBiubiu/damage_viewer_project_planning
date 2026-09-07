@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -21,6 +22,8 @@ import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSuppo
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.thrown;
 
 import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,6 +62,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubjectEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -83,8 +88,32 @@ class SkillTriggerRuleEventShapeServiceTest {
     }
 
     @Test
+    void initializationPreservesSelfEventSourceAndStrictEmptyDetail() throws Exception {
+        ObjectMapper json = new ObjectMapper();
+        var event = json.readValue("{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":{}}", SkillTriggerEventSource.class);
+        var originalAction = executeAction("apply_passive", EFFECT_KEY);
+        var action = new SkillTriggerAction(originalAction.actionKey(), originalAction.name(), originalAction.actionType(),
+            originalAction.sortOrder(), SkillTriggerTargetContext.EVENT_SOURCE, originalAction.detail(),
+            originalAction.runtimeInputBindings(), originalAction.resultModifiers());
+        service.create(GAME_ID, SKILL_KEY, rule("initialize", event, List.of(action)));
+        var saved = service.get(GAME_ID, SKILL_KEY, "initialize");
+        assertEquals(SkillTriggerEventType.SOURCE_INITIALIZED, saved.eventSource().eventType());
+        assertEquals(SkillTriggerTargetContext.EVENT_SOURCE, saved.actions().get(0).targetContext());
+        assertEquals("{}", json.writeValueAsString(saved.eventSource().detail()));
+        for (String detail : List.of("null", "{\"sourceSkillKey\":\"other\"}", "{\"unexpected\":1}")) {
+            var invalidEvent = json.readValue("{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":" + detail + "}", SkillTriggerEventSource.class);
+            thrown(() -> service.create(GAME_ID, SKILL_KEY, rule("invalid_initialize", invalidEvent, List.of(action))));
+        }
+        for (String detail : List.of("[]", "1", "\"text\"")) {
+            assertThrows(JsonProcessingException.class, () -> json.readValue(
+                "{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":" + detail + "}", SkillTriggerEventSource.class));
+        }
+    }
+
+    @Test
     void emptyDetailEventsAcceptEmptyObjectAndRejectTypedDetail() {
         for (SkillTriggerEventType type : List.of(
+            SkillTriggerEventType.SOURCE_INITIALIZED,
             SkillTriggerEventType.BASIC_ATTACK_START,
             SkillTriggerEventType.BASIC_ATTACK_HIT,
             SkillTriggerEventType.CONTROL_RECEIVED,
