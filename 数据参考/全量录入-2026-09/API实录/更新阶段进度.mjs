@@ -18,6 +18,13 @@ const equipmentImages = read('API实录/装备图片/代表图关系最终核对
 const scopePlan = read('1V1范围筛选/处置清单.json');
 const asheMechanism = read('艾希技能实录第一批/独立核对.json');
 const equipmentMechanism = read('装备技能实录/Luna第一批/主负责人复核.json');
+const publicParameterEvidence = '技能公共参数实录/独立核对.json';
+const publicParameters = read(publicParameterEvidence);
+assert.equal(publicParameters.passed, true);
+assert.equal(publicParameters.counts.verifiedParameters, 110);
+assert.equal(publicParameters.counts.verifiedSkills, 61);
+assert.equal(publicParameters.counts.missing, 0);
+assert.equal(publicParameters.counts.conflicts, 0);
 const luxEvidenceWorktree = path.resolve(root, '..', '..', '..', 'damage_web_dev');
 const luxEvidenceRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/回读摘要.json';
 const luxReadbackSummaryRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/逐对象回读.json';
@@ -95,6 +102,15 @@ for (const entry of entries) {
   }
 }
 const scopeEvidence = '1V1范围筛选/处置清单.json';
+for (const skillKey of new Set(publicParameters.records.map(record => record.skillKey))) {
+  const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
+  assert.ok(entry, skillKey);
+  const records = publicParameters.records.filter(record => record.skillKey === skillKey);
+  assert.ok(records.every(record => record.matches === true));
+  entry.publicParameters = { keys: records.map(record => record.expected.parameterKey),
+    checkedAt: records.at(-1).checkedAt, evidence: publicParameterEvidence };
+  entry.note += ` 已补录并回读 ${records.length} 项基础冷却或法力参数；不计为完整技能。`;
+}
 for (const item of scopeItems) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === item.skillKey);
   assert.ok(entry, `范围筛选技能未出现在录入进度：${item.skillKey}`);
@@ -132,6 +148,14 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  publicParametersFirstBatch: {
+    heroes: publicParameters.selectedHeroes,
+    skills: publicParameters.counts.verifiedSkills,
+    parameters: publicParameters.counts.verifiedParameters,
+    status: '公共参数已保存并回读，完整技能机制继续录入',
+    runtimeValidation: publicParameters.runtimeValidation,
+    evidence: publicParameterEvidence,
+  },
   asheWAndR: {
     skills: ['ashe_w', 'ashe_r'],
     parameters: asheMechanism.counts.parameters,
