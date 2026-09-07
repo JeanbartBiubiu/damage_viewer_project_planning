@@ -29,6 +29,10 @@ assert.equal(equipmentSecond.components, 52);
 assert.equal(equipmentSecond.records.length, 6);
 const publicParameterEvidence = '技能公共参数实录/独立核对.json';
 const publicParameters = read(publicParameterEvidence);
+const publicParameterSecondEvidence = '技能公共参数第二批/独立核对.json';
+const publicParametersSecond = read(publicParameterSecondEvidence);
+assert.equal(publicParametersSecond.passed, true);
+assert.deepEqual(publicParametersSecond.counts, {verifiedParameters:95, verifiedSkills:57, created:0, missing:0, conflicts:0});
 const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
 const nasusMechanism = read(nasusEvidence);
 const nasusInitializationEvidence = '内瑟斯技能实录第一批/初始化回读.json';
@@ -126,14 +130,16 @@ for (const entry of entries) {
   }
 }
 const scopeEvidence = '1V1范围筛选/处置清单.json';
-for (const skillKey of new Set(publicParameters.records.map(record => record.skillKey))) {
+for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence]]) {
+for (const skillKey of new Set(parameterBatch.records.map(record => record.skillKey))) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
-  const records = publicParameters.records.filter(record => record.skillKey === skillKey);
+  const records = parameterBatch.records.filter(record => record.skillKey === skillKey);
   assert.ok(records.every(record => record.matches === true));
   entry.publicParameters = { keys: records.map(record => record.expected.parameterKey),
-    checkedAt: records.at(-1).checkedAt, evidence: publicParameterEvidence };
+    checkedAt: records.at(-1).checkedAt, evidence: parameterEvidence };
   entry.note += ` 已补录并回读 ${records.length} 项基础冷却或法力参数；不计为完整技能。`;
+}
 }
 for (const item of scopeItems) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === item.skillKey);
@@ -193,6 +199,11 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  publicParametersSecondBatch: {
+    heroes:publicParametersSecond.selectedHeroes, skills:publicParametersSecond.counts.verifiedSkills,
+    parameters:publicParametersSecond.counts.verifiedParameters,
+    status:'公共参数已保存并回读，完整技能机制继续录入', runtimeValidation:'未执行', evidence:publicParameterSecondEvidence,
+  },
   equipmentThirdBatch: {
     skills:equipmentThird.records.map(record=>record.skillKey), parameters:41, formulas:8, effects:9, triggerRules:0,
     equipmentRelations:6, representativeImageReuses:6, directAttributesAdded:1,
