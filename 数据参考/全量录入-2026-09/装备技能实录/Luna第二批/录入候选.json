@@ -1,0 +1,1067 @@
+{
+  "generatedAt": "2026-09-07T16:11:12.599Z",
+  "objects": [
+    {
+      "equipmentKey": "item_3075",
+      "equipmentName": "荆棘之甲",
+      "skill": {
+        "skillKey": "item_3075_passive",
+        "name": "荆棘之甲·荆棘",
+        "description": "被一次攻击命中后，对攻击者造成20加来源额外护甲10%的魔法反伤。本批保存确证的伤害组成；受击方向和英雄目标重伤状态的运行时接线待补。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "荆棘基础反伤",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "荆棘基础魔法反伤，单位：伤害点。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "bonus_armor_ratio",
+          "name": "额外护甲反伤倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "以来源额外护甲为基数的反伤倍率，小数1表示100%。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "grievous_amount",
+          "name": "重伤比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null,
+          "description": "冻结说明中的重伤比例，小数0.4表示40%；重伤状态暂未引用共享状态字典。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "grievous_duration_ms",
+          "name": "重伤持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "重伤持续时间，单位：毫秒；状态接线待补。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "thorn_damage",
+          "name": "荆棘魔法反伤",
+          "description": "20点基础反伤加来源额外护甲的10%。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "armor",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "thorn_damage",
+          "name": "荆棘魔法反伤",
+          "description": "保存被攻击后对攻击者造成的魔法反伤组成，伤害来源标为反射；受击方向规则和重伤状态未在本批猜测接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "反射魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "20加来源额外护甲10%的魔法反伤。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "thorn_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "REFLECTED",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "reflect_on_basic_attack_taken",
+          "name": "受到普攻命中后反伤",
+          "description": "按冻结说明把直接的普通攻击伤害筛选为受击事件，并以事件来源对象作为反伤目标；重伤状态另因共享状态目录缺失而待补。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "DAMAGE_TAKEN",
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT"
+            }
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_thorn_damage",
+              "name": "执行荆棘反伤",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "thorn_damage"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "重伤状态键不在现有共享状态目录中，本批不创建共享状态；英雄目标判断和3秒持续时间仅保存为参数。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3075",
+        "skillKey": "item_3075_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3075/mDataValues、Items/3075/mItemCalculations/TotalDamage",
+          "evidence": "BaseDamage=20；BonusArmorDamageRatio=0.10000000149011612；TotalDamage由基础值与来源额外护甲倍率组成。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3075_tooltip",
+          "evidence": "被一次攻击命中后，对攻击者造成魔法伤害；英雄目标施加持续3秒的40%重伤。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "来源额外护甲200",
+          "expected": 40,
+          "actual": 40,
+          "unit": "伤害点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3076",
+      "equipmentName": "棘刺背心",
+      "skill": {
+        "skillKey": "item_3076_passive",
+        "name": "棘刺背心·荆棘",
+        "description": "被一次攻击命中后，对攻击者造成固定10点魔法反伤。本批按冻结客户端完整对象保存固定伤害；重伤状态与受击方向接线待补。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "荆棘基础反伤",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "冻结客户端对象中的固定魔法反伤，单位：伤害点。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "grievous_amount",
+          "name": "重伤比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null,
+          "description": "冻结说明中的重伤比例，小数0.4表示40%；重伤状态暂未引用共享状态字典。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "grievous_duration_ms",
+          "name": "重伤持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "重伤持续时间，单位：毫秒；状态接线待补。",
+          "sortOrder": 30
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "thorn_damage",
+          "name": "荆棘固定魔法反伤",
+          "description": "保存冻结客户端确证的固定10点魔法反伤；官方静态装备说明的0点仅作差异记录，不覆盖客户端完整对象。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "固定反射魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "固定10点魔法反伤。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "REFLECTED",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "reflect_on_basic_attack_taken",
+          "name": "受到普攻命中后反伤",
+          "description": "按冻结说明把直接的普通攻击伤害筛选为受击事件，并以事件来源对象作为反伤目标；重伤状态另因共享状态目录缺失而待补。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "DAMAGE_TAKEN",
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT"
+            }
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_thorn_damage",
+              "name": "执行荆棘反伤",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "thorn_damage"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "客户端对象未给出额外护甲倍率，不建立3075的倍率公式。",
+        "重伤状态键不在现有共享状态目录中，本批不创建共享状态；英雄目标判断和3秒持续时间仅保存为参数。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3076",
+        "skillKey": "item_3076_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3076/mDataValues、Items/3076/mItemCalculations/TotalDamage",
+          "evidence": "完整对象明确BaseDamage=10；BonusArmorDamageRatio无值；TotalDamage只有BaseDamage。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "data.3076",
+          "evidence": "直接属性30护甲，文本显示0魔法伤害；与冻结客户端对象的10点伤害存在差异，按客户端完整对象保存伤害并在报告标记。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3076_tooltip",
+          "evidence": "文本确认被攻击命中、魔法伤害、40%重伤3秒。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "任意来源额外护甲",
+          "expected": 10,
+          "actual": 10,
+          "unit": "伤害点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3057",
+      "equipmentName": "耀光",
+      "skill": {
+        "skillKey": "item_3057_passive",
+        "name": "耀光·咒刃",
+        "description": "施放技能后，下一次普通攻击造成来源基础攻击力1倍的额外物理伤害。本批保存数值组成；施放后就绪、下一次攻击消费和冷却运行时接线待补。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "spellblade_ad_ratio",
+          "name": "咒刃基础攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "spellblade_cooldown_ms",
+          "name": "咒刃冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+          "sortOrder": 20
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "spellblade_damage",
+          "name": "咒刃额外物理伤害",
+          "description": "来源基础攻击力乘以1倍咒刃倍率。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BASE"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "spellblade_damage",
+          "name": "咒刃额外物理伤害",
+          "description": "保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "咒刃物理伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "来源基础攻击力1倍的额外物理伤害。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "pendingRules": [
+        "“施放技能后下一次普通攻击”需要就绪标记、消费和冷却状态；当前批不把所有普通攻击直接接成咒刃。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3057",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3057/mDataValues、Items/3057/mItemCalculations/SpellbladeDamage",
+          "evidence": "SpellbladeDamage为来源基础攻击力乘1；SpellbladeCooldown=1.5秒。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3057_tooltip",
+          "evidence": "施放技能后下一次普通攻击造成额外物理伤害。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "来源基础攻击力100",
+          "expected": 100,
+          "actual": 100,
+          "unit": "伤害点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3078",
+      "equipmentName": "三相之力",
+      "skill": {
+        "skillKey": "item_3078_passive",
+        "name": "三相之力·咒刃与加快",
+        "description": "施放技能后下一次普通攻击造成来源基础攻击力2倍的额外物理伤害；攻击单位时提供20点移动速度，持续2秒。本批保存两部分确证组成，咒刃就绪消费待运行时接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "spellblade_ad_ratio",
+          "name": "咒刃基础攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "spellblade_cooldown_ms",
+          "name": "咒刃冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "move_speed_bonus",
+          "name": "加快移动速度",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "攻击单位后增加的固定移动速度，单位：移动速度点。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "name": "加快持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "加快持续时间，单位：毫秒。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "spellblade_damage",
+          "name": "咒刃额外物理伤害",
+          "description": "来源基础攻击力乘以2倍咒刃倍率。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BASE"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "spellblade_damage",
+          "name": "咒刃额外物理伤害",
+          "description": "保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "咒刃物理伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "来源基础攻击力2倍的额外物理伤害。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "move_speed",
+          "name": "加快移动速度",
+          "description": "攻击一个单位后，来源增加20点移动速度，持续2秒。",
+          "sortOrder": 20,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "move_speed",
+              "name": "固定移动速度增加",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "增加20点固定移动速度。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "move_speed_bonus"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "move_speed",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "grant_move_speed_on_basic_attack_hit",
+          "name": "攻击命中获得加快",
+          "description": "客户端说明明确为攻击一个单位后提供持续2秒的20点移动速度；本规则只接入普攻命中这一已有事件，不扩大咒刃触发范围。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "BASIC_ATTACK_HIT",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_move_speed",
+              "name": "执行加快移动速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "move_speed"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "咒刃部分需要施法后就绪标记、下一次普通攻击消费和冷却恢复；不以普攻命中规则代替。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3078",
+        "skillKey": "item_3078_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3078/mDataValues、Items/3078/mItemCalculations/SpellbladeDamage",
+          "evidence": "SpellbladeMultiplier=2；MoveSpeedBonus=20；MSDuration=2；SpellbladeCooldown=1.5秒。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3078_tooltip",
+          "evidence": "施放技能后下一次普攻造成额外物理伤害；攻击一个单位提供持续2秒的20移动速度。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "来源基础攻击力100",
+          "expected": 200,
+          "actual": 200,
+          "unit": "伤害点"
+        },
+        {
+          "sample": "攻击命中后的移动速度",
+          "expected": 20,
+          "actual": 20,
+          "unit": "移动速度点，持续2000毫秒"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3100",
+      "equipmentName": "巫妖之祸",
+      "skill": {
+        "skillKey": "item_3100_passive",
+        "name": "巫妖之祸·咒刃",
+        "description": "施放技能后10秒内下一次攻击获得50%额外攻击速度，并造成来源基础攻击力75%加总法术强度45%的额外魔法伤害。本批保存伤害与就绪攻击速度组成，状态消费待运行时接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "spellblade_ad_ratio",
+          "name": "咒刃基础攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "咒刃伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "spellblade_ap_ratio",
+          "name": "咒刃法术强度倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.45,
+          "levelValues": null,
+          "description": "咒刃伤害对来源总法术强度的倍率，小数1表示100%。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "attack_speed_bonus",
+          "name": "咒刃额外攻击速度",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null,
+          "description": "咒刃就绪攻击获得的额外攻击速度比例，小数0.5表示50%。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ready_duration_ms",
+          "name": "咒刃就绪窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "施法后咒刃就绪窗口，单位：毫秒。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "spellblade_cooldown_ms",
+          "name": "咒刃冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "spellblade_damage",
+          "name": "咒刃额外魔法伤害",
+          "description": "来源基础攻击力75%加总法术强度45%。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BASE"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "spellblade_damage",
+          "name": "咒刃额外魔法伤害",
+          "description": "保存施法后下一次攻击的额外魔法伤害组成；就绪与一次攻击消费规则待补。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "咒刃魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "来源基础攻击力75%加总法术强度45%的额外魔法伤害。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "spellblade_attack_speed",
+          "name": "咒刃就绪攻击速度",
+          "description": "咒刃就绪窗口内的下一次攻击获得50%额外攻击速度；本效果保存持续窗口，下一次攻击消费待运行时接线。",
+          "sortOrder": 20,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "ready_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "attack_speed",
+              "name": "额外攻击速度",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "增加50%额外攻击速度比例。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "attack_speed_bonus"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "pendingRules": [
+        "“施放技能后下一次攻击”需要就绪标记和一次攻击消费；当前批不把全部普攻直接接成巫妖咒刃。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3100",
+        "skillKey": "item_3100_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3100/mDataValues、Items/3100/mItemCalculations/SpellbladeDamage",
+          "evidence": "SpellbladeADRatio=0.75；LichBaneAPValue=0.45；SheenASBuff=0.5；SpellBladeDuration=10；SpellbladeCooldown=1.5秒。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3100_tooltip",
+          "evidence": "施放技能后10秒内下一次攻击获得50%攻击速度并造成额外魔法伤害。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "来源基础攻击力100、总法术强度200",
+          "expected": 165,
+          "actual": 165,
+          "unit": "伤害点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3102",
+      "equipmentName": "女妖面纱",
+      "skill": {
+        "skillKey": "item_3102_passive",
+        "name": "女妖面纱·废除",
+        "description": "提供一层法术护盾来格挡下一个敌方技能，冷却时间40秒。本批保存法术护盾结果和冷却参数；护盾初始化、被格挡后消费和受英雄伤害重置待运行时接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "spell_shield_cooldown_ms",
+          "name": "法术护盾冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40000,
+          "levelValues": null,
+          "description": "法术护盾冷却时间，单位：毫秒。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "spell_shield",
+          "name": "法术护盾",
+          "description": "保存格挡下一个敌方技能的法术护盾结果；护盾初始化、消费和冷却重置规则待运行时接线。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "spell_shield",
+              "name": "格挡下一个敌方技能",
+              "resultType": "SPELL_SHIELD",
+              "target": "SOURCE",
+              "description": "格挡下一个敌方技能。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": null,
+                "stackValueMode": null,
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": null,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "pendingRules": [
+        "护盾应在装备生效时初始化并在成功格挡后消费；现有记录没有可直接复用的装备初始化事件。",
+        "“冷却未完毕前受到英雄伤害则重置40秒”需要受击目标类别与冷却重置运行时语义。"
+      ],
+      "relation": {
+        "equipmentKey": "item_3102",
+        "skillKey": "item_3102_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3102/mDataValues、Items/3102/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "Cooldown=40秒；客户端键明确法术护盾及冷却说明。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries.item_3102_tooltip、entries.item_3102_tooltipextended",
+          "evidence": "提供一层法术护盾格挡下一个敌方技能；冷却完毕前受到英雄伤害会重新开始计算。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "冷却换算",
+          "expected": 40000,
+          "actual": 40000,
+          "unit": "毫秒"
+        }
+      ]
+    }
+  ]
+}

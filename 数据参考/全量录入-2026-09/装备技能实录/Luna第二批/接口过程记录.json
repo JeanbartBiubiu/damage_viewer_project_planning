@@ -1,0 +1,43 @@
+{
+  "observedAt": "2026-09-08",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "credentialRecord": "未保存凭据；脚本只使用公开占位值。",
+  "writeOrder": [
+    "技能占用 GET",
+    "参数逐项 POST 后独立 GET",
+    "公式逐项 POST 后独立 GET",
+    "效果逐项 POST 后独立 GET",
+    "触发规则逐项 POST 后独立 GET",
+    "装备挂载 GET 防重复、POST、列表 GET",
+    "装备代表图片 GET、技能代表图片独立 PUT、技能图片 GET"
+  ],
+  "interfaceIssues": [
+    {
+      "equipmentKey": "item_3078",
+      "skillKey": "item_3078_passive",
+      "request": "POST /skills/item_3078_passive/trigger-rules",
+      "status": 400,
+      "code": "400.INVALID_SKILL_TRIGGER_RULE_REFERENCE",
+      "field": "actions[0].targetContext",
+      "reason": "BASIC_ATTACK_HIT 事件不提供事件来源对象，EVENT_SOURCE 被拒绝。",
+      "confirmation": "失败后 GET 规则路径确认没有落地；按既有事件能力改用 CURRENT_TARGET 并重新保存，最终独立 GET 零差异。"
+    },
+    {
+      "equipmentKey": "item_3102",
+      "skillKey": "item_3102_passive",
+      "request": "POST /skills/item_3102_passive/effects",
+      "status": 400,
+      "code": "400.VALIDATION_FAILED",
+      "field": "results[0].lifecycleBehavior",
+      "reason": "法术护盾结果必须位于非空生命周期，且没有生命周期行为时结果行为不合法。",
+      "confirmation": "失败后 GET 效果路径确认没有落地；改为来源对象、单层、显式消费的生命周期后重新保存，最终独立 GET 零差异。"
+    }
+  ],
+  "finalReadback": {
+    "componentCount": 52,
+    "fieldCount": 572,
+    "mismatchCount": 0,
+    "missingCount": 0,
+    "runtime": "未执行"
+  }
+}
