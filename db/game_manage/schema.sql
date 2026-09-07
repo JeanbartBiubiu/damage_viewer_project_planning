@@ -527,7 +527,7 @@ CREATE TABLE public.skill_trigger_rules (
         CHECK (sort_order >= 0 AND sort_order <= 999999),
     CONSTRAINT ck_skill_trigger_rules_event_type
         CHECK (event_type IN (
-            'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',
+            'SOURCE_INITIALIZED', 'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',
             'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
