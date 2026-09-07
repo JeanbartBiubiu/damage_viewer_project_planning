@@ -92,6 +92,8 @@ export function SkillManagementPage({
   const [appliedQuery, setAppliedQuery] = useState<SkillListQuery>(EMPTY_QUERY);
   const [items, setItems] = useState<Skill[]>([]);
   const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [categories, setCategories] = useState<SkillCategory[]>([]);
@@ -222,9 +224,17 @@ export function SkillManagementPage({
 
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
+  useEffect(() => { setCurrentPage(1); }, [apiBaseUrl, selectedGameId, adminToken, focusedSkillKey]);
+
+  const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
+  const visiblePage = Math.min(currentPage, lastPage);
+  useEffect(() => {
+    setCurrentPage((page) => Math.min(page, lastPage));
+  }, [lastPage]);
 
   const applyQuery = () => {
     setNotice(null);
+    setCurrentPage(1);
     setAppliedQuery({
       keyword: keywordDraft.trim() || undefined,
       status: statusDraft || undefined
@@ -235,6 +245,7 @@ export function SkillManagementPage({
     setKeywordDraft('');
     setStatusDraft('');
     setNotice(null);
+    setCurrentPage(1);
     setAppliedQuery(EMPTY_QUERY);
   };
 
@@ -496,7 +507,18 @@ export function SkillManagementPage({
           loading={loading}
           columns={columns}
           data={items}
-          pagination={false}
+          pagination={focus ? false : {
+            current: visiblePage,
+            pageSize,
+            total: items.length,
+            showTotal: true,
+            sizeCanChange: true,
+            sizeOptions: [25, 50, 100],
+            onChange: (page, nextPageSize) => {
+              setCurrentPage(nextPageSize === pageSize ? page : 1);
+              setPageSize(nextPageSize);
+            }
+          }}
           rowKey={(record: Skill) => record.skillKey}
           scroll={{ x: 1654 }}
           noDataElement={<Empty description="暂无技能" />}
