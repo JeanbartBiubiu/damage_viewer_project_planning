@@ -75,6 +75,14 @@ import {
 
 const EVENT_CAPABILITY_ROWS = [
   {
+    eventType: 'SOURCE_INITIALIZED',
+    label: '来源对象初始化完成',
+    currentTargetBinding: '当前目标与事件来源对象均为完成初始化的来源对象自身，不指向战斗对手。',
+    hasEventSource: true,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  {
     eventType: 'SKILL_USED',
     label: '技能被主动或消耗使用',
     currentTargetBinding: '该次技能使用的显式目标；没有时为来源对象。',
@@ -409,8 +417,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 21 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(21);
+  it('exposes exactly 22 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(22);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -433,6 +441,10 @@ describe('trigger event member set and capability table', () => {
 
   it('creates type-specific empty event details and never carries foreign fields', () => {
     expect(emptyEventDetail()).toEqual({});
+    expect(createEmptyEventSource('SOURCE_INITIALIZED')).toEqual({
+      eventType: 'SOURCE_INITIALIZED',
+      detail: {}
+    });
     expect(createEmptyEventSource('SKILL_USED')).toEqual({
       eventType: 'SKILL_USED',
       detail: { sourceSkillKey: null, useKind: 'ANY' }
@@ -513,6 +525,7 @@ describe('trigger event member set and capability table', () => {
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.KILLED).toBe('INTEGER');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.LINK_INDEX).toBe('INTEGER');
 
+    expect(allowedEventValuesFor(createEmptyEventSource('SOURCE_INITIALIZED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);

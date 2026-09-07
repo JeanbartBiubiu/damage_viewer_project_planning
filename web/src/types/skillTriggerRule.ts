@@ -3,6 +3,7 @@ import type { FormulaAttributeValueKind } from './skillFormula';
 import type { SkillProcessMoment } from './skillProcess';
 
 export type SkillTriggerEventType =
+  | 'SOURCE_INITIALIZED'
   | 'SKILL_USED'
   | 'BASIC_ATTACK_START'
   | 'BASIC_ATTACK_HIT'
@@ -203,6 +204,11 @@ export type SkillTriggerSkillUsedEventSource = {
   detail: SkillTriggerSkillUsedEventDetail;
 };
 
+export type SkillTriggerSourceInitializedEventSource = {
+  eventType: 'SOURCE_INITIALIZED';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerBasicAttackStartEventSource = {
   eventType: 'BASIC_ATTACK_START';
   detail: SkillTriggerEmptyDetail;
@@ -304,6 +310,7 @@ export type SkillTriggerAttackLinkAppliedEventSource = {
 };
 
 export type SkillTriggerEventSource =
+  | SkillTriggerSourceInitializedEventSource
   | SkillTriggerSkillUsedEventSource
   | SkillTriggerBasicAttackStartEventSource
   | SkillTriggerBasicAttackHitEventSource
