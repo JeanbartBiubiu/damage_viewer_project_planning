@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const apiBaseUrl = 'http://127.0.0.1:8080/api/admin/games/lol';
 const token = 'local-entry';
-const evidencePath = new URL('./护盾消费纠错/当前批次回读.json', import.meta.url);
+const evidencePath = new URL('./逐字段回读证据.json', import.meta.url);
 const candidatePath = new URL('./录入候选.json', import.meta.url);
 
 const fixed = (value) => ({ kind: 'FIXED', value });
@@ -381,7 +381,7 @@ const objects = [
       }]
     }],
     triggerRules: [],
-    pendingRules: ['成功格挡后显式消费已经通过独立效果和规则保存。护盾初始化仍待配置；SOURCE_INITIALIZED事件已存在，不记为系统没有初始化能力。', '40秒恢复及“冷却未完毕前受到英雄伤害则重新计时”的完整接线仍待配置，本次不扩大到初始化、受击范围和恢复过程。'],
+    pendingRules: ['护盾应在装备生效时初始化并在成功格挡后消费；现有记录没有可直接复用的装备初始化事件。', '“冷却未完毕前受到英雄伤害则重置40秒”需要受击目标类别与冷却重置运行时语义。'],
     relation: { equipmentKey: 'item_3102', skillKey: 'item_3102_passive', sortOrder: 10 },
     sourceRefs: [
       { file: '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz', pointer: 'Items/3102/mDataValues、Items/3102/mItemDataClient/mTooltipData/mLocKeys', evidence: 'Cooldown=40秒；客户端键明确法术护盾及冷却说明。' },
@@ -390,28 +390,6 @@ const objects = [
     arithmetic: [{ sample: '冷却换算', expected: 40000, actual: 40 * 1000, unit: '毫秒' }]
   }
 ];
-
-// 本次增量不重写六件装备的既有主体与效果说明；当前消费结构以这两个组成为准。
-const banshee = objects.find(object => object.equipmentKey === 'item_3102');
-banshee.effects.push({
-  effectKey: 'consume_spell_shield', name: '成功格挡后消费法术护盾',
-  description: '仅接收本技能法术护盾成功阻挡事件，显式移除持有者自身护盾；初始化和恢复另行配置。',
-  sortOrder: 20, lifecycle: null,
-  results: [{
-    resultKey: 'remove_spell_shield', name: '移除已成功格挡的法术护盾', resultType: 'LIFECYCLE_OPERATION', target: 'SOURCE',
-    description: '只在法术护盾成功格挡后移除来源自身的本技能护盾。', sortOrder: 10,
-    lifecycleBehavior: null, spellShieldBlockScope: null, valueRule: null,
-    detail: { targetEffectKey: 'spell_shield', operation: 'REMOVE' }
-  }]
-});
-banshee.triggerRules.push({
-  ruleKey: 'consume_on_spell_block', name: '法术护盾成功格挡后消费',
-  description: '格挡成功后移除本技能自身护盾；不把自然结束或任意伤害当作成功格挡。', sortOrder: 10,
-  eventSource: { eventType: 'SPELL_SHIELD_BLOCKED', detail: { shieldEffectKey: 'spell_shield' } }, conditionGroups: [],
-  actions: [{ actionKey: 'consume_shield', name: '消费自身法术护盾', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
-    targetContext: 'CURRENT_TARGET', detail: { effectKey: 'consume_spell_shield' }, runtimeInputBindings: [], resultModifiers: [] }],
-  perTargetCooldown: null, maxTriggersPerProcess: null
-});
 
 const sourceFiles = [
   '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz',
@@ -682,13 +660,8 @@ function summary(records) {
 const apply = process.argv.includes('--apply');
 const applyImages = process.argv.includes('--apply-images');
 const writeCandidate = process.argv.includes('--write-candidate');
-const candidateOnly = process.argv.includes('--candidate-only');
-if (writeCandidate || candidateOnly) {
+if (writeCandidate) {
   await writeFile(candidatePath, `${JSON.stringify({ generatedAt: new Date().toISOString(), objects }, null, 2)}\n`, 'utf8');
-}
-if (candidateOnly) {
-  console.log(JSON.stringify({ mode: '仅生成当前候选，无API请求', equipmentCount: objects.length }));
-  process.exit(0);
 }
 
 const records = [];

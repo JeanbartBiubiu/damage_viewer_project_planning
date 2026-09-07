@@ -37,10 +37,10 @@ for (const object of candidate.objects) {
   components += 2;
   output.records.push(record);
 }
-output.counts = { skills: 6, parameters: 19, formulas: 4, effects: 9, triggerRules: 4, equipmentRelations: 6, representativeImageReuses: 6 };
+output.counts = { skills: 6, parameters: 19, formulas: 4, effects: 8, triggerRules: 3, equipmentRelations: 6, representativeImageReuses: 6 };
 assert.equal(output.records.length, output.counts.skills);
-assert.equal(components, 54);
+assert.equal(components, 52);
 output.components = components;
 output.passed = true;
-fs.writeFileSync(new URL('./护盾消费纠错/批次复核.json', import.meta.url), JSON.stringify(output, null, 2) + '\n');
+fs.writeFileSync(new URL('./主负责人复核.json', import.meta.url), JSON.stringify(output, null, 2) + '\n');
 console.log(JSON.stringify({ components, ...output.counts, passed: true }));

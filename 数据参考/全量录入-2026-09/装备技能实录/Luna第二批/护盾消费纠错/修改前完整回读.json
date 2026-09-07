@@ -1,0 +1,129 @@
+{
+  "at": "2026-09-07T18:51:18.537Z",
+  "skillKey": "item_3102_passive",
+  "records": [
+    {
+      "endpoint": "/skills/item_3102_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:08:51.05681Z",
+        "description": "提供一层法术护盾来格挡下一个敌方技能，冷却时间40秒。本批保存法术护盾结果和冷却参数；护盾初始化、被格挡后消费和受英雄伤害重置待运行时接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "女妖面纱·废除",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3102_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T16:08:51.05681Z"
+      }
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:09:19.719545Z",
+          "description": "保存格挡下一个敌方技能的法术护盾结果；护盾初始化、消费和冷却重置规则待运行时接线。",
+          "effectKey": "spell_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "法术护盾",
+          "resultCount": 1,
+          "skillKey": "item_3102_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:09:19.719545Z"
+        }
+      ]
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/effects/spell_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:09:19.719545Z",
+        "description": "保存格挡下一个敌方技能的法术护盾结果；护盾初始化、消费和冷却重置规则待运行时接线。",
+        "effectKey": "spell_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "法术护盾",
+        "results": [
+          {
+            "description": "格挡下一个敌方技能。",
+            "detail": {},
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "格挡下一个敌方技能",
+            "resultKey": "spell_shield",
+            "resultType": "SPELL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_3102_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:09:19.719545Z"
+      }
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/effects/consume_spell_shield",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "consume_spell_shield"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/trigger-rules/consume_on_spell_block",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "consume_on_spell_block"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/processes",
+      "status": 200,
+      "data": []
+    }
+  ]
+}
