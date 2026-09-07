@@ -1,0 +1,516 @@
+{
+  "generatedAt": "2026-09-07T17:36:52.4840277Z",
+  "scope": "第五批六件装备；只保存1V1战斗相关可确证组成，金币等范围外效果单列排除",
+  "sourceVersion": "16.17.1",
+  "clientVersion": "16.17",
+  "objects": [
+    {
+      "equipmentKey": "item_1043",
+      "equipmentName": "反曲之弓",
+      "directAttributes": {
+        "bonus_attack_speed_percent": 0.15
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/1043/mDataValues/OnHitDamage、mItemCalculations、mPercentAttackSpeedMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "OnHitDamage=15；直接属性为0.15攻击速度；客户端计算项引用OnHitDamage。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_1043_tooltip、entries/GeneratedTip_Item_1043_Description",
+          "evidence": "攻击附带15点额外物理伤害，并标为攻击特效。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/1043/description、/data/1043/stats",
+          "evidence": "官方说明为15%攻击速度与攻击附带15点额外物理伤害。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_1043/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "same",
+          "path": "/skills/item_1043_passive"
+        },
+        {
+          "kind": "parameter:on_hit_damage",
+          "state": "same",
+          "path": "/skills/item_1043_passive/parameters/on_hit_damage"
+        },
+        {
+          "kind": "effect:on_hit_damage",
+          "state": "same",
+          "path": "/skills/item_1043_passive/effects/on_hit_damage"
+        },
+        {
+          "kind": "trigger-rule:resolve_on_basic_attack_hit",
+          "state": "same",
+          "path": "/skills/item_1043_passive/trigger-rules/resolve_on_basic_attack_hit"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "same",
+          "path": "/equipment-skill-relations?equipmentKey=item_1043"
+        },
+        {
+          "kind": "representative-image",
+          "state": "same",
+          "path": "/skills/item_1043_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "当前规则只覆盖已有BASIC_ATTACK_HIT事件；来源只确认攻击附带，技能触发的攻击特效是否复用该事件留待运行链核对。"
+      ],
+      "pendingEffects": [],
+      "arithmetic": [
+        {
+          "sample": "单次攻击附带伤害",
+          "expected": 15,
+          "actual": 15,
+          "unit": "物理伤害点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1083",
+      "equipmentName": "萃取",
+      "directAttributes": {
+        "attack_damage": 7
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/1083/mDataValues/OnHitHeal、MinionKillGold、CompleteGold、MinionKillThreshold、mFlatPhysicalDamageMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "OnHitHeal=3；金币字段另存但按范围跳过；直接属性为7攻击力。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_1083_tooltip、entries/Item_1083_TooltipExternal、entries/GeneratedTip_Item_1083_Description",
+          "evidence": "每次攻击回复3点生命值；同一说明另含小兵金币段，金币段未录入。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/1083/description、/data/1083/stats",
+          "evidence": "官方说明为7攻击力、攻击回复3点生命值及小兵金币奖励；本批仅保留生命回复。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_1083/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "same",
+          "path": "/skills/item_1083_passive"
+        },
+        {
+          "kind": "parameter:on_hit_heal",
+          "state": "same",
+          "path": "/skills/item_1083_passive/parameters/on_hit_heal"
+        },
+        {
+          "kind": "effect:on_hit_heal",
+          "state": "same",
+          "path": "/skills/item_1083_passive/effects/on_hit_heal"
+        },
+        {
+          "kind": "trigger-rule:resolve_on_basic_attack_hit",
+          "state": "same",
+          "path": "/skills/item_1083_passive/trigger-rules/resolve_on_basic_attack_hit"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "same",
+          "path": "/equipment-skill-relations?equipmentKey=item_1083"
+        },
+        {
+          "kind": "representative-image",
+          "state": "same",
+          "path": "/skills/item_1083_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "小兵击杀1金币、达到100次后的额外350金币及相关阈值属于范围外金币效果，已从参数、效果和触发中排除，不计待补机制。"
+      ],
+      "pendingEffects": [],
+      "arithmetic": [
+        {
+          "sample": "单次攻击命中治疗",
+          "expected": 3,
+          "actual": 3,
+          "unit": "生命点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3123",
+      "equipmentName": "死刑宣告",
+      "directAttributes": {
+        "attack_damage": 15
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3123/mDataValues/GrievousDuration、GrievousAmount、mFlatPhysicalDamageMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "GrievousAmount=0.4；GrievousDuration=3秒；直接属性为15攻击力。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3123_tooltip、entries/GeneratedTip_Item_3123_Description",
+          "evidence": "对敌方英雄造成物理伤害时施加40%重伤，持续3秒。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3123/description、/data/3123/stats",
+          "evidence": "官方说明与客户端一致；基础攻击力已由装备自身保存。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_3123/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "same",
+          "path": "/skills/item_3123_passive"
+        },
+        {
+          "kind": "parameter:grievous_amount",
+          "state": "same",
+          "path": "/skills/item_3123_passive/parameters/grievous_amount"
+        },
+        {
+          "kind": "parameter:grievous_duration_ms",
+          "state": "same",
+          "path": "/skills/item_3123_passive/parameters/grievous_duration_ms"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "same",
+          "path": "/equipment-skill-relations?equipmentKey=item_3123"
+        },
+        {
+          "kind": "representative-image",
+          "state": "same",
+          "path": "/skills/item_3123_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "来源触发是对敌方英雄造成物理伤害，不是任意命中；当前DAMAGE_DEALT事件与目标类别条件的组合不能准确覆盖全部物理伤害并同时限定英雄，因此不接宽泛规则。",
+        "重伤结果目标为TARGET，RECEIVED/DECREASE/ANY仅说明该目标受到治疗的降低。现有RATIO_ADD会把两份40%叠成80%，需先补跨来源取强语义，再建治疗乘区和效果；hp_regen覆盖另核，不能宣称完整重伤。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "grievous_healing_modifier",
+          "resultType": "HEALING_MODIFIER",
+          "target": "TARGET",
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "grievous_amount"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "modifierZoneKey": null,
+            "direction": "RECEIVED",
+            "operation": "DECREASE",
+            "healingKind": "ANY"
+          },
+          "reason": "单份治疗降低已有结果结构；当前组合仅加算，缺多个重伤来源只取最强的方式，不能仅新增RATIO_ADD目录后提交。目标类别门禁及生命回复覆盖分别待处理。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "治疗100点时的减疗量",
+          "expected": 40,
+          "actual": 40,
+          "unit": "治疗点"
+        },
+        {
+          "sample": "重伤时长换算",
+          "expected": 3000,
+          "actual": 3000,
+          "unit": "毫秒"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3916",
+      "equipmentName": "湮灭宝珠",
+      "directAttributes": {
+        "ability_power": 25
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3916/mDataValues/GrievousDuration、GrievousAmount、mFlatMagicDamageMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "GrievousAmount=0.4；GrievousDuration=3秒；直接属性为25法术强度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3916_tooltip、entries/GeneratedTip_Item_3916_Description",
+          "evidence": "对敌方英雄造成魔法伤害时施加40%重伤，持续3秒。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3916/description、/data/3916/stats",
+          "evidence": "官方说明与客户端一致；基础法术强度已由装备自身保存。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_3916/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "same",
+          "path": "/skills/item_3916_passive"
+        },
+        {
+          "kind": "parameter:grievous_amount",
+          "state": "same",
+          "path": "/skills/item_3916_passive/parameters/grievous_amount"
+        },
+        {
+          "kind": "parameter:grievous_duration_ms",
+          "state": "same",
+          "path": "/skills/item_3916_passive/parameters/grievous_duration_ms"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "same",
+          "path": "/equipment-skill-relations?equipmentKey=item_3916"
+        },
+        {
+          "kind": "representative-image",
+          "state": "same",
+          "path": "/skills/item_3916_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "来源触发是对敌方英雄造成魔法伤害，不是任意命中；当前DAMAGE_DEALT事件与目标类别条件的组合不能准确覆盖全部魔法伤害并同时限定英雄，因此不接宽泛规则。",
+        "重伤结果目标为TARGET，RECEIVED/DECREASE/ANY仅说明该目标受到治疗的降低。现有RATIO_ADD会把两份40%叠成80%，需先补跨来源取强语义，再建治疗乘区和效果；hp_regen覆盖另核，不能宣称完整重伤。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "grievous_healing_modifier",
+          "resultType": "HEALING_MODIFIER",
+          "target": "TARGET",
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "grievous_amount"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "modifierZoneKey": null,
+            "direction": "RECEIVED",
+            "operation": "DECREASE",
+            "healingKind": "ANY"
+          },
+          "reason": "单份治疗降低已有结果结构；当前组合仅加算，缺多个重伤来源只取最强的方式，不能仅新增RATIO_ADD目录后提交。目标类别门禁及生命回复覆盖分别待处理。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "治疗100点时的减疗量",
+          "expected": 40,
+          "actual": 40,
+          "unit": "治疗点"
+        },
+        {
+          "sample": "重伤时长换算",
+          "expected": 3000,
+          "actual": 3000,
+          "unit": "毫秒"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3089",
+      "equipmentName": "灭世者的死亡之帽",
+      "directAttributes": {
+        "ability_power": 130
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3089/mDataValues/APAmp、mFlatMagicDamageMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "APAmp=0.3；直接属性为130法术强度；客户端提示为总法术强度提升。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3089_tooltip、entries/item_3089_tooltipdynamic、entries/GeneratedTip_Item_3089_Description",
+          "evidence": "魔法乐章使总法术强度提升30%。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3089/description、/data/3089/stats",
+          "evidence": "官方说明为130法术强度与总法术强度提升30%。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_3089/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "same",
+          "path": "/skills/item_3089_passive"
+        },
+        {
+          "kind": "parameter:ap_total_multiplier",
+          "state": "same",
+          "path": "/skills/item_3089_passive/parameters/ap_total_multiplier"
+        },
+        {
+          "kind": "effect:total_ap_percent",
+          "state": "created",
+          "path": "/skills/item_3089_passive/effects/total_ap_percent"
+        },
+        {
+          "kind": "trigger-rule:initialize_total_ap_multiplier",
+          "state": "created",
+          "path": "/skills/item_3089_passive/trigger-rules/initialize_total_ap_multiplier"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "created",
+          "path": "/equipment-skill-relations?equipmentKey=item_3089"
+        },
+        {
+          "kind": "representative-image",
+          "state": "created",
+          "path": "/skills/item_3089_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "属性百分比乘区只保存比例值0.3并由现有attribute_percent_bonus应用；示例总法强400时增加120、结果520。当前仅完成配置和接口回读，未执行运行时计算。"
+      ],
+      "pendingEffects": [],
+      "arithmetic": [
+        {
+          "sample": "总法术强度400的提升",
+          "expected": 120,
+          "actual": 120,
+          "unit": "法术强度点"
+        },
+        {
+          "sample": "总法术强度400应用后",
+          "expected": 520,
+          "actual": 520,
+          "unit": "法术强度点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3116",
+      "equipmentName": "瑞莱的冰晶节杖",
+      "directAttributes": {
+        "hp": 400,
+        "ability_power": 65
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3116/mDataValues/SlowAmount、SlowDuration、mEffectAmount、mFlatHPPoolMod、mFlatMagicDamageMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "SlowAmount=0.3；SlowDuration=1秒；直接属性400生命值、65法术强度；当前item_3116对象不是升级版item_223116。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3116_tooltip、entries/item_3116_tooltipexternal、entries/GeneratedTip_Item_3116_Description",
+          "evidence": "伤害型技能使敌人减速30%，持续1秒；未采用升级版对象的其它减速数值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3116/description、/data/3116/stats",
+          "evidence": "官方说明为65法术强度、400生命值及伤害型技能减速30%持续1秒。"
+        }
+      ],
+      "savedComponents": [
+        {
+          "kind": "equipment-direct-attributes",
+          "state": "read",
+          "path": "/equipment/item_3116/attributes"
+        },
+        {
+          "kind": "skill",
+          "state": "created",
+          "path": "/skills/item_3116_passive"
+        },
+        {
+          "kind": "parameter:slow_amount",
+          "state": "created",
+          "path": "/skills/item_3116_passive/parameters/slow_amount"
+        },
+        {
+          "kind": "parameter:slow_duration_ms",
+          "state": "created",
+          "path": "/skills/item_3116_passive/parameters/slow_duration_ms"
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "state": "created",
+          "path": "/equipment-skill-relations?equipmentKey=item_3116"
+        },
+        {
+          "kind": "representative-image",
+          "state": "created",
+          "path": "/skills/item_3116_passive/representative-image"
+        }
+      ],
+      "pendingRules": [
+        "来源范围是伤害型技能命中目标；当前SKILL_HIT可以作为技能命中事件，但状态操作必须引用已登记状态，且事件与伤害类型筛选还需运行链确认。",
+        "当前GET /statuses仅有vertigo（眩晕），没有减速状态键；不使用眩晕或move_speed_percent属性变化替代30%减速，待共享减速状态及准确技能伤害触发条件补齐后再写效果。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "skill_damage_slow",
+          "resultType": "STATUS_OPERATION",
+          "target": "TARGET",
+          "valueRule": null,
+          "detail": {
+            "statusKey": null,
+            "operation": "APPLY"
+          },
+          "reason": "现有STATUS_OPERATION要求已登记statusKey；当前状态目录没有减速，且减速强度与持续时间已分别保存为参数。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "伤害型技能造成的减速比例",
+          "expected": 0.3,
+          "actual": 0.3,
+          "unit": "小数，等于30%"
+        },
+        {
+          "sample": "减速持续时间换算",
+          "expected": 1000,
+          "actual": 1000,
+          "unit": "毫秒"
+        }
+      ]
+    }
+  ],
+  "reviewEvidence": "主负责人审查.json"
+}
