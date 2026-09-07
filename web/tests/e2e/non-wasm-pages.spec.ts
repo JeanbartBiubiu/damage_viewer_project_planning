@@ -3620,6 +3620,65 @@ test.describe('status management without Wasm', () => {
 });
 
 test.describe('skill management without Wasm', () => {
+  test('paginates skills locally and preserves editing position while recovering an empty last page', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = Array.from({ length: 51 }, (_, i) => ({
+      gameId: GAME_ID, skillKey: `paged_${String(i + 1).padStart(3, '0')}`,
+      name: `分页技能${i + 1}`, description: null, maxLevel: 5,
+      status: 'ENABLED', sortOrder: i, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }));
+    const diagnostics = await prepare(page, mock);
+    let listReads = 0;
+    const imageReads = new Set<string>();
+    page.on('request', request => {
+      const path = new URL(request.url()).pathname;
+      if (request.method() === 'GET' && path === `/api/admin/games/${GAME_ID}/skills`) listReads += 1;
+      const match = path.match(/\/skills\/(paged_\d+)\/representative-image$/);
+      if (match) imageReads.add(match[1]);
+    });
+    await openSkills(page);
+    const rows = page.locator('main tbody tr');
+    await expect(rows).toHaveCount(25);
+    await expect(skillRow(page, 'paged_025')).toBeVisible();
+    await expect(skillRow(page, 'paged_026')).toHaveCount(0);
+    expect(imageReads.has('paged_026')).toBe(false);
+    const beforeFlip = listReads;
+
+    await page.getByLabel('第 3 页', { exact: true }).click();
+    await expect(rows).toHaveCount(1);
+    await skillRow(page, 'paged_051').getByRole('button', { name: '编辑', exact: true }).click();
+    const editor = visibleModal(page, '编辑技能');
+    await expect(editor.getByLabel('技能标识', { exact: true })).toHaveValue('paged_051');
+    expect(listReads).toBe(beforeFlip);
+    await editor.getByLabel('说明', { exact: true }).fill('编辑后留在第三页');
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editor).toBeHidden();
+    await expect(page.getByLabel('第 3 页', { exact: true })).toHaveAttribute('aria-current', 'true');
+    await expect(skillRow(page, 'paged_051')).toBeVisible();
+    expect(mock.skills[50].description).toBe('编辑后留在第三页');
+
+    await skillRow(page, 'paged_051').getByRole('button', { name: '删除', exact: true }).click();
+    await visibleModal(page, '删除技能').getByRole('button', { name: '删除', exact: true }).click();
+    await expect(page.getByLabel('第 2 页', { exact: true })).toHaveAttribute('aria-current', 'true');
+    await expect(rows).toHaveCount(25);
+    await expect(skillRow(page, 'paged_050')).toBeVisible();
+
+    await page.getByLabel('技能关键词', { exact: true }).fill('paged_001');
+    await page.getByRole('button', { name: '查询', exact: true }).click();
+    await expect(rows).toHaveCount(1);
+    await expect(page.getByLabel('第 1 页', { exact: true })).toHaveAttribute('aria-current', 'true');
+    await expect(skillRow(page, 'paged_001')).toBeVisible();
+    await page.getByRole('button', { name: '重置', exact: true }).click();
+    await expect(rows).toHaveCount(25);
+    const beforeResize = listReads;
+    await page.locator('.arco-pagination-option').getByRole('combobox').click();
+    await page.getByRole('option', { name: '50 条/页', exact: true }).click();
+    await expect(rows).toHaveCount(50);
+    expect(listReads).toBe(beforeResize);
+    diagnostics.assertClean('local skill pagination, editing and last-page deletion');
+  });
+
   test('starts each skill editor session without the previous skill categories', async ({ page }) => {
     const mock = new MockApi();
     mock.skillCategories = [
