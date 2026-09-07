@@ -20,6 +20,12 @@ const asheMechanism = read('艾希技能实录第一批/独立核对.json');
 const equipmentMechanism = read('装备技能实录/Luna第一批/主负责人复核.json');
 const publicParameterEvidence = '技能公共参数实录/独立核对.json';
 const publicParameters = read(publicParameterEvidence);
+const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
+const nasusMechanism = read(nasusEvidence);
+assert.equal(nasusMechanism.passed, true);
+assert.deepEqual(nasusMechanism.counts, { parameters: 24, formulas: 6, effects: 7, processes: 3 });
+assert.equal(nasusMechanism.missing.length, 0);
+assert.equal(nasusMechanism.conflicts.length, 0);
 assert.equal(publicParameters.passed, true);
 assert.equal(publicParameters.counts.verifiedParameters, 110);
 assert.equal(publicParameters.counts.verifiedSkills, 61);
@@ -136,6 +142,14 @@ for (const item of scopeItems) {
     entry.note = `${entry.note} 一对一混合处置：${disposition['状态']}；本批只保留已列一对一组成，其他组成及运行接线另待补证。`;
   }
 }
+for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) {
+  const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
+  assert.ok(entry, skillKey);
+  const records = nasusMechanism.records.filter(record => record.skillKey === skillKey);
+  entry.mechanismComponents = { evidence: nasusEvidence,
+    counts: Object.fromEntries(['parameters', 'formulas', 'effects', 'processes'].map(type => [type, records.filter(record => record.type === type).length])) };
+  entry.note += ` 内瑟斯机制批次另有 ${records.length} 个组成保存并回读；控制、初始化或完整触发仍按该批清单继续。`;
+}
 fs.writeFileSync(path.join(root, '英雄/录入进度.jsonl'), entries.map(x => JSON.stringify(x)).join('\n') + '\n');
 
 const equipmentMechanismCounts = {
@@ -148,6 +162,13 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  nasusFirstBatch: {
+    skills: ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r'],
+    ...nasusMechanism.counts,
+    status: '部分录入，公共参数另列不重复计数',
+    runtimeValidation: nasusMechanism.runtimeValidation,
+    evidence: nasusEvidence,
+  },
   publicParametersFirstBatch: {
     heroes: publicParameters.selectedHeroes,
     skills: publicParameters.counts.verifiedSkills,

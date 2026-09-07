@@ -1,0 +1,162 @@
+{
+  "checkedAt": "2026-09-07T16:26:59.805Z",
+  "samples": [
+    {
+      "slot": "q",
+      "formulaKey": "bonus_damage",
+      "rank": 1,
+      "attrs": {},
+      "inputs": {
+        "q_stack_damage": 0
+      },
+      "expected": 40,
+      "actual": 40,
+      "passed": true
+    },
+    {
+      "slot": "q",
+      "formulaKey": "bonus_damage",
+      "rank": 5,
+      "attrs": {},
+      "inputs": {
+        "q_stack_damage": 600
+      },
+      "expected": 720,
+      "actual": 720,
+      "passed": true
+    },
+    {
+      "slot": "w",
+      "formulaKey": "initial_attack_speed_slow_ratio",
+      "rank": 1,
+      "attrs": {},
+      "inputs": {},
+      "expected": 0.2625,
+      "actual": 0.26249999999999996,
+      "passed": true
+    },
+    {
+      "slot": "w",
+      "formulaKey": "max_attack_speed_slow_ratio",
+      "rank": 5,
+      "attrs": {},
+      "inputs": {},
+      "expected": 0.7125,
+      "actual": 0.7124999999999999,
+      "passed": true
+    },
+    {
+      "slot": "e",
+      "formulaKey": "initial_damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 50,
+      "actual": 50,
+      "passed": true
+    },
+    {
+      "slot": "e",
+      "formulaKey": "initial_damage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 290,
+      "actual": 290,
+      "passed": true
+    },
+    {
+      "slot": "e",
+      "formulaKey": "damage_per_second",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 58,
+      "actual": 58,
+      "passed": true
+    },
+    {
+      "slot": "r",
+      "formulaKey": "damage_per_second",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 0,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 60,
+      "actual": 60,
+      "passed": true
+    },
+    {
+      "slot": "r",
+      "formulaKey": "damage_per_second",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 140,
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 1,
+      "expected": 0.1,
+      "actual": 0.1,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 6,
+      "expected": 0.1,
+      "actual": 0.1,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 7,
+      "expected": 0.15,
+      "actual": 0.15,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 12,
+      "expected": 0.15,
+      "actual": 0.15,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 13,
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true
+    },
+    {
+      "slot": "p",
+      "parameterKey": "life_steal_ratio",
+      "level": 18,
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "structuralChecks": 5,
+  "boundary": "读取真实保存的公式与参数计算样例，非战斗执行或Wasm验收"
+}
