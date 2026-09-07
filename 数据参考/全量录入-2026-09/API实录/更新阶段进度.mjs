@@ -71,6 +71,12 @@ const heroSecond = readAbsolute(path.join(luxEvidenceWorktree, heroSecondRelativ
 assert.equal(heroSecond.componentsChecked, 206);
 assert.deepEqual(heroSecond.failures, []);
 assert.equal(Object.keys(heroSecond.skills).length, 20);
+const heroThirdRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/回读摘要.json';
+const heroThird = readAbsolute(path.join(luxEvidenceWorktree, heroThirdRelative));
+assert.equal(heroThird.componentsChecked, 210);
+assert.deepEqual(heroThird.failures, []);
+assert.deepEqual(heroThird.totals, {parameters:127, formulas:24, effects:39, processes:12, internalStates:0, triggerRules:8});
+assert.equal(Object.keys(heroThird.skills).length, 20);
 const luxReadbackSummary = readAbsolute(path.join(luxEvidenceWorktree, luxReadbackSummaryRelative));
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
@@ -202,13 +208,22 @@ for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) 
     entry.note = '当前1～18级范围：生命偷取等级参数、无限期自身属性效果、来源初始化规则均已保存并独立回读，规则由真实页面新增及关闭重开核对。配置录入已验收，战斗未执行。';
   }
 }
-for (const [skillKey, proof] of Object.entries(heroSecond.skills)) {
+for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative]]) {
+for (const [skillKey, proof] of Object.entries(batch.skills)) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
-  entry.mechanismComponents = {counts:proof.counts, evidence:{worktree:luxEvidenceWorktree,relativePath:heroSecondRelative}};
+  entry.mechanismComponents = {counts:proof.counts, evidence:{worktree:luxEvidenceWorktree,relativePath:batchRelative}};
   entry.pendingMechanisms = proof.pending;
   entry.excludedMechanisms = proof.excluded;
   entry.note += ` 四英雄批次已保存 ${Object.values(proof.counts).reduce((a,b)=>a+b,0)} 个组成并独立回读；范围内待补与排除分别记录，不计为完整机制。`;
+  if (skillKey==='tristana_q') {
+    assert.deepEqual(proof.pending, []);
+    assert.deepEqual(proof.excluded, []);
+    assert.deepEqual(proof.counts, {parameters:4, formulas:0, effects:2, processes:1, internalStates:0, triggerRules:0});
+    entry.status='已录入';
+    entry.note='当前技能1～5级冷却、法力、7秒攻速加成及施放过程已保存；采用当前法力数组15/20/25/30/35，来源和全部7组成独立回读一致，批次代表页面已验收。配置录入完成，战斗未执行。';
+  }
+}
 }
 fs.writeFileSync(path.join(root, '英雄/录入进度.jsonl'), entries.map(x => JSON.stringify(x)).join('\n') + '\n');
 
@@ -222,6 +237,12 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  heroThirdBatch: {
+    skills:Object.keys(heroThird.skills), ...heroThird.totals, status:'部分录入，崔丝塔娜Q配置已齐，其余按待配清单推进',
+    executor:'Cursor完成来源准备；连接重置后由执行代理接手API，主负责人页面试录希维尔E',
+    arithmeticCases:heroThird.arithmetic.length, invariantChecks:heroThird.invariants.length,
+    runtimeValidation:'未执行', evidence:{worktree:luxEvidenceWorktree,relativePath:heroThirdRelative},
+  },
   publicParametersThirdBatch: {
     heroes:publicParametersThird.selectedHeroes, skills:publicParametersThird.counts.verifiedSkills,
     parameters:publicParametersThird.counts.verifiedParameters,
