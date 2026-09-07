@@ -1,4 +1,4 @@
-import { formulaValue } from '../../../../types/numericValue';
+import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
@@ -209,6 +209,123 @@ function expectValid(draft: SkillTriggerRuleDraft, includeRuleKey = true) {
 }
 
 describe('event-switch cleanup of event values, target contexts and process limit', () => {
+  it('clears hit-only configuration on initialization while retaining legal self references', () => {
+    const sourceCondition = {
+      ...createEmptyConditionDraft([], 'ATTRIBUTE_COMPARE'),
+      conditionKey: 'source_hp',
+      detail: {
+        subject: 'EVENT_SOURCE' as const,
+        attributeKey: 'hp',
+        attributeValueKind: 'CURRENT' as const,
+        comparator: 'GT' as const,
+        comparisonValue: fixedValue(0)
+      }
+    };
+    const draft = namedDraft('initialize', '初始化', {
+      eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'nasus_q' } },
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '条件',
+        conditions: [
+          sourceCondition,
+          ...(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'] as const).map((eventValueKey, index) => ({
+            ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
+            conditionKey: `hit_value_${index}`,
+            detail: { eventValueKey, comparator: 'EQ' as const, comparisonValue: fixedValue(0) }
+          })),
+          { ...createEmptyConditionDraft([], 'TARGET_CATEGORY_CHECK'), detail: { categories: ['CHAMPION'] } }
+        ]
+      }],
+      actions: [{
+        ...executeAction('apply_passive', 'lifesteal', '10', [
+          { bindingKey: 'hit_index', parameterKey: 'hit_index', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'HIT_INDEX' } },
+          { bindingKey: 'shield', parameterKey: 'blocked', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'SKILL_HIT_SPELL_SHIELD_BLOCKED' } },
+          { bindingKey: 'cost', parameterKey: 'cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' } },
+          { bindingKey: 'status', parameterKey: 'status', sourceType: 'COMBAT_STATUS', detail: {
+            subject: 'EVENT_SOURCE', statusKey: 'focus_mark', valueKind: 'PRESENT', sourceEffectKey: null, sourceResultKey: null
+          } }
+        ]),
+        targetContext: 'EVENT_SOURCE'
+      }],
+      perTargetCooldownEnabled: true,
+      perTargetCooldownTargetContext: 'EVENT_SOURCE',
+      perTargetCooldownDurationValue: fixedValue(1),
+      maxTriggersPerProcessEnabled: true,
+      maxTriggersLimitValue: fixedValue(1)
+    });
+    const next = createEmptyEventSource('SOURCE_INITIALIZED');
+    const impact = analyzeEventSwitchImpact(draft, next);
+    expect(impact.clearsEventValues).toBe(true);
+    expect(impact.clearsEventSourceRefs).toBe(false);
+    expect(impact.clearsProcessLimit).toBe(true);
+    expect(impact.summary).toContain('命中目标类别');
+    expect(impact.summary).toContain('来源施放资源消耗');
+    expect(draft.eventSource).toEqual({ eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'nasus_q' } });
+    expect(draft.conditionGroups[0].conditions).toHaveLength(4);
+
+    const cleaned = applyEventSwitchCleanup(draft, next);
+    expect(cleaned.eventSource).toEqual({ eventType: 'SOURCE_INITIALIZED', detail: {} });
+    expect(cleaned.conditionGroups[0].conditions).toEqual([sourceCondition]);
+    expect(cleaned.actions[0].targetContext).toBe('EVENT_SOURCE');
+    expect(cleaned.actions[0].runtimeInputBindings).toEqual([draft.actions[0].runtimeInputBindings[3]]);
+    expect(cleaned.perTargetCooldownTargetContext).toBe('EVENT_SOURCE');
+    expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
+    expect(cleaned.maxTriggersLimitValue).toBeNull();
+  });
+
+  it('validates and round-trips initialization with an event-source effect and condition', () => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: createEmptyEventSource('SOURCE_INITIALIZED'),
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '自身属性',
+        conditions: [{
+          ...createEmptyConditionDraft([], 'ATTRIBUTE_COMPARE'),
+          detail: { subject: 'EVENT_SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT', comparator: 'GT', comparisonValue: fixedValue(0) }
+        }]
+      }],
+      actions: [{ ...executeAction('apply_passive', 'lifesteal', '10'), targetContext: 'EVENT_SOURCE' }]
+    });
+    const created = expectValid(draft);
+    expect(created.eventSource).toEqual({ eventType: 'SOURCE_INITIALIZED', detail: {} });
+    expect(created.actions[0].targetContext).toBe('EVENT_SOURCE');
+    expect(toCreateRequest(fromDetail(created))).toEqual(created);
+    expect(toUpdateRequest(fromDetail(created)).eventSource).toEqual(created.eventSource);
+  });
+
+  it.each([undefined, null, [], '', 0, { sourceSkillKey: null }])('rejects malformed initialization form detail %j', (detail) => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: { eventType: 'SOURCE_INITIALIZED', detail } as SkillTriggerRuleDetail['eventSource'],
+      actions: [{ ...executeAction('apply_passive', 'lifesteal', '10'), targetContext: 'EVENT_SOURCE' }]
+    });
+    const result = validateSkillTriggerDraft(draft, { includeRuleKey: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.nestedErrors).toContainEqual({ path: 'eventSource.detail', message: '来源对象初始化完成事件的详情必须为空对象。' });
+  });
+
+  it('rejects event values and hit-only data retained in an initialization draft', () => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: createEmptyEventSource('SOURCE_INITIALIZED'),
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '旧条件',
+        conditions: [{
+          ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
+          detail: { eventValueKey: 'HIT_INDEX', comparator: 'EQ', comparisonValue: fixedValue(1) }
+        }]
+      }],
+      actions: [executeAction('apply_passive', 'lifesteal', '10', [{
+        bindingKey: 'hit', parameterKey: 'hit', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'SKILL_HIT_SPELL_SHIELD_BLOCKED' }
+      }])]
+    });
+    const result = validateSkillTriggerDraft(draft, { includeRuleKey: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.nestedErrors.some((error) => error.path.includes('conditions[0]'))).toBe(true);
+      expect(result.nestedErrors.some((error) => error.path.includes('runtimeInputBindings[0]'))).toBe(true);
+    }
+  });
+
   it('analyzes and clears stale event-value conditions, bindings, EVENT_SOURCE refs and process limit', () => {
     const eventValueCondition = {
       ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),

@@ -18,6 +18,7 @@ import type {
 } from '../types/skillTriggerRule';
 
 const EVENT_TYPES = new Set<SkillTriggerEventType>([
+  'SOURCE_INITIALIZED',
   'SKILL_USED',
   'BASIC_ATTACK_START',
   'BASIC_ATTACK_HIT',
@@ -158,6 +159,9 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   switch (eventType) {
+    case 'SOURCE_INITIALIZED':
+      if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+      break;
     case 'SKILL_USED':
       if (typeof detail.useKind !== 'string') protocolError(`${path}.detail.useKind`);
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
