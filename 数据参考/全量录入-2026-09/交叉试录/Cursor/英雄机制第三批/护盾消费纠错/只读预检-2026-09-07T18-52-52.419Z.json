@@ -1,0 +1,100 @@
+{
+  "startedAt": "2026-09-07T18:52:52.420Z",
+  "mode": "只读预检",
+  "preflight": [
+    {
+      "endpoint": "/skills/sivir_e/effects/block_heal",
+      "state": "允许精确旧值更新"
+    }
+  ],
+  "writes": [],
+  "readbacks": [
+    {
+      "endpoint": "/skills/sivir_e/effects/block_heal",
+      "expected": {
+        "effectKey": "block_heal",
+        "name": "成功格挡治疗",
+        "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "回复生命",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "block_heal",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          {
+            "resultKey": "remove_spell_shield",
+            "name": "移除已成功格挡的法术护盾",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+            "sortOrder": 20,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "targetEffectKey": "spell_shield",
+              "operation": "REMOVE"
+            }
+          }
+        ]
+      },
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:57:33.98195Z",
+          "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+          "effectKey": "block_heal",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "成功格挡治疗",
+          "results": [
+            {
+              "description": null,
+              "detail": {},
+              "lifecycleBehavior": null,
+              "name": "回复生命",
+              "resultKey": "heal",
+              "resultType": "DIRECT_HEAL",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "block_heal",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "sivir_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:57:33.98195Z"
+        }
+      },
+      "matches": false
+    }
+  ],
+  "failures": [],
+  "passed": false,
+  "finishedAt": "2026-09-07T18:52:52.534Z"
+}

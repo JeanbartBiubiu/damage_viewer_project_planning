@@ -1,6 +1,6 @@
 import {readFile,writeFile} from 'node:fs/promises';
 import {plan} from './英雄候选.mjs';
-const report=JSON.parse(await readFile(new URL('./护盾消费纠错/批次回读摘要.json',import.meta.url),'utf8'));
+const report=JSON.parse(await readFile(new URL('./回读摘要.json',import.meta.url),'utf8'));
 if(report.failures.length)throw Error('最终独立回读未通过，不生成完成记录');
 const labels={parameters:'参数',formulas:'公式',effects:'效果',processes:'过程',internalStates:'内部状态',triggerRules:'触发规则'};
 const counts=Object.entries(report.totals).map(([k,n])=>n+'个'+labels[k]).join('、');
@@ -8,8 +8,6 @@ const dispositions={generatedAt:new Date().toISOString(),scope:plan.meta.scope,e
 await writeFile(new URL('./来源与处置清单.json',import.meta.url),JSON.stringify(dispositions,null,2)+'\n');
 const table=dispositions.skills.map(s=>'| '+s.skillKey+' '+s.name+' | '+Object.values(s.actualCounts).reduce((a,b)=>a+b,0)+' | '+s.pending.map(p=>p.component).join('；')+' | '+s.excluded.map(p=>p.component).join('；')+' |').join('\n');
 const readme=`# 第三批英雄技能实录
-
-2026-09-08护盾消费纠错：希维尔E在原治疗效果内追加自身REMOVE，不改变210个组成计数。完整旧值、原候选、历史报告及新增写后GET分别保留在“护盾消费纠错”；原“独立回读证据.json / 回读摘要.json / 希维尔E页面回读.json”仅证明修正前时点，不用于声称当时已有消费。当前接口证据为“护盾消费纠错/批次独立回读证据.json / 批次回读摘要.json”。
 
 最终独立GET核对20个技能主体及${report.componentsChecked}个已存组成：${counts}。${report.arithmeticCount}个独立来源算例、${report.invariantCount}项结构约束均通过。当前文件依据 ${report.finishedAt} 的真实接口结果。
 
@@ -22,7 +20,7 @@ Cursor仅完成来源准备，执行因连接重置中断；实际业务录入�
 - “根绑定与数值证据.json”保存角色根绑定的完整技能对象；“来源冻结/主技能数值展开.json”现已保留完整计算树，修复原摘要漏子树的问题。
 - “英雄候选.mjs”定义20技能候选；“候选.mjs”是局部构造工具；“录入候选.json”是可审阅请求内容。
 - “录入.mjs”默认仅GET业务接口。显式加 --apply 才补缺；先全批预检，同键不同停止，每次写后独立GET。可用 --skill=lucian_p 限定本批技能。希维尔E的护盾、过程、成功规则三项仍预留主负责人，不会被该脚本补写或覆盖。
-- “独立回读.mjs”再次读取20主体及120组成列表、每项详情，比较候选并执行独立算例；当前证据写入“护盾消费纠错/批次独立回读证据.json / 批次回读摘要.json”，保留原时点证据。
+- “独立回读.mjs”再次读取20主体及120组成列表、每项详情，比较候选并执行独立算例；证据为“独立回读证据.json / 回读摘要.json”。
 - “首次写入受阻记录.json”和“击杀类别受阻记录.json”保存两次400错误；“写入流水.jsonl”记录所有普通API写后回读。
 - “修正毫秒浮点.mjs”默认只读，显式 --apply 仅允许本批Tristana R眩晕参数从精确原值改到400/550/700毫秒，已执行并回读通过。原参数和修正记录均保留。
 - “生成候选.mjs / 整理交付.mjs”只生成本批资料；后者要求最终回读没有失败。
@@ -45,7 +43,6 @@ const experience=`# 第三批实际录入体验报告
 3. 希维尔R用自身范围持续效果条件时，显式SOURCE被接口400拒绝。现按契约将承受对象留空；该字段只有TARGET或SOURCE_TARGET范围才需要。应在录入说明中直接展示这个关系。
 4. 崔丝塔娜R浮点秒先乘1000会得到400.000006等尾差。独立算例发现后，改为先归一原浮点再换单位，仅有界修正该参数为整数400/550/700，原值和写后GET都保留。
 5. 真实页面自动生成成功规则动作标识action_1且编辑只读。候选已同步真实标识，效果目标仍为block_heal；没有为标识差异改应用或重写现值。
-6. 后续独立审查发现成功格挡只治疗而没有消费；2026-09-08保留原治疗并追加SOURCE的REMOVE spell_shield，真实PUT和GET通过。组成仍为210，结果增加1；当前结构核对增加了显式消费断言。修正前证据完整保留，本次接口证据不冒充新的页面验收。
 
 ## 当前结构需要最小修正
 
