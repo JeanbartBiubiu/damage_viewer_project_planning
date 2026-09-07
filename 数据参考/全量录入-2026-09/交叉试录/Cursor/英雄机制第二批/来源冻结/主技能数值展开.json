@@ -1,0 +1,2705 @@
+{
+  "Malphite": {
+    "P": {
+      "path": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+      "dataValues": null,
+      "calcs": {
+        "PassiveCooldown": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        },
+        "TotalShield": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.10000000149011612,
+              "stat": 12
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "range": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "Q": {
+      "path": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+      "dataValues": [
+        {
+          "name": "SpeedSteal",
+          "values": [
+            20,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            20,
+            70,
+            120,
+            170,
+            220,
+            270,
+            320
+          ]
+        }
+      ],
+      "calcs": {
+        "QDamageCalc": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.6000000238418579
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "mana": [
+        70,
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "castTime": 0.25,
+      "range": [
+        625,
+        625,
+        625,
+        625,
+        625,
+        625,
+        625
+      ],
+      "missile": 1200,
+      "coef": 0.6000000238418579
+    },
+    "W": {
+      "path": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+      "dataValues": [
+        {
+          "name": "ThunderclapBuffDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "name": "ThunderclapBaseDamage",
+          "values": [
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80
+          ]
+        },
+        {
+          "name": "ThunderclapSlowDamage",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "ThunderclapSplashAP",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ]
+        },
+        {
+          "name": "ThunderclapSplashArmor",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ]
+        },
+        {
+          "name": "ThunderclapBaseDamageAPRatio",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "ThunderclapBaseDamageArmorRatio",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ]
+        },
+        {
+          "name": "ThunderclapSplashDamage",
+          "values": [
+            5,
+            15,
+            25,
+            35,
+            45,
+            55,
+            65
+          ]
+        },
+        {
+          "name": "BonusArmorPassive",
+          "values": [
+            0.05000000074505806,
+            0.10000000149011612,
+            0.15000000596046448,
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355
+          ]
+        },
+        {
+          "name": "BonusArmorPassiveMultiplier",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "ThunderClapSplashRange",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        },
+        {
+          "name": "MonsterDamageMod",
+          "values": [
+            1.7999999523162842,
+            1.7999999523162842,
+            1.7999999523162842,
+            1.7999999523162842,
+            1.7999999523162842,
+            1.7999999523162842,
+            1.7999999523162842
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalBonusDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "ThunderclapBaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "ThunderclapBaseDamageAPRatio"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "ThunderclapBaseDamageArmorRatio",
+              "stat": 1
+            }
+          ],
+          "multiplier": null
+        },
+        "{185669f9}": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mDataValue": "ThunderclapSlowDamage",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        },
+        "ThunderclapSplash": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "ThunderclapSplashDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "ThunderclapSplashAP"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "ThunderclapSplashArmor",
+              "stat": 1
+            }
+          ],
+          "multiplier": null
+        },
+        "{71941255}": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        10,
+        10,
+        9.5,
+        9,
+        8.5,
+        8,
+        8
+      ],
+      "mana": [
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "castTime": 0.25,
+      "missile": 0
+    },
+    "E": {
+      "path": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ]
+        },
+        {
+          "name": "ASReduction",
+          "values": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ]
+        },
+        {
+          "name": "Duration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calcs": {
+        "EDamageCalc": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.4000000059604645,
+              "stat": 1
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.6000000238418579
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "mana": [
+        50,
+        55,
+        60,
+        65,
+        70,
+        75
+      ],
+      "castTime": 0.25,
+      "missile": 0
+    },
+    "R": {
+      "path": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700
+          ]
+        },
+        {
+          "name": "KnockupDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.8999999761581421
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        130,
+        130,
+        115,
+        100,
+        100,
+        100,
+        100
+      ],
+      "mana": [
+        100,
+        100,
+        100,
+        0,
+        0,
+        0
+      ],
+      "range": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "missile": 700
+    },
+    "_related": {
+      "Characters/Malphite/Spells/MalphiteShieldAbility/Malphite_Shield_Cooldown": {
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mBuff",
+          "__type"
+        ]
+      },
+      "Characters/Malphite/Spells/ObduracyAbility/ObduracyAttack": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "castTime": 0.4236000180244446,
+        "range": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "missile": 1000
+      },
+      "Characters/Malphite/Spells/ObduracyAbility/MalphiteCleave": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16
+        ],
+        "mana": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "castTime": 0.25,
+        "missile": 0
+      }
+    }
+  },
+  "MissFortune": {
+    "P": {
+      "path": "Characters/MissFortune/Spells/MissFortunePassiveAbility/MissFortunePassive",
+      "dataValues": null,
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "StatBySubPartCalculationPart",
+              "stat": 2
+            }
+          ],
+          "multiplier": null
+        },
+        "MinionDamage": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mNumber": 0.5,
+            "__type": "NumberCalculationPart"
+          }
+        }
+      },
+      "cooldown": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "range": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "Q": {
+      "path": "Characters/MissFortune/Spells/MissFortuneRicochetShotAbility/MissFortuneRicochetShot",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            -5,
+            20,
+            45,
+            70,
+            95,
+            120,
+            145
+          ]
+        },
+        {
+          "name": "ADRatio",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ]
+        },
+        {
+          "name": "BounceCriticalMod",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamageTooltip": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "ADRatio",
+              "stat": 2
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        },
+        "TotalDamageCrit": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mDataValue": "BounceCriticalMod",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          }
+        },
+        "{5a1fd353}": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 1,
+              "stat": 9
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        3
+      ],
+      "mana": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "castTime": 0,
+      "range": [
+        650,
+        650,
+        650,
+        650,
+        650,
+        650,
+        650
+      ],
+      "missile": 1400,
+      "coef": 0.3499999940395355
+    },
+    "W": {
+      "path": "Characters/MissFortune/Spells/MissFortuneViciousStrikesAbility/MissFortuneViciousStrikes",
+      "dataValues": [
+        {
+          "name": "PassiveBaseMS",
+          "values": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ]
+        },
+        {
+          "name": "PassiveMaxMS",
+          "values": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110
+          ]
+        },
+        {
+          "name": "LoveTapBaseRefund",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "ActiveAS",
+          "values": [
+            0.25,
+            0.4000000059604645,
+            0.550000011920929,
+            0.699999988079071,
+            0.8500000238418579,
+            1,
+            1.149999976158142
+          ]
+        },
+        {
+          "name": "ActiveDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "PassiveBaseMSOOC",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "PassiveMaxMSExtraOOC",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calcs": {
+        "LoveTapRefund": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "LoveTapBaseRefund"
+            }
+          ],
+          "multiplier": {
+            "__type": "CooldownMultiplierCalculationPart"
+          }
+        }
+      },
+      "cooldown": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "mana": [
+        45,
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "castTime": 0,
+      "range": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+      ],
+      "missile": 1400
+    },
+    "E": {
+      "path": "Characters/MissFortune/Spells/MissFortuneScattershotAbility/MissFortuneScattershot",
+      "dataValues": [
+        {
+          "name": "BaseDamagePerSecond",
+          "values": [
+            20,
+            35,
+            50,
+            65,
+            80,
+            95,
+            110
+          ]
+        },
+        {
+          "name": "BaseDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "BaseSlowAmount",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "APRatioPerSecond",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        },
+        {
+          "name": "TicksPerSecond",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "CastDelay",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "SlowPer100AP",
+          "values": [
+            0.0006000000284984708,
+            0.0006000000284984708,
+            0.0006000000284984708,
+            0.0006000000284984708,
+            0.0006000000284984708,
+            0.0006000000284984708,
+            0.0006000000284984708
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamagePerSecond": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamagePerSecond"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatioPerSecond"
+            }
+          ],
+          "multiplier": null
+        },
+        "TotalSlowAmount": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseSlowAmount"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "SlowPer100AP"
+            }
+          ],
+          "multiplier": null
+        },
+        "TotalDamage": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mDataValue": "BaseDuration",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        }
+      },
+      "cooldown": [
+        20,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13
+      ],
+      "mana": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "castTime": 0,
+      "range": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    },
+    "R": {
+      "path": "Characters/MissFortune/Spells/MissFortuneBulletTimeAbility/MissFortuneBulletTime",
+      "dataValues": [
+        {
+          "name": "BaseWaves",
+          "values": [
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            24
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70
+          ]
+        },
+        {
+          "name": "tADRatio",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "CritDamageMultiplier",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ]
+        },
+        {
+          "name": "BaseChannelDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calcs": {
+        "PhysicalDamagePerWave": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "tADRatio",
+              "stat": 2
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        },
+        "CritDamagePerWave": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mDataValue": "CritDamageMultiplier",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          }
+        },
+        "TotalPhysicalDamage": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mDataValue": "BaseWaves",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        }
+      },
+      "cooldown": [
+        130,
+        120,
+        110,
+        100,
+        90,
+        80,
+        70
+      ],
+      "mana": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "castTime": 0.3888999819755554,
+      "range": [
+        25000,
+        25000,
+        25000,
+        25000,
+        25000,
+        25000,
+        25000
+      ],
+      "missile": 779.9000244140625
+    },
+    "_related": {
+      "Characters/MissFortune/Spells/MissFortunePassiveAbility/MissFortunePassiveAttack": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "range": [
+          554.0999755859375,
+          554.0999755859375,
+          554.0999755859375,
+          554.0999755859375,
+          554.0999755859375,
+          554.0999755859375,
+          554.0999755859375
+        ],
+        "missile": 2000
+      },
+      "Characters/MissFortune/Spells/MissFortuneBulletTimeAbility/MissFortuneBullets": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "castTime": 0,
+        "range": [
+          1450,
+          1450,
+          1450,
+          1450,
+          1450,
+          1450,
+          1450
+        ],
+        "missile": 2000,
+        "coef": 0.6499999761581421
+      }
+    }
+  },
+  "Annie": {
+    "P": {
+      "path": "Characters/Annie/Spells/AnniePassiveAbility/AnniePassive",
+      "dataValues": [
+        {
+          "name": "MaxStacks",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "StunBaseDuration",
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ]
+        },
+        {
+          "name": "StunDurationPerTier",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        }
+      ],
+      "calcs": {
+        "StunDuration": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        }
+      }
+    },
+    "Q": {
+      "path": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "mana": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        85
+      ],
+      "castTime": 0.25,
+      "range": [
+        625,
+        625,
+        625,
+        625,
+        625,
+        625,
+        625
+      ],
+      "missile": 1400,
+      "coef": 0.800000011920929
+    },
+    "W": {
+      "path": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "mana": [
+        70,
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "castTime": 0.25,
+      "range": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+      ],
+      "missile": 0,
+      "coef": 0.8500000238418579
+    },
+    "E": {
+      "path": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+      "dataValues": [
+        {
+          "name": "ShieldDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "DamageReduction",
+          "values": [
+            9,
+            13,
+            17,
+            21,
+            25,
+            29,
+            33
+          ]
+        },
+        {
+          "name": "DamageReflection",
+          "values": [
+            15,
+            25,
+            35,
+            45,
+            55,
+            65,
+            75
+          ]
+        },
+        {
+          "name": "MovementSpeed",
+          "values": [
+            0.10000000149011612,
+            0.15000000596046448,
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "MovementSpeedDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "ShieldAmount",
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ]
+        },
+        {
+          "name": "CastRangeGenerosity",
+          "values": [
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225
+          ]
+        }
+      ],
+      "calcs": {
+        "DamageReturn": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "DamageReflection"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.4000000059604645
+            }
+          ],
+          "multiplier": null
+        },
+        "MoveSpeedCalc": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "multiplier": null
+        },
+        "ShieldBlockTotal": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "ShieldAmount"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.4000000059604645
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "mana": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        85
+      ],
+      "range": [
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800
+      ],
+      "coef": 0.20000000298023224
+    },
+    "R": {
+      "path": "Characters/Annie/Spells/AnnieRAbility/AnnieR",
+      "dataValues": [
+        {
+          "name": "InitialDamage",
+          "values": [
+            25,
+            150,
+            275,
+            400,
+            525,
+            650,
+            775
+          ]
+        },
+        {
+          "name": "AuraDamage",
+          "values": [
+            4,
+            8,
+            12,
+            16,
+            20,
+            24,
+            28
+          ]
+        },
+        {
+          "name": "TibbersAttackDamage",
+          "values": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ]
+        },
+        {
+          "name": "TibbersAttackSpeedDecay",
+          "values": [
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612
+          ]
+        },
+        {
+          "name": "TibbersAttackAPRatio",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ]
+        },
+        {
+          "name": "MovespeedBurst",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "EnrageDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "AvengerEnrageDuration",
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "name": "TibbersLifetime",
+          "values": [
+            45,
+            45,
+            45,
+            45,
+            45,
+            45,
+            45
+          ]
+        },
+        {
+          "name": "TibbersBonusMS",
+          "values": [
+            -25,
+            0,
+            25,
+            50,
+            75,
+            100,
+            125
+          ]
+        },
+        {
+          "name": "TibbersModeSpecificHPMod",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "RPercentPenBuff",
+          "values": [
+            0.05000000074505806,
+            0.10000000149011612,
+            0.15000000596046448,
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355
+          ]
+        }
+      ],
+      "calcs": {
+        "InitialBurstDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "InitialDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.75
+            }
+          ],
+          "multiplier": null
+        },
+        "TibbersAuraDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "AuraDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.03999999910593033
+            }
+          ],
+          "multiplier": null
+        },
+        "TibbersAADamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "TibbersAttackDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "TibbersAttackAPRatio"
+            }
+          ],
+          "multiplier": null
+        },
+        "TibbersTotalHP": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ProductOfSubPartsCalculationPart"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.5
+            }
+          ],
+          "multiplier": null
+        },
+        "TibbersTotalResists": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        130,
+        130,
+        115,
+        100,
+        100,
+        100,
+        100
+      ],
+      "mana": [
+        100,
+        100,
+        100,
+        0,
+        0,
+        0
+      ],
+      "castTime": 0.25,
+      "range": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+      ],
+      "missile": 0
+    },
+    "_related": {
+      "Characters/Annie/Spells/Disintegrate": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "mana": [
+          60,
+          65,
+          70,
+          75,
+          80,
+          85
+        ],
+        "castTime": 0.25,
+        "range": [
+          625,
+          625,
+          625,
+          625,
+          625,
+          625,
+          625
+        ],
+        "missile": 1400,
+        "coef": 0.800000011920929
+      },
+      "Characters/Annie/Spells/Incinerate": {
+        "dataValues": [
+          {
+            "name": "BaseDamage",
+            "values": [
+              25,
+              70,
+              115,
+              160,
+              205,
+              250,
+              295
+            ]
+          }
+        ],
+        "calcs": null,
+        "cooldown": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "mana": [
+          70,
+          80,
+          90,
+          100,
+          110,
+          120
+        ],
+        "castTime": 0.25,
+        "range": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "missile": 0,
+        "coef": 0.8500000238418579
+      },
+      "Characters/Annie/Spells/Molten_Shield": {
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mBuff",
+          "__type"
+        ]
+      },
+      "Characters/Annie/Spells/InfernalGuardian": {
+        "dataValues": [
+          {
+            "name": "InitialDamage",
+            "values": [
+              0,
+              150,
+              275,
+              400,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "AuraDamage",
+            "values": [
+              0,
+              10,
+              15,
+              20,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "AADamage",
+            "values": [
+              0,
+              50,
+              75,
+              100,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "AttackspeedLossPerAttackWhileEnraged",
+            "values": [
+              -0.10000000149011612,
+              -0.10000000149011612,
+              -0.10000000149011612,
+              -0.10000000149011612,
+              -0.10000000149011612,
+              -0.10000000149011612,
+              -0.10000000149011612
+            ]
+          },
+          {
+            "name": "MovespeedBurst",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          {
+            "name": "EnrageBuffDuration",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "name": "BonusArmorAndMR",
+            "values": [
+              0,
+              30,
+              50,
+              70,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "BonusHP",
+            "values": [
+              0,
+              0,
+              900,
+              1800,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "AAAPRatio",
+            "values": [
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448
+            ]
+          }
+        ],
+        "calcs": null,
+        "cooldown": [
+          120,
+          120,
+          100,
+          80,
+          120,
+          120,
+          120
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          0,
+          0,
+          0
+        ],
+        "castTime": 0.25,
+        "range": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "missile": 0,
+        "coef": 0.6499999761581421
+      }
+    }
+  },
+  "Brand": {
+    "P": {
+      "path": "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive",
+      "dataValues": [
+        {
+          "name": "MonsterMod",
+          "values": [
+            270,
+            270,
+            270,
+            270,
+            270,
+            270,
+            270
+          ]
+        },
+        {
+          "name": "PercentHealthDamage",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "EpicMonsterDPSCap",
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "name": "JungleMonsterDPSCap",
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "name": "ManaRestoration",
+          "values": [
+            20,
+            20,
+            25,
+            30,
+            35,
+            40,
+            40
+          ]
+        }
+      ],
+      "calcs": {
+        "ManaRestore": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        },
+        "ExplosionDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.019999999552965164
+            }
+          ],
+          "multiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          }
+        },
+        "{4124b2bf}": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        },
+        "{afbf404a}": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        },
+        "JungleMonsterExplosionFlatCap": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "range": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "Q": {
+      "path": "Characters/Brand/Spells/BrandQAbility/BrandQ",
+      "dataValues": [
+        {
+          "name": "StunDuration",
+          "values": [
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75
+          ]
+        },
+        {
+          "name": "SpellBaseDamage",
+          "values": [
+            40,
+            70,
+            100,
+            130,
+            160,
+            190,
+            220
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "SpellBaseDamage"
+            },
+            {
+              "type": "StatByCoefficientCalculationPart",
+              "coef": 0.6499999761581421
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        8.5,
+        8,
+        7.5,
+        7,
+        6.5,
+        6,
+        6
+      ],
+      "mana": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "castTime": 0.25,
+      "range": [
+        1050,
+        1050,
+        1050,
+        1050,
+        1050,
+        1050,
+        1050
+      ],
+      "missile": 1200,
+      "coef": 0.6499999761581421
+    },
+    "W": {
+      "path": "Characters/Brand/Spells/BrandWAbility/BrandW",
+      "dataValues": [
+        {
+          "name": "APRatio",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            75,
+            120,
+            165,
+            210,
+            255,
+            300
+          ]
+        },
+        {
+          "name": "PDamageBonus",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        },
+        "EmpoweredDamage": {
+          "type": "GameCalculationModified",
+          "parts": [],
+          "multiplier": {
+            "mNumber": 1.25,
+            "__type": "NumberCalculationPart"
+          }
+        }
+      },
+      "cooldown": [
+        10.5,
+        10,
+        9.5,
+        9,
+        8.5,
+        8,
+        8
+      ],
+      "mana": [
+        60,
+        70,
+        80,
+        90,
+        100,
+        110
+      ],
+      "castTime": 0.25,
+      "range": [
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900
+      ],
+      "missile": 20,
+      "coef": 0.6000000238418579
+    },
+    "E": {
+      "path": "Characters/Brand/Spells/BrandEAbility/BrandE",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            55,
+            80,
+            105,
+            130,
+            155,
+            180
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        }
+      ],
+      "calcs": {
+        "EDamageCalc": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        13,
+        13,
+        12,
+        11,
+        10,
+        9,
+        9
+      ],
+      "mana": [
+        70,
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "castTime": 0.25,
+      "range": [
+        625,
+        625,
+        625,
+        625,
+        625,
+        625,
+        625
+      ],
+      "missile": 1800
+    },
+    "R": {
+      "path": "Characters/Brand/Spells/BrandRAbility/BrandR",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            100,
+            175,
+            250,
+            325,
+            400,
+            475
+          ]
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ]
+        }
+      ],
+      "calcs": {
+        "TotalDamage": {
+          "type": "GameCalculation",
+          "parts": [
+            {
+              "type": "NamedDataValueCalculationPart",
+              "dv": "BaseDamage"
+            },
+            {
+              "type": "StatByNamedDataValueCalculationPart",
+              "dv": "APRatio"
+            }
+          ],
+          "multiplier": null
+        }
+      },
+      "cooldown": [
+        100,
+        100,
+        90,
+        80,
+        80,
+        80,
+        80
+      ],
+      "mana": [
+        100,
+        100,
+        100,
+        0,
+        0,
+        0
+      ],
+      "castTime": 0.25,
+      "range": [
+        750,
+        750,
+        750,
+        750,
+        750,
+        750,
+        750
+      ],
+      "missile": 1000
+    },
+    "_related": {
+      "Characters/Brand/Spells/BrandPassiveAbility/BrandAblaze": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          8.5,
+          8,
+          7.5,
+          7,
+          6.5,
+          6,
+          6
+        ],
+        "mana": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "castTime": 0.25,
+        "range": [
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050
+        ],
+        "missile": 1200,
+        "coef": 0.6499999761581421
+      },
+      "Characters/Brand/Spells/BrandBlaze": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          8.5,
+          8,
+          7.5,
+          7,
+          6.5,
+          6,
+          6
+        ],
+        "mana": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "castTime": 0.25,
+        "range": [
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050
+        ],
+        "missile": 1200,
+        "coef": 0.6499999761581421
+      },
+      "Characters/Brand/Spells/BrandConflagration": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          8
+        ],
+        "mana": [
+          70,
+          75,
+          80,
+          85,
+          90,
+          95
+        ],
+        "castTime": 0.25,
+        "range": [
+          625,
+          625,
+          625,
+          625,
+          625,
+          625,
+          625
+        ],
+        "missile": 1800,
+        "coef": 0.550000011920929
+      },
+      "Characters/Brand/Spells/BrandFissure": {
+        "dataValues": null,
+        "calcs": null,
+        "mana": [
+          70,
+          80,
+          90,
+          100,
+          110,
+          120
+        ],
+        "castTime": 0.25,
+        "range": [
+          900,
+          900,
+          900,
+          900,
+          900,
+          900,
+          900
+        ],
+        "missile": 20,
+        "coef": 0.6000000238418579
+      },
+      "Characters/Brand/Spells/BrandWildfire": {
+        "dataValues": null,
+        "calcs": null,
+        "cooldown": [
+          105,
+          105,
+          90,
+          75,
+          105,
+          105,
+          105
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          0,
+          0,
+          0
+        ],
+        "castTime": 0.25,
+        "range": [
+          750,
+          750,
+          750,
+          750,
+          750,
+          750,
+          750
+        ],
+        "missile": 1000,
+        "coef": 0.5
+      }
+    }
+  }
+}

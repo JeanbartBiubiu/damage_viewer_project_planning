@@ -1,0 +1,14 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+const base='C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/';
+const src=base+'装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz';
+const raw=gunzipSync(await readFile(src));
+const doc=JSON.parse(raw), entries=doc.entries??doc;
+const selected=Object.fromEntries(Object.entries(entries).filter(([k])=>/^(generatedtip_spell_(brandpassive|missfortunebullettime|missfortuneviciousstrikes|anniee|annier|obduracy)_tooltipcontent|spell_brandpassive_tooltip)$/i.test(k)));
+const idx=JSON.parse(await readFile(base+'技能公共参数实录/技能来源索引.json','utf8'));
+const h=idx.heroes.find(x=>x.championId==='MissFortune');
+const client=JSON.parse(gunzipSync(await readFile(base+'技能公共参数实录/'+h.client.path)));
+const out={source:src,sha256:createHash('sha256').update(raw).digest('hex'),entries:selected,missFortuneRoot:{path:h.rootPath,critDamageMultiplier:client[h.rootPath].critDamageMultiplier,sourceSha256:h.client.sha256}};
+await writeFile(new URL('./补充文本证据.json',import.meta.url),JSON.stringify(out,null,2)+'\n');
+console.log(JSON.stringify({brand:selected.generatedtip_spell_brandpassive_tooltipcontent??selected.spell_brandpassive_tooltip,keys:Object.keys(selected),crit:out.missFortuneRoot}));

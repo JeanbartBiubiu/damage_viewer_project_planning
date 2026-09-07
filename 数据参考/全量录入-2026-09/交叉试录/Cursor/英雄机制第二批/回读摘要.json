@@ -1,0 +1,527 @@
+{
+  "startedAt": "2026-09-07T16:39:39.661Z",
+  "finishedAt": "2026-09-07T16:39:56.222Z",
+  "executor": "Codex执行代理接手Cursor中断批次",
+  "heroCount": 4,
+  "skillCount": 20,
+  "totals": {
+    "parameters": 124,
+    "formulas": 27,
+    "effects": 39,
+    "processes": 7,
+    "internalStates": 0,
+    "triggerRules": 9
+  },
+  "componentsChecked": 206,
+  "arithmetic": 70,
+  "invariants": 8,
+  "failures": [],
+  "skills": {
+    "malphite_p": {
+      "name": "花岗岩护盾",
+      "counts": {
+        "parameters": 2,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "护盾重置与W联动",
+          "reason": "未受攻击等待、受伤重新计时、耗尽及补盾事件需要精确接线；不能把普通冷却完成当作所有条件满足。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "malphite_q": {
+      "name": "地震碎片",
+      "counts": {
+        "parameters": 7,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "减速与窃取同额移动速度",
+          "reason": "目标减速后的实际点数需要提供给来源加速，不能把目标与来源都乘20%当同额窃取。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "malphite_w": {
+      "name": "雷霆拍击",
+      "counts": {
+        "parameters": 11,
+        "formulas": 2,
+        "effects": 3,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "强化攻击消费与持续余震",
+          "reason": "现接口支持强化普攻步骤，但首次强化窗口、消费时点及余震同目标叠加需再核对；不把所有普攻永远加伤害。"
+        },
+        {
+          "kind": "配置",
+          "component": "常态护甲与P增幅",
+          "reason": "常态增甲与花岗岩护盾存在条件、刷新顺序及避免最终护甲自引用待接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪增伤及扇形多目标",
+          "reason": "固定1V1英雄目标不执行野怪倍率或空间目标搜索；当前目标余震伤害保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "malphite_e": {
+      "name": "大地震颤",
+      "counts": {
+        "parameters": 7,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "施法与攻速削减",
+          "reason": "mCastTime约0.2419与spellCastTime0.25不同，先不自动选一项；攻速削减是最终攻速减幅，不能等同额外攻速属性减30个百分点。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "malphite_r": {
+      "name": "势不可挡",
+      "counts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "击飞及不可阻挡",
+          "reason": "数值已存，控制与突进期间不可阻挡需准确语义，不使用眩晕代替击飞。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "突进路径与区域搜索",
+          "reason": "空间执行依照当前范围后置，保留当前目标命中伤害。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "missfortune_p": {
+      "name": "厄运的眷顾",
+      "counts": {
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "新目标判断及W冷却返还",
+          "reason": "需要比较上一次普攻目标，并在合法触发时联动W；不能简化成每次普攻触发。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "小兵伤害减半",
+          "reason": "当前1V1英雄对手不套用MinionDamage。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "missfortune_q": {
+      "name": "一箭双雕",
+      "counts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "攻击特效、P触发及第一目标事件",
+          "reason": "第一段独立伤害已存；通用SKILL_HIT不能分辨第一段与第二段，因此不挂全技能命中规则来覆盖弹跳暴击语义。"
+        },
+        {
+          "kind": "资料",
+          "component": "施法时间",
+          "reason": "mUseAutoattackCastTimeData存在；spellCastTime=0不代表无普攻前摇，待普攻施法时长映射。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "第二目标弹跳与击杀后必暴",
+          "reason": "第二对象及身后筛选按本轮多对象范围后置，第一目标独立伤害与P依赖保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "missfortune_w": {
+      "name": "大步流星",
+      "counts": {
+        "parameters": 9,
+        "formulas": 0,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "主动施放和移速状态",
+          "reason": "主动攻速4秒独立效果已存；被动两阶段、受伤清除、主动获得满额状态要共用状态，避免另加一次满额导致叠加。"
+        },
+        {
+          "kind": "配置",
+          "component": "P返还冷却",
+          "reason": "LoveTapRefund含CooldownMultiplierCalculationPart，不能直接固定减少2000毫秒；需要合法P触发及当前冷却倍率。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "missfortune_e": {
+      "name": "枪林弹雨",
+      "counts": {
+        "parameters": 10,
+        "formulas": 4,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "弹雨接线与减速",
+          "reason": "首个结算时点、实际留在区域和离开停止需补证/接线；不在一次命中后强制打满八次。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "显形与区域目标搜索",
+          "reason": "纯视野和空间搜索后置；当前目标单次伤害与减速数值保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "missfortune_r": {
+      "name": "弹幕时间",
+      "counts": {
+        "parameters": 9,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "引导与逐波命中",
+          "reason": "每波伤害和可暴击倍率已存；引导打断、每波时点/命中需接线，不能一次施放直接扣完整总量。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "锥形多目标和弹道搜索",
+          "reason": "空间执行后置，单目标每波伤害保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "annie_p": {
+      "name": "嗜火",
+      "counts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "施法累层、伤害技能消费与开局满层",
+          "reason": "必须跨Q/W/E/R并区分下次伤害技能；开局/复活满层初始化需要相应来源事件。已有眩晕目录不等于接线完成。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "annie_q": {
+      "name": "碎裂之火",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "嗜火联动",
+          "reason": "待P合法累层与满层消费接入。"
+        },
+        {
+          "kind": "配置",
+          "component": "Q击杀退款与减冷却",
+          "reason": "需要本次Q伤害导致击杀的因果条件；不能把任意击杀或一般命中当Q击杀。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "annie_w": {
+      "name": "焚烧",
+      "counts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "嗜火联动",
+          "reason": "待P合法累层与满层消费接入。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "annie_e": {
+      "name": "熔岩护盾",
+      "counts": {
+        "parameters": 9,
+        "formulas": 2,
+        "effects": 3,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "护盾施加和伤害回敬",
+          "reason": "回敬仅限护盾激活期间被攻击/技能损伤，且每名攻击者每盾一次，不能监听所有受伤无限反伤；先记录独立组成。"
+        },
+        {
+          "kind": "配置",
+          "component": "移速与历史字段",
+          "reason": "现说明使用MoveSpeedCalc等级20%至50%衰减；旧MovementSpeed和DamageReduction没有当前引用，不录为额外减伤或固定移速。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "友军与提伯斯护盾",
+          "reason": "本轮保留安妮自身；队友和独立提伯斯不录。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "annie_r": {
+      "name": "提伯斯之怒",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "百分比法穿来源组合",
+          "reason": "10/15/20%参数已有当前说明与客户端引用。40%既有穿透与10%来源应按剩余抗性连乘为46%；现有固定加算会得50%。先不保存错误乘区效果，待公共表达最小修正后回填。"
+        },
+        {
+          "kind": "配置",
+          "component": "被动初始化与嗜火联动",
+          "reason": "需要学会R时启用本体法穿及P合法眩晕联动；不在每次施放叠加永久穿透。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "提伯斯独立对象",
+          "reason": "生命、攻击、灼烧、暴怒、控制召唤物全部沿已约定独立召唤物范围后置；本体法穿和召唤瞬间伤害保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "brand_p": {
+      "name": "炽热之焰",
+      "counts": {
+        "parameters": 7,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "灼烧、满层爆炸及Q/W/R联动",
+          "reason": "灼烧应用、周期时点、叠层、满层延迟、爆炸后的重叠限制及控制/增伤判断顺序需完整接线。不能用EARLY_REMOVE冒充爆炸。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪与周围多目标",
+          "reason": "野怪倍率/上限与范围目标搜索后置，当前英雄目标爆炸保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "brand_q": {
+      "name": "火焰烙印",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "灼烧时眩晕",
+          "reason": "命中前已灼烧条件与P新层应用顺序必须分清，不能每次Q都因自己刚施加的P而眩晕。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "brand_w": {
+      "name": "烈焰之柱",
+      "counts": {
+        "parameters": 6,
+        "formulas": 2,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "火柱延迟与灼烧条件分支",
+          "reason": "两份独立效果需按命中前是否已灼烧互斥选择；不能两份都执行，也不能永远使用基础伤害。火柱生成延迟需要补证，不把施法结束当命中。"
+        }
+      ],
+      "excluded": [],
+      "status": "部分录入"
+    },
+    "brand_e": {
+      "name": "烈火燃烧",
+      "counts": {
+        "parameters": 4,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "资料",
+          "component": "mana_cost",
+          "reason": "官方与客户端消耗不一致，禁止猜值与静默选边",
+          "official": [
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "client": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ]
+        },
+        {
+          "kind": "配置",
+          "component": "施放过程与P联动",
+          "reason": "法力来源冲突未解决，不创建消耗错误的施放过程；P应用仍待统一接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "扩散至周围敌人与扩散距离翻倍",
+          "reason": "多对象空间搜索按本轮范围后置，当前目标伤害保留。"
+        }
+      ],
+      "status": "部分录入"
+    },
+    "brand_r": {
+      "name": "烈焰风暴",
+      "counts": {
+        "parameters": 7,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "P联动与既有灼烧减速",
+          "reason": "实际每次命中伤害已接入；满层优先规则、每次P叠层及减速条件仍需接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "弹跳路径与空间目标搜索",
+          "reason": "按既有空间执行边界后置；来源可提供多次实际命中，每次只执行本次伤害，不把5跳固定套给同一目标。"
+        }
+      ],
+      "status": "部分录入"
+    }
+  },
+  "validationBoundary": "独立GET、冻结来源算术和对象结构核对；不是战斗运行验证。"
+}
