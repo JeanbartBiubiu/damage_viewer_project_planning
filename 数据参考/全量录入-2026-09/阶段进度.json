@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T16:11:37.347Z",
+  "generatedAt": "2026-09-07T16:31:02.834Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -57,6 +57,22 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "nasusFirstBatch": {
+      "skills": [
+        "nasus_p",
+        "nasus_q",
+        "nasus_w",
+        "nasus_e",
+        "nasus_r"
+      ],
+      "parameters": 24,
+      "formulas": 6,
+      "effects": 7,
+      "processes": 3,
+      "status": "部分录入，公共参数另列不重复计数",
+      "runtimeValidation": "未执行",
+      "evidence": "内瑟斯技能实录第一批/独立核对.json"
+    },
     "publicParametersFirstBatch": {
       "heroes": [
         "Nasus",
