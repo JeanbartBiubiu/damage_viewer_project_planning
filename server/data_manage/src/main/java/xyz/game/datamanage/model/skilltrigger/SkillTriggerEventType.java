@@ -1,6 +1,7 @@
 package xyz.game.datamanage.model.skilltrigger;
 
 public enum SkillTriggerEventType {
+    SOURCE_INITIALIZED,
     SKILL_USED,
     BASIC_ATTACK_START,
     BASIC_ATTACK_HIT,

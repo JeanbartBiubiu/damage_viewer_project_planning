@@ -29,6 +29,21 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void initializationKeepsEffectReferenceAndRejectsMissingEffect() {
+        Aggregate trigger = aggregate(SourceType.TRIGGER, "s1", "initialize", """
+            {"eventSource":{"eventType":"SOURCE_INITIALIZED","detail":{}},
+             "conditionGroups":[],"actions":[{"actionKey":"apply","actionType":"EXECUTE_EFFECT",
+               "targetContext":"EVENT_SOURCE","detail":{"effectKey":"passive"},
+               "runtimeInputBindings":[],"resultModifiers":[]}]}
+            """);
+        Set<Target> targets = Set.of(new Target(TargetType.EFFECT, "s1", "passive", ""));
+        List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", List.of(trigger), targets);
+        assertEquals(1, refs.size());
+        assertReference(refs, SourceType.TRIGGER, "initialize", "actions[0].detail.effectKey", TargetType.EFFECT, "s1", "passive", "");
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(trigger), Set.of()));
+    }
+
+    @Test
     void directParameterCreatesItsOwnEdgeWhileFixedZeroCreatesNone() {
         Aggregate effect = aggregate(SourceType.EFFECT, "s1", "direct_values", """
             {"results":[
@@ -98,7 +113,7 @@ class SkillObjectReferencesTest {
                 case HEALTH_THRESHOLD_CROSSED -> "attributeKey thresholdValue.formulaKey";
                 case INTERNAL_STATE_CHANGED -> "stateKey";
                 case SPELL_SHIELD_BLOCKED -> "shieldEffectKey";
-                case BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL -> "";
+                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL -> "";
             };
             Set<String> expected = fields.isBlank() ? Set.of() : Arrays.stream(fields.split(" "))
                 .map(field -> "eventSource.detail." + field).collect(Collectors.toSet());

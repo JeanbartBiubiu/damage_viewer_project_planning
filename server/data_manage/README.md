@@ -58,6 +58,12 @@
 
 已有删除保护保留各接口错误码；最终引用缺失返回 `409.SKILL_OBJECT_REFERENCE_INVALID` 并带来源字段信息。修改聚合时移除被引用子项也会被检查。直接 SQL 写入不会自动执行这些服务校验，迁移必须使用下述事务验收入口。
 
+### 来源对象初始化完成事件
+
+`SOURCE_INITIALIZED` 表示来源对象的基础属性、技能与装备挂载、初始内部状态准备完成后触发一次。它不表示复活、装备变化或等级变化。事件明细必须是空对象 `{}`，不能为 `null`、非对象或带额外字段，也不提供事件数值。`EVENT_SOURCE` 和 `CURRENT_TARGET` 均为被初始化的来源对象自身，不是其战斗目标。
+
+初始化规则复用执行效果或启动过程动作，以及现有引用与循环校验，不增加表或循环豁免。无条件被动可通过 `EXECUTE_EFFECT`、`targetContext=EVENT_SOURCE` 施加自身效果；例如按当前角色等级读取的无限期生命偷取效果，无需另建等级变化事件。本模块只保存、校验和回读此事件契约，不产生战斗初始化事件或执行被动。
+
 ### 直接生命周期条件
 
 触发条件支持 `LIFECYCLE_CHECK`，明细为 `effectKey`、`subject`、`checkKind`、`comparator`、`comparisonValue`。仅引用当前技能已经配置生命周期的效果；`PRESENT` 和 `ABSENT` 不允许比较符或比较值，`STACKS_COMPARE` 必须提供两者，固定值及静态参数全部等级均为非负整数，直接或经公式引用计算时参数均被拒绝。
@@ -96,6 +102,10 @@
 2. [triggers.sql](../../db/game_manage/triggers.sql)：安装图片分区函数与游戏新增触发器。
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
+
+### 来源初始化事件约束升级
+
+已有聚合存储库先核对 `skill_trigger_rules` 的 `ck_skill_trigger_rules_event_type`。旧约束不接受 `SOURCE_INITIALIZED` 时，执行 [source_initialized_event.sql](../../db/game_manage/migrations/source_initialized_event.sql)：单条 `ALTER TABLE` 原子重建同名检查，保留原 21 项并加入初始化事件，不改业务行。执行前后核对目标库、约束定义、已验证状态及规则行数，再通过管理页面保存并独立回读初始化规则；仅重启应用不会升级约束。新库直接使用当前 `schema.sql`。
 
 ### 历史 91 表库前置迁移
 
