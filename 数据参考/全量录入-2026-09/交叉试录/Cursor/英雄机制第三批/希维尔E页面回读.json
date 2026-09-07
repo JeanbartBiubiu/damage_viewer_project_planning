@@ -1,0 +1,143 @@
+{
+  "at": "2026-09-07T18:14:49.707Z",
+  "mode": "全部只读",
+  "records": [
+    {
+      "endpoint": "/effects/spell_shield",
+      "actual": {
+        "createdAt": "2026-09-07T18:03:13.093679Z",
+        "description": "来源自身单层法术护盾，持续1500毫秒，成功阻挡消耗。阻挡粒度沿来袭技能结果的spellShieldBlockScope，不把盾当伤害吸收数值。",
+        "effectKey": "spell_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "希维尔法术护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "格挡下一次敌方技能",
+            "resultKey": "shield",
+            "resultType": "SPELL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "sivir_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:03:13.093679Z"
+      },
+      "matches": true
+    },
+    {
+      "endpoint": "/processes/cast",
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T18:03:53.304883Z",
+        "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "spell_shield",
+            "effectKey": "spell_shield",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate"
+            },
+            "sortOrder": 20
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放法术护盾",
+        "processKey": "cast",
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "启用自身效果",
+            "sortOrder": 10,
+            "stepKey": "activate",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-07T18:03:53.304883Z"
+      },
+      "matches": true
+    },
+    {
+      "endpoint": "/trigger-rules/successful_spell_block",
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "block_heal"
+            },
+            "name": "执行block_heal",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          },
+          "eventType": "SPELL_SHIELD_BLOCKED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "法术护盾成功格挡后治疗",
+        "perTargetCooldown": null,
+        "ruleKey": "successful_spell_block",
+        "sortOrder": 10
+      },
+      "matches": true
+    }
+  ],
+  "missing": [],
+  "runtimeValidation": "未执行",
+  "passed": true
+}

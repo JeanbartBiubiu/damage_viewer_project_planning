@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-07T18:06:16.748Z",
+  "mode": "explicit-apply",
+  "route": "/skills/tristana_r/parameters/stun_duration_ms",
+  "original": {
+    "parameterKey": "stun_duration_ms",
+    "name": "命中眩晕时长（毫秒）",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 400.000006,
+      "2": 550.000012,
+      "3": 699.999988
+    },
+    "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+    "sortOrder": 70
+  },
+  "target": {
+    "parameterKey": "stun_duration_ms",
+    "name": "命中眩晕时长（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 400,
+      "2": 550,
+      "3": 700
+    },
+    "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+    "sortOrder": 70
+  },
+  "before": {
+    "createdAt": "2026-09-07T18:02:26.479847Z",
+    "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+    "fixedValue": null,
+    "gameId": "lol",
+    "levelValues": {
+      "1": 400.000006,
+      "2": 550.000012,
+      "3": 699.999988
+    },
+    "name": "命中眩晕时长（毫秒）",
+    "parameterKey": "stun_duration_ms",
+    "skillKey": "tristana_r",
+    "sortOrder": 70,
+    "updatedAt": "2026-09-07T18:02:26.479847Z",
+    "valueMode": "SKILL_LEVEL",
+    "valueType": "DECIMAL"
+  },
+  "isTarget": false,
+  "isOriginal": true,
+  "writeStatus": 200,
+  "after": {
+    "createdAt": "2026-09-07T18:02:26.479847Z",
+    "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+    "fixedValue": null,
+    "gameId": "lol",
+    "levelValues": {
+      "1": 400,
+      "2": 550,
+      "3": 700
+    },
+    "name": "命中眩晕时长（毫秒）",
+    "parameterKey": "stun_duration_ms",
+    "skillKey": "tristana_r",
+    "sortOrder": 70,
+    "updatedAt": "2026-09-07T18:06:16.715027Z",
+    "valueMode": "SKILL_LEVEL",
+    "valueType": "INTEGER"
+  },
+  "match": true
+}

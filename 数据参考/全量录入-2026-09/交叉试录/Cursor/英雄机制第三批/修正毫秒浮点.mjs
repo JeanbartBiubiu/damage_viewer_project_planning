@@ -1,0 +1,14 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {plan} from './英雄候选.mjs';
+import {request,diff,verifySources} from './录入.mjs';
+await verifySources();
+const route='/skills/tristana_r/parameters/stun_duration_ms';
+const original=JSON.parse((await readFile(new URL('./毫秒浮点修正前参数.json',import.meta.url),'utf8')).replace(/^\uFEFF/,''));
+const target=plan.skills.tristana_r.write.parameters.find(p=>p.parameterKey==='stun_duration_ms');
+if(target.valueType!=='INTEGER'||JSON.stringify(target.levelValues)!==JSON.stringify({'1':400,'2':550,'3':700}))throw Error('修正目标变化');
+const before=await request(route);if(!before.ok)throw Error('GET失败');
+const isTarget=!diff(target,before.data),isOriginal=!diff(original,before.data);
+const out={at:new Date().toISOString(),mode:process.argv.includes('--apply')?'explicit-apply':'read-only',route,original,target,before:before.data,isTarget,isOriginal};
+if(!isTarget&&!isOriginal)throw Error('现值既非本批原值也非精确目标，停止');
+if(process.argv.includes('--apply')&&!isTarget){const {parameterKey,...body}=target;const saved=await request(route,{method:'PUT',body});if(!saved.ok)throw Error('PUT失败 '+saved.status+JSON.stringify(saved.data));out.writeStatus=saved.status;const after=await request(route);out.after=after.data;out.match=after.ok&&!diff(target,after.data);if(!out.match)throw Error('写后GET不符');}else out.action=isTarget?'same-target-skip':'would-update';
+await writeFile(new URL('./毫秒浮点修正记录.json',import.meta.url),JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify({mode:out.mode,action:out.action,writeStatus:out.writeStatus,match:out.match}));

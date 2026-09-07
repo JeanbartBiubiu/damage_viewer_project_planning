@@ -1,0 +1,14 @@
+{
+  "date":"2026-09-08",
+  "method":"主负责人通过CUA在真实页面新增父效果与触发规则，保存后关闭重开核对",
+  "url":"http://127.0.0.1:5173/#/skills",
+  "skillKey":"sivir_e",
+  "createdInBrowser":["effects/spell_shield","trigger-rules/successful_spell_block"],
+  "createdByMatureApi":"processes/cast",
+  "shieldReadback":{"durationParameter":"shield_duration_ms","durationMsVerifiedByApi":1500,"maximumStacks":1,"applicationStacks":1,"instanceScope":"按来源对象","reapplicationStackMode":"保留层数","reapplicationDurationMode":"刷新全部时间","expiryMode":"一次全部到期","resultType":"法术护盾","target":"施法者","moment":"持续生效","valueRule":null},
+  "ruleReopened":{"event":"法术护盾成功阻挡","shieldEffect":"spell_shield","conditionGroups":0,"action":"执行效果 / 当前目标 / block_heal / 绑定0 / 修正0","actionKey":"action_1"},
+  "experience":["法术护盾结果自动固定为持续生效且不要求伤害吸收数值，子结果确定后仍须保存父效果。","规则只提供当前技能内真正的法术护盾效果供选择。","动作稳定标识由页面生成并在编辑中只读；候选按实际生成的action_1核对，不为标识差异改业务语义。"],
+  "passed":true,
+  "remaining":"成功阻挡带来的被动移速衰减另配，本文不声称希维尔E全部关联机制完成。",
+  "runtimeValidation":"未执行"
+}
