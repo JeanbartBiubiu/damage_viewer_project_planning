@@ -1,0 +1,45 @@
+{
+  "executor": "Cursor",
+  "purpose": "independent-readback-P-W-only",
+  "startedAt": "2026-09-07T15:02:49.837Z",
+  "finishedAt": "2026-09-07T15:02:57.862Z",
+  "login": {
+    "tokenConfiguredVisible": true,
+    "gameIdVisible": "GameId lol",
+    "canWrite": true
+  },
+  "readbacks": [
+    {
+      "object": "lux_p/base_damage",
+      "via": "browser-view",
+      "actual": {
+        "lv1": "30",
+        "lv18": "200"
+      },
+      "expected": {
+        "lv1": "30",
+        "lv18": "200"
+      },
+      "match": true
+    },
+    {
+      "object": "lux_w/prismatic_shield",
+      "via": "browser-view",
+      "actual": {
+        "instanceScope": "按来源对象",
+        "resultTarget": "曲光护盾\n\t\nshield\n\t\n普通护盾\n\t\n施法者\n\t\n—\n\t\n持续生效\n\t\n施加时留存\n\t\n整个实例共享数值\n\t\n—\n\t\n曲光屏障护盾值\n\t\n全部伤害 / 不衰减\n\t\n10\n\t\n查看"
+      },
+      "expected": {
+        "instanceScope": "按来源对象",
+        "resultTarget": "施法者"
+      },
+      "match": true
+    }
+  ],
+  "failures": [],
+  "screenshots": [
+    "skills-page-ready.png",
+    "lux-p-base-damage-view.png",
+    "lux-w-self-shield-view.png"
+  ]
+}

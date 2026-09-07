@@ -1,0 +1,518 @@
+{
+  "skillKey": "lux_e",
+  "finishedAt": "2026-09-07T15:26:55.276Z",
+  "planned": {
+    "parameters": 11,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 0,
+    "skipped": 3
+  },
+  "skipped": [
+    {
+      "kind": "effect",
+      "key": "slow",
+      "reason": "无减速状态可挂 STATUS_OPERATION；只保留 slow_ratio 等参数。"
+    },
+    {
+      "kind": "process",
+      "key": "recast_detonate",
+      "reason": "再次施放与到期爆炸的目标筛选、区域半径在当前过程模型中无法准确表达。"
+    },
+    {
+      "kind": "trigger",
+      "key": "explode_on_recast",
+      "reason": "爆炸时点存在再次施放/到期两种路径，挂触发会猜测。"
+    }
+  ],
+  "keys": {
+    "parameters": [
+      "base_damage",
+      "ap_ratio",
+      "slow_ratio",
+      "slow_linger_ms",
+      "slow_zone_ms",
+      "vision_radius",
+      "cooldown_ms",
+      "mana_cost",
+      "cast_time_ms",
+      "target_range",
+      "projectile_speed"
+    ],
+    "formulas": [
+      "damage"
+    ],
+    "effects": [
+      "mana_cost",
+      "singularity_detonate"
+    ],
+    "processes": [
+      "cast"
+    ],
+    "trigger-rules": [],
+    "internal-states": []
+  },
+  "readbacks": [
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:50.928507Z",
+        "description": "客户端 BaseDamage 含 rank0=20；跳过 rank0 后与 DDragon effect[2]=65/115/165/215/265 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 115,
+          "3": 165,
+          "4": 215,
+          "5": 265
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:50.928507Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:51.241121Z",
+        "description": "客户端 TotalDamageTT 使用 StatByCoefficientCalculationPart mCoefficient=0.800000011920929，归一为 0.8。无具名 APRatio 字段，系数默认法术强度。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:51.241121Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:51.522076Z",
+        "description": "客户端 SlowPercent 为百分数 20/25/30/35/40/45/50；跳过 rank0 后与 DDragon effect[1] 一致。按系统比例 1=100% 写成 0.25..0.45。当前无减速状态，只录数值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35,
+          "4": 0.4,
+          "5": 0.45
+        },
+        "name": "区域内减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "lux_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:51.522076Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "slow_linger_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:51.909508Z",
+        "description": "客户端 SlowLingerDuration=1 秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "爆炸后减速残留（毫秒）",
+        "parameterKey": "slow_linger_ms",
+        "skillKey": "lux_e",
+        "sortOrder": 31,
+        "updatedAt": "2026-09-07T14:45:51.909508Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "slow_zone_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:52.230649Z",
+        "description": "客户端 SlowZoneDuration=5 秒，到期或再次施放后爆炸。区域命中未写入过程。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光区持续时间（毫秒）",
+        "parameterKey": "slow_zone_ms",
+        "skillKey": "lux_e",
+        "sortOrder": 32,
+        "updatedAt": "2026-09-07T14:45:52.230649Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "vision_radius",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:52.565791Z",
+        "description": "客户端 VisionRadius=650。不声称战争迷雾运行已验证。",
+        "fixedValue": 650,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光区视野半径",
+        "parameterKey": "vision_radius",
+        "skillKey": "lux_e",
+        "sortOrder": 33,
+        "updatedAt": "2026-09-07T14:45:52.565791Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:52.886599Z",
+        "description": "客户端 cooldownTime 跳过 rank0 后与 DDragon 10/9.5/9/8.5/8 秒一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lux_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:45:52.886599Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:53.261472Z",
+        "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lux_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:45:53.261472Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:53.560584Z",
+        "description": "客户端主技能 spellCastTime=0.25 秒。再次施放/开关技能 0.425 秒不混入首次施放。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lux_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:45:53.560584Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "target_range",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:53.906045Z",
+        "description": "客户端 castRange 与 DDragon range 均为 1100。",
+        "fixedValue": 1100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能指示范围",
+        "parameterKey": "target_range",
+        "skillKey": "lux_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T14:45:53.906045Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "parameters",
+      "id": "projectile_speed",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:54.192885Z",
+        "description": "客户端主技能 missileSpeed=1300。",
+        "fixedValue": 1300,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹体速度",
+        "parameterKey": "projectile_speed",
+        "skillKey": "lux_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T14:45:54.192885Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:54.523661Z",
+        "description": "BaseDamage + 法术强度×0.8。来源：客户端 TotalDamageTT。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "透光奇点爆炸魔法伤害",
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:54.523661Z"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:54.866867Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:54.866867Z"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "effects",
+      "id": "singularity_detonate",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:55.218248Z",
+        "description": "独立爆炸魔法伤害。光区减速、区域筛选、到期自动爆炸与再次施放引爆未写成过程或触发，因为区域命中表达不足。",
+        "effectKey": "singularity_detonate",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "奇点爆炸",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:55.218248Z"
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:45:55.539977Z",
+        "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放透光奇点",
+        "processKey": "cast",
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:45:55.539977Z"
+      }
+    }
+  ]
+}

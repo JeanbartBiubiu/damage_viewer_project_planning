@@ -1,0 +1,483 @@
+{
+  "skillKey": "lux_r",
+  "finishedAt": "2026-09-07T15:26:56.398Z",
+  "planned": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 1,
+    "skipped": 5
+  },
+  "skipped": [
+    {
+      "kind": "parameter",
+      "key": "reset_ratio",
+      "reason": "客户端 ResetPercent 字段存在不能证明当前返还机制。已撤出本批参数，放入待核原始字段。"
+    },
+    {
+      "kind": "parameter",
+      "key": "reset_assist_window_ms",
+      "reason": "客户端 ResetAssistWindow 字段存在不能证明当前返还机制。已撤出本批参数，放入待核原始字段。"
+    },
+    {
+      "kind": "trigger",
+      "key": "reset_on_takedown",
+      "reason": "返还机制未证实，不猜测击杀/助攻触发。target_range/line_width/projectile_speed 为辅助空间字段，不作为 1V1 完成前置。"
+    },
+    {
+      "kind": "trigger",
+      "key": "refresh_illumination",
+      "reason": "R 触发并刷新被动减益的顺序（先引爆再刷新或只刷新）资料未在本批交叉确证。"
+    },
+    {
+      "kind": "parameter",
+      "key": "engine_cast_range",
+      "reason": "castRange=25000 不写入。"
+    }
+  ],
+  "keys": {
+    "parameters": [
+      "base_damage",
+      "ap_ratio",
+      "cooldown_ms",
+      "mana_cost",
+      "cast_time_ms",
+      "target_range",
+      "line_width",
+      "projectile_speed"
+    ],
+    "formulas": [
+      "damage"
+    ],
+    "effects": [
+      "mana_cost",
+      "final_spark_hit"
+    ],
+    "processes": [
+      "cast"
+    ],
+    "trigger-rules": [
+      "resolve_on_r_hit"
+    ],
+    "internal-states": []
+  },
+  "readbacks": [
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:55.9332Z",
+        "description": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 300,
+          "2": 400,
+          "3": 500
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:55.9332Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:56.234223Z",
+        "description": "客户端 TotalDamage 使用 mCoefficient=1.2000000476837158，归一为 1.2。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:56.234223Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:58.091622Z",
+        "description": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60000,
+          "2": 50000,
+          "3": 40000
+        },
+        "name": "冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lux_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:45:58.091622Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:59.621113Z",
+        "description": "客户端 mana 与 DDragon cost 均为 100。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lux_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:45:59.621113Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:59.946282Z",
+        "description": "客户端 spellCastTime=1.375 秒。按延迟步骤录入，不把通道打断/不可取消写成完整通道机制。",
+        "fixedValue": 1375,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "蓄力时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lux_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:45:59.946282Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "target_range",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:00.31429Z",
+        "description": "采用 castRangeDisplayOverride 与 DDragon range=3340。castRange=25000 不写入。",
+        "fixedValue": 3340,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能指示范围",
+        "parameterKey": "target_range",
+        "skillKey": "lux_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T14:46:00.31429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "line_width",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:00.650479Z",
+        "description": "客户端主技能 mLineWidth=190，仅单来源，未与独立弹体交叉。",
+        "fixedValue": 190,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光束宽度",
+        "parameterKey": "line_width",
+        "skillKey": "lux_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T14:46:00.650479Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "projectile_speed",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:01.000633Z",
+        "description": "客户端主技能 missileSpeed=3000。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光束速度",
+        "parameterKey": "projectile_speed",
+        "skillKey": "lux_r",
+        "sortOrder": 81,
+        "updatedAt": "2026-09-07T14:46:01.000633Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:01.3205Z",
+        "description": "Damage + 法术强度×1.2。来源：客户端 TotalDamage。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "终极闪光魔法伤害",
+        "skillKey": "lux_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:46:01.3205Z"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:01.679736Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:46:01.679736Z"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "effects",
+      "id": "final_spark_hit",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:46:01.992566Z",
+        "description": "独立直线魔法伤害。被动引爆/刷新启明、冷却返还未挂接。",
+        "effectKey": "final_spark_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "终极闪光命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:46:01.992566Z"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:46:02.37415Z",
+        "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放终极闪光",
+        "processKey": "cast",
+        "skillKey": "lux_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:46:02.37415Z"
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "triggerRules",
+      "id": "resolve_on_r_hit",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "resolve_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "final_spark_hit"
+            },
+            "name": "结算命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lux_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "终极闪光实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_r_hit",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

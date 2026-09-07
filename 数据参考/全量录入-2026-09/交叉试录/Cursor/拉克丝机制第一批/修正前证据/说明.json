@@ -1,0 +1,11 @@
+{
+  "note": "本目录是修正前冻结，不可当作当前可运行录入脚本。当前可运行脚本是上一级 entry.mjs。",
+  "candidateSha256": "03001f84672db964b86eefb7446ce8dd56cac6a508bb2aeadcac371bf2fac922",
+  "frozenAt": "2026-09-07T14:55:05.693Z",
+  "knownErrors": [
+    "lux_p.base_damage 误取 ByCharLevel 索引 0..17（20..190），应为索引 1..18（30..200）",
+    "lux_p.illumination_mark 把 EARLY_REMOVE 写成被动引爆",
+    "lux_w.prismatic_shield 写成 TARGET 而非独立自护盾 SOURCE",
+    "lux_r.reset_ratio / reset_assist_window_ms 仅因客户端字段存在而录入，返还机制未证实"
+  ]
+}
