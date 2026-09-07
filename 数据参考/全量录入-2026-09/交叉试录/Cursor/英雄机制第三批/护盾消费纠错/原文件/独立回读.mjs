@@ -54,10 +54,9 @@ invariant('TwitchE和TristanaE未创建无层数来源的命中规则',!Object.k
 invariant('TwitchQ施放没有立即获得离开伪装攻速',live.twitch_q.processes.cast.effectBindings.every(b=>b.effectKey!=='exit_camouflage_speed'));
 invariant('SOURCE范围持续效果条件承受对象留空',live.sivir_r.triggerRules.active_attack_refund.conditionGroups[0].conditions.find(c=>c.conditionType==='LIFECYCLE_CHECK').detail.subject===null);
 invariant('SivirE治疗由成功格挡事件触发',live.sivir_e.triggerRules.successful_spell_block?.eventSource.eventType==='SPELL_SHIELD_BLOCKED'&&live.sivir_e.triggerRules.successful_spell_block?.actions.every(a=>a.detail.effectKey==='block_heal'));
-invariant('SivirE成功治疗同时显式移除自身护盾',live.sivir_e.effects.block_heal.results.some(r=>r.resultKey==='remove_spell_shield'&&r.resultType==='LIFECYCLE_OPERATION'&&r.target==='SOURCE'&&r.detail.targetEffectKey==='spell_shield'&&r.detail.operation==='REMOVE'&&r.valueRule===null));
 invariant('未用提前移除冒充引爆',out.readbacks.filter(r=>r.kind==='effects').every(r=>r.actual.results.every(v=>v.lifecycleBehavior?.moment!=='EARLY_REMOVE')));
 out.finishedAt=new Date().toISOString();
-await writeFile(new URL('./护盾消费纠错/批次独立回读证据.json',import.meta.url),JSON.stringify(out,null,2)+'\n');
+await writeFile(new URL('./独立回读证据.json',import.meta.url),JSON.stringify(out,null,2)+'\n');
 const {readbacks,subjects,...summary}=out;summary.componentsChecked=readbacks.length;summary.subjectCount=subjects.length;summary.arithmeticCount=out.arithmetic.length;summary.invariantCount=out.invariants.length;
-await writeFile(new URL('./护盾消费纠错/批次回读摘要.json',import.meta.url),JSON.stringify(summary,null,2)+'\n');
+await writeFile(new URL('./回读摘要.json',import.meta.url),JSON.stringify(summary,null,2)+'\n');
 console.log(JSON.stringify({totals:out.totals,components:readbacks.length,arithmetic:out.arithmetic.length,invariants:out.invariants.length,failures:out.failures}));if(out.failures.length)process.exitCode=1;

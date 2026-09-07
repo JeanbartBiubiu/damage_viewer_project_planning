@@ -260,25 +260,10 @@
               "fixedMaxValue": null
             },
             "detail": {}
-          },
-          {
-            "resultKey": "remove_spell_shield",
-            "name": "移除已成功格挡的法术护盾",
-            "resultType": "LIFECYCLE_OPERATION",
-            "target": "SOURCE",
-            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
-            "sortOrder": 20,
-            "lifecycleBehavior": null,
-            "spellShieldBlockScope": null,
-            "valueRule": null,
-            "detail": {
-              "targetEffectKey": "spell_shield",
-              "operation": "REMOVE"
-            }
           }
         ]
       }
     ]
   },
-  "note": "当前block_heal同时包含治疗与显式护盾消费，必须先建立spell_shield才可保存block_heal。恢复顺序为参数/公式→主负责人护盾→block_heal→过程与成功规则。历史页面证据另存，不以当前候选改写旧验收。"
+  "note": "API接手代理只建前置参数/公式/治疗效果；主负责人页面建法术护盾、施放过程、成功格挡规则。双方不交叉写。"
 }
