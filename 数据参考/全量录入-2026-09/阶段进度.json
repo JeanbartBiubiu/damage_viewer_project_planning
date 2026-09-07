@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T16:31:02.834Z",
+  "generatedAt": "2026-09-07T16:39:09.704Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -29,16 +29,19 @@
       "实录记录.json",
       "API实录/装备/summary.json"
     ],
-    "status": "主体与明确直接属性完成；两项普攻特效部分录入，其余机制继续补录"
+    "status": "主体与明确直接属性完成；八项装备技能已有组成，完整触发与其余机制继续补录"
   },
   "images": {
     "objectUses": 1207,
     "heroes": 171,
     "skills": 855,
     "equipment": 181,
-    "additionalEquipmentSkillRepresentativeReuses": 2,
-    "additionalEquipmentSkillEvidence": "装备技能实录/Luna第一批/主负责人复核.json",
-    "status": "原 1207 个主体代表图历史证据保留；新增装备技能代表图复用 2 项另列，未将两者合并宣称为 1209 项整体重验",
+    "additionalEquipmentSkillRepresentativeReuses": 8,
+    "additionalEquipmentSkillEvidence": [
+      "装备技能实录/Luna第一批/主负责人复核.json",
+      "装备技能实录/Luna第二批/主负责人复核.json"
+    ],
+    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图两批共8项复用另列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
@@ -57,6 +60,25 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentSecondBatch": {
+      "skills": [
+        "item_3075_passive",
+        "item_3076_passive",
+        "item_3057_passive",
+        "item_3078_passive",
+        "item_3100_passive",
+        "item_3102_passive"
+      ],
+      "parameters": 19,
+      "formulas": 4,
+      "effects": 8,
+      "triggerRules": 3,
+      "equipmentRelations": 6,
+      "representativeImageReuses": 6,
+      "status": "已保存组成；完整咒刃、重伤、女妖等接线继续补录",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第二批/主负责人复核.json"
+    },
     "nasusFirstBatch": {
       "skills": [
         "nasus_p",
