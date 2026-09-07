@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-09-08",
+  "mode": "实际补缺执行后的确认记录",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "equipmentKeys": ["item_3003", "item_6675", "item_4633", "item_2501", "item_3814", "item_6657"],
+  "skillKeys": ["item_3003_passive", "item_6675_passive", "item_4633_passive", "item_2501_passive", "item_3814_passive", "item_6657_passive"],
+  "writeOrder": ["skill", "parameters", "formulas", "effects", "triggerRules", "equipmentSkillRelation", "skillRepresentativeImage"],
+  "applyCompleted": true,
+  "applyImagesCompleted": true,
+  "componentSummary": {
+    "skillCount": 6,
+    "parameterCount": 23,
+    "formulaCount": 3,
+    "effectCount": 6,
+    "triggerRuleCount": 5,
+    "relationCount": 6,
+    "representativeImageCount": 6,
+    "componentCount": 61,
+    "fieldCount": 629,
+    "mismatchCount": 0
+  },
+  "interfaceCorrections": [
+    "按当前属性读取的持续属性结果需要stackValueMode=SHARED且reapplicationValueMode为空；三项额外属性转换按此形状保存。",
+    "BASIC_ATTACK_HIT不提供事件来源对象；纳沃利烁刃的冷却结果保留，未写不能安全指向持有者的过宽攻击触发。",
+    "周期属性结果不允许选择属性乘区；时光之杖周期结果使用空乘区。",
+    "一个效果的多个结果按最终接口回读顺序固化候选，独立逐字段回读零差异。"
+  ],
+  "independentReadback": {
+    "script": "独立最终回读.mjs",
+    "checkCount": 67,
+    "fieldCount": 647,
+    "mismatchCount": 0,
+    "failedCheckCount": 0
+  },
+  "boundary": "实际接口保存与回读不等于战斗/Wasm执行或浏览器验收；法力流、虚空腐蚀、报复、法术护盾重获、时无限满层升级与永恒分支仍按来源或结构缺口待补。"
+}
