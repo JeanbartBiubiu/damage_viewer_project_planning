@@ -1,0 +1,105 @@
+{
+  "startedAt": "2026-09-07T18:52:53.048Z",
+  "mode": "只读预检",
+  "preflight": [
+    {
+      "endpoint": "/skills/item_3102_passive/effects/consume_spell_shield",
+      "state": "允许补缺"
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/trigger-rules/consume_on_spell_block",
+      "state": "允许补缺"
+    }
+  ],
+  "writes": [],
+  "readbacks": [
+    {
+      "endpoint": "/skills/item_3102_passive/effects/consume_spell_shield",
+      "expected": {
+        "effectKey": "consume_spell_shield",
+        "name": "成功格挡后消费法术护盾",
+        "description": "仅接收本技能法术护盾成功阻挡事件，显式移除持有者自身护盾；初始化和恢复另行配置。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "remove_spell_shield",
+            "name": "移除已成功格挡的法术护盾",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "targetEffectKey": "spell_shield",
+              "operation": "REMOVE"
+            }
+          }
+        ]
+      },
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "consume_spell_shield"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      },
+      "matches": false
+    },
+    {
+      "endpoint": "/skills/item_3102_passive/trigger-rules/consume_on_spell_block",
+      "expected": {
+        "ruleKey": "consume_on_spell_block",
+        "name": "法术护盾成功格挡后消费",
+        "description": "格挡成功后移除本技能自身护盾；不把自然结束或任意伤害当作成功格挡。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SPELL_SHIELD_BLOCKED",
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "consume_shield",
+            "name": "消费自身法术护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "consume_spell_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "consume_on_spell_block"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      },
+      "matches": false
+    }
+  ],
+  "failures": [],
+  "passed": false,
+  "finishedAt": "2026-09-07T18:52:53.269Z"
+}

@@ -18,7 +18,7 @@ const equipmentImages = read('API实录/装备图片/代表图关系最终核对
 const scopePlan = read('1V1范围筛选/处置清单.json');
 const asheMechanism = read('艾希技能实录第一批/独立核对.json');
 const equipmentMechanism = read('装备技能实录/Luna第一批/主负责人复核.json');
-const equipmentSecondEvidence = '装备技能实录/Luna第二批/主负责人复核.json';
+const equipmentSecondEvidence = '装备技能实录/Luna第二批/护盾消费纠错/批次复核.json';
 const equipmentSecond = read(equipmentSecondEvidence);
 const equipmentThirdEvidence = '装备技能实录/Luna第三批/主负责人复核.json';
 const equipmentThird = read(equipmentThirdEvidence);
@@ -45,7 +45,7 @@ assert.equal(read('装备技能实录/Luna第七批/页面验收.json').passed, 
 assert.equal(equipmentThird.passed, true);
 assert.equal(equipmentThird.components, 76);
 assert.equal(equipmentSecond.passed, true);
-assert.equal(equipmentSecond.components, 52);
+assert.equal(equipmentSecond.components, 54);
 assert.equal(equipmentSecond.records.length, 6);
 const publicParameterEvidence = '技能公共参数实录/独立核对.json';
 const publicParameters = read(publicParameterEvidence);
@@ -85,7 +85,7 @@ const heroSecond = readAbsolute(path.join(luxEvidenceWorktree, heroSecondRelativ
 assert.equal(heroSecond.componentsChecked, 206);
 assert.deepEqual(heroSecond.failures, []);
 assert.equal(Object.keys(heroSecond.skills).length, 20);
-const heroThirdRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/回读摘要.json';
+const heroThirdRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/护盾消费纠错/批次回读摘要.json';
 const heroThird = readAbsolute(path.join(luxEvidenceWorktree, heroThirdRelative));
 assert.equal(heroThird.componentsChecked, 210);
 assert.deepEqual(heroThird.failures, []);

@@ -1,0 +1,11 @@
+{
+  "date":"2026-09-08",
+  "executor":"主负责人",
+  "url":"http://127.0.0.1:5173/#/skills",
+  "passed":true,
+  "skillKey":"item_3102_passive",
+  "method":"真实浏览器查看消费效果，并编辑查看成功事件规则后取消",
+  "observed":["consume_spell_shield只有自身生命周期移除结果，引用spell_shield","consume_on_spell_block为法术护盾成功阻挡，明确选择本技能法术护盾","唯一动作当前目标执行consume_spell_shield，绑定0修正0","无条件组，无每目标冷却，技能图片正常"],
+  "apiEvidence":"批次复核.json",
+  "boundary":"成功消费配置已验收，初始化和恢复仍待补，战斗未执行。"
+}
