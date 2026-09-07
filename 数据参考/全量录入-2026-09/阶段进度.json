@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T18:43:35.409Z",
+  "generatedAt": "2026-09-07T19:09:45.733Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -31,23 +31,24 @@
       "实录记录.json",
       "API实录/装备/summary.json"
     ],
-    "status": "主体与明确直接属性完成；三十一项装备技能已有组成，完整触发与其余机制继续补录"
+    "status": "主体与明确直接属性完成；三十七项装备技能已有组成，完整触发与其余机制继续补录"
   },
   "images": {
     "objectUses": 1207,
     "heroes": 171,
     "skills": 855,
     "equipment": 181,
-    "additionalEquipmentSkillRepresentativeReuses": 31,
+    "additionalEquipmentSkillRepresentativeReuses": 37,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/主负责人复核.json",
       "装备技能实录/Luna第三批/主负责人复核.json",
       "装备技能实录/Luna第四批/纠错后独立回读.json",
       "装备技能实录/Luna第五批/独立最终回读.json",
-      "装备技能实录/Luna第六批/独立最终回读.json"
+      "装备技能实录/Luna第六批/独立最终回读.json",
+      "装备技能实录/Luna第七批/独立最终回读.json"
     ],
-    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图六批共31项复用另列，不宣称全部对象已整体重验",
+    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图七批共37项复用另列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
@@ -66,6 +67,26 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentSeventhBatch": {
+      "skills": [
+        "item_3003_passive",
+        "item_6675_passive",
+        "item_4633_passive",
+        "item_2501_passive",
+        "item_3814_passive",
+        "item_6657_passive"
+      ],
+      "parameters": 28,
+      "formulas": 3,
+      "effects": 6,
+      "processes": 1,
+      "triggerRules": 6,
+      "equipmentRelations": 6,
+      "representativeImageReuses": 6,
+      "status": "部分录入；十次成长与护盾消费已纠正，剩余冷却比例及合法事件接线待补",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第七批/独立最终回读.json"
+    },
     "publicParametersFourthBatch": {
       "heroes": [
         "Aatrox",
