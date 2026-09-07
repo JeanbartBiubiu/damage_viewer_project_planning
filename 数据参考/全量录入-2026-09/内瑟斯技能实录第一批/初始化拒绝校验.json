@@ -1,0 +1,134 @@
+{
+  "checkedAt": "2026-09-07T17:03:59.012Z",
+  "rule": {
+    "actions": [
+      {
+        "actionKey": "action_1",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "soul_eater_lifesteal"
+        },
+        "name": "施加自身生命偷取",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "EVENT_SOURCE"
+      }
+    ],
+    "conditionGroups": [],
+    "description": "来源基础属性、挂载技能和初始状态准备完成后，对自身施加吞噬灵魂生命偷取；按当前角色等级读取，初始化仅触发一次。",
+    "eventSource": {
+      "detail": {},
+      "eventType": "SOURCE_INITIALIZED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "初始化生命偷取",
+    "perTargetCooldown": null,
+    "ruleKey": "initialize_lifesteal",
+    "sortOrder": 0
+  },
+  "effect": {
+    "createdAt": "2026-09-07T16:24:35.93716Z",
+    "description": "无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。",
+    "effectKey": "soul_eater_lifesteal",
+    "gameId": "lol",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": null,
+      "expiryMode": "EXPLICIT_ONLY",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": null,
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "吞噬灵魂生命偷取",
+    "results": [
+      {
+        "description": null,
+        "detail": {
+          "attributeKey": "life_steal_percent",
+          "modifierZoneKey": "attribute_flat_add",
+          "operation": "INCREASE"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": null,
+          "stackValueMode": "SHARED",
+          "valueReadMode": "MOMENT_EVALUATION"
+        },
+        "name": "增加生命偷取百分点",
+        "resultKey": "lifesteal",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": null,
+          "fixedMultiplier": 1,
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "life_steal_ratio"
+          }
+        }
+      }
+    ],
+    "skillKey": "nasus_p",
+    "sortOrder": 10,
+    "updatedAt": "2026-09-07T17:03:57.44837Z"
+  },
+  "rejections": [
+    {
+      "case": "extra",
+      "status": 400,
+      "absentAfter": true
+    },
+    {
+      "case": "null",
+      "status": 400,
+      "absentAfter": true
+    },
+    {
+      "case": "array",
+      "status": 400,
+      "absentAfter": true
+    },
+    {
+      "case": "number",
+      "status": 400,
+      "absentAfter": true
+    },
+    {
+      "case": "text",
+      "status": 400,
+      "absentAfter": true
+    }
+  ],
+  "passed": true,
+  "counts": {
+    "triggerRules": 1
+  },
+  "runtimeValidation": "未执行",
+  "browser": {
+    "url": "http://127.0.0.1:5173/#/skills",
+    "skillKey": "nasus_p",
+    "method": "真实页面新增、关闭父窗口重开编辑并核对",
+    "checked": [
+      "初始化事件及触发一次说明",
+      "明细无额外输入",
+      "事件来源对象自身",
+      "soul_eater_lifesteal效果引用"
+    ],
+    "recovery": "首次保存因旧数据库CHECK返回500；独立GET404确认未落地；原子扩充约束后原草稿重试成功。"
+  },
+  "existingSkillHitRulesUnchanged": true
+}

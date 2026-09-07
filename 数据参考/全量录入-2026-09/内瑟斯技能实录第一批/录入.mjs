@@ -67,8 +67,8 @@ const lifesteal = Array.from({ length: 18 }, (_, i) => (curve.mLevel1Value + cur
 P.parameters.push(parameter('life_steal_ratio', '生命偷取增加比例', lifesteal, '客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。', 'CHARACTER_LEVEL'));
 P.effects.push(effect('soul_eater_lifesteal', '吞噬灵魂生命偷取', lifecycle(null),
   [attr('lifesteal', '增加生命偷取百分点', 'life_steal_percent', 'life_steal_ratio', true)],
-  '无限期自身属性效果，按当前角色等级读取。没有初始化事件挂接，不表示已自动生效；并非直接治疗。'));
-P.gaps.push('现有管理结构缺少来源初始化完成事件；随等级读取已经可表达，不必新增等级变化事件。');
+  '无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。'));
+// 初始化规则由真实页面另行创建，独立证据见初始化回读.json，不重复加入首批40个组成。
 
 Q.parameters.push(parameter('base_bonus_damage', 'Q 基础额外伤害', values('Q', 'BonusDamage', 5, [40, 60, 80, 100, 120]), '角色根引用 NasusQ，不采用残留 SiphoningStrike 对象。'),
   parameter('buff_duration_ms', '强化攻击窗口（毫秒）', values('Q', 'BuffDuration', 5, [10000, 10000, 10000, 10000, 10000], 1000), 'BuffDuration 秒转毫秒。'),

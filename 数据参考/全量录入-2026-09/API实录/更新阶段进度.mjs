@@ -27,6 +27,10 @@ const publicParameterEvidence = '技能公共参数实录/独立核对.json';
 const publicParameters = read(publicParameterEvidence);
 const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
 const nasusMechanism = read(nasusEvidence);
+const nasusInitializationEvidence = '内瑟斯技能实录第一批/初始化回读.json';
+const nasusInitialization = read(nasusInitializationEvidence);
+assert.equal(nasusInitialization.passed, true);
+assert.equal(nasusInitialization.rule.eventSource.eventType, 'SOURCE_INITIALIZED');
 assert.equal(nasusMechanism.passed, true);
 assert.deepEqual(nasusMechanism.counts, { parameters: 24, formulas: 6, effects: 7, processes: 3 });
 assert.equal(nasusMechanism.missing.length, 0);
@@ -40,6 +44,11 @@ const luxEvidenceWorktree = path.resolve(root, '..', '..', '..', 'damage_web_dev
 const luxEvidenceRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/回读摘要.json';
 const luxReadbackSummaryRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/逐对象回读.json';
 const luxMechanism = readAbsolute(path.join(luxEvidenceWorktree, luxEvidenceRelative));
+const heroSecondRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/回读摘要.json';
+const heroSecond = readAbsolute(path.join(luxEvidenceWorktree, heroSecondRelative));
+assert.equal(heroSecond.componentsChecked, 206);
+assert.deepEqual(heroSecond.failures, []);
+assert.equal(Object.keys(heroSecond.skills).length, 20);
 const luxReadbackSummary = readAbsolute(path.join(luxEvidenceWorktree, luxReadbackSummaryRelative));
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
@@ -153,7 +162,20 @@ for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) 
   const records = nasusMechanism.records.filter(record => record.skillKey === skillKey);
   entry.mechanismComponents = { evidence: nasusEvidence,
     counts: Object.fromEntries(['parameters', 'formulas', 'effects', 'processes'].map(type => [type, records.filter(record => record.type === type).length])) };
-  entry.note += ` 内瑟斯机制批次另有 ${records.length} 个组成保存并回读；控制、初始化或完整触发仍按该批清单继续。`;
+  entry.note += ` 内瑟斯机制批次另有 ${records.length} 个组成保存并回读；未完成项按该批清单继续。`;
+  if (skillKey === 'nasus_p') {
+    entry.status = '已录入';
+    entry.initialization = {ruleKey:'initialize_lifesteal', evidence:nasusInitializationEvidence};
+    entry.note = '当前1～18级范围：生命偷取等级参数、无限期自身属性效果、来源初始化规则均已保存并独立回读，规则由真实页面新增及关闭重开核对。配置录入已验收，战斗未执行。';
+  }
+}
+for (const [skillKey, proof] of Object.entries(heroSecond.skills)) {
+  const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
+  assert.ok(entry, skillKey);
+  entry.mechanismComponents = {counts:proof.counts, evidence:{worktree:luxEvidenceWorktree,relativePath:heroSecondRelative}};
+  entry.pendingMechanisms = proof.pending;
+  entry.excludedMechanisms = proof.excluded;
+  entry.note += ` 四英雄批次已保存 ${Object.values(proof.counts).reduce((a,b)=>a+b,0)} 个组成并独立回读；范围内待补与排除分别记录，不计为完整机制。`;
 }
 fs.writeFileSync(path.join(root, '英雄/录入进度.jsonl'), entries.map(x => JSON.stringify(x)).join('\n') + '\n');
 
@@ -167,6 +189,15 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  heroSecondBatch: {
+    skills:Object.keys(heroSecond.skills), ...heroSecond.totals, status:'部分录入',
+    executor:heroSecond.executor, arithmeticCases:heroSecond.arithmetic, invariantChecks:heroSecond.invariants,
+    runtimeValidation:'未执行', evidence:{worktree:luxEvidenceWorktree,relativePath:heroSecondRelative},
+  },
+  nasusInitialization: {
+    skills:['nasus_p'], triggerRules:1, status:'当前1～18级范围被动配置已验收',
+    runtimeValidation:'未执行', evidence:nasusInitializationEvidence,
+  },
   equipmentSecondBatch: {
     skills: equipmentSecond.records.map(record => record.skillKey),
     parameters: equipmentSecond.counts.parameters,
