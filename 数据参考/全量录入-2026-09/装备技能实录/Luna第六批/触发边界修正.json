@@ -1,0 +1,51 @@
+{
+  "action": "删除本批刚创建的过宽击杀触发",
+  "path": "/skills/item_3008_passive/trigger-rules/resolve_omnivamp_on_champion_kill",
+  "before": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_omnivamp_kill_stack",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "omnivamp_kill_stack"
+          },
+          "name": "执行杀戮全能吸血层数",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "按参与击杀英雄后成长的来源文案监听KILL事件；目标类别筛选依赖KILL事件本身的来源语义，运行时仍需核对。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "KILL"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "参与击杀英雄结算杀戮",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_omnivamp_on_champion_kill",
+      "sortOrder": 10
+    }
+  },
+  "delete": {
+    "status": 204,
+    "data": null
+  },
+  "after": {
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+        "details": {
+          "ruleKey": "resolve_omnivamp_on_champion_kill"
+        },
+        "message": "技能触发规则不存在"
+      }
+    }
+  },
+  "reason": "KILL事件没有英雄目标类别或事件来源对象，不能把参与击杀英雄安全表达为无条件KILL触发。"
+}

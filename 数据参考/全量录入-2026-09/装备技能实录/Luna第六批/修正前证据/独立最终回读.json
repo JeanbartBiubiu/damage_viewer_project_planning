@@ -1,0 +1,4026 @@
+{
+  "generatedAt": "2026-09-07T18:03:06.323Z",
+  "mode": "独立最终回读",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "objects": [
+    {
+      "equipmentKey": "item_3047",
+      "skillKey": "item_3047_passive"
+    },
+    {
+      "equipmentKey": "item_3065",
+      "skillKey": "item_3065_passive"
+    },
+    {
+      "equipmentKey": "item_6621",
+      "skillKey": "item_6621_passive"
+    },
+    {
+      "equipmentKey": "item_3124",
+      "skillKey": "item_3124_passive"
+    },
+    {
+      "equipmentKey": "item_3008",
+      "skillKey": "item_3008_passive"
+    },
+    {
+      "equipmentKey": "item_3161",
+      "skillKey": "item_3161_passive"
+    }
+  ],
+  "checks": [
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3047/attributes",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "armor",
+          "expected": 25,
+          "actual": 25,
+          "equal": true
+        },
+        {
+          "path": "move_speed",
+          "expected": 45,
+          "actual": 45,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3047_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3047_passive",
+          "actual": "item_3047_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "铁板靴·镀板",
+          "actual": "铁板靴·镀板",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的镀板10%攻击伤害降低参数；装备自身25护甲与45移动速度不在技能中重复施加。当前管理目录没有DAMAGE修正乘区，因此不把属性乘区冒充攻击伤害减免，效果与触发留待补配。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的镀板10%攻击伤害降低参数；装备自身25护甲与45移动速度不在技能中重复施加。当前管理目录没有DAMAGE修正乘区，因此不把属性乘区冒充攻击伤害减免，效果与触发留待补配。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:incoming_attack_damage_reduction",
+      "path": "/skills/item_3047_passive/parameters/incoming_attack_damage_reduction",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "incoming_attack_damage_reduction",
+          "actual": "incoming_attack_damage_reduction",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "镀板攻击伤害降低比例",
+          "actual": "镀板攻击伤害降低比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.1,
+          "actual": 0.1,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "即将到来的攻击伤害降低10%，小数0.1表示10%。",
+          "actual": "即将到来的攻击伤害降低10%，小数0.1表示10%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3047",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3047",
+          "actual": "item_3047",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3047_passive",
+          "actual": "item_3047_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3047/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3047",
+          "actual": "item_3047",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3047_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3047",
+          "actual": "item_3047",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3065/attributes",
+      "status": 200,
+      "fieldCount": 4,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 400,
+          "actual": 400,
+          "equal": true
+        },
+        {
+          "path": "magic_resistance",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        },
+        {
+          "path": "ability_haste",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "base_hp_regen_percent",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3065_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3065_passive",
+          "actual": "item_3065_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "振奋盔甲·无拘活力",
+          "actual": "振奋盔甲·无拘活力",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的自身治疗和护盾效果提升25%；装备自身400生命值、50魔抗、10技能急速、100%基础生命回复不在技能中重复施加。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的自身治疗和护盾效果提升25%；装备自身400生命值、50魔抗、10技能急速、100%基础生命回复不在技能中重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:heal_shield_power_bonus",
+      "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "heal_shield_power_bonus",
+          "actual": "heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "无拘活力治疗护盾增益",
+          "actual": "无拘活力治疗护盾增益",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.25,
+          "actual": 0.25,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "自身治疗和护盾效果提升25%，小数0.25表示25%。",
+          "actual": "自身治疗和护盾效果提升25%，小数0.25表示25%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:heal_shield_power_bonus",
+      "path": "/skills/item_3065_passive/effects/heal_shield_power_bonus",
+      "status": 200,
+      "fieldCount": 36,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "heal_shield_power_bonus",
+          "actual": "heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "无拘活力治疗护盾增益",
+          "actual": "无拘活力治疗护盾增益",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "来源对象自身受到的治疗和护盾效果提升25%。",
+          "actual": "来源对象自身受到的治疗和护盾效果提升25%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "heal_shield_power_bonus",
+          "actual": "heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "治疗和护盾强度提升",
+          "actual": "治疗和护盾强度提升",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "来源对象治疗和护盾强度增加25%。",
+          "actual": "来源对象治疗和护盾强度增加25%。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "REPLACE",
+          "actual": "REPLACE",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "heal_shield_power_bonus",
+          "actual": "heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "heal_shield_power_percent",
+          "actual": "heal_shield_power_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_percent_bonus",
+          "actual": "attribute_percent_bonus",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "trigger-rule:initialize_heal_shield_power_bonus",
+      "path": "/skills/item_3065_passive/trigger-rules/initialize_heal_shield_power_bonus",
+      "status": 200,
+      "fieldCount": 17,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "initialize_heal_shield_power_bonus",
+          "actual": "initialize_heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "初始化无拘活力",
+          "actual": "初始化无拘活力",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "装备持有时初始化自身治疗和护盾强度比例提升；不把提升误写成对其他目标施加的护盾。",
+          "actual": "装备持有时初始化自身治疗和护盾强度比例提升；不把提升误写成对其他目标施加的护盾。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "SOURCE_INITIALIZED",
+          "actual": "SOURCE_INITIALIZED",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_heal_shield_power_bonus",
+          "actual": "execute_heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行无拘活力",
+          "actual": "执行无拘活力",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "EVENT_SOURCE",
+          "actual": "EVENT_SOURCE",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "heal_shield_power_bonus",
+          "actual": "heal_shield_power_bonus",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3065",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3065",
+          "actual": "item_3065",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3065_passive",
+          "actual": "item_3065_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3065/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3065",
+          "actual": "item_3065",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3065_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3065",
+          "actual": "item_3065",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_6621/attributes",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ability_power",
+          "expected": 45,
+          "actual": 45,
+          "equal": true
+        },
+        {
+          "path": "heal_shield_power_percent",
+          "expected": 0.16,
+          "actual": 0.16,
+          "equal": true
+        },
+        {
+          "path": "base_mana_regen_percent",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_6621_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_6621_passive",
+          "actual": "item_6621_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "黎明核心·最初之光",
+          "actual": "黎明核心·最初之光",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的属性依赖：每100%基础法力回复额外获得2%治疗和护盾强度与10法术强度。装备直接的45法术强度、16%治疗和护盾强度、100%基础法力回复不在技能结果中重复施加。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的属性依赖：每100%基础法力回复额外获得2%治疗和护盾强度与10法术强度。装备直接的45法术强度、16%治疗和护盾强度、100%基础法力回复不在技能结果中重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:ap_per_100_base_mana_regen",
+      "path": "/skills/item_6621_passive/parameters/ap_per_100_base_mana_regen",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "ap_per_100_base_mana_regen",
+          "actual": "ap_per_100_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "每100%基础法力回复法术强度",
+          "actual": "每100%基础法力回复法术强度",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每1.0（100%）基础法力回复提供10点法术强度。",
+          "actual": "每1.0（100%）基础法力回复提供10点法术强度。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:heal_shield_per_100_base_mana_regen",
+      "path": "/skills/item_6621_passive/parameters/heal_shield_per_100_base_mana_regen",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "heal_shield_per_100_base_mana_regen",
+          "actual": "heal_shield_per_100_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "每100%基础法力回复治疗护盾强度",
+          "actual": "每100%基础法力回复治疗护盾强度",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.02,
+          "actual": 0.02,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每1.0（100%）基础法力回复提供0.02治疗和护盾强度，小数0.02表示2%。",
+          "actual": "每1.0（100%）基础法力回复提供0.02治疗和护盾强度，小数0.02表示2%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:ap_from_base_mana_regen",
+      "path": "/skills/item_6621_passive/formulas/ap_from_base_mana_regen",
+      "status": 200,
+      "fieldCount": 13,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "ap_from_base_mana_regen",
+          "actual": "ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "基础法力回复转法术强度",
+          "actual": "基础法力回复转法术强度",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "基础法力回复比例乘以每100%基础法力回复提供的法术强度。",
+          "actual": "基础法力回复比例乘以每100%基础法力回复提供的法术强度。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeKey",
+          "expected": "base_mana_regen_percent",
+          "actual": "base_mana_regen_percent",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "ap_per_100_base_mana_regen",
+          "actual": "ap_per_100_base_mana_regen",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:heal_shield_from_base_mana_regen",
+      "path": "/skills/item_6621_passive/formulas/heal_shield_from_base_mana_regen",
+      "status": 200,
+      "fieldCount": 13,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "heal_shield_from_base_mana_regen",
+          "actual": "heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "基础法力回复转治疗护盾强度",
+          "actual": "基础法力回复转治疗护盾强度",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "基础法力回复比例乘以每100%基础法力回复提供的治疗和护盾强度。",
+          "actual": "基础法力回复比例乘以每100%基础法力回复提供的治疗和护盾强度。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeKey",
+          "expected": "base_mana_regen_percent",
+          "actual": "base_mana_regen_percent",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "heal_shield_per_100_base_mana_regen",
+          "actual": "heal_shield_per_100_base_mana_regen",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:ap_from_base_mana_regen",
+      "path": "/skills/item_6621_passive/effects/ap_from_base_mana_regen",
+      "status": 200,
+      "fieldCount": 36,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "ap_from_base_mana_regen",
+          "actual": "ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "基础法力回复转法术强度",
+          "actual": "基础法力回复转法术强度",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按来源对象基础法力回复比例增加法术强度。",
+          "actual": "按来源对象基础法力回复比例增加法术强度。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "ap_from_base_mana_regen",
+          "actual": "ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "基础法力回复提供的法术强度",
+          "actual": "基础法力回复提供的法术强度",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每100%基础法力回复提供10点法术强度。",
+          "actual": "每100%基础法力回复提供10点法术强度。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "REPLACE",
+          "actual": "REPLACE",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "ap_from_base_mana_regen",
+          "actual": "ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "ability_power",
+          "actual": "ability_power",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_flat_add",
+          "actual": "attribute_flat_add",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:heal_shield_from_base_mana_regen",
+      "path": "/skills/item_6621_passive/effects/heal_shield_from_base_mana_regen",
+      "status": 200,
+      "fieldCount": 36,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "heal_shield_from_base_mana_regen",
+          "actual": "heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "基础法力回复转治疗护盾强度",
+          "actual": "基础法力回复转治疗护盾强度",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按来源对象基础法力回复比例增加治疗和护盾强度。",
+          "actual": "按来源对象基础法力回复比例增加治疗和护盾强度。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "heal_shield_from_base_mana_regen",
+          "actual": "heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "基础法力回复提供的治疗护盾强度",
+          "actual": "基础法力回复提供的治疗护盾强度",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每100%基础法力回复提供2%治疗和护盾强度。",
+          "actual": "每100%基础法力回复提供2%治疗和护盾强度。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "REPLACE",
+          "actual": "REPLACE",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "heal_shield_from_base_mana_regen",
+          "actual": "heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "heal_shield_power_percent",
+          "actual": "heal_shield_power_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_percent_bonus",
+          "actual": "attribute_percent_bonus",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "trigger-rule:initialize_dawncore_scaling",
+      "path": "/skills/item_6621_passive/trigger-rules/initialize_dawncore_scaling",
+      "status": 200,
+      "fieldCount": 25,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "initialize_dawncore_scaling",
+          "actual": "initialize_dawncore_scaling",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "初始化最初之光",
+          "actual": "初始化最初之光",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "装备持有时读取来源对象基础法力回复比例并分别执行法术强度与治疗护盾强度增益。",
+          "actual": "装备持有时读取来源对象基础法力回复比例并分别执行法术强度与治疗护盾强度增益。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "SOURCE_INITIALIZED",
+          "actual": "SOURCE_INITIALIZED",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_ap_from_base_mana_regen",
+          "actual": "execute_ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行基础法力回复法术强度",
+          "actual": "执行基础法力回复法术强度",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "EVENT_SOURCE",
+          "actual": "EVENT_SOURCE",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "ap_from_base_mana_regen",
+          "actual": "ap_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[1].actionKey",
+          "expected": "execute_heal_shield_from_base_mana_regen",
+          "actual": "execute_heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "actions[1].name",
+          "expected": "执行基础法力回复治疗护盾强度",
+          "actual": "执行基础法力回复治疗护盾强度",
+          "equal": true
+        },
+        {
+          "path": "actions[1].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[1].sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "actions[1].targetContext",
+          "expected": "EVENT_SOURCE",
+          "actual": "EVENT_SOURCE",
+          "equal": true
+        },
+        {
+          "path": "actions[1].detail.effectKey",
+          "expected": "heal_shield_from_base_mana_regen",
+          "actual": "heal_shield_from_base_mana_regen",
+          "equal": true
+        },
+        {
+          "path": "actions[1].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[1].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_6621",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_6621",
+          "actual": "item_6621",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_6621_passive",
+          "actual": "item_6621_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_6621/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_6621",
+          "actual": "item_6621",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_6621_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_6621",
+          "actual": "item_6621",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3124/attributes",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "attack_damage",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "ability_power",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "bonus_attack_speed_percent",
+          "expected": 0.25,
+          "actual": 0.25,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3124_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3124_passive",
+          "actual": "item_3124_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "鬼索的狂暴之刃·怨怒与沸腾打击",
+          "actual": "鬼索的狂暴之刃·怨怒与沸腾打击",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端绑定计算树与官方16.17.1说明共同确证的攻击附带30点魔法伤害、攻击提供8%攻速且最多4层持续3秒。装备自身30攻击力、30法术强度、25%攻击速度不在技能结果中重复施加；当前仅接已有BASIC_ATTACK_HIT，第三次攻击双攻击特效的计数与递归防止留待补配。",
+          "actual": "保存16.17客户端绑定计算树与官方16.17.1说明共同确证的攻击附带30点魔法伤害、攻击提供8%攻速且最多4层持续3秒。装备自身30攻击力、30法术强度、25%攻击速度不在技能结果中重复施加；当前仅接已有BASIC_ATTACK_HIT，第三次攻击双攻击特效的计数与递归防止留待补配。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:on_hit_magic_damage",
+      "path": "/skills/item_3124_passive/parameters/on_hit_magic_damage",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "on_hit_magic_damage",
+          "actual": "on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "怨怒额外魔法伤害",
+          "actual": "怨怒额外魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击命中附带30点额外魔法伤害，单位：伤害点。",
+          "actual": "攻击命中附带30点额外魔法伤害，单位：伤害点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_speed_per_stack",
+      "path": "/skills/item_3124_passive/parameters/attack_speed_per_stack",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_speed_per_stack",
+          "actual": "attack_speed_per_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "沸腾打击每层攻击速度",
+          "actual": "沸腾打击每层攻击速度",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.08,
+          "actual": 0.08,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每次攻击获得8%攻击速度，小数0.08表示8%。",
+          "actual": "每次攻击获得8%攻击速度，小数0.08表示8%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_speed_stack_duration_ms",
+      "path": "/skills/item_3124_passive/parameters/attack_speed_stack_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_speed_stack_duration_ms",
+          "actual": "attack_speed_stack_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "沸腾打击层数持续时间",
+          "actual": "沸腾打击层数持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3000,
+          "actual": 3000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻速层数持续3秒，单位：毫秒。",
+          "actual": "攻速层数持续3秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_speed_max_stacks",
+      "path": "/skills/item_3124_passive/parameters/attack_speed_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_speed_max_stacks",
+          "actual": "attack_speed_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "沸腾打击最大层数",
+          "actual": "沸腾打击最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 4,
+          "actual": 4,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "沸腾打击最多叠加4层。",
+          "actual": "沸腾打击最多叠加4层。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:max_attack_speed_bonus",
+      "path": "/skills/item_3124_passive/formulas/max_attack_speed_bonus",
+      "status": 200,
+      "fieldCount": 11,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "max_attack_speed_bonus",
+          "actual": "max_attack_speed_bonus",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "沸腾打击满层攻击速度",
+          "actual": "沸腾打击满层攻击速度",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按客户端MaxAttackSpeedCalc计算每层8%乘以4层，满层为32%。",
+          "actual": "按客户端MaxAttackSpeedCalc计算每层8%乘以4层，满层为32%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "attack_speed_per_stack",
+          "actual": "attack_speed_per_stack",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "attack_speed_max_stacks",
+          "actual": "attack_speed_max_stacks",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:on_hit_magic_damage",
+      "path": "/skills/item_3124_passive/effects/on_hit_magic_damage",
+      "status": 200,
+      "fieldCount": 25,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "on_hit_magic_damage",
+          "actual": "on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "怨怒攻击附伤",
+          "actual": "怨怒攻击附伤",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击命中时造成30点额外魔法伤害攻击特效。",
+          "actual": "攻击命中时造成30点额外魔法伤害攻击特效。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "on_hit_magic_damage",
+          "actual": "on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "怨怒魔法伤害",
+          "actual": "怨怒魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE",
+          "actual": "DAMAGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每次普通攻击命中造成30点额外魔法伤害。",
+          "actual": "每次普通攻击命中造成30点额外魔法伤害。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "on_hit_magic_damage",
+          "actual": "on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": "magic",
+          "actual": "magic",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "BASIC_ATTACK",
+          "actual": "BASIC_ATTACK",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "DIRECT",
+          "actual": "DIRECT",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.mode",
+          "expected": "DISALLOWED",
+          "actual": "DISALLOWED",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.multiplierValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.vampRules[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:attack_speed_stack",
+      "path": "/skills/item_3124_passive/effects/attack_speed_stack",
+      "status": 200,
+      "fieldCount": 37,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "attack_speed_stack",
+          "actual": "attack_speed_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "沸腾打击攻击速度层数",
+          "actual": "沸腾打击攻击速度层数",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每次普通攻击命中获得8%攻击速度，最多4层，持续3秒。",
+          "actual": "每次普通攻击命中获得8%攻击速度，最多4层，持续3秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "attack_speed_stack_duration_ms",
+          "actual": "attack_speed_stack_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.parameterKey",
+          "expected": "attack_speed_max_stacks",
+          "actual": "attack_speed_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "attack_speed_stack",
+          "actual": "attack_speed_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "沸腾打击攻击速度",
+          "actual": "沸腾打击攻击速度",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每层增加8%攻击速度。",
+          "actual": "每层增加8%攻击速度。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "ADD",
+          "actual": "ADD",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "attack_speed_per_stack",
+          "actual": "attack_speed_per_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "bonus_attack_speed_percent",
+          "actual": "bonus_attack_speed_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_flat_add",
+          "actual": "attribute_flat_add",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "trigger-rule:resolve_rageblade_basic_attack",
+      "path": "/skills/item_3124_passive/trigger-rules/resolve_rageblade_basic_attack",
+      "status": 200,
+      "fieldCount": 25,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "resolve_rageblade_basic_attack",
+          "actual": "resolve_rageblade_basic_attack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "普通攻击命中结算怨怒与沸腾打击",
+          "actual": "普通攻击命中结算怨怒与沸腾打击",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按来源攻击附带与普通攻击叠层文案监听BASIC_ATTACK_HIT；技能触发攻击特效不扩大到该事件，第三次攻击双附伤另行待配。",
+          "actual": "按来源攻击附带与普通攻击叠层文案监听BASIC_ATTACK_HIT；技能触发攻击特效不扩大到该事件，第三次攻击双附伤另行待配。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "BASIC_ATTACK_HIT",
+          "actual": "BASIC_ATTACK_HIT",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_on_hit_magic_damage",
+          "actual": "execute_on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行怨怒额外魔法伤害",
+          "actual": "执行怨怒额外魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "CURRENT_TARGET",
+          "actual": "CURRENT_TARGET",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "on_hit_magic_damage",
+          "actual": "on_hit_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[1].actionKey",
+          "expected": "execute_attack_speed_stack",
+          "actual": "execute_attack_speed_stack",
+          "equal": true
+        },
+        {
+          "path": "actions[1].name",
+          "expected": "执行沸腾打击层数",
+          "actual": "执行沸腾打击层数",
+          "equal": true
+        },
+        {
+          "path": "actions[1].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[1].sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "actions[1].targetContext",
+          "expected": "CURRENT_TARGET",
+          "actual": "CURRENT_TARGET",
+          "equal": true
+        },
+        {
+          "path": "actions[1].detail.effectKey",
+          "expected": "attack_speed_stack",
+          "actual": "attack_speed_stack",
+          "equal": true
+        },
+        {
+          "path": "actions[1].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[1].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3124",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3124",
+          "actual": "item_3124",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3124_passive",
+          "actual": "item_3124_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3124/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3124",
+          "actual": "item_3124",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3124_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3124",
+          "actual": "item_3124",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3008/attributes",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "move_speed",
+          "expected": 45,
+          "actual": 45,
+          "equal": true
+        },
+        {
+          "path": "omnivamp_percent",
+          "expected": 0.04,
+          "actual": 0.04,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3008_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3008_passive",
+          "actual": "item_3008_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "暴食胫甲·杀戮",
+          "actual": "暴食胫甲·杀戮",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的参与击杀英雄后每层0.6%全能吸血、最多10层；装备自身45移动速度与4%全能吸血不在技能中重复施加。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的参与击杀英雄后每层0.6%全能吸血、最多10层；装备自身45移动速度与4%全能吸血不在技能中重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:omnivamp_per_kill_stack",
+      "path": "/skills/item_3008_passive/parameters/omnivamp_per_kill_stack",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "omnivamp_per_kill_stack",
+          "actual": "omnivamp_per_kill_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "杀戮每层全能吸血",
+          "actual": "杀戮每层全能吸血",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.006,
+          "actual": 0.006,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "参与击杀英雄后每层获得0.6%全能吸血，小数0.006表示0.6%。",
+          "actual": "参与击杀英雄后每层获得0.6%全能吸血，小数0.006表示0.6%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:omnivamp_max_stacks",
+      "path": "/skills/item_3008_passive/parameters/omnivamp_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "omnivamp_max_stacks",
+          "actual": "omnivamp_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "杀戮最大层数",
+          "actual": "杀戮最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "杀戮最多叠加10层。",
+          "actual": "杀戮最多叠加10层。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:omnivamp_kill_stack",
+      "path": "/skills/item_3008_passive/effects/omnivamp_kill_stack",
+      "status": 200,
+      "fieldCount": 36,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "omnivamp_kill_stack",
+          "actual": "omnivamp_kill_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "杀戮全能吸血层数",
+          "actual": "杀戮全能吸血层数",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "参与击杀英雄后获得0.6%全能吸血，最多10层，永久保留。",
+          "actual": "参与击杀英雄后获得0.6%全能吸血，最多10层，永久保留。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.parameterKey",
+          "expected": "omnivamp_max_stacks",
+          "actual": "omnivamp_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "omnivamp_kill_stack",
+          "actual": "omnivamp_kill_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "参与击杀全能吸血",
+          "actual": "参与击杀全能吸血",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每次参与击杀英雄增加0.6%全能吸血。",
+          "actual": "每次参与击杀英雄增加0.6%全能吸血。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "ADD",
+          "actual": "ADD",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "omnivamp_per_kill_stack",
+          "actual": "omnivamp_per_kill_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "omnivamp_percent",
+          "actual": "omnivamp_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_flat_add",
+          "actual": "attribute_flat_add",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3008",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3008",
+          "actual": "item_3008",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3008_passive",
+          "actual": "item_3008_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3008/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3008",
+          "actual": "item_3008",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3008_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3008",
+          "actual": "item_3008",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3161/attributes",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "attack_damage",
+          "expected": 45,
+          "actual": 45,
+          "equal": true
+        },
+        {
+          "path": "hp",
+          "expected": 450,
+          "actual": 450,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3161_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3161_passive",
+          "actual": "item_3161_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "朔极之矛·龙之力量与专注意志",
+          "actual": "朔极之矛·龙之力量与专注意志",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的25基础技能急速，以及技能造成伤害后英雄技能和被动伤害每层提升3%、持续6秒、最多4层。装备自身45攻击力与450生命值不在技能中重复施加；当前仅保存可准确表达的基础技能急速，伤害增幅乘区与触发筛选留待补配。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的25基础技能急速，以及技能造成伤害后英雄技能和被动伤害每层提升3%、持续6秒、最多4层。装备自身45攻击力与450生命值不在技能中重复施加；当前仅保存可准确表达的基础技能急速，伤害增幅乘区与触发筛选留待补配。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:basic_skill_haste",
+      "path": "/skills/item_3161_passive/parameters/basic_skill_haste",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "basic_skill_haste",
+          "actual": "basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "龙之力量基础技能急速",
+          "actual": "龙之力量基础技能急速",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 25,
+          "actual": 25,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "基础技能获得25点技能急速，基础技能范围使用现有common技能类别保存。",
+          "actual": "基础技能获得25点技能急速，基础技能范围使用现有common技能类别保存。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:skill_damage_bonus_per_stack",
+      "path": "/skills/item_3161_passive/parameters/skill_damage_bonus_per_stack",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "skill_damage_bonus_per_stack",
+          "actual": "skill_damage_bonus_per_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "专注意志每层伤害增益",
+          "actual": "专注意志每层伤害增益",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.03,
+          "actual": 0.03,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "英雄技能和被动伤害每层提升3%，小数0.03表示3%。",
+          "actual": "英雄技能和被动伤害每层提升3%，小数0.03表示3%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:skill_damage_bonus_duration_ms",
+      "path": "/skills/item_3161_passive/parameters/skill_damage_bonus_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "skill_damage_bonus_duration_ms",
+          "actual": "skill_damage_bonus_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "专注意志持续时间",
+          "actual": "专注意志持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 6000,
+          "actual": 6000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "专注意志持续6秒，单位：毫秒。",
+          "actual": "专注意志持续6秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:skill_damage_bonus_max_stacks",
+      "path": "/skills/item_3161_passive/parameters/skill_damage_bonus_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "skill_damage_bonus_max_stacks",
+          "actual": "skill_damage_bonus_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "专注意志最大层数",
+          "actual": "专注意志最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 4,
+          "actual": 4,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "专注意志最多叠加4层。",
+          "actual": "专注意志最多叠加4层。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:basic_skill_haste",
+      "path": "/skills/item_3161_passive/effects/basic_skill_haste",
+      "status": 200,
+      "fieldCount": 38,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "basic_skill_haste",
+          "actual": "basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "龙之力量基础技能急速",
+          "actual": "龙之力量基础技能急速",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "来源对象基础技能类别获得25点技能急速。",
+          "actual": "来源对象基础技能类别获得25点技能急速。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "basic_skill_haste",
+          "actual": "basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "基础技能急速提升",
+          "actual": "基础技能急速提升",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "SKILL_HASTE_MODIFIER",
+          "actual": "SKILL_HASTE_MODIFIER",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "基础技能类别技能急速增加25点。",
+          "actual": "基础技能类别技能急速增加25点。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "basic_skill_haste",
+          "actual": "basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.affectedSkillScope.mode",
+          "expected": "CATEGORIES",
+          "actual": "CATEGORIES",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.affectedSkillScope.skillKeys[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.affectedSkillScope.skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.affectedSkillScope.skillCategoryKeys[0]",
+          "expected": "common",
+          "actual": "common",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "trigger-rule:initialize_basic_skill_haste",
+      "path": "/skills/item_3161_passive/trigger-rules/initialize_basic_skill_haste",
+      "status": 200,
+      "fieldCount": 17,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "initialize_basic_skill_haste",
+          "actual": "initialize_basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "初始化龙之力量",
+          "actual": "初始化龙之力量",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "装备持有时对现有common技能类别应用25点技能急速；仅完成配置与回读。",
+          "actual": "装备持有时对现有common技能类别应用25点技能急速；仅完成配置与回读。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "SOURCE_INITIALIZED",
+          "actual": "SOURCE_INITIALIZED",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_basic_skill_haste",
+          "actual": "execute_basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行基础技能急速",
+          "actual": "执行基础技能急速",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "EVENT_SOURCE",
+          "actual": "EVENT_SOURCE",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "basic_skill_haste",
+          "actual": "basic_skill_haste",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3161",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3161",
+          "actual": "item_3161",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3161_passive",
+          "actual": "item_3161_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3161/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3161",
+          "actual": "item_3161",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3161_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3161",
+          "actual": "item_3161",
+          "equal": true
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "objectCount": 6,
+    "checkCount": 58,
+    "fieldCount": 577,
+    "mismatchCount": 0,
+    "failedCheckCount": 0
+  },
+  "note": "每个组件均由本脚本独立发送GET；配置回读不等于运行时或浏览器验证。"
+}

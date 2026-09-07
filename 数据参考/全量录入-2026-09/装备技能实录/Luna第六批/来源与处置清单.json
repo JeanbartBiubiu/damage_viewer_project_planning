@@ -1,0 +1,356 @@
+{
+  "generatedAt": "2026-09-07T18:25:08.472Z",
+  "executor": "Luna原录入；接手代理按独立审查纠错",
+  "versions": {
+    "official": "16.17.1",
+    "client": "16.17"
+  },
+  "counts": {
+    "skills": 6,
+    "parameters": 14,
+    "formulas": 3,
+    "effects": 6,
+    "triggerRules": 3,
+    "processes": 0,
+    "internalStates": 0,
+    "relations": 6,
+    "images": 6
+  },
+  "verification": {
+    "checks": 51,
+    "arithmetic": 13,
+    "invariants": 9,
+    "failures": 0,
+    "boundary": "独立GET、字段和配置语义算例；不是实际战斗、Wasm或浏览器运行。"
+  },
+  "sourceFiles": "源引用逐装备列出；原哈希和写入证据存修正前证据，当前只读证据另存",
+  "objects": [
+    {
+      "equipmentKey": "item_3047",
+      "skillKey": "item_3047_passive",
+      "name": "铁板靴",
+      "directAttributes": {
+        "armor": 25,
+        "move_speed": 45
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3047/mEffectAmount、mScripts、mFlatMovementSpeedMod、mFlatArmorMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "mEffectAmount[0]=0.1；mScripts包含ItemBootsTabi；直接属性为45移动速度、25护甲。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3047_tooltip、entries/generatedtip_item_3047_externaldescription",
+          "evidence": "镀板使即将到来的攻击伤害降低10%。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3047/description、/data/3047/stats",
+          "evidence": "官方说明与客户端一致，固定属性为25护甲、45移动速度。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "incoming_attack_damage_reduction"
+        ],
+        "formulas": [],
+        "effects": [],
+        "triggerRules": []
+      },
+      "pendingRules": [
+        "来源只确认即将到来的攻击伤害降低10%，当前GET /modifier-zones?domain=DAMAGE为空，DAMAGE_MODIFIER无法引用有效修正乘区。",
+        "可通过SOURCE_INITIALIZED建立持续受到伤害修正，不依赖DAMAGE_TAKEN受伤后事件；严格攻击类型/附伤/技能攻击分类仍需核清。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "incoming_attack_damage_reduction",
+          "resultType": "DAMAGE_MODIFIER",
+          "target": "SOURCE",
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "incoming_attack_damage_reduction"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "modifierZoneKey": null,
+            "direction": "TAKEN",
+            "operation": "DECREASE",
+            "damageTypeKey": null,
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "ANY",
+            "criticalFilter": "ANY"
+          },
+          "reason": "来源参数已保存；DAMAGE修正乘区目录为空，不能填入attribute_percent_bonus等错误乘区。"
+        }
+      ],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    },
+    {
+      "equipmentKey": "item_3065",
+      "skillKey": "item_3065_passive",
+      "name": "振奋盔甲",
+      "directAttributes": {
+        "hp": 400,
+        "magic_resistance": 50,
+        "ability_haste": 10,
+        "base_hp_regen_percent": 1
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3065/mDataValues/HealingIncrease、ShieldIncrease、mAbilityHasteMod、mFlatHPPoolMod、mPercentBaseHPRegenMod、mFlatSpellBlockMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "HealingIncrease=0.25、ShieldIncrease=0.25；直接属性为400生命值、50魔抗、10技能急速、100%基础生命回复。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3065_tooltip、entries/generatedtip_item_3065_externaldescription",
+          "evidence": "无拘活力使自身治疗和护盾效果提升25%。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3065/description、/data/3065/stats",
+          "evidence": "官方说明与客户端一致。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "heal_shield_power_bonus"
+        ],
+        "formulas": [],
+        "effects": [],
+        "triggerRules": []
+      },
+      "pendingRules": [
+        "受到治疗增幅可用HEALING_MODIFIER方向TAKEN表达，但治疗修正乘区目录待配；受到护盾增幅为现作者态结构缺口。已撤错误强度属性效果与初始化规则，不用施放强度属性替代。"
+      ],
+      "pendingEffects": [],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    },
+    {
+      "equipmentKey": "item_6621",
+      "skillKey": "item_6621_passive",
+      "name": "黎明核心",
+      "directAttributes": {
+        "ability_power": 45,
+        "heal_shield_power_percent": 0.16,
+        "base_mana_regen_percent": 1
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/6621/mDataValues/APPerManaRegen、HSPowerPerManaRegen、mFlatMagicDamageMod、mPercentHealingAmountMod、percentBaseMPRegenMod、mScripts、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "APPerManaRegen=10、HSPowerPerManaRegen=0.02；直接属性为45法术强度、16%治疗和护盾强度、100%基础法力回复；脚本为6621。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_6621_tooltip、entries/item_6621_tooltipexternal、entries/item_6621_inventoryonlytext",
+          "evidence": "每100%基础法力回复获得2%治疗和护盾强度与10法术强度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/6621/description、/data/6621/stats",
+          "evidence": "官方说明与客户端一致。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "ap_per_100_base_mana_regen",
+          "heal_shield_per_100_base_mana_regen"
+        ],
+        "formulas": [
+          "ap_from_base_mana_regen",
+          "heal_shield_from_base_mana_regen"
+        ],
+        "effects": [
+          "ap_from_base_mana_regen",
+          "heal_shield_from_base_mana_regen"
+        ],
+        "triggerRules": [
+          "initialize_dawncore_scaling"
+        ]
+      },
+      "pendingRules": [
+        "初始化建立持续效果，按当前基础法力回复TOTAL动态求值；强度属性固定加算。配置与独立回读不代表实际运行通过。"
+      ],
+      "pendingEffects": [],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    },
+    {
+      "equipmentKey": "item_3124",
+      "skillKey": "item_3124_passive",
+      "name": "鬼索的狂暴之刃",
+      "directAttributes": {
+        "attack_damage": 30,
+        "ability_power": 30,
+        "bonus_attack_speed_percent": 0.25
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3124/mDataValues/OnHitDamage、AttackSpeedPerStack、MaxStacks、BuffDuration、mItemCalculations/MaxAttackSpeedCalc、mFlatPhysicalDamageMod、mFlatMagicDamageMod、mPercentAttackSpeedMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "OnHitDamage=30、AttackSpeedPerStack=0.08、MaxStacks=4、BuffDuration=3；MaxAttackSpeedCalc为每层攻速乘最大层数；直接属性30攻击力、30法术强度、25%攻击速度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3124_tooltip、entries/item_3124_tooltipdynamic、entries/generatedtip_item_3124_externaldescription",
+          "evidence": "怨怒攻击造成30额外魔法攻击特效；沸腾打击每层8%攻速、持续3秒、4层，满层每第三次攻击附带2次攻击特效。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3124/description、/data/3124/stats",
+          "evidence": "官方说明与客户端一致。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "on_hit_magic_damage",
+          "attack_speed_per_stack",
+          "attack_speed_stack_duration_ms",
+          "attack_speed_max_stacks"
+        ],
+        "formulas": [
+          "max_attack_speed_bonus"
+        ],
+        "effects": [
+          "on_hit_magic_damage",
+          "attack_speed_stack"
+        ],
+        "triggerRules": [
+          "resolve_rageblade_basic_attack"
+        ]
+      },
+      "pendingRules": [
+        "攻击附带目前只用BASIC_ATTACK_HIT，技能触发攻击特效是否复用该事件未宣称覆盖。",
+        "客户端说明的满层每第三次攻击附带2次攻击特效需要攻击计数、满层条件和自触发递归防止；本批未伪造内部状态或重复攻击结果。"
+      ],
+      "pendingEffects": [],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    },
+    {
+      "equipmentKey": "item_3008",
+      "skillKey": "item_3008_passive",
+      "name": "暴食胫甲",
+      "directAttributes": {
+        "move_speed": 45,
+        "omnivamp_percent": 0.04
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3008/mDataValues/OmnivampOnTakedown、Items/3008/mDataValues/MaxStacks、Items/3008/mFlatMovementSpeedMod、Items/3008/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "OmnivampOnTakedown=0.006、MaxStacks=10、mFlatMovementSpeedMod=45；4%直接全能吸血由同版本说明核对。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3008_tooltip、entries/generatedtip_item_3008_externaldescription",
+          "evidence": "杀戮参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3008/description、/data/3008/stats",
+          "evidence": "官方说明与客户端一致。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "omnivamp_per_kill_stack",
+          "omnivamp_max_stacks"
+        ],
+        "formulas": [],
+        "effects": [
+          "omnivamp_kill_stack"
+        ],
+        "triggerRules": []
+      },
+      "pendingRules": [
+        "来源为参与击杀英雄叠全能吸血，当前KILL不能限定英雄类别，参与击杀也需正确事件。效果结果SOURCE已能指向持有者，不因缺EVENT_SOURCE误判无法给本人；保持无过宽触发。45移速是直接属性。"
+      ],
+      "pendingEffects": [],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    },
+    {
+      "equipmentKey": "item_3161",
+      "skillKey": "item_3161_passive",
+      "name": "朔极之矛",
+      "directAttributes": {
+        "attack_damage": 45,
+        "hp": 450
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3161/mDataValues/SpellDamageIncrease、Items/3161/mDataValues/AHBase、Items/3161/mDataValues/StackDuration、Items/3161/mDataValues/StackCount、Items/3161/mDataValues/CastIDLockout、Items/3161/mFlatPhysicalDamageMod、Items/3161/mFlatHPPoolMod、Items/3161/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "SpellDamageIncrease=0.03、AHBase=25、StackDuration=6、StackCount=4、CastIDLockout=1秒；直接属性为45攻击力、450生命值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3161_tooltip、entries/generatedtip_item_3161_externaldescription",
+          "evidence": "龙之力量提供25基础技能急速；专注意志为技能造成伤害后的3%/层、6秒、4层。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3161/description、/data/3161/stats",
+          "evidence": "官方说明与客户端一致。"
+        }
+      ],
+      "saved": {
+        "parameters": [
+          "basic_skill_haste",
+          "skill_damage_bonus_per_stack",
+          "skill_damage_bonus_duration_ms",
+          "skill_damage_bonus_max_stacks"
+        ],
+        "formulas": [],
+        "effects": [
+          "basic_skill_haste"
+        ],
+        "triggerRules": [
+          "initialize_basic_skill_haste"
+        ]
+      },
+      "pendingRules": [
+        "专注意志需要英雄技能与装备技能来源区分，含被动伤害且原文CastIDLockout=1，即每次施法1000毫秒锁定；每目标冷却不能替代。另需6秒刷新与4层，DAMAGE乘区待配；未写宽泛触发。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "skill_damage_bonus",
+          "resultType": "DAMAGE_MODIFIER",
+          "target": "SOURCE",
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "skill_damage_bonus_per_stack"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "modifierZoneKey": null,
+            "direction": "DEALT",
+            "operation": "INCREASE",
+            "damageTypeKey": null,
+            "deliveryKind": "SKILL",
+            "originKind": "ANY",
+            "criticalFilter": "ANY"
+          },
+          "reason": "DAMAGE修正乘区目录为空，且技能/被动分类与每次施法叠层尚未由当前触发条件完整表达。"
+        }
+      ],
+      "scope": "本轮可证明组成；未声称全机制运行通过"
+    }
+  ],
+  "classificationCorrection": {
+    "skillKey": "ez_r",
+    "change": "仅移除common",
+    "otherFieldsMatch": true,
+    "basicCategoryCount": 514,
+    "rSkillCount": 171,
+    "basicR": []
+  }
+}
