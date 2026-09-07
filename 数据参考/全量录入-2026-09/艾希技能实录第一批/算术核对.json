@@ -1,0 +1,52 @@
+{
+  "observedAt": "2026-09-07T14:38:21.344Z",
+  "evidence": "实时 GET 配置后的独立算术样例，不是战斗运行",
+  "records": [
+    {
+      "skillKey": "ashe_w",
+      "rank": 1,
+      "bonusAD": 60,
+      "baseAD": 100,
+      "ap": 0,
+      "expected": 120,
+      "actual": 120
+    },
+    {
+      "skillKey": "ashe_w",
+      "rank": 1,
+      "bonusAD": 60,
+      "baseAD": 300,
+      "ap": 0,
+      "expected": 120,
+      "actual": 120
+    },
+    {
+      "skillKey": "ashe_w",
+      "rank": 5,
+      "bonusAD": 90,
+      "baseAD": 100,
+      "ap": 0,
+      "expected": 290,
+      "actual": 290
+    },
+    {
+      "skillKey": "ashe_r",
+      "rank": 1,
+      "bonusAD": 0,
+      "baseAD": 100,
+      "ap": 100,
+      "expected": 320,
+      "actual": 320
+    },
+    {
+      "skillKey": "ashe_r",
+      "rank": 3,
+      "bonusAD": 0,
+      "baseAD": 100,
+      "ap": 500,
+      "expected": 1200,
+      "actual": 1200
+    }
+  ],
+  "passed": 5
+}
