@@ -103,6 +103,35 @@ describe('skillTriggerRuleClient', () => {
     vi.restoreAllMocks();
   });
 
+  it('saves and reads initialization rules with empty details and event-source actions', async () => {
+    const initialized: SkillTriggerRuleDetail = {
+      ...detail,
+      eventSource: { eventType: 'SOURCE_INITIALIZED', detail: {} },
+      actions: [{ ...detail.actions[0], targetContext: 'EVENT_SOURCE' }]
+    };
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(init?.method === 'POST' ? 201 : 200, initialized);
+    }));
+    const created = await createSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', 'local-entry', initialized);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', initialized.ruleKey, 'local-entry');
+    expect(calls).toEqual([initialized, null]);
+    expect(created.data).toEqual(initialized);
+    expect(loaded.data).toEqual(initialized);
+    expect(parseSkillTriggerRuleSummary({ ...summary, eventType: 'SOURCE_INITIALIZED' }).eventType).toBe('SOURCE_INITIALIZED');
+  });
+
+  it.each([undefined, null, [], '', 0, true, { sourceSkillKey: null }, { subject: 'SOURCE' }])(
+    'rejects nonempty or nonobject initialization detail %j',
+    (eventDetail) => {
+      expect(() => parseSkillTriggerRuleDetail({
+        ...detail,
+        eventSource: { eventType: 'SOURCE_INITIALIZED', detail: eventDetail }
+      })).toThrow(/detail\.eventSource\.detail/);
+    }
+  );
+
   it('encodes game, skill and rule path segments with admin token and JSON headers', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(

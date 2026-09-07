@@ -96,6 +96,8 @@ export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
   '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
+export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
+  '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
 export const SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT = '以 0/1 供值';
 export const SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE = '该结构仍被条件与触发规则使用';
@@ -197,6 +199,7 @@ export const SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS = {
 } as const satisfies { [K in SkillTriggerDamageOriginKind]: string };
 
 export const SKILL_TRIGGER_EVENT_TYPES = [
+  'SOURCE_INITIALIZED',
   'SKILL_USED',
   'BASIC_ATTACK_START',
   'BASIC_ATTACK_HIT',
@@ -315,6 +318,7 @@ export type SkillTriggerEventCapability = {
 };
 
 export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
+  SOURCE_INITIALIZED: '来源对象初始化完成',
   SKILL_USED: '技能被主动或消耗使用',
   BASIC_ATTACK_START: '普通攻击发起',
   BASIC_ATTACK_HIT: '普通攻击命中',
@@ -341,6 +345,14 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
 export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
   [K in SkillTriggerEventType]: SkillTriggerEventCapability
 } = {
+  SOURCE_INITIALIZED: {
+    eventType: 'SOURCE_INITIALIZED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.SOURCE_INITIALIZED,
+    currentTargetBinding: '当前目标与事件来源对象均为完成初始化的来源对象自身，不指向战斗对手。',
+    hasEventSource: true,
+    requiredCatalogs: [],
+    detailFields: []
+  },
   SKILL_USED: {
     eventType: 'SKILL_USED',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.SKILL_USED,
@@ -890,6 +902,8 @@ export function emptyEventDetail(): Record<never, never> {
 
 export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillTriggerEventSource {
   switch (eventType) {
+    case 'SOURCE_INITIALIZED':
+      return { eventType, detail: emptyEventDetail() };
     case 'SKILL_USED':
       return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY' } };
     case 'SKILL_HIT':
@@ -1281,6 +1295,7 @@ export function eventStepType(
 export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   readonly [K in SkillTriggerEventType]: readonly SkillTriggerEventValueKey[];
 } = {
+  SOURCE_INITIALIZED: [],
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
@@ -3026,6 +3041,12 @@ export function validateSkillTriggerDraft(
 
   const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
+  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED') {
+    const detail = draft.eventSource.detail;
+    if (typeof detail !== 'object' || detail === null || Array.isArray(detail) || Object.keys(detail).length !== 0) {
+      pushError(nestedErrors, 'eventSource.detail', '来源对象初始化完成事件的详情必须为空对象。');
+    }
+  }
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
     pushError(nestedErrors, 'eventSource.detail.processKey', '过程不能为空。');
   }
