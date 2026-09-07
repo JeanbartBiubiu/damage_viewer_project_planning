@@ -1,0 +1,476 @@
+{
+  "skillKey": "lux_q",
+  "finishedAt": "2026-09-07T15:26:53.326Z",
+  "planned": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 1,
+    "skipped": 4
+  },
+  "skipped": [
+    {
+      "kind": "parameter",
+      "key": "projectile_width",
+      "reason": "主技能 mLineWidth=80，弹体=70，数值冲突，不猜测。"
+    },
+    {
+      "kind": "effect",
+      "key": "root",
+      "reason": "状态目录仅 vertigo/眩晕，不能用该状态冒充束缚。"
+    },
+    {
+      "kind": "parameter",
+      "key": "engine_cast_range",
+      "reason": "castRange=10000 非业务指示范围。"
+    },
+    {
+      "kind": "note",
+      "key": "browser_description_converged",
+      "reason": "base_damage/ap_ratio/damage/light_binding_hit 由浏览器先写入；候选说明已收敛为独立 GET 现值，数值与公式结构与客户端交叉一致。"
+    }
+  ],
+  "keys": {
+    "parameters": [
+      "base_damage",
+      "ap_ratio",
+      "root_duration_ms",
+      "cooldown_ms",
+      "mana_cost",
+      "cast_time_ms",
+      "target_range",
+      "projectile_speed"
+    ],
+    "formulas": [
+      "damage"
+    ],
+    "effects": [
+      "mana_cost",
+      "light_binding_hit"
+    ],
+    "processes": [
+      "cast"
+    ],
+    "trigger-rules": [
+      "resolve_on_q_hit"
+    ],
+    "internal-states": []
+  },
+  "readbacks": [
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:42:03.845108Z",
+        "description": "浏览器试录：客户端 BaseDamage 跳过 rank0 后 80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:42:03.845108Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:03.841927Z",
+        "description": "浏览器试录：APRatio=0.75，比例 1=100%。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:03.841927Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "root_duration_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:43.010808Z",
+        "description": "客户端 RootDuration=2 秒。当前状态目录仅有 vertigo/眩晕，不等于束缚，本批只录时长不声称控制已成立。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "束缚持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:43.010808Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:43.348191Z",
+        "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:45:43.348191Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:43.697315Z",
+        "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lux_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:45:43.697315Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:44.291701Z",
+        "description": "客户端主技能 spellCastTime=0.25 秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:45:44.291701Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "target_range",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:44.650565Z",
+        "description": "采用 castRangeDisplayOverride 与 DDragon range=1175。主技能 castRange=10000 为引擎值，不写入。",
+        "fixedValue": 1175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能指示范围",
+        "parameterKey": "target_range",
+        "skillKey": "lux_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T14:45:44.650565Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "parameters",
+      "id": "projectile_speed",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:45.011386Z",
+        "description": "主技能与 LuxLightBindingMis 的 missileSpeed 均为 1200。",
+        "fixedValue": 1200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹体速度",
+        "parameterKey": "projectile_speed",
+        "skillKey": "lux_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T14:45:45.011386Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:07.772308Z",
+        "description": "浏览器试录：BaseDamage + 法术强度×0.75。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "光之束缚魔法伤害",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:07.772308Z"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:45.416254Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:45.416254Z"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "effects",
+      "id": "light_binding_hit",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:14.699202Z",
+        "description": "浏览器试录：独立魔法伤害结果。",
+        "effectKey": "light_binding_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "光球命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:14.699202Z"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:45:45.972873Z",
+        "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放光之束缚",
+        "processKey": "cast",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:45:45.972873Z"
+      }
+    },
+    {
+      "skillKey": "lux_q",
+      "kind": "triggerRules",
+      "id": "resolve_on_q_hit",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "resolve_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "light_binding_hit"
+            },
+            "name": "结算命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lux_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "光之束缚实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

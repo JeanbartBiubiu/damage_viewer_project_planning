@@ -1,0 +1,184 @@
+{
+  "skillKey": "lux_p",
+  "finishedAt": "2026-09-07T15:26:52.294Z",
+  "planned": {
+    "parameters": 3,
+    "formulas": 1,
+    "effects": 0,
+    "processes": 0,
+    "triggerRules": 0,
+    "skipped": 5
+  },
+  "skipped": [
+    {
+      "kind": "parameter",
+      "key": "cooldown_ms",
+      "reason": "P 客户端冷却为 0；旧候选混入 Q 的 10/50/1175，不写入。"
+    },
+    {
+      "kind": "effect",
+      "key": "illumination_mark",
+      "reason": "EARLY_REMOVE 不等于被动引爆；共享生命周期设计也含减层至零、覆盖为零、任意显式移除。本批已删除该效果，不另造引爆效果，不猜普攻/R 共用法术护盾策略。印记施加/普攻消耗/R 刷新记语义待核。"
+    },
+    {
+      "kind": "trigger",
+      "key": "apply_on_damaging_skill",
+      "reason": "“伤害类技能”范围（是否含装备/召唤师技能/仅 QER）未无歧义交叉。"
+    },
+    {
+      "kind": "trigger",
+      "key": "consume_on_attack",
+      "reason": "下一次攻击消耗与 R 同时触发并刷新的顺序未在本批确证。"
+    },
+    {
+      "kind": "parameter",
+      "key": "cherry_ap_ratio",
+      "reason": "DataValuesModeOverride.cherry APRatio=0.5 属模式覆盖，不写入。"
+    }
+  ],
+  "keys": {
+    "parameters": [
+      "base_damage",
+      "ap_ratio",
+      "mark_duration_ms"
+    ],
+    "formulas": [
+      "damage"
+    ],
+    "effects": [],
+    "processes": [],
+    "trigger-rules": [],
+    "internal-states": []
+  },
+  "readbacks": [
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:40.847292Z",
+        "description": "客户端 TotalDamage 的 ByCharLevelFormulaCalculationPart.values 共 31 槽 [20,30,...,320]。作者解析器 GetResultLevel 使用 mValues[char_level]，故游戏等级 1..18 取索引 1..18：1级 30、每级 +10、18级 200。与 Riot 13.17 Lux Passive 30–200 相符。不取索引 0 的 20。AP 保留 0.35。不可照抄 DDragon 主动冷却/消耗/范围。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70,
+          "6": 80,
+          "7": 90,
+          "8": 100,
+          "9": 110,
+          "10": 120,
+          "11": 130,
+          "12": 140,
+          "13": 150,
+          "14": 160,
+          "15": 170,
+          "16": 180,
+          "17": 190,
+          "18": 200
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:59:17.844637Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:41.240409Z",
+        "description": "客户端 APRatio=0.3499999940395355，按设计值归一为 0.35。cherry 覆盖 0.5 不写入召唤师峡谷。",
+        "fixedValue": 0.35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:41.240409Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "mark_duration_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:41.57937Z",
+        "description": "客户端 DebuffDuration=6 秒。不是控制状态。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "启明持续时间（毫秒）",
+        "parameterKey": "mark_duration_ms",
+        "skillKey": "lux_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:41.57937Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:41.881202Z",
+        "description": "角色等级基础伤害 + 法术强度×0.35。来源：客户端 TotalDamage = ByCharLevel + StatByNamedDataValue(APRatio)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "启明额外魔法伤害",
+        "skillKey": "lux_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:41.881202Z"
+      }
+    }
+  ]
+}

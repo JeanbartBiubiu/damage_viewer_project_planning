@@ -1,0 +1,462 @@
+{
+  "startedAt": "2026-09-07T14:59:18.190Z",
+  "writes": [
+    {
+      "step": "PUT lux_p/parameters/base_damage",
+      "status": 200,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "DELETE lux_p/effects/illumination_mark",
+      "status": 204,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "PUT lux_w/effects/prismatic_shield (expect instanceScope IMMUTABLE)",
+      "status": 400,
+      "ok": false,
+      "error": {
+        "code": "400.VALIDATION_FAILED",
+        "details": {
+          "fieldIssues": [
+            {
+              "code": "IMMUTABLE",
+              "field": "lifecycle.instanceScope",
+              "message": "实例范围不能修改"
+            }
+          ]
+        },
+        "message": "技能效果不合法"
+      }
+    },
+    {
+      "step": "DELETE lux_w/effects/prismatic_shield",
+      "status": 204,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "POST lux_w/effects prismatic_shield",
+      "status": 201,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "PUT lux_w/processes/cast",
+      "status": 200,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "DELETE lux_r/parameters/reset_ratio",
+      "status": 204,
+      "ok": true,
+      "error": null
+    },
+    {
+      "step": "DELETE lux_r/parameters/reset_assist_window_ms",
+      "status": 204,
+      "ok": true,
+      "error": null
+    }
+  ],
+  "readbacks": {
+    "lux_p/parameters/base_damage": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:45:40.847292Z",
+        "description": "客户端 TotalDamage 的 ByCharLevelFormulaCalculationPart.values 共 31 槽 [20,30,...,320]。作者解析器 GetResultLevel 使用 mValues[char_level]，故游戏等级 1..18 取索引 1..18：1级 30、每级 +10、18级 200。与 Riot 13.17 Lux Passive 30–200 相符。不取索引 0 的 20。AP 保留 0.35。不可照抄 DDragon 主动冷却/消耗/范围。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70,
+          "6": 80,
+          "7": 90,
+          "8": 100,
+          "9": 110,
+          "10": 120,
+          "11": 130,
+          "12": 140,
+          "13": 150,
+          "14": 160,
+          "15": 170,
+          "16": 180,
+          "17": 190,
+          "18": 200
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:59:17.844637Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    "lux_p/parameters/ap_ratio": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:45:41.240409Z",
+        "description": "客户端 APRatio=0.3499999940395355，按设计值归一为 0.35。cherry 覆盖 0.5 不写入召唤师峡谷。",
+        "fixedValue": 0.35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:41.240409Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    "lux_p/parameters/mark_duration_ms": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:45:41.57937Z",
+        "description": "客户端 DebuffDuration=6 秒。不是控制状态。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "启明持续时间（毫秒）",
+        "parameterKey": "mark_duration_ms",
+        "skillKey": "lux_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:41.57937Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    "lux_p/formulas/damage": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:45:41.881202Z",
+        "description": "角色等级基础伤害 + 法术强度×0.35。来源：客户端 TotalDamage = ByCharLevel + StatByNamedDataValue(APRatio)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "启明额外魔法伤害",
+        "skillKey": "lux_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:41.881202Z"
+      }
+    },
+    "lux_p/effects/illumination_mark": {
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "illumination_mark"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    "lux_w/effects/prismatic_shield": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:59:18.841674Z",
+        "description": "独立普通自护盾：结果目标与实例范围为施法者。来源 DDragon 自我及队友护盾，本批仅保留自我。单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+        "effectKey": "prismatic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "曲光屏障自我护盾",
+        "results": [
+          {
+            "description": "单次自我护盾量；回程叠加与施加时点未证实，本批不猜测。",
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "曲光护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:59:18.841674Z"
+      }
+    },
+    "lux_w/processes/cast": {
+      "status": 200,
+      "data": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:45:50.622722Z",
+        "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放曲光屏障",
+        "processKey": "cast",
+        "skillKey": "lux_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:59:19.106287Z"
+      }
+    },
+    "lux_r/parameters/reset_ratio": {
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "reset_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    "lux_r/parameters/reset_assist_window_ms": {
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "reset_assist_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    "lux_r/parameters/base_damage": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T14:45:55.9332Z",
+        "description": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 300,
+          "2": 400,
+          "3": 500
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:55.9332Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    "lux_p/effects": {
+      "status": 200,
+      "keys": []
+    },
+    "lux_p/formulas": {
+      "status": 200,
+      "keys": [
+        "damage"
+      ]
+    },
+    "lux_p/parameters": {
+      "status": 200,
+      "keys": [
+        "base_damage",
+        "ap_ratio",
+        "mark_duration_ms"
+      ]
+    },
+    "lux_w/effects": {
+      "status": 200,
+      "keys": [
+        "mana_cost",
+        "prismatic_shield"
+      ]
+    },
+    "lux_r/parameters": {
+      "status": 200,
+      "keys": [
+        "base_damage",
+        "ap_ratio",
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "target_range",
+        "line_width",
+        "projectile_speed"
+      ]
+    }
+  },
+  "arithmetic": [
+    {
+      "sample": "P Lv1 AP0",
+      "expected": 30,
+      "actual": 30,
+      "formula": "base only"
+    },
+    {
+      "sample": "P Lv18 AP0",
+      "expected": 200,
+      "actual": 200,
+      "formula": "base only"
+    },
+    {
+      "sample": "P Lv1 AP100",
+      "expected": 65,
+      "actual": 65,
+      "formula": "30 + 0.35*100"
+    },
+    {
+      "sample": "P Lv18 AP100",
+      "expected": 235,
+      "actual": 235,
+      "formula": "200 + 0.35*100"
+    },
+    {
+      "sample": "W Lv1 AP0",
+      "expected": 40,
+      "note": "base_shield unchanged"
+    },
+    {
+      "sample": "W Lv5 AP0",
+      "expected": 100,
+      "note": "base_shield unchanged"
+    },
+    {
+      "sample": "W Lv1 AP100",
+      "expected": 80,
+      "formula": "40 + 0.4*100"
+    },
+    {
+      "sample": "W Lv5 AP100",
+      "expected": 140,
+      "formula": "100 + 0.4*100"
+    }
+  ],
+  "accept": {
+    "pLv1": true,
+    "pLv18": true,
+    "pEffectsEmpty": true,
+    "pFormulaDamage": true,
+    "pIlluminationGone": true,
+    "wTargetSource": true,
+    "wScopeSource": true,
+    "rResetGone": true,
+    "rAssistGone": true
+  },
+  "wPutAttempt": {
+    "status": 400,
+    "field": null,
+    "reason": null,
+    "error": {
+      "code": "400.VALIDATION_FAILED",
+      "details": {
+        "fieldIssues": [
+          {
+            "code": "IMMUTABLE",
+            "field": "lifecycle.instanceScope",
+            "message": "实例范围不能修改"
+          }
+        ]
+      },
+      "message": "技能效果不合法"
+    }
+  },
+  "finishedAt": "2026-09-07T14:59:21.171Z"
+}

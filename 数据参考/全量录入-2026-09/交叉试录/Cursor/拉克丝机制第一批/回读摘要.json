@@ -1,0 +1,177 @@
+{
+  "executor": "Cursor",
+  "note": "本轮为有界修正后的独立 GET 回读。Q 四个浏览器先写入对象的说明已收敛为 API 现值，不再记 occupied。",
+  "finishedAt": "2026-09-07T15:26:56.399Z",
+  "finalGet": {
+    "lux_p": {
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "mark_duration_ms"
+      ],
+      "formulas": [
+        "damage"
+      ],
+      "effects": [],
+      "processes": [],
+      "trigger-rules": [],
+      "internal-states": []
+    },
+    "lux_q": {
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "root_duration_ms",
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "target_range",
+        "projectile_speed"
+      ],
+      "formulas": [
+        "damage"
+      ],
+      "effects": [
+        "mana_cost",
+        "light_binding_hit"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "trigger-rules": [
+        "resolve_on_q_hit"
+      ],
+      "internal-states": []
+    },
+    "lux_w": {
+      "parameters": [
+        "base_shield",
+        "ap_ratio",
+        "shield_duration_ms",
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "target_range"
+      ],
+      "formulas": [
+        "shield"
+      ],
+      "effects": [
+        "mana_cost",
+        "prismatic_shield"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "trigger-rules": [],
+      "internal-states": []
+    },
+    "lux_e": {
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "slow_ratio",
+        "slow_linger_ms",
+        "slow_zone_ms",
+        "vision_radius",
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "target_range",
+        "projectile_speed"
+      ],
+      "formulas": [
+        "damage"
+      ],
+      "effects": [
+        "mana_cost",
+        "singularity_detonate"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "trigger-rules": [],
+      "internal-states": []
+    },
+    "lux_r": {
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "target_range",
+        "line_width",
+        "projectile_speed"
+      ],
+      "formulas": [
+        "damage"
+      ],
+      "effects": [
+        "mana_cost",
+        "final_spark_hit"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "trigger-rules": [
+        "resolve_on_r_hit"
+      ],
+      "internal-states": []
+    }
+  },
+  "occupiedConflicts": [],
+  "arithmetic": [
+    {
+      "sample": "P Lv1 AP0",
+      "expected": 30,
+      "formula": "base_damage[1]"
+    },
+    {
+      "sample": "P Lv18 AP0",
+      "expected": 200,
+      "formula": "base_damage[18]"
+    },
+    {
+      "sample": "P Lv1 AP100",
+      "expected": 65,
+      "formula": "30 + 0.35*100"
+    },
+    {
+      "sample": "P Lv18 AP100",
+      "expected": 235,
+      "formula": "200 + 0.35*100"
+    },
+    {
+      "sample": "W Lv1 AP0",
+      "expected": 40,
+      "formula": "base_shield[1]"
+    },
+    {
+      "sample": "W Lv5 AP0",
+      "expected": 100,
+      "formula": "base_shield[5]"
+    },
+    {
+      "sample": "W Lv1 AP100",
+      "expected": 80,
+      "formula": "40 + 0.4*100"
+    },
+    {
+      "sample": "W Lv5 AP100",
+      "expected": 140,
+      "formula": "100 + 0.4*100"
+    }
+  ],
+  "auxiliaryNotBlocking": {
+    "note": "空间/范围/视野等辅助字段不作为 1V1 完成前置，本轮未批量删除。",
+    "examples": [
+      "lux_q.target_range",
+      "lux_w.target_range",
+      "lux_e.vision_radius",
+      "lux_r.target_range",
+      "lux_r.line_width",
+      "lux_r.projectile_speed"
+    ]
+  }
+}

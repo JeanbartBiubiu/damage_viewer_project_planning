@@ -1,0 +1,1156 @@
+{
+  "skillKey": "lux_r",
+  "finishedAt": "2026-09-07T14:46:03.845Z",
+  "planned": {
+    "parameters": 10,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 1,
+    "skipped": 3
+  },
+  "skipped": [
+    {
+      "kind": "trigger",
+      "key": "reset_on_takedown",
+      "reason": "ResetPercent 与 ResetAssistWindow 已录参数；击杀/助攻/窗口对象有歧义，不猜测挂触发。"
+    },
+    {
+      "kind": "trigger",
+      "key": "refresh_illumination",
+      "reason": "R 触发并刷新被动减益的顺序（先引爆再刷新或只刷新）资料未在本批交叉确证。"
+    },
+    {
+      "kind": "parameter",
+      "key": "engine_cast_range",
+      "reason": "castRange=25000 不写入。"
+    }
+  ],
+  "readbacks": [
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "base_damage",
+          "actual": "base_damage",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "基础魔法伤害",
+          "actual": "基础魔法伤害",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "SKILL_LEVEL",
+          "actual": "SKILL_LEVEL",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": {
+            "1": 300,
+            "2": 400,
+            "3": 500
+          },
+          "actual": {
+            "1": 300,
+            "2": 400,
+            "3": 500
+          },
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+          "actual": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "ap_ratio",
+          "actual": "ap_ratio",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "法术强度倍率",
+          "actual": "法术强度倍率",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "DECIMAL",
+          "actual": "DECIMAL",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 1.2,
+          "actual": 1.2,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 TotalDamage 使用 mCoefficient=1.2000000476837158，归一为 1.2。",
+          "actual": "客户端 TotalDamage 使用 mCoefficient=1.2000000476837158，归一为 1.2。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 20,
+          "actual": 20,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "reset_ratio",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "reset_ratio",
+          "actual": "reset_ratio",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "击杀助攻冷却返还比例",
+          "actual": "击杀助攻冷却返还比例",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "DECIMAL",
+          "actual": "DECIMAL",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "SKILL_LEVEL",
+          "actual": "SKILL_LEVEL",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": {
+            "1": 0.3,
+            "2": 0.4,
+            "3": 0.5
+          },
+          "actual": {
+            "1": 0.3,
+            "2": 0.4,
+            "3": 0.5
+          },
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 ResetPercent 跳过 rank0 后 0.3/0.4/0.5。未挂击杀/助攻触发，因为助攻窗口与刷新对象存在歧义。",
+          "actual": "客户端 ResetPercent 跳过 rank0 后 0.3/0.4/0.5。未挂击杀/助攻触发，因为助攻窗口与刷新对象存在歧义。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 30,
+          "actual": 30,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "reset_assist_window_ms",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "reset_assist_window_ms",
+          "actual": "reset_assist_window_ms",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "助攻返还窗口（毫秒）",
+          "actual": "助攻返还窗口（毫秒）",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 1750,
+          "actual": 1750,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 ResetAssistWindow=1.75 秒。只录窗口，不猜测触发。",
+          "actual": "客户端 ResetAssistWindow=1.75 秒。只录窗口，不猜测触发。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 31,
+          "actual": 31,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "cooldown_ms",
+          "actual": "cooldown_ms",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "冷却时间（毫秒）",
+          "actual": "冷却时间（毫秒）",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "SKILL_LEVEL",
+          "actual": "SKILL_LEVEL",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": {
+            "1": 60000,
+            "2": 50000,
+            "3": 40000
+          },
+          "actual": {
+            "1": 60000,
+            "2": 50000,
+            "3": 40000
+          },
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+          "actual": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 40,
+          "actual": 40,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "mana_cost",
+          "actual": "mana_cost",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "法力消耗",
+          "actual": "法力消耗",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 100,
+          "actual": 100,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 mana 与 DDragon cost 均为 100。",
+          "actual": "客户端 mana 与 DDragon cost 均为 100。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 50,
+          "actual": 50,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "cast_time_ms",
+          "actual": "cast_time_ms",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "蓄力时间（毫秒）",
+          "actual": "蓄力时间（毫秒）",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 1375,
+          "actual": 1375,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 spellCastTime=1.375 秒。按延迟步骤录入，不把通道打断/不可取消写成完整通道机制。",
+          "actual": "客户端 spellCastTime=1.375 秒。按延迟步骤录入，不把通道打断/不可取消写成完整通道机制。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 60,
+          "actual": 60,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "target_range",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "target_range",
+          "actual": "target_range",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "技能指示范围",
+          "actual": "技能指示范围",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 3340,
+          "actual": 3340,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "采用 castRangeDisplayOverride 与 DDragon range=3340。castRange=25000 不写入。",
+          "actual": "采用 castRangeDisplayOverride 与 DDragon range=3340。castRange=25000 不写入。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 70,
+          "actual": 70,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "line_width",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "line_width",
+          "actual": "line_width",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "光束宽度",
+          "actual": "光束宽度",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 190,
+          "actual": 190,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端主技能 mLineWidth=190，仅单来源，未与独立弹体交叉。",
+          "actual": "客户端主技能 mLineWidth=190，仅单来源，未与独立弹体交叉。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 80,
+          "actual": 80,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "parameters",
+      "id": "projectile_speed",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "projectile_speed",
+          "actual": "projectile_speed",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "光束速度",
+          "actual": "光束速度",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 3000,
+          "actual": 3000,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端主技能 missileSpeed=3000。",
+          "actual": "客户端主技能 missileSpeed=3000。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 81,
+          "actual": 81,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "formulaKey": {
+          "match": true,
+          "planned": "damage",
+          "actual": "damage",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "终极闪光魔法伤害",
+          "actual": "终极闪光魔法伤害",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "Damage + 法术强度×1.2。来源：客户端 TotalDamage。",
+          "actual": "Damage + 法术强度×1.2。来源：客户端 TotalDamage。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "expression": {
+          "match": true,
+          "planned": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "effectKey": {
+          "match": true,
+          "planned": "mana_cost",
+          "actual": "mana_cost",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "施放法力消耗",
+          "actual": "施放法力消耗",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "施放时消耗对应技能等级的法力。",
+          "actual": "施放时消耗对应技能等级的法力。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "lifecycle": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "results": {
+          "match": true,
+          "planned": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "actual": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "effects",
+      "id": "final_spark_hit",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "effectKey": {
+          "match": true,
+          "planned": "final_spark_hit",
+          "actual": "final_spark_hit",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "终极闪光命中",
+          "actual": "终极闪光命中",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "独立直线魔法伤害。被动引爆/刷新启明、冷却返还未挂接。",
+          "actual": "独立直线魔法伤害。被动引爆/刷新启明、冷却返还未挂接。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 20,
+          "actual": 20,
+          "diff": null
+        },
+        "lifecycle": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "results": {
+          "match": true,
+          "planned": [
+            {
+              "resultKey": "magic_damage",
+              "name": "魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": "RESULT",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ],
+          "actual": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "processKey": {
+          "match": true,
+          "planned": "cast",
+          "actual": "cast",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "施放终极闪光",
+          "actual": "施放终极闪光",
+          "diff": null
+        },
+        "activationType": {
+          "match": true,
+          "planned": "ACTIVE",
+          "actual": "ACTIVE",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+          "actual": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "cooldown": {
+          "match": true,
+          "planned": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "actual": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "diff": null
+        },
+        "steps": {
+          "match": true,
+          "planned": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法时间",
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "actual": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "diff": null
+        },
+        "effectBindings": {
+          "match": true,
+          "planned": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "actual": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "diff": null
+        },
+        "stateOperations": {
+          "match": true,
+          "planned": [],
+          "actual": [],
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_r",
+      "kind": "triggerRules",
+      "id": "resolve_on_r_hit",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "ruleKey": {
+          "match": true,
+          "planned": "resolve_on_r_hit",
+          "actual": "resolve_on_r_hit",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "终极闪光实际命中结算",
+          "actual": "终极闪光实际命中结算",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+          "actual": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "eventSource": {
+          "match": true,
+          "planned": {
+            "detail": {
+              "sourceSkillKey": "lux_r"
+            }
+          },
+          "actual": {
+            "detail": {
+              "sourceSkillKey": "lux_r",
+              "useKind": null
+            }
+          },
+          "diff": null
+        },
+        "conditionGroups": {
+          "match": true,
+          "planned": [],
+          "actual": [],
+          "diff": null
+        },
+        "actions": {
+          "match": true,
+          "planned": [
+            {
+              "actionKey": "resolve_hit",
+              "name": "结算命中伤害",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "final_spark_hit"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "actual": [
+            {
+              "actionKey": "resolve_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "final_spark_hit"
+              },
+              "name": "结算命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "diff": null
+        },
+        "perTargetCooldown": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "maxTriggersPerProcess": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        }
+      }
+    }
+  ],
+  "occupiedConflicts": [],
+  "failures": []
+}

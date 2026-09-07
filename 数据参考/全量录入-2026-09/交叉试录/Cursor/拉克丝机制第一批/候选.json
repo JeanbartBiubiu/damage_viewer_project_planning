@@ -1,0 +1,1348 @@
+{
+  "meta": {
+    "executor": "Cursor",
+    "gameId": "lol",
+    "exclusiveSkillKeys": [
+      "lux_p",
+      "lux_q",
+      "lux_w",
+      "lux_e",
+      "lux_r"
+    ],
+    "sources": {
+      "client": "CommunityDragon 16.17 客户端提取（社区提取，不称 Riot 官方 API）",
+      "ddragon": "DDragon 16.17.1 中文英雄资料",
+      "note": "客户端与 DDragon 微版本不混称精确相同。mSpell 数组含 rank0，按有效等级与 DDragon 交叉后取 rank1..maxLevel。cherry/竞技场覆盖不写入召唤师峡谷。浮点 32 位按设计值归一。与 1V1 无关的加经验/加金币/商店/纯视野/仅队友关系本轮跳过；混合技能只录伤害/自护盾/治疗/资源/冷却等相关部分。多目标、空间、视野和队友支路不作为本轮系统阻塞。"
+    },
+    "rankAlignment": {
+      "dataValuesAndCooldown": "index0=rank0，写入时取 [1..maxLevel]",
+      "mana": "无 rank0 重复，写入时取 [0..maxLevel-1]",
+      "characterLevel": "ByCharLevel 31 槽 GetResultLevel 使用 mValues[char_level]；游戏等级 1..18 取索引 1..18，即 30..200，不取索引 0 的 20"
+    }
+  },
+  "skills": {
+    "lux_q": {
+      "name": "光之束缚",
+      "maxLevel": 5,
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 120,
+              "3": 160,
+              "4": 200,
+              "5": 240
+            },
+            "description": "浏览器试录：客户端 BaseDamage 跳过 rank0 后 80/120/160/200/240。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "浏览器试录：APRatio=0.75，比例 1=100%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "束缚持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端 RootDuration=2 秒。当前状态目录仅有 vertigo/眩晕，不等于束缚，本批只录时长不声称控制已成立。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 50,
+            "levelValues": null,
+            "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "客户端主技能 spellCastTime=0.25 秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "target_range",
+            "name": "技能指示范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1175,
+            "levelValues": null,
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=1175。主技能 castRange=10000 为引擎值，不写入。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "projectile_speed",
+            "name": "弹体速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1200,
+            "levelValues": null,
+            "description": "主技能与 LuxLightBindingMis 的 missileSpeed 均为 1200。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "光之束缚魔法伤害",
+            "description": "浏览器试录：BaseDamage + 法术强度×0.75。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "施放时消耗对应技能等级的法力。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "light_binding_hit",
+            "name": "光球命中",
+            "description": "浏览器试录：独立魔法伤害结果。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放光之束缚",
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": "主技能 spellCastTime，按毫秒录入。",
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "resolve_on_q_hit",
+            "name": "光之束缚实际命中结算",
+            "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lux_q"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "resolve_hit",
+                "name": "结算命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "light_binding_hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "skipped": [
+        {
+          "kind": "parameter",
+          "key": "projectile_width",
+          "reason": "主技能 mLineWidth=80，弹体=70，数值冲突，不猜测。"
+        },
+        {
+          "kind": "effect",
+          "key": "root",
+          "reason": "状态目录仅 vertigo/眩晕，不能用该状态冒充束缚。"
+        },
+        {
+          "kind": "parameter",
+          "key": "engine_cast_range",
+          "reason": "castRange=10000 非业务指示范围。"
+        },
+        {
+          "kind": "note",
+          "key": "browser_description_converged",
+          "reason": "base_damage/ap_ratio/damage/light_binding_hit 由浏览器先写入；候选说明已收敛为独立 GET 现值，数值与公式结构与客户端交叉一致。"
+        }
+      ]
+    },
+    "lux_w": {
+      "name": "曲光屏障",
+      "maxLevel": 5,
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_shield",
+            "name": "基础护盾值",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 55,
+              "3": 70,
+              "4": 85,
+              "5": 100
+            },
+            "description": "客户端 BaseShieldAmount 含 rank0=25；跳过 rank0 后 rank1-5=40/55/70/85/100。来源：社区提取 16.17 mSpell。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "客户端 APRatio=0.4000000059604645，按设计值归一为 0.4。TotalShieldTT=BaseShieldAmount+AP×APRatio。未叠加治疗护盾强度。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端 ShieldDuration=2.5 秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "description": "客户端 cooldownTime 含 rank0 重复 12；跳过 rank0 后与 DDragon 12/11.5/11/10.5/10 秒一致，按毫秒写入。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "客户端主技能 spellCastTime=0.25 秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "target_range",
+            "name": "技能指示范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1150,
+            "levelValues": null,
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=1150。主技能 castRange=10000、返回弹体 25000 不写入。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "shield",
+            "name": "曲光屏障护盾值",
+            "description": "BaseShieldAmount + 法术强度×0.4。来源：客户端 TotalShieldTT。去程与回程各提供等额护盾的叠加方式待确认，公式只表达单次护盾量。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "施放时消耗对应技能等级的法力。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "prismatic_shield",
+            "name": "曲光屏障自我护盾",
+            "description": "独立普通自护盾：结果目标与实例范围为施法者，本批按 1V1 范围保留自身部分。冻结客户端数值：单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "曲光护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": "单次自我护盾量；回程叠加与施加时点未证实，本批不猜测。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放曲光屏障",
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": "主技能 spellCastTime，按毫秒录入。",
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "triggerRules": []
+      },
+      "skipped": [
+        {
+          "kind": "effect",
+          "key": "ally_shield",
+          "reason": "DDragon 描述魔杖途经友军时提供护盾；仅队友关系本轮跳过，自身护盾单独保留。"
+        },
+        {
+          "kind": "trigger",
+          "key": "shield_on_missile_hit",
+          "reason": "施加时点与回程叠加未证实，不挂过程。"
+        },
+        {
+          "kind": "parameter",
+          "key": "projectile_speed",
+          "reason": "主技能 1200、去程弹体 2200、回程 50，冲突且回程 25000 射程已排除。"
+        }
+      ]
+    },
+    "lux_e": {
+      "name": "透光奇点",
+      "maxLevel": 5,
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 65,
+              "2": 115,
+              "3": 165,
+              "4": 215,
+              "5": 265
+            },
+            "description": "客户端 BaseDamage 含 rank0=20；跳过 rank0 后与 DDragon effect[2]=65/115/165/215/265 一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端 TotalDamageTT 使用 StatByCoefficientCalculationPart mCoefficient=0.800000011920929，归一为 0.8。无具名 APRatio 字段，系数默认法术强度。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "区域内减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.25,
+              "2": 0.3,
+              "3": 0.35,
+              "4": 0.4,
+              "5": 0.45
+            },
+            "description": "客户端 SlowPercent 为百分数 20/25/30/35/40/45/50；跳过 rank0 后与 DDragon effect[1] 一致。按系统比例 1=100% 写成 0.25..0.45。当前无减速状态，只录数值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_linger_ms",
+            "name": "爆炸后减速残留（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端 SlowLingerDuration=1 秒。",
+            "sortOrder": 31
+          },
+          {
+            "parameterKey": "slow_zone_ms",
+            "name": "光区持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端 SlowZoneDuration=5 秒，到期或再次施放后爆炸。区域命中未写入过程。",
+            "sortOrder": 32
+          },
+          {
+            "parameterKey": "vision_radius",
+            "name": "光区视野半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 650,
+            "levelValues": null,
+            "description": "客户端 VisionRadius=650。不声称战争迷雾运行已验证。",
+            "sortOrder": 33
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10000,
+              "2": 9500,
+              "3": 9000,
+              "4": 8500,
+              "5": 8000
+            },
+            "description": "客户端 cooldownTime 跳过 rank0 后与 DDragon 10/9.5/9/8.5/8 秒一致。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 80,
+              "3": 90,
+              "4": 100,
+              "5": 110
+            },
+            "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "客户端主技能 spellCastTime=0.25 秒。再次施放/开关技能 0.425 秒不混入首次施放。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "target_range",
+            "name": "技能指示范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1100,
+            "levelValues": null,
+            "description": "客户端 castRange 与 DDragon range 均为 1100。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "projectile_speed",
+            "name": "弹体速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1300,
+            "levelValues": null,
+            "description": "客户端主技能 missileSpeed=1300。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "透光奇点爆炸魔法伤害",
+            "description": "BaseDamage + 法术强度×0.8。来源：客户端 TotalDamageTT。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "施放时消耗对应技能等级的法力。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "singularity_detonate",
+            "name": "奇点爆炸",
+            "description": "独立爆炸魔法伤害。光区减速、区域筛选、到期自动爆炸与再次施放引爆未写成过程或触发，因为区域命中表达不足。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放透光奇点",
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": "主技能 spellCastTime，按毫秒录入。",
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "triggerRules": []
+      },
+      "skipped": [
+        {
+          "kind": "effect",
+          "key": "slow",
+          "reason": "无减速状态可挂 STATUS_OPERATION；只保留 slow_ratio 等参数。"
+        },
+        {
+          "kind": "process",
+          "key": "recast_detonate",
+          "reason": "再次施放与到期爆炸的目标筛选、区域半径在当前过程模型中无法准确表达。"
+        },
+        {
+          "kind": "trigger",
+          "key": "explode_on_recast",
+          "reason": "爆炸时点存在再次施放/到期两种路径，挂触发会猜测。"
+        }
+      ]
+    },
+    "lux_r": {
+      "name": "终极闪光",
+      "maxLevel": 3,
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 300,
+              "2": 400,
+              "3": 500
+            },
+            "description": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.2,
+            "levelValues": null,
+            "description": "客户端 TotalDamage 使用 mCoefficient=1.2000000476837158，归一为 1.2。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60000,
+              "2": 50000,
+              "3": 40000
+            },
+            "description": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 100,
+            "levelValues": null,
+            "description": "客户端 mana 与 DDragon cost 均为 100。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "蓄力时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1375,
+            "levelValues": null,
+            "description": "客户端 spellCastTime=1.375 秒。按延迟步骤录入，不把通道打断/不可取消写成完整通道机制。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "target_range",
+            "name": "技能指示范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3340,
+            "levelValues": null,
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=3340。castRange=25000 不写入。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "line_width",
+            "name": "光束宽度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 190,
+            "levelValues": null,
+            "description": "客户端主技能 mLineWidth=190，仅单来源，未与独立弹体交叉。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "projectile_speed",
+            "name": "光束速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端主技能 missileSpeed=3000。",
+            "sortOrder": 81
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "终极闪光魔法伤害",
+            "description": "Damage + 法术强度×1.2。来源：客户端 TotalDamage。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "施放时消耗对应技能等级的法力。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "final_spark_hit",
+            "name": "终极闪光命中",
+            "description": "独立直线魔法伤害。被动引爆/刷新启明、冷却返还未挂接。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放终极闪光",
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": "主技能 spellCastTime，按毫秒录入。",
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "resolve_on_r_hit",
+            "name": "终极闪光实际命中结算",
+            "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lux_r"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "resolve_hit",
+                "name": "结算命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "final_spark_hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "skipped": [
+        {
+          "kind": "parameter",
+          "key": "reset_ratio",
+          "reason": "客户端 ResetPercent 字段存在不能证明当前返还机制。已撤出本批参数，放入待核原始字段。"
+        },
+        {
+          "kind": "parameter",
+          "key": "reset_assist_window_ms",
+          "reason": "客户端 ResetAssistWindow 字段存在不能证明当前返还机制。已撤出本批参数，放入待核原始字段。"
+        },
+        {
+          "kind": "trigger",
+          "key": "reset_on_takedown",
+          "reason": "返还机制未证实，不猜测击杀/助攻触发。target_range/line_width/projectile_speed 为辅助空间字段，不作为 1V1 完成前置。"
+        },
+        {
+          "kind": "trigger",
+          "key": "refresh_illumination",
+          "reason": "R 触发并刷新被动减益的顺序（先引爆再刷新或只刷新）资料未在本批交叉确证。"
+        },
+        {
+          "kind": "parameter",
+          "key": "engine_cast_range",
+          "reason": "castRange=25000 不写入。"
+        }
+      ]
+    },
+    "lux_p": {
+      "name": "光芒四射",
+      "maxLevel": 1,
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 30,
+              "2": 40,
+              "3": 50,
+              "4": 60,
+              "5": 70,
+              "6": 80,
+              "7": 90,
+              "8": 100,
+              "9": 110,
+              "10": 120,
+              "11": 130,
+              "12": 140,
+              "13": 150,
+              "14": 160,
+              "15": 170,
+              "16": 180,
+              "17": 190,
+              "18": 200
+            },
+            "description": "客户端 TotalDamage 的 ByCharLevelFormulaCalculationPart.values 共 31 槽 [20,30,...,320]。作者解析器 GetResultLevel 使用 mValues[char_level]，故游戏等级 1..18 取索引 1..18：1级 30、每级 +10、18级 200。与 Riot 13.17 Lux Passive 30–200 相符。不取索引 0 的 20。AP 保留 0.35。不可照抄 DDragon 主动冷却/消耗/范围。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端 APRatio=0.3499999940395355，按设计值归一为 0.35。cherry 覆盖 0.5 不写入召唤师峡谷。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "mark_duration_ms",
+            "name": "启明持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端 DebuffDuration=6 秒。不是控制状态。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "启明额外魔法伤害",
+            "description": "角色等级基础伤害 + 法术强度×0.35。来源：客户端 TotalDamage = ByCharLevel + StatByNamedDataValue(APRatio)。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "triggerRules": []
+      },
+      "skipped": [
+        {
+          "kind": "parameter",
+          "key": "cooldown_ms",
+          "reason": "P 客户端冷却为 0；旧候选混入 Q 的 10/50/1175，不写入。"
+        },
+        {
+          "kind": "effect",
+          "key": "illumination_mark",
+          "reason": "EARLY_REMOVE 不等于被动引爆；共享生命周期设计也含减层至零、覆盖为零、任意显式移除。本批已删除该效果，不另造引爆效果，不猜普攻/R 共用法术护盾策略。印记施加/普攻消耗/R 刷新记语义待核。"
+        },
+        {
+          "kind": "trigger",
+          "key": "apply_on_damaging_skill",
+          "reason": "“伤害类技能”范围（是否含装备/召唤师技能/仅 QER）未无歧义交叉。"
+        },
+        {
+          "kind": "trigger",
+          "key": "consume_on_attack",
+          "reason": "下一次攻击消耗与 R 同时触发并刷新的顺序未在本批确证。"
+        },
+        {
+          "kind": "parameter",
+          "key": "cherry_ap_ratio",
+          "reason": "DataValuesModeOverride.cherry APRatio=0.5 属模式覆盖，不写入。"
+        }
+      ]
+    }
+  }
+}
