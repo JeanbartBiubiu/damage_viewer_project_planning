@@ -1,0 +1,47 @@
+{
+  "startedAt": "2026-09-07T16:50:12.588Z",
+  "purpose": "四英雄代表组成的真实页面只读验收",
+  "readbacks": [
+    {
+      "object": "malphite_p/recharge_delay_ms",
+      "actual": {
+        "6": "8000",
+        "13": "6000"
+      },
+      "match": true
+    },
+    {
+      "object": "brand_p/explosion_base_max_hp_ratio",
+      "actual": {
+        "1": "0.06",
+        "18": "0.12"
+      },
+      "match": true
+    },
+    {
+      "object": "annie_e/molten_shield",
+      "actual": {
+        "scope": "按来源对象",
+        "result": "普通护盾\n\t\nshield\n\t\n普通护盾\n\t\n施法者\n\t\n—\n\t\n持续生效\n\t\n施加时留存\n\t\n整个实例共享数值\n\t\n—\n\t\n熔岩自护盾\n\t\n全部伤害 / 不衰减\n\t\n10\n\t\n查看"
+      },
+      "match": true
+    },
+    {
+      "object": "missfortune_r/bullet_wave",
+      "actual": {
+        "summary": "一波弹幕命中伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n当前结果\n\t\nphysics\n\t\n技能 / 直接伤害 / 按来源对象暴击率判定 / 吸血 0 条\n\t\n10\n\t\n查看",
+        "criticalMode": "SOURCE_CRIT_CHANCE",
+        "formulaShown": true
+      },
+      "match": true
+    }
+  ],
+  "failures": [],
+  "screenshots": [
+    "malphite_p-参数页面.png",
+    "brand_p-参数页面.png",
+    "安妮E自护盾页面.png",
+    "厄运小姐R每波暴击页面.png"
+  ],
+  "finishedAt": "2026-09-07T16:50:25.250Z"
+}

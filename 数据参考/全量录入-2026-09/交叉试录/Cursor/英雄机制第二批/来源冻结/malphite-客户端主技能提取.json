@@ -1,0 +1,910 @@
+{
+  "champion": "Malphite",
+  "source": {
+    "champion": "Malphite",
+    "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/malphite/malphite.bin.json",
+    "retrievalMethod": "fetched_now",
+    "observedAt": "2026-09-07T15:48:38.631Z",
+    "byteSize": 49595,
+    "sha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+    "jsonParsed": true,
+    "note": "CommunityDragon 16.17 客户端提取（社区提取，不称 Riot 官方 API）；与 DDragon 16.17.1 不混称同一微版本。"
+  },
+  "ddragonVersion": "16.17.1",
+  "objectCount": 13,
+  "slots": {
+    "P": {
+      "primary": null,
+      "alternatePaths": [],
+      "ddragon": {
+        "id": null,
+        "name": "花岗岩护盾",
+        "description": "墨菲特被岩石护盾保护，最多吸收10%最大生命值的伤害，若数秒内墨菲特未受到攻击，护盾将重置。"
+      }
+    },
+    "Q": {
+      "primary": {
+        "path": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+        "score": 30,
+        "objectName": "SeismicShard",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "SpeedSteal",
+              "values": [
+                20,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                70,
+                120,
+                170,
+                220,
+                270,
+                320
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    50,
+                    100,
+                    150,
+                    200,
+                    250,
+                    300,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "QDamageCalc": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.6000000238418579
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": [
+            625,
+            625,
+            625,
+            625,
+            625,
+            625,
+            625
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": 1200,
+          "mLineWidth": null,
+          "mCoefficient": 0.6000000238418579,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShardBuff",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "SeismicShard",
+        "name": "地震碎片",
+        "maxrank": 5,
+        "cooldown": [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "cost": [
+          70,
+          75,
+          80,
+          85,
+          90
+        ],
+        "range": [
+          625,
+          625,
+          625,
+          625,
+          625
+        ],
+        "description": "墨菲特发出一块大地碎片穿过他敌人处的地面，在碰撞时造成伤害并且偷取移动速度3秒。",
+        "tooltip": "墨菲特朝一名敌人发出一块大地碎片，造成<magicDamage>{{ qdamagecalc }}魔法伤害</magicDamage>和持续{{ slowduration }}秒的{{ speedsteal }}%<status>减速</status>。墨菲特还会窃取该<status>被减速</status>的数额，从而将它作为持续{{ slowduration }}秒的<speed>移动速度</speed>。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "W": {
+      "primary": {
+        "path": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+        "score": 30,
+        "objectName": "Obduracy",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "ThunderclapBuffDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapBaseDamage",
+              "values": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapSlowDamage",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapSplashAP",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapSplashArmor",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapBaseDamageAPRatio",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapBaseDamageArmorRatio",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderclapSplashDamage",
+              "values": [
+                5,
+                15,
+                25,
+                35,
+                45,
+                55,
+                65
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "BonusArmorPassive",
+              "values": [
+                0.05000000074505806,
+                0.10000000149011612,
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "BonusArmorPassiveMultiplier",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ThunderClapSplashRange",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "MonsterDamageMod",
+              "values": [
+                1.7999999523162842,
+                1.7999999523162842,
+                1.7999999523162842,
+                1.7999999523162842,
+                1.7999999523162842,
+                1.7999999523162842,
+                1.7999999523162842
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "BonusArmorPassive",
+                  "values": [
+                    0.10000000149011612,
+                    0.15000000596046448,
+                    0.20000000298023224,
+                    0.25,
+                    0.30000001192092896,
+                    0.3499999940395355,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ThunderclapSplashAP",
+                  "values": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ThunderclapBaseDamageAPRatio",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "TotalBonusDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapBaseDamage"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapBaseDamageAPRatio"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapBaseDamageArmorRatio",
+                  "mStat": 1
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "{185669f9}": {
+              "type": "GameCalculationModified",
+              "formulaParts": null,
+              "multiplier": {
+                "mDataValue": "ThunderclapSlowDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "result": null
+            },
+            "ThunderclapSplash": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapSplashDamage"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapSplashAP"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "ThunderclapSplashArmor",
+                  "mStat": 1
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "{71941255}": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            10,
+            10,
+            9.5,
+            9,
+            8.5,
+            8,
+            8
+          ],
+          "mana": [
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": null,
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": null,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Malphite/Spells/ObduracyAbility/MalphiteCleave",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Malphite/Spells/ObduracyAbility/ObduracyAttack",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Malphite/Spells/ObduracyAbility/MalphiteThunderclap",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "Obduracy",
+        "name": "雷霆拍击",
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          9.5,
+          9,
+          8.5,
+          8
+        ],
+        "cost": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "range": [
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "description": "墨菲特的攻击蕴含着如此惊人的力道以至于它引发了一次音爆。在接下来的数秒里，他的攻击会在他面前引发余波。",
+        "tooltip": "<spellPassive>被动：</spellPassive>墨菲特获得<scaleArmor>{{ bonusarmorpassive*100 }}%护甲(%i:scaleArmor%{{ f1 }})</scaleArmor>。这个效果会在<spellName>花岗岩护盾</spellName>激活时提升至<scaleArmor>{{ bonusarmorpassive*300 }}% (%i:scaleArmor%{{ f2 }})</scaleArmor>。<br /><br /><spellPassive>主动：</spellPassive>墨菲特的下次攻击造成额外的<physicalDamage>{{ totalbonusdamage }}物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>，并会引发一阵余震，以在其方向造成<physicalDamage>{{ thunderclapsplash }}物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>。在接下来的{{ thunderclapbuffduration }}秒内，他的攻击会继续引发余震 %i:OnHit% <OnHit>攻击特效</OnHit>。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "E": {
+      "primary": {
+        "path": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+        "score": 30,
+        "objectName": "Landslide",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                60,
+                95,
+                130,
+                165,
+                200,
+                235
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ASReduction",
+              "values": [
+                25,
+                30,
+                35,
+                40,
+                45,
+                50,
+                55
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "Duration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": null,
+          "spellCalculations": {
+            "EDamageCalc": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.4000000059604645,
+                  "mStat": 1
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.6000000238418579
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": null,
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": null,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "Landslide",
+        "name": "大地震颤",
+        "maxrank": 5,
+        "cooldown": [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "cost": [
+          50,
+          55,
+          60,
+          65,
+          70
+        ],
+        "range": [
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。",
+        "tooltip": "墨菲特锤击地面，对周围敌人造成<magicDamage>{{ edamagecalc }}魔法伤害</magicDamage>并减少他们{{ asreduction }}%<attackSpeed>攻击速度</attackSpeed>，持续{{ duration }}秒。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "R": {
+      "primary": {
+        "path": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+        "score": 30,
+        "objectName": "UFSlash",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "KnockupDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": null,
+          "spellCalculations": {
+            "TotalDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.8999999761581421
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            130,
+            130,
+            115,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "cost": null,
+          "spellCastTime": null,
+          "channelDuration": null,
+          "castRange": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": 700,
+          "mLineWidth": 160,
+          "mCoefficient": null,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Malphite/Spells/UFSlashAbility/UnstoppableForceStun",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "UFSlash",
+        "name": "势不可挡",
+        "maxrank": 3,
+        "cooldown": [
+          130,
+          115,
+          100
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          1000,
+          1000,
+          1000
+        ],
+        "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。",
+        "tooltip": "墨菲特携着山崩之力冲锋，进行不可阻挡的突进。在突进结束时，墨菲特会<status>击飞</status>{{ knockupduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-09-07T16:36:30.515Z",
+  "purpose": "当前版本R法穿参数页面试录，参数存在则只读",
+  "actions": [
+    {
+      "action": "browser-create",
+      "object": "annie_r/magic_penetration_ratio"
+    },
+    {
+      "action": "independent-get",
+      "match": true
+    },
+    {
+      "action": "reopen-view",
+      "values": {
+        "1": "0.1",
+        "2": "0.15",
+        "3": "0.2"
+      },
+      "match": true
+    }
+  ],
+  "failures": [],
+  "finishedAt": "2026-09-07T16:36:35.399Z"
+}

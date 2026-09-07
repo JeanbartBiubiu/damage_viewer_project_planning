@@ -1,0 +1,17 @@
+{
+  "source": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "entries": {
+    "generatedtip_spell_obduracy_tooltipcontent": "<spellPassive>被动：</spellPassive>墨菲特获得<scaleArmor>@BonusArmorPassive*100@%护甲(%i:scaleArmor%@f1@)</scaleArmor>。这个效果会在<spellName>花岗岩护盾</spellName>激活时提升至<scaleArmor>@BonusArmorPassive*300@% (%i:scaleArmor%@f2@)</scaleArmor>。<br><br><spellPassive>主动：</spellPassive>墨菲特的下次攻击造成额外的<physicalDamage>@TotalBonusDamage@物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>，并会引发一阵余震，以在其方向造成<physicalDamage>@ThunderclapSplash@物理伤害</physicalDamage> %i:OnHit% <OnHit>攻击特效</OnHit>。在接下来的@ThunderclapBuffDuration@秒内，他的攻击会继续引发余震 %i:OnHit% <OnHit>攻击特效</OnHit>。@SpellModifierDescriptionAppend@",
+    "generatedtip_spell_missfortunebullettime_tooltipcontent": "厄运小姐向前方锥形地带引导一阵弹幕，@BaseChannelDuration@秒内持续发射共@BaseWaves@波子弹，每波弹幕造成<physicalDamage>@PhysicalDamagePerWave@物理伤害</physicalDamage>(总共<physicalDamage>@TotalPhysicalDamage@物理伤害</physicalDamage>)。<br><br>每一波均可触发暴击，造成%i:scaleCrit%<physicalDamage>@CritDamagePerWave@物理伤害</physicalDamage>。@SpellModifierDescriptionAppend@",
+    "generatedtip_spell_annier_tooltipcontent": "<spellPassive>被动：</spellPassive>安妮获得<magicPen>@RPercentPenBuff*100@%法术穿透</magicPen>。<br><br>安妮召唤提伯斯，造成<magicDamage>@InitialBurstDamage@魔法伤害</magicDamage>。在接下来的@TibbersLifetime@秒里，提伯斯会灼烧附近的敌人，<magicDamage>每秒造成@TibbersAuraDamage@魔法伤害</magicDamage>。<br><br>提伯斯在以下情况下会变得暴怒：在被召唤出来时、在安妮晕眩一名敌方英雄时、以及在安妮阵亡时。在暴怒状态下，提伯斯获得<attackSpeed>275%攻击速度</attackSpeed>和在3秒里持续衰减的<speed>100%移动速度</speed>。<br><br><recast>再次施放：</recast>手动给提伯斯下达指令。@SpellModifierDescriptionAppend@",
+    "generatedtip_spell_missfortuneviciousstrikes_tooltipcontent": "<passive>被动：</passive>如果@PassiveBaseMSOOC@秒内没有受到伤害，厄运小姐就会获得<speed>@PassiveBaseMS@移动速度</speed>。再过@PassiveMaxMSExtraOOC@秒后，这个加成会提升至<speed>@PassiveMaxMS@</speed>。<br><br><active>主动：</active>获得被动效果的全额<speed>移动速度</speed>加成并提供<attackSpeed>@ActiveAS*100@%攻击速度</attackSpeed>，持续@ActiveDuration@ 秒。<br><br><spellName>厄运的眷顾</spellName>会使这个技能的冷却时间缩短@LoveTapRefund@秒。@SpellModifierDescriptionAppend@",
+    "generatedtip_spell_anniee_tooltipcontent": "安妮为一名友方英雄提供持续@ShieldDuration@秒的<shield>@ShieldBlockTotal@护盾值</shield>，以及在@MovementSpeedDuration@秒里持续衰减的<speed>@MoveSpeedCalc@移动速度</speed>。当护盾处于激活状态时，敌人用攻击或技能对护盾造成伤害时会受到<magicDamage>@DamageReturn@魔法伤害</magicDamage>，每个护盾受到一次伤害。<br><br>提伯斯在被召唤出来时总会获得<spellName>熔岩护盾</spellName>的效果。@SpellModifierDescriptionAppend@",
+    "spell_brandpassive_tooltip": "布兰德的技能会给目标施加<keywordMajor>烈焰焚身</keywordMajor>，在4秒里持续造成共<magicDamage>@PercentHealthDamage@%最大生命值的魔法伤害</magicDamage>。如果布兰德击杀了一个<keywordMajor>烈焰焚身</keywordMajor>的敌人，他会回复<scaleMana>@ManaRestore@法力</scaleMana>。<keywordMajor>炽热之焰</keywordMajor>可以至多叠加3次。<br><br>当一个英雄或大型野怪达到3层时，<keywordMajor>炽热之焰</keywordMajor>就会在2秒后爆炸，对周围的敌人们造成<magicDamage>@ExplosionDamage@最大生命值的魔法伤害</magicDamage>。"
+  },
+  "missFortuneRoot": {
+    "path": "Characters/MissFortune/CharacterRecords/Root",
+    "critDamageMultiplier": 2,
+    "sourceSha256": "7cd92c7cc466550494444a19fc2024c6fa81e2224f3e1be4de042d23572e79bd"
+  }
+}

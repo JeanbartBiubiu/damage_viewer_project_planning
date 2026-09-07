@@ -1,0 +1,1268 @@
+{
+  "startedAt": "2026-09-07T16:35:05.511Z",
+  "mode": "read-only",
+  "skills": [
+    "malphite_p",
+    "malphite_q",
+    "malphite_w",
+    "malphite_e",
+    "malphite_r",
+    "missfortune_p",
+    "missfortune_q",
+    "missfortune_w",
+    "missfortune_e",
+    "missfortune_r",
+    "annie_p",
+    "annie_q",
+    "annie_w",
+    "annie_e",
+    "annie_r",
+    "brand_p",
+    "brand_q",
+    "brand_w",
+    "brand_e",
+    "brand_r"
+  ],
+  "preflight": [
+    {
+      "skillKey": "malphite_p",
+      "kind": "parameters",
+      "id": "shield_hp_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_p",
+      "kind": "parameters",
+      "id": "recharge_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_p",
+      "kind": "formulas",
+      "id": "shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_p",
+      "kind": "effects",
+      "id": "granite_shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "effects",
+      "id": "shard_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "armor_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "splash_base",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "splash_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "splash_armor_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "armor_increase_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "parameters",
+      "id": "shield_armor_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "formulas",
+      "id": "next_attack_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "formulas",
+      "id": "splash_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "effects",
+      "id": "empowered_bonus",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_w",
+      "kind": "effects",
+      "id": "aftershock_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "armor_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "attack_speed_reduction_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "parameters",
+      "id": "reduction_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "effects",
+      "id": "slam_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "parameters",
+      "id": "knockup_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "effects",
+      "id": "impact_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "malphite_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_p",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_p",
+      "kind": "formulas",
+      "id": "love_tap_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_p",
+      "kind": "effects",
+      "id": "love_tap_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_q",
+      "kind": "effects",
+      "id": "primary_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "bonus_attack_speed_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "active_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "passive_base_move_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "passive_max_move_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "first_ms_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "full_ms_extra_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "parameters",
+      "id": "love_tap_base_refund_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_w",
+      "kind": "effects",
+      "id": "active_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "base_dps",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "ap_ratio_per_second",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "ticks_per_second",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "cast_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "base_slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "slow_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "parameters",
+      "id": "duration_seconds",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "formulas",
+      "id": "damage_per_second",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "formulas",
+      "id": "damage_per_tick",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "formulas",
+      "id": "full_duration_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "formulas",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_e",
+      "kind": "effects",
+      "id": "rain_tick",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "wave_count",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "channel_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "crit_bonus_scaling",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "parameters",
+      "id": "base_wave_crit_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "formulas",
+      "id": "wave_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "formulas",
+      "id": "wave_crit_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "formulas",
+      "id": "all_waves_noncritical_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "missfortune_r",
+      "kind": "effects",
+      "id": "bullet_wave",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_p",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_p",
+      "kind": "parameters",
+      "id": "stun_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "parameters",
+      "id": "kill_cooldown_refund_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "effects",
+      "id": "spell_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "effects",
+      "id": "kill_mana_refund",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "effects",
+      "id": "spell_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_w",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "base_shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "shield_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "base_return_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "shield_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "return_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "move_speed_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "parameters",
+      "id": "move_speed_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "formulas",
+      "id": "shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "formulas",
+      "id": "return_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "effects",
+      "id": "molten_shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_e",
+      "kind": "effects",
+      "id": "return_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "parameters",
+      "id": "magic_penetration_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "effects",
+      "id": "summon_impact",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "annie_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "burn_total_max_hp_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "burn_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "explosion_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "kill_mana_restore",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "explosion_base_max_hp_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "parameters",
+      "id": "explosion_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "formulas",
+      "id": "burn_total",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "formulas",
+      "id": "explosion",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "effects",
+      "id": "blaze_explosion",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_p",
+      "kind": "effects",
+      "id": "burn_kill_mana",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "parameters",
+      "id": "stun_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "effects",
+      "id": "fireball_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "parameters",
+      "id": "empowered_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "formulas",
+      "id": "empowered_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "effects",
+      "id": "normal_pillar",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "effects",
+      "id": "empowered_pillar",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "effects",
+      "id": "conflagration_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "effects",
+      "id": "pyroclasm_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "brand_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    }
+  ],
+  "writes": [],
+  "conflicts": [],
+  "failures": [],
+  "finishedAt": "2026-09-07T16:35:14.673Z"
+}
