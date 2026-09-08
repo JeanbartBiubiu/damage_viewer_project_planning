@@ -43,6 +43,14 @@
                 SELECT COUNT(*) FROM public.equipment
                 WHERE game_id = #{gameId} AND equipment_key = #{sourceKey} AND #{sourceParentKey} = ''
             </when>
+            <when test="sourceType == 'RUNE'">
+                SELECT COUNT(*) FROM public.runes
+                WHERE game_id = #{gameId} AND rune_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
+            <when test="sourceType == 'RUNE_PATH'">
+                SELECT COUNT(*) FROM public.rune_paths
+                WHERE game_id = #{gameId} AND path_key = #{sourceKey} AND #{sourceParentKey} = ''
+            </when>
             <when test="sourceType == 'SKILL'">
                 SELECT COUNT(*) FROM public.skills
                 WHERE game_id = #{gameId} AND skill_key = #{sourceKey} AND #{sourceParentKey} = ''
@@ -101,6 +109,7 @@
                    WHEN 'ATTRIBUTE' THEN a.name WHEN 'EQUIPMENT' THEN q.name
                    WHEN 'SKILL' THEN s.name WHEN 'SKILL_EFFECT' THEN e.name
                    WHEN 'STATUS' THEN t.name
+                   WHEN 'RUNE' THEN u.name WHEN 'RUNE_PATH' THEN v.name
                END AS source_name,
                CASE r.source_type WHEN 'ATTRIBUTE' THEN a.status
                    WHEN 'SKILL' THEN s.status WHEN 'STATUS' THEN t.status END AS source_status,
@@ -114,6 +123,10 @@
              AND a.game_id = r.game_id AND a.attribute_key = r.source_key
         LEFT JOIN public.equipment q ON r.source_type = 'EQUIPMENT' AND r.source_parent_key = ''
              AND q.game_id = r.game_id AND q.equipment_key = r.source_key
+        LEFT JOIN public.runes u ON r.source_type = 'RUNE' AND r.source_parent_key = ''
+             AND u.game_id = r.game_id AND u.rune_key = r.source_key
+        LEFT JOIN public.rune_paths v ON r.source_type = 'RUNE_PATH' AND r.source_parent_key = ''
+             AND v.game_id = r.game_id AND v.path_key = r.source_key
         LEFT JOIN public.skills s ON r.source_type = 'SKILL' AND r.source_parent_key = ''
              AND s.game_id = r.game_id AND s.skill_key = r.source_key
         LEFT JOIN public.skill_effects e ON r.source_type = 'SKILL_EFFECT'

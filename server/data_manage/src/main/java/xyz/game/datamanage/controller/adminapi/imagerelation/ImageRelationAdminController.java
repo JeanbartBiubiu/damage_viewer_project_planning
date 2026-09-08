@@ -46,6 +46,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
+        "/runes/{runeKey}/representative-image",
+        "/rune-paths/{pathKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"
@@ -60,6 +62,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
+        "/runes/{runeKey}/representative-image",
+        "/rune-paths/{pathKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"
@@ -84,6 +88,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
+        "/runes/{runeKey}/representative-image",
+        "/rune-paths/{pathKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"

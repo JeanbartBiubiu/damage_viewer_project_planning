@@ -248,7 +248,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> created = extractCreateTableNames(schemaSql);
         assertEquals(currentParentTables(), created);
-        assertEquals(24, created.size());
+        assertEquals(27, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(created.contains(table), () -> "旧计算或发布表不能回到当前结构: " + table);
         }
@@ -416,7 +416,8 @@ class LegacyCombatDataCleanupDbContractSqlTest {
             "equipment", "equipment_attributes", "skill_categories", "skills", "skill_category_relations",
             "skill_parameters", "skill_formulas", "damage_types", "modifier_zones", "statuses", "skill_effects",
             "skill_internal_states", "skill_processes", "skill_trigger_rules", "images", "character_skill_relations",
-            "equipment_skill_relations", "image_relations", "skill_object_references");
+            "equipment_skill_relations", "image_relations", "skill_object_references",
+            "runes", "rune_paths", "rune_skill_relations");
     }
 
     @Test

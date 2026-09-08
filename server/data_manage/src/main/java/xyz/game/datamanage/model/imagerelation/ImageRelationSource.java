@@ -5,6 +5,8 @@ public enum ImageRelationSource {
     CHARACTER("characterKey", "角色"),
     ATTRIBUTE("attributeKey", "属性"),
     EQUIPMENT("equipmentKey", "装备"),
+    RUNE("runeKey", "符文"),
+    RUNE_PATH("pathKey", "符文分组"),
     SKILL("skillKey", "技能"),
     SKILL_EFFECT("effectKey", "技能效果"),
     STATUS("statusKey", "状态");

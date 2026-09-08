@@ -31,7 +31,7 @@ class ImageRelationServiceTest {
 
     @ParameterizedTest
     @EnumSource(ImageRelationSource.class)
-    void allSevenSourcesCanReadEmptySetReplaceReadAndDelete(ImageRelationSource source) {
+    void allSourcesCanReadEmptySetReplaceReadAndDelete(ImageRelationSource source) {
         String parent = source == ImageRelationSource.SKILL_EFFECT ? "q" : "";
         String key = source == ImageRelationSource.GAME ? "lol" : "object";
         existingSource(source, parent, key);
@@ -129,7 +129,9 @@ class ImageRelationServiceTest {
             row("EQUIPMENT", "", "sword", "武器", null, null),
             row("SKILL", "", "q", "秘术射击", "DISABLED", null),
             row("SKILL_EFFECT", "q", "hit", "命中", null, "秘术射击"),
-            row("STATUS", "", "burn", "灼烧", "DISABLED", null)
+            row("STATUS", "", "burn", "灼烧", "DISABLED", null),
+            row("RUNE", "", "focus", "专注", null, null),
+            row("RUNE_PATH", "", "precision", "精密", null, null)
         ));
         var response = service.usages("lol", "icon");
         assertEquals("lol", response.games().getFirst().gameId());
@@ -140,6 +142,10 @@ class ImageRelationServiceTest {
         assertEquals("q", response.skillEffects().getFirst().skillKey());
         assertEquals("hit", response.skillEffects().getFirst().effectKey());
         assertEquals("DISABLED", response.statuses().getFirst().statusStatus());
+        assertEquals("focus", response.runes().getFirst().runeKey());
+        assertEquals("专注", response.runes().getFirst().runeName());
+        assertEquals("precision", response.runePaths().getFirst().pathKey());
+        assertEquals("精密", response.runePaths().getFirst().pathName());
     }
 
     @Test
@@ -165,6 +171,8 @@ class ImageRelationServiceTest {
         assertTrue(response.skills().isEmpty());
         assertTrue(response.skillEffects().isEmpty());
         assertTrue(response.statuses().isEmpty());
+        assertTrue(response.runes().isEmpty());
+        assertTrue(response.runePaths().isEmpty());
     }
 
     @Test

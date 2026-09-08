@@ -534,7 +534,7 @@ public class SkillService {
     }
 
     private static ApiException inUse() {
-        return conflict("409.SKILL_IN_USE", "技能已被角色、装备或其他技能引用，不能删除", "skillKey");
+        return conflict("409.SKILL_IN_USE", "技能已被角色、装备、符文或其他技能引用，不能删除", "skillKey");
     }
 
     private static ApiException unknownCategory(int index) {
