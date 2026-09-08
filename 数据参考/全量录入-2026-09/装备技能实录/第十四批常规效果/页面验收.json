@@ -1,0 +1,441 @@
+{
+  "at": "2026-09-08T17:37:33.071Z",
+  "passed": true,
+  "independentGetCount": 23,
+  "url": "http://127.0.0.1:5173/#/skills",
+  "method": "主负责人真实浏览器查看三个代表技能，未修改页面值；另次23项GET包括未录舒瑞娅技能404。",
+  "samples": [
+    {
+      "skillKey": "item_3142_active",
+      "observation": "远程时长公式页面引用近战6000毫秒和0.667倍率，说明明确4002毫秒，未显示为4000毫秒；两组移速参数分别列出。"
+    },
+    {
+      "skillKey": "item_3802_passive",
+      "observation": "最大法力参数为小数、计算时传入，说明明确取值时点尚待核，不能默认每跳现值或缺失为0。"
+    },
+    {
+      "skillKey": "item_3070_passive",
+      "observation": "技能详情明确只保留技能命中、3点/英雄翻倍、360累计上限、8秒/最多4份，未从魔宗扩大普攻触发。"
+    }
+  ],
+  "checks": [
+    {
+      "route": "/skills/item_3142_active",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:08.492894Z",
+        "description": "保留近战20%/远程15%主动移速与近战6000毫秒持续时间；远程时长按客户端6×0.667秒的独立公式表达，不凭展示取整写为4000毫秒。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "幽梦之灵·鬼魂步伐",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3142_active",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T17:18:08.492894Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/parameters/melee_move_speed_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:09.186131Z",
+        "description": "绑定动态近战百分数20转换为0.2。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战主动移动速度比例",
+        "parameterKey": "melee_move_speed_ratio",
+        "skillKey": "item_3142_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:09.186131Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/parameters/ranged_move_speed_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:09.817578Z",
+        "description": "绑定动态远程百分数15转换为0.15。",
+        "fixedValue": 0.15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程主动移动速度比例",
+        "parameterKey": "ranged_move_speed_ratio",
+        "skillKey": "item_3142_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:18:09.817578Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/parameters/melee_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:10.435866Z",
+        "description": "当前Duration计算明确6秒，换算6000毫秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战主动持续时间",
+        "parameterKey": "melee_duration_ms",
+        "skillKey": "item_3142_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:18:10.435866Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/parameters/ranged_duration_multiplier",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:11.373291Z",
+        "description": "原浮点0.6669999957084656按来源小数精度保留0.667；不能改成2/3以得到4秒。",
+        "fixedValue": 0.667,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程主动持续时间倍率",
+        "parameterKey": "ranged_duration_multiplier",
+        "skillKey": "item_3142_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T17:18:11.373291Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/parameters/cooldown_ms",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:12.015188Z",
+        "description": "两个同名Cooldown均为45秒，不择取冲突值。",
+        "fixedValue": 45000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动冷却",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "item_3142_active",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T17:18:12.015188Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/formulas/ranged_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:12.637117Z",
+        "description": "6000×0.667=4002毫秒；仅保存独立时长计算，近远程选择未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_duration_ms"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_duration_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_duration_ms",
+        "gameId": "lol",
+        "name": "远程主动持续时间",
+        "skillKey": "item_3142_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:12.637117Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3142_active/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3142",
+          "name": "item_3142"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:17.83869Z",
+        "description": "升级时在3秒内回复共20%最大法力。仅保存确定总量与持续时间；最大法力读取时点和首次/后续回复间隔尚未确定，不伪造即时恢复或周期。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "遗失的章节·启蒙",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3802_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T17:18:17.83869Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive/parameters/max_mana_restore_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:18.430391Z",
+        "description": "20%以0.2保存，总量不是每秒或每跳量。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "升级总回复最大法力比例",
+        "parameterKey": "max_mana_restore_ratio",
+        "skillKey": "item_3802_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:18.430391Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive/parameters/restoration_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:19.014286Z",
+        "description": "当前明确3秒，换算3000毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "升级回复持续时间",
+        "parameterKey": "restoration_duration_ms",
+        "skillKey": "item_3802_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:18:19.014286Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive/parameters/max_mana_for_restoration",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:19.657458Z",
+        "description": "非负小数输入；应由已核实的本次升级回复取值时点提供最大法力。该时点尚待核，不默认读取每跳现值或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次升级回复使用的最大法力",
+        "parameterKey": "max_mana_for_restoration",
+        "skillKey": "item_3802_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:18:19.657458Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive/formulas/total_mana_restoration",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:20.319496Z",
+        "description": "本次确证取值口径的最大法力×0.2；独立总量公式不决定回复跳频或读取时点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_mana_for_restoration"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_mana_restore_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "total_mana_restoration",
+        "gameId": "lol",
+        "name": "升级总法力回复量",
+        "skillKey": "item_3802_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:20.319496Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3802_passive/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3802",
+          "name": "item_3802"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:22.299249Z",
+        "description": "当前女神之泪说明只写技能命中：每次3最大法力、对英雄翻倍、累计上限360，8秒恢复一份充能、最多4份。保留数值，不从魔宗扩大为普攻也触发。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "女神之泪·法力流",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3070_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T17:18:22.299249Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/parameters/max_mana_per_hit",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:22.938112Z",
+        "description": "当前根ManaPerCharge，保留原单位；充能数和累计法力分别记录。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每次合法技能命中增加最大法力",
+        "parameterKey": "max_mana_per_hit",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:22.938112Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/parameters/max_accumulated_mana",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:23.545936Z",
+        "description": "当前根MaxMana，保留原单位；充能数和累计法力分别记录。",
+        "fixedValue": 360,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力流累计最大法力上限",
+        "parameterKey": "max_accumulated_mana",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:18:23.545936Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/parameters/charge_recovery_ms",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:24.144241Z",
+        "description": "当前根ManaChargeAmmoCD，秒换算毫秒；充能数和累计法力分别记录。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力流充能恢复间隔",
+        "parameterKey": "charge_recovery_ms",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:18:24.144241Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/parameters/max_charges",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:24.847404Z",
+        "description": "当前根ManaChargeMaxAmmo，保留原单位；充能数和累计法力分别记录。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力流最大充能次数",
+        "parameterKey": "max_charges",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T17:18:24.847404Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/parameters/champion_hit_multiplier",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:25.472234Z",
+        "description": "当前绑定文字明确对英雄翻倍，不扩大普攻资格。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "英雄命中收益倍率",
+        "parameterKey": "champion_hit_multiplier",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T17:18:25.472234Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/formulas/champion_hit_max_mana",
+      "actual": {
+        "createdAt": "2026-09-08T17:18:26.157779Z",
+        "description": "3×2=6；资格、同次施法去重、充能消费和累计封顶尚未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_mana_per_hit"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "champion_hit_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "champion_hit_max_mana",
+        "gameId": "lol",
+        "name": "合法英雄技能命中增加最大法力",
+        "skillKey": "item_3070_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:18:26.157779Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3070_passive/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3070",
+          "name": "item_3070"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_2065_active",
+      "status": 404,
+      "actual": {
+        "error": {
+          "code": "404.SKILL_NOT_FOUND",
+          "details": {
+            "skillKey": "item_2065_active"
+          },
+          "message": "技能不存在"
+        }
+      },
+      "match": true
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

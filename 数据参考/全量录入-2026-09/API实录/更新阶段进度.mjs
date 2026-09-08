@@ -44,6 +44,20 @@ assert.deepEqual(equipmentTenthFirst.summary, {objectCount:2,componentCount:21,f
 assert.equal(read('装备技能实录/Luna第十批/页面验收.json').passed, true);
 const equipmentTwelfthEvidence = '装备技能实录/第十二批常规效果/独立全量回读.json';
 const equipmentThirteenthEvidence = '装备技能实录/第十三批常规效果/独立全量回读.json';
+const equipmentFourteenthEvidence='装备技能实录/第十四批常规效果/独立全量回读.json';
+const equipmentFourteenth=read(equipmentFourteenthEvidence);
+assert.equal(equipmentFourteenth.success,true);
+assert.equal(equipmentFourteenth.candidateSha256,'16d826cd8933acf60bfa399b1196a004db90312ec5272ffbb3d8eda8a8cf354c');
+assert.equal(equipmentFourteenth.snapshot.sameCount,42);
+assert.equal(equipmentFourteenth.snapshot.fieldCount,378);
+assert.equal(equipmentFourteenth.snapshot.objects.length,6);
+assert.deepEqual(equipmentFourteenth.snapshot.conflicts,[]);
+assert.deepEqual(equipmentFourteenth.snapshot.missing,[]);
+assert.equal(equipmentFourteenth.arithmetic.length,32);
+assert.ok(equipmentFourteenth.arithmetic.every(x=>x.match));
+const equipmentFourteenthPage=read('装备技能实录/第十四批常规效果/页面验收.json');
+assert.equal(equipmentFourteenthPage.passed,true);
+assert.equal(equipmentFourteenthPage.independentGetCount,23);
 const equipmentThirteenth = read(equipmentThirteenthEvidence);
 assert.equal(equipmentThirteenth.success, true);
 assert.equal(equipmentThirteenth.candidateSha256, 'b849c156a9732b94bfc183e91719ecccc0a11d0400bd41ae8195fe4351045878');
@@ -409,6 +423,11 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  equipmentFourteenthBatch:{
+    skills:equipmentFourteenth.snapshot.objects.map(x=>x.skillKey),parameters:20,formulas:4,effects:0,processes:0,internalStates:0,triggerRules:0,equipmentRelations:6,representativeImageReuses:6,
+    status:'部分录入；42组成378字段独立GET、32算例和3个代表页面通过；舒瑞娅自用范围待核未建技能，时序和合法事件继续待配',
+    runtimeValidation:'未执行',evidence:equipmentFourteenthEvidence,
+  },
   equipmentTenthSecondGroup:{
     skills:['item_3004_passive','item_3041_passive'],parameters:13,formulas:5,effects:2,processes:0,internalStates:0,triggerRules:1,equipmentRelations:2,representativeImageReuses:2,
     status:'部分录入；27组成独立GET及代表页面一致，14实库表达式算例通过；法力流和荣耀事件、共享层数及升级替换继续待配',
@@ -632,8 +651,8 @@ const summary = {
   images: { objectUses: 1224, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 198,
     additionalSpecialFormReuses:13, additionalSpecialFormEvidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence],
     additionalRuneGeneratedFormUses:4,additionalRuneGeneratedFormEvidence:runeEquipmentEvidence,
-    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length + equipmentTenthFirst.summary.objectCount + equipmentThirteenth.snapshot.objects.length + equipmentTenthSecondWrite.summary.objectCount,
-    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence,equipmentTenthFirstEvidence,equipmentThirteenthEvidence,equipmentTenthSecondEvidence],
+    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length + equipmentTenthFirst.summary.objectCount + equipmentThirteenth.snapshot.objects.length + equipmentTenthSecondWrite.summary.objectCount + equipmentFourteenth.snapshot.objects.length,
+    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence,equipmentTenthFirstEvidence,equipmentThirteenthEvidence,equipmentTenthSecondEvidence,equipmentFourteenthEvidence],
     status: '原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验',
     browserCacheRecords: 3205, browserReadFailures: 0, browserCacheEvidence:'API实录/符文生成装备第一批/页面验收.json',
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
