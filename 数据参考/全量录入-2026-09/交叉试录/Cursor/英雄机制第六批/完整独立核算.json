@@ -1,0 +1,1710 @@
+{
+  "generatedAt": "2026-09-08T16:00:33.551Z",
+  "boundary": "仅冻结来源摘要、候选结构与独立算术；没有业务保存、数据库回读、浏览器或战斗运行证据。",
+  "sourceChecks": [
+    {
+      "hero": "Garen",
+      "kind": "client",
+      "expected": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+      "actual": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+      "match": true
+    },
+    {
+      "hero": "Garen",
+      "kind": "official",
+      "expected": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+      "actual": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+      "match": true
+    },
+    {
+      "hero": "Jax",
+      "kind": "client",
+      "expected": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+      "actual": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+      "match": true
+    },
+    {
+      "hero": "Jax",
+      "kind": "official",
+      "expected": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700",
+      "actual": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700",
+      "match": true
+    },
+    {
+      "hero": "Mordekaiser",
+      "kind": "client",
+      "expected": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+      "actual": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+      "match": true
+    },
+    {
+      "hero": "Mordekaiser",
+      "kind": "official",
+      "expected": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6",
+      "actual": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6",
+      "match": true
+    },
+    {
+      "hero": "Renekton",
+      "kind": "client",
+      "expected": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+      "actual": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+      "match": true
+    },
+    {
+      "hero": "Renekton",
+      "kind": "official",
+      "expected": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab",
+      "actual": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab",
+      "match": true
+    },
+    {
+      "kind": "当前绑定中文说明",
+      "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "match": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 30,
+      "actual": 30,
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 6,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 7,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 66,
+      "actual": 66,
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 13,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 162,
+      "actual": 162,
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 14,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "formula": "regen_per_5s",
+      "rank": 1,
+      "level": 18,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 202,
+      "actual": 202,
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 130,
+      "actual": 130,
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "formula": "bonus_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "formula": "shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 155,
+      "actual": 155,
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "formula": "shield",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 235,
+      "actual": 235,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "damage_per_spin",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 84,
+      "actual": 84,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "damage_per_spin",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "nearest_damage_per_spin",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 105,
+      "actual": 105,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "nearest_damage_per_spin",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 150,
+      "actual": 150,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "critical_multiplier",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 1.3,
+      "actual": 1.3,
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "formula": "critical_multiplier",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.3
+      },
+      "inputs": {},
+      "expected": 1.39,
+      "actual": 1.3900000000000001,
+      "match": true
+    },
+    {
+      "skill": "garen_r",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "TARGET.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 375,
+      "actual": 375,
+      "match": true
+    },
+    {
+      "skill": "garen_r",
+      "formula": "damage",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "TARGET.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 625,
+      "actual": 625,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 1,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 1
+      },
+      "expected": 0.05,
+      "actual": 0.05,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 3,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 8
+      },
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 4,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 8
+      },
+      "expected": 0.52,
+      "actual": 0.52,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 13,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 8
+      },
+      "expected": 0.88,
+      "actual": 0.88,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 18,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 8
+      },
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 18,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 9
+      },
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "formula": "current_attack_speed",
+      "rank": 1,
+      "level": 18,
+      "attributes": {},
+      "inputs": {
+        "current_passive_stacks": 0
+      },
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 165,
+      "actual": 165,
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 325,
+      "actual": 325,
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110,
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "formula": "bonus_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "formula": "counterstrike_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "actual_dodged_attacks": 0
+      },
+      "expected": 190,
+      "actual": 190,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "formula": "counterstrike_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "actual_dodged_attacks": 1
+      },
+      "expected": 228,
+      "actual": 228,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "formula": "counterstrike_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "actual_dodged_attacks": 5
+      },
+      "expected": 380,
+      "actual": 380,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "formula": "counterstrike_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "actual_dodged_attacks": 6
+      },
+      "expected": 620,
+      "actual": 620,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "formula": "counterstrike_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "actual_dodged_attacks": 0
+      },
+      "expected": 310,
+      "actual": 310,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "passive_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 135,
+      "actual": 135,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "passive_damage",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 245,
+      "actual": 245,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "active_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "active_damage",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 350,
+      "actual": 350,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "armor_gain",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 85,
+      "actual": 85,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "armor_gain",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 115,
+      "actual": 115,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "magic_resistance_gain",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 51,
+      "actual": 51,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "formula": "magic_resistance_gain",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 69,
+      "actual": 69,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "formula": "attack_bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "formula": "aura_damage_per_second",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "aura_target_hp_ratio": 0.01
+      },
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "formula": "aura_damage_per_second",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "aura_target_hp_ratio": 0.05
+      },
+      "expected": 135,
+      "actual": 135,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "formula": "normal_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "current_character_level_bonus": 0
+      },
+      "expected": 270,
+      "actual": 270,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "formula": "normal_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "current_character_level_bonus": 45
+      },
+      "expected": 455,
+      "actual": 455,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "formula": "isolated_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "current_character_level_bonus": 0
+      },
+      "expected": 351,
+      "actual": 351,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "formula": "isolated_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "current_character_level_bonus": 45
+      },
+      "expected": 682.5,
+      "actual": 682.5,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "minimum_shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "maximum_shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 600,
+      "actual": 600,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "initial_shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "inputs": {
+        "actual_released_shield": 600
+      },
+      "expected": 600,
+      "actual": 600,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "recast_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {},
+      "inputs": {
+        "actual_remaining_shield": 200
+      },
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "recast_heal",
+      "rank": 5,
+      "level": 18,
+      "attributes": {},
+      "inputs": {
+        "actual_remaining_shield": 200
+      },
+      "expected": 90,
+      "actual": 90,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "formula": "recast_heal",
+      "rank": 5,
+      "level": 18,
+      "attributes": {},
+      "inputs": {
+        "actual_remaining_shield": 0
+      },
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 105,
+      "actual": 105,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 185,
+      "actual": 185,
+      "match": true
+    },
+    {
+      "skill": "renekton_p",
+      "formula": "low_health_attack_fury",
+      "rank": 1,
+      "level": 1,
+      "attributes": {},
+      "inputs": {},
+      "expected": 7.5,
+      "actual": 7.5,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 160,
+      "actual": 160,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 280,
+      "actual": 280,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 230,
+      "actual": 230,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 410,
+      "actual": 410,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 29,
+      "actual": 29,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_champion_heal",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 61,
+      "actual": 61,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 87,
+      "actual": 87,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_champion_heal",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 183,
+      "actual": 183,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 300
+      },
+      "inputs": {},
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 300
+      },
+      "inputs": {},
+      "expected": 189,
+      "actual": 189.00000000000003,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "normal_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 2000
+      },
+      "inputs": {},
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "formula": "empowered_champion_heal",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 2000
+      },
+      "inputs": {},
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "damage_per_hit",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 155,
+      "actual": 155,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "damage_per_hit",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 215,
+      "actual": 215,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "normal_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 310,
+      "actual": 310,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "normal_total_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 430,
+      "actual": 430,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "empowered_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 465,
+      "actual": 465,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "formula": "empowered_total_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 645,
+      "actual": 645,
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "formula": "normal_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 130,
+      "actual": 130,
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "formula": "normal_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "formula": "empowered_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 205,
+      "actual": 205,
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "formula": "empowered_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 385,
+      "actual": 385,
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "formula": "aura_damage_per_second",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "formula": "aura_damage_per_second",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 260,
+      "actual": 260,
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "parameter": "move_duration_ms",
+      "rank": 5,
+      "expected": 3600,
+      "actual": 3600,
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "parameter": "reduction_ratio",
+      "rank": 1,
+      "expected": 0.25,
+      "actual": 0.25,
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "parameter": "reduction_ratio",
+      "rank": 5,
+      "expected": 0.41,
+      "actual": 0.41,
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "parameter": "upfront_duration_ms",
+      "rank": 1,
+      "expected": 750,
+      "actual": 750,
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "parameter": "cooldown_ms",
+      "rank": 5,
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "parameter": "target_max_hp_ratio",
+      "rank": 1,
+      "expected": 0.04,
+      "actual": 0.04,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "parameter": "area_skill_reduction_ratio",
+      "rank": 1,
+      "expected": 0.25,
+      "actual": 0.25,
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "parameter": "defensive_duration_ms",
+      "rank": 1,
+      "expected": 2000,
+      "actual": 2000,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "parameter": "passive_window_ms",
+      "rank": 1,
+      "expected": 2500,
+      "actual": 2500,
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "parameter": "resist_duration_ms",
+      "rank": 1,
+      "expected": 8000,
+      "actual": 8000,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "parameter": "move_speed_ratio",
+      "rank": 1,
+      "expected": 0.03,
+      "actual": 0.03,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "expected": 16000,
+      "actual": 16000,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "parameter": "cooldown_ms",
+      "rank": 5,
+      "expected": 8000,
+      "actual": 8000,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "parameter": "realm_duration_ms",
+      "rank": 1,
+      "expected": 7000,
+      "actual": 7000,
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "parameter": "stat_steal_ratio",
+      "rank": 1,
+      "expected": 0.1,
+      "actual": 0.1,
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "parameter": "empowered_fury_cost",
+      "rank": 1,
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "parameter": "extra_fury_vs_champion",
+      "rank": 1,
+      "expected": 10,
+      "actual": 10,
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "parameter": "armor_reduction_ratio",
+      "rank": 5,
+      "expected": 0.35,
+      "actual": 0.35,
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "parameter": "maximum_health_gain",
+      "rank": 3,
+      "expected": 700,
+      "actual": 700,
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "parameter": "fury_on_cast",
+      "rank": 1,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "parameter": "duration_ms",
+      "rank": 1,
+      "expected": 15000,
+      "actual": 15000,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "skill": "jax_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "jax_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "jax_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "garen_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "garen_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "garen_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "garen_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "garen_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "renekton_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "renekton_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "renekton_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "renekton_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "renekton_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "renekton_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "garen_w",
+      "check": "护盾和韧性各自独立生命周期",
+      "match": true
+    },
+    {
+      "skill": "jax_p",
+      "check": "没有虚构2.5秒整组到期或350毫秒周期",
+      "match": true
+    },
+    {
+      "skill": "jax_w",
+      "check": "未在成本过程或任意命中自动附伤",
+      "match": true
+    },
+    {
+      "skill": "jax_e",
+      "check": "结算需要实际躲闪输入而非假事件",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_w",
+      "check": "没有猜定护盾衰减效果",
+      "match": true
+    },
+    {
+      "skill": "mordekaiser_r",
+      "check": "没有相互持续读取的偷取反馈",
+      "match": true
+    },
+    {
+      "skill": "renekton_p",
+      "check": "没有使用法力/能量伪造怒气",
+      "match": true
+    },
+    {
+      "skill": "renekton_r",
+      "check": "最大生命没有重复作为直接治疗",
+      "match": true
+    }
+  ],
+  "failures": []
+}

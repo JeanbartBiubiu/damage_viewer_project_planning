@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-08T15:45:19.139Z",
+  "skillKey": "jax_p",
+  "kind": "effects",
+  "id": "passive_attack_speed",
+  "action": "创建响应异常后查询落地",
+  "postStatus": 400,
+  "postError": null,
+  "postResponse": {
+    "error": {
+      "code": "400.INVALID_SKILL_EFFECT_REFERENCE",
+      "details": {
+        "fieldIssues": [
+          {
+            "code": "RUNTIME_INPUT_FORBIDDEN",
+            "field": "results[0].valueRule.value",
+            "message": "按当前时点读取的修正公式不能使用动态输入参数"
+          }
+        ]
+      },
+      "message": "技能效果引用不合法"
+    }
+  },
+  "readbackStatus": 404,
+  "readbackError": null,
+  "match": false,
+  "diff": {
+    "status": 404,
+    "error": null
+  },
+  "actual": {
+    "error": {
+      "code": "404.SKILL_EFFECT_NOT_FOUND",
+      "details": {
+        "effectKey": "passive_attack_speed"
+      },
+      "message": "技能效果不存在"
+    }
+  }
+}
