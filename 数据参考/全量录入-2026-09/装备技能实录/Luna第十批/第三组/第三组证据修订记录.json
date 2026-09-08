@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-09-08T18:05:57.675Z",
+  "scope": "Luna第十批/第三组/3053、3068",
+  "status": "修订冻结完成；旧文件原样留在各对象历史目录。",
+  "objects": {
+    "3053": {
+      "oldCandidateFile": "3053/参数候选与待核.json",
+      "oldCandidateSha256": "21a11be25af0f85b38a89ab565fff20771d30270787e93ca90a1ad12f2899da3",
+      "oldSourceFile": "3053/来源摘录.json",
+      "oldSourceSha256": "4076c0d313772d242e6b0c3787a88430f35b8e819cfcc76036b4d4ba4cef866c",
+      "finalSourceFile": "3053/来源摘录-最终冻结.json",
+      "finalSourceSha256": "4076c0d313772d242e6b0c3787a88430f35b8e819cfcc76036b4d4ba4cef866c",
+      "corrections": [
+        "最终候选sourceExcerpt.sha256使用实际来源摘录4076c0d313772d242e6b0c3787a88430f35b8e819cfcc76036b4d4ba4cef866c，不使用旧候选中的8e93…值。",
+        "TimeBeforeDecay=0.75、HealDuration=5、TenacityDuration=8保留为未绑定单位的来源原值，单位改列待核，不写“秒”参数。",
+        "3个未见当前根引用的SpellObject不扩展治疗、体型或临时韧性机制。"
+      ]
+    },
+    "3068": {
+      "oldCandidateFile": "3068/参数候选与待核.json",
+      "oldCandidateSha256": "bf20e5634b53543b4d49e9bea6a76531f2cea64d1d8487bbb715fba28db19ba5",
+      "oldSourceFile": "3068/来源摘录.json",
+      "oldSourceSha256": "5c72ff3b737572cccb96c07de16fefcb4edefff2cccd23c8148cd1e6c28ae60f",
+      "finalSourceFile": "3068/来源摘录-最终冻结.json",
+      "finalSourceSha256": "7ab7674f6901fe5b16a0d85dfec5e923b2f75221a0875b1ef3ad391ddc71acd8",
+      "corrections": [
+        "Range=325仅为纯空间范围来源，不生成API参数；最终候选删除immolate_range。",
+        "item_3068_tooltipextended未列入当前根绑定键，旧叠层内容仅旁证，不作为当前必配组成。",
+        "保留DPS显示速率1次/秒、3秒时长、每次20基础伤害和额外生命值1.5%候选；不生成周期效果、首跳或触发规则。"
+      ]
+    }
+  },
+  "histories": [
+    {
+      "object": "3053",
+      "historyDir": "3053/历史/2026-09-08T18-05-57-663Z",
+      "files": [
+        {
+          "file": "来源摘录.json",
+          "sha256": "4076c0d313772d242e6b0c3787a88430f35b8e819cfcc76036b4d4ba4cef866c",
+          "bytes": 38945
+        },
+        {
+          "file": "参数候选与待核.json",
+          "sha256": "21a11be25af0f85b38a89ab565fff20771d30270787e93ca90a1ad12f2899da3",
+          "bytes": 12223
+        }
+      ]
+    },
+    {
+      "object": "3068",
+      "historyDir": "3068/历史/2026-09-08T18-05-57-663Z",
+      "files": [
+        {
+          "file": "来源摘录.json",
+          "sha256": "5c72ff3b737572cccb96c07de16fefcb4edefff2cccd23c8148cd1e6c28ae60f",
+          "bytes": 382419
+        },
+        {
+          "file": "参数候选与待核.json",
+          "sha256": "bf20e5634b53543b4d49e9bea6a76531f2cea64d1d8487bbb715fba28db19ba5",
+          "bytes": 9853
+        }
+      ]
+    }
+  ]
+}

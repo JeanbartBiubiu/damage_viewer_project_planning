@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-08T18:45:15.129Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "subjects": [
+    "item_3053_passive",
+    "item_3068_passive"
+  ],
+  "browserChecks": [
+    {
+      "subject": "item_3053_passive",
+      "checks": [
+        "列表左侧代表图可见",
+        "5参数为0.5、0.3、4500毫秒、0.6、90000毫秒",
+        "重开护盾参数详情：客户端4.5秒转4500毫秒，说明保留衰减曲线与取值时点待配"
+      ],
+      "passed": true
+    },
+    {
+      "subject": "item_3068_passive",
+      "checks": [
+        "列表左侧代表图可见",
+        "4参数为3000毫秒、1、20、0.015",
+        "重开速率参数详情：仅DPS显示换算，未转1000毫秒周期，不声称首跳时点"
+      ],
+      "passed": true
+    }
+  ],
+  "independentGet": {
+    "file": "第三组独立GET-20260908184323208.json",
+    "sha256": "f95132cdeec1fc47df6e4ac8312f53802b43742e3bd3681395c952964b665196",
+    "endpointCount": 23,
+    "okCount": 23,
+    "mismatchCount": 0,
+    "failedObjectCount": 0
+  },
+  "boundary": "未写公式、效果、状态、过程或触发规则；页面与独立接口证据，不是完整机制或战斗验证"
+}

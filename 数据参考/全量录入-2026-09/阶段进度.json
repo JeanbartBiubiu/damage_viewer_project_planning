@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T18:03:54.592Z",
+  "generatedAt": "2026-09-08T18:45:15.129Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 72,
+    "additionalEquipmentSkillRepresentativeReuses": 74,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -116,7 +116,8 @@
       "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json",
       "装备技能实录/第十三批常规效果/独立全量回读.json",
       "装备技能实录/Luna第十批/第二组/页面验收.json",
-      "装备技能实录/第十四批常规效果/独立全量回读.json"
+      "装备技能实录/第十四批常规效果/独立全量回读.json",
+      "装备技能实录/Luna第十批/第三组/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3205,
@@ -968,6 +969,24 @@
       ],
       "status": "范围已收窄；范围外跳过不计为待补机制或系统阻塞",
       "evidence": "1V1范围筛选/处置清单.json"
+    },
+    "equipmentTenthThirdGroup": {
+      "skills": [
+        "item_3053_passive",
+        "item_3068_passive"
+      ],
+      "parameters": 9,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 2,
+      "representativeImageReuses": 2,
+      "status": "部分录入；15项写后GET、23项独立GET、9算例及两代表页面通过；护盾衰减、献祭准确时序与触发资格继续待配",
+      "executor": "Luna录入，独立来源审查与主负责人页面回读",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第十批/第三组/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"

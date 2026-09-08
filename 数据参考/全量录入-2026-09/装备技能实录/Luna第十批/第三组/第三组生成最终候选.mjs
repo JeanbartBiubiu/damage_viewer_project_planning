@@ -1,0 +1,334 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+
+const base = 'C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第十批/第三组';
+const now = new Date().toISOString();
+const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
+const writeJson = (file, value) => fs.writeFileSync(file, JSON.stringify(value, null, 2) + '\n', 'utf8');
+const sourceFilesFrom = excerpt => Object.fromEntries(
+  Object.entries(excerpt.sourceIndex).map(([file, info]) => [file, { ...info }])
+);
+
+const definitions = {
+  '3053': {
+    itemId: '3053',
+    equipmentKey: 'item_3053',
+    equipmentName: '斯特拉克的挑战护手',
+    skillKey: 'item_3053_passive',
+    skillName: '斯特拉克的挑战护手·被动',
+    directAttributes: { hp: 400, tenacity_percent: 0.2 },
+    parameters: [
+      {
+        parameterKey: 'bonus_ad_from_base_attack_ratio',
+        name: '抓人双爪基础攻击力转额外攻击力比例',
+        valueType: 'DECIMAL', fixedValue: 0.5, unit: '小数比例', sortOrder: 10,
+        description: '当前客户端ADtoAD=0.5；保存基础攻击力转额外攻击力比例，应用读取时点未配。',
+        sourcePointers: ['Items/3053/mDataValues[ADtoAD]', 'Items/3053/mItemCalculations/BonusAD/mFormulaParts/0']
+      },
+      {
+        parameterKey: 'lifeline_health_threshold',
+        name: '救主灵刃生命值阈值',
+        valueType: 'DECIMAL', fixedValue: 0.3, unit: '小数比例', sortOrder: 20,
+        description: '当前客户端LowHealthThreshold=0.3；保存30%阈值，准确伤害前置事件未配。',
+        sourcePointers: ['Items/3053/mDataValues[LowHealthThreshold]', 'entries/item_3053_tooltip:@LowHealthThreshold*100@%']
+      },
+      {
+        parameterKey: 'lifeline_shield_duration_ms',
+        name: '救主灵刃护盾持续时间',
+        valueType: 'INTEGER', fixedValue: 4500, unit: '毫秒', sortOrder: 30,
+        description: '当前客户端ShieldDuration=4.5秒，规范化为4500毫秒；护盾衰减曲线和取值时点未配。',
+        sourcePointers: ['Items/3053/mDataValues[ShieldDuration]', 'entries/item_3053_tooltip:@ShieldDuration@秒']
+      },
+      {
+        parameterKey: 'lifeline_shield_bonus_health_ratio',
+        name: '救主灵刃额外生命值护盾比例',
+        valueType: 'DECIMAL', fixedValue: 0.6, unit: '小数比例', sortOrder: 40,
+        description: '当前客户端BaseShieldRatio=0.6；护盾基数候选为来源持有者额外生命值，快照与动态读取未配。',
+        sourcePointers: ['Items/3053/mDataValues[BaseShieldRatio]', 'Items/3053/mItemCalculations/ShieldSize/mFormulaParts/0', '属性映射补证.json:/evidence[mStat=12,mStatFormula=2]']
+      },
+      {
+        parameterKey: 'lifeline_cooldown_ms',
+        name: '救主灵刃冷却时间',
+        valueType: 'INTEGER', fixedValue: 90000, unit: '毫秒', sortOrder: 50,
+        description: '当前客户端Cooldown=90秒，规范化为90000毫秒；冷却启动和重复授盾行为未配。',
+        sourcePointers: ['Items/3053/mDataValues[Cooldown]', 'entries/item_3053_tooltip:{{ Item_Cooldown }}']
+      }
+    ],
+    sourceRefs: [
+      { file: '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz', pointer: 'Items/3053/mDataValues、mItemCalculations、mItemDataClient/mTooltipData/mLocKeys', evidence: '当前根给出ADtoAD=0.5、LowHealthThreshold=0.3、ShieldDuration=4.5、BaseShieldRatio=0.6、Cooldown=90。' },
+      { file: '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz', pointer: 'entries/item_3053_tooltip、entries/item_3053_tooltipextended', evidence: '当前绑定说明确认30%阈值、4.5秒护盾和冷却占位；“不断衰减”仍不展开曲线。' },
+      { file: '数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json', pointer: '/data/3053', evidence: '官方16.17.1资料确认400生命值、20%韧性、抓人双爪和救主灵刃说明。' },
+      { file: '数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json', pointer: '/items/23', evidence: '普通地图装备处置与既有装备键核对。' },
+      { file: '数据参考/全量录入-2026-09/API实录/装备/summary.json', pointer: '/results[equipmentKey=item_3053]', evidence: '历史API记录仅用于保护现有装备元数据、完整直接属性和代表图。' },
+      { file: '数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json', pointer: '/objects[requestedEquipmentKey=item_3053]', evidence: '当前真实键item_3053，装备/属性/图片GET为200，关系为空，技能探针为404。' },
+      { file: '数据参考/全量录入-2026-09/装备技能实录/Luna第九批/属性映射补证.json', pointer: '/evidence、/appliedTo', evidence: '只辅助确认mStat=12、mStatFormula=2对应SOURCE hp BONUS，不证明护盾生命周期。' }
+    ],
+    pending: [
+      '抓人双爪的基础攻击力读取时点和动态更新未配。',
+      '救主灵刃必须使用“受到将使生命值跌到30%以下的伤害”前置事件；不以通用受伤事件代替。',
+      '护盾施加时的额外生命值快照或动态读取、不断衰减曲线、首段等待和结束边界待核。',
+      '90秒冷却的初始可用、触发后启动、重复授盾和冷却期间行为待核。'
+    ],
+    excluded: [
+      { key: 'TimeBeforeDecay', value: 0.75, unit: null, status: '待核', reason: '当前根原始值；未绑定单位与衰减首段行为，不称为秒、不转周期。' },
+      { key: 'HealDuration', value: 5, unit: null, status: '待核', reason: '当前根原始值；未见当前根绑定的治疗效果，不称为秒、不扩治疗。' },
+      { key: 'TenacityDuration', value: 8, unit: null, status: '待核', reason: '当前根原始值；未见当前根绑定的临时韧性效果，不称为秒。' },
+      { key: 'HealthPercent', value: 0.1, unit: '小数比例', reason: '当前计算树附带值，未绑定救主灵刃当前说明，不替代BaseShieldRatio。' },
+      { key: 'HealPercent', value: 0.02, unit: '小数比例', reason: '当前根附带治疗计算，当前绑定说明无治疗效果，不生成治疗组成。' },
+      { key: 'RangedEffectiveness', value: 0.6, unit: '小数比例', reason: '远程分支来源值，本普通地图候选不展开。' },
+      { key: 'ReductionAmount', value: 0.5, unit: '小数比例', reason: '当前根原始值，当前绑定说明未给出减伤效果。' },
+      { key: 'SizeIncrease', value: 0.1, unit: '小数比例', reason: '当前根原始值，当前绑定说明未给出体型效果。' },
+      { key: 'TenacityAmount', value: null, unit: null, reason: '当前根没有mValue，不补数值。' },
+      { key: 'boundSpellObjects', value: 3, unit: '对象数', reason: '未见3053当前根引用，不扩展治疗、体型或临时韧性。' },
+      { key: 'DataValuesModeOverride', value: '存在', unit: null, reason: 'ARAM和哈希模式覆盖值不混入普通地图候选。' },
+      { key: 'mEffectByLevelAmount', value: '存在', unit: null, reason: '没有当前绑定等级占位，不展开等级插值。' }
+    ],
+    arithmetic: [
+      { sample: '基础攻击力100的抓人双爪候选贡献', calculation: '100 × 0.5', expected: 50, unit: '额外攻击力；仅参数算例' },
+      { sample: '救主灵刃阈值换算', calculation: '30 ÷ 100', expected: 0.3, unit: '小数比例' },
+      { sample: '额外生命值1000的护盾基数候选', calculation: '1000 × 0.6', expected: 600, unit: '护盾值；快照/动态取值待核' },
+      { sample: '护盾时长换算', calculation: '4.5 × 1000', expected: 4500, unit: '毫秒' },
+      { sample: '冷却换算', calculation: '90 × 1000', expected: 90000, unit: '毫秒' }
+    ],
+    omittedComponents: ['公式', '效果', '触发规则', '周期状态', '护盾衰减曲线', '救主灵刃准确伤害事件']
+  },
+  '3068': {
+    itemId: '3068',
+    equipmentKey: 'item_3068',
+    equipmentName: '日炎圣盾',
+    skillKey: 'item_3068_passive',
+    skillName: '日炎圣盾·献祭',
+    directAttributes: { hp: 350, armor: 50, ability_haste: 10 },
+    parameters: [
+      {
+        parameterKey: 'immolate_duration_ms',
+        name: '献祭持续时间',
+        valueType: 'INTEGER', fixedValue: 3000, unit: '毫秒', sortOrder: 10,
+        description: '当前客户端AuraDuration=3秒，规范化为3000毫秒；刷新、重叠和结束边界未配。',
+        sourcePointers: ['Items/3068/mDataValues[AuraDuration]', 'entries/item_3068_tooltip:@AuraDuration@秒']
+      },
+      {
+        parameterKey: 'immolate_ticks_per_second',
+        name: '献祭每秒伤害次数速率',
+        valueType: 'INTEGER', fixedValue: 1, unit: '次/秒速率', sortOrder: 20,
+        description: '当前客户端TicksPerSecond=1，仅保存DPS显示换算速率；不转换为1000毫秒周期，不代表首跳时点。',
+        sourcePointers: ['Items/3068/mDataValues[TicksPerSecond]', 'Items/3068/mItemCalculations/DPS/mMultiplier']
+      },
+      {
+        parameterKey: 'immolate_base_damage_per_tick',
+        name: '献祭每次基础魔法伤害',
+        valueType: 'INTEGER', fixedValue: 20, unit: '伤害/次', sortOrder: 30,
+        description: '当前客户端DamagePerTick根节点固定20；只保存每次基础伤害，不生成周期伤害效果。',
+        sourcePointers: ['Items/3068/mDataValues[BaseDamagePerTickTOOLTIPONLY]', 'Items/3068/mItemCalculations/DamagePerTick/mFormulaParts[0]']
+      },
+      {
+        parameterKey: 'immolate_bonus_health_ratio_per_tick',
+        name: '献祭额外生命值每次伤害比例',
+        valueType: 'DECIMAL', fixedValue: 0.015, unit: '小数比例/次', sortOrder: 40,
+        description: '当前客户端系数约0.015，说明为1.5%；按小数比例保存，基数候选为SOURCE额外生命值，取值时点未配。',
+        sourcePointers: ['Items/3068/mDataValues[HPRatioPerTickTOOLTIPONLY]', 'Items/3068/mItemCalculations/DamagePerTick/mFormulaParts[1]', '属性映射补证.json:/evidence[mStat=12,mStatFormula=2]']
+      }
+    ],
+    sourceRefs: [
+      { file: '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz', pointer: 'Items/3068/mDataValues、mItemCalculations、mItemDataClient/mTooltipData/mLocKeys', evidence: '当前根给出AuraDuration=3、TicksPerSecond=1、DamagePerTick=20、额外生命值系数约0.015、Range=325。Range仅作空间来源。' },
+      { file: '数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz', pointer: 'entries/item_3068_tooltip、entries/item_3068_tooltipextendedrules', evidence: '当前绑定说明确认承受或造成伤害后、每秒显示、持续3秒和小兵/野怪规则；非当前绑定的item_3068_tooltipextended仅旁证。' },
+      { file: '数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json', pointer: '/data/3068', evidence: '官方16.17.1资料确认350生命值、50护甲、10技能急速和献祭说明。' },
+      { file: '数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json', pointer: '/items/171', evidence: '普通地图装备处置与既有装备键核对。' },
+      { file: '数据参考/全量录入-2026-09/API实录/装备/summary.json', pointer: '/results[equipmentKey=item_3068]', evidence: '历史API记录仅用于保护现有装备元数据、完整直接属性和代表图。' },
+      { file: '数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json', pointer: '/objects[requestedEquipmentKey=item_3068]', evidence: '当前真实键item_3068，装备/属性/图片GET为200，关系为空，技能探针为404。' },
+      { file: '数据参考/全量录入-2026-09/装备技能实录/Luna第九批/属性映射补证.json', pointer: '/evidence、/appliedTo', evidence: '只辅助确认mStat=12、mStatFormula=2对应SOURCE hp BONUS，不证明周期、触发或首跳。' }
+    ],
+    pending: [
+      '承受或造成伤害后的准确触发事件、来源与目标未核；不以通用受伤或造成伤害事件冒充完整接线。',
+      '1次/秒只是DPS显示速率；真实周期间隔、首次跳伤时点、持续3秒内次数和结束边界未核。',
+      '附近目标筛选、325边界和重复命中规则未核；Range不生成参数或事件。',
+      '持续时间刷新、重叠和唯一献祭状态行为未核。',
+      'DamageAmpPerStack、StackDuration没有mValue；非当前绑定扩展文本的旧叠层只能旁证。',
+      '额外生命值基数候选和伤害取值时点未由运行证据确认。'
+    ],
+    excluded: [
+      { key: 'Range', value: 325, unit: '距离单位', reason: '纯空间来源；不生成immolate_range参数。' },
+      { key: 'MinionMod', value: 0.5, unit: '小数比例', reason: '小兵目标修正只作来源保留，不展开目标效果。' },
+      { key: 'MonsterMod', value: 0.8, unit: '小数比例', reason: '野怪目标修正只作来源保留，不展开目标效果。' },
+      { key: 'MaxStacks', value: 1, unit: '层数', reason: '旧扩展叠层缺少增幅和持续时间，不生成状态效果。' },
+      { key: 'DamageAmpPerStack', value: null, unit: null, reason: '当前根没有mValue，不补数值。' },
+      { key: 'StackDuration', value: null, unit: null, reason: '当前根没有mValue，不补持续时间。' },
+      { key: 'item_3068_tooltipextended', value: '存在', unit: null, reason: '非当前根绑定字符串，仅旁证，不作为当前必配。' }
+    ],
+    arithmetic: [
+      { sample: '额外生命值1000时每次献祭候选伤害', calculation: '20 + 1000 × 0.015', expected: 35, unit: '魔法伤害/次；仅参数算例' },
+      { sample: '同一输入下DPS显示速率', calculation: '35 × 1', expected: 35, unit: '魔法伤害/秒速率；不等于1000毫秒首跳安排' },
+      { sample: '献祭持续时间换算', calculation: '3 × 1000', expected: 3000, unit: '毫秒；刷新和结束时点待核' },
+      { sample: '百分比归一化', calculation: '1.5 ÷ 100', expected: 0.015, unit: '小数比例；不是1.5个百分点' }
+    ],
+    omittedComponents: ['公式', '效果', '触发规则', '周期状态', '承受或造成伤害事件', '旧叠层机制', '小兵/野怪目标修正']
+  }
+};
+
+const objects = [];
+const sourceFiles = {};
+for (const id of ['3053','3068']) {
+  const def = definitions[id];
+  const dir = path.join(base, id);
+  const sourceName = '来源摘录-最终冻结.json';
+  const sourceFile = path.join(dir, sourceName);
+  const excerpt = readJson(sourceFile);
+  const sourceSha = sha(sourceFile);
+  for (const [file, info] of Object.entries(sourceFilesFrom(excerpt))) sourceFiles[file] = info;
+  const apiParameters = def.parameters.map(({unit, sourcePointers, ...parameter}) => ({
+    ...parameter,
+    valueMode: 'FIXED',
+    levelValues: null
+  }));
+  const apiPayload = {
+    skill: {
+      skillKey: def.skillKey,
+      name: def.skillName,
+      description: id === '3053'
+        ? '按冻结16.17客户端和16.17.1官方资料保存抓人双爪、救主灵刃的确定数值参数；伤害事件、护盾衰减、快照与冷却行为列为待核。'
+        : '按冻结16.17客户端和16.17.1官方资料保存献祭的确定数值参数；触发事件、周期、首跳、目标筛选和旧叠层列为待核。',
+      maxLevel: 1,
+      status: 'ENABLED',
+      sortOrder: 0,
+      skillCategoryKeys: ['passive']
+    },
+    parameters: apiParameters,
+    formulas: [],
+    effects: [],
+    triggerRules: []
+  };
+  objects.push({
+    itemId: def.itemId,
+    equipmentKey: def.equipmentKey,
+    equipmentName: def.equipmentName,
+    skillKey: def.skillKey,
+    sourceExcerpt: { file: `${id}/来源摘录-最终冻结.json`, sha256: sourceSha },
+    sourceRefs: def.sourceRefs,
+    sourceFiles: sourceFilesFrom(excerpt),
+    apiPayload,
+    directAttributes: def.directAttributes,
+    historicalExistingAttributes: def.directAttributes,
+    pendingComponents: def.pending,
+    omittedComponents: def.omittedComponents,
+    fullEquipmentComplete: true,
+    determinedParameters: def.parameters,
+    arithmeticChecks: def.arithmetic,
+    sourceOnlyOrExcluded: def.excluded,
+    relation: { equipmentKey: def.equipmentKey, skillKey: def.skillKey, sortOrder: 10 },
+    representativeImage: {
+      equipmentKey: def.equipmentKey,
+      skillKey: def.skillKey,
+      imageKey: def.equipmentKey,
+      writePath: `/skills/${def.skillKey}/representative-image`,
+      status: '候选；写入时仅缺项PUT，已有同值复用'
+    }
+  });
+}
+
+const relations = objects.map(o => o.relation);
+const representativeImages = objects.map(o => o.representativeImage);
+const apiCandidate = {
+  batch: 'Luna第十批/第三组',
+  generatedAt: now,
+  status: '最终候选；已按修订冻结来源收敛；仅--apply安全入口可补缺；不提交装备元数据或直接属性。',
+  contract: {
+    versionBoundary: { client: '16.17', official: '16.17.1', locale: 'zh_CN', map: '普通地图' },
+    skillStatus: 'ENABLED',
+    parameterValueMode: 'FIXED',
+    parameterFields: '仅API字段；不送unit、status、sourcePointers',
+    apiWrite: '默认只读；显式--apply后逐项GET，缺项才POST/PUT，异值停止当前对象',
+    equipmentGuard: '装备元数据、完整直接属性、同键及别名、代表图仅GET保护；保留现有全部属性',
+    mechanismBoundary: '0公式、0效果、0触发规则、0周期状态；未知事件和时点待核'
+  },
+  sourceFiles,
+  objects,
+  relations,
+  representativeImages,
+  counts: {
+    objects: 2,
+    skills: 2,
+    parameters: 9,
+    formulas: 0,
+    effects: 0,
+    triggerRules: 0,
+    relations: 2,
+    representativeImages: 2,
+    totalComponents: 15,
+    omittedMechanismKinds: ['公式', '效果', '触发规则', '周期状态']
+  }
+};
+writeJson(path.join(base, '第三组接口候选.json'), apiCandidate);
+
+const sourceCandidate = {
+  batch: 'Luna第十批/第三组',
+  generatedAt: now,
+  status: '最终录入候选；来源/单位/边界说明与API候选分离；未提交API。',
+  writeBoundary: {
+    apiWrite: '仅第三组最终安全入口显式--apply可执行',
+    directAttributes: '只读保护装备现有元数据和完整属性，不重复写入',
+    objects: ['item_3053', 'item_3068'],
+    excluded: ['第二组', '共享文件', '其他批次', '符文']
+  },
+  versionBoundary: { client: '16.17', official: '16.17.1', locale: 'zh_CN', map: '普通地图候选；不采用模式覆盖值' },
+  objects: objects.map(o => {
+    const def = definitions[o.itemId];
+    return {
+      itemId: o.itemId,
+      equipmentKey: o.equipmentKey,
+      equipmentName: o.equipmentName,
+      skill: o.apiPayload.skill,
+      directAttributes: o.directAttributes,
+      historicalExistingAttributes: o.historicalExistingAttributes,
+      sourceExcerpt: o.sourceExcerpt,
+      sourceRefs: o.sourceRefs,
+      candidate: {
+        parameters: def.parameters,
+        formulas: [],
+        effects: [],
+        triggerRules: [],
+        pending: def.pending,
+        sourceOnly: def.excluded,
+        arithmetic: def.arithmetic
+      },
+      relation: o.relation,
+      representativeImage: o.representativeImage,
+      counts: {
+        parameters: def.parameters.length,
+        formulas: 0,
+        effects: 0,
+        triggerRules: 0,
+        relations: 1,
+        representativeImages: 1,
+        totalComponents: def.parameters.length + 3
+      },
+      fullEquipmentComplete: true
+    };
+  }),
+  counts: { objects: 2, parameters: 9, formulas: 0, effects: 0, triggerRules: 0, relations: 2, representativeImages: 2, totalComponents: 15 }
+};
+writeJson(path.join(base, '第三组录入候选.json'), sourceCandidate);
+
+const arithmetic = {
+  batch: 'Luna第十批/第三组',
+  generatedAt: now,
+  status: '独立参数算例；无API公式组成；不代表运行时触发或首跳。',
+  objects: objects.map(o => ({
+    equipmentKey: o.equipmentKey,
+    sourceCandidateSha256: sha(path.join(base, '第三组录入候选.json')),
+    checks: definitions[o.itemId].arithmetic,
+    apiFormulaCount: o.apiPayload.formulas.length,
+    apiEffectCount: o.apiPayload.effects.length,
+    apiTriggerRuleCount: o.apiPayload.triggerRules.length
+  })),
+  totalChecks: objects.reduce((n, o) => n + definitions[o.itemId].arithmetic.length, 0)
+};
+writeJson(path.join(base, '第三组独立算例.json'), arithmetic);
+
+console.log(JSON.stringify({
+  apiCandidate: { file: '第三组接口候选.json', sha256: sha(path.join(base, '第三组接口候选.json')), components: apiCandidate.counts },
+  sourceCandidate: { file: '第三组录入候选.json', sha256: sha(path.join(base, '第三组录入候选.json')), components: sourceCandidate.counts },
+  arithmetic: { file: '第三组独立算例.json', sha256: sha(path.join(base, '第三组独立算例.json')), checks: arithmetic.totalChecks },
+  sourceExcerpt: objects.map(o => o.sourceExcerpt)
+}, null, 2));
