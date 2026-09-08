@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-09-08T01:00:45.522Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "hashes": [
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "evidence": [
+    {
+      "sourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "pointer": "Items/3084/mItemCalculations/DamageCalc/mFormulaParts/0",
+      "rawCalculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "MaxHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "currentBoundStringKeys": {
+        "keyName": "Item_3084_Name",
+        "keyBrief": "Item_3084_Brief",
+        "keyTooltip": "Item_3084_Tooltip",
+        "keyColloquialism": "Item_3084_Colloquialism",
+        "keyTooltipExtended": "Item_3084_TooltipExtended",
+        "keyTooltipInventory": "Item_3084_TooltipInventory",
+        "keyTooltipExternal": "Item_3084_TooltipExternal"
+      },
+      "stringSourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "stringPointer": "entries/item_3084_tooltip",
+      "rawText": "<passive>庞然吞食</passive> 每个目标{{ Item_Cooldown }}<br>如果一个敌方英雄在附近度过了@TotalDemolishTime@秒，那么你的下一次对其打出的攻击会造成<physicalDamage>@BaseDamage@外加@MaxHPRatio*100@%</physicalDamage>你的最大生命值的<physicalDamage>额外物理伤害</physicalDamage>，并提供相当于<scaleHealth>@DamageToMaxHealthRatio*100@%该伤害值</scaleHealth>的<scaleHealth>最大生命值</scaleHealth>。<br><br><passive>歌利亚巨人</passive><br>每有<scaleHealth>@HealthSizeThreshold@最大生命值</scaleHealth>，获得@SizeAmount*100@%体型提升，至多至@SizeCap*100@%。 ",
+      "mapping": {
+        "attributeOwner": "SOURCE",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      },
+      "note": "当前绑定说明明确使用最大生命值，计算节点mStat=12且省略mStatFormula。"
+    },
+    {
+      "sourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "pointer": "Items/4633/mItemCalculations/{1247259a}/mFormulaParts/0",
+      "rawCalculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mDataValue": "HealthToAPConversionPercent",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "currentBoundStringKeys": {
+        "keyName": "Item_4633_Name",
+        "keyBrief": "Item_4633_Brief",
+        "keyTooltip": "Item_4633_Tooltip",
+        "keyColloquialism": "Item_4633_Colloquialism",
+        "keyTooltipInventory": "Item_4633_TooltipInventory",
+        "keyTooltipInventoryExtended": "Item_4633_ActiveInventoryExtended",
+        "keyTooltipExternal": "Item_4633_TooltipExternal"
+      },
+      "stringSourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "stringPointer": "entries/item_4633_tooltip",
+      "rawText": "<passive>虚空腐蚀</passive><br>在与敌方英雄作战时，每过1秒，就会造成@EternityDamageIncreasePerSecond*100@%额外伤害，至多至@EternityDamageIncreaseMax*100@%。在最大强度时，获得<omnivamp>{{ Item_Melee_Ranged_Split_Dynamic }}全能吸血</omnivamp>。<br><br><passive>虚空灌注</passive><br>获得相当于你@HealthToAPConversionPercent*100@%<scaleHealth>额外生命值</scaleHealth>的<scaleAP>法术强度</scaleAP>。",
+      "mapping": {
+        "attributeOwner": "SOURCE",
+        "attributeKey": "hp",
+        "attributeValueKind": "BONUS"
+      },
+      "note": "当前绑定说明明确使用额外生命值转法术强度，计算节点mStat=12、mStatFormula=2。"
+    }
+  ],
+  "appliedTo": [
+    {
+      "equipmentKey": "item_2502",
+      "raw": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mDataValue": "BonusHealthDrainPercentage",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "system": "SOURCE hp BONUS × 0.03"
+    },
+    {
+      "equipmentKey": "item_2504",
+      "raw": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "ShieldAmount",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "system": "SOURCE hp TOTAL × 0.15"
+    },
+    {
+      "equipmentKey": "item_3026",
+      "raw": [
+        0.5,
+        4,
+        300,
+        1,
+        0
+      ],
+      "rawText": "<passive>重生</passive> {{ Item_Cooldown }}<br>你的英雄在受到致命伤害时，会在<keyword>凝滞</keyword>@Effect2Amount@秒后原地复活，恢复<healing>@Effect1Amount*100@%基础生命值</healing>和<scaleMana>@Effect4Amount*100@%最大法力值</scaleMana>。",
+      "system": [
+        "SOURCE hp BASE × 0.5",
+        "SOURCE mana TOTAL × 1"
+      ]
+    }
+  ],
+  "note": "仅重读既有冻结文件，没有重新采集来源；属性映射不证明复活、周期或战斗时序已接通。"
+}

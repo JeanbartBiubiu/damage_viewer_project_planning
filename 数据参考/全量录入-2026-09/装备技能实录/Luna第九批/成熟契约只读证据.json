@@ -1,0 +1,302 @@
+{
+  "generatedAt": "2026-09-08T00:55:25.117Z",
+  "records": [
+    {
+      "path": "/skills/item_3102_passive/effects/spell_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:09:19.719545Z",
+        "description": "保存格挡下一个敌方技能的法术护盾结果；护盾初始化、消费和冷却重置规则待运行时接线。",
+        "effectKey": "spell_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "法术护盾",
+        "results": [
+          {
+            "description": "格挡下一个敌方技能。",
+            "detail": {},
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "格挡下一个敌方技能",
+            "resultKey": "spell_shield",
+            "resultType": "SPELL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_3102_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:09:19.719545Z"
+      }
+    },
+    {
+      "path": "/skills/item_3102_passive/effects/consume_spell_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:54:03.350755Z",
+        "description": "仅接收本技能法术护盾成功阻挡事件，显式移除持有者自身护盾；初始化和恢复另行配置。",
+        "effectKey": "consume_spell_shield",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "成功格挡后消费法术护盾",
+        "results": [
+          {
+            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+            "detail": {
+              "operation": "REMOVE",
+              "targetEffectKey": "spell_shield"
+            },
+            "lifecycleBehavior": null,
+            "name": "移除已成功格挡的法术护盾",
+            "resultKey": "remove_spell_shield",
+            "resultType": "LIFECYCLE_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_3102_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:03.350755Z"
+      }
+    },
+    {
+      "path": "/skills/item_3102_passive/trigger-rules/consume_on_spell_block",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "consume_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "consume_spell_shield"
+            },
+            "name": "消费自身法术护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "格挡成功后移除本技能自身护盾；不把自然结束或任意伤害当作成功格挡。",
+        "eventSource": {
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          },
+          "eventType": "SPELL_SHIELD_BLOCKED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "法术护盾成功格挡后消费",
+        "perTargetCooldown": null,
+        "ruleKey": "consume_on_spell_block",
+        "sortOrder": 10
+      }
+    },
+    {
+      "path": "/skills/item_3814_passive/trigger-rules/initialize_spell_shield",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_spell_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spell_shield"
+            },
+            "name": "执行法术护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备生效时建立一层法术护盾；成功格挡后的消费和40秒重获规则待补。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化废除法术护盾",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_spell_shield",
+        "sortOrder": 10
+      }
+    },
+    {
+      "path": "/skills/sivir_e/effects/block_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:57:33.98195Z",
+        "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+        "effectKey": "block_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "成功格挡治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "回复生命",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "block_heal",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          {
+            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+            "detail": {
+              "operation": "REMOVE",
+              "targetEffectKey": "spell_shield"
+            },
+            "lifecycleBehavior": null,
+            "name": "移除已成功格挡的法术护盾",
+            "resultKey": "remove_spell_shield",
+            "resultType": "LIFECYCLE_OPERATION",
+            "sortOrder": 20,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:01.718629Z"
+      }
+    },
+    {
+      "path": "/skills/sivir_e/trigger-rules/successful_spell_block",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "block_heal"
+            },
+            "name": "执行block_heal",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          },
+          "eventType": "SPELL_SHIELD_BLOCKED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "法术护盾成功格挡后治疗",
+        "perTargetCooldown": null,
+        "ruleKey": "successful_spell_block",
+        "sortOrder": 10
+      }
+    },
+    {
+      "path": "/skills/item_3156_passive/effects/shield_melee",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:45:28.189943Z",
+        "description": "近战分支：200加额外攻击力150%的魔法护盾，持续3秒。触发时的来源对象近战/远程攻击类型分支待接。",
+        "effectKey": "shield_melee",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "近战救主魔法护盾",
+        "results": [
+          {
+            "description": "200加额外攻击力150%。",
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "近战魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield_melee",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3156_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:17:21.534344Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1290 @@
+{
+  "batch": "Luna第九批",
+  "generatedAt": "2026-09-08T01:00:45.135Z",
+  "status": "接口候选；未写业务API",
+  "contract": {
+    "skill": "POST /skills：使用apiPayload.skill",
+    "parameters": "POST /skills/{skillKey}/parameters：使用apiPayload.parameters[]",
+    "formulas": "POST /skills/{skillKey}/formulas：使用apiPayload.formulas[]",
+    "effects": "POST /skills/{skillKey}/effects：使用apiPayload.effects[]",
+    "triggerRules": "POST /skills/{skillKey}/trigger-rules：使用apiPayload.triggerRules[]",
+    "relation": "POST /equipment-skill-relations：使用relations[]",
+    "representativeImage": "PUT /skills/{skillKey}/representative-image：图片关系单列，不保存图片内容"
+  },
+  "sourceFiles": {
+    "client": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+    "stringTable": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+    "official": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+    "historicalCandidate": "装备技能实录/Luna第九批/录入候选.json",
+    "frozenSource": "装备技能实录/Luna第九批/冻结来源.json"
+  },
+  "historicalCandidatePreserved": true,
+  "mappingReview": {
+    "status": "同一冻结客户端当前绑定计算树与中文说明交叉确认",
+    "fields": [
+      "mStat=12",
+      "mStatFormula=2"
+    ],
+    "evidence": [
+      {
+        "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/属性映射补证.json",
+        "pointer": "/evidence",
+        "note": "3084当前绑定说明最大生命值对应mStat=12且省略mStatFormula；4633当前绑定说明额外生命值对应mStat=12、mStatFormula=2。补证保存原文、原始树和源文件哈希。"
+      }
+    ],
+    "affectedEquipmentKeys": [
+      "item_2502",
+      "item_2504"
+    ]
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_2502",
+      "equipmentName": "无终恨意",
+      "skillKey": "item_2502_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/2502"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/2502/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/2502"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/0/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/0"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2502_passive",
+          "name": "无终恨意·苦楚",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "drain_range",
+            "name": "苦楚作用半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 650,
+            "levelValues": null,
+            "description": "当前绑定树DrainRange=650；附近目标判定范围。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "proc_interval_ms",
+            "name": "苦楚周期",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定树Cooldown=4秒，换算为4000毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_health_damage_ratio",
+            "name": "苦楚额外生命值伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.03,
+            "levelValues": null,
+            "description": "当前绑定树BonusHealthDrainPercentage=0.03；同源旁证确认持有者额外生命值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "heal_multiplier",
+            "name": "苦楚伤害治疗倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 2.5,
+            "levelValues": null,
+            "description": "当前绑定树HealMultiplier=2.5；治疗基数为本次实际造成伤害。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "drain_damage",
+            "name": "苦楚魔法伤害",
+            "description": "持有者额外生命值的3%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_damage_ratio"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "drain_damage",
+            "name": "苦楚单次魔法伤害",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "description": "保存持有者额外生命值3%的单次魔法伤害；英雄战斗状态、4秒周期、650范围筛选和按实际伤害治疗另列待配。",
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "苦楚魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "持有者额外生命值3%的独立伤害结果。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "drain_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "formula",
+          "key": "self_heal_from_drain_damage",
+          "reason": "客户端同次结果引用不能直接作为当前基础公式节点。"
+        },
+        {
+          "kind": "trigger-rule",
+          "key": "drain_damage_and_heal",
+          "reason": "英雄战斗状态开始/结束、4秒周期、650范围目标筛选及实际伤害治疗联动尚待配。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "mStat=12与额外生命值属性键的接口映射",
+        "战斗状态开始/结束事件、范围目标筛选及重置时点"
+      ]
+    },
+    {
+      "equipmentKey": "item_2504",
+      "equipmentName": "败魔",
+      "skillKey": "item_2504_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/2504"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/2504/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/2504"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/1/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/1"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2504_passive",
+          "name": "败魔·法师之祸",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "shield_ratio",
+            "name": "法师之祸魔法护盾比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "当前绑定树ShieldAmount=0.15；同源旁证确认持有者最大生命值。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "no_magic_damage_duration_ms",
+            "name": "未受魔法伤害等待时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15000,
+            "levelValues": null,
+            "description": "当前绑定树OutOfCombatDuration=15秒，换算为15000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_shield_amount",
+            "name": "法师之祸魔法护盾量",
+            "description": "持有者最大生命值的15%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ratio"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "magic_shield",
+            "name": "法师之祸魔法护盾",
+            "sortOrder": 10,
+            "description": "保存持有者最大生命值15%的普通魔法护盾；连续15秒未受魔法伤害的授盾和再获取时序另列待配。",
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "magic_shield",
+                "name": "只吸收魔法伤害的普通护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": "普通魔法护盾按数值吸收魔法伤害，不是格挡技能的法术护盾。",
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "magic_shield_amount"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "grant_and_regrant_magic_shield",
+          "reason": "连续15秒未受魔法伤害的计时、重置与授盾时序待配。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "mStat=12基数映射",
+        "DAMAGE_TAKEN魔法类型筛选、计时初始化、护盾被吸收后的再次获取"
+      ]
+    },
+    {
+      "equipmentKey": "item_3026",
+      "equipmentName": "守护天使",
+      "skillKey": "item_3026_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3026"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/3026/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3026"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/2/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/2"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3026_passive",
+          "name": "守护天使·重生",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "stasis_duration_ms",
+            "name": "重生凝滞时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[1]=4秒，换算为4000毫秒。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "revive_base_hp_ratio",
+            "name": "重生基础生命值比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[0]=0.5；基数是基础生命值。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "revive_max_mana_ratio",
+            "name": "重生最大法力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[3]=1；基数是最大法力值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "revive_cooldown_ms",
+            "name": "重生冷却时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 300000,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[2]=300秒，换算为300000毫秒。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "revive_base_health",
+            "name": "重生基础生命恢复量",
+            "description": "持有者基础生命值的50%；只保存恢复量公式，复活时序待配。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BASE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "revive_base_hp_ratio"
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "revive_max_mana",
+            "name": "重生最大法力恢复量",
+            "description": "持有者最大法力值的100%；只保存恢复量公式，复活时序待配。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "mana",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "revive_max_mana_ratio"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "effect",
+          "key": "lethal_stasis",
+          "reason": "候选STASIS不是当前接口结果类型；不能改写成普通免疫。"
+        },
+        {
+          "kind": "effect",
+          "key": "revive_restore",
+          "reason": "致命伤害前置、凝滞结束一次性恢复和资源结果类型尚未完整核对。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "致命伤害前置事件与不可选取/凝滞结果类型",
+        "300秒持有者冷却门控与复活后再次触发",
+        "基础生命/最大法力属性键由接口契约核对"
+      ]
+    },
+    {
+      "equipmentKey": "item_3084",
+      "equipmentName": "心之钢",
+      "skillKey": "item_3084_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3084"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/3084/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3084"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/3/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/3"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3084_passive",
+          "name": "心之钢·庞然吞食",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "per_target_cooldown_ms",
+            "name": "庞然吞食每目标冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30000,
+            "levelValues": null,
+            "description": "当前绑定树PerTargetCooldown=30秒，按目标分别计时。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "庞然吞食基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 70,
+            "levelValues": null,
+            "description": "当前绑定树BaseDamage=70。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "max_health_damage_ratio",
+            "name": "庞然吞食最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.06,
+            "levelValues": null,
+            "description": "当前绑定树HPRatio=0.06，基数为持有者最大生命值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "damage_to_max_health_ratio",
+            "name": "伤害转最大生命值比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "当前绑定树DamageToMaxHealthRatio=0.10，基数为本次额外伤害。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "tracking_distance",
+            "name": "庞然吞食跟踪距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 700,
+            "levelValues": null,
+            "description": "当前绑定树DistanceToChampion=700。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "tracking_tick_count",
+            "name": "庞然吞食跟踪次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6,
+            "levelValues": null,
+            "description": "当前绑定树NumTicksToTrigger=6。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "tracking_tick_interval_ms",
+            "name": "庞然吞食跟踪间隔",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "当前绑定树TrackerTickRate=0.5秒，换算为500毫秒。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "tracking_buff_duration_ms",
+            "name": "庞然吞食跟踪状态持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "当前绑定树RangeTrackingBuffDuration=5秒，换算为5000毫秒。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "health_size_threshold",
+            "name": "体型提升生命值门槛",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前绑定树HealthSizeThreshold=1000。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "size_ratio_per_threshold",
+            "name": "体型提升比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.03,
+            "levelValues": null,
+            "description": "当前绑定树SizeAmount=0.03。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "size_ratio_cap",
+            "name": "体型提升上限",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "当前绑定树SizeCap=0.30。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "empowered_attack_damage",
+            "name": "庞然吞食额外物理伤害",
+            "description": "70加持有者最大生命值6%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_health_damage_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "tracking_duration_ms",
+            "name": "六次跟踪总时间",
+            "description": "六次跟踪，每次间隔500毫秒，合计3000毫秒。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tracking_tick_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tracking_tick_interval_ms"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "empowered_attack",
+            "name": "充能攻击额外物理伤害",
+            "description": "保存70加持有者最大生命值6%的额外物理伤害；距离跟踪、攻击消费、每目标冷却和永久生命转化另列待核。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "physical_damage",
+                "name": "充能攻击额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "当前绑定树已确证的70加持有者最大生命值6%；持有者攻击命中消费时点尚未配置。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "empowered_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "formula",
+          "key": "max_health_gain",
+          "reason": "客户端同次DamageProcCalc引用需内联，但永久生命增长时点和实际/折前伤害基数未核。"
+        },
+        {
+          "kind": "effect",
+          "key": "size_increase",
+          "reason": "体型属性结果键未由现有契约确认。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "距离跟踪事件、5000毫秒跟踪状态与六次周期的开始/重置关系",
+        "每目标充能消费和30秒冷却结构",
+        "体型属性结果键"
+      ]
+    },
+    {
+      "equipmentKey": "item_4632",
+      "equipmentName": "翠绿屏障",
+      "skillKey": "item_4632_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/4632"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/4632/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/4632"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/4/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/4"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_4632_passive",
+          "name": "翠绿屏障·废除",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "spell_shield_cooldown_ms",
+            "name": "法术护盾冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 60000,
+            "levelValues": null,
+            "description": "当前绑定树SpellShieldCooldown=60秒，换算为60000毫秒。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "spell_shield",
+            "name": "废除法术护盾",
+            "description": "保存一层法术护盾；初始化授盾和成功格挡消费已配，60秒恢复与受伤重置待配。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "REPLACE",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "spell_shield_block",
+                "name": "格挡下一个敌方技能",
+                "resultType": "SPELL_SHIELD",
+                "target": "SOURCE",
+                "description": "法术护盾结果本身不带数值；具体成功格挡范围由法术护盾事件语义决定。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": null,
+                  "stackValueMode": null,
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {}
+              }
+            ]
+          },
+          {
+            "effectKey": "consume_spell_shield",
+            "name": "成功格挡后消费法术护盾",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "description": "只由本技能法术护盾成功格挡事件执行，显式移除持有者自身护盾；60秒恢复与受伤重置待配。",
+            "results": [
+              {
+                "resultKey": "remove_spell_shield",
+                "name": "移除已成功格挡的法术护盾",
+                "resultType": "LIFECYCLE_OPERATION",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": "成功格挡后移除来源自身的本技能护盾。",
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {
+                  "operation": "REMOVE",
+                  "targetEffectKey": "spell_shield"
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initialize_spell_shield",
+            "name": "初始化废除法术护盾",
+            "sortOrder": 10,
+            "description": "装备持有者初始化时建立自身一层法术护盾；成功格挡后的60秒恢复和受伤重置待配。",
+            "eventSource": {
+              "eventType": "SOURCE_INITIALIZED",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "maxTriggersPerProcess": null,
+            "perTargetCooldown": null,
+            "actions": [
+              {
+                "actionKey": "execute_spell_shield",
+                "name": "授予自身法术护盾",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "EVENT_SOURCE",
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "detail": {
+                  "effectKey": "spell_shield"
+                }
+              }
+            ]
+          },
+          {
+            "ruleKey": "consume_on_spell_block",
+            "name": "法术护盾成功格挡后消费",
+            "sortOrder": 20,
+            "description": "只接收本技能法术护盾成功格挡事件；普通攻击、自然结束或其他护盾格挡不触发本消费。",
+            "eventSource": {
+              "eventType": "SPELL_SHIELD_BLOCKED",
+              "detail": {
+                "shieldEffectKey": "spell_shield"
+              }
+            },
+            "conditionGroups": [],
+            "maxTriggersPerProcess": null,
+            "perTargetCooldown": null,
+            "actions": [
+              {
+                "actionKey": "consume_shield",
+                "name": "消费自身法术护盾",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "detail": {
+                  "effectKey": "consume_spell_shield"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "regrant_after_cooldown",
+          "reason": "成功格挡后的60000毫秒恢复与受伤重置待配；初始化和成功消费已保存。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "SPELL_SHIELD结果类型及成功格挡回调是否可存",
+        "冷却起点和冷却结束后的重新授予事件",
+        "敌方技能判定不扩展为普通攻击或任意伤害"
+      ]
+    },
+    {
+      "equipmentKey": "item_6672",
+      "equipmentName": "海妖杀手",
+      "skillKey": "item_6672_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/6672"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "Items/6672/mItemDataClient/mTooltipData/mLocKeys"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/6672"
+        },
+        "historicalCandidate": {
+          "file": "装备技能实录/Luna第九批/录入候选.json",
+          "pointer": "/objects/5/candidate"
+        },
+        "frozenSource": {
+          "file": "装备技能实录/Luna第九批/冻结来源.json",
+          "pointer": "/objects/5"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6672_passive",
+          "name": "海妖杀手·放倒它",
+          "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "attack_count",
+            "name": "放倒它攻击次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前绑定树AttackCount=3。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "放倒它计数状态持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定树BuffDuration=4秒，换算为4000毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "maximum_damage_multiplier",
+            "name": "放倒它伤害上限倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": "当前绑定树MaxAmpNumber=1.75。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "ranged_damage_multiplier",
+            "name": "远程伤害倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "当前绑定树RangedDamageMultiplier=0.8；来源攻击类型分支。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "damage_amount_by_character_level",
+            "name": "放倒它按角色等级基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 150,
+              "3": 150,
+              "4": 150,
+              "5": 150,
+              "6": 150,
+              "7": 150,
+              "8": 150,
+              "9": 155,
+              "10": 160,
+              "11": 165,
+              "12": 170,
+              "13": 175,
+              "14": 180,
+              "15": 185,
+              "16": 190,
+              "17": 195,
+              "18": 200
+            },
+            "description": "当前绑定树DamageAmount的角色等级断点已展开为1至18级；不属于技能等级。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "maximum_damage",
+            "name": "放倒它伤害上限",
+            "description": "按当前角色等级基础伤害乘客户端MaxAmpNumber=1.75；目标已损失生命插值仍待核。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_amount_by_character_level"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_damage_multiplier"
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "ranged_damage",
+            "name": "远程放倒它伤害",
+            "description": "按当前角色等级基础伤害乘客户端RangedDamageMultiplier=0.8；来源攻击类型分支。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_amount_by_character_level"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_damage_multiplier"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "third_attack_damage",
+            "name": "第三次攻击额外物理伤害",
+            "description": "保存按角色等级展开的基础额外物理伤害；目标已损失生命提升、第三击计数和攻击特效接线另列待核。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "physical_damage",
+                "name": "基础额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "角色等级1至18的基础值来自当前绑定DamageAmount；已损失生命提升未在本结果中伪造。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "damage_amount_by_character_level"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "third_attack_counter",
+          "reason": "攻击计数状态和第三次攻击消费时点未配置。"
+        },
+        {
+          "kind": "result-detail",
+          "key": "missing_health_amplification",
+          "reason": "目标已损失生命到1.75倍上限的连续插值曲线未由冻结源给出。"
+        },
+        {
+          "kind": "parameter",
+          "key": "base_damage_level_one/damage_breakpoint_level/damage_bonus_per_level",
+          "reason": "已由CHARACTER_LEVEL的1至18级展开参数替代，原始断点仍在历史候选与独立核算证据中保留。"
+        }
+      ],
+      "pendingFromHistoricalCandidate": [
+        "角色等级断点公式转系统参数的方式",
+        "攻击计数状态的持有者/目标范围、4秒刷新和第三次消费",
+        "目标已损失生命到1.75倍上限的插值曲线",
+        "攻击特效链是否由当前普通攻击事件安全承载"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "equipmentKey": "item_2502",
+      "skillKey": "item_2502_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_2504",
+      "skillKey": "item_2504_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_3026",
+      "skillKey": "item_3026_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_3084",
+      "skillKey": "item_3084_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_4632",
+      "skillKey": "item_4632_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_6672",
+      "skillKey": "item_6672_passive",
+      "sortOrder": 10
+    }
+  ],
+  "representativeImages": [
+    {
+      "equipmentKey": "item_2502",
+      "skillKey": "item_2502_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_2502_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    },
+    {
+      "equipmentKey": "item_2504",
+      "skillKey": "item_2504_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_2504_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    },
+    {
+      "equipmentKey": "item_3026",
+      "skillKey": "item_3026_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_3026_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    },
+    {
+      "equipmentKey": "item_3084",
+      "skillKey": "item_3084_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_3084_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    },
+    {
+      "equipmentKey": "item_4632",
+      "skillKey": "item_4632_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_4632_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    },
+    {
+      "equipmentKey": "item_6672",
+      "skillKey": "item_6672_passive",
+      "source": "装备现有代表图",
+      "writePath": "/skills/item_6672_passive/representative-image",
+      "payloadShape": {
+        "imageKey": "由装备代表图GET回读后填入"
+      },
+      "base64Included": false,
+      "status": "待主负责人页面/接口验收"
+    }
+  ],
+  "counts": {
+    "objects": 6,
+    "skills": 6,
+    "parameters": 27,
+    "formulas": 8,
+    "effects": 6,
+    "triggerRules": 2,
+    "relations": 6,
+    "representativeImages": 6,
+    "omittedComponents": 11
+  }
+}
