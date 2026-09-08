@@ -78,6 +78,11 @@ const publicParametersSixth = read(publicParameterSixthEvidence);
 assert.equal(publicParametersSixth.passed, true);
 assert.deepEqual(publicParametersSixth.counts, {verifiedParameters:148, verifiedSkills:89, created:0, missing:0, conflicts:0});
 assert.equal(read('技能公共参数第六批/页面验收.json').passed, true);
+const publicParameterSeventhEvidence = '技能公共参数第七批/独立核对.json';
+const publicParametersSeventh = read(publicParameterSeventhEvidence);
+assert.equal(publicParametersSeventh.passed, true);
+assert.deepEqual(publicParametersSeventh.counts, {verifiedParameters:181, verifiedSkills:106, created:0, missing:0, conflicts:0});
+assert.equal(read('技能公共参数第七批/页面验收.json').passed, true);
 const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
 const nasusMechanism = read(nasusEvidence);
 const nasusInitializationEvidence = '内瑟斯技能实录第一批/初始化回读.json';
@@ -191,7 +196,7 @@ for (const entry of entries) {
   }
 }
 const scopeEvidence = '1V1范围筛选/处置清单.json';
-for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence], [publicParametersThird, publicParameterThirdEvidence], [publicParametersFourth, publicParameterFourthEvidence], [publicParametersFifth, publicParameterFifthEvidence], [publicParametersSixth, publicParameterSixthEvidence]]) {
+for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence], [publicParametersThird, publicParameterThirdEvidence], [publicParametersFourth, publicParameterFourthEvidence], [publicParametersFifth, publicParameterFifthEvidence], [publicParametersSixth, publicParameterSixthEvidence], [publicParametersSeventh, publicParameterSeventhEvidence]]) {
 for (const skillKey of new Set(parameterBatch.records.map(record => record.skillKey))) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -199,10 +204,10 @@ for (const skillKey of new Set(parameterBatch.records.map(record => record.skill
   assert.ok(records.every(record => record.matches === true));
   entry.publicParameters = { keys: records.map(record => record.expected.parameterKey),
     checkedAt: records.at(-1).checkedAt, evidence: parameterEvidence };
-  entry.note += ` 已补录并回读 ${records.length} 项基础冷却或法力参数；不计为完整技能。`;
+  entry.note += ` 已补录并回读 ${records.length} 项${records.some(record=>record.expected.parameterKey==='cast_interval_ms')?'施放间隔或法力':'基础冷却或法力'}参数；不计为完整技能。`;
 }
 }
-for (const candidateEvidence of ['技能公共参数实录/公共参数候选.json','技能公共参数第二批/公共参数候选.json','技能公共参数第三批/公共参数候选.json','技能公共参数第四批/公共参数候选.json','技能公共参数第五批/公共参数候选.json','技能公共参数第六批/公共参数候选.json']) {
+for (const candidateEvidence of ['技能公共参数实录/公共参数候选.json','技能公共参数第二批/公共参数候选.json','技能公共参数第三批/公共参数候选.json','技能公共参数第四批/公共参数候选.json','技能公共参数第五批/公共参数候选.json','技能公共参数第六批/公共参数候选.json','技能公共参数第七批/公共参数候选.json']) {
   for (const skipped of read(candidateEvidence).excludedSkillFields.filter(row=>row.status==='范围外跳过'&&!row.field)) {
     const entry=entries.find(row=>row.objectType==='技能'&&row.systemObjectKey===skipped.skillKey);
     assert.ok(entry, skipped.skillKey);
@@ -278,6 +283,12 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  publicParametersSeventhBatch: {
+    heroes:publicParametersSeventh.selectedHeroes, skills:publicParametersSeventh.counts.verifiedSkills,
+    parameters:publicParametersSeventh.counts.verifiedParameters,
+    status:'公共参数已保存并回读；8整槽排除、明确零值、组共享冷却及施放间隔分别记录，完整机制继续',
+    runtimeValidation:'未执行', evidence:publicParameterSeventhEvidence,
+  },
   publicParametersSixthBatch: {
     heroes:publicParametersSixth.selectedHeroes, skills:publicParametersSixth.counts.verifiedSkills,
     parameters:publicParametersSixth.counts.verifiedParameters,

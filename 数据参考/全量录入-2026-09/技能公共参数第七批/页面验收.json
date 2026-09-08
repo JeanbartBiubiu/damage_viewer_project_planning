@@ -1,0 +1,12 @@
+{
+  "observedOn":"2026-09-08",
+  "passed":true,
+  "page":"http://127.0.0.1:5173/#/skills",
+  "observations":[
+    {"skillKey":"ashe_q","imageVisible":true,"cooldownMs":0,"manaCost":30,"method":"查询并打开参数窗口，固定值0正常显示，没有显示为空值"},
+    {"skillKey":"taric_q","imageVisible":true,"castIntervalMs":3000,"manaCost":60,"method":"参数列表按施放间隔单独显示；打开详情，说明明确3秒施放间隔和15秒层数恢复的区别，未编辑或保存"}
+  ],
+  "experience":[{"observation":"查看参数时，按角色等级单选项未在页面辅助树标为禁用，其他取值模式均禁用。","status":"待核实查看态控件行为，不影响本次只读数值验收"}],
+  "independentReadbackEvidence":"独立核对.json",
+  "boundary":"真实页面代表查看及181参数独立GET，不表示完整技能或战斗运行验收"
+}
