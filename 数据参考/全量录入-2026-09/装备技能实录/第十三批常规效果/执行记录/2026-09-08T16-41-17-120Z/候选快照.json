@@ -1,0 +1,2034 @@
+{
+  "generatedAt": "2026-09-08T16:33:32.265Z",
+  "stage": "仅候选，未调用业务写接口",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "objects": [
+    {
+      "equipmentKey": "item_3145",
+      "equipmentName": "海克斯科技发电机",
+      "skillKey": "item_3145_passive",
+      "source": {
+        "path": "Items/3145",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3145_Name",
+            "key": "item_3145_name",
+            "text": "海克斯科技发电机"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3145_Tooltip",
+            "key": "item_3145_tooltip",
+            "text": "<passive>转速加快</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3145_Colloquialism",
+            "key": "item_3145_colloquialism",
+            "text": ";Hextech Alternator;haikesikejifadianji;hkskjfdj;pewpew;biubiu"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3145_TooltipExternal",
+            "key": "item_3145_tooltipexternal",
+            "text": "<passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。"
+          }
+        },
+        "official": {
+          "name": "海克斯科技发电机",
+          "description": "<mainText><stats><attention>45</attention>法术强度</stats><br><br><passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。</mainText>",
+          "colloq": ";haikesikejizuolunqiang;hkskjzlq;Hextech;Alternator",
+          "plaintext": "提升法术强度。普攻会周期性附带额外魔法伤害。",
+          "from": [
+            "1052",
+            "1052"
+          ],
+          "into": [
+            "4645",
+            "4636",
+            "3146",
+            "6655",
+            "3152",
+            "4646"
+          ],
+          "image": {
+            "full": "3145.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 300,
+            "purchasable": true,
+            "total": 1100,
+            "sell": 770
+          },
+          "tags": [
+            "SpellDamage"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 45
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3145_passive",
+          "name": "海克斯科技发电机·转速加快",
+          "description": "对敌方英雄造成伤害后附加65魔法伤害，冷却40秒。候选保留伤害数值及冷却参数；法术护盾资格待核，伤害效果尚未进入保存集合。覆盖合法英雄伤害事件、冷却消费和自身伤害递归排除尚未接线，不缩为仅普攻或仅技能触发。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "proc_damage",
+            "name": "转速加快魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 65,
+            "levelValues": null,
+            "description": "当前 Items/3145 的 DamageAmount 计算式直接给出 NumberCalculationPart=65。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "proc_cooldown_ms",
+            "name": "转速加快冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40000,
+            "levelValues": null,
+            "description": "当前 Cooldown=40秒，当前绑定 Item_Cooldown 读取该值。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3145",
+          "skillKey": "item_3145_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3145"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "特殊伤害资格与法术护盾交互",
+            "reason": "当前主说明没有细列反射、持续、其他装备伤害及法术护盾交互。法术护盾范围 null 明确表示不参与阻挡，不能当作未知占位，原独立伤害草稿已撤出正常候选；待资格确证后再选择实际阻挡语义，不把全部来源无筛选接入。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "完整英雄伤害事件门槛",
+            "reason": "现有成熟装备批次已确认 DAMAGE_DEALT 伤害事件不能同时完成英雄类别筛选；也不能用仅普通攻击或仅某个技能命中替代当前广义伤害条件。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "40秒冷却与一次附伤消费",
+            "reason": "尚未建立冷却就绪、合法伤害发生时消费冷却及触发一次的完整规则，不建立只有冷却的空过程。伤害效果待护盾资格确定后补录。"
+          },
+          {
+            "component": "触发产生的装备伤害递归门禁",
+            "reason": "装备自身产生的65伤害不能无限触发自身；合法来源和冷却消费先后必须在规则接线时明确。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13145/mItemCalculations/DamageAmount",
+          "accepted": 65,
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mNumber": 65,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "pointer": "/Items~13145/mDataValues + /entries/item_3145_tooltip",
+          "accepted": {
+            "cooldownMs": 40000,
+            "trigger": "对敌方英雄造成伤害"
+          },
+          "raw": [
+            [
+              {
+                "mName": "Cooldown",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            {
+              "sourceKey": "Item_3145_Tooltip",
+              "key": "item_3145_tooltip",
+              "text": "<passive>转速加快</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:56.04777Z",
+          "description": "来源：官方16.17.1装备3145。 原始说明：45法术强度\n\n转速加快\n对一名敌方英雄造成伤害时会造成额外魔法伤害。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3145",
+          "gameId": "lol",
+          "name": "海克斯科技发电机",
+          "updatedAt": "2026-09-06T18:10:56.04777Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "ability_power": 45
+          },
+          "equipmentKey": "item_3145"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3145",
+            "name": "item_3145"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      },
+      "withdrawnDrafts": [
+        {
+          "component": "revved_damage",
+          "previousSnapshot": "原前两件候选-4a0e5c3d.json",
+          "reason": "法术护盾交互来源待核；原草稿 null 会明确不参与阻挡，不能作为未知占位。当前没有替换为其他阻挡范围，正常候选无伤害效果。"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3146",
+      "equipmentName": "海克斯科技枪刃",
+      "skillKey": "item_3146_active",
+      "source": {
+        "path": "Items/3146",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3146_Name",
+            "key": "item_3146_name",
+            "text": "海克斯科技枪刃"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3146_Active",
+            "key": "item_3146_active",
+            "text": "{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>闪电弹</active><br>震击目标敌方英雄，造成@ActiveDamage@魔法伤害和持续@SlowDuration@秒的@SlowAmount*100@%减速。"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3146_Brief",
+            "key": "item_3146_brief",
+            "text": "混伤爆发"
+          }
+        },
+        "official": {
+          "name": "海克斯科技枪刃",
+          "description": "<mainText><stats><attention>80</attention>法术强度<br><attention>40</attention>攻击力<br><attention>10%</attention>全能吸血</stats><br><br><br><br><active>主动</active> (0秒)<br><active>闪电弹</active><br>震击目标敌方英雄，造成0魔法伤害和持续1.5秒的25%减速。</mainText>",
+          "colloq": ";haikesikejiqiangren;hkskjqr;Hextech;Gunblade",
+          "plaintext": "提升攻击力和法术强度，主动施放来减速目标",
+          "from": [
+            "1053",
+            "3145",
+            "1052"
+          ],
+          "image": {
+            "full": "3146.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 48,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 600,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Damage",
+            "LifeSteal",
+            "SpellDamage",
+            "Active",
+            "SpellVamp"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 80,
+            "FlatPhysicalDamageMod": 40
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3146_active",
+          "name": "海克斯科技枪刃·闪电弹",
+          "description": "震击目标敌方英雄，造成魔法伤害和25%减速，减速持续1.5秒，冷却60秒。候选保留当前伤害插值两个值端点与0.3未定属性系数，以及减速和冷却参数；插值等级端点及省略属性枚举的默认解码待核，未生成猜测伤害公式或伤害效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "damage_interpolation_start",
+            "name": "伤害插值起始数值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 175,
+            "levelValues": null,
+            "description": "当前计算节点 mStartValue=175；仅为数值端点，没有证明对应角色1级。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "damage_interpolation_end",
+            "name": "伤害插值结束数值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 253,
+            "levelValues": null,
+            "description": "当前计算节点 mEndValue=253；仅为数值端点，没有证明对应角色18级。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "damage_stat_coefficient",
+            "name": "伤害未定属性系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "当前 StatByCoefficientCalculationPart 显示系数0.3，但 mStat、mStatFormula 均省略。未解码前不能命名为法强或总量系数。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "闪电弹减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "当前 SlowAmount=0.25，当前绑定主动显示25%。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "闪电弹减速持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "当前 SlowDuration=1.5秒，换算1500毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "闪电弹主动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 60000,
+            "levelValues": null,
+            "description": "当前 Cooldown=60秒。官方文本显示0秒与0伤害为模板未展开，不采用为数值。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3146",
+          "skillKey": "item_3146_active",
+          "sortOrder": 20
+        },
+        "representativeImage": {
+          "imageKey": "item_3146"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "已有攻击力、法强与10%全能吸血直接属性",
+            "reason": "原装备直接属性保持，不为普通属性再创建被动效果。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "伤害插值等级域和系数属性默认值",
+            "reason": "当前节点只写175、253与0.3，未显式给出起止等级、属性编号及基础/额外/总量类型；需要同版本可靠解码默认依据，不能猜1至18线性或0.3法强。"
+          },
+          {
+            "component": "目标技能伤害与减速的法术护盾粒度",
+            "reason": "主动针对敌方英雄；伤害与减速应按确证资格处理护盾，当前没有把 null 当未知占位，也没有生成来源不足伤害效果。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "减速的合法结果与组合",
+            "reason": "当前状态目录只有眩晕；普通减少移动速度比例属性不等于游戏减速。慢速、抗性与跨来源组合需要合法表达，不能套用眩晕或借普通属性加算区。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "主动施放与实际目标命中",
+            "reason": "冷却参数已候选，合法目标、主动消费、伤害和减速组合未接线；不创建仅有60秒冷却的空过程或虚构命中。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13146/mItemCalculations/ActiveDamage/mFormulaParts",
+          "accepted": {
+            "valueEndpoints": [
+              175,
+              253
+            ],
+            "unresolvedStatCoefficient": 0.3,
+            "levelEndpoints": "未显式提供",
+            "stat": "未显式提供",
+            "statFormula": "未显式提供"
+          },
+          "raw": [
+            {
+              "mStartValue": 175,
+              "mEndValue": 253,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mCoefficient": 0.30000001192092896,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13146/mDataValues + /entries/item_3146_active",
+          "accepted": {
+            "slowRatio": 0.25,
+            "slowDurationMs": 1500,
+            "cooldownMs": 60000
+          },
+          "raw": [
+            [
+              {
+                "mName": "SlowAmount",
+                "mValue": 0.25,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "SlowDuration",
+                "mValue": 1.5,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 60,
+                "__type": "ItemDataValue"
+              }
+            ],
+            {
+              "sourceKey": "Item_3146_Active",
+              "key": "item_3146_active",
+              "text": "{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>闪电弹</active><br>震击目标敌方英雄，造成@ActiveDamage@魔法伤害和持续@SlowDuration@秒的@SlowAmount*100@%减速。"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13146/mItemDataClient/mTooltipData/mLocKeys",
+          "accepted": "升级配方含3145不代表继承转速加快；当前绑定只有闪电弹",
+          "raw": {
+            "keyName": {
+              "sourceKey": "Item_3146_Name",
+              "key": "item_3146_name",
+              "text": "海克斯科技枪刃"
+            },
+            "keyActive": {
+              "sourceKey": "Item_3146_Active",
+              "key": "item_3146_active",
+              "text": "{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>闪电弹</active><br>震击目标敌方英雄，造成@ActiveDamage@魔法伤害和持续@SlowDuration@秒的@SlowAmount*100@%减速。"
+            },
+            "keyBrief": {
+              "sourceKey": "Item_3146_Brief",
+              "key": "item_3146_brief",
+              "text": "混伤爆发"
+            }
+          }
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:56.830504Z",
+          "description": "来源：官方16.17.1装备3146。 原始说明：80法术强度\n40攻击力\n10%全能吸血\n\n\n\n主动 (0秒)\n闪电弹\n震击目标敌方英雄，造成0魔法伤害和持续1.5秒的25%减速。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3146",
+          "gameId": "lol",
+          "name": "海克斯科技枪刃",
+          "updatedAt": "2026-09-06T18:10:56.830504Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "attack_damage": 40,
+            "ability_power": 80,
+            "omnivamp_percent": 0.1
+          },
+          "equipmentKey": "item_3146"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3146",
+            "name": "item_3146"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_4629",
+      "equipmentName": "星界驱驰",
+      "skillKey": "item_4629_passive",
+      "source": {
+        "path": "Items/4629",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_4629_Name",
+            "key": "item_4629_name",
+            "text": "星界驱驰"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_4629_Brief",
+            "key": "item_4629_brief",
+            "text": "战斗机动力"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_4629_Tooltip",
+            "key": "item_4629_tooltip",
+            "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>@MovespeedAmount@移动速度</speed>，持续@StackDuration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_4629_Colloquialism",
+            "key": "item_4629_colloquialism",
+            "text": ";Cosmic Drive;xingjiequchi;xjqc"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_4629_TooltipExternal",
+            "key": "item_4629_tooltipexternal",
+            "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>移动速度</speed>，持续@StackDuration@秒。 "
+          }
+        },
+        "official": {
+          "name": "星界驱驰",
+          "description": "<mainText><stats><attention>70</attention>法术强度<br><attention>350</attention>生命值<br><attention>25</attention>技能急速<br><attention>4%</attention>移动速度</stats><br><br><passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>移动速度</speed>，持续4秒。 </mainText>",
+          "colloq": "",
+          "plaintext": "巨幅冷却缩减",
+          "from": [
+            "3067",
+            "3113",
+            "3108"
+          ],
+          "image": {
+            "full": "4629.png",
+            "sprite": "item5.png",
+            "group": "item",
+            "x": 144,
+            "y": 288,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 450,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Health",
+            "SpellDamage",
+            "NonbootsMovement",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatMagicDamageMod": 70,
+            "PercentMovementSpeedMod": 0.04
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_4629_passive",
+          "name": "星界驱驰·咒舞",
+          "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。候选保留单层独立移速效果；伤害类型与英雄类别门槛尚未接线，不重复现有4%直接移速，不采用未绑定旧叠层字段。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "move_speed_bonus",
+            "name": "咒舞固定移动速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "当前绑定 MovespeedAmount 对应同根 MoveSpeedAmount 计算式，常量20；大小写按客户端变量名称匹配。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "咒舞移动速度持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定 StackDuration=4秒，换算4000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+            "effectKey": "spelldance_move_speed",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "咒舞自身移动速度",
+            "results": [
+              {
+                "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "咒舞自身移动速度",
+                "resultKey": "move_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "move_speed_bonus"
+                  }
+                }
+              }
+            ],
+            "sortOrder": 10
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_4629",
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_4629"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "装备已有4%直接移动速度",
+            "reason": "无条件直接属性已由装备提供，不新增相同属性效果，原值保持。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "魔法或真实伤害并限定英雄",
+            "reason": "需要合并魔法与真实伤害两个合法入口并限定英雄类别，不能只用普通技能命中，也不能让物理伤害或对非英雄伤害触发。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "持续刷新与合法触发",
+            "reason": "独立效果按成熟单实例20点移速结构配置；重新施加刷新4秒、不叠加多份。尚无自动规则触发它，不创建假3层或10秒冷却。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~14629/mItemCalculations/MoveSpeedAmount + /entries/item_4629_tooltip",
+          "accepted": {
+            "amount": 20,
+            "durationMs": 4000
+          },
+          "raw": [
+            {
+              "mFormulaParts": [
+                {
+                  "mNumber": 20,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            {
+              "sourceKey": "Item_4629_Tooltip",
+              "key": "item_4629_tooltip",
+              "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>@MovespeedAmount@移动速度</speed>，持续@StackDuration@秒。"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~14629/mDataValues",
+          "accepted": "未绑定旧字段只保留原文：不建立3层、40移速、15%或10秒冷却",
+          "raw": [
+            {
+              "mName": "MaxStacks",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MovespeedToGrant",
+              "mValue": 40,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxMovespeedTooltip",
+              "mValue": 0.15000000596046448,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ItemCooldown",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:11:12.963849Z",
+          "description": "来源：官方16.17.1装备4629。 原始说明：70法术强度\n350生命值\n25技能急速\n4%移动速度\n\n咒舞\n对英雄造成魔法伤害或真实伤害时会提供移动速度，持续4秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_4629",
+          "gameId": "lol",
+          "name": "星界驱驰",
+          "updatedAt": "2026-09-06T18:11:12.963849Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "move_speed_percent": 0.04,
+            "hp": 350,
+            "ability_power": 70,
+            "ability_haste": 25
+          },
+          "equipmentKey": "item_4629"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_4629",
+            "name": "item_4629"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3082",
+      "equipmentName": "守望者铠甲",
+      "skillKey": "item_3082_passive",
+      "source": {
+        "path": "Items/3082",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3082_Name",
+            "key": "item_3082_name",
+            "text": "守望者铠甲"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3082_Tooltip",
+            "key": "item_3082_tooltip",
+            "text": "<passive>坚如磐石</passive><br>使所受的来自英雄攻击的伤害降低@BlockBase@。"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Item_3082_TooltipExtended",
+            "key": "item_3082_tooltipextended",
+            "text": "{{Item_3082_Tooltip}}<br><br><rules>对单次攻击的格挡数额不会超过该次攻击的@WardenDamageMax*100@%伤害。</rules>"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3082_TooltipExternal",
+            "key": "item_3082_tooltipexternal",
+            "text": "<passive>坚如磐石</passive><br>使所受的来自攻击的伤害降低。"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_3082_InventoryOnlyText",
+            "key": "item_3082_inventoryonlytext",
+            "text": "已格挡的英雄伤害：<attention>@f1@</attention>"
+          }
+        },
+        "official": {
+          "name": "守望者铠甲",
+          "description": "<mainText><stats><attention>40</attention>护甲</stats><br><br><passive>坚如磐石</passive><br>使所受的来自攻击的伤害降低。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "1029",
+            "1029"
+          ],
+          "into": [
+            "323110",
+            "3110",
+            "3143"
+          ],
+          "image": {
+            "full": "3082.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 0,
+            "y": 288,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 400,
+            "purchasable": true,
+            "total": 1000,
+            "sell": 700
+          },
+          "tags": [
+            "Armor"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatArmorMod": 40
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3082_passive",
+          "name": "守望者铠甲·坚如磐石",
+          "description": "降低来自英雄单次攻击的伤害15点，单次格挡上限为该攻击伤害20%。候选保存两项确定参数及以待绑定伤害输入计算的独立上限公式；伤害取值阶段、整次攻击伤害包范围及减伤结果尚待配，不伪造护甲、治疗或每包15点格挡。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "flat_block",
+            "name": "英雄攻击固定格挡量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "当前绑定主说明引用 BlockBase=15。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "block_cap_ratio",
+            "name": "单次攻击格挡占伤害上限",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "当前扩展绑定明确单次格挡不超过该次攻击伤害20%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "attack_damage_for_block_cap",
+            "name": "本次攻击格挡上限伤害输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "DECIMAL 非负输入：来源必须是同一次英雄攻击用于20%上限的完整伤害基数；具体伤害取值阶段和伤害包集合待核，当前没有运行时绑定，不能传入任意单包或未知默认0。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "block_amount",
+            "name": "本次攻击格挡量上限公式",
+            "description": "仅表达 MIN(15, 0.2 × 本次攻击上限伤害输入)。输入阶段未定、没有减伤效果或触发规则，不能将独立算例视为真实伤害管线结算。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_block"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "block_cap_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_damage_for_block_cap"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3082",
+          "skillKey": "item_3082_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3082"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "格挡伤害基数与执行阶段",
+            "reason": "当前文字未证明护甲前/后、其他减伤前/后及混合伤害包如何构成该次攻击。独立公式输入留待绑定，不把任何未经证明的阶段写成已确定。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "英雄攻击过滤及单次平减与上限",
+            "reason": "当前目录无伤害计算区；不能以属性区、护甲增加、伤后治疗或每伤害包固定减15近似。需同时表达只限英雄攻击与同次攻击总上限。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "伤害输入生产与实际格挡",
+            "reason": "保留小数输入和独立公式便于之后对接；没有事件绑定、伤害修正效果或初始化规则，不声称已减少实际伤害。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13082/mDataValues + /entries/item_3082_tooltipextended",
+          "accepted": {
+            "flatBlock": 15,
+            "capRatio": 0.2,
+            "formula": "min(15, .2 * D)",
+            "unresolved": "D的伤害取值阶段与整次攻击包集合"
+          },
+          "raw": [
+            [
+              {
+                "mName": "MaxHPRatio",
+                "mValue": 0.004999999888241291,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "WardenDamageMax",
+                "mValue": 0.20000000298023224,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BlockBase",
+                "mValue": 15,
+                "__type": "ItemDataValue"
+              }
+            ],
+            {
+              "sourceKey": "Item_3082_Tooltip",
+              "key": "item_3082_tooltip",
+              "text": "<passive>坚如磐石</passive><br>使所受的来自英雄攻击的伤害降低@BlockBase@。"
+            },
+            {
+              "sourceKey": "Item_3082_TooltipExtended",
+              "key": "item_3082_tooltipextended",
+              "text": "{{Item_3082_Tooltip}}<br><br><rules>对单次攻击的格挡数额不会超过该次攻击的@WardenDamageMax*100@%伤害。</rules>"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13082/mDataValues/0",
+          "accepted": "MaxHPRatio=.005 未由当前绑定引用，不新增最大生命缩放",
+          "raw": {
+            "mName": "MaxHPRatio",
+            "mValue": 0.004999999888241291,
+            "__type": "ItemDataValue"
+          }
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T17:32:55.66099Z",
+          "description": "来源：官方16.17.1装备3082。 原始说明：40护甲 坚如磐石使所受攻击伤害降低。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3082",
+          "gameId": "lol",
+          "name": "守望者铠甲",
+          "updatedAt": "2026-09-06T17:32:55.66099Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "armor": 40
+          },
+          "equipmentKey": "item_3082"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3082",
+            "name": "item_3082"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3110",
+      "equipmentName": "冰霜之心",
+      "skillKey": "item_3110_passive",
+      "source": {
+        "path": "Items/3110",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3110_Name",
+            "key": "item_3110_name",
+            "text": "冰霜之心"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3110_Brief",
+            "key": "item_3110_brief",
+            "text": "普攻型英雄的克星"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3110_Tooltip",
+            "key": "item_3110_tooltip",
+            "text": "<passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>@ASPDSlow*-100@%</attackSpeed>。"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3110_TooltipExternal",
+            "key": "item_3110_tooltipexternal",
+            "text": "<passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>@ASPDSlow*-100@%</attackSpeed>。"
+          }
+        },
+        "official": {
+          "name": "冰霜之心",
+          "description": "<mainText><stats><attention>75</attention>护甲<br><attention>400</attention>法力<br><attention>20</attention>技能急速</stats><br><br><passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>20%</attackSpeed>。</mainText>",
+          "colloq": ";冰心;应对攻击;克制攻击;减攻速;Frozen Heart;bingshuangzhixin;bszx;bingxin",
+          "plaintext": "巨幅提升护甲并减慢敌人的普攻",
+          "from": [
+            "3082",
+            "3024"
+          ],
+          "image": {
+            "full": "3110.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 288,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 600,
+            "purchasable": true,
+            "total": 2500,
+            "sell": 1750
+          },
+          "tags": [
+            "Armor",
+            "Mana",
+            "Aura",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 400,
+            "FlatArmorMod": 75
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3110_passive",
+          "name": "冰霜之心·凛冬之抚",
+          "description": "降低附近敌方英雄20%攻击速度。本轮保留对单个对手的攻速削减比例；正确攻速计算区与同类削减叠加规则待核，不改成减少20个百分点额外攻速，不自动继承守望者格挡。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "attack_speed_reduction_ratio",
+            "name": "凛冬之抚攻击速度削减比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "当前 ASPDSlow=-0.2；绑定乘以-100显示攻击速度降低20%，保存为正削减比例0.2，不是额外攻速减少20个百分点。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3110",
+          "skillKey": "item_3110_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3110"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "空间半径与多目标光环遍历",
+            "reason": "700光环字段和750客户端显示半径分别保留来源，不混用；本轮排除距离检测及多目标分发，不为范围建立可执行参数。对单个对手的攻速削减仍保留。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "攻速削减读取阶段与同类叠加",
+            "reason": "当前文字确证降低攻击速度20%，没有给出与其他攻速削减、攻速上限、最低值和特殊免疫的运算顺序。不能把来源待核部分固定为额外攻速减0.2或猜测独立乘区。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "正确攻速削减计算区",
+            "reason": "现有普通额外攻速比例属性及4个属性计算区不能独立证明攻速慢速的正确语义；没有以借用区、固定20点或初始化修改额外攻速冒充。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "对手生效与退出移除",
+            "reason": "对单个合法敌方英雄授予、移除与来源实例组合尚未接线，没有无限持续属性效果。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13110/mDataValues/0 + /entries/item_3110_tooltip",
+          "accepted": {
+            "attackSpeedReductionRatio": 0.2
+          },
+          "raw": [
+            {
+              "mName": "ASPDSlow",
+              "mValue": -0.20000000298023224,
+              "__type": "ItemDataValue"
+            },
+            {
+              "sourceKey": "Item_3110_Tooltip",
+              "key": "item_3110_tooltip",
+              "text": "<passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>@ASPDSlow*-100@%</attackSpeed>。"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13110/mDataValues/1 + /Items~13110/mItemDataClient/effectRadius",
+          "accepted": {
+            "auraRadius": 700,
+            "clientDisplayRadius": 750
+          },
+          "raw": [
+            {
+              "mName": "AuraRadius",
+              "mValue": 700,
+              "__type": "ItemDataValue"
+            },
+            750
+          ]
+        },
+        {
+          "pointer": "/Items~13110/mItemDataClient/mTooltipData/mLocKeys",
+          "accepted": "升级配方含3082不代表继承坚如磐石；当前绑定只有凛冬之抚",
+          "raw": {
+            "keyName": {
+              "sourceKey": "Item_3110_Name",
+              "key": "item_3110_name",
+              "text": "冰霜之心"
+            },
+            "keyBrief": {
+              "sourceKey": "Item_3110_Brief",
+              "key": "item_3110_brief",
+              "text": "普攻型英雄的克星"
+            },
+            "keyTooltip": {
+              "sourceKey": "Item_3110_Tooltip",
+              "key": "item_3110_tooltip",
+              "text": "<passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>@ASPDSlow*-100@%</attackSpeed>。"
+            },
+            "keyTooltipExternal": {
+              "sourceKey": "Item_3110_TooltipExternal",
+              "key": "item_3110_tooltipexternal",
+              "text": "<passive>凛冬之抚</passive><br>使附近敌方英雄的<attackSpeed>攻击速度</attackSpeed>降低<attackSpeed>@ASPDSlow*-100@%</attackSpeed>。"
+            }
+          }
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:47.547527Z",
+          "description": "来源：官方16.17.1装备3110。 原始说明：75护甲\n400法力\n20技能急速\n\n凛冬之抚\n使附近敌方英雄的攻击速度降低20%。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3110",
+          "gameId": "lol",
+          "name": "冰霜之心",
+          "updatedAt": "2026-09-06T18:10:47.547527Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "mana": 400,
+            "armor": 75,
+            "ability_haste": 20
+          },
+          "equipmentKey": "item_3110"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3110",
+            "name": "item_3110"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3143",
+      "equipmentName": "兰顿之兆",
+      "skillKey": "item_3143_passive",
+      "source": {
+        "path": "Items/3143",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3143_Name",
+            "key": "item_3143_name",
+            "text": "兰顿之兆"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3143_Brief",
+            "key": "item_3143_brief",
+            "text": "暴击克星"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3143_Tooltip",
+            "key": "item_3143_tooltip",
+            "text": "<passive>复原力</passive><br>所受的来自暴击的伤害降低@PercentCritDamageReduction*100@%。<br>"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3143_Active",
+            "key": "item_3143_active",
+            "text": "%i:activeEffect% <active>谦卑</active> {{ Item_Cooldown }}<br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_3143_InventoryOnlyText",
+            "key": "item_3143_inventoryonlytext",
+            "text": "已格挡的暴击伤害：<attention>@f2@</attention><br>"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3143_ActiveExternal",
+            "key": "item_3143_activeexternal",
+            "text": "%i:activeEffect% <active>谦卑</active><br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+          }
+        },
+        "official": {
+          "name": "兰顿之兆",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>75</attention>护甲</stats><br><br><passive>复原力</passive><br>所受的来自暴击的伤害降低30%。<br><active>谦卑</active><br>对附近敌人造成持续2秒的70%<keyword>减速</keyword>。</mainText>",
+          "colloq": ";减速;致残;应对攻击;克制攻击;Randuin's Omen;landunzhizhao;ldzz",
+          "plaintext": "显著提升防御属性，主动施放来减速身边的敌人",
+          "from": [
+            "3082",
+            "1011"
+          ],
+          "image": {
+            "full": "3143.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 384,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 800,
+            "purchasable": true,
+            "total": 2700,
+            "sell": 1890
+          },
+          "tags": [
+            "Health",
+            "Armor",
+            "Active",
+            "Slow"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatArmorMod": 75
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3143_passive",
+          "name": "兰顿之兆·复原力",
+          "description": "所受的来自暴击的伤害降低30%。本被动候选仅保留确定削减比例；暴击过滤、减伤计算区和作用阶段未接线，不能减少对手暴击率或借属性区代替。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "critical_damage_reduction_ratio",
+            "name": "受到暴击伤害削减比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "当前 PercentCritDamageReduction=0.3，绑定复原力与官方说明一致。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3143",
+          "skillKey": "item_3143_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3143"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "暴击判定范围和伤害包阶段",
+            "reason": "当前文字没有细列特殊可暴击技能、附带伤害包、真伤及多种减伤顺序。保留30%确定值，不生成未经核实的包级或攻击级过滤。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "受到暴击伤害的合法修正区",
+            "reason": "当前目录没有伤害计算区，不借属性区或降低对手额外暴击伤害属性表达。减伤应在持有者受到方向且限定合法暴击伤害。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "被动初始化和受到伤害过滤",
+            "reason": "只有比例参数，未构造初始化规则、无限效果或所有伤害30%减免。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13143/mDataValues/0 + /entries/item_3143_tooltip",
+          "accepted": {
+            "criticalDamageReductionRatio": 0.3
+          },
+          "raw": [
+            {
+              "mName": "PercentCritDamageReduction",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "sourceKey": "Item_3143_Tooltip",
+              "key": "item_3143_tooltip",
+              "text": "<passive>复原力</passive><br>所受的来自暴击的伤害降低@PercentCritDamageReduction*100@%。<br>"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13143/mItemDataClient/mTooltipData/mLocKeys",
+          "accepted": "升级配方含3082不代表继承坚如磐石；当前被动绑定只有复原力",
+          "raw": {
+            "keyName": {
+              "sourceKey": "Item_3143_Name",
+              "key": "item_3143_name",
+              "text": "兰顿之兆"
+            },
+            "keyBrief": {
+              "sourceKey": "Item_3143_Brief",
+              "key": "item_3143_brief",
+              "text": "暴击克星"
+            },
+            "keyTooltip": {
+              "sourceKey": "Item_3143_Tooltip",
+              "key": "item_3143_tooltip",
+              "text": "<passive>复原力</passive><br>所受的来自暴击的伤害降低@PercentCritDamageReduction*100@%。<br>"
+            },
+            "keyActive": {
+              "sourceKey": "Item_3143_Active",
+              "key": "item_3143_active",
+              "text": "%i:activeEffect% <active>谦卑</active> {{ Item_Cooldown }}<br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+            },
+            "keyInventoryOnlyText": {
+              "sourceKey": "Item_3143_InventoryOnlyText",
+              "key": "item_3143_inventoryonlytext",
+              "text": "已格挡的暴击伤害：<attention>@f2@</attention><br>"
+            },
+            "keyActiveExternal": {
+              "sourceKey": "Item_3143_ActiveExternal",
+              "key": "item_3143_activeexternal",
+              "text": "%i:activeEffect% <active>谦卑</active><br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+            }
+          }
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:54.827987Z",
+          "description": "来源：官方16.17.1装备3143。 原始说明：350生命值\n75护甲\n\n复原力\n所受的来自暴击的伤害降低30%。\n谦卑\n对附近敌人造成持续2秒的70%减速。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3143",
+          "gameId": "lol",
+          "name": "兰顿之兆",
+          "updatedAt": "2026-09-06T18:10:54.827987Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "hp": 350,
+            "armor": 75
+          },
+          "equipmentKey": "item_3143"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3143",
+            "name": "item_3143"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3143",
+      "equipmentName": "兰顿之兆",
+      "skillKey": "item_3143_active",
+      "source": {
+        "path": "Items/3143",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3143_Name",
+            "key": "item_3143_name",
+            "text": "兰顿之兆"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3143_Brief",
+            "key": "item_3143_brief",
+            "text": "暴击克星"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3143_Tooltip",
+            "key": "item_3143_tooltip",
+            "text": "<passive>复原力</passive><br>所受的来自暴击的伤害降低@PercentCritDamageReduction*100@%。<br>"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3143_Active",
+            "key": "item_3143_active",
+            "text": "%i:activeEffect% <active>谦卑</active> {{ Item_Cooldown }}<br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_3143_InventoryOnlyText",
+            "key": "item_3143_inventoryonlytext",
+            "text": "已格挡的暴击伤害：<attention>@f2@</attention><br>"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3143_ActiveExternal",
+            "key": "item_3143_activeexternal",
+            "text": "%i:activeEffect% <active>谦卑</active><br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+          }
+        },
+        "official": {
+          "name": "兰顿之兆",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>75</attention>护甲</stats><br><br><passive>复原力</passive><br>所受的来自暴击的伤害降低30%。<br><active>谦卑</active><br>对附近敌人造成持续2秒的70%<keyword>减速</keyword>。</mainText>",
+          "colloq": ";减速;致残;应对攻击;克制攻击;Randuin's Omen;landunzhizhao;ldzz",
+          "plaintext": "显著提升防御属性，主动施放来减速身边的敌人",
+          "from": [
+            "3082",
+            "1011"
+          ],
+          "image": {
+            "full": "3143.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 384,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 800,
+            "purchasable": true,
+            "total": 2700,
+            "sell": 1890
+          },
+          "tags": [
+            "Health",
+            "Armor",
+            "Active",
+            "Slow"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatArmorMod": 75
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3143_active",
+          "name": "兰顿之兆·谦卑",
+          "description": "主动使附近敌人减速70%，持续2秒，冷却90秒。本轮保留对单个对手的减速与冷却参数；合法减速表达与主动命中未接线，空间及多目标分发后置。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "slow_ratio",
+            "name": "谦卑减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.7,
+            "levelValues": null,
+            "description": "当前 SlowAmount=0.7，绑定谦卑与官方说明一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "谦卑减速持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前 SlowDuration=2秒，换算2000毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "谦卑主动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "当前 Cooldown=90秒，当前主动绑定的 Item_Cooldown 读取该值。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3143",
+          "skillKey": "item_3143_active",
+          "sortOrder": 20
+        },
+        "representativeImage": {
+          "imageKey": "item_3143"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "500半径与多目标施加",
+            "reason": "空间距离检测及对多个敌人的分发本轮后置，原 Radius=500 保留来源；保留对单个对手的减速。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "主动减速与法术护盾粒度",
+            "reason": "当前主动文本没有直接说明法术护盾交互。不得以 null 作为未知或为通过持续目标效果而改变期限语义。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "合法减速与来源组合",
+            "reason": "只有眩晕状态及属性区，不能以减0.7移动速度加成比例或降低70点固定移速代替70%减速。减速抗性及跨来源组合待正确结果表达。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "主动施放冷却及真实命中",
+            "reason": "没有90秒空过程或假施法事件；待合法减速结果与目标命中门槛明确后补主动过程。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13143/mDataValues + /entries/item_3143_active",
+          "accepted": {
+            "slowRatio": 0.7,
+            "durationMs": 2000,
+            "cooldownMs": 90000
+          },
+          "raw": [
+            [
+              {
+                "mName": "PercentCritDamageReduction",
+                "mValue": 0.30000001192092896,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "SlowAmount",
+                "mValue": 0.699999988079071,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "SlowDuration",
+                "mValue": 2,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Radius",
+                "mValue": 500,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 90,
+                "__type": "ItemDataValue"
+              }
+            ],
+            {
+              "sourceKey": "Item_3143_Active",
+              "key": "item_3143_active",
+              "text": "%i:activeEffect% <active>谦卑</active> {{ Item_Cooldown }}<br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:54.827987Z",
+          "description": "来源：官方16.17.1装备3143。 原始说明：350生命值\n75护甲\n\n复原力\n所受的来自暴击的伤害降低30%。\n谦卑\n对附近敌人造成持续2秒的70%减速。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3143",
+          "gameId": "lol",
+          "name": "兰顿之兆",
+          "updatedAt": "2026-09-06T18:10:54.827987Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "hp": 350,
+            "armor": 75
+          },
+          "equipmentKey": "item_3143"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3143",
+            "name": "item_3143"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "equipment": 6,
+    "skills": 7,
+    "parameters": 18,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 7,
+    "representativeImages": 7,
+    "components": 41
+  },
+  "entryBoundary": "只读前检.mjs 仅 GET；生成候选.mjs 只写本目录文件，没有业务写入入口。",
+  "configurationBoundary": "候选的独立效果、参数和公式不表示合法事件、冷却消费、状态或运行时已接线。"
+}

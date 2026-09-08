@@ -1,0 +1,636 @@
+{
+  "generatedAt": "2026-09-08T16:28:46.286Z",
+  "stage": "仅候选，未调用业务写接口",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "objects": [
+    {
+      "equipmentKey": "item_3145",
+      "equipmentName": "海克斯科技发电机",
+      "skillKey": "item_3145_passive",
+      "source": {
+        "path": "Items/3145",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3145_Name",
+            "key": "item_3145_name",
+            "text": "海克斯科技发电机"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3145_Tooltip",
+            "key": "item_3145_tooltip",
+            "text": "<passive>转速加快</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3145_Colloquialism",
+            "key": "item_3145_colloquialism",
+            "text": ";Hextech Alternator;haikesikejifadianji;hkskjfdj;pewpew;biubiu"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3145_TooltipExternal",
+            "key": "item_3145_tooltipexternal",
+            "text": "<passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。"
+          }
+        },
+        "official": {
+          "name": "海克斯科技发电机",
+          "description": "<mainText><stats><attention>45</attention>法术强度</stats><br><br><passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。</mainText>",
+          "colloq": ";haikesikejizuolunqiang;hkskjzlq;Hextech;Alternator",
+          "plaintext": "提升法术强度。普攻会周期性附带额外魔法伤害。",
+          "from": [
+            "1052",
+            "1052"
+          ],
+          "into": [
+            "4645",
+            "4636",
+            "3146",
+            "6655",
+            "3152",
+            "4646"
+          ],
+          "image": {
+            "full": "3145.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 300,
+            "purchasable": true,
+            "total": 1100,
+            "sell": 770
+          },
+          "tags": [
+            "SpellDamage"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 45
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3145_passive",
+          "name": "海克斯科技发电机·转速加快",
+          "description": "对敌方英雄造成伤害后附加65魔法伤害，冷却40秒。候选保留独立伤害及冷却参数；覆盖合法英雄伤害事件、冷却消费和自身伤害递归排除尚未接线，不缩为仅普攻或仅技能触发。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "proc_damage",
+            "name": "转速加快魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 65,
+            "levelValues": null,
+            "description": "当前 Items/3145 的 DamageAmount 计算式直接给出 NumberCalculationPart=65。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "proc_cooldown_ms",
+            "name": "转速加快冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40000,
+            "levelValues": null,
+            "description": "当前 Cooldown=40秒，当前绑定 Item_Cooldown 读取该值。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "description": "65点独立魔法伤害候选，未建立触发与冷却消费；SKILL 表示该装备技能产生的伤害，不限制前置触发必须来自技能。",
+            "effectKey": "revved_damage",
+            "lifecycle": null,
+            "name": "转速加快额外魔法伤害",
+            "results": [
+              {
+                "description": "当前绑定对合法敌方英雄目标产生的65点额外魔法伤害；不继承触发攻击的伤害或暴击。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "转速加快魔法伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "proc_damage"
+                  }
+                }
+              }
+            ],
+            "sortOrder": 10
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3145",
+          "skillKey": "item_3145_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3145"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "特殊伤害资格与法术护盾交互",
+            "reason": "当前主说明没有细列反射、持续、其他装备伤害及法术护盾交互。独立装备附伤暂沿成熟装备伤害结果不参与法术护盾的表达；在自动事件接线前须逐项核实资格与递归排除，不把全部来源无筛选接入。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "完整英雄伤害事件门槛",
+            "reason": "现有成熟装备批次已确认 DAMAGE_DEALT 伤害事件不能同时完成英雄类别筛选；也不能用仅普通攻击或仅某个技能命中替代当前广义伤害条件。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "40秒冷却与一次附伤消费",
+            "reason": "尚未建立冷却就绪、合法伤害发生时消费冷却及触发一次的完整规则，不建立只有冷却的空过程。独立伤害效果不自行执行。"
+          },
+          {
+            "component": "触发产生的装备伤害递归门禁",
+            "reason": "装备自身产生的65伤害不能无限触发自身；合法来源和冷却消费先后必须在规则接线时明确。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13145/mItemCalculations/DamageAmount",
+          "accepted": 65,
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mNumber": 65,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "pointer": "/Items~13145/mDataValues + /entries/item_3145_tooltip",
+          "accepted": {
+            "cooldownMs": 40000,
+            "trigger": "对敌方英雄造成伤害"
+          },
+          "raw": [
+            [
+              {
+                "mName": "Cooldown",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            {
+              "sourceKey": "Item_3145_Tooltip",
+              "key": "item_3145_tooltip",
+              "text": "<passive>转速加快</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:56.04777Z",
+          "description": "来源：官方16.17.1装备3145。 原始说明：45法术强度\n\n转速加快\n对一名敌方英雄造成伤害时会造成额外魔法伤害。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3145",
+          "gameId": "lol",
+          "name": "海克斯科技发电机",
+          "updatedAt": "2026-09-06T18:10:56.04777Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "ability_power": 45
+          },
+          "equipmentKey": "item_3145"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3145",
+            "name": "item_3145"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_4629",
+      "equipmentName": "星界驱驰",
+      "skillKey": "item_4629_passive",
+      "source": {
+        "path": "Items/4629",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_4629_Name",
+            "key": "item_4629_name",
+            "text": "星界驱驰"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_4629_Brief",
+            "key": "item_4629_brief",
+            "text": "战斗机动力"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_4629_Tooltip",
+            "key": "item_4629_tooltip",
+            "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>@MovespeedAmount@移动速度</speed>，持续@StackDuration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_4629_Colloquialism",
+            "key": "item_4629_colloquialism",
+            "text": ";Cosmic Drive;xingjiequchi;xjqc"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_4629_TooltipExternal",
+            "key": "item_4629_tooltipexternal",
+            "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>移动速度</speed>，持续@StackDuration@秒。 "
+          }
+        },
+        "official": {
+          "name": "星界驱驰",
+          "description": "<mainText><stats><attention>70</attention>法术强度<br><attention>350</attention>生命值<br><attention>25</attention>技能急速<br><attention>4%</attention>移动速度</stats><br><br><passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>移动速度</speed>，持续4秒。 </mainText>",
+          "colloq": "",
+          "plaintext": "巨幅冷却缩减",
+          "from": [
+            "3067",
+            "3113",
+            "3108"
+          ],
+          "image": {
+            "full": "4629.png",
+            "sprite": "item5.png",
+            "group": "item",
+            "x": 144,
+            "y": 288,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 450,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Health",
+            "SpellDamage",
+            "NonbootsMovement",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatMagicDamageMod": 70,
+            "PercentMovementSpeedMod": 0.04
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_4629_passive",
+          "name": "星界驱驰·咒舞",
+          "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。候选保留单层独立移速效果；伤害类型与英雄类别门槛尚未接线，不重复现有4%直接移速，不采用未绑定旧叠层字段。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "move_speed_bonus",
+            "name": "咒舞固定移动速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "当前绑定 MovespeedAmount 对应同根 MoveSpeedAmount 计算式，常量20；大小写按客户端变量名称匹配。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "咒舞移动速度持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定 StackDuration=4秒，换算4000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+            "effectKey": "spelldance_move_speed",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "咒舞自身移动速度",
+            "results": [
+              {
+                "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "咒舞自身移动速度",
+                "resultKey": "move_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "move_speed_bonus"
+                  }
+                }
+              }
+            ],
+            "sortOrder": 10
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_4629",
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_4629"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "装备已有4%直接移动速度",
+            "reason": "无条件直接属性已由装备提供，不新增相同属性效果，原值保持。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "魔法或真实伤害并限定英雄",
+            "reason": "需要合并魔法与真实伤害两个合法入口并限定英雄类别，不能只用普通技能命中，也不能让物理伤害或对非英雄伤害触发。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "持续刷新与合法触发",
+            "reason": "独立效果按成熟单实例20点移速结构配置；重新施加刷新4秒、不叠加多份。尚无自动规则触发它，不创建假3层或10秒冷却。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~14629/mItemCalculations/MoveSpeedAmount + /entries/item_4629_tooltip",
+          "accepted": {
+            "amount": 20,
+            "durationMs": 4000
+          },
+          "raw": [
+            {
+              "mFormulaParts": [
+                {
+                  "mNumber": 20,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            {
+              "sourceKey": "Item_4629_Tooltip",
+              "key": "item_4629_tooltip",
+              "text": "<passive>咒舞</passive><br>对英雄造成<magicDamage>魔法伤害</magicDamage>或<trueDamage>真实伤害</trueDamage>时会提供<speed>@MovespeedAmount@移动速度</speed>，持续@StackDuration@秒。"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~14629/mDataValues",
+          "accepted": "未绑定旧字段只保留原文：不建立3层、40移速、15%或10秒冷却",
+          "raw": [
+            {
+              "mName": "MaxStacks",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MovespeedToGrant",
+              "mValue": 40,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxMovespeedTooltip",
+              "mValue": 0.15000000596046448,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ItemCooldown",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:11:12.963849Z",
+          "description": "来源：官方16.17.1装备4629。 原始说明：70法术强度\n350生命值\n25技能急速\n4%移动速度\n\n咒舞\n对英雄造成魔法伤害或真实伤害时会提供移动速度，持续4秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_4629",
+          "gameId": "lol",
+          "name": "星界驱驰",
+          "updatedAt": "2026-09-06T18:11:12.963849Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "move_speed_percent": 0.04,
+            "hp": 350,
+            "ability_power": 70,
+            "ability_haste": 25
+          },
+          "equipmentKey": "item_4629"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_4629",
+            "name": "item_4629"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "equipment": 2,
+    "skills": 2,
+    "parameters": 4,
+    "formulas": 0,
+    "effects": 2,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 2,
+    "representativeImages": 2,
+    "components": 12
+  },
+  "entryBoundary": "只读前检.mjs 仅 GET；生成候选.mjs 只写本目录文件，没有业务写入入口。",
+  "configurationBoundary": "候选的独立效果、参数和公式不表示合法事件、冷却消费、状态或运行时已接线。"
+}
