@@ -13,6 +13,17 @@ const skills = read('API实录/技能/summary.json');
 const skillPlan = read('英雄技能全量页面输入/skills-basic-plan.json').skills;
 const equipment = read('API实录/装备/summary.json');
 const pureEquipment = read('实录记录.json');
+const equipmentTwelfthEvidence = '装备技能实录/第十二批常规效果/独立全量回读.json';
+const equipmentTwelfth = read(equipmentTwelfthEvidence);
+assert.equal(equipmentTwelfth.success, true);
+assert.equal(equipmentTwelfth.snapshot.sameCount, 37);
+assert.equal(equipmentTwelfth.snapshot.fieldCount, 443);
+assert.equal(equipmentTwelfth.snapshot.objects.length, 6);
+assert.deepEqual(equipmentTwelfth.snapshot.conflicts, []);
+assert.deepEqual(equipmentTwelfth.snapshot.missing, []);
+assert.equal(equipmentTwelfth.arithmetic.length, 15);
+assert.ok(equipmentTwelfth.arithmetic.every(x=>x.match));
+assert.equal(read('装备技能实录/第十二批常规效果/页面验收.json').passed, true);
 const equipmentUpgradeEvidence = 'API实录/装备升级形态第一批/独立最终回读.json';
 const equipmentUpgrade = read(equipmentUpgradeEvidence);
 assert.equal(equipmentUpgrade.passed, true);
@@ -331,6 +342,12 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  equipmentTwelfthBatch:{
+    skills:['item_3033_passive','item_3165_passive','item_6609_passive','item_2420_active','item_3139_active','item_3044_passive'],
+    parameters:14,formulas:1,effects:4,processes:0,internalStates:0,triggerRules:0,equipmentRelations:6,representativeImageReuses:6,
+    status:'部分录入；37组成443字段独立GET及代表页面一致，完整重伤、凝滞、解控与近远程选择仍待配',
+    runtimeValidation:'未执行',evidence:equipmentTwelfthEvidence,
+  },
   heroFifthBatch: {
     skills:Object.keys(heroFifth.skills), ...heroFifth.totals,
     created:228, reused:28, arithmeticCases:93, invariantChecks:61,
@@ -521,9 +538,9 @@ const summary = {
     evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence], status: '181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理' },
   images: { objectUses: 1220, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 194,
     additionalSpecialFormReuses:13, additionalSpecialFormEvidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence],
-    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length,
-    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence],
-    status: '原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验',
+    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length,
+    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence],
+    status: '原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能代表图按各已验收批次单列，不宣称全部对象已整体重验',
     browserCacheRecords: 3202, browserReadFailures: 0,
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },

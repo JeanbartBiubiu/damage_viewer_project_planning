@@ -1,0 +1,141 @@
+{
+  "boundary": "冻结来源及候选算术，不表示数据库保存或战斗运行",
+  "tests": [
+    {
+      "equipmentKey": "item_3033",
+      "sample": "单份40%重伤作用于100治疗点，仅算术",
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3033",
+      "sample": "持续3秒换算毫秒",
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3033",
+      "sample": "同强度两份重伤仍为40%，禁止直接相加",
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true,
+      "boundary": "机制要求算例，尚无已保存效果实现该行为"
+    },
+    {
+      "equipmentKey": "item_3165",
+      "sample": "单份40%重伤作用于100治疗点，仅算术",
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3165",
+      "sample": "持续3秒换算毫秒",
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3165",
+      "sample": "同强度两份重伤仍为40%，禁止直接相加",
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true,
+      "boundary": "机制要求算例，尚无已保存效果实现该行为"
+    },
+    {
+      "equipmentKey": "item_6609",
+      "sample": "单份40%重伤作用于100治疗点，仅算术",
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_6609",
+      "sample": "持续3秒换算毫秒",
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_6609",
+      "sample": "同强度两份重伤仍为40%，禁止直接相加",
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true,
+      "boundary": "机制要求算例，尚无已保存效果实现该行为"
+    },
+    {
+      "equipmentKey": "item_2420",
+      "sample": "2.5秒换算毫秒",
+      "expected": 2500,
+      "actual": 2500,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_2420",
+      "sample": "当前绑定单次使用次数",
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_2420",
+      "sample": "不复制沙漏冷却参数或无限主动过程",
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3139",
+      "sample": "90秒主动冷却",
+      "expected": 90000,
+      "actual": 90000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3139",
+      "sample": "50%移速按比例存储",
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3139",
+      "sample": "2秒移速时长",
+      "expected": 2000,
+      "actual": 2000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3044",
+      "sample": "近战分支固定移速",
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3044",
+      "sample": "远程分支固定移速",
+      "expected": 10,
+      "actual": 10,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3044",
+      "sample": "移速时长",
+      "expected": 2000,
+      "actual": 2000,
+      "match": true
+    },
+    {
+      "equipmentKey": "item_3044",
+      "sample": "尚未选择来源类型时不写无条件攻击规则",
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    }
+  ]
+}
