@@ -1,6 +1,6 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、技能、状态，以及技能公式、效果、内部状态、过程和触发规则的录入管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、符文、技能、状态，以及技能公式、效果、内部状态、过程和触发规则的录入管理。
 
 当前实现只保存、校验和回读配置，不执行公式、过程或事件，不组装 Wasm 数据。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
@@ -21,13 +21,14 @@
 
 ## 当前存储结构
 
-[当前建表脚本](../../db/game_manage/schema.sql) 定义 **24 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
+[当前建表脚本](../../db/game_manage/schema.sql) 定义 **27 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
 
 | 用途 | 表 |
 | --- | --- |
 | 游戏、属性与等级配置 | `games`、`attributes`、`game_level_configs` |
 | 角色与属性配置 | `characters`、`character_attributes` |
 | 装备与属性配置 | `equipment`、`equipment_attributes` |
+| 符文身份、分组与技能挂载 | `runes`、`rune_paths`、`rune_skill_relations` |
 | 技能基础与参数 | `skill_categories`、`skills`、`skill_category_relations`、`skill_parameters` |
 | 伤害类型、乘区与状态 | `damage_types`、`modifier_zones`、`statuses` |
 | 五类技能根对象 | `skill_formulas`、`skill_effects`、`skill_internal_states`、`skill_processes`、`skill_trigger_rules` |
@@ -98,10 +99,22 @@
 
 按顺序执行：
 
-1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 24 张逻辑表及约束。
+1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 27 张逻辑表及约束。
 2. [triggers.sql](../../db/game_manage/triggers.sql)：安装图片分区函数与游戏新增触发器。
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
+
+### 符文基础管理追加迁移
+
+已有 24 表聚合存储库使用 [rune_management.sql](../../db/game_manage/migrations/rune_management.sql)：仅创建三张空表，并在图片来源检查中加入符文及分组，保留原七项。先核对目标库、三表不存在和原约束定义，再由调用方在单事务中执行；脚本不自动提交，重复执行应失败。应用启动不会迁移结构，重启新版服务前必须完成追加迁移。该迁移不重写历史 91 → 24 表脚本，也不改变已有业务行或图片内容。
+
+指定开发库可通过 [VerifyRuneMigration.java](../../tools/authoring/VerifyRuneMigration.java) 执行：参数为后端根目录及`--inspect`；正式追加改为`--apply`并附已审查SQL的SHA256。只读模式输出表、约束、分区和逐表摘要；写模式在同事务锁定现有表，验证24→27、新表为空及原有数据摘要不变后提交。提交结果未知时必须先只读核对，不能重放。验收记录保存在忽略目录`output/rune-management/`，不输出凭据。
+
+符文共享字段、槽位规则、接口和错误含义以 [符文基础管理详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/符文基础管理详细设计.md) 为唯一契约。实现入口为 `RuneService`、`RuneRelationService` 和 `mapper/rune/RuneMapper.xml`；所有写入沿用同游戏保护器，槽位引用由服务在持有游戏写锁时整对象正向校验与反查，未加入五类技能对象的引用索引。删除布局保留符文，删除脱离位置的符文通过外键清挂载，并由服务清其代表图；共享技能和图片保留。
+
+针对性检查：`mvn "-Dtest=RuneServiceTest,RuneRelationServiceTest,RuneMapperTest,RuneSchemaSqlTest,RuneAdminControllerTest,ImageRelationServiceTest,ImageRelationMapperContractTest,ImageRelationAdminControllerTest,SkillRelationMapperTest,LegacyCombatDataCleanupDbContractSqlTest" test`。完成迁移后必须核对实际 27 表结构、公开游戏/图片读取，以及新增、替换、跨游戏和重复引用拒绝、类别占用、删除保留与图片用途回读。上述入口和单测不代表实库迁移或浏览器验收已经完成。
+
+2026-09-09 开发库追加迁移已提交：24→27张逻辑表，原24表逐表数据摘要保持一致，新增三表在提交前核对为空。新版服务通过真实管理接口的11项检查、68次请求，覆盖完整布局替换、重复位置拒绝、碎片跨行复用、引用占用、停用技能既有关系调整及删除保留；临时验收对象全部清理。入口 [verify-rune-management.mjs](../../tools/authoring/verify-rune-management.mjs) 默认只读，显式`--run-fixtures`仅创建和清理固定前缀验收对象，先检查不存在，异常后先查结果与现值。迁移与HTTP记录分别在`output/rune-management/apply-1788891384893.json`和`http-2026-09-08T18-33-31.146Z.json`。903项后端测试通过，随后仅修改技能删除错误文案并通过`SkillServiceTest`；浏览器已保存符文与分组、直接上传图片、重开碎片跨行布局。以上证据不代表全部符文机制或战斗运行完成。
 
 ### 来源初始化事件约束升级
 
@@ -119,7 +132,7 @@
 
 执行器参数依次为“后端工作树根目录、已核对数据库名、迁移前聚合快照路径、`--apply` 或 `--check`”。它是本次指定开发库的验收工具，带有已核对库名和图片基线限制，不是任意数据库的通用迁移命令。`--apply` 执行迁移；`--check` 跳过结构变更，但仍在事务内重新校验和生成引用索引，不能当作只读检查。
 
-`aggregate_parts/*.sql` 是主脚本已经包含的转换片段，不要分别执行后再执行主脚本。历史 `migrations/compatibility/**`、旧战斗表清理和关系管理迁移仅适用于各自注明的旧版本前置结构，不能作为当前 24 表库的补表或升级步骤。
+`aggregate_parts/*.sql` 是主脚本已经包含的转换片段，不要分别执行后再执行主脚本。历史 `migrations/compatibility/**`、旧战斗表清理和关系管理迁移仅适用于各自注明的旧版本前置结构，不能作为当前聚合存储库的补表或升级步骤。
 
 **2026-09-06 已完成复制演练库和原开发库的 91 → 24 表迁移，生成 150 条引用；原有聚合内容和 2,127 张图片核对一致。** 原开发库启动新服务后完成 154 次管理接口读回及公开接口对照，浏览器完成伊泽瑞尔 Q 效果保存。演练库另验证五类聚合增改、引用删除保护、循环与动态输入拒绝、并发冲突；新建空库验证初始化和 12 项 JSON 形状约束。完整数据库备份及机器验收产物位于工作树忽略目录 `output/authoring-simplification/`。
 
@@ -156,6 +169,7 @@
 | `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
 | `/modifier-zones` | 属性、伤害、治疗三个业务域的乘区管理 |
 | `/statuses` | 状态基本资料；稳定标识不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
+| `/runes`、`/rune-paths` | 符文身份及分组完整布局管理，按上文唯一契约保存；不提供启停 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
@@ -171,9 +185,9 @@
 
 ### 技能挂载与代表图片
 
-`/character-skill-relations` 和 `/equipment-skill-relations` 提供角色、装备与技能的双向查询、新增、排序调整和移除，使用同游戏复合外键。
+`/character-skill-relations`、`/equipment-skill-relations` 和 `/rune-skill-relations` 提供角色、装备、符文与技能的双向查询、新增、排序调整和移除，使用同游戏复合外键。
 
-游戏、角色、属性、装备、技能、技能效果和状态通过各自的 `representative-image` 子资源维护代表图片；`/images/{imageKey}/usages` 查询图片用途；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。图片关联的来源存在性与来源删除清理由服务在上述同游戏写事务中保证。
+游戏、角色、属性、装备、符文、符文分组、技能、技能效果和状态通过各自的 `representative-image` 子资源维护代表图片；`/images/{imageKey}/usages` 查询图片用途；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。图片关联的来源存在性与来源删除清理由服务在上述同游戏写事务中保证。
 
 `GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`。游戏代表图片写入成功后会清理游戏列表缓存。
 

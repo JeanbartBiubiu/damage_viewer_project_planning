@@ -107,6 +107,8 @@ public class ImageRelationService {
         List<ImageUsageResponse.Skill> skills = new ArrayList<>();
         List<ImageUsageResponse.SkillEffect> effects = new ArrayList<>();
         List<ImageUsageResponse.Status> statuses = new ArrayList<>();
+        List<ImageUsageResponse.Rune> runes = new ArrayList<>();
+        List<ImageUsageResponse.RunePath> runePaths = new ArrayList<>();
         for (ImageUsageRow row : rows) {
             if (row.sourceName() == null || ("SKILL_EFFECT".equals(row.sourceType()) && row.parentName() == null)) {
                 throw dangling(gameId, row, imageKey);
@@ -119,11 +121,14 @@ public class ImageRelationService {
                 case "SKILL" -> skills.add(new ImageUsageResponse.Skill(row.sourceKey(), row.sourceName(), row.sourceStatus()));
                 case "SKILL_EFFECT" -> effects.add(new ImageUsageResponse.SkillEffect(row.sourceParentKey(), row.parentName(), row.sourceKey(), row.sourceName()));
                 case "STATUS" -> statuses.add(new ImageUsageResponse.Status(row.sourceKey(), row.sourceName(), row.sourceStatus()));
+                case "RUNE" -> runes.add(new ImageUsageResponse.Rune(row.sourceKey(), row.sourceName()));
+                case "RUNE_PATH" -> runePaths.add(new ImageUsageResponse.RunePath(row.sourceKey(), row.sourceName()));
                 default -> throw dangling(gameId, row, imageKey);
             }
         }
         return new ImageUsageResponse(imageKey, List.copyOf(games), List.copyOf(characters), List.copyOf(attributes),
-            List.copyOf(equipment), List.copyOf(skills), List.copyOf(effects), List.copyOf(statuses));
+            List.copyOf(equipment), List.copyOf(skills), List.copyOf(effects), List.copyOf(statuses),
+            List.copyOf(runes), List.copyOf(runePaths));
     }
 
     private RepresentativeImageResponse.Image readCurrent(

@@ -11,6 +11,9 @@
             +
             (SELECT count(*) FROM public.equipment_skill_relations
              WHERE game_id = #{gameId} AND skill_key = #{skillKey})
+            +
+            (SELECT count(*) FROM public.rune_skill_relations
+             WHERE game_id = #{gameId} AND skill_key = #{skillKey})
     </select>
 
     <resultMap id="characterRelation" type="xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse">

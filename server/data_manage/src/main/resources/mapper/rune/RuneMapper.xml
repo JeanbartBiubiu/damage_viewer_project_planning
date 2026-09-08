@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.rune.RuneMapper">
+    <resultMap id="rune" type="xyz.game.datamanage.model.rune.RuneResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="rune_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="category" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <select id="listRunes" resultMap="rune">
+        SELECT game_id, rune_key, name, description, category, created_at, updated_at FROM public.runes
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (strpos(lower(rune_key), lower(#{keyword})) &gt; 0 OR strpos(lower(name), lower(#{keyword})) &gt; 0)
+        </if>
+        <if test="category != null">AND category = #{category}</if>
+        ORDER BY name ASC, rune_key ASC
+    </select>
+    <select id="findRune" resultMap="rune">
+        SELECT game_id, rune_key, name, description, category, created_at, updated_at FROM public.runes
+        WHERE game_id = #{gameId} AND rune_key = #{runeKey}
+    </select>
+    <select id="countRuneName" resultType="long">
+        SELECT COUNT(*) FROM public.runes
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeKey != null">AND rune_key &lt;&gt; #{excludeKey}</if>
+    </select>
+    <insert id="insertRune">
+        INSERT INTO public.runes (game_id, rune_key, name, description, category)
+        VALUES (#{gameId}, #{runeKey}, #{name}, #{description}, #{category})
+    </insert>
+    <update id="updateRune">
+        UPDATE public.runes SET name = #{name}, description = #{description},
+            category = #{category}, updated_at = now()
+        WHERE game_id = #{gameId} AND rune_key = #{runeKey}
+    </update>
+    <delete id="deleteRune">
+        DELETE FROM public.runes WHERE game_id = #{gameId} AND rune_key = #{runeKey}
+    </delete>
+    <resultMap id="path" type="xyz.game.datamanage.model.rune.RunePathRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="path_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="kind" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="slots_json" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <select id="listPaths" resultMap="path">
+        SELECT game_id, path_key, name, description, kind, sort_order, slots::text AS slots_json, created_at, updated_at FROM public.rune_paths
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (strpos(lower(path_key), lower(#{keyword})) &gt; 0 OR strpos(lower(name), lower(#{keyword})) &gt; 0)
+        </if>
+        ORDER BY sort_order ASC, path_key ASC
+    </select>
+    <select id="findPath" resultMap="path">
+        SELECT game_id, path_key, name, description, kind, sort_order, slots::text AS slots_json, created_at, updated_at FROM public.rune_paths
+        WHERE game_id = #{gameId} AND path_key = #{pathKey}
+    </select>
+    <select id="countPathName" resultType="long">
+        SELECT COUNT(*) FROM public.rune_paths
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeKey != null">AND path_key &lt;&gt; #{excludeKey}</if>
+    </select>
+    <insert id="insertPath">
+        INSERT INTO public.rune_paths (game_id, path_key, name, description, kind, sort_order, slots)
+        VALUES (#{gameId}, #{pathKey}, #{name}, #{description}, #{kind}, #{sortOrder}, CAST(#{slotsJson} AS jsonb))
+    </insert>
+    <update id="updatePath">
+        UPDATE public.rune_paths SET name = #{name}, description = #{description},
+            kind = #{kind}, sort_order = #{sortOrder}, slots = CAST(#{slotsJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND path_key = #{pathKey}
+    </update>
+    <delete id="deletePath">
+        DELETE FROM public.rune_paths WHERE game_id = #{gameId} AND path_key = #{pathKey}
+    </delete>
+</mapper>
