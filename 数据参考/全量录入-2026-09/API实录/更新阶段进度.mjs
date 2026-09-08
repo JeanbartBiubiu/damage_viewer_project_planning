@@ -55,6 +55,11 @@ assert.deepEqual(equipmentEighthCorrection.summary,{operationCount:26,operationT
 assert.equal(read('装备技能实录/Luna第八批/页面验收.json').passed, true);
 const equipmentNinthEvidence = '装备技能实录/Luna第九批/独立最终回读.json';
 const equipmentNinth = read(equipmentNinthEvidence);
+const equipmentEleventhEvidence = '装备技能实录/第十一批范围与轻灵鞋/独立最终回读.json';
+const equipmentEleventh = read(equipmentEleventhEvidence);
+assert.equal(equipmentEleventh.passed, true);
+assert.deepEqual(equipmentEleventh.summary, { equipmentCount:5, fullReadCount:22, addedAttributeDefinitions:1, addedEquipmentAttributeValues:1, outOfScopeEffectEquipment:4, arithmeticCount:5, mismatchCount:0 });
+assert.equal(read('装备技能实录/第十一批范围与轻灵鞋/页面验收.json').passed, true);
 assert.equal(equipmentNinth.summary.objectCount, 6);
 assert.equal(equipmentNinth.summary.checkCount, 115);
 assert.equal(equipmentNinth.summary.fieldCount, 753);
@@ -324,6 +329,14 @@ const mechanismBatches = {
     status:'部分录入；属性基数和等级断点已补证，翠绿屏障初始化及成功消费已保存；其余按待配清单继续',
     runtimeValidation:'未执行', evidence:equipmentNinthEvidence,
   },
+  equipmentEleventhBatch: {
+    equipment: equipmentEleventh.objects.map(record=>record.equipmentKey),
+    directAttributeAdded: { equipmentKey:'item_3009', attributeKey:'slow_resist_percent', value:0.25 },
+    completeSkippedEffectEquipment: ['item_1120', 'item_3046', 'item_3085', 'item_3109'],
+    newSkills:0, newTables:0,
+    status:'当前1V1数据范围已处理；轻灵鞋常驻属性保存并页面核对，四件额外效果有排除依据',
+    runtimeValidation:'未执行', evidence:equipmentEleventhEvidence,
+  },
   heroFourthBatch: {
     skills:Object.keys(heroFourth.skills), ...heroFourth.totals,
     status:'部分录入；黛安娜攻速已纠正并页面核对，维迦E两项未保存草稿保留待修',
@@ -464,7 +477,7 @@ const summary = {
   skills: { metadata: 855, characterRelations: 855, createdByApiThisStage: 835, previouslyAuthored: 20,
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
   equipment: { count: 181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
-    additionalDirectAttributes:1, additionalDirectAttributeEvidence:equipmentThirdEvidence,
+    additionalDirectAttributes:2, additionalDirectAttributeEvidence:[equipmentThirdEvidence,equipmentEleventhEvidence],
     evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成；已录装备技能组成见各批独立回读，完整触发与其余机制继续补录' },
   images: { objectUses: 1207, heroes: 171, skills: 855, equipment: 181,
     additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length,

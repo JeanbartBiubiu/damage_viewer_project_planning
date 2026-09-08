@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-09-08T14:40:02.047Z",
+  "method": "主负责人CUA真实浏览器操作与截图",
+  "attributeEntry": {
+    "route": "#/attributes",
+    "key": "slow_resist_percent",
+    "name": "减速抗性比例",
+    "valueType": "小数",
+    "range": "未限制",
+    "status": "启用",
+    "sortOrder": 421,
+    "action": "新增并保存；独立API GET通过"
+  },
+  "equipmentPage": {
+    "route": "#/equipment",
+    "keyword": "item_3009",
+    "resultCount": 1,
+    "attributeRows": {
+      "move_speed": 55,
+      "slow_resist_percent": 0.25
+    },
+    "configuredCount": 2,
+    "onlyConfiguredFilter": true,
+    "closeAction": "取消，无页面属性写入",
+    "representativeImageEvidence": "AX图像节点轻灵之靴代表图片及独立代表图GET；窄侧栏固定操作列遮挡数据列，不宣称截图中可见缩略图"
+  },
+  "automationObservation": [
+    "查询后等待结果数更新；原表已含该对象键不能表示筛选完成",
+    "自定义复选框点击文字成功，原input点击等待不当成保存故障"
+  ],
+  "runtimeValidation": "未执行",
+  "passed": true
+}

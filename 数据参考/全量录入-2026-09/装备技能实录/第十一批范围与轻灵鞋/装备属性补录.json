@@ -1,0 +1,47 @@
+{
+  "before": {
+    "route": "/equipment/item_3009/attributes",
+    "method": "GET",
+    "status": 200,
+    "checkedAt": "2026-09-08T14:34:13.745Z",
+    "data": {
+      "attributeValues": {
+        "move_speed": 55
+      },
+      "equipmentKey": "item_3009"
+    }
+  },
+  "payload": {
+    "attributeValues": {
+      "move_speed": 55,
+      "slow_resist_percent": 0.25
+    }
+  },
+  "write": {
+    "route": "/equipment/item_3009/attributes",
+    "method": "PUT",
+    "status": 200,
+    "checkedAt": "2026-09-08T14:34:14.191Z",
+    "data": {
+      "attributeValues": {
+        "move_speed": 55,
+        "slow_resist_percent": 0.25
+      },
+      "equipmentKey": "item_3009"
+    }
+  },
+  "independentRead": {
+    "route": "/equipment/item_3009/attributes",
+    "method": "GET",
+    "status": 200,
+    "checkedAt": "2026-09-08T14:34:14.267Z",
+    "data": {
+      "attributeValues": {
+        "move_speed": 55,
+        "slow_resist_percent": 0.25
+      },
+      "equipmentKey": "item_3009"
+    }
+  },
+  "passed": true
+}
