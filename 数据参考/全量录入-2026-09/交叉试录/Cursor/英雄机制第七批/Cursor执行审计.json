@@ -1,0 +1,155 @@
+{
+  "at": "2026-09-08T17:21:41.563Z",
+  "status": "finished",
+  "runId": "run-a4b4c854-0ace-4ff5-9fac-343bccbd3f5b",
+  "requestId": "04422b36-18c0-480f-863f-83f652d00f0a",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 896596,
+  "apiWrites": 0,
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 11,
+    "outsideScopePaths": [
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/候选.mjs",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/写前现值.json",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/来源冻结/主技能数值展开.json",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/来源冻结/来源与哈希汇总.json",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/核对根绑定.mjs",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/核对现值.mjs",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/根绑定与数值证据.json",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/目录现值.json",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/英雄工具.mjs",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/补充文本.mjs",
+      "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/补充文本证据.json"
+    ],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 8,
+    "failClosed": false
+  },
+  "seeds": [
+    {
+      "name": "候选.mjs",
+      "original": "075329e93131c69374b05f87da548e2c5e6a188e1e9f8c4daa9fcdb6b6b60134",
+      "after": "075329e93131c69374b05f87da548e2c5e6a188e1e9f8c4daa9fcdb6b6b60134",
+      "match": true
+    },
+    {
+      "name": "写前现值.json",
+      "original": "30d1e214f84bb475607cae3ffe1769fda4e097fea604da9c2d2f5013e83c9c54",
+      "after": "30d1e214f84bb475607cae3ffe1769fda4e097fea604da9c2d2f5013e83c9c54",
+      "match": true
+    },
+    {
+      "name": "来源冻结/主技能数值展开.json",
+      "original": "89fc6fe52176ae0862fd7de5c17c843a54b11ed13d6075aa1dd9abc7758cf28a",
+      "after": "89fc6fe52176ae0862fd7de5c17c843a54b11ed13d6075aa1dd9abc7758cf28a",
+      "match": true
+    },
+    {
+      "name": "来源冻结/来源与哈希汇总.json",
+      "original": "538058f5b171e4462bbd6a4c5e3b05d997b0c2a1fcc0653d66a9ceaca186038b",
+      "after": "538058f5b171e4462bbd6a4c5e3b05d997b0c2a1fcc0653d66a9ceaca186038b",
+      "match": true
+    },
+    {
+      "name": "核对根绑定.mjs",
+      "original": "7266976854534f4cbfc886fed2a95ffce13c984f2538a92783b3f3103f36939d",
+      "after": "7266976854534f4cbfc886fed2a95ffce13c984f2538a92783b3f3103f36939d",
+      "match": true
+    },
+    {
+      "name": "核对现值.mjs",
+      "original": "2c3275416f7600dc06d29a0677850ef098e676e7bbd509d1db61f9f9c9d15406",
+      "after": "2c3275416f7600dc06d29a0677850ef098e676e7bbd509d1db61f9f9c9d15406",
+      "match": true
+    },
+    {
+      "name": "根绑定与数值证据.json",
+      "original": "e0427adcebb5e8ed5fcdc0e6703bb9c7d4963b660f42e1421966919ed40f74f7",
+      "after": "e0427adcebb5e8ed5fcdc0e6703bb9c7d4963b660f42e1421966919ed40f74f7",
+      "match": true
+    },
+    {
+      "name": "目录现值.json",
+      "original": "46ecbc927a7a7663ae01344c0d30c5e0d4c7de82cc5143d149cde5605678dbac",
+      "after": "46ecbc927a7a7663ae01344c0d30c5e0d4c7de82cc5143d149cde5605678dbac",
+      "match": true
+    },
+    {
+      "name": "英雄工具.mjs",
+      "original": "a4dcb59dc27d2fb17153885e4e0cc206f0d7a4ef75edb4579a4f2130c71259a8",
+      "after": "a4dcb59dc27d2fb17153885e4e0cc206f0d7a4ef75edb4579a4f2130c71259a8",
+      "match": true
+    },
+    {
+      "name": "补充文本.mjs",
+      "original": "6e99925048eb5d4625c4cf0a86515794369477f6a7cb0514029bf98d474c819b",
+      "after": "6e99925048eb5d4625c4cf0a86515794369477f6a7cb0514029bf98d474c819b",
+      "match": true
+    },
+    {
+      "name": "补充文本证据.json",
+      "original": "1507838dd2ec8f1b4f1a51d622b5a8009fcbc28e37d09c14ffa7f7276adaea1e",
+      "after": "1507838dd2ec8f1b4f1a51d622b5a8009fcbc28e37d09c14ffa7f7276adaea1e",
+      "match": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "蔚组成.mjs",
+      "sha256": "5752b5e0e0a5b163c832dde05d367517b0c9bffe87bf6d8f61a75f88f17bad63",
+      "size": 13453
+    },
+    {
+      "name": "奥拉夫组成.mjs",
+      "sha256": "fd8761deb30b4767f73997320ffc143cfd44b3c7a97abdadf039dae61afd0ca1",
+      "size": 13895
+    },
+    {
+      "name": "前十技能生成候选.mjs",
+      "sha256": "71853e4acd9be4f5192aaabfa5f3f013a5bc14c2d0c49e8cc3a86733025cde81",
+      "size": 3857
+    },
+    {
+      "name": "前十技能独立核算.mjs",
+      "sha256": "ebdc5eed7241755a282273cc8b18fc186c415e8a381dc89c16e136729898b269",
+      "size": 11478
+    },
+    {
+      "name": "前十技能候选.json",
+      "sha256": "fb731039f0685f18ed65d0afc0f2551b0dd7fb9023af19ca1600c564684d6a8a",
+      "size": 184251
+    },
+    {
+      "name": "前十技能独立核算.json",
+      "sha256": "7e25a6b523544265ecf5f1be803034874a6ba3f132d8f3f28c576fbe39793f5c",
+      "size": 24598
+    },
+    {
+      "name": "前十技能审查说明.md",
+      "sha256": "ebb7a7c11ac02622f83c84deca772ce315afd25fe800ff45e90e26e20bbbc361",
+      "size": 7318
+    },
+    {
+      "name": "Cursor前十技能短体验.md",
+      "sha256": "478b4800fdf71a83344c8ca4351bac36714c9773bf6f44e284ecdeb3782fddf2",
+      "size": 1688
+    }
+  ],
+  "note": "实际Cursor SDK在隔离副本执行；11个范围外文件是本轮开始前预置文件，逐个字节摘要保持相同。实际增量8个允许文件、越界增量0。原始产物保留，后续执行代理审校与原始执行分别记录。"
+}

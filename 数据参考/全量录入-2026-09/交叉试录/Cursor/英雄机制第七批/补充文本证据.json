@@ -1,0 +1,594 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys所引用文本，不按名称猜旧对象。",
+  "skills": {
+    "vi_p": {
+      "binding": "Characters/Vi/Spells/ViPassiveAbility/ViPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViPassive_Name",
+          "key": "spell_vipassive_name",
+          "text": "爆裂护盾"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViPassive_Tooltip",
+          "key": "spell_vipassive_tooltip",
+          "text": "蔚在用一个已激活的技能命中一名敌人或建筑物后，会获得<shield>@TotalShield@护盾值</shield>，持续@ShieldDuration@秒。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViPassive_Summary",
+          "key": "spell_vipassive_summary",
+          "text": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_ViPassive_TooltipExtended",
+          "key": "spell_vipassive_tooltipextended",
+          "text": "{{Spell_ViPassive_Tooltip}}<br><br><rules>这个技能有@ShieldCooldown@秒的冷却时间，每当蔚触发<spellName>爆弹重拳</spellName>时，剩余的冷却时间就会减少@CDReductionOn3Hit@秒。</rules>"
+        }
+      }
+    },
+    "vi_q": {
+      "binding": "Characters/Vi/Spells/ViQAbility/ViQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViQ_Name",
+          "key": "spell_viq_name",
+          "text": "强能冲拳"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViQ_Summary",
+          "key": "spell_viq_summary",
+          "text": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViQ_Tooltip",
+          "key": "spell_viq_tooltip",
+          "text": "<charge>开始蓄力：</charge>蔚开始积蓄一次强力的冲拳，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>蔚向前冲刺，基于蓄力时间造成<physicalDamage>@TotalDamage@到@MaxDamageTooltip@物理伤害</physicalDamage>，并对命中的所有敌人施加<spellName>爆弹重拳</spellName>。蔚会在与一名敌方英雄碰撞时停下，并将其<status>击</status><status>退</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_ViQ_TooltipExtendedBelowLine",
+          "key": "spell_viq_tooltipextendedbelowline",
+          "text": "<rules>命中的非英雄单位会被拉向蔚。<br>如果蓄力被打断，那么这个技能会进入为期3秒的冷却时间。</rules>"
+        }
+      }
+    },
+    "vi_w": {
+      "binding": "Characters/Vi/Spells/ViWAbility/ViW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViW_Name",
+          "key": "spell_viw_name",
+          "text": "爆弹重拳"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViW_Summary",
+          "key": "spell_viw_summary",
+          "text": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViW_Tooltip",
+          "key": "spell_viw_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>对相同目标的每第三次攻击会造成额外<physicalDamage>@TotalDamageTooltip@最大生命值的物理伤害</physicalDamage>，移除目标<scaleArmor>@ShredAmount@%护甲</scaleArmor>，并为蔚提供<attackSpeed>@AttackSpeed@%攻击速度</attackSpeed>，持续@SharedBuffsDuration@秒。它还可缩短<spellName>爆裂护盾</spellName>@spell.ViPassive:CDReductionOn3Hit@秒冷却时间。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_Cooldown_NoCooldown",
+          "key": "spell_cooldown_nocooldown",
+          "text": "无冷却时间"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_ViW_Cost",
+          "key": "spell_viw_cost",
+          "text": "<spellPassive>被动</spellPassive>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_ViW_TooltipExtendedBelowLine",
+          "key": "spell_viw_tooltipextendedbelowline",
+          "text": "<rules>对抗野怪时最多造成<physicalDamage>@MonsterDamageCap@伤害</physicalDamage>。</rules>"
+        }
+      }
+    },
+    "vi_e": {
+      "binding": "Characters/Vi/Spells/ViEAbility/ViE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViE_Name",
+          "key": "spell_vie_name",
+          "text": "透体之劲"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViE_Summary",
+          "key": "spell_vie_summary",
+          "text": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViE_Tooltip",
+          "key": "spell_vie_tooltip",
+          "text": "蔚的下次攻击对目标和目标后方的敌人造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>。<br><br>这个技能有2层充能(@AmmoRechargeTime@秒充能时间)。"
+        }
+      }
+    },
+    "vi_r": {
+      "binding": "Characters/Vi/Spells/ViRAbility/ViR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViR_Name",
+          "key": "spell_vir_name",
+          "text": "天霸横空烈轰"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViR_Summary",
+          "key": "spell_vir_summary",
+          "text": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViR_Tooltip",
+          "key": "spell_vir_tooltip",
+          "text": "蔚挑出一名敌方英雄，将其显形并不可阻挡地向其冲刺。在触碰到该英雄后，蔚会将其<status>击飞</status>@RStunDuration@秒，并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。<br><br>任何与蔚产生碰撞的敌人都会受到伤害、被震开并<status>晕眩</status>@SecondaryTargetStunDuration@秒。"
+        }
+      }
+    },
+    "olaf_p": {
+      "binding": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Olaf",
+          "key": "game_character_passivename_olaf",
+          "text": "狂战之怒"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_character_passiveDescription_Olaf",
+          "key": "game_character_passivedescription_olaf",
+          "text": "奥拉夫获得至多<attackSpeed>@MaxAttackSpeed@攻击速度</attackSpeed>和@MaxLifeSteal@生命偷取，基于他的已损失生命值。"
+        },
+        "keySummary": {
+          "sourceKey": "game_character_passiveSummary_Olaf",
+          "key": "game_character_passivesummary_olaf",
+          "text": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "game_character_passiveDescriptionExtended_Olaf",
+          "key": "game_character_passivedescriptionextended_olaf",
+          "text": "{{game_character_passiveDescription_Olaf}}<br><br><rules>在30%生命值时达到最大值</rules>"
+        }
+      }
+    },
+    "olaf_q": {
+      "binding": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OlafAxeThrowCast_Name",
+          "key": "spell_olafaxethrowcast_name",
+          "text": "逆流投掷"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OlafAxeThrowCast_Summary",
+          "key": "spell_olafaxethrowcast_summary",
+          "text": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OlafAxeThrowCast_Tooltip",
+          "key": "spell_olafaxethrowcast_tooltip",
+          "text": "奥拉夫扔出一把斧头，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和至多持续@MaxSlowDuration@秒(基于斧头移动距离)的@SlowAmount*100@%<status>减速</status>。被斧头命中的英雄还会损失<scaleArmor>@ShredAmount*100@%护甲</scaleArmor>，持续@DebuffDuration@秒。<br><br>如果奥拉夫拾起了斧头，那么这个技能的冷却时间会缩短至@TooltipCDRefund@秒，或在度过@TooltipCDRefund@秒之后完全返还。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_OlafAxeThrowCast_TooltipExtendedBelowLine",
+          "key": "spell_olafaxethrowcast_tooltipextendedbelowline",
+          "text": "<rules>对野怪造成@MonsterDamage@额外伤害。</rules>"
+        }
+      }
+    },
+    "olaf_w": {
+      "binding": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OlafFrenziedStrikes_Name",
+          "key": "spell_olaffrenziedstrikes_name",
+          "text": "挺过去"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OlafFrenziedStrikes_Summary",
+          "key": "spell_olaffrenziedstrikes_summary",
+          "text": "奥拉夫的攻击速度得到提升，并获得一层护盾。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OlafFrenziedStrikes_Tooltip",
+          "key": "spell_olaffrenziedstrikes_tooltip",
+          "text": "奥拉夫获得持续@Duration@秒的<attackSpeed>@Attackspeed*100@%攻击速度</attackSpeed>，以及持续@ShieldDuration@秒的<shield>@BaseShield@外加@ShieldPercMissingHP*100@%已损失生命值的护盾值(最大值为@MaxShieldCalc@护盾值，在低于@ThresholdForMax*100@%时提供)</shield>。"
+        }
+      }
+    },
+    "olaf_e": {
+      "binding": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OlafRecklessStrike_Name",
+          "key": "spell_olafrecklessstrike_name",
+          "text": "鲁莽挥击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OlafRecklessStrike_Summary",
+          "key": "spell_olafrecklessstrike_summary",
+          "text": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OlafRecklessStrike_Tooltip",
+          "key": "spell_olafrecklessstrike_tooltip",
+          "text": "奥拉夫狂野地挥舞他的双斧，造成<trueDamage>@TotalDamage@真实伤害</trueDamage>。如果该敌人阵亡，那么会返还此技能的消耗。<br><br>攻击会使这个技能的冷却时间缩短1秒，在攻击野怪时，缩短值提升至2秒。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_OlafRecklessStrike_Cost",
+          "key": "spell_olafrecklessstrike_cost",
+          "text": "消耗<font color='#FF3300'>@HealthCostCalc@生命值</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RecklessStrike_TooltipExtendedBelowLine",
+          "key": "spell_recklessstrike_tooltipextendedbelowline",
+          "text": "<rules>施放时间受益于额外攻速</rules>："
+        }
+      }
+    },
+    "olaf_r": {
+      "binding": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OlafRagnarok_Name",
+          "key": "spell_olafragnarok_name",
+          "text": "诸神黄昏"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OlafRagnarok_Summary",
+          "key": "spell_olafragnarok_summary",
+          "text": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OlafRagnarok_Tooltip",
+          "key": "spell_olafragnarok_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>奥拉夫获得<scaleArmor>@Resists@护甲</scaleArmor>和<scaleMR>@Resists@魔法抗性</scaleMR>。<br><br><spellActive>主动：</spellActive>奥拉夫净化掉他身上的所有<status>定身</status>和<status>限制</status>效果并且在接下来的@Duration@秒内免疫这些效果。在激活时，奥拉夫获得<scaleAD>@AD@攻击力</scaleAD>。用一次攻击或<spellName>鲁莽挥击</spellName>命中一名英雄时，会使持续时间延长@DurationExtension@秒。<br><br>此外，奥拉夫会在朝着敌方英雄时获得<speed>@Haste*100@%移动速度</speed>，持续@HasteDuration@秒。"
+        }
+      }
+    },
+    "nocturne_p": {
+      "binding": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NocturneP_Name",
+          "key": "spell_nocturnep_name",
+          "text": "暗影之刃"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NocturneP_Summary",
+          "key": "spell_nocturnep_summary",
+          "text": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NocturneP_Tooltip",
+          "key": "spell_nocturnep_tooltip",
+          "text": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_NocturneP_TooltipExtended",
+          "key": "spell_nocturnep_tooltipextended",
+          "text": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。<br><br><rules><spellName>暗影之刃</spellName>对小兵的伤害降低@DamageMinionMod*100@%，并且从线上小兵处获得的治疗效果降低@HealMinionMod*100@%。</rules>"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_Cooldown_Generic",
+          "key": "spell_cooldown_generic",
+          "text": "@Cooldown@秒%i:cooldown%"
+        }
+      }
+    },
+    "nocturne_q": {
+      "binding": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NocturneQ_Name",
+          "key": "spell_nocturneq_name",
+          "text": "梦魇之径"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NocturneQ_Summary",
+          "key": "spell_nocturneq_summary",
+          "text": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NocturneQ_Tooltip",
+          "key": "spell_nocturneq_tooltip",
+          "text": "魔腾扔出一把暗影之刃，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并留下一条持续@TrailDuration@秒的影径。被击中的敌方英雄们也会留下一条影径。<br><br>在影径上移动时，魔腾处于幽灵状态并获得<speed>@MoveSpeed@%移动速度</speed>和<physicalDamage>@BonusTrailAD@攻击力</physicalDamage>。"
+        },
+        "keyTooltipSimple": {
+          "sourceKey": "Spell_NocturneQ_TooltipSimple",
+          "key": "spell_nocturneq_tooltipsimple",
+          "text": "扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径。<br><br>在影径上时，魔腾获得@MoveSpeed@%移动速度和@BonusTrailAD@攻击力。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NocturneDuskbringer_TooltipExtendedBelowLine",
+          "key": "spell_nocturneduskbringer_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_Ghosted}}</rules>"
+        }
+      }
+    },
+    "nocturne_w": {
+      "binding": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NocturneW_Name",
+          "key": "spell_nocturnew_name",
+          "text": "黑暗庇护"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NocturneW_Summary",
+          "key": "spell_nocturnew_summary",
+          "text": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NocturneW_Tooltip",
+          "key": "spell_nocturnew_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>魔腾获得<attackSpeed>@ActiveAS@%攻击速度</attackSpeed>。<br><br><spellActive>主动：</spellActive>魔腾生成一个持续1.5秒的暗影屏障，来格挡下一个敌方技能。如果格挡掉一个技能，那么这个技能的被动效果提升至<attackSpeed>@ActiveAS*2@%攻击速度</attackSpeed>，持续@DoubleASDuration@秒。"
+        },
+        "keyTooltipSimple": {
+          "sourceKey": "Spell_NocturneW_TooltipSimple",
+          "key": "spell_nocturnew_tooltipsimple",
+          "text": "<font color='#FF9900'>被动：</font>魔腾获得@ActiveAS@%攻击速度。<br><br><font color='#FF9900'>主动：</font>魔腾制造一个能够抵挡掉下一个敌人技能的魔法护盾，持续1.5秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NocturneShroudofDarkness_TooltipExtendedBelowLine",
+          "key": "spell_nocturneshroudofdarkness_tooltipextendedbelowline",
+          "text": "<rules>这个技能将在<spellName>鬼影重重</spellName>的飞行途中保持激活状态。</rules>"
+        }
+      }
+    },
+    "nocturne_e": {
+      "binding": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NocturneE_Name",
+          "key": "spell_nocturnee_name",
+          "text": "无言恐惧"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NocturneE_Summary",
+          "key": "spell_nocturnee_summary",
+          "text": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NocturneE_Tooltip",
+          "key": "spell_nocturnee_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>魔腾朝着被<status>恐惧</status>的敌人时会获得<speed>@TooltipFearMS*100@%移动速度</speed>。<br><br><spellActive>主动：</spellActive>魔腾将一根梦魇灵链植入他的目标，在@LeashDuration@秒里持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果灵链一直未断裂，目标就会被<status>恐惧</status>@CCDuration@秒。"
+        },
+        "keyTooltipSimple": {
+          "sourceKey": "Spell_NocturneE_TooltipSimple",
+          "key": "spell_nocturnee_tooltipsimple",
+          "text": "<font color='#FF9900'>被动：</font>魔腾在朝着被恐惧的敌人移动时会提升移动速度。<br><br><font color='#FF9900'>主动：</font>在@LeashDuration@秒里持续造成伤害。如果这个过程完成，那么目标会被恐惧@CCDuration@秒。"
+        }
+      }
+    },
+    "nocturne_r": {
+      "binding": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NocturneR_Name",
+          "key": "spell_nocturner_name",
+          "text": "鬼影重重"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NocturneR_Summary",
+          "key": "spell_nocturner_summary",
+          "text": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NocturneR_Tooltip",
+          "key": "spell_nocturner_tooltip",
+          "text": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续@ParanoiaDuration@秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。"
+        },
+        "keyTooltipSimple": {
+          "sourceKey": "Spell_NocturneR_TooltipSimple",
+          "key": "spell_nocturner_tooltipsimple",
+          "text": "移除敌方英雄的友军视野，持续@ParanoiaDuration@秒。<br><br>在此期间再次激活此技能即可突进至一名敌方英雄并造成伤害。"
+        }
+      }
+    },
+    "vayne_p": {
+      "binding": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Vayne",
+          "key": "game_character_passivename_vayne",
+          "text": "暗夜猎手"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_character_passiveDescription_Vayne",
+          "key": "game_character_passivedescription_vayne",
+          "text": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得@MovementSpeed@移动速度。"
+        },
+        "keySummary": {
+          "sourceKey": "game_character_passiveSummary_Vayne",
+          "key": "game_character_passivesummary_vayne",
+          "text": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。"
+        }
+      }
+    },
+    "vayne_q": {
+      "binding": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VayneQ_Name",
+          "key": "spell_vayneq_name",
+          "text": "闪避突袭"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VayneQ_Tooltip",
+          "key": "spell_vayneq_tooltip",
+          "text": "薇恩翻滚一小段距离，并且她的下次普通攻击造成额外的<physicalDamage>@ADRatioBonus@物理伤害</physicalDamage>。<br><br><rules>{{ buff_desc_SpellEffects }}</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VayneQ_Summary",
+          "key": "spell_vayneq_summary",
+          "text": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。"
+        }
+      }
+    },
+    "vayne_w": {
+      "binding": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VayneW_Name",
+          "key": "spell_vaynew_name",
+          "text": "圣银弩箭"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_Vayne_W_Tooltip",
+          "key": "spell_vayne_w_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>对一名敌人的每第三次连续的攻击或技能造成额外的<trueDamage>@TotalDamage@最大生命值的真实伤害</trueDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VayneW_Summary",
+          "key": "spell_vaynew_summary",
+          "text": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Passive",
+          "key": "spell_passive",
+          "text": "<spellPassive>被动</spellPassive>"
+        },
+        "keyCooldown": {
+          "sourceKey": "",
+          "key": null,
+          "text": null
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VayneSilveredBolts_TooltipExtendedBelowLine",
+          "key": "spell_vaynesilveredbolts_tooltipextendedbelowline",
+          "text": "<rules>最少造成@DamageFloor@伤害。<br>对抗野怪时造成@DamageVsMonsters@伤害。</rules>"
+        }
+      }
+    },
+    "vayne_e": {
+      "binding": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VayneE_Name",
+          "key": "spell_vaynee_name",
+          "text": "恶魔审判"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VayneE_Tooltip",
+          "key": "spell_vaynee_tooltip",
+          "text": "薇恩发射一根弩箭来<status>击退</status>一个目标并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果目标与地形产生碰撞，那么会受到<physicalDamage>@EmpoweredDamageTT@额外物理伤害</physicalDamage>，并且会被<status>晕眩</status>@StunDuration@秒。 "
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VayneE_Summary",
+          "key": "spell_vaynee_summary",
+          "text": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。"
+        }
+      }
+    },
+    "vayne_r": {
+      "binding": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VayneR_Name",
+          "key": "spell_vayner_name",
+          "text": "终极时刻"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VayneR_Tooltip",
+          "key": "spell_vayner_tooltip",
+          "text": "薇恩获得<physicalDamage>@BonusAttackDamage@攻击力</physicalDamage>，持续@BaseDuration@秒，并且如果一个被薇恩所伤害的敌方英雄在@DamagedMarkerDuration@秒内死亡，那么持续时间会延长@DurationToAdd@秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>@MovementSpeed@移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短@TumbleCDReduction@%，并提供持续@TumbleStealthDuration@秒的<keywordStealth>隐形</keywordStealth>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VayneR_Summary",
+          "key": "spell_vayner_summary",
+          "text": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VayneInquisition_TooltipExtendedBelowLine",
+          "key": "spell_vayneinquisition_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_Invisibility}}<br>这个技能的持续时间无法被提升至超过它的最大持续时间。</rules>"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_vipassive_name": "爆裂护盾",
+    "spell_vipassive_tooltip": "蔚在用一个已激活的技能命中一名敌人或建筑物后，会获得<shield>@TotalShield@护盾值</shield>，持续@ShieldDuration@秒。",
+    "spell_vipassive_summary": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。",
+    "spell_vipassive_tooltipextended": "{{Spell_ViPassive_Tooltip}}<br><br><rules>这个技能有@ShieldCooldown@秒的冷却时间，每当蔚触发<spellName>爆弹重拳</spellName>时，剩余的冷却时间就会减少@CDReductionOn3Hit@秒。</rules>",
+    "spell_viq_name": "强能冲拳",
+    "spell_viq_summary": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。",
+    "spell_viq_tooltip": "<charge>开始蓄力：</charge>蔚开始积蓄一次强力的冲拳，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>蔚向前冲刺，基于蓄力时间造成<physicalDamage>@TotalDamage@到@MaxDamageTooltip@物理伤害</physicalDamage>，并对命中的所有敌人施加<spellName>爆弹重拳</spellName>。蔚会在与一名敌方英雄碰撞时停下，并将其<status>击</status><status>退</status>。",
+    "spell_viq_tooltipextendedbelowline": "<rules>命中的非英雄单位会被拉向蔚。<br>如果蓄力被打断，那么这个技能会进入为期3秒的冷却时间。</rules>",
+    "spell_viw_name": "爆弹重拳",
+    "spell_viw_summary": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。",
+    "spell_viw_tooltip": "<spellPassive>被动：</spellPassive>对相同目标的每第三次攻击会造成额外<physicalDamage>@TotalDamageTooltip@最大生命值的物理伤害</physicalDamage>，移除目标<scaleArmor>@ShredAmount@%护甲</scaleArmor>，并为蔚提供<attackSpeed>@AttackSpeed@%攻击速度</attackSpeed>，持续@SharedBuffsDuration@秒。它还可缩短<spellName>爆裂护盾</spellName>@spell.ViPassive:CDReductionOn3Hit@秒冷却时间。",
+    "spell_cooldown_nocooldown": "无冷却时间",
+    "spell_viw_cost": "<spellPassive>被动</spellPassive>",
+    "spell_viw_tooltipextendedbelowline": "<rules>对抗野怪时最多造成<physicalDamage>@MonsterDamageCap@伤害</physicalDamage>。</rules>",
+    "spell_vie_name": "透体之劲",
+    "spell_vie_summary": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。",
+    "spell_vie_tooltip": "蔚的下次攻击对目标和目标后方的敌人造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>。<br><br>这个技能有2层充能(@AmmoRechargeTime@秒充能时间)。",
+    "spell_vir_name": "天霸横空烈轰",
+    "spell_vir_summary": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。",
+    "spell_vir_tooltip": "蔚挑出一名敌方英雄，将其显形并不可阻挡地向其冲刺。在触碰到该英雄后，蔚会将其<status>击飞</status>@RStunDuration@秒，并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。<br><br>任何与蔚产生碰撞的敌人都会受到伤害、被震开并<status>晕眩</status>@SecondaryTargetStunDuration@秒。",
+    "game_character_passivename_olaf": "狂战之怒",
+    "game_character_passivedescription_olaf": "奥拉夫获得至多<attackSpeed>@MaxAttackSpeed@攻击速度</attackSpeed>和@MaxLifeSteal@生命偷取，基于他的已损失生命值。",
+    "game_character_passivesummary_olaf": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。",
+    "game_character_passivedescriptionextended_olaf": "{{game_character_passiveDescription_Olaf}}<br><br><rules>在30%生命值时达到最大值</rules>",
+    "spell_olafaxethrowcast_name": "逆流投掷",
+    "spell_olafaxethrowcast_summary": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。",
+    "spell_olafaxethrowcast_tooltip": "奥拉夫扔出一把斧头，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和至多持续@MaxSlowDuration@秒(基于斧头移动距离)的@SlowAmount*100@%<status>减速</status>。被斧头命中的英雄还会损失<scaleArmor>@ShredAmount*100@%护甲</scaleArmor>，持续@DebuffDuration@秒。<br><br>如果奥拉夫拾起了斧头，那么这个技能的冷却时间会缩短至@TooltipCDRefund@秒，或在度过@TooltipCDRefund@秒之后完全返还。",
+    "spell_olafaxethrowcast_tooltipextendedbelowline": "<rules>对野怪造成@MonsterDamage@额外伤害。</rules>",
+    "spell_olaffrenziedstrikes_name": "挺过去",
+    "spell_olaffrenziedstrikes_summary": "奥拉夫的攻击速度得到提升，并获得一层护盾。",
+    "spell_olaffrenziedstrikes_tooltip": "奥拉夫获得持续@Duration@秒的<attackSpeed>@Attackspeed*100@%攻击速度</attackSpeed>，以及持续@ShieldDuration@秒的<shield>@BaseShield@外加@ShieldPercMissingHP*100@%已损失生命值的护盾值(最大值为@MaxShieldCalc@护盾值，在低于@ThresholdForMax*100@%时提供)</shield>。",
+    "spell_olafrecklessstrike_name": "鲁莽挥击",
+    "spell_olafrecklessstrike_summary": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。",
+    "spell_olafrecklessstrike_tooltip": "奥拉夫狂野地挥舞他的双斧，造成<trueDamage>@TotalDamage@真实伤害</trueDamage>。如果该敌人阵亡，那么会返还此技能的消耗。<br><br>攻击会使这个技能的冷却时间缩短1秒，在攻击野怪时，缩短值提升至2秒。",
+    "spell_olafrecklessstrike_cost": "消耗<font color='#FF3300'>@HealthCostCalc@生命值</font>",
+    "spell_recklessstrike_tooltipextendedbelowline": "<rules>施放时间受益于额外攻速</rules>：",
+    "spell_olafragnarok_name": "诸神黄昏",
+    "spell_olafragnarok_summary": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。",
+    "spell_olafragnarok_tooltip": "<spellPassive>被动：</spellPassive>奥拉夫获得<scaleArmor>@Resists@护甲</scaleArmor>和<scaleMR>@Resists@魔法抗性</scaleMR>。<br><br><spellActive>主动：</spellActive>奥拉夫净化掉他身上的所有<status>定身</status>和<status>限制</status>效果并且在接下来的@Duration@秒内免疫这些效果。在激活时，奥拉夫获得<scaleAD>@AD@攻击力</scaleAD>。用一次攻击或<spellName>鲁莽挥击</spellName>命中一名英雄时，会使持续时间延长@DurationExtension@秒。<br><br>此外，奥拉夫会在朝着敌方英雄时获得<speed>@Haste*100@%移动速度</speed>，持续@HasteDuration@秒。",
+    "spell_nocturnep_name": "暗影之刃",
+    "spell_nocturnep_summary": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。",
+    "spell_nocturnep_tooltip": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。",
+    "spell_nocturnep_tooltipextended": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。<br><br><rules><spellName>暗影之刃</spellName>对小兵的伤害降低@DamageMinionMod*100@%，并且从线上小兵处获得的治疗效果降低@HealMinionMod*100@%。</rules>",
+    "spell_cooldown_generic": "@Cooldown@秒%i:cooldown%",
+    "spell_nocturneq_name": "梦魇之径",
+    "spell_nocturneq_summary": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。",
+    "spell_nocturneq_tooltip": "魔腾扔出一把暗影之刃，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并留下一条持续@TrailDuration@秒的影径。被击中的敌方英雄们也会留下一条影径。<br><br>在影径上移动时，魔腾处于幽灵状态并获得<speed>@MoveSpeed@%移动速度</speed>和<physicalDamage>@BonusTrailAD@攻击力</physicalDamage>。",
+    "spell_nocturneq_tooltipsimple": "扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径。<br><br>在影径上时，魔腾获得@MoveSpeed@%移动速度和@BonusTrailAD@攻击力。",
+    "spell_nocturneduskbringer_tooltipextendedbelowline": "<rules>{{Reminder_Ghosted}}</rules>",
+    "spell_nocturnew_name": "黑暗庇护",
+    "spell_nocturnew_summary": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。",
+    "spell_nocturnew_tooltip": "<spellPassive>被动：</spellPassive>魔腾获得<attackSpeed>@ActiveAS@%攻击速度</attackSpeed>。<br><br><spellActive>主动：</spellActive>魔腾生成一个持续1.5秒的暗影屏障，来格挡下一个敌方技能。如果格挡掉一个技能，那么这个技能的被动效果提升至<attackSpeed>@ActiveAS*2@%攻击速度</attackSpeed>，持续@DoubleASDuration@秒。",
+    "spell_nocturnew_tooltipsimple": "<font color='#FF9900'>被动：</font>魔腾获得@ActiveAS@%攻击速度。<br><br><font color='#FF9900'>主动：</font>魔腾制造一个能够抵挡掉下一个敌人技能的魔法护盾，持续1.5秒。",
+    "spell_nocturneshroudofdarkness_tooltipextendedbelowline": "<rules>这个技能将在<spellName>鬼影重重</spellName>的飞行途中保持激活状态。</rules>",
+    "spell_nocturnee_name": "无言恐惧",
+    "spell_nocturnee_summary": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。",
+    "spell_nocturnee_tooltip": "<spellPassive>被动：</spellPassive>魔腾朝着被<status>恐惧</status>的敌人时会获得<speed>@TooltipFearMS*100@%移动速度</speed>。<br><br><spellActive>主动：</spellActive>魔腾将一根梦魇灵链植入他的目标，在@LeashDuration@秒里持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果灵链一直未断裂，目标就会被<status>恐惧</status>@CCDuration@秒。",
+    "spell_nocturnee_tooltipsimple": "<font color='#FF9900'>被动：</font>魔腾在朝着被恐惧的敌人移动时会提升移动速度。<br><br><font color='#FF9900'>主动：</font>在@LeashDuration@秒里持续造成伤害。如果这个过程完成，那么目标会被恐惧@CCDuration@秒。",
+    "spell_nocturner_name": "鬼影重重",
+    "spell_nocturner_summary": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。",
+    "spell_nocturner_tooltip": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续@ParanoiaDuration@秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。",
+    "spell_nocturner_tooltipsimple": "移除敌方英雄的友军视野，持续@ParanoiaDuration@秒。<br><br>在此期间再次激活此技能即可突进至一名敌方英雄并造成伤害。",
+    "game_character_passivename_vayne": "暗夜猎手",
+    "game_character_passivedescription_vayne": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得@MovementSpeed@移动速度。",
+    "game_character_passivesummary_vayne": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。",
+    "spell_vayneq_name": "闪避突袭",
+    "spell_vayneq_tooltip": "薇恩翻滚一小段距离，并且她的下次普通攻击造成额外的<physicalDamage>@ADRatioBonus@物理伤害</physicalDamage>。<br><br><rules>{{ buff_desc_SpellEffects }}</rules>",
+    "spell_vayneq_summary": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。",
+    "spell_vaynew_name": "圣银弩箭",
+    "spell_vayne_w_tooltip": "<spellPassive>被动：</spellPassive>对一名敌人的每第三次连续的攻击或技能造成额外的<trueDamage>@TotalDamage@最大生命值的真实伤害</trueDamage>。",
+    "spell_vaynew_summary": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。",
+    "spell_passive": "<spellPassive>被动</spellPassive>",
+    "spell_vaynesilveredbolts_tooltipextendedbelowline": "<rules>最少造成@DamageFloor@伤害。<br>对抗野怪时造成@DamageVsMonsters@伤害。</rules>",
+    "spell_vaynee_name": "恶魔审判",
+    "spell_vaynee_tooltip": "薇恩发射一根弩箭来<status>击退</status>一个目标并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果目标与地形产生碰撞，那么会受到<physicalDamage>@EmpoweredDamageTT@额外物理伤害</physicalDamage>，并且会被<status>晕眩</status>@StunDuration@秒。 ",
+    "spell_vaynee_summary": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。",
+    "spell_vayner_name": "终极时刻",
+    "spell_vayner_tooltip": "薇恩获得<physicalDamage>@BonusAttackDamage@攻击力</physicalDamage>，持续@BaseDuration@秒，并且如果一个被薇恩所伤害的敌方英雄在@DamagedMarkerDuration@秒内死亡，那么持续时间会延长@DurationToAdd@秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>@MovementSpeed@移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短@TumbleCDReduction@%，并提供持续@TumbleStealthDuration@秒的<keywordStealth>隐形</keywordStealth>。",
+    "spell_vayner_summary": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。",
+    "spell_vayneinquisition_tooltipextendedbelowline": "<rules>{{Reminder_Invisibility}}<br>这个技能的持续时间无法被提升至超过它的最大持续时间。</rules>"
+  }
+}

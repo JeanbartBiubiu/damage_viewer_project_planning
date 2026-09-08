@@ -1,0 +1,2209 @@
+{
+  "at": "2026-09-08T17:22:24.119Z",
+  "mode": "全部请求为GET，原始写前快照不改",
+  "planSha256": "6453dc63f7b721f7c71a4815bfa614587907ed0b641aac85629ca1fb600e393d",
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    }
+  },
+  "subjects": [
+    {
+      "route": "/skills/nocturne_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:40.861533Z",
+        "description": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "魔腾·暗影之刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nocturne_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.861533Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:41.145813Z",
+        "description": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·梦魇之径",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.145813Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:41.452199Z",
+        "description": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·黑暗庇护",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.452199Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:41.719209Z",
+        "description": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·无言恐惧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.719209Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:41.981897Z",
+        "description": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "魔腾·鬼影重重",
+        "skillCategoryKeys": [],
+        "skillKey": "nocturne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.981897Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:53.215076Z",
+        "description": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "薇恩·暗夜猎手",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "vayne_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.215076Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:53.457308Z",
+        "description": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·闪避突袭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.457308Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:53.733063Z",
+        "description": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·圣银弩箭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.733063Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:53.987988Z",
+        "description": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·恶魔审判",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.987988Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:54.290519Z",
+        "description": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "薇恩·终极时刻",
+        "skillCategoryKeys": [],
+        "skillKey": "vayne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:54.290519Z"
+      },
+      "match": true
+    }
+  ],
+  "relations": [
+    {
+      "route": "/character-skill-relations?characterKey=champion_nocturne",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "nocturne_p",
+            "skillName": "魔腾·暗影之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "nocturne_q",
+            "skillName": "魔腾·梦魇之径",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "nocturne_w",
+            "skillName": "魔腾·黑暗庇护",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "nocturne_e",
+            "skillName": "魔腾·无言恐惧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "nocturne_r",
+            "skillName": "魔腾·鬼影重重",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "match": true
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_vayne",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "vayne_p",
+            "skillName": "薇恩·暗夜猎手",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "vayne_q",
+            "skillName": "薇恩·闪避突袭",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "vayne_w",
+            "skillName": "薇恩·圣银弩箭",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "vayne_e",
+            "skillName": "薇恩·恶魔审判",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "vayne_r",
+            "skillName": "薇恩·终极时刻",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "match": true
+    }
+  ],
+  "images": [
+    {
+      "route": "/skills/nocturne_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nocturne_p",
+          "name": "nocturne_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/nocturne_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nocturne_q",
+          "name": "nocturne_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/nocturne_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nocturne_w",
+          "name": "nocturne_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/nocturne_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nocturne_e",
+          "name": "nocturne_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/nocturne_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nocturne_r",
+          "name": "nocturne_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/vayne_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vayne_p",
+          "name": "vayne_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/vayne_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vayne_q",
+          "name": "vayne_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/vayne_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vayne_w",
+          "name": "vayne_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/vayne_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vayne_e",
+          "name": "vayne_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/vayne_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vayne_r",
+          "name": "vayne_r"
+        }
+      }
+    }
+  ],
+  "collections": [
+    {
+      "route": "/skills/nocturne_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:23.779374Z",
+          "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nocturne_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:23.779374Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:24.220088Z",
+          "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nocturne_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:24.220088Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nocturne_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:24.591022Z",
+          "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18000,
+            "3": 16000,
+            "4": 14000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nocturne_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:24.591022Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:24.920937Z",
+          "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nocturne_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:24.920937Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nocturne_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:25.304078Z",
+          "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15000,
+            "2": 14000,
+            "3": 13000,
+            "4": 12000,
+            "5": 11000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nocturne_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:25.304078Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:25.661905Z",
+          "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nocturne_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:25.661905Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nocturne_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:26.042462Z",
+          "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nocturne_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:26.042462Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nocturne_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nocturne_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:32.673816Z",
+          "description": "DDragon16.17.1 Vayne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 6000,
+            "2": 5000,
+            "3": 4000,
+            "4": 3000,
+            "5": 2000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vayne_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:32.673816Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:33.18009Z",
+          "description": "DDragon16.17.1 Vayne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 46,
+            "2": 42,
+            "3": 38,
+            "4": 34,
+            "5": 30
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vayne_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:33.18009Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vayne_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:33.726216Z",
+          "description": "DDragon16.17.1 Vayne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18000,
+            "3": 16000,
+            "4": 14000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vayne_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:33.726216Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:34.217938Z",
+          "description": "DDragon16.17.1 Vayne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vayne_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:34.217938Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vayne_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:34.862528Z",
+          "description": "DDragon16.17.1 Vayne.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 85000,
+            "3": 70000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vayne_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:34.862528Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:35.429065Z",
+          "description": "DDragon16.17.1 Vayne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 80,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vayne_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:35.429065Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vayne_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vayne_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "details": [
+    {
+      "route": "/skills/nocturne_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:23.779374Z",
+        "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:23.779374Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:24.220088Z",
+        "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:24.220088Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:24.591022Z",
+        "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:24.591022Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:24.920937Z",
+        "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:24.920937Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:25.304078Z",
+        "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 14000,
+          "3": 13000,
+          "4": 12000,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:25.304078Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:25.661905Z",
+        "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:25.661905Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/nocturne_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:26.042462Z",
+        "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:26.042462Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:32.673816Z",
+        "description": "DDragon16.17.1 Vayne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5000,
+          "3": 4000,
+          "4": 3000,
+          "5": 2000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vayne_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:32.673816Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:33.18009Z",
+        "description": "DDragon16.17.1 Vayne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 46,
+          "2": 42,
+          "3": 38,
+          "4": 34,
+          "5": 30
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vayne_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:33.18009Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:33.726216Z",
+        "description": "DDragon16.17.1 Vayne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vayne_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:33.726216Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:34.217938Z",
+        "description": "DDragon16.17.1 Vayne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 90,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vayne_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:34.217938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:34.862528Z",
+        "description": "DDragon16.17.1 Vayne.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vayne_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:34.862528Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vayne_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:35.429065Z",
+        "description": "DDragon16.17.1 Vayne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vayne_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:35.429065Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    }
+  ],
+  "missing": [
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "passive_cooldown_ms"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "champion_attack_cooldown_reduction_ms"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "noncritical_total_ad_ratio"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "critical_branch_total_ad_ratio"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "healing_ap_ratio"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "healing_level_one"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "healing_level_eighteen"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "parameters",
+      "key": "decoded_level_base_heal"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "formulas",
+      "key": "noncritical_attack_damage"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "formulas",
+      "key": "critical_branch_amount"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "formulas",
+      "key": "single_target_heal"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "effects",
+      "key": "single_target_heal"
+    },
+    {
+      "skill": "nocturne_p",
+      "kind": "effects",
+      "key": "champion_attack_cooldown_reduction"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "parameters",
+      "key": "trail_move_speed_ratio"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "parameters",
+      "key": "trail_attack_damage"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "parameters",
+      "key": "trail_lifetime_ms"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "formulas",
+      "key": "damage"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "effects",
+      "key": "damage"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "effects",
+      "key": "on_trail_attributes"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "nocturne_q",
+      "kind": "triggerRules",
+      "key": "actual_hit"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "parameters",
+      "key": "passive_attack_speed_ratio"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "parameters",
+      "key": "spell_shield_duration_ms"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "parameters",
+      "key": "empowered_attack_speed_duration_ms"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "parameters",
+      "key": "on_block_total_multiplier"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "formulas",
+      "key": "total_attack_speed_after_block"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "effects",
+      "key": "passive_attack_speed"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "effects",
+      "key": "on_block_additional_attack_speed"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "effects",
+      "key": "spell_shield"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "effects",
+      "key": "consume_spell_shield"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "nocturne_w",
+      "kind": "triggerRules",
+      "key": "consume_and_empower_on_block"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "total_base_damage"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "fear_duration_ms"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "leash_duration_ms"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "toward_feared_move_speed_ratio"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "unresolved_stat_coefficient"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "parameters",
+      "key": "resolved_scaling_attribute"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "formulas",
+      "key": "full_leash_damage"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "effects",
+      "key": "toward_feared_move_speed"
+    },
+    {
+      "skill": "nocturne_e",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "parameters",
+      "key": "cooldown_ms"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "parameters",
+      "key": "recast_window_ms"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "formulas",
+      "key": "arrival_damage"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "nocturne_r",
+      "kind": "effects",
+      "key": "arrival_damage"
+    },
+    {
+      "skill": "vayne_p",
+      "kind": "parameters",
+      "key": "night_hunter_move_speed"
+    },
+    {
+      "skill": "vayne_p",
+      "kind": "effects",
+      "key": "night_hunter_move_speed"
+    },
+    {
+      "skill": "vayne_q",
+      "kind": "parameters",
+      "key": "bonus_total_ad_ratio"
+    },
+    {
+      "skill": "vayne_q",
+      "kind": "parameters",
+      "key": "bonus_ap_ratio"
+    },
+    {
+      "skill": "vayne_q",
+      "kind": "parameters",
+      "key": "empowered_attack_window_ms"
+    },
+    {
+      "skill": "vayne_q",
+      "kind": "formulas",
+      "key": "bonus_attack_damage"
+    },
+    {
+      "skill": "vayne_q",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vayne_w",
+      "kind": "parameters",
+      "key": "target_maximum_health_ratio"
+    },
+    {
+      "skill": "vayne_w",
+      "kind": "parameters",
+      "key": "minimum_true_damage"
+    },
+    {
+      "skill": "vayne_w",
+      "kind": "parameters",
+      "key": "same_target_window_ms"
+    },
+    {
+      "skill": "vayne_w",
+      "kind": "parameters",
+      "key": "consecutive_hit_threshold"
+    },
+    {
+      "skill": "vayne_w",
+      "kind": "formulas",
+      "key": "silver_bolts_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "parameters",
+      "key": "wall_bonus_multiplier"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "parameters",
+      "key": "wall_stun_duration_ms"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "formulas",
+      "key": "initial_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "formulas",
+      "key": "wall_bonus_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "formulas",
+      "key": "with_wall_total_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "effects",
+      "key": "initial_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "effects",
+      "key": "wall_bonus_damage"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "vayne_e",
+      "kind": "triggerRules",
+      "key": "actual_hit"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "bonus_attack_damage"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "base_duration_ms"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "night_hunter_replacement_move_speed"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "duration_extension_ms"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "damage_marker_window_ms"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "tumble_cooldown_reduction_ratio"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "tumble_invisibility_ms"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "ordinary_night_hunter_move_speed"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "one"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "parameters",
+      "key": "current_tumble_cooldown_ms"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "formulas",
+      "key": "night_hunter_extra_over_base"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "formulas",
+      "key": "tumble_cooldown_during_final_hour"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "effects",
+      "key": "bonus_attack_damage"
+    },
+    {
+      "skill": "vayne_r",
+      "kind": "processes",
+      "key": "cast"
+    }
+  ],
+  "conflicts": [],
+  "references": [],
+  "success": true,
+  "finishedAt": "2026-09-08T17:22:29.275Z"
+}
