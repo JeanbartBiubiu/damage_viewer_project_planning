@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T02:53:26.494Z",
+  "generatedAt": "2026-09-08T14:40:02.593Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -25,8 +25,11 @@
     "pureAttribute": 47,
     "withEffects": 134,
     "effectEquipmentDirectValues": 353,
-    "additionalDirectAttributes": 1,
-    "additionalDirectAttributeEvidence": "装备技能实录/Luna第三批/主负责人复核.json",
+    "additionalDirectAttributes": 2,
+    "additionalDirectAttributeEvidence": [
+      "装备技能实录/Luna第三批/主负责人复核.json",
+      "装备技能实录/第十一批范围与轻灵鞋/独立最终回读.json"
+    ],
     "evidence": [
       "实录记录.json",
       "API实录/装备/summary.json"
@@ -214,6 +217,31 @@
       "status": "部分录入；属性基数和等级断点已补证，翠绿屏障初始化及成功消费已保存；其余按待配清单继续",
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/Luna第九批/独立最终回读.json"
+    },
+    "equipmentEleventhBatch": {
+      "equipment": [
+        "item_1120",
+        "item_3009",
+        "item_3046",
+        "item_3085",
+        "item_3109"
+      ],
+      "directAttributeAdded": {
+        "equipmentKey": "item_3009",
+        "attributeKey": "slow_resist_percent",
+        "value": 0.25
+      },
+      "completeSkippedEffectEquipment": [
+        "item_1120",
+        "item_3046",
+        "item_3085",
+        "item_3109"
+      ],
+      "newSkills": 0,
+      "newTables": 0,
+      "status": "当前1V1数据范围已处理；轻灵鞋常驻属性保存并页面核对，四件额外效果有排除依据",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第十一批范围与轻灵鞋/独立最终回读.json"
     },
     "heroFourthBatch": {
       "skills": [
