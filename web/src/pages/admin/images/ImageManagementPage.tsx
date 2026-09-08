@@ -80,6 +80,8 @@ export function ImageManagementPage({
   const [appliedQuery, setAppliedQuery] = useState<CachedImageQuery>(EMPTY_QUERY);
   const [items, setItems] = useState<CachedImageRecord[]>([]);
   const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -131,10 +133,17 @@ export function ImageManagementPage({
 
   useEffect(() => { void loadCachedList(appliedQuery); }, [appliedQuery, loadCachedList]);
 
+  const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
+  const visiblePage = Math.min(currentPage, lastPage);
+  useEffect(() => {
+    setCurrentPage((page) => Math.min(page, lastPage));
+  }, [lastPage]);
+
   useEffect(() => {
     setKeywordDraft('');
     setEnabledDraft('');
     setAppliedQuery(EMPTY_QUERY);
+    setCurrentPage(1);
     setEditor(null);
     setStatusTarget(null);
     setStatusError(null);
@@ -146,6 +155,7 @@ export function ImageManagementPage({
 
   const applyQuery = () => {
     setNotice(null);
+    setCurrentPage(1);
     setAppliedQuery({
       keyword: keywordDraft.trim() || undefined,
       enabled: enabledDraft === '' ? undefined : enabledDraft
@@ -155,6 +165,7 @@ export function ImageManagementPage({
   const resetQuery = () => {
     setKeywordDraft('');
     setEnabledDraft('');
+    setCurrentPage(1);
     setAppliedQuery(EMPTY_QUERY);
   };
 
@@ -437,7 +448,18 @@ export function ImageManagementPage({
           loading={loading}
           columns={columns}
           data={items}
-          pagination={false}
+          pagination={{
+            current: visiblePage,
+            pageSize,
+            total: items.length,
+            showTotal: true,
+            sizeCanChange: true,
+            sizeOptions: [25, 50, 100],
+            onChange: (page, nextPageSize) => {
+              setCurrentPage(nextPageSize === pageSize ? page : 1);
+              setPageSize(nextPageSize);
+            }
+          }}
           rowKey={(record: CachedImageRecord) => record.imageKey}
           scroll={{ x: 900 }}
           noDataElement={(
