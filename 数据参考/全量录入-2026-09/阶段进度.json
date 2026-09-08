@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T17:38:24.873Z",
+  "generatedAt": "2026-09-08T18:03:54.592Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -138,6 +138,49 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "heroSeventhBatch": {
+      "skills": [
+        "vi_p",
+        "vi_q",
+        "vi_w",
+        "vi_e",
+        "vi_r",
+        "olaf_p",
+        "olaf_q",
+        "olaf_w",
+        "olaf_e",
+        "olaf_r",
+        "nocturne_p",
+        "nocturne_q",
+        "nocturne_w",
+        "nocturne_e",
+        "nocturne_r",
+        "vayne_p",
+        "vayne_q",
+        "vayne_w",
+        "vayne_e",
+        "vayne_r"
+      ],
+      "parameters": 144,
+      "formulas": 27,
+      "effects": 39,
+      "processes": 12,
+      "internalStates": 0,
+      "triggerRules": 6,
+      "created": 203,
+      "reused": 25,
+      "arithmeticCases": 139,
+      "invariantChecks": 191,
+      "status": "部分录入；228组成独立GET、5个代表页面和22项页面后GET通过，完整第三击/时序等待补",
+      "executor": "Cursor原始候选、执行代理纠错录入、独立审查与主负责人真实页面",
+      "cursorRunId": "run-a4b4c854-0ace-4ff5-9fac-343bccbd3f5b",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/独立全量回读.json",
+        "commit": "e753c966"
+      }
+    },
     "equipmentFourteenthBatch": {
       "skills": [
         "item_3142_passive",
