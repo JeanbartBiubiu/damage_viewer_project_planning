@@ -1,0 +1,932 @@
+{
+  "at": "2026-09-08T16:58:14.143Z",
+  "mode": "仅GET；保留写前原值",
+  "skills": {
+    "vi_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:58.648234Z",
+        "description": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "蔚·爆裂护盾",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "vi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.648234Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vi_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:58.94264Z",
+        "description": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·强能冲拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.94264Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:42.803736Z",
+            "description": "DDragon16.17.1 Vi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 10500,
+              "3": 9000,
+              "4": 7500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vi_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:42.803736Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:43.253812Z",
+            "description": "DDragon16.17.1 Vi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vi_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:43.253812Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vi_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:59.215844Z",
+        "description": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·爆弹重拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.215844Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vi_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:59.502246Z",
+        "description": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·透体之劲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.502246Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:43.702181Z",
+            "description": "DDragon16.17.1 Vi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 26,
+              "2": 32,
+              "3": 38,
+              "4": 44,
+              "5": 50
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vi_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:43.702181Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vi_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:59.750615Z",
+        "description": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蔚·天霸横空烈轰",
+        "skillCategoryKeys": [],
+        "skillKey": "vi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.750615Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:44.526265Z",
+            "description": "DDragon16.17.1 Vi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 140000,
+              "2": 115000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vi_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:44.526265Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:45.010515Z",
+            "description": "DDragon16.17.1 Vi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vi_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:45.010515Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "olaf_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:43.62861Z",
+        "description": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奥拉夫·狂战之怒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "olaf_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:43.62861Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "olaf_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:43.926471Z",
+        "description": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·逆流投掷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:43.926471Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:26.390995Z",
+            "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 9000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "olaf_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:26.390995Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:26.813067Z",
+            "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "olaf_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:26.813067Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "olaf_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:44.174023Z",
+        "description": "奥拉夫的攻击速度得到提升，并获得一层护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·挺过去",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.174023Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:27.192219Z",
+            "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 16000,
+              "2": 15000,
+              "3": 14000,
+              "4": 13000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "olaf_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:27.192219Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:27.598941Z",
+            "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "olaf_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:27.598941Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "olaf_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:44.472887Z",
+        "description": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·鲁莽挥击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.472887Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:28.016173Z",
+            "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 11000,
+              "2": 10000,
+              "3": 9000,
+              "4": 8000,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "olaf_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:28.016173Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "olaf_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:44.745208Z",
+        "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥拉夫·诸神黄昏",
+        "skillCategoryKeys": [],
+        "skillKey": "olaf_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.745208Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:28.447949Z",
+            "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 100000,
+              "2": 90000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "olaf_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:28.447949Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:28.805571Z",
+            "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "olaf_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:28.805571Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nocturne_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:40.861533Z",
+        "description": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "魔腾·暗影之刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nocturne_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.861533Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nocturne_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:41.145813Z",
+        "description": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·梦魇之径",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.145813Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:23.779374Z",
+            "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nocturne_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:23.779374Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:24.220088Z",
+            "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nocturne_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:24.220088Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nocturne_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:41.452199Z",
+        "description": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·黑暗庇护",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.452199Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:24.591022Z",
+            "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nocturne_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:24.591022Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:24.920937Z",
+            "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nocturne_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:24.920937Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nocturne_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:41.719209Z",
+        "description": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "魔腾·无言恐惧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nocturne_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.719209Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:25.304078Z",
+            "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 15000,
+              "2": 14000,
+              "3": 13000,
+              "4": 12000,
+              "5": 11000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nocturne_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:25.304078Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:25.661905Z",
+            "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nocturne_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:25.661905Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nocturne_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:41.981897Z",
+        "description": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "魔腾·鬼影重重",
+        "skillCategoryKeys": [],
+        "skillKey": "nocturne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.981897Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:26.042462Z",
+            "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nocturne_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:26.042462Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vayne_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:53.215076Z",
+        "description": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "薇恩·暗夜猎手",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "vayne_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.215076Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vayne_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:53.457308Z",
+        "description": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·闪避突袭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.457308Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:32.673816Z",
+            "description": "DDragon16.17.1 Vayne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 6000,
+              "2": 5000,
+              "3": 4000,
+              "4": 3000,
+              "5": 2000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vayne_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:32.673816Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:33.18009Z",
+            "description": "DDragon16.17.1 Vayne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 46,
+              "2": 42,
+              "3": 38,
+              "4": 34,
+              "5": 30
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vayne_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:33.18009Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vayne_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:53.733063Z",
+        "description": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·圣银弩箭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.733063Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vayne_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:53.987988Z",
+        "description": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇恩·恶魔审判",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vayne_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:53.987988Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:33.726216Z",
+            "description": "DDragon16.17.1 Vayne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vayne_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:33.726216Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:34.217938Z",
+            "description": "DDragon16.17.1 Vayne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 90,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vayne_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:34.217938Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "vayne_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:54.290519Z",
+        "description": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "薇恩·终极时刻",
+        "skillCategoryKeys": [],
+        "skillKey": "vayne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:54.290519Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:34.862528Z",
+            "description": "DDragon16.17.1 Vayne.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 100000,
+              "2": 85000,
+              "3": 70000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vayne_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:34.862528Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:35.429065Z",
+            "description": "DDragon16.17.1 Vayne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 80,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "vayne_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:35.429065Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  }
+}

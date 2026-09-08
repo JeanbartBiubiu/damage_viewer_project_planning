@@ -1,0 +1,2931 @@
+{
+  "generatedAt": "2026-09-08T16:56:48.003Z",
+  "heroes": [
+    {
+      "id": "Vi",
+      "chineseName": "皮城执法官",
+      "rootPath": "Characters/Vi/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vi.json.gz",
+        "sha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "compressedSha256": "88df744509f0873b2df9d2eefeece0d1766c170ccc8fd758f07b3cc1352c9569",
+        "byteSize": 59287,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vi/vi.bin.json",
+        "fetchedAt": "2026-09-06T14:26:46.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vi.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vi.json",
+        "fetchedAt": "2026-09-06T14:12:55.879Z",
+        "byteSize": 12790,
+        "sha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "vi_p",
+          "binding": "Characters/Vi/Spells/ViPassiveAbility/ViPassive",
+          "name": "爆裂护盾",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ShieldDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "CDReductionOn3Hit",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalShield": {
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.11999999731779099,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ShieldCooldown": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 16,
+                  "mInitialBonusPerLevel": -0.5,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 19,
+                      "mAdditionalBonusAtThisLevel": -6,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vi_q",
+          "binding": "Characters/Vi/Spells/ViQAbility/ViQ",
+          "name": "强能冲拳",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            10.5,
+            9,
+            7.5,
+            6
+          ],
+          "officialCost": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "officialDescription": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。",
+          "officialTooltip": "<charge>开始蓄力：</charge>蔚开始积蓄一次强力的冲拳，自身<status>减速</status>{{ selfslow }}%。<br /><br /><release>释放：</release>蔚向前冲刺，基于蓄力时间造成<physicalDamage>{{ totaldamage }}到{{ maxdamagetooltip }}物理伤害</physicalDamage>，并对命中的所有敌人施加<spellName>爆弹重拳</spellName>。蔚会在与一名敌方英雄碰撞时停下，并将其<status>击</status><status>退</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            10.5,
+            9,
+            7.5,
+            6,
+            6
+          ],
+          "mana": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            80
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              80
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "KnockbackDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "MinDamage",
+              "values": [
+                20,
+                40,
+                60,
+                80,
+                100,
+                120,
+                140
+              ]
+            },
+            {
+              "name": "MaxDamageMult",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "MinionDamageMult",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "MinDashRange",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ]
+            },
+            {
+              "name": "ExtraDashRangeAtMaxCharge",
+              "values": [
+                475,
+                475,
+                475,
+                475,
+                475,
+                475,
+                475
+              ]
+            },
+            {
+              "name": "DashWallCheating",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "CanceledRefundTime",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "ManaRefundPercent",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "SelfSlow",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            },
+            {
+              "name": "ChargeDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "VFXChargeDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MinDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamageTooltip": {
+              "mMultiplier": {
+                "mDataValue": "MaxDamageMult",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "vi_w",
+          "binding": "Characters/Vi/Spells/ViWAbility/ViW",
+          "name": "爆弹重拳",
+          "maxrank": 5,
+          "officialCooldown": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>对相同目标的每第三次攻击会造成额外<physicalDamage>{{ totaldamagetooltip }}最大生命值的物理伤害</physicalDamage>，移除目标<scaleArmor>{{ shredamount }}%护甲</scaleArmor>，并为蔚提供<attackSpeed>{{ attackspeed }}%攻击速度</attackSpeed>，持续{{ sharedbuffsduration }}秒。它还可缩短<spellName>爆裂护盾</spellName>{{ spell.vipassive:cdreductionon3hit }}秒冷却时间。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ADCoefficient",
+              "values": [
+                0.03500000014901161,
+                0.03500000014901161,
+                0.03500000014901161,
+                0.03500000014901161,
+                0.03500000014901161,
+                0.03500000014901161,
+                0.03500000014901161
+              ]
+            },
+            {
+              "name": "MaxHealthDamage",
+              "values": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "name": "SharedBuffsDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "AttackSpeed",
+              "values": [
+                25,
+                30,
+                35,
+                40,
+                45,
+                50,
+                55
+              ]
+            },
+            {
+              "name": "ShredAmount",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            },
+            {
+              "name": "MonsterDamageCap",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ]
+            },
+            {
+              "name": "MarkerBuffDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "StacksBeforeEffect",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamageTooltip": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MaxHealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADCoefficient",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "vi_e",
+          "binding": "Characters/Vi/Spells/ViEAbility/ViE",
+          "name": "透体之劲",
+          "maxrank": 5,
+          "officialCooldown": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "officialCost": [
+            26,
+            32,
+            38,
+            44,
+            50
+          ],
+          "officialDescription": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。",
+          "officialTooltip": "蔚的下次攻击对目标和目标后方的敌人造成<physicalDamage>{{ totaldamagetooltip }}物理伤害</physicalDamage>。<br /><br />这个技能有2层充能({{ ammorechargetime }}秒充能时间)。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "mana": [
+            26,
+            32,
+            38,
+            44,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              26,
+              32,
+              38,
+              44,
+              50,
+              50
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ADRatio",
+              "values": [
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                -10,
+                10,
+                30,
+                50,
+                70,
+                90,
+                110
+              ]
+            },
+            {
+              "name": "UnnamedEffectAmount0"
+            },
+            {
+              "name": "BonusRange",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ]
+            },
+            {
+              "name": "AttackBuffDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "StaticCooldown",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{36ebd3cf}": {
+              "mFormulaParts": [
+                {
+                  "mStat": 9,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mNumber": -1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "vi_r",
+          "binding": "Characters/Vi/Spells/ViRAbility/ViR",
+          "name": "天霸横空烈轰",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            115,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。",
+          "officialTooltip": "蔚挑出一名敌方英雄，将其显形并不可阻挡地向其冲刺。在触碰到该英雄后，蔚会将其<status>击飞</status>{{ rstunduration }}秒，并造成<physicalDamage>{{ damage }}物理伤害</physicalDamage>。<br /><br />任何与蔚产生碰撞的敌人都会受到伤害、被震开并<status>晕眩</status>{{ secondarytargetstunduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            115,
+            90,
+            90,
+            90,
+            90
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "RBaseSpeed",
+              "values": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ]
+            },
+            {
+              "name": "RStunDuration",
+              "values": [
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842
+              ]
+            },
+            {
+              "name": "RBaseDamage",
+              "values": [
+                50,
+                150,
+                250,
+                350,
+                450,
+                550,
+                650
+              ]
+            },
+            {
+              "name": "SecondaryTargetDamageMultiplier",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "SecondaryTargetKnockbackDistance",
+              "values": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ]
+            },
+            {
+              "name": "SecondaryTargetStunDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "SecondaryTargetKnockbackDuration",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "RBonusADRatio",
+              "values": [
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421
+              ]
+            }
+          ],
+          "calculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "RBonusADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "SecondaryTargetDamage": {
+              "mMultiplier": {
+                "mDataValue": "SecondaryTargetDamageMultiplier",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "Damage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Olaf",
+      "chineseName": "狂战士",
+      "rootPath": "Characters/Olaf/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Olaf.json.gz",
+        "sha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "compressedSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+        "byteSize": 49859,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/olaf/olaf.bin.json",
+        "fetchedAt": "2026-09-06T14:26:31.210Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Olaf.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Olaf.json",
+        "fetchedAt": "2026-09-06T14:12:51.262Z",
+        "byteSize": 14055,
+        "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "olaf_p",
+          "binding": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+          "name": "狂战之怒",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "AttackSpeedPerMissingHPPerc",
+              "values": [
+                0.008999999612569809,
+                0.008999999612569809,
+                0.008999999612569809,
+                0.008999999612569809,
+                0.008999999612569809,
+                0.008999999612569809,
+                0.008999999612569809
+              ]
+            },
+            {
+              "name": "MaxStatsThreshold",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            }
+          ],
+          "calculations": {
+            "MaxAttackSpeed": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.5,
+                  "mEndValue": 1,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "MaxLifeSteal": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.07999999821186066,
+                  "mEndValue": 0.25,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "olaf_q",
+          "binding": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+          "name": "逆流投掷",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialDescription": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。",
+          "officialTooltip": "奥拉夫扔出一把斧头，造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>和至多持续{{ maxslowduration }}秒(基于斧头移动距离)的{{ slowamount*100 }}%<status>减速</status>。被斧头命中的英雄还会损失<scaleArmor>{{ shredamount*100 }}%护甲</scaleArmor>，持续{{ debuffduration }}秒。<br /><br />如果奥拉夫拾起了斧头，那么这个技能的冷却时间会缩短至{{ tooltipcdrefund }}秒，或在度过{{ tooltipcdrefund }}秒之后完全返还。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MinimumRange",
+              "values": [
+                425,
+                425,
+                425,
+                425,
+                425,
+                425,
+                425
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929
+              ]
+            },
+            {
+              "name": "ShredAmount",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "DebuffDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "MinimumCooldown",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                70,
+                120,
+                170,
+                220,
+                270,
+                320
+              ]
+            },
+            {
+              "name": "MonsterDamage",
+              "values": [
+                -5,
+                20,
+                45,
+                70,
+                95,
+                120,
+                145
+              ]
+            },
+            {
+              "name": "MaxSlowDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "MinSlowDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "MaxSlowDistance",
+              "values": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ]
+            },
+            {
+              "name": "MinSlowDistance",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TooltipCDRefund": {
+              "mMultiplier": {
+                "__type": "CooldownMultiplierCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MinimumCooldown",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "olaf_w",
+          "binding": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+          "name": "挺过去",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            15,
+            14,
+            13,
+            12
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialDescription": "奥拉夫的攻击速度得到提升，并获得一层护盾。",
+          "officialTooltip": "奥拉夫获得持续{{ duration }}秒的<attackSpeed>{{ attackspeed*100 }}%攻击速度</attackSpeed>，以及持续{{ shieldduration }}秒的<shield>{{ baseshield }}外加{{ shieldpercmissinghp*100 }}%已损失生命值的护盾值(最大值为{{ maxshieldcalc }}护盾值，在低于{{ thresholdformax*100 }}%时提供)</shield>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            16,
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Attackspeed",
+              "values": [
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929,
+                0.8999999761581421
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "ShieldPercMissingHP",
+              "values": [
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776
+              ]
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "BaseShield",
+              "values": [
+                -20,
+                10,
+                40,
+                70,
+                100,
+                130,
+                160
+              ]
+            },
+            {
+              "name": "ThresholdForMax",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            }
+          ],
+          "calculations": {
+            "ShieldCalc": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mExpandedTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 16,
+                  "mSubpart": {
+                    "mStat": 12,
+                    "mDataValue": "ShieldPercMissingHP",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxShieldCalc": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mSubpart": {
+                    "mPart1": {
+                      "mDataValue": "ShieldPercMissingHP",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mSubparts": [
+                        {
+                          "mNumber": 1,
+                          "__type": "NumberCalculationPart"
+                        },
+                        {
+                          "mPart1": {
+                            "mNumber": -1,
+                            "__type": "NumberCalculationPart"
+                          },
+                          "mPart2": {
+                            "mDataValue": "ThresholdForMax",
+                            "__type": "NamedDataValueCalculationPart"
+                          },
+                          "__type": "ProductOfSubPartsCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "olaf_e",
+          "binding": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+          "name": "鲁莽挥击",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。",
+          "officialTooltip": "奥拉夫狂野地挥舞他的双斧，造成<trueDamage>{{ totaldamage }}真实伤害</trueDamage>。如果该敌人阵亡，那么会返还此技能的消耗。<br /><br />攻击会使这个技能的冷却时间缩短1秒，在攻击野怪时，缩短值提升至2秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            11,
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Cast_Time_Base",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "Cast_Time_Min",
+              "values": [
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776,
+                0.17499999701976776
+              ]
+            },
+            {
+              "name": "Cast_Time_Attack_Speed_Cap",
+              "values": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "BaseHealthCost",
+              "values": [
+                10,
+                28,
+                46,
+                64,
+                82,
+                100,
+                118
+              ]
+            },
+            {
+              "name": "HealthCostADRatio",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                70,
+                115,
+                160,
+                205,
+                250,
+                295
+              ]
+            },
+            {
+              "name": "HealthCostPercent",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "MonsterRefresh",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "ChampionRefresh",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{fcf1daee}": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHealthCost",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "HealthCostADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealthCostCalc": {
+              "mMultiplier": {
+                "mDataValue": "HealthCostPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "olaf_r",
+          "binding": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+          "name": "诸神黄昏",
+          "maxrank": 3,
+          "officialCooldown": [
+            100,
+            90,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>奥拉夫获得<scaleArmor>{{ resists }}护甲</scaleArmor>和<scaleMR>{{ resists }}魔法抗性</scaleMR>。<br /><br /><spellActive>主动：</spellActive>奥拉夫净化掉他身上的所有<status>定身</status>和<status>限制</status>效果并且在接下来的{{ duration }}秒内免疫这些效果。在激活时，奥拉夫获得<scaleAD>{{ ad }}攻击力</scaleAD>。用一次攻击或<spellName>鲁莽挥击</spellName>命中一名英雄时，会使持续时间延长{{ durationextension }}秒。<br /><br />此外，奥拉夫会在朝着敌方英雄时获得<speed>{{ haste*100 }}%移动速度</speed>，持续{{ hasteduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            100,
+            100,
+            90,
+            80,
+            160,
+            160,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Resists",
+              "values": [
+                5,
+                10,
+                15,
+                20,
+                25,
+                30,
+                35
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "FlatAD",
+              "values": [
+                0,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60
+              ]
+            },
+            {
+              "name": "PercentTotalADAmp",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "HasteDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "Haste",
+              "values": [
+                -0.05000000074505806,
+                0.20000000298023224,
+                0.44999998807907104,
+                0.699999988079071,
+                0.949999988079071,
+                1.2000000476837158,
+                1.4500000476837158
+              ]
+            },
+            {
+              "name": "DurationExtension",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            }
+          ],
+          "calculations": {
+            "AD": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "FlatAD",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "PercentTotalADAmp",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Nocturne",
+      "chineseName": "永恒梦魇",
+      "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Nocturne.json.gz",
+        "sha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "compressedSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+        "byteSize": 51608,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nocturne/nocturne.bin.json",
+        "fetchedAt": "2026-09-06T14:26:31.133Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Nocturne.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nocturne.json",
+        "fetchedAt": "2026-09-06T14:12:52.098Z",
+        "byteSize": 11943,
+        "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "nocturne_p",
+          "binding": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+          "name": "暗影之刃",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "AACDR",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "AAChampMonsterCDR",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "Cooldown",
+              "values": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ]
+            },
+            {
+              "name": "Radius",
+              "values": [
+                360,
+                360,
+                360,
+                360,
+                360,
+                360,
+                360
+              ]
+            },
+            {
+              "name": "DamageMinionMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "HealMinionMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "HealingAPRatio",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "HealLevel1Value",
+              "values": [
+                13,
+                13,
+                13,
+                13,
+                13,
+                13,
+                13
+              ]
+            },
+            {
+              "name": "HealLevel18Value",
+              "values": [
+                32,
+                32,
+                32,
+                32,
+                32,
+                32,
+                32
+              ]
+            },
+            {
+              "name": "TotalDamageNoCritADRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "TotalDamageCritADRatio",
+              "values": [
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamageNoCrit": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalDamageNoCritADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalHealing": {
+              "mFormulaParts": [
+                {
+                  "{0589a59c}": "HealLevel1Value",
+                  "{0b65bc23}": "HealLevel18Value",
+                  "__type": "{ee18a47b}"
+                },
+                {
+                  "mDataValue": "HealingAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalDamageCrit": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalDamageCritADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "nocturne_q",
+          "binding": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+          "name": "梦魇之径",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialDescription": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。",
+          "officialTooltip": "魔腾扔出一把暗影之刃，造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>并留下一条持续{{ trailduration }}秒的影径。被击中的敌方英雄们也会留下一条影径。<br /><br />在影径上移动时，魔腾处于幽灵状态并获得<speed>{{ movespeed }}%移动速度</speed>和<physicalDamage>{{ bonustrailad }}攻击力</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                65,
+                105,
+                145,
+                185,
+                225,
+                265
+              ]
+            },
+            {
+              "name": "MoveSpeed",
+              "values": [
+                15,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ]
+            },
+            {
+              "name": "BonusTrailAD",
+              "values": [
+                5,
+                15,
+                25,
+                35,
+                45,
+                55,
+                65
+              ]
+            },
+            {
+              "name": "TrailDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.8500000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "nocturne_w",
+          "binding": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+          "name": "黑暗庇护",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18,
+            16,
+            14,
+            12
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialDescription": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>魔腾获得<attackSpeed>{{ activeas }}%攻击速度</attackSpeed>。<br /><br /><spellActive>主动：</spellActive>魔腾生成一个持续1.5秒的暗影屏障，来格挡下一个敌方技能。如果格挡掉一个技能，那么这个技能的被动效果提升至<attackSpeed>{{ activeas*2 }}%攻击速度</attackSpeed>，持续{{ doubleasduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            20,
+            18,
+            16,
+            14,
+            12,
+            12
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ActiveAS",
+              "values": [
+                30,
+                30,
+                35,
+                40,
+                45,
+                50,
+                55
+              ]
+            },
+            {
+              "name": "PassiveAS",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806
+              ]
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "DoubleASDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "E",
+          "skillKey": "nocturne_e",
+          "binding": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+          "name": "无言恐惧",
+          "maxrank": 5,
+          "officialCooldown": [
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialDescription": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>魔腾朝着被<status>恐惧</status>的敌人时会获得<speed>{{ tooltipfearms*100 }}%移动速度</speed>。<br /><br /><spellActive>主动：</spellActive>魔腾将一根梦魇灵链植入他的目标，在{{ leashduration }}秒里持续造成共<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果灵链一直未断裂，目标就会被<status>恐惧</status>{{ ccduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            15,
+            14,
+            13,
+            12,
+            11,
+            11
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "TooltipFearMS",
+              "values": [
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421
+              ]
+            },
+            {
+              "name": "DamageToDeal",
+              "values": [
+                35,
+                80,
+                125,
+                170,
+                215,
+                260,
+                305
+              ]
+            },
+            {
+              "name": "CCDuration",
+              "values": [
+                1,
+                1.25,
+                1.5,
+                1.75,
+                2,
+                2.25,
+                2.5
+              ]
+            },
+            {
+              "name": "LeashDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "LeashBreakRange",
+              "values": [
+                465,
+                465,
+                465,
+                465,
+                465,
+                465,
+                465
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DamageToDeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "nocturne_r",
+          "binding": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+          "name": "鬼影重重",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            115,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。",
+          "officialTooltip": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续{{ paranoiaduration }}秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>{{ damage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            115,
+            90,
+            90,
+            90,
+            90
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ParanoiaDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "TrackDistance",
+              "values": [
+                3500,
+                3500,
+                4250,
+                5000,
+                5750,
+                6500,
+                7250
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                150,
+                150,
+                275,
+                400,
+                525,
+                650,
+                775
+              ]
+            },
+            {
+              "name": "DashSpeed",
+              "values": [
+                1800,
+                1800,
+                1800,
+                1800,
+                1800,
+                1800,
+                1800
+              ]
+            }
+          ],
+          "calculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1.2000000476837158,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Vayne",
+      "chineseName": "暗夜猎手",
+      "rootPath": "Characters/Vayne/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vayne.json.gz",
+        "sha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "compressedSha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+        "byteSize": 51663,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vayne/vayne.bin.json",
+        "fetchedAt": "2026-09-06T14:26:44.797Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vayne.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vayne.json",
+        "fetchedAt": "2026-09-06T14:12:55.353Z",
+        "byteSize": 14322,
+        "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "vayne_p",
+          "binding": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+          "name": "暗夜猎手",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MovementSpeed",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ]
+            },
+            {
+              "name": "Range",
+              "values": [
+                2000,
+                2000,
+                2000,
+                2000,
+                2000,
+                2000,
+                2000
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vayne_q",
+          "binding": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+          "name": "闪避突袭",
+          "maxrank": 5,
+          "officialCooldown": [
+            6,
+            5,
+            4,
+            3,
+            2
+          ],
+          "officialCost": [
+            46,
+            42,
+            38,
+            34,
+            30
+          ],
+          "officialDescription": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。",
+          "officialTooltip": "薇恩翻滚一小段距离，并且她的下次普通攻击造成额外的<physicalDamage>{{ adratiobonus }}物理伤害</physicalDamage>。<br /><br /><rules>这个技能会在造成伤害时触发技能特效。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            6,
+            6,
+            5,
+            4,
+            3,
+            2,
+            2
+          ],
+          "mana": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "manaValues": {
+            "values": [
+              46,
+              42,
+              38,
+              34,
+              30,
+              26
+            ],
+            "{0a3e0478}": 46,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "TotalADRatio",
+              "values": [
+                0.6499999761581421,
+                0.75,
+                0.8500000238418579,
+                0.949999988079071,
+                1.0499999523162842,
+                1.149999976158142,
+                1.25
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "CanBonusDamageCrit"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "calculations": {
+            "ADRatioBonus": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "vayne_w",
+          "binding": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "name": "圣银弩箭",
+          "maxrank": 5,
+          "officialCooldown": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>对一名敌人的每第三次连续的攻击或技能造成额外的<trueDamage>{{ totaldamage }}最大生命值的真实伤害</trueDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MaxHealthRatio",
+              "values": [
+                0.02500000037252903,
+                0.03999999910593033,
+                0.054999999701976776,
+                0.07000000029802322,
+                0.08500000089406967,
+                0.10000000149011612,
+                0.11500000208616257
+              ]
+            },
+            {
+              "name": "DamageFloor",
+              "values": [
+                25,
+                40,
+                55,
+                70,
+                85,
+                100,
+                115
+              ]
+            },
+            {
+              "name": "DamageVsMonsters",
+              "values": [
+                125,
+                140,
+                155,
+                170,
+                185,
+                200,
+                215
+              ]
+            },
+            {
+              "name": "DebuffDuration",
+              "values": [
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5
+              ]
+            },
+            {
+              "name": "APRatio"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MaxHealthRatio",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "vayne_e",
+          "binding": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+          "name": "恶魔审判",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18,
+            16,
+            14,
+            12
+          ],
+          "officialCost": [
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "officialDescription": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。",
+          "officialTooltip": "薇恩发射一根弩箭来<status>击退</status>一个目标并造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。如果目标与地形产生碰撞，那么会受到<physicalDamage>{{ empowereddamagett }}额外物理伤害</physicalDamage>，并且会被<status>晕眩</status>{{ stunduration }}秒。 {{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            20,
+            18,
+            16,
+            14,
+            12,
+            12
+          ],
+          "mana": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "manaValues": {
+            "values": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "{0a3e0478}": 90,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                15,
+                50,
+                85,
+                120,
+                155,
+                190,
+                225
+              ]
+            },
+            {
+              "name": "StunDamage",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "KnockbackDistance",
+              "values": [
+                475,
+                475,
+                475,
+                475,
+                475,
+                475,
+                475
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredDamageTT": {
+              "mMultiplier": {
+                "mDataValue": "StunDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "vayne_r",
+          "binding": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "name": "终极时刻",
+          "maxrank": 3,
+          "officialCooldown": [
+            100,
+            85,
+            70
+          ],
+          "officialCost": [
+            80,
+            80,
+            80
+          ],
+          "officialDescription": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。",
+          "officialTooltip": "薇恩获得<physicalDamage>{{ bonusattackdamage }}攻击力</physicalDamage>，持续{{ baseduration }}秒，并且如果一个被薇恩所伤害的敌方英雄在{{ damagedmarkerduration }}秒内死亡，那么持续时间会延长{{ durationtoadd }}秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>{{ movementspeed }}移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短{{ tumblecdreduction }}%，并提供持续{{ tumblestealthduration }}秒的<keywordStealth>隐形</keywordStealth>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            100,
+            100,
+            85,
+            70,
+            70,
+            70,
+            70
+          ],
+          "mana": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "{0a3e0478}": 80,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.4043000042438507,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BonusAttackDamage",
+              "values": [
+                20,
+                35,
+                50,
+                65,
+                80,
+                95,
+                110
+              ]
+            },
+            {
+              "name": "BaseDuration",
+              "values": [
+                6,
+                8,
+                10,
+                12,
+                14,
+                16,
+                18
+              ]
+            },
+            {
+              "name": "TumbleStealthDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "MovementSpeed",
+              "values": [
+                90,
+                90,
+                90,
+                90,
+                90,
+                90,
+                90
+              ]
+            },
+            {
+              "name": "DurationToAdd",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "DamagedMarkerDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "TumbleCDReduction",
+              "values": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ]
+            }
+          ],
+          "calculations": {}
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "at": "2026-09-08T17:42:46.240Z",
+  "scope": [
+    "vi_p",
+    "vi_q",
+    "vi_w",
+    "vi_e",
+    "vi_r",
+    "olaf_p",
+    "olaf_q",
+    "olaf_w",
+    "olaf_e",
+    "olaf_r",
+    "nocturne_p",
+    "nocturne_q",
+    "nocturne_w",
+    "nocturne_e",
+    "nocturne_r",
+    "vayne_p",
+    "vayne_q",
+    "vayne_w",
+    "vayne_e",
+    "vayne_r"
+  ],
+  "candidateSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "totals": {
+    "parameters": 144,
+    "formulas": 27,
+    "effects": 39,
+    "processes": 12,
+    "internalStates": 0,
+    "triggerRules": 6
+  },
+  "total": 228,
+  "newConfirmed": 203,
+  "reused": 25,
+  "missing": 0,
+  "conflicts": 0,
+  "rejected": 0,
+  "readback": {
+    "runId": "2026-09-08T17-40-21-018Z",
+    "subjects": 20,
+    "collections": 120,
+    "details": 228,
+    "businessLeafFields": 3152,
+    "arithmetic": 139,
+    "invariants": 191,
+    "failures": 0
+  },
+  "preserved": {
+    "subjects": 20,
+    "representativeImages": 20,
+    "heroRelationshipLists": 4
+  },
+  "writeRunId": "2026-09-08T17-37-02-064Z",
+  "cursor": {
+    "status": "finished",
+    "runId": "run-a4b4c854-0ace-4ff5-9fac-343bccbd3f5b",
+    "requestId": "04422b36-18c0-480f-863f-83f652d00f0a",
+    "durationMs": 896596,
+    "allowedOutputs": 8,
+    "unchangedSeeds": 11,
+    "runDeltaOutsideScope": 0
+  },
+  "withdrawnComponents": 11,
+  "otherCorrections": [
+    "vi_q/cast.cooldown=null，不虚构开始蓄力即启动普通冷却",
+    "olaf_r/cast删除未经确证的主动AD绑定，保留法力消耗"
+  ],
+  "syntaxCheckedModules": 22,
+  "byHero": [
+    {
+      "hero": "vi",
+      "skills": [
+        {
+          "skillKey": "vi_p",
+          "parameters": 3,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "vi_q",
+          "parameters": 10,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        },
+        {
+          "skillKey": "vi_w",
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "vi_e",
+          "parameters": 10,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 1
+        },
+        {
+          "skillKey": "vi_r",
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 2
+        }
+      ]
+    },
+    {
+      "hero": "olaf",
+      "skills": [
+        {
+          "skillKey": "olaf_p",
+          "parameters": 5,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "olaf_q",
+          "parameters": 13,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 2
+        },
+        {
+          "skillKey": "olaf_w",
+          "parameters": 9,
+          "formulas": 3,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        },
+        {
+          "skillKey": "olaf_e",
+          "parameters": 8,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 1
+        },
+        {
+          "skillKey": "olaf_r",
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        }
+      ]
+    },
+    {
+      "hero": "nocturne",
+      "skills": [
+        {
+          "skillKey": "nocturne_p",
+          "parameters": 8,
+          "formulas": 3,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "nocturne_q",
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 2
+        },
+        {
+          "skillKey": "nocturne_w",
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 5,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 2
+        },
+        {
+          "skillKey": "nocturne_e",
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        },
+        {
+          "skillKey": "nocturne_r",
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 1
+        }
+      ]
+    },
+    {
+      "hero": "vayne",
+      "skills": [
+        {
+          "skillKey": "vayne_p",
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "vayne_q",
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        },
+        {
+          "skillKey": "vayne_w",
+          "parameters": 4,
+          "formulas": 1,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 0
+        },
+        {
+          "skillKey": "vayne_e",
+          "parameters": 6,
+          "formulas": 3,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1,
+          "reused": 2
+        },
+        {
+          "skillKey": "vayne_r",
+          "parameters": 12,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "reused": 2
+        }
+      ]
+    }
+  ],
+  "boundary": "真实API保存、独立GET与实际表达式核算已完成；没有用这些证据声称战斗运行或所有机制完成。代表页面由根任务继续验收。"
+}
