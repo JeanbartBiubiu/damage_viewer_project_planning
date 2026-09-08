@@ -1,0 +1,231 @@
+{
+  "at": "2026-09-08T14:41:58.459Z",
+  "decision": "根负责人批准撤出4个当前无施法行为挂接的过程，正常集合由260改为256；不是所有施法机制不支持。",
+  "notSaved": [
+    {
+      "skillKey": "sett_q",
+      "request": {
+        "processKey": "cast",
+        "name": "施放屈人之威",
+        "activationType": "ACTIVE",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "施放开始",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "postStatus": 400,
+      "response": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "effectBindings",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              },
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "stateOperations",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              }
+            ]
+          },
+          "message": "技能过程不合法"
+        }
+      },
+      "readbackStatus": 404,
+      "runId": "2026-09-08T14-37-01-742Z"
+    },
+    {
+      "skillKey": "sett_w",
+      "request": {
+        "processKey": "cast",
+        "name": "施放蓄意轰拳",
+        "activationType": "ACTIVE",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "施放开始",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "postStatus": 400,
+      "response": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "effectBindings",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              },
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "stateOperations",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              }
+            ]
+          },
+          "message": "技能过程不合法"
+        }
+      },
+      "readbackStatus": 404,
+      "runId": "2026-09-08T14-37-01-742Z"
+    },
+    {
+      "skillKey": "sett_e",
+      "request": {
+        "processKey": "cast",
+        "name": "施放强手裂颅",
+        "activationType": "ACTIVE",
+        "description": "只表达已确证的成本、冷却与施法延迟；不生成敌人命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "postStatus": 400,
+      "response": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "effectBindings",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              },
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "stateOperations",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              }
+            ]
+          },
+          "message": "技能过程不合法"
+        }
+      },
+      "readbackStatus": 404,
+      "runId": "2026-09-08T14-37-01-742Z"
+    },
+    {
+      "skillKey": "sett_r",
+      "request": {
+        "processKey": "cast",
+        "name": "施放叹为观止",
+        "activationType": "ACTIVE",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "施放开始",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "postStatus": 400,
+      "response": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "effectBindings",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              },
+              {
+                "code": "PROCESS_BEHAVIOR_REQUIRED",
+                "field": "stateOperations",
+                "message": "过程至少需要一个效果挂接或内部状态操作"
+              }
+            ]
+          },
+          "message": "技能过程不合法"
+        }
+      },
+      "readbackStatus": 404,
+      "runId": "2026-09-08T14-37-01-742Z"
+    }
+  ]
+}

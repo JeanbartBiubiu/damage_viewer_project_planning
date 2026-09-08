@@ -1,0 +1,556 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys所引用文本，不按名称猜旧对象。",
+  "skills": {
+    "sett_p": {
+      "binding": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SettPassive_Name",
+          "key": "spell_settpassive_name",
+          "text": "沙场豪情"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SettPassive_Tooltip",
+          "key": "spell_settpassive_tooltip",
+          "text": "瑟提的攻击会交替使用左重拳和右重拳。右重拳会跟着左重拳快速打出，并造成额外的<physicalDamage>@RightPunchBonus@物理伤害</physicalDamage>。<br><br>瑟提的每@MissingHealthUnit*500@%已损失生命值会为他提供额外的<healing>@TooltipRegenPerMissingHealthCalc@生命回复</healing>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SettPassive_Summary",
+          "key": "spell_settpassive_summary",
+          "text": "瑟提的普通攻击会交替使用左重拳和右重拳。右重拳稍微强一些和快一些。瑟提还很讨厌失败，因此会基于他的已损失生命值而获得额外的生命回复。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SettPassive_TooltipExtended",
+          "key": "spell_settpassive_tooltipextended",
+          "text": "{{Spell_SettPassive_Tooltip}}<br><br><rules>瑟提如果在2秒内没有打出右重拳，那么就会重置回左重拳。右重拳的<attackSpeed>攻击速度</attackSpeed>是左重拳的8倍。</rules>"
+        }
+      }
+    },
+    "sett_q": {
+      "binding": "Characters/Sett/Spells/SettQAbility/SettQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SettW_Name",
+          "key": "spell_settw_name",
+          "text": "屈人之威"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SettW_Tooltip",
+          "key": "spell_settw_tooltip",
+          "text": "瑟提手痒难耐，渴望打架，在朝着敌方英雄移动时获得<speed>@MSAmount*100@%移动速度</speed>，持续@MSDuration@秒。<br><br>此外，瑟提的下两次攻击造成额外的<physicalDamage>@BaseDamage@外加@MaxHealthDamageCalc@最大生命值的物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SettQ_Summary",
+          "key": "spell_settq_summary",
+          "text": "瑟提的下两次攻击将基于目标的最大生命值来造成额外伤害。瑟提也会在朝着敌方英雄移动时获得移动速度加成。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SettQ_TooltipExtendedBelowLine",
+          "key": "spell_settq_tooltipextendedbelowline",
+          "text": "<rules>攻击总会以一左一右的方式进行。每次重拳对野怪最多造成<physicalDamage>@MonsterCap@伤害</physicalDamage>。</rules>"
+        }
+      }
+    },
+    "sett_w": {
+      "binding": "Characters/Sett/Spells/SettWAbility/SettW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SettE_Name",
+          "key": "spell_sette_name",
+          "text": "蓄意轰拳"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SettE_Tooltip",
+          "key": "spell_sette_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>瑟提将受到的@DamageStored*100@%伤害储存为<keywordMajor>豪意</keywordMajor>，储量上限为<keywordMajor>@MaxGrit@</keywordMajor>。<keywordMajor>豪意</keywordMajor>在停止受到伤害的@AdrenalineStorageWindow@秒后会快速衰减。<br><br><spellActive>主动：</spellActive>瑟提将所有<keywordMajor>豪意</keywordMajor>迸发出来，获得<shield>@ShieldConversion*100@%迸发豪意值的护盾值</shield>，护盾值会在@ShieldMaxDuration@秒里持续衰减。瑟提随后会轰出一记重拳，对中央的所有敌人造成<trueDamage>@DamageCalc@外加@DamageConversion@迸发豪意值的真实伤害</trueDamage>(最大伤害为<trueDamage>@f1@</trueDamage>)。不在中央的敌人会受到<physicalDamage>物理伤害</physicalDamage>作为替代。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SettW_Summary",
+          "key": "spell_settw_summary",
+          "text": "瑟提会被动地将他受到的伤害储存为豪意。在施放时，瑟提会释放所有已储存的豪意来提供一层护盾并且重击一个区域，在区域中心造成真实伤害并在区域边缘造成物理伤害。"
+        }
+      }
+    },
+    "sett_e": {
+      "binding": "Characters/Sett/Spells/SettEAbility/SettE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SettQ_Name",
+          "key": "spell_settq_name",
+          "text": "强手裂颅"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SettQ_Tooltip",
+          "key": "spell_settq_tooltip",
+          "text": "瑟提将他两侧的敌人猛撞到一起，造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并使他们<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。如果瑟提在每侧都至少擒住了一名敌人，那么所有敌人还会被<status>晕眩</status>@StunDuration@秒。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SettE_Summary",
+          "key": "spell_sette_summary",
+          "text": "瑟提将他两侧的所有敌人猛撞到一起，对他们造成伤害和晕眩效果。如果敌人仅位于他的一侧，那么他们只会被减速而不会被晕眩。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SettE_ExtendedBelowLine",
+          "key": "spell_sette_extendedbelowline",
+          "text": "<rules>对野怪造成@MonsterBonus@额外伤害。</rules>"
+        }
+      }
+    },
+    "sett_r": {
+      "binding": "Characters/Sett/Spells/SettRAbility/SettR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SettR_Name",
+          "key": "spell_settr_name",
+          "text": "叹为观止"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SettR_Tooltip",
+          "key": "spell_settr_tooltip",
+          "text": "瑟提擒住一名敌方英雄，并在扛着该英雄前行时将其<status>压制</status>，然后将该英雄猛摔到地上，对着陆点附近的所有敌人造成<physicalDamage>@DamageCalc@外加@MaxHealthDamage*100@%被擒英雄的额外生命值的物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。敌人离瑟提着陆的位置越远，受到的伤害越低。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SettR_Summary",
+          "key": "spell_settr_summary",
+          "text": "瑟提将一名敌方英雄带到空中，然后将其猛砸到地上，在该英雄着陆后对其附近的所有敌人造成伤害和减速效果。"
+        }
+      }
+    },
+    "trundle_p": {
+      "binding": "Characters/Trundle/Spells/TrundleDiseaseOverseerAbility/TrundleDiseaseOverseer",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TrundleDiseaseOverseer_Name",
+          "key": "spell_trundlediseaseoverseer_name",
+          "text": "国王的贡品"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TrundleDiseaseOverseer_Tooltip",
+          "key": "spell_trundlediseaseoverseer_tooltip",
+          "text": "当一名敌人在特朗德尔附近阵亡时，他会回复<healing>该敌人@RegenPercent@最大生命值</healing>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TrundleDiseaseOverseer_Summary",
+          "key": "spell_trundlediseaseoverseer_summary",
+          "text": "每当附近有一个敌方单位死亡，特朗德尔都会获得相当于其一部分最大生命值的治疗效果。"
+        }
+      }
+    },
+    "trundle_q": {
+      "binding": "Characters/Trundle/Spells/TrundleTrollSmashAbility/TrundleTrollSmash",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TrundleTrollSmash_Name",
+          "key": "spell_trundletrollsmash_name",
+          "text": "利齿撕咬"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TrundleTrollSmash_Summary",
+          "key": "spell_trundletrollsmash_summary",
+          "text": "特朗德尔撕咬敌方，造成伤害，并暂时减少敌人的移动速度，削弱敌人的攻击力。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TrundleTrollSmash_Tooltip",
+          "key": "spell_trundletrollsmash_tooltip",
+          "text": "特朗德尔的下次攻击造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和短暂的@SlowAmount*100@%<status>减速</status>，然后特朗德尔获得持续@SapDebuffDuration@秒的<physicalDamage>@BonusAD@攻击力</physicalDamage>并且敌人们在这期间失去<physicalDamage>@SappedAD*-1@攻击力</physicalDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TrundleTrollSmash_TooltipExtendedBelowLine",
+          "key": "spell_trundletrollsmash_tooltipextendedbelowline",
+          "text": "<rules>{{ buff_desc_SpellEffects }}<br>特朗德尔的这次攻击获得@BonusRange@攻击距离。</rules>"
+        }
+      }
+    },
+    "trundle_w": {
+      "binding": "Characters/Trundle/Spells/trundledesecrateAbility/trundledesecrate",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_trundledesecrate_Name",
+          "key": "spell_trundledesecrate_name",
+          "text": "冰封领域"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_trundledesecrate_Summary",
+          "key": "spell_trundledesecrate_summary",
+          "text": "特朗德尔将目标区域变成他的领土，增加自己在该区域的攻击速度、移动速度，并且会从所有治疗手段中获得额外治疗效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_trundledesecrate_Tooltip",
+          "key": "spell_trundledesecrate_tooltip",
+          "text": "特朗德尔冻结一个区域@Duration@秒。在其中时，他会获得<speed>@MSBonus*100@%移动速度</speed>，<attackSpeed>@ASBonus*100@%攻击速度</attackSpeed>，和@HealingBonus*100@%治疗效果提升。"
+        }
+      }
+    },
+    "trundle_e": {
+      "binding": "Characters/Trundle/Spells/TrundleCircleAbility/TrundleCircle",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TrundleCircle_Name",
+          "key": "spell_trundlecircle_name",
+          "text": "寒冰之柱"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TrundleCircle_Summary",
+          "key": "spell_trundlecircle_summary",
+          "text": "特朗德尔在目标地点召唤寒冰之柱，令敌人无法通过，并减缓附近敌方单位的移动速度。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TrundleCircle_Tooltip",
+          "key": "spell_trundlecircle_tooltip",
+          "text": "特朗德尔生成一个持续@PillarDuration@秒的冰柱，短暂<status>击退</status>它上方的敌人们并使附近的敌人们<status>减速</status>@SlowAmount@%。"
+        }
+      }
+    },
+    "trundle_r": {
+      "binding": "Characters/Trundle/Spells/TrundlePainAbility/TrundlePain",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TrundlePain_Name",
+          "key": "spell_trundlepain_name",
+          "text": "强权至上"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TrundlePain_Summary",
+          "key": "spell_trundlepain_summary",
+          "text": "特朗德尔直接偷取目标的一部分生命值、大量的护甲和魔抗。在接下来的4秒里，特朗德尔将继续偷取双倍的等量的生命值、护甲值和魔抗。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TrundlePain_Tooltip",
+          "key": "spell_trundlepain_tooltip",
+          "text": "特朗德尔吸取一名敌方英雄的生命力，在@ActualDurationOfDrainBuff@秒里持续造成共计<magicDamage>@TotalPercentHPDamage@最大生命值的魔法伤害</magicDamage>并偷取<scaleArmor>@ArmorMRShred*100@%护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TrundlePain_TooltipExtendedBelowLine",
+          "key": "spell_trundlepain_tooltipextendedbelowline",
+          "text": "<rules>立刻造成一半的伤害和击碎效果，并在技能期间持续造成另一半伤害和击碎效果。<br>在吸取结束后，击碎效果还会持续@DurationOfDrainForTooltip@秒。</rules>"
+        }
+      }
+    },
+    "warwick_p": {
+      "binding": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_WarwickP_Name",
+          "key": "spell_warwickp_name",
+          "text": "血之饥渴"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_WarwickP_Tooltip",
+          "key": "spell_warwickp_tooltip",
+          "text": "沃里克的攻击在命中时附带额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。<br><br>如果沃里克的生命值低于@HealingThreshold*100@%，那么还会回复<healing><keywordMajor>血之饥渴</keywordMajor>@HealingRatio*100@%实际伤害值的生命值</healing>。如果沃里克的生命值低于@EmpoweredHealingThreshold*100@%，那么治疗效果提升至<healing>@EmpoweredHealingRatio*100@%实际伤害值</healing>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_WarwickP_Summary",
+          "key": "spell_warwickp_summary",
+          "text": "沃里克的普攻造成额外魔法伤害。如果沃里克的生命值低于50%，那么他会获得等额的治疗效果。如果他的生命值低于25%，则治疗效果提升至三倍。"
+        }
+      }
+    },
+    "warwick_q": {
+      "binding": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_WarwickQ_Name",
+          "key": "spell_warwickq_name",
+          "text": "野兽之口"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_WarwickQ_Summary",
+          "key": "spell_warwickq_summary",
+          "text": "沃里克向前猛扑并撕咬他的目标，造成基于目标最大生命值的伤害，并造成基于实际伤害值的治疗效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_WarwickQ_Tooltip",
+          "key": "spell_warwickq_tooltip",
+          "text": "<tap>秒放：</tap>沃里克向前猛扑并撕咬，造成<magicDamage>@BaseBiteDamage@外加@TargetPercentHPDamage@%最大生命值的魔法伤害</magicDamage>和<healing>@LifestealPercent@%实际伤害值的治疗效果</healing>。<br><br><hold>蓄力：</hold>沃里克猛扑并用它的狼嘴紧咬目标，并跃到目标身后。在紧咬目标时，沃里克会跟随目标的所有移动。在释放他的蓄力后，他会造成等额伤害和治疗效果。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_WarwickQ_TooltipExtendedBelowLine",
+          "key": "spell_warwickq_tooltipextendedbelowline",
+          "text": "<rules>这个技能施加攻击特效和攻击附伤，并且不会暴击。<br>在紧咬目标时，沃里克免疫强制位移效果。</rules>"
+        }
+      }
+    },
+    "warwick_w": {
+      "binding": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_WarwickW_Name",
+          "key": "spell_warwickw_name",
+          "text": "鲜血追猎"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_WarwickW_Summary",
+          "key": "spell_warwickw_summary",
+          "text": "沃里克感知生命值在50%以下的敌人，在朝着这些敌人移动时会获得移动速度加成，并在攻击这些敌人时会获得攻速加成。当这些敌人的生命值在25%以下时，他会狂暴并让这些加成提升至三倍。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_WarwickW_Tooltip",
+          "key": "spell_warwickw_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>沃里克可以感知生命值低于50%的英雄，朝着其移动时获得<speed>@PassiveMSBonus@%移动速度</speed>。对生命值低于50%的敌人施放技能和攻击可获得<speed>@PassiveASBonus@%攻击速度</speed>。这些加成在对抗低于25%生命值的敌人们时会提升200%。<br><br><spellActive>主动：</spellActive>沃里克可以暂时感知到所有敌人，并在对抗相距最近的那个英雄时获得这个技能的被动效果，持续8秒，无论该目标有多少生命值。如果没有感知到任何英雄，该技能的冷却时间缩短30%。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_WarwickW_TooltipExtendedBelowLine",
+          "key": "spell_warwickw_tooltipextendedbelowline",
+          "text": "<rules>沃里克只能被动感知到被友军攻击到生命值降至50%以下的敌人。</rules>"
+        }
+      }
+    },
+    "warwick_e": {
+      "binding": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_WarwickE_Name",
+          "key": "spell_warwicke_name",
+          "text": "远祖嗥叫"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_WarwickE_Summary",
+          "key": "spell_warwicke_summary",
+          "text": "沃里克获得持续2.5秒的伤害减免效果。在效果结束时，或者重新激活技能时，沃里克会嗥叫，使附近的敌人因恐惧而逃跑1秒。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_WarwickE_Tooltip",
+          "key": "spell_warwicke_tooltip",
+          "text": "沃里克获得@DRAmount@%伤害减免，持续@DRDuration@秒。在它结束后，沃里克会发出嗥叫，<status>恐惧</status>附近的敌人@FearDuration@秒。沃里克可以<recast>再次施放</recast>来提前结束这个技能。"
+        }
+      }
+    },
+    "warwick_r": {
+      "binding": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_WarwickR_Name",
+          "key": "spell_warwickr_name",
+          "text": "无尽束缚"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_WarwickR_Summary",
+          "key": "spell_warwickr_summary",
+          "text": "沃里克朝一个方向跳跃（跳跃距离可从他的移动速度加成中获益），将他所碰撞到的第一个敌方英雄压制1.5秒。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_WarwickR_Tooltip",
+          "key": "spell_warwickr_tooltip",
+          "text": "沃里克跳跃一大段距离(随他的<speed>移动速度</speed>增长)，并<status>压制</status>碰撞到的第一个敌方英雄@RDuration@秒并且自身处在引导状态。在此期间他持续攻击该英雄3次，造成<magicDamage>@DamageCumulative@魔法伤害</magicDamage>。沃里克在引导期间会获得<healing>100%实际伤害值的治疗效果</healing>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_WarwickR_TooltipExtendedBelowLine",
+          "key": "spell_warwickr_tooltipextendedbelowline",
+          "text": "<rules>这个技能在持续期间分别施加3次攻击特效和攻击附伤，并且不会暴击。<br>这个技能会使敌人<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "xinzhao_p": {
+      "binding": "Characters/XinZhao/Spells/XinZhaoPAbility/XinZhaoP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XinZhaoP_Name",
+          "key": "spell_xinzhaop_name",
+          "text": "果决"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XinZhaoP_Summary",
+          "key": "spell_xinzhaop_summary",
+          "text": "每第三次攻击造成额外伤害并治疗赵信自身。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XinZhaoP_Tooltip",
+          "key": "spell_xinzhaop_tooltip",
+          "text": "每第三次攻击或用<spellName>风斩电刺</spellName>命中敌人时，都会造成额外的<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并回复<healing>@TotalHealing@生命值</healing>。"
+        }
+      }
+    },
+    "xinzhao_q": {
+      "binding": "Characters/XinZhao/Spells/XinZhaoQAbility/XinZhaoQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XinZhaoQ_Name",
+          "key": "spell_xinzhaoq_name",
+          "text": "三重爪击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XinZhaoQ_Summary",
+          "key": "spell_xinzhaoq_summary",
+          "text": "赵信的下3次普攻将造成额外伤害并且第三次攻击将击飞目标。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XinZhaoQ_Tooltip",
+          "key": "spell_xinzhaoq_tooltip",
+          "text": "赵信的下3次普攻造成额外的<physicalDamage>@BonusDamage@物理伤害</physicalDamage>并使他的其它技能的冷却时间缩短1秒。第3次普攻还会<status>击飞</status>目标@KnockUpDuration@秒。<br>"
+        }
+      }
+    },
+    "xinzhao_w": {
+      "binding": "Characters/XinZhao/Spells/XinZhaoWAbility/XinZhaoW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XinZhaoW_Name",
+          "key": "spell_xinzhaow_name",
+          "text": "风斩电刺"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XinZhaoW_Summary",
+          "key": "spell_xinzhaow_summary",
+          "text": "赵信用他的长枪斩击他的前方，之后将长枪向前刺击，并使被击中的敌人减速并对其施加被挑战印记。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XinZhaoW_Tooltip",
+          "key": "spell_xinzhaow_tooltip",
+          "text": "赵信进行斩击，造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>，随后进行刺击，造成<physicalDamage>@ThrustDamage@</physicalDamage>物理伤害。被这次刺击命中的敌人们会受到持续@TotalSlowDuration@秒的@Effect6Amount*-100@%<status>减速</status>。<br><br>被这次刺击命中的英雄和大型野怪会被施加持续@MarkDuration@秒的<keywordMajor>被挑战</keywordMajor>标记并且如果不在<keywordStealth>潜行</keywordStealth>状态还会被显形。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XinZhaoW_TooltipExtendedBelowLine",
+          "key": "spell_xinzhaow_tooltipextendedbelowline",
+          "text": "<rules>基于赵信的暴击几率，刺击伤害至多提升@CritChanceAmp*100@%。<br>对小兵造成@MinionMod@%伤害。<br>两段攻击都会施加33%效能的生命偷取。</rules>"
+        }
+      }
+    },
+    "xinzhao_e": {
+      "binding": "Characters/XinZhao/Spells/XinZhaoEAbility/XinZhaoE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XinZhaoE_Name",
+          "key": "spell_xinzhaoe_name",
+          "text": "无畏冲锋"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XinZhaoE_Summary",
+          "key": "spell_xinzhaoe_summary",
+          "text": "赵信对一名敌人发起冲锋，获得攻击速度并对范围内的所有敌人造成伤害，并使他们暂时减速。以被挑战的敌人为目标时，这个技能的施放距离会获得提升。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XinZhaoE_Tooltip",
+          "key": "spell_xinzhaoe_tooltip",
+          "text": "赵信对一名敌人发起冲锋，对附近的敌人们造成<magicDamage>@ChargeDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。<br><br>赵信自身获得<attackSpeed>@f1@% (%i:scaleAS%%i:scaleAP%)攻击速度</attackSpeed>，持续@ASDuration@秒。<br><br>以<keywordMajor>被挑战</keywordMajor>的敌人为目标时，这个技能的施放距离会获得提升。<br>"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_XinZhaoE_TooltipExtended",
+          "key": "spell_xinzhaoe_tooltipextended",
+          "text": "赵信对一名敌人发起冲锋，对附近的敌人们造成<magicDamage>@ChargeDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。<br><br>赵信自身获得<attackSpeed>@f1@% = (<scaleLevel>@ASMod*100@%</scaleLevel> +1%每@PermanentASToASRatio@%永久%i:scaleAS% <scaleAP>+@APToASRatio*10000@%每100%i:scaleAP%</scaleAP>)攻击速度</attackSpeed>，持续@ASDuration@秒。<br><br>以<keywordMajor>被挑战</keywordMajor>的敌人为目标时，这个技能的施放距离会获得提升。<br>"
+        }
+      }
+    },
+    "xinzhao_r": {
+      "binding": "Characters/XinZhao/Spells/XinZhaoRAbility/XinZhaoR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XinZhaoR_Name",
+          "key": "spell_xinzhaor_name",
+          "text": "新月护卫"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XinZhaoR_Summary",
+          "key": "spell_xinzhaor_summary",
+          "text": "赵信被动地挑战一名近期被他造成过伤害的敌人。在主动施放时，赵信对附近的敌人们造成基于其当前生命值的伤害，并击退未被挑战的目标们，且自身变得不会受到来自圆环之外的敌人所造成的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XinZhaoR_Tooltip",
+          "key": "spell_xinzhaor_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>赵信会给他用攻击或<spellName>无畏冲锋</spellName>造成过伤害的最后一个英雄施加持续@MarkDuration@秒的<keywordMajor>被挑战</keywordMajor>标记。<br><br><spellActive>主动：</spellActive>赵信环绕自身释放一次横扫，造成<physicalDamage>@TotalDamage@外加@PercentCurrentHealthDamage*100@%当前生命值的物理伤害</physicalDamage>并<status>击退</status>所有<keywordMajor>未被挑战</keywordMajor>的敌人们。<br>  <br>随后，赵信会免疫来自横扫范围外侧敌人的伤害，持续@MissileDefenseBaseDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XinZhaoR_TooltipExtendedBelowLine",
+          "key": "spell_xinzhaor_tooltipextendedbelowline",
+          "text": "<rules>对野怪和小兵最多造成<physicalDamage>600伤害</physicalDamage>。</rules>"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_settpassive_name": "沙场豪情",
+    "spell_settpassive_tooltip": "瑟提的攻击会交替使用左重拳和右重拳。右重拳会跟着左重拳快速打出，并造成额外的<physicalDamage>@RightPunchBonus@物理伤害</physicalDamage>。<br><br>瑟提的每@MissingHealthUnit*500@%已损失生命值会为他提供额外的<healing>@TooltipRegenPerMissingHealthCalc@生命回复</healing>。",
+    "spell_settpassive_summary": "瑟提的普通攻击会交替使用左重拳和右重拳。右重拳稍微强一些和快一些。瑟提还很讨厌失败，因此会基于他的已损失生命值而获得额外的生命回复。",
+    "spell_settpassive_tooltipextended": "{{Spell_SettPassive_Tooltip}}<br><br><rules>瑟提如果在2秒内没有打出右重拳，那么就会重置回左重拳。右重拳的<attackSpeed>攻击速度</attackSpeed>是左重拳的8倍。</rules>",
+    "spell_settw_name": "屈人之威",
+    "spell_settw_tooltip": "瑟提手痒难耐，渴望打架，在朝着敌方英雄移动时获得<speed>@MSAmount*100@%移动速度</speed>，持续@MSDuration@秒。<br><br>此外，瑟提的下两次攻击造成额外的<physicalDamage>@BaseDamage@外加@MaxHealthDamageCalc@最大生命值的物理伤害</physicalDamage>。",
+    "spell_settq_summary": "瑟提的下两次攻击将基于目标的最大生命值来造成额外伤害。瑟提也会在朝着敌方英雄移动时获得移动速度加成。",
+    "spell_cost_nocost": "无消耗",
+    "spell_settq_tooltipextendedbelowline": "<rules>攻击总会以一左一右的方式进行。每次重拳对野怪最多造成<physicalDamage>@MonsterCap@伤害</physicalDamage>。</rules>",
+    "spell_sette_name": "蓄意轰拳",
+    "spell_sette_tooltip": "<spellPassive>被动：</spellPassive>瑟提将受到的@DamageStored*100@%伤害储存为<keywordMajor>豪意</keywordMajor>，储量上限为<keywordMajor>@MaxGrit@</keywordMajor>。<keywordMajor>豪意</keywordMajor>在停止受到伤害的@AdrenalineStorageWindow@秒后会快速衰减。<br><br><spellActive>主动：</spellActive>瑟提将所有<keywordMajor>豪意</keywordMajor>迸发出来，获得<shield>@ShieldConversion*100@%迸发豪意值的护盾值</shield>，护盾值会在@ShieldMaxDuration@秒里持续衰减。瑟提随后会轰出一记重拳，对中央的所有敌人造成<trueDamage>@DamageCalc@外加@DamageConversion@迸发豪意值的真实伤害</trueDamage>(最大伤害为<trueDamage>@f1@</trueDamage>)。不在中央的敌人会受到<physicalDamage>物理伤害</physicalDamage>作为替代。",
+    "spell_settw_summary": "瑟提会被动地将他受到的伤害储存为豪意。在施放时，瑟提会释放所有已储存的豪意来提供一层护盾并且重击一个区域，在区域中心造成真实伤害并在区域边缘造成物理伤害。",
+    "spell_settq_name": "强手裂颅",
+    "spell_settq_tooltip": "瑟提将他两侧的敌人猛撞到一起，造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并使他们<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。如果瑟提在每侧都至少擒住了一名敌人，那么所有敌人还会被<status>晕眩</status>@StunDuration@秒。",
+    "spell_sette_summary": "瑟提将他两侧的所有敌人猛撞到一起，对他们造成伤害和晕眩效果。如果敌人仅位于他的一侧，那么他们只会被减速而不会被晕眩。",
+    "spell_sette_extendedbelowline": "<rules>对野怪造成@MonsterBonus@额外伤害。</rules>",
+    "spell_settr_name": "叹为观止",
+    "spell_settr_tooltip": "瑟提擒住一名敌方英雄，并在扛着该英雄前行时将其<status>压制</status>，然后将该英雄猛摔到地上，对着陆点附近的所有敌人造成<physicalDamage>@DamageCalc@外加@MaxHealthDamage*100@%被擒英雄的额外生命值的物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。敌人离瑟提着陆的位置越远，受到的伤害越低。",
+    "spell_settr_summary": "瑟提将一名敌方英雄带到空中，然后将其猛砸到地上，在该英雄着陆后对其附近的所有敌人造成伤害和减速效果。",
+    "spell_trundlediseaseoverseer_name": "国王的贡品",
+    "spell_trundlediseaseoverseer_tooltip": "当一名敌人在特朗德尔附近阵亡时，他会回复<healing>该敌人@RegenPercent@最大生命值</healing>。",
+    "spell_trundlediseaseoverseer_summary": "每当附近有一个敌方单位死亡，特朗德尔都会获得相当于其一部分最大生命值的治疗效果。",
+    "spell_trundletrollsmash_name": "利齿撕咬",
+    "spell_trundletrollsmash_summary": "特朗德尔撕咬敌方，造成伤害，并暂时减少敌人的移动速度，削弱敌人的攻击力。",
+    "spell_trundletrollsmash_tooltip": "特朗德尔的下次攻击造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和短暂的@SlowAmount*100@%<status>减速</status>，然后特朗德尔获得持续@SapDebuffDuration@秒的<physicalDamage>@BonusAD@攻击力</physicalDamage>并且敌人们在这期间失去<physicalDamage>@SappedAD*-1@攻击力</physicalDamage>。",
+    "spell_trundletrollsmash_tooltipextendedbelowline": "<rules>{{ buff_desc_SpellEffects }}<br>特朗德尔的这次攻击获得@BonusRange@攻击距离。</rules>",
+    "spell_trundledesecrate_name": "冰封领域",
+    "spell_trundledesecrate_summary": "特朗德尔将目标区域变成他的领土，增加自己在该区域的攻击速度、移动速度，并且会从所有治疗手段中获得额外治疗效果。",
+    "spell_trundledesecrate_tooltip": "特朗德尔冻结一个区域@Duration@秒。在其中时，他会获得<speed>@MSBonus*100@%移动速度</speed>，<attackSpeed>@ASBonus*100@%攻击速度</attackSpeed>，和@HealingBonus*100@%治疗效果提升。",
+    "spell_trundlecircle_name": "寒冰之柱",
+    "spell_trundlecircle_summary": "特朗德尔在目标地点召唤寒冰之柱，令敌人无法通过，并减缓附近敌方单位的移动速度。",
+    "spell_trundlecircle_tooltip": "特朗德尔生成一个持续@PillarDuration@秒的冰柱，短暂<status>击退</status>它上方的敌人们并使附近的敌人们<status>减速</status>@SlowAmount@%。",
+    "spell_trundlepain_name": "强权至上",
+    "spell_trundlepain_summary": "特朗德尔直接偷取目标的一部分生命值、大量的护甲和魔抗。在接下来的4秒里，特朗德尔将继续偷取双倍的等量的生命值、护甲值和魔抗。",
+    "spell_trundlepain_tooltip": "特朗德尔吸取一名敌方英雄的生命力，在@ActualDurationOfDrainBuff@秒里持续造成共计<magicDamage>@TotalPercentHPDamage@最大生命值的魔法伤害</magicDamage>并偷取<scaleArmor>@ArmorMRShred*100@%护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。",
+    "spell_trundlepain_tooltipextendedbelowline": "<rules>立刻造成一半的伤害和击碎效果，并在技能期间持续造成另一半伤害和击碎效果。<br>在吸取结束后，击碎效果还会持续@DurationOfDrainForTooltip@秒。</rules>",
+    "spell_warwickp_name": "血之饥渴",
+    "spell_warwickp_tooltip": "沃里克的攻击在命中时附带额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。<br><br>如果沃里克的生命值低于@HealingThreshold*100@%，那么还会回复<healing><keywordMajor>血之饥渴</keywordMajor>@HealingRatio*100@%实际伤害值的生命值</healing>。如果沃里克的生命值低于@EmpoweredHealingThreshold*100@%，那么治疗效果提升至<healing>@EmpoweredHealingRatio*100@%实际伤害值</healing>。",
+    "spell_warwickp_summary": "沃里克的普攻造成额外魔法伤害。如果沃里克的生命值低于50%，那么他会获得等额的治疗效果。如果他的生命值低于25%，则治疗效果提升至三倍。",
+    "spell_warwickq_name": "野兽之口",
+    "spell_warwickq_summary": "沃里克向前猛扑并撕咬他的目标，造成基于目标最大生命值的伤害，并造成基于实际伤害值的治疗效果。",
+    "spell_warwickq_tooltip": "<tap>秒放：</tap>沃里克向前猛扑并撕咬，造成<magicDamage>@BaseBiteDamage@外加@TargetPercentHPDamage@%最大生命值的魔法伤害</magicDamage>和<healing>@LifestealPercent@%实际伤害值的治疗效果</healing>。<br><br><hold>蓄力：</hold>沃里克猛扑并用它的狼嘴紧咬目标，并跃到目标身后。在紧咬目标时，沃里克会跟随目标的所有移动。在释放他的蓄力后，他会造成等额伤害和治疗效果。",
+    "spell_warwickq_tooltipextendedbelowline": "<rules>这个技能施加攻击特效和攻击附伤，并且不会暴击。<br>在紧咬目标时，沃里克免疫强制位移效果。</rules>",
+    "spell_warwickw_name": "鲜血追猎",
+    "spell_warwickw_summary": "沃里克感知生命值在50%以下的敌人，在朝着这些敌人移动时会获得移动速度加成，并在攻击这些敌人时会获得攻速加成。当这些敌人的生命值在25%以下时，他会狂暴并让这些加成提升至三倍。",
+    "spell_warwickw_tooltip": "<spellPassive>被动：</spellPassive>沃里克可以感知生命值低于50%的英雄，朝着其移动时获得<speed>@PassiveMSBonus@%移动速度</speed>。对生命值低于50%的敌人施放技能和攻击可获得<speed>@PassiveASBonus@%攻击速度</speed>。这些加成在对抗低于25%生命值的敌人们时会提升200%。<br><br><spellActive>主动：</spellActive>沃里克可以暂时感知到所有敌人，并在对抗相距最近的那个英雄时获得这个技能的被动效果，持续8秒，无论该目标有多少生命值。如果没有感知到任何英雄，该技能的冷却时间缩短30%。",
+    "spell_warwickw_tooltipextendedbelowline": "<rules>沃里克只能被动感知到被友军攻击到生命值降至50%以下的敌人。</rules>",
+    "spell_warwicke_name": "远祖嗥叫",
+    "spell_warwicke_summary": "沃里克获得持续2.5秒的伤害减免效果。在效果结束时，或者重新激活技能时，沃里克会嗥叫，使附近的敌人因恐惧而逃跑1秒。",
+    "spell_warwicke_tooltip": "沃里克获得@DRAmount@%伤害减免，持续@DRDuration@秒。在它结束后，沃里克会发出嗥叫，<status>恐惧</status>附近的敌人@FearDuration@秒。沃里克可以<recast>再次施放</recast>来提前结束这个技能。",
+    "spell_warwickr_name": "无尽束缚",
+    "spell_warwickr_summary": "沃里克朝一个方向跳跃（跳跃距离可从他的移动速度加成中获益），将他所碰撞到的第一个敌方英雄压制1.5秒。",
+    "spell_warwickr_tooltip": "沃里克跳跃一大段距离(随他的<speed>移动速度</speed>增长)，并<status>压制</status>碰撞到的第一个敌方英雄@RDuration@秒并且自身处在引导状态。在此期间他持续攻击该英雄3次，造成<magicDamage>@DamageCumulative@魔法伤害</magicDamage>。沃里克在引导期间会获得<healing>100%实际伤害值的治疗效果</healing>。",
+    "spell_warwickr_tooltipextendedbelowline": "<rules>这个技能在持续期间分别施加3次攻击特效和攻击附伤，并且不会暴击。<br>这个技能会使敌人<status>中断位移</status>。</rules>",
+    "spell_xinzhaop_name": "果决",
+    "spell_xinzhaop_summary": "每第三次攻击造成额外伤害并治疗赵信自身。",
+    "spell_xinzhaop_tooltip": "每第三次攻击或用<spellName>风斩电刺</spellName>命中敌人时，都会造成额外的<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并回复<healing>@TotalHealing@生命值</healing>。",
+    "spell_xinzhaoq_name": "三重爪击",
+    "spell_xinzhaoq_summary": "赵信的下3次普攻将造成额外伤害并且第三次攻击将击飞目标。",
+    "spell_xinzhaoq_tooltip": "赵信的下3次普攻造成额外的<physicalDamage>@BonusDamage@物理伤害</physicalDamage>并使他的其它技能的冷却时间缩短1秒。第3次普攻还会<status>击飞</status>目标@KnockUpDuration@秒。<br>",
+    "spell_xinzhaow_name": "风斩电刺",
+    "spell_xinzhaow_summary": "赵信用他的长枪斩击他的前方，之后将长枪向前刺击，并使被击中的敌人减速并对其施加被挑战印记。",
+    "spell_xinzhaow_tooltip": "赵信进行斩击，造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>，随后进行刺击，造成<physicalDamage>@ThrustDamage@</physicalDamage>物理伤害。被这次刺击命中的敌人们会受到持续@TotalSlowDuration@秒的@Effect6Amount*-100@%<status>减速</status>。<br><br>被这次刺击命中的英雄和大型野怪会被施加持续@MarkDuration@秒的<keywordMajor>被挑战</keywordMajor>标记并且如果不在<keywordStealth>潜行</keywordStealth>状态还会被显形。",
+    "spell_xinzhaow_tooltipextendedbelowline": "<rules>基于赵信的暴击几率，刺击伤害至多提升@CritChanceAmp*100@%。<br>对小兵造成@MinionMod@%伤害。<br>两段攻击都会施加33%效能的生命偷取。</rules>",
+    "spell_xinzhaoe_name": "无畏冲锋",
+    "spell_xinzhaoe_summary": "赵信对一名敌人发起冲锋，获得攻击速度并对范围内的所有敌人造成伤害，并使他们暂时减速。以被挑战的敌人为目标时，这个技能的施放距离会获得提升。",
+    "spell_xinzhaoe_tooltip": "赵信对一名敌人发起冲锋，对附近的敌人们造成<magicDamage>@ChargeDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。<br><br>赵信自身获得<attackSpeed>@f1@% (%i:scaleAS%%i:scaleAP%)攻击速度</attackSpeed>，持续@ASDuration@秒。<br><br>以<keywordMajor>被挑战</keywordMajor>的敌人为目标时，这个技能的施放距离会获得提升。<br>",
+    "spell_xinzhaoe_tooltipextended": "赵信对一名敌人发起冲锋，对附近的敌人们造成<magicDamage>@ChargeDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。<br><br>赵信自身获得<attackSpeed>@f1@% = (<scaleLevel>@ASMod*100@%</scaleLevel> +1%每@PermanentASToASRatio@%永久%i:scaleAS% <scaleAP>+@APToASRatio*10000@%每100%i:scaleAP%</scaleAP>)攻击速度</attackSpeed>，持续@ASDuration@秒。<br><br>以<keywordMajor>被挑战</keywordMajor>的敌人为目标时，这个技能的施放距离会获得提升。<br>",
+    "spell_xinzhaor_name": "新月护卫",
+    "spell_xinzhaor_summary": "赵信被动地挑战一名近期被他造成过伤害的敌人。在主动施放时，赵信对附近的敌人们造成基于其当前生命值的伤害，并击退未被挑战的目标们，且自身变得不会受到来自圆环之外的敌人所造成的伤害。",
+    "spell_xinzhaor_tooltip": "<spellPassive>被动：</spellPassive>赵信会给他用攻击或<spellName>无畏冲锋</spellName>造成过伤害的最后一个英雄施加持续@MarkDuration@秒的<keywordMajor>被挑战</keywordMajor>标记。<br><br><spellActive>主动：</spellActive>赵信环绕自身释放一次横扫，造成<physicalDamage>@TotalDamage@外加@PercentCurrentHealthDamage*100@%当前生命值的物理伤害</physicalDamage>并<status>击退</status>所有<keywordMajor>未被挑战</keywordMajor>的敌人们。<br>  <br>随后，赵信会免疫来自横扫范围外侧敌人的伤害，持续@MissileDefenseBaseDuration@秒。",
+    "spell_xinzhaor_tooltipextendedbelowline": "<rules>对野怪和小兵最多造成<physicalDamage>600伤害</physicalDamage>。</rules>"
+  }
+}

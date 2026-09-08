@@ -1,0 +1,3661 @@
+{
+  "generatedAt": "2026-09-08T02:08:15.368Z",
+  "heroes": [
+    {
+      "id": "Sett",
+      "chineseName": "腕豪",
+      "rootPath": "Characters/Sett/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Sett.json.gz",
+        "sha256": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+        "compressedSha256": "02307985a897af077d579aae85285de7799fbf0e6918db6acb5c643925c87cbf",
+        "byteSize": 55065,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sett/sett.bin.json",
+        "fetchedAt": "2026-09-06T14:26:37.197Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Sett.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sett.json",
+        "fetchedAt": "2026-09-06T14:12:53.163Z",
+        "byteSize": 14882,
+        "sha256": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "sett_p",
+          "binding": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+          "name": "沙场豪情",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "瑟提的普通攻击会交替使用左重拳和右重拳。右重拳稍微强一些和快一些。瑟提还很讨厌失败，因此会基于他的已损失生命值而获得额外的生命回复。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "NumHits",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "LockoutTimer",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            },
+            {
+              "name": "MarkerDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "GrabDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "SelfSlowPercent",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "MaxHPOnHit",
+              "values": [
+                0.05999999865889549,
+                0.05999999865889549,
+                0.05999999865889549,
+                0.05999999865889549,
+                0.05999999865889549,
+                0.05999999865889549,
+                0.05999999865889549
+              ]
+            },
+            {
+              "name": "MissingHealthUnit",
+              "values": [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+              ]
+            },
+            {
+              "name": "AttackSpeed",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "JabDamagePercent",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "HookDamagePercentFinal",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "PassiveHealthThreshold",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "PassiveHealthThresholdAmp",
+              "values": [
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164
+              ]
+            }
+          ],
+          "calculations": {
+            "HealingCalc": {
+              "mFormulaParts": [
+                {
+                  "values": [
+                    0.003000000026077032,
+                    0.004000000189989805,
+                    0.004999999888241291,
+                    0.006000000052154064,
+                    0.007000000216066837,
+                    0.00800000037997961,
+                    0.008999999612569809,
+                    0.009999999776482582,
+                    0.010999999940395355,
+                    0.012000000104308128,
+                    0.013000000268220901,
+                    0.014000000432133675,
+                    0.014999999664723873,
+                    0.01600000075995922,
+                    0.017000000923871994,
+                    0.017999999225139618,
+                    0.01899999938905239,
+                    0.019999999552965164,
+                    0.020999999716877937,
+                    0.02199999988079071,
+                    0.023000000044703484,
+                    0.024000000208616257,
+                    0.02500000037252903,
+                    0.026000000536441803,
+                    0.027000000700354576,
+                    0.02800000086426735,
+                    0.028999999165534973,
+                    0.029999999329447746,
+                    0.03099999949336052,
+                    0.03200000151991844,
+                    0.032999999821186066
+                  ],
+                  "__type": "ByCharLevelFormulaCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "RightPunchBonus": {
+              "mFormulaParts": [
+                {
+                  "values": [
+                    0,
+                    5,
+                    10,
+                    15,
+                    20,
+                    25,
+                    30,
+                    35,
+                    40,
+                    45,
+                    50,
+                    55,
+                    60,
+                    65,
+                    70,
+                    75,
+                    80,
+                    85,
+                    90,
+                    95,
+                    100,
+                    105,
+                    110,
+                    115,
+                    120,
+                    125,
+                    130,
+                    135,
+                    140,
+                    145,
+                    150
+                  ],
+                  "__type": "ByCharLevelFormulaCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.550000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{7733e08c}": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mExpandedTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 3,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 7,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": 20,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 19,
+                      "mBonusPerLevelAtAndAfter": 1,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mPrecision": 2,
+              "__type": "GameCalculation"
+            },
+            "{a156fbdc}": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 1.2000000476837158,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "tooltipregenpermissinghealthcalc": {
+              "mMultiplier": {
+                "mNumber": 5,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "{7733e08c}",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "sett_q",
+          "binding": "Characters/Sett/Spells/SettQAbility/SettQ",
+          "name": "屈人之威",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "瑟提的下两次攻击将基于目标的最大生命值来造成额外伤害。瑟提也会在朝着敌方英雄移动时获得移动速度加成。",
+          "officialTooltip": "瑟提手痒难耐，渴望打架，在朝着敌方英雄移动时获得<speed>{{ msamount*100 }}%移动速度</speed>，持续{{ msduration }}秒。<br /><br />此外，瑟提的下两次攻击造成额外的<physicalDamage>{{ basedamage }}外加{{ maxhealthdamagecalc }}最大生命值的物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            9,
+            9,
+            8,
+            7,
+            6,
+            5,
+            9
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": 0.33000001311302185,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Duration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                0,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60
+              ]
+            },
+            {
+              "name": "StackCount",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "HealthCost",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            },
+            {
+              "name": "MSAmount",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "MSDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "AdrenalineDecayLockTimer",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "BaseHealthCost",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "EnemyMaxHealthDamage",
+              "values": [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+              ]
+            },
+            {
+              "name": "QMinimumDamage",
+              "values": [
+                5,
+                10,
+                15,
+                20,
+                25,
+                30,
+                35
+              ]
+            },
+            {
+              "name": "MaxHealthTADRatio",
+              "values": [
+                0.00004999999873689376,
+                0.00009999999747378752,
+                0.0001500000071246177,
+                0.00019999999494757503,
+                0.0002500000118743628,
+                0.0003000000142492354,
+                0.0003499999875202775
+              ]
+            },
+            {
+              "name": "MaxHealthTADRatioTOOLTIP",
+              "values": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5,
+                3,
+                3.5
+              ]
+            },
+            {
+              "name": "MonsterCap",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            }
+          ],
+          "calculations": {
+            "MaxHealthDamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "EnemyMaxHealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "MaxHealthTADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "BonusEnemyMaxHealthDamage": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "mDataValue": "MaxHealthTADRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mNumber": 100,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "sett_w",
+          "binding": "Characters/Sett/Spells/SettWAbility/SettW",
+          "name": "蓄意轰拳",
+          "maxrank": 5,
+          "officialCooldown": [
+            18,
+            16.5,
+            15,
+            13.5,
+            12
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "瑟提会被动地将他受到的伤害储存为豪意。在施放时，瑟提会释放所有已储存的豪意来提供一层护盾并且重击一个区域，在区域中心造成真实伤害并在区域边缘造成物理伤害。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>瑟提将受到的{{ damagestored*100 }}%伤害储存为<keywordMajor>豪意</keywordMajor>，储量上限为<keywordMajor>{{ maxgrit }}</keywordMajor>。<keywordMajor>豪意</keywordMajor>在停止受到伤害的{{ adrenalinestoragewindow }}秒后会快速衰减。<br /><br /><spellActive>主动：</spellActive>瑟提将所有<keywordMajor>豪意</keywordMajor>迸发出来，获得<shield>{{ shieldconversion*100 }}%迸发豪意值的护盾值</shield>，护盾值会在{{ shieldmaxduration }}秒里持续衰减。瑟提随后会轰出一记重拳，对中央的所有敌人造成<trueDamage>{{ damagecalc }}外加{{ damageconversion }}迸发豪意值的真实伤害</trueDamage>(最大伤害为<trueDamage>{{ f1 }}</trueDamage>)。不在中央的敌人会受到<physicalDamage>物理伤害</physicalDamage>作为替代。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            18,
+            18,
+            16.5,
+            15,
+            13.5,
+            12,
+            12
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0,
+          "mCastTime": 0.75,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                60,
+                80,
+                100,
+                120,
+                140,
+                160,
+                180
+              ]
+            },
+            {
+              "name": "DamageAmp",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "MovementSpeed",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "MSDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "GreyHealthDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "ShieldConversion",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "DamageStored",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "CDRefund"
+            },
+            {
+              "name": "StoredHealth",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "LockTime",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "ResourceDecayRate",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "DamageConversionBase",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "EnrageDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "EnrageHealingMult",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "EnrageADMult",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            },
+            {
+              "name": "EnrageArmorPen",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "ShieldMaxDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "ShieldDecayDelay",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "AdrenalineStorageWindow",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ],
+          "calculations": {
+            "DamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "DamageConversion": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DamageConversionBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.0024999999441206455,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "MaxGrit": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mDataValue": "StoredHealth",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mDataValue": "DamageConversionBase",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mStatFormula": 2,
+                    "mCoefficient": 0.10000000149011612,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mModifiedGameCalculation": "MaxGrit",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "sett_e",
+          "binding": "Characters/Sett/Spells/SettEAbility/SettE",
+          "name": "强手裂颅",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            14.5,
+            13,
+            11.5,
+            10
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "瑟提将他两侧的所有敌人猛撞到一起，对他们造成伤害和晕眩效果。如果敌人仅位于他的一侧，那么他们只会被减速而不会被晕眩。",
+          "officialTooltip": "瑟提将他两侧的敌人猛撞到一起，造成<physicalDamage>{{ damagecalc }}物理伤害</physicalDamage>并使他们<status>减速</status>{{ slowamount*100 }}%，持续{{ slowduration }}秒。如果瑟提在每侧都至少擒住了一名敌人，那么所有敌人还会被<status>晕眩</status>{{ stunduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            18,
+            16,
+            14.5,
+            13,
+            11.5,
+            10,
+            10
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Duration",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "LeapDistance",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                50,
+                70,
+                90,
+                110,
+                130,
+                150
+              ]
+            },
+            {
+              "name": "MaxHealthDamage",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "ThrowRange",
+              "values": [
+                500,
+                500,
+                500,
+                500,
+                500,
+                500,
+                500
+              ]
+            },
+            {
+              "name": "SingleBaseDamage",
+              "values": [
+                0,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60
+              ]
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "MonsterDamage",
+              "values": [
+                125,
+                150,
+                175,
+                200,
+                225,
+                250,
+                275
+              ]
+            }
+          ],
+          "calculations": {
+            "DamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "tooltipadratio_e": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MonsterBonus": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 125,
+                  "mEndValue": 250,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "sett_r",
+          "binding": "Characters/Sett/Spells/SettRAbility/SettR",
+          "name": "叹为观止",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "瑟提将一名敌方英雄带到空中，然后将其猛砸到地上，在该英雄着陆后对其附近的所有敌人造成伤害和减速效果。",
+          "officialTooltip": "瑟提擒住一名敌方英雄，并在扛着该英雄前行时将其<status>压制</status>，然后将该英雄猛摔到地上，对着陆点附近的所有敌人造成<physicalDamage>{{ damagecalc }}外加{{ maxhealthdamage*100 }}%被擒英雄的额外生命值的物理伤害</physicalDamage>和持续{{ slowduration }}秒的{{ slowamount*100 }}%<status>减速</status>。敌人离瑟提着陆的位置越远，受到的伤害越低。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "GrabDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "MoveSpeedBonus",
+              "values": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ]
+            },
+            {
+              "name": "MaxHealthDamage",
+              "values": [
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929,
+                0.8999999761581421
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700
+              ]
+            },
+            {
+              "name": "DistanceToFirstHit",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            },
+            {
+              "name": "DistancePastFirstHit",
+              "values": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ]
+            },
+            {
+              "name": "MaxPassiveStacks",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "DelayBeforeDecay",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "CarryDistancePerStack",
+              "values": [
+                200,
+                200,
+                200,
+                200,
+                200,
+                200,
+                200
+              ]
+            },
+            {
+              "name": "ResistAmount"
+            },
+            {
+              "name": "ResistDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "CraterDuration",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            },
+            {
+              "name": "CraterRadius",
+              "values": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ]
+            },
+            {
+              "name": "CraterMaxHaste",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "CraterMaxSlow",
+              "values": [
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432,
+                0.9900000095367432
+              ]
+            },
+            {
+              "name": "CraterEdgeDamageReduction",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "CraterSweetSpotRadius",
+              "values": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+              ]
+            }
+          ],
+          "calculations": {
+            "DamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1.2000000476837158,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxHealthDamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MaxHealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "tooltipadratio_r": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Trundle",
+      "chineseName": "巨魔之王",
+      "rootPath": "Characters/Trundle/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Trundle.json.gz",
+        "sha256": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+        "compressedSha256": "7f1e6d977043037976221a4be3514d98fc4dc21dd1ab58f910d8149c9aab5abf",
+        "byteSize": 49357,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/trundle/trundle.bin.json",
+        "fetchedAt": "2026-09-06T14:26:41.893Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Trundle.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Trundle.json",
+        "fetchedAt": "2026-09-06T14:12:54.791Z",
+        "byteSize": 10577,
+        "sha256": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "trundle_p",
+          "binding": "Characters/Trundle/Spells/TrundleDiseaseOverseerAbility/TrundleDiseaseOverseer",
+          "name": "国王的贡品",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "每当附近有一个敌方单位死亡，特朗德尔都会获得相当于其一部分最大生命值的治疗效果。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [],
+          "calculations": {
+            "RegenPercent": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.017999999225139618,
+                  "mEndValue": 0.054999999701976776,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "trundle_q",
+          "binding": "Characters/Trundle/Spells/TrundleTrollSmashAbility/TrundleTrollSmash",
+          "name": "利齿撕咬",
+          "maxrank": 5,
+          "officialCooldown": [
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5
+          ],
+          "officialCost": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "officialDescription": "特朗德尔撕咬敌方，造成伤害，并暂时减少敌人的移动速度，削弱敌人的攻击力。",
+          "officialTooltip": "特朗德尔的下次攻击造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>和短暂的{{ slowamount*100 }}%<status>减速</status>，然后特朗德尔获得持续{{ sapdebuffduration }}秒的<physicalDamage>{{ bonusad }}攻击力</physicalDamage>并且敌人们在这期间失去<physicalDamage>{{ sappedad*-1 }}攻击力</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5
+          ],
+          "mana": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "manaValues": {
+            "values": [
+              20,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "{0a3e0478}": 20,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "TooltipQADRatio",
+              "values": [
+                0.05000000074505806,
+                0.15000000596046448,
+                0.25,
+                0.3499999940395355,
+                0.44999998807907104,
+                0.550000011920929,
+                0.6499999761581421
+              ]
+            },
+            {
+              "name": "BonusRange",
+              "values": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25
+              ]
+            },
+            {
+              "name": "ADScaling",
+              "values": [
+                1.0499999523162842,
+                1.149999976158142,
+                1.25,
+                1.350000023841858,
+                1.4500000476837158,
+                1.5499999523162842,
+                1.649999976158142
+              ]
+            },
+            {
+              "name": "BonusDamage",
+              "values": [
+                -10,
+                10,
+                30,
+                50,
+                70,
+                90,
+                110
+              ]
+            },
+            {
+              "name": "BonusAD",
+              "values": [
+                15,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ]
+            },
+            {
+              "name": "SappedAD",
+              "values": [
+                -7.5,
+                -10,
+                -12.5,
+                -15,
+                -17.5,
+                -20,
+                -22.5
+              ]
+            },
+            {
+              "name": "SapDebuffDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "PrepDuration",
+              "values": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BonusDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADScaling",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "trundle_w",
+          "binding": "Characters/Trundle/Spells/trundledesecrateAbility/trundledesecrate",
+          "name": "冰封领域",
+          "maxrank": 5,
+          "officialCooldown": [
+            18,
+            17,
+            16,
+            15,
+            14
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialDescription": "特朗德尔将目标区域变成他的领土，增加自己在该区域的攻击速度、移动速度，并且会从所有治疗手段中获得额外治疗效果。",
+          "officialTooltip": "特朗德尔冻结一个区域{{ duration }}秒。在其中时，他会获得<speed>{{ msbonus*100 }}%移动速度</speed>，<attackSpeed>{{ asbonus*100 }}%攻击速度</attackSpeed>，和{{ healingbonus*100 }}%治疗效果提升。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            18,
+            18,
+            17,
+            16,
+            15,
+            14,
+            13
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MSBonus",
+              "values": [
+                0.11999999731779099,
+                0.20000000298023224,
+                0.2800000011920929,
+                0.36000001430511475,
+                0.4399999976158142,
+                0.5199999809265137,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "ASBonus",
+              "values": [
+                0.10000000149011612,
+                0.30000001192092896,
+                0.5,
+                0.699999988079071,
+                0.8999999761581421,
+                1.100000023841858,
+                1.2999999523162842
+              ]
+            },
+            {
+              "name": "HealingBonus",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            },
+            {
+              "name": "DomainArea",
+              "values": [
+                775,
+                775,
+                775,
+                775,
+                775,
+                775,
+                775
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "E",
+          "skillKey": "trundle_e",
+          "binding": "Characters/Trundle/Spells/TrundleCircleAbility/TrundleCircle",
+          "name": "寒冰之柱",
+          "maxrank": 5,
+          "officialCooldown": [
+            21,
+            19.5,
+            18,
+            16.5,
+            15
+          ],
+          "officialCost": [
+            75,
+            75,
+            75,
+            75,
+            75
+          ],
+          "officialDescription": "特朗德尔在目标地点召唤寒冰之柱，令敌人无法通过，并减缓附近敌方单位的移动速度。",
+          "officialTooltip": "特朗德尔生成一个持续{{ pillarduration }}秒的冰柱，短暂<status>击退</status>它上方的敌人们并使附近的敌人们<status>减速</status>{{ slowamount }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            21,
+            21,
+            19.5,
+            18,
+            16.5,
+            15,
+            15
+          ],
+          "mana": [
+            75,
+            75,
+            75,
+            75,
+            75,
+            75
+          ],
+          "manaValues": {
+            "values": [
+              75,
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "{0a3e0478}": 75,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "PillarDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                30,
+                34,
+                38,
+                42,
+                46,
+                50,
+                54
+              ]
+            },
+            {
+              "name": "SlowRadius",
+              "values": [
+                360,
+                360,
+                360,
+                360,
+                360,
+                360,
+                360
+              ]
+            },
+            {
+              "name": "KnockbackRadius",
+              "values": [
+                225,
+                225,
+                225,
+                225,
+                225,
+                225,
+                225
+              ]
+            },
+            {
+              "name": "AllyDisplacementRange",
+              "values": [
+                150,
+                150,
+                150,
+                150,
+                150,
+                150,
+                150
+              ]
+            },
+            {
+              "name": "EnemyDisplacementRange",
+              "values": [
+                225,
+                225,
+                225,
+                225,
+                225,
+                225,
+                225
+              ]
+            },
+            {
+              "name": "EnemyDisplacementSpeed",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            },
+            {
+              "name": "EnemyDisplacementGravity",
+              "values": [
+                60,
+                60,
+                60,
+                60,
+                60,
+                60,
+                60
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "R",
+          "skillKey": "trundle_r",
+          "binding": "Characters/Trundle/Spells/TrundlePainAbility/TrundlePain",
+          "name": "强权至上",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "特朗德尔直接偷取目标的一部分生命值、大量的护甲和魔抗。在接下来的4秒里，特朗德尔将继续偷取双倍的等量的生命值、护甲值和魔抗。",
+          "officialTooltip": "特朗德尔吸取一名敌方英雄的生命力，在{{ actualdurationofdrainbuff }}秒里持续造成共计<magicDamage>{{ totalpercenthpdamage }}最大生命值的魔法伤害</magicDamage>并偷取<scaleArmor>{{ armormrshred*100 }}%护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "PercentHPDamage",
+              "values": [
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.45000001788139343
+              ]
+            },
+            {
+              "name": "ArmorMRShred",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "DurationOfDrainForTooltip",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "NumberOfTicks",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "ShredDuration",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            },
+            {
+              "name": "PercentOfDamageAndShredUpfront",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "ActualDurationOfDrainBuff",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "ScaleModelAmount",
+              "values": [
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164
+              ]
+            },
+            {
+              "name": "PercentHPDamageAPRatio",
+              "values": [
+                0.00019999999494757503,
+                0.00019999999494757503,
+                0.00019999999494757503,
+                0.00019999999494757503,
+                0.00019999999494757503,
+                0.00019999999494757503,
+                0.00019999999494757503
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalPercentHPDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "PercentHPDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "PercentHPDamageAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Warwick",
+      "chineseName": "祖安怒兽",
+      "rootPath": "Characters/Warwick/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Warwick.json.gz",
+        "sha256": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+        "compressedSha256": "414dc9a97ff574bf10f303d446503a7b23ffa437c837748d6b85799b801c52ad",
+        "byteSize": 69292,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/warwick/warwick.bin.json",
+        "fetchedAt": "2026-09-06T14:26:47.850Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Warwick.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Warwick.json",
+        "fetchedAt": "2026-09-06T14:12:56.172Z",
+        "byteSize": 14299,
+        "sha256": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "warwick_p",
+          "binding": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "name": "血之饥渴",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "沃里克的普攻造成额外魔法伤害。如果沃里克的生命值低于50%，那么他会获得等额的治疗效果。如果他的生命值低于25%，则治疗效果提升至三倍。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "HealingThreshold",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "EmpoweredHealingThreshold",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "HealingRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "EmpoweredHealingRatio",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "HealthRestoreSlushTime",
+              "values": [
+                1.5499999523162842,
+                1.5499999523162842,
+                1.5499999523162842,
+                1.5499999523162842,
+                1.5499999523162842,
+                1.5499999523162842,
+                1.5499999523162842
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            }
+          ],
+          "calculations": {
+            "OnHitDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "{72c5c2a8}": 1,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 6,
+                  "mEndValue": 55,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "warwick_q",
+          "binding": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "name": "野兽之口",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "officialCost": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "officialDescription": "沃里克向前猛扑并撕咬他的目标，造成基于目标最大生命值的伤害，并造成基于实际伤害值的治疗效果。",
+          "officialTooltip": "<tap>秒放：</tap>沃里克向前猛扑并撕咬，造成<magicDamage>{{ basebitedamage }}外加{{ targetpercenthpdamage }}%最大生命值的魔法伤害</magicDamage>和<healing>{{ lifestealpercent }}%实际伤害值的治疗效果</healing>。<br /><br /><hold>蓄力：</hold>沃里克猛扑并用它的狼嘴紧咬目标，并跃到目标身后。在紧咬目标时，沃里克会跟随目标的所有移动。在释放他的蓄力后，他会造成等额伤害和治疗效果。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            7.5,
+            7,
+            6.5,
+            6,
+            6
+          ],
+          "mana": [
+            80,
+            85,
+            90,
+            95,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              85,
+              90,
+              95,
+              100,
+              100
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "TargetPercentHPDamage",
+              "values": [
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "BiteZoneLength",
+              "values": [
+                450,
+                450,
+                450,
+                450,
+                450,
+                450,
+                450
+              ]
+            },
+            {
+              "name": "HPDamageCap",
+              "values": [
+                135,
+                150,
+                165,
+                180,
+                195,
+                210,
+                225
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "LifestealPercent",
+              "values": [
+                12.5,
+                25,
+                37.5,
+                50,
+                62.5,
+                75,
+                87.5
+              ]
+            },
+            {
+              "name": "CheatLength",
+              "values": [
+                200,
+                200,
+                200,
+                200,
+                200,
+                200,
+                200
+              ]
+            },
+            {
+              "name": "CheatLengthMoveBlock",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ]
+            },
+            {
+              "name": "QCastRangeOverride",
+              "values": [
+                425,
+                425,
+                425,
+                425,
+                425,
+                425,
+                425
+              ]
+            }
+          ],
+          "calculations": {
+            "BaseBiteDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "warwick_w",
+          "binding": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "name": "鲜血追猎",
+          "maxrank": 5,
+          "officialCooldown": [
+            80,
+            70,
+            60,
+            50,
+            40
+          ],
+          "officialCost": [
+            55,
+            55,
+            55,
+            55,
+            55
+          ],
+          "officialDescription": "沃里克感知生命值在50%以下的敌人，在朝着这些敌人移动时会获得移动速度加成，并在攻击这些敌人时会获得攻速加成。当这些敌人的生命值在25%以下时，他会狂暴并让这些加成提升至三倍。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>沃里克可以感知生命值低于50%的英雄，朝着其移动时获得<speed>{{ passivemsbonus }}%移动速度</speed>。对生命值低于50%的敌人施放技能和攻击可获得<speed>{{ passiveasbonus }}%攻击速度</speed>。这些加成在对抗低于25%生命值的敌人们时会提升200%。<br /><br /><spellActive>主动：</spellActive>沃里克可以暂时感知到所有敌人，并在对抗相距最近的那个英雄时获得这个技能的被动效果，持续8秒，无论该目标有多少生命值。如果没有感知到任何英雄，该技能的冷却时间缩短30%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            80,
+            80,
+            70,
+            60,
+            50,
+            40,
+            40
+          ],
+          "mana": [
+            55,
+            55,
+            55,
+            55,
+            55,
+            55
+          ],
+          "manaValues": {
+            "values": [
+              55,
+              55,
+              55,
+              55,
+              55,
+              55
+            ],
+            "{0a3e0478}": 55,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.5,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "PassiveASBonus",
+              "values": [
+                60,
+                70,
+                80,
+                90,
+                100,
+                110,
+                120
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            },
+            {
+              "name": "MoveSpeedBonus",
+              "values": [
+                10,
+                15,
+                20,
+                25,
+                30,
+                35,
+                40
+              ]
+            },
+            {
+              "name": "PassiveMSBonus",
+              "values": [
+                27.5,
+                35,
+                42.5,
+                50,
+                57.5,
+                65,
+                72.5
+              ]
+            },
+            {
+              "name": "NoTargetCDReduction",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ]
+            },
+            {
+              "name": "PassiveASDuration",
+              "values": [
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25
+              ]
+            },
+            {
+              "name": "FirstHPThreshold",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "SecondHPThreshold",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "MSBonus",
+              "values": [
+                27.5,
+                35,
+                42.5,
+                50,
+                57.5,
+                65,
+                72.5
+              ]
+            },
+            {
+              "name": "ASBonus",
+              "values": [
+                60,
+                70,
+                80,
+                90,
+                100,
+                110,
+                120
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "E",
+          "skillKey": "warwick_e",
+          "binding": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "name": "远祖嗥叫",
+          "maxrank": 5,
+          "officialCooldown": [
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialDescription": "沃里克获得持续2.5秒的伤害减免效果。在效果结束时，或者重新激活技能时，沃里克会嗥叫，使附近的敌人因恐惧而逃跑1秒。",
+          "officialTooltip": "沃里克获得{{ dramount }}%伤害减免，持续{{ drduration }}秒。在它结束后，沃里克会发出嗥叫，<status>恐惧</status>附近的敌人{{ fearduration }}秒。沃里克可以<recast>再次施放</recast>来提前结束这个技能。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            15,
+            14,
+            13,
+            12,
+            11,
+            11
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "DRAmount",
+              "values": [
+                30,
+                35,
+                40,
+                45,
+                50,
+                55,
+                60
+              ]
+            },
+            {
+              "name": "DRDuration",
+              "values": [
+                2.75,
+                2.75,
+                2.75,
+                2.75,
+                2.75,
+                2.75,
+                2.75
+              ]
+            },
+            {
+              "name": "RecastDelay",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "FearDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "DRDurationTooltipOnly",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "R",
+          "skillKey": "warwick_r",
+          "binding": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "name": "无尽束缚",
+          "maxrank": 3,
+          "officialCooldown": [
+            110,
+            90,
+            70
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "沃里克朝一个方向跳跃（跳跃距离可从他的移动速度加成中获益），将他所碰撞到的第一个敌方英雄压制1.5秒。",
+          "officialTooltip": "沃里克跳跃一大段距离(随他的<speed>移动速度</speed>增长)，并<status>压制</status>碰撞到的第一个敌方英雄{{ rduration }}秒并且自身处在引导状态。在此期间他持续攻击该英雄3次，造成<magicDamage>{{ damagecumulative }}魔法伤害</magicDamage>。沃里克在引导期间会获得<healing>100%实际伤害值的治疗效果</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            110,
+            110,
+            90,
+            70,
+            70,
+            70,
+            70
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.10000000149011612,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "RDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "RBaseDamage",
+              "values": [
+                0,
+                175,
+                350,
+                525,
+                700,
+                875,
+                1050
+              ]
+            }
+          ],
+          "calculations": {
+            "DamageCumulative": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1.6699999570846558,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "XinZhao",
+      "chineseName": "德邦总管",
+      "rootPath": "Characters/XinZhao/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/XinZhao.json.gz",
+        "sha256": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+        "compressedSha256": "9841b349f54ea710d0b2774d764c12ef43853df3898371f884f8d947769e6d4c",
+        "byteSize": 61714,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/xinzhao/xinzhao.bin.json",
+        "fetchedAt": "2026-09-06T14:26:49.600Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/XinZhao.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/XinZhao.json",
+        "fetchedAt": "2026-09-06T14:12:57.668Z",
+        "byteSize": 13441,
+        "sha256": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "xinzhao_p",
+          "binding": "Characters/XinZhao/Spells/XinZhaoPAbility/XinZhaoP",
+          "name": "果决",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "每第三次攻击造成额外伤害并治疗赵信自身。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.3812499940395355,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mSubpart": {
+                    "mLevel1Value": 0.15000000596046448,
+                    "mBreakpoints": [
+                      {
+                        "mLevel": 6,
+                        "mAdditionalBonusAtThisLevel": 0.15000000596046448,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 11,
+                        "mAdditionalBonusAtThisLevel": 0.15000000596046448,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 16,
+                        "mAdditionalBonusAtThisLevel": 0.15000000596046448,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 21,
+                        "mAdditionalBonusAtThisLevel": 0.15000000596046448,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 26,
+                        "mAdditionalBonusAtThisLevel": 0.15000000596046448,
+                        "__type": "Breakpoint"
+                      }
+                    ],
+                    "__type": "ByCharLevelBreakpointsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                },
+                {
+                  "mSubpart": {
+                    "mLevel1Value": 0.05000000074505806,
+                    "mBreakpoints": [
+                      {
+                        "mLevel": 6,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 11,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 16,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 21,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 26,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      }
+                    ],
+                    "__type": "ByCharLevelBreakpointsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalHealing": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mSubpart": {
+                    "mSpellCalculationKey": "HealHPRatio",
+                    "__type": "{f3cbe7b2}"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                },
+                {
+                  "mSubpart": {
+                    "mSpellCalculationKey": "HealAPRatio",
+                    "__type": "{f3cbe7b2}"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealHPRatio": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.019999999552965164,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealAPRatio": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.4000000059604645,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "xinzhao_q",
+          "binding": "Characters/XinZhao/Spells/XinZhaoQAbility/XinZhaoQ",
+          "name": "三重爪击",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            6.5,
+            6,
+            5.5,
+            5
+          ],
+          "officialCost": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "officialDescription": "赵信的下3次普攻将造成额外伤害并且第三次攻击将击飞目标。",
+          "officialTooltip": "赵信的下3次普攻造成额外的<physicalDamage>{{ bonusdamage }}物理伤害</physicalDamage>并使他的其它技能的冷却时间缩短1秒。第3次普攻还会<status>击飞</status>目标{{ knockupduration }}秒。<br />{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            7,
+            7,
+            6.5,
+            6,
+            5.5,
+            5,
+            5
+          ],
+          "mana": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "{0a3e0478}": 30,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BADRatio",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                0,
+                15,
+                30,
+                45,
+                60,
+                75,
+                90
+              ]
+            },
+            {
+              "name": "KnockUpDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            }
+          ],
+          "calculations": {
+            "BonusDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "BADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "xinzhao_w",
+          "binding": "Characters/XinZhao/Spells/XinZhaoWAbility/XinZhaoW",
+          "name": "风斩电刺",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialDescription": "赵信用他的长枪斩击他的前方，之后将长枪向前刺击，并使被击中的敌人减速并对其施加被挑战印记。",
+          "officialTooltip": "赵信进行斩击，造成<physicalDamage>{{ slashdamage }}物理伤害</physicalDamage>，随后进行刺击，造成<physicalDamage>{{ thrustdamage }}</physicalDamage>物理伤害。被这次刺击命中的敌人们会受到持续{{ totalslowduration }}秒的{{ e6 }}%<status>减速</status>。<br /><br />被这次刺击命中的英雄和大型野怪会被施加持续{{ markduration }}秒的<keywordMajor>被挑战</keywordMajor>标记并且如果不在<keywordStealth>潜行</keywordStealth>状态还会被显形。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "mana": [
+            60,
+            55,
+            50,
+            45,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.6000000238418579,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "SlashBaseDamage",
+              "values": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ]
+            },
+            {
+              "name": "ThrustBaseDamage",
+              "values": [
+                15,
+                50,
+                85,
+                120,
+                155,
+                190,
+                225
+              ]
+            },
+            {
+              "name": "CritChanceAmp",
+              "values": [
+                0.3330000042915344,
+                0.3330000042915344,
+                0.3330000042915344,
+                0.3330000042915344,
+                0.3330000042915344,
+                0.3330000042915344,
+                0.3330000042915344
+              ]
+            },
+            {
+              "name": "MarkDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "HitNum",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "DelayTime",
+              "values": [
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806
+              ]
+            },
+            {
+              "name": "BaseSlowDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            }
+          ],
+          "calculations": {
+            "SlashDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SlashBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ThrustDamage": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mStat": 8,
+                    "mDataValue": "CritChanceAmp",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ThrustBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.8999999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6499999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionMod": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 50,
+                  "mInitialBonusPerLevel": 3.3329999446868896,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": 3.3399999141693115,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalSlowDuration": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseSlowDuration",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.004999999888241291,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "xinzhao_e",
+          "binding": "Characters/XinZhao/Spells/XinZhaoEAbility/XinZhaoE",
+          "name": "无畏冲锋",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialDescription": "赵信对一名敌人发起冲锋，获得攻击速度并对范围内的所有敌人造成伤害，并使他们暂时减速。以被挑战的敌人为目标时，这个技能的施放距离会获得提升。",
+          "officialTooltip": "赵信对一名敌人发起冲锋，对附近的敌人们造成<magicDamage>{{ chargedamage }}魔法伤害</magicDamage>和持续{{ slowduration }}秒的{{ slowamount }}%<status>减速</status>。<br /><br />赵信自身获得<attackSpeed>{{ f1 }}% (%i:scaleAS%%i:scaleAP%)攻击速度</attackSpeed>，持续{{ asduration }}秒。<br /><br />以<keywordMajor>被挑战</keywordMajor>的敌人为目标时，这个技能的施放距离会获得提升。<br />{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "ASMod",
+              "values": [
+                0.3799999952316284,
+                0.3799999952316284,
+                0.46000000834465027,
+                0.5400000214576721,
+                0.6200000047683716,
+                0.699999988079071,
+                0.7799999713897705
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                50,
+                75,
+                100,
+                125,
+                150,
+                175
+              ]
+            },
+            {
+              "name": "ASDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ]
+            },
+            {
+              "name": "APToASRatio",
+              "values": [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+              ]
+            },
+            {
+              "name": "PermanentASToASRatio",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "AoERadius",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ]
+            }
+          ],
+          "calculations": {
+            "ChargeDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "xinzhao_r",
+          "binding": "Characters/XinZhao/Spells/XinZhaoRAbility/XinZhaoR",
+          "name": "新月护卫",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            110,
+            100
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "赵信被动地挑战一名近期被他造成过伤害的敌人。在主动施放时，赵信对附近的敌人们造成基于其当前生命值的伤害，并击退未被挑战的目标们，且自身变得不会受到来自圆环之外的敌人所造成的伤害。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>赵信会给他用攻击或<spellName>无畏冲锋</spellName>造成过伤害的最后一个英雄施加持续{{ markduration }}秒的<keywordMajor>被挑战</keywordMajor>标记。<br /><br /><spellActive>主动：</spellActive>赵信环绕自身释放一次横扫，造成<physicalDamage>{{ totaldamage }}外加{{ percentcurrenthealthdamage*100 }}%当前生命值的物理伤害</physicalDamage>并<status>击退</status>所有<keywordMajor>未被挑战</keywordMajor>的敌人们。<br />  <br />随后，赵信会免疫来自横扫范围外侧敌人的伤害，持续{{ missiledefensebaseduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            110,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.32499998807907104,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                -25,
+                75,
+                175,
+                275,
+                375,
+                475,
+                575
+              ]
+            },
+            {
+              "name": "PercentCurrentHealthDamage",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ]
+            },
+            {
+              "name": "MissileDefenseBaseDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "MissileDefenseRadius",
+              "values": [
+                450,
+                450,
+                450,
+                450,
+                450,
+                450,
+                450
+              ]
+            },
+            {
+              "name": "MarkDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 1.100000023841858,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
