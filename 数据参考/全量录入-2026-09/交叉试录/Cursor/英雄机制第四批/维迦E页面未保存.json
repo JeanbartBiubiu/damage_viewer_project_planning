@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-09-08T00:51:06.312Z",
+  "status": "真实页面试录发现结构缺口，草稿已取消，未保存",
+  "page": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "veigar_e",
+  "observations": [
+    "新增效果采用来源与目标范围、眩晕时长参数；新增状态结果选择当前目标与持续生效后，法术护盾阻挡粒度控件消失。",
+    "结果和父效果的保存按钮均未点击；依次取消结果、取消效果并关闭列表。",
+    "前后端同时禁止持续目标状态携带非空法术护盾粒度；改成施加时点没有本次状态随效果到期结束的保证，空粒度会绕过护盾。",
+    "同一牢笼重复命中限制也缺冻结来源证据；效果和触发两项均保留待修，不属于范围外。"
+  ],
+  "readbacks": [
+    {
+      "route": "/skills/veigar_e/effects/event_horizon_stun",
+      "ok": false,
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "event_horizon_stun"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/veigar_e/trigger-rules/actual_cage_contact",
+      "ok": false,
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "actual_cage_contact"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    }
+  ],
+  "runtimeValidation": "未执行"
+}
