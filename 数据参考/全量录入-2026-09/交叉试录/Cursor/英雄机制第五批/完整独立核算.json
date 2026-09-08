@@ -1,0 +1,1609 @@
+{
+  "generatedAt": "2026-09-08T14:41:58.758Z",
+  "boundary": "仅冻结来源摘要、候选结构与独立算术；没有业务保存、数据库回读、浏览器或战斗运行证据。",
+  "sourceChecks": [
+    {
+      "hero": "Sett",
+      "kind": "client",
+      "expected": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "actual": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "match": true
+    },
+    {
+      "hero": "Sett",
+      "kind": "official",
+      "expected": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d",
+      "actual": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d",
+      "match": true
+    },
+    {
+      "hero": "Trundle",
+      "kind": "client",
+      "expected": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+      "actual": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+      "match": true
+    },
+    {
+      "hero": "Trundle",
+      "kind": "official",
+      "expected": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e",
+      "actual": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e",
+      "match": true
+    },
+    {
+      "hero": "Warwick",
+      "kind": "client",
+      "expected": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+      "actual": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+      "match": true
+    },
+    {
+      "hero": "Warwick",
+      "kind": "official",
+      "expected": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd",
+      "actual": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd",
+      "match": true
+    },
+    {
+      "hero": "XinZhao",
+      "kind": "client",
+      "expected": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+      "actual": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+      "match": true
+    },
+    {
+      "hero": "XinZhao",
+      "kind": "official",
+      "expected": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334",
+      "actual": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334",
+      "match": true
+    },
+    {
+      "kind": "当前绑定中文说明",
+      "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "match": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 60,
+      "actual": 60.00000000000001,
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 9,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 145,
+      "actual": 145,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 3,
+      "level": 9,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 130,
+      "actual": 130,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 190,
+      "actual": 189.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "max_grit",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "max_grit",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "inputs": {},
+      "expected": 500,
+      "actual": 500,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "released_grit": 0
+      },
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 600
+      },
+      "expected": 380,
+      "actual": 380,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 660,
+      "actual": 660,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 0
+      },
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 580,
+      "actual": 580,
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "formula": "captured_target_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 520,
+      "actual": 520,
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "formula": "captured_target_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 820,
+      "actual": 820,
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "formula": "tribute_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 36,
+      "actual": 36,
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "formula": "tribute_heal",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "total_noncritical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 240,
+      "actual": 239.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "total_noncritical_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 400,
+      "actual": 400,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "bonus_noncritical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 40,
+      "actual": 39.999999999999986,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "bonus_noncritical_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "drain_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 440,
+      "actual": 440,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "drain_total_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 640,
+      "actual": 640,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "initial_drain_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 220,
+      "actual": 220,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "initial_drain_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 320,
+      "actual": 320,
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "formula": "on_hit_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 31,
+      "actual": 31,
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "formula": "on_hit_damage",
+      "rank": 1,
+      "level": 9,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 54.058824,
+      "actual": 54.058824,
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "formula": "on_hit_damage",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "formula": "normal_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {
+        "passive_actual_damage": 100
+      },
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "formula": "empowered_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {
+        "passive_actual_damage": 100
+      },
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "formula": "bite_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 460,
+      "actual": 460,
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "formula": "bite_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 540,
+      "actual": 540,
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "formula": "bite_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {
+        "bite_actual_damage": 200
+      },
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "formula": "bite_heal",
+      "rank": 5,
+      "level": 18,
+      "attrs": {},
+      "inputs": {
+        "bite_actual_damage": 200
+      },
+      "expected": 150,
+      "actual": 150,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "empowered_attack_speed",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {},
+      "expected": 2.1,
+      "actual": 2.0999999999999996,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "empowered_attack_speed",
+      "rank": 5,
+      "level": 18,
+      "attrs": {},
+      "inputs": {},
+      "expected": 3.3,
+      "actual": 3.3000000000000003,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "empowered_move_speed",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {},
+      "expected": 1.05,
+      "actual": 1.0499999999999998,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "empowered_move_speed",
+      "rank": 5,
+      "level": 18,
+      "attrs": {},
+      "inputs": {},
+      "expected": 1.95,
+      "actual": 1.9500000000000002,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "no_target_cooldown_refund",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {},
+      "expected": 24000,
+      "actual": 24000,
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "formula": "no_target_cooldown_refund",
+      "rank": 5,
+      "level": 18,
+      "attrs": {},
+      "inputs": {},
+      "expected": 12000,
+      "actual": 12000,
+      "match": true
+    },
+    {
+      "skill": "warwick_e",
+      "formula": "remaining_damage_ratio",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {},
+      "expected": 0.65,
+      "actual": 0.65,
+      "match": true
+    },
+    {
+      "skill": "warwick_e",
+      "formula": "remaining_damage_ratio",
+      "rank": 5,
+      "level": 18,
+      "attrs": {},
+      "inputs": {},
+      "expected": 0.45,
+      "actual": 0.44999999999999996,
+      "match": true
+    },
+    {
+      "skill": "warwick_r",
+      "formula": "channel_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 342,
+      "actual": 342,
+      "match": true
+    },
+    {
+      "skill": "warwick_r",
+      "formula": "channel_total_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 692,
+      "actual": 692,
+      "match": true
+    },
+    {
+      "skill": "warwick_r",
+      "formula": "channel_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {},
+      "inputs": {
+        "channel_actual_damage": 188
+      },
+      "expected": 188,
+      "actual": 188,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 35,
+      "actual": 35,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 5,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 35,
+      "actual": 35,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 6,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 10,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 11,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 105,
+      "actual": 105,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 15,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 105,
+      "actual": 105,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 16,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 140,
+      "actual": 140,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 140,
+      "actual": 140,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 5,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 6,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 10,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 11,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "formula": "determination_heal",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_q",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_q",
+      "formula": "bonus_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 115,
+      "actual": 115,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "slash_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 90,
+      "actual": 90,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "slash_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 130,
+      "actual": 130,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 295,
+      "actual": 295,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 435,
+      "actual": 435,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5
+      },
+      "inputs": {},
+      "expected": 344.1175,
+      "actual": 344.1175,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": 1
+      },
+      "inputs": {},
+      "expected": 579.855,
+      "actual": 579.855,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": -1
+      },
+      "inputs": {},
+      "expected": 295,
+      "actual": 295,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "thrust_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.critical_strike_chance.TOTAL": 2
+      },
+      "inputs": {},
+      "expected": 393.235,
+      "actual": 393.235,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "formula": "slow_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 2000,
+      "actual": 2000,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "formula": "charge_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "formula": "charge_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 270,
+      "actual": 270,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "formula": "attack_speed_bonus",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "permanent_bonus_attack_speed_ratio": 0.5
+      },
+      "expected": 0.58,
+      "actual": 0.58,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "formula": "attack_speed_bonus",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "permanent_bonus_attack_speed_ratio": 0.5
+      },
+      "expected": 0.9,
+      "actual": 0.8999999999999999,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "formula": "attack_speed_bonus",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.bonus_attack_speed_percent.TOTAL": 100
+      },
+      "inputs": {
+        "permanent_bonus_attack_speed_ratio": 0.5
+      },
+      "expected": 0.58,
+      "actual": 0.58,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_r",
+      "formula": "sweep_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.CURRENT": 1200
+      },
+      "inputs": {},
+      "expected": 465,
+      "actual": 465,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_r",
+      "formula": "sweep_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.CURRENT": 1200
+      },
+      "inputs": {},
+      "expected": 665,
+      "actual": 665,
+      "match": true
+    },
+    {
+      "skill": "xinzhao_r",
+      "formula": "sweep_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.CURRENT": 500
+      },
+      "inputs": {},
+      "expected": 360,
+      "actual": 360,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "attack_speed_ratio",
+      "rank": 1,
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "attack_speed_ratio",
+      "rank": 5,
+      "expected": 1.1,
+      "actual": 1.1,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "move_speed_ratio",
+      "rank": 1,
+      "expected": 0.2,
+      "actual": 0.2,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "move_speed_ratio",
+      "rank": 5,
+      "expected": 0.52,
+      "actual": 0.52,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "slow_ratio",
+      "rank": 1,
+      "expected": 0.34,
+      "actual": 0.34,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "slow_ratio",
+      "rank": 5,
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "pillar_duration_ms",
+      "rank": 1,
+      "expected": 6000,
+      "actual": 6000,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "parameter": "actual_drain_duration_ms",
+      "rank": 1,
+      "expected": 5000,
+      "actual": 5000,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "parameter": "post_drain_shred_duration_ms",
+      "rank": 1,
+      "expected": 4000,
+      "actual": 4000,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "parameter": "target_attack_damage_loss",
+      "rank": 1,
+      "expected": 10,
+      "actual": 10,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "parameter": "target_attack_damage_loss",
+      "rank": 5,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "skill": "sett_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "warwick_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "warwick_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "warwick_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "warwick_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "warwick_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "warwick_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "warwick_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "warwick_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "warwick_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "warwick_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "warwick_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "warwick_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "xinzhao_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "xinzhao_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "xinzhao_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "xinzhao_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "xinzhao_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "xinzhao_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "实际命中规则不依赖被撤出的施法过程",
+      "match": true
+    }
+  ],
+  "failures": []
+}
