@@ -1,0 +1,595 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys所引用文本，不按名称猜旧对象。",
+  "skills": {
+    "garen_p": {
+      "binding": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GarenPassive_Name",
+          "key": "spell_garenpassive_name",
+          "text": "坚韧"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GarenPassive_Tooltip",
+          "key": "spell_garenpassive_tooltip",
+          "text": "盖伦每5秒回复<healing>@RegenCalc@最大生命值</healing>，前提是他在之前的@DamageTimer@秒内未受到伤害或被敌方技能命中。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GarenPassive_Summary",
+          "key": "spell_garenpassive_summary",
+          "text": "如果盖伦近期没有受到伤害或者被敌方技能命中，那么他会每秒回复若干百分比的总生命值。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_GarenPassive_TooltipExtended",
+          "key": "spell_garenpassive_tooltipextended",
+          "text": "{{Spell_GarenPassive_Tooltip}}<br><br><rules>小兵和非史诗级野怪的伤害不会中断这个回复。</rules>"
+        }
+      }
+    },
+    "garen_q": {
+      "binding": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GarenQ_Name",
+          "key": "spell_garenq_name",
+          "text": "致命打击"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GarenQ_Tooltip",
+          "key": "spell_garenq_tooltip",
+          "text": "盖伦移除身上的所有<status>减速</status>效果并获得<speed>@MovementSpeedAmount*100@%移动速度</speed>，持续@MovementSpeedDuration@秒。<br><br>他的下次攻击会使目标<status>沉默</status>@SilenceDuration@秒并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GarenQ_Summary",
+          "key": "spell_garenq_summary",
+          "text": "盖伦的移动速度获得爆发性提升，同时移除身上的所有减速效果。他的下次攻击将打击敌人的要害部位，造成额外伤害并将目标沉默。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GarenQ_TooltipExtendedBelowLine",
+          "key": "spell_garenq_tooltipextendedbelowline",
+          "text": "<rules>强化攻击会在@AttackWindow@秒后消散。<br>{{ buff_desc_SpellEffects }}</rules>"
+        }
+      }
+    },
+    "garen_w": {
+      "binding": "Characters/Garen/Spells/GarenWAbility/GarenW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GarenW_Name",
+          "key": "spell_garenw_name",
+          "text": "勇气"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GarenW_Summary",
+          "key": "spell_garenw_summary",
+          "text": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GarenW_Tooltip",
+          "key": "spell_garenw_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>@ResistsForTooltip@额外护甲</scaleArmor>和<scaleMR>@ResistsForTooltip@额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>@ResistGainOnKillTooltip@双抗</attention>，至多至最大值<attention>@ResistMax@</attention>。<br><br><spellActive>主动：</spellActive>盖伦加固他的勇气@DRDuration@秒，使即将到来的伤害降低@DRPercent*100@%。他还会获得持续@UpfrontDuration@秒的<shield>@TotalShield@护盾值</shield>和<slow>@UpfrontTenacity*100@%韧性</slow>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "garen_e": {
+      "binding": "Characters/Garen/Spells/GarenEAbility/GarenE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GarenE_Name",
+          "key": "spell_garene_name",
+          "text": "审判"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GarenE_Tooltip",
+          "key": "spell_garene_tooltip",
+          "text": "盖伦快速地旋舞大剑，持续@Duration@秒，每旋转一圈造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，共旋转@f1@圈。相距最近的敌人受到<physicalDamage>@NearestEnemyBonus*100@%提升伤害</physicalDamage>。被@StacksToShred@圈旋转命中的敌方英雄会损失<scaleArmor>@ShredAmount*100@%护甲</scaleArmor>，持续@ShredDuration@秒。<br><br><recast>再次施放</recast>：盖伦提前结束这个技能。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GarenE_Summary",
+          "key": "spell_garene_summary",
+          "text": "盖伦快速地旋转身体挥舞大剑，并对邻近敌人造成物理伤害。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GarenE_TooltipExtendedBelowLine",
+          "key": "spell_garene_tooltipextendedbelowline",
+          "text": "<rules>来自装备和等级的每<attackSpeed>@ASPerTick*100@%攻击速度</attackSpeed>获得额外的一圈旋转。<br>能够暴击以造成<physicalDamage>@CriticalDamage@物理伤害</physicalDamage>。</rules>"
+        }
+      }
+    },
+    "garen_r": {
+      "binding": "Characters/Garen/Spells/GarenRAbility/GarenR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GarenR_Name",
+          "key": "spell_garenr_name",
+          "text": "德玛西亚正义"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GarenR_Tooltip",
+          "key": "spell_garenr_tooltip",
+          "text": "盖伦召唤德玛西亚之力来击杀他的敌人，造成<trueDamage>@BaseDamage@外加@ExecuteDamage*100@%已损失生命值的真实伤害</trueDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GarenR_Summary",
+          "key": "spell_garenr_summary",
+          "text": "盖伦召唤德玛西亚之力，试图处决一名敌方英雄。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "jax_p": {
+      "binding": "Characters/Jax/Spells/JaxPassiveAbility/JaxPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Jax",
+          "key": "game_character_passivename_jax",
+          "text": "无情连打"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_character_passiveTooltip_Jax",
+          "key": "game_character_passivetooltip_jax",
+          "text": "贾克斯的攻击会提供一层持续2.5秒的效果，来提供给他<attackSpeed>@AttackSpeedPerStack@攻击速度</attackSpeed> (最大值为<attackSpeed>@MaxBonusAttackSpeed@攻击速度</attackSpeed>)。"
+        },
+        "keySummary": {
+          "sourceKey": "",
+          "key": null,
+          "text": null
+        }
+      }
+    },
+    "jax_q": {
+      "binding": "Characters/Jax/Spells/JaxQAbility/JaxQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JaxLeapStrike_Name",
+          "key": "spell_jaxleapstrike_name",
+          "text": "跳斩"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JaxLeapStrike_Summary",
+          "key": "spell_jaxleapstrike_summary",
+          "text": "贾克斯跳向一个单位。如果目标是敌人，贾克斯会用他的武器狠狠地抽打敌人的脸，造成额外伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JaxLeapStrike_Tooltip",
+          "key": "spell_jaxleapstrike_tooltip",
+          "text": "贾克斯跳向一个友方或敌方单位或守卫，如果目标是敌人则会造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。"
+        }
+      }
+    },
+    "jax_w": {
+      "binding": "Characters/Jax/Spells/JaxWAbility/JaxW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JaxEmpowerTwo_Name",
+          "key": "spell_jaxempowertwo_name",
+          "text": "蓄力一击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JaxEmpowerTwo_Summary",
+          "key": "spell_jaxempowertwo_summary",
+          "text": "贾克斯为武器充能，使他的下次攻击能造成额外伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JaxEmpowerTwo_Tooltip",
+          "key": "spell_jaxempowertwo_tooltip",
+          "text": "贾克斯给他的武器充能，使他的下次攻击或<spellName>跳斩</spellName>造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_JaxEmpowerTwo_TooltipExtendedBelowLine",
+          "key": "spell_jaxempowertwo_tooltipextendedbelowline",
+          "text": "<rules>{{ buff_desc_SpellEffects }}<br>对建筑物造成@StructureMod*100@%伤害。</rules>"
+        }
+      }
+    },
+    "jax_e": {
+      "binding": "Characters/Jax/Spells/JaxEAbility/JaxE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JaxCounterStrike_Name",
+          "key": "spell_jaxcounterstrike_name",
+          "text": "反击风暴"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JaxCounterStrike_Summary",
+          "key": "spell_jaxcounterstrike_summary",
+          "text": "贾克斯的武艺让他能够在短时间里躲闪掉所有即将到来的普通攻击，随后对所有周围的敌人快速发起反击，并将他们击晕。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JaxCounterStrike_Tooltip",
+          "key": "spell_jaxcounterstrike_tooltip",
+          "text": "贾克斯进入一个最多持续@DodgeDuration@秒的防御姿态，能够躲闪掉一切即将到来的攻击，并且减少@AoEDamageReduction@%来自群体技能的伤害。在@DodgeDuration@秒后，或<recast>再次施放</recast>后，贾克斯会造成<magicDamage>@TotalDamage@ + @PercentHealthDamage@%最大生命值的魔法伤害</magicDamage>并使附近的敌人<status>晕眩</status>@StunDuration@秒。<br><br>贾克斯每躲掉一次攻击，这个伤害值就会提升@PercentIncreasedPerDodge*100@%，最多可提升至最大值<magicDamage>@MaxDamage@ + @MaxPercentHealthDamage@%最大生命值</magicDamage>。"
+        }
+      }
+    },
+    "jax_r": {
+      "binding": "Characters/Jax/Spells/JaxRAbility/JaxR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JaxRApexForm_Name",
+          "key": "spell_jaxrapexform_name",
+          "text": "武器大师"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JaxRApexForm_Tooltip",
+          "key": "spell_jaxrapexform_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>@PassiveFallOffTime@秒内的每第三次攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>贾克斯将他的灯柱砸落，对附近的敌人们造成<magicDamage>@SwingDamageTotal@魔法伤害</magicDamage>。如果他命中了一名英雄，那么他会获得<scaleArmor>@BaseArmor@护甲</scaleArmor>和<scaleMR>@BaseMR@魔法抗性</scaleMR>，并且每额外命中一个英雄就会获得额外的<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>，持续@Duration@秒。在此期间，他每第二次攻击（而非每第三次攻击）造成额外的<magicDamage>魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JaxRApexForm_Summary",
+          "key": "spell_jaxrapexform_summary",
+          "text": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_JaxRApexForm_TooltipExtendedBelowLine",
+          "key": "spell_jaxrapexform_tooltipextendedbelowline",
+          "text": "<rules>对建筑物造成@StructureMod*100@%伤害。</rules>"
+        }
+      }
+    },
+    "mordekaiser_p": {
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MordekaiserPassive_Name",
+          "key": "spell_mordekaiserpassive_name",
+          "text": "黑暗起兮"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MordekaiserPassive_Tooltip",
+          "key": "spell_mordekaiserpassive_tooltip",
+          "text": "莫德凯撒的攻击会造成额外的<magicDamage>@BonusAPAuto@魔法伤害</magicDamage>。<br><br>在用3次普通技能或攻击命中英雄或野怪后，莫德凯撒会将自身笼罩在负能量的遮蔽中。这个遮蔽每秒造成<magicDamage>@AuraDamagePerStack@加上@PercentHealthForAura@%最大生命值的魔法伤害</magicDamage>并为他提供<speed>@PassiveMovementSpeed@移动速度</speed>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_MordekaiserPassive_TooltipExtended",
+          "key": "spell_mordekaiserpassive_tooltipextended",
+          "text": "{{Spell_MordekaiserPassive_Tooltip}}<br><br><rules>伤害光环和移动速度持续@CombatTrackingDuration@秒并在用技能或攻击命中一名英雄或野怪时刷新。<br>这个技能每秒最多对野怪造成@MaxAuraMonsterDamage@伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MordekaiserPassive_Summary",
+          "key": "spell_mordekaiserpassive_summary",
+          "text": "莫德凯撒在对英雄或野怪打出3次攻击或技能之后获得一个强力的伤害光环和移动速度。"
+        }
+      }
+    },
+    "mordekaiser_q": {
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MordekaiserQ_Name",
+          "key": "spell_mordekaiserq_name",
+          "text": "破灭之锤"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MordekaiserQ_Tooltip",
+          "key": "spell_mordekaiserq_tooltip",
+          "text": "莫德凯撒用夜陨猛砸地面，造成<magicDamage>@QDamage@魔法伤害</magicDamage>，如果这个技能只命中了一个敌人，则伤害提升至<magicDamage>@EmpoweredDamageTooltip@</magicDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MordekaiserQ_Summary",
+          "key": "spell_mordekaiserq_summary",
+          "text": "莫德凯撒用他的权杖猛砸地面，来对被击中的每个敌人造成伤害。在只命中单个敌人时，伤害会提升。"
+        }
+      }
+    },
+    "mordekaiser_w": {
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MordekaiserW_Name",
+          "key": "spell_mordekaiserw_name",
+          "text": "不坏之身"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MordekaiserW_Tooltip",
+          "key": "spell_mordekaiserw_tooltip",
+          "text": "<passive>被动：</passive>莫德凯撒将他造成的@DamageConversion*100@%伤害和他受到的@DamageTakenConversion*100@%伤害储存起来。<br><br><active>主动：</active>莫德凯撒获得相当于已储存伤害值的<shield>护盾</shield>。他可以<recast>再次施放</recast>这个技能来回复<healing>相当于@HealingPercent*100@%剩余护盾值的生命值</healing>。<br><br>最小护盾值：<shield>@MinHealthTooltip@</shield><br>最大护盾值：<shield>@MaxHealthTooltip@</shield>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MordekaiserW_Summary",
+          "key": "spell_mordekaiserw_summary",
+          "text": "莫德凯撒将他所造成和承受的伤害储存起来，以创造一个护盾。他可以消耗这个护盾来治疗自身。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MordekaiserW_TooltipExtendedBelowLine",
+          "key": "spell_mordekaiserw_tooltipextendedbelowline",
+          "text": "<rules>护盾值会持续衰减。<br>非英雄伤害的储存率会减少75%。</rules>"
+        }
+      }
+    },
+    "mordekaiser_e": {
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MordekaiserE_Circular_Name",
+          "key": "spell_mordekaisere_circular_name",
+          "text": "断魂一扼"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MordekaiserE_Circular_Tooltip",
+          "key": "spell_mordekaisere_circular_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>莫德凯撒获得<magicPen>@MagicPen*100@%法术穿透</magicPen>。<br><br><spellActive>主动：</spellActive>莫德凯撒将敌人拉往他的方向，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MordekaiserE_Summary",
+          "key": "spell_mordekaisere_summary",
+          "text": "莫德凯撒拉拽一个区域内的所有敌人"
+        }
+      }
+    },
+    "mordekaiser_r": {
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MordekaiserR_Name",
+          "key": "spell_mordekaiserr_name",
+          "text": "轮回绝境"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MordekaiserR_Tooltip",
+          "key": "spell_mordekaiserr_tooltip",
+          "text": "莫德凯撒将自身和一个敌方英雄放逐至死者领域@SpiritRealmDuration@秒，并在期间内偷取该英雄@StatStealPercentScalar*100@%的核心属性。<br><br>如果莫德凯撒在死者领域击杀了该敌人，那么他会吞噬目标的灵魂，保留他所偷取的属性，直到目标复活为止。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MordekaiserR_Summary",
+          "key": "spell_mordekaiserr_summary",
+          "text": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MordekaiserR_TooltipExtendedBelowLine",
+          "key": "spell_mordekaiserr_tooltipextendedbelowline",
+          "text": "<rules>已偷取的核心属性包括：<scaleAP>法术强度</scaleAP>，<scaleAD>攻击力</scaleAD>，<attackSpeed>攻击速度</attackSpeed>，<scaleArmor>护甲</scaleArmor>，<scaleMR>魔法抗性</scaleMR>和<scaleHealth>最大生命值</scaleHealth>。</rules>"
+        }
+      }
+    },
+    "renekton_p": {
+      "binding": "Characters/Renekton/Spells/RenektonPredatorAbility/RenektonPredator",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RenektonPredator_Name",
+          "key": "spell_renektonpredator_name",
+          "text": "怒之领域"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RenektonPredator_Tooltip",
+          "key": "spell_renektonpredator_tooltip",
+          "text": "雷克顿每次攻击获得<keywordMajor> @FuryPerAttack@怒气</keywordMajor>。在<keywordMajor>@FuryCost@怒气</keywordMajor>以上时，他的下一个技能会花费<keywordMajor>怒气</keywordMajor>以获得强化。 <keywordMajor>怒气</keywordMajor>会在脱离战斗后衰减。<br><br>在低于@LowHealthPercentThreshold*100@%生命值时，雷克顿获得@FuryIncreasePercent*100@%<keywordMajor>怒气</keywordMajor>提升。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RenektonPredator_Summary",
+          "key": "spell_renektonpredator_summary",
+          "text": "雷克顿的攻击会产生【怒气】，在它的生命值较低时产生更多【怒气】。【怒气】可以强化他的基础技能，使它们具有额外效果。"
+        }
+      }
+    },
+    "renekton_q": {
+      "binding": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RenektonCleave_Name",
+          "key": "spell_renektoncleave_name",
+          "text": "巨鳄狂袭"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RenektonCleave_Summary",
+          "key": "spell_renektoncleave_summary",
+          "text": "雷克顿挥动他的武器，对周围所有目标造成中等水平物理伤害，并根据造成的伤害来治疗自己。如果他有50点以上怒气，那么此技能的伤害和治疗效果会得到提升。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RenektonCleave_Tooltip",
+          "key": "spell_renektoncleave_tooltip",
+          "text": "雷克顿挥舞他的战刃，造成<physicalDamage>@BasicDamage@物理伤害</physicalDamage>，此外，每命中一个非英雄单位就会回复<healing>@NonChampHealing@生命值</healing>，每命中一位英雄就会回复<healing>@ChampHealing@</healing>。他每命中一个非英雄单位还会生成<keywordMajor>@MinionFuryGain@怒气</keywordMajor>，且每命中一位英雄生成<keywordMajor>@ChampionFuryGain@怒气</keywordMajor>。<br><br><keywordMajor>怒气加成</keywordMajor>：伤害提升至<physicalDamage>@EmpDamage@物理伤害</physicalDamage>并且对非英雄单位的治疗效果提升至<healing>@EmpNonChampHealing@生命值</healing>，对英雄的治疗效果提升至<healing>@EmpChampHealing@生命值</healing>。不会生成任何<keywordMajor>怒气</keywordMajor>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RenektonCleave_TooltipExtendedBelowLine",
+          "key": "spell_renektoncleave_tooltipextendedbelowline",
+          "text": "<rules>每次施放最多获得<keywordMajor>@FuryGainCap@怒气</keywordMajor>。<br>基础施放至多回复<healing>@BasicHealCap@生命值</healing>。<br>强化施放至多回复<healing>@EmpoweredHealCap@生命值</healing>。</rules>"
+        }
+      }
+    },
+    "renekton_w": {
+      "binding": "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RenektonPreExecute_Name",
+          "key": "spell_renektonpreexecute_name",
+          "text": "冷酷捕猎"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RenektonPreExecute_Summary",
+          "key": "spell_renektonpreexecute_summary",
+          "text": "雷克顿两次挥击目标，对其造成中等水平物理伤害并晕眩其0.75秒。如果雷克顿有50点以上怒气，他会三次挥击目标，摧毁目标身上的伤害护盾，对其造成高额物理伤害，并晕眩其1.5秒。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RenektonPreExecute_Tooltip",
+          "key": "spell_renektonpreexecute_tooltip",
+          "text": "雷克顿的下次攻击会进行两次打击，造成@StunDuration@秒<status>晕眩</status>和共计<physicalDamage>@BasicTotalDamage@物理伤害</physicalDamage>。命中一名英雄会生成额外的<keywordMajor>@BonusFuryVsChamps@怒气</keywordMajor>。<br><br><keywordMajor>怒气加成</keywordMajor>：雷克顿转而进行三次打击，摧毁<shield>护盾</shield>然后造成<physicalDamage>@EmpTotalDamage@物理伤害</physicalDamage>和@EnragedStunDuration@秒<status>晕眩</status>。不会生成任何<keywordMajor>怒气</keywordMajor>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RenektonPreExecute_TooltipExtendedBelowLine",
+          "key": "spell_renektonpreexecute_tooltipextendedbelowline",
+          "text": "<rules>所有攻击都会各自施加攻击特效。</rules><br><rules>不会打破野怪身上的护盾。</rules>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "renekton_e": {
+      "binding": "Characters/Renekton/Spells/RenektonSliceAndDiceAbility/RenektonSliceAndDice",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RenektonSliceAndDice_Name",
+          "key": "spell_renektonsliceanddice_name",
+          "text": "横冲直撞"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RenektonSliceAndDice_Summary",
+          "key": "spell_renektonsliceanddice_summary",
+          "text": "雷克顿冲向前方，对沿途的敌人造成伤害。如果雷克顿有50点以上怒气，就会造成额外伤害，并减少沿途敌人的护甲值。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RenektonSliceAndDice_Tooltip",
+          "key": "spell_renektonsliceanddice_tooltip",
+          "text": "雷克顿进行冲刺，造成<physicalDamage>@BasicDamage@物理伤害</physicalDamage>。他每命中一名非英雄单位就会生成<keywordMajor>@MinionRageGeneration@怒气</keywordMajor>，每命中一位英雄就会生成<keywordMajor>@ChampionRageGeneration@怒气</keywordMajor>。如果至少命中一名敌人，那么雷克顿就能在@DiceTimer@秒内<recast>再次施放</recast>这个技能一次。<br><br><keywordMajor>怒气加成</keywordMajor>：<recast>再次施放</recast>的冲刺转而造成<physicalDamage>@EmpDamage@物理伤害</physicalDamage>并造成持续@ShredTimer@秒的<scaleArmor>@EnragedArmorShred@%护甲</scaleArmor>削减。不会生成<keywordMajor>怒气</keywordMajor>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RenektonSliceAndDice_TooltipExtendedBelowLine",
+          "key": "spell_renektonsliceanddice_tooltipextendedbelowline",
+          "text": "<rules>每次施放最多获得<keywordMajor>@FuryMax@ 怒气</keywordMajor>。</rules>"
+        }
+      }
+    },
+    "renekton_r": {
+      "binding": "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RenektonReignOfTheTyrant_Name",
+          "key": "spell_renektonreignofthetyrant_name",
+          "text": "终极统治"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RenektonReignOfTheTyrant_Summary",
+          "key": "spell_renektonreignofthetyrant_summary",
+          "text": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RenektonReignOfTheTyrant_Tooltip",
+          "key": "spell_renektonreignofthetyrant_tooltip",
+          "text": "雷克顿用黑暗能量笼罩自身，持续@BuffDuration@秒，获得<healing>@HealthGain@最大生命值</healing>和<keywordMajor>@FuryOnCast@怒气</keywordMajor>。在激活时，他每秒造成<magicDamage>@TotalDamagePerSecond@魔法伤害</magicDamage>并获得<keywordMajor>@FuryPerSecond@怒气</keywordMajor>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_garenpassive_name": "坚韧",
+    "spell_garenpassive_tooltip": "盖伦每5秒回复<healing>@RegenCalc@最大生命值</healing>，前提是他在之前的@DamageTimer@秒内未受到伤害或被敌方技能命中。",
+    "spell_garenpassive_summary": "如果盖伦近期没有受到伤害或者被敌方技能命中，那么他会每秒回复若干百分比的总生命值。",
+    "spell_garenpassive_tooltipextended": "{{Spell_GarenPassive_Tooltip}}<br><br><rules>小兵和非史诗级野怪的伤害不会中断这个回复。</rules>",
+    "spell_garenq_name": "致命打击",
+    "spell_garenq_tooltip": "盖伦移除身上的所有<status>减速</status>效果并获得<speed>@MovementSpeedAmount*100@%移动速度</speed>，持续@MovementSpeedDuration@秒。<br><br>他的下次攻击会使目标<status>沉默</status>@SilenceDuration@秒并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。",
+    "spell_garenq_summary": "盖伦的移动速度获得爆发性提升，同时移除身上的所有减速效果。他的下次攻击将打击敌人的要害部位，造成额外伤害并将目标沉默。",
+    "spell_cost_nocost": "无消耗",
+    "spell_garenq_tooltipextendedbelowline": "<rules>强化攻击会在@AttackWindow@秒后消散。<br>{{ buff_desc_SpellEffects }}</rules>",
+    "spell_garenw_name": "勇气",
+    "spell_garenw_summary": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。",
+    "spell_garenw_tooltip": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>@ResistsForTooltip@额外护甲</scaleArmor>和<scaleMR>@ResistsForTooltip@额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>@ResistGainOnKillTooltip@双抗</attention>，至多至最大值<attention>@ResistMax@</attention>。<br><br><spellActive>主动：</spellActive>盖伦加固他的勇气@DRDuration@秒，使即将到来的伤害降低@DRPercent*100@%。他还会获得持续@UpfrontDuration@秒的<shield>@TotalShield@护盾值</shield>和<slow>@UpfrontTenacity*100@%韧性</slow>。",
+    "spell_garene_name": "审判",
+    "spell_garene_tooltip": "盖伦快速地旋舞大剑，持续@Duration@秒，每旋转一圈造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，共旋转@f1@圈。相距最近的敌人受到<physicalDamage>@NearestEnemyBonus*100@%提升伤害</physicalDamage>。被@StacksToShred@圈旋转命中的敌方英雄会损失<scaleArmor>@ShredAmount*100@%护甲</scaleArmor>，持续@ShredDuration@秒。<br><br><recast>再次施放</recast>：盖伦提前结束这个技能。",
+    "spell_garene_summary": "盖伦快速地旋转身体挥舞大剑，并对邻近敌人造成物理伤害。",
+    "spell_garene_tooltipextendedbelowline": "<rules>来自装备和等级的每<attackSpeed>@ASPerTick*100@%攻击速度</attackSpeed>获得额外的一圈旋转。<br>能够暴击以造成<physicalDamage>@CriticalDamage@物理伤害</physicalDamage>。</rules>",
+    "spell_garenr_name": "德玛西亚正义",
+    "spell_garenr_tooltip": "盖伦召唤德玛西亚之力来击杀他的敌人，造成<trueDamage>@BaseDamage@外加@ExecuteDamage*100@%已损失生命值的真实伤害</trueDamage>。",
+    "spell_garenr_summary": "盖伦召唤德玛西亚之力，试图处决一名敌方英雄。",
+    "game_character_passivename_jax": "无情连打",
+    "game_character_passivetooltip_jax": "贾克斯的攻击会提供一层持续2.5秒的效果，来提供给他<attackSpeed>@AttackSpeedPerStack@攻击速度</attackSpeed> (最大值为<attackSpeed>@MaxBonusAttackSpeed@攻击速度</attackSpeed>)。",
+    "spell_jaxleapstrike_name": "跳斩",
+    "spell_jaxleapstrike_summary": "贾克斯跳向一个单位。如果目标是敌人，贾克斯会用他的武器狠狠地抽打敌人的脸，造成额外伤害。",
+    "spell_jaxleapstrike_tooltip": "贾克斯跳向一个友方或敌方单位或守卫，如果目标是敌人则会造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。",
+    "spell_jaxempowertwo_name": "蓄力一击",
+    "spell_jaxempowertwo_summary": "贾克斯为武器充能，使他的下次攻击能造成额外伤害。",
+    "spell_jaxempowertwo_tooltip": "贾克斯给他的武器充能，使他的下次攻击或<spellName>跳斩</spellName>造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_jaxempowertwo_tooltipextendedbelowline": "<rules>{{ buff_desc_SpellEffects }}<br>对建筑物造成@StructureMod*100@%伤害。</rules>",
+    "spell_jaxcounterstrike_name": "反击风暴",
+    "spell_jaxcounterstrike_summary": "贾克斯的武艺让他能够在短时间里躲闪掉所有即将到来的普通攻击，随后对所有周围的敌人快速发起反击，并将他们击晕。",
+    "spell_jaxcounterstrike_tooltip": "贾克斯进入一个最多持续@DodgeDuration@秒的防御姿态，能够躲闪掉一切即将到来的攻击，并且减少@AoEDamageReduction@%来自群体技能的伤害。在@DodgeDuration@秒后，或<recast>再次施放</recast>后，贾克斯会造成<magicDamage>@TotalDamage@ + @PercentHealthDamage@%最大生命值的魔法伤害</magicDamage>并使附近的敌人<status>晕眩</status>@StunDuration@秒。<br><br>贾克斯每躲掉一次攻击，这个伤害值就会提升@PercentIncreasedPerDodge*100@%，最多可提升至最大值<magicDamage>@MaxDamage@ + @MaxPercentHealthDamage@%最大生命值</magicDamage>。",
+    "spell_jaxrapexform_name": "武器大师",
+    "spell_jaxrapexform_tooltip": "<spellPassive>被动：</spellPassive>@PassiveFallOffTime@秒内的每第三次攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>贾克斯将他的灯柱砸落，对附近的敌人们造成<magicDamage>@SwingDamageTotal@魔法伤害</magicDamage>。如果他命中了一名英雄，那么他会获得<scaleArmor>@BaseArmor@护甲</scaleArmor>和<scaleMR>@BaseMR@魔法抗性</scaleMR>，并且每额外命中一个英雄就会获得额外的<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>，持续@Duration@秒。在此期间，他每第二次攻击（而非每第三次攻击）造成额外的<magicDamage>魔法伤害</magicDamage>。",
+    "spell_jaxrapexform_summary": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。",
+    "spell_jaxrapexform_tooltipextendedbelowline": "<rules>对建筑物造成@StructureMod*100@%伤害。</rules>",
+    "spell_mordekaiserpassive_name": "黑暗起兮",
+    "spell_mordekaiserpassive_tooltip": "莫德凯撒的攻击会造成额外的<magicDamage>@BonusAPAuto@魔法伤害</magicDamage>。<br><br>在用3次普通技能或攻击命中英雄或野怪后，莫德凯撒会将自身笼罩在负能量的遮蔽中。这个遮蔽每秒造成<magicDamage>@AuraDamagePerStack@加上@PercentHealthForAura@%最大生命值的魔法伤害</magicDamage>并为他提供<speed>@PassiveMovementSpeed@移动速度</speed>。",
+    "spell_mordekaiserpassive_tooltipextended": "{{Spell_MordekaiserPassive_Tooltip}}<br><br><rules>伤害光环和移动速度持续@CombatTrackingDuration@秒并在用技能或攻击命中一名英雄或野怪时刷新。<br>这个技能每秒最多对野怪造成@MaxAuraMonsterDamage@伤害。</rules>",
+    "spell_mordekaiserpassive_summary": "莫德凯撒在对英雄或野怪打出3次攻击或技能之后获得一个强力的伤害光环和移动速度。",
+    "spell_mordekaiserq_name": "破灭之锤",
+    "spell_mordekaiserq_tooltip": "莫德凯撒用夜陨猛砸地面，造成<magicDamage>@QDamage@魔法伤害</magicDamage>，如果这个技能只命中了一个敌人，则伤害提升至<magicDamage>@EmpoweredDamageTooltip@</magicDamage>。",
+    "spell_mordekaiserq_summary": "莫德凯撒用他的权杖猛砸地面，来对被击中的每个敌人造成伤害。在只命中单个敌人时，伤害会提升。",
+    "spell_mordekaiserw_name": "不坏之身",
+    "spell_mordekaiserw_tooltip": "<passive>被动：</passive>莫德凯撒将他造成的@DamageConversion*100@%伤害和他受到的@DamageTakenConversion*100@%伤害储存起来。<br><br><active>主动：</active>莫德凯撒获得相当于已储存伤害值的<shield>护盾</shield>。他可以<recast>再次施放</recast>这个技能来回复<healing>相当于@HealingPercent*100@%剩余护盾值的生命值</healing>。<br><br>最小护盾值：<shield>@MinHealthTooltip@</shield><br>最大护盾值：<shield>@MaxHealthTooltip@</shield>",
+    "spell_mordekaiserw_summary": "莫德凯撒将他所造成和承受的伤害储存起来，以创造一个护盾。他可以消耗这个护盾来治疗自身。",
+    "spell_mordekaiserw_tooltipextendedbelowline": "<rules>护盾值会持续衰减。<br>非英雄伤害的储存率会减少75%。</rules>",
+    "spell_mordekaisere_circular_name": "断魂一扼",
+    "spell_mordekaisere_circular_tooltip": "<spellPassive>被动：</spellPassive>莫德凯撒获得<magicPen>@MagicPen*100@%法术穿透</magicPen>。<br><br><spellActive>主动：</spellActive>莫德凯撒将敌人拉往他的方向，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_mordekaisere_summary": "莫德凯撒拉拽一个区域内的所有敌人",
+    "spell_mordekaiserr_name": "轮回绝境",
+    "spell_mordekaiserr_tooltip": "莫德凯撒将自身和一个敌方英雄放逐至死者领域@SpiritRealmDuration@秒，并在期间内偷取该英雄@StatStealPercentScalar*100@%的核心属性。<br><br>如果莫德凯撒在死者领域击杀了该敌人，那么他会吞噬目标的灵魂，保留他所偷取的属性，直到目标复活为止。",
+    "spell_mordekaiserr_summary": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。",
+    "spell_mordekaiserr_tooltipextendedbelowline": "<rules>已偷取的核心属性包括：<scaleAP>法术强度</scaleAP>，<scaleAD>攻击力</scaleAD>，<attackSpeed>攻击速度</attackSpeed>，<scaleArmor>护甲</scaleArmor>，<scaleMR>魔法抗性</scaleMR>和<scaleHealth>最大生命值</scaleHealth>。</rules>",
+    "spell_renektonpredator_name": "怒之领域",
+    "spell_renektonpredator_tooltip": "雷克顿每次攻击获得<keywordMajor> @FuryPerAttack@怒气</keywordMajor>。在<keywordMajor>@FuryCost@怒气</keywordMajor>以上时，他的下一个技能会花费<keywordMajor>怒气</keywordMajor>以获得强化。 <keywordMajor>怒气</keywordMajor>会在脱离战斗后衰减。<br><br>在低于@LowHealthPercentThreshold*100@%生命值时，雷克顿获得@FuryIncreasePercent*100@%<keywordMajor>怒气</keywordMajor>提升。",
+    "spell_renektonpredator_summary": "雷克顿的攻击会产生【怒气】，在它的生命值较低时产生更多【怒气】。【怒气】可以强化他的基础技能，使它们具有额外效果。",
+    "spell_renektoncleave_name": "巨鳄狂袭",
+    "spell_renektoncleave_summary": "雷克顿挥动他的武器，对周围所有目标造成中等水平物理伤害，并根据造成的伤害来治疗自己。如果他有50点以上怒气，那么此技能的伤害和治疗效果会得到提升。",
+    "spell_renektoncleave_tooltip": "雷克顿挥舞他的战刃，造成<physicalDamage>@BasicDamage@物理伤害</physicalDamage>，此外，每命中一个非英雄单位就会回复<healing>@NonChampHealing@生命值</healing>，每命中一位英雄就会回复<healing>@ChampHealing@</healing>。他每命中一个非英雄单位还会生成<keywordMajor>@MinionFuryGain@怒气</keywordMajor>，且每命中一位英雄生成<keywordMajor>@ChampionFuryGain@怒气</keywordMajor>。<br><br><keywordMajor>怒气加成</keywordMajor>：伤害提升至<physicalDamage>@EmpDamage@物理伤害</physicalDamage>并且对非英雄单位的治疗效果提升至<healing>@EmpNonChampHealing@生命值</healing>，对英雄的治疗效果提升至<healing>@EmpChampHealing@生命值</healing>。不会生成任何<keywordMajor>怒气</keywordMajor>。",
+    "spell_renektoncleave_tooltipextendedbelowline": "<rules>每次施放最多获得<keywordMajor>@FuryGainCap@怒气</keywordMajor>。<br>基础施放至多回复<healing>@BasicHealCap@生命值</healing>。<br>强化施放至多回复<healing>@EmpoweredHealCap@生命值</healing>。</rules>",
+    "spell_renektonpreexecute_name": "冷酷捕猎",
+    "spell_renektonpreexecute_summary": "雷克顿两次挥击目标，对其造成中等水平物理伤害并晕眩其0.75秒。如果雷克顿有50点以上怒气，他会三次挥击目标，摧毁目标身上的伤害护盾，对其造成高额物理伤害，并晕眩其1.5秒。",
+    "spell_renektonpreexecute_tooltip": "雷克顿的下次攻击会进行两次打击，造成@StunDuration@秒<status>晕眩</status>和共计<physicalDamage>@BasicTotalDamage@物理伤害</physicalDamage>。命中一名英雄会生成额外的<keywordMajor>@BonusFuryVsChamps@怒气</keywordMajor>。<br><br><keywordMajor>怒气加成</keywordMajor>：雷克顿转而进行三次打击，摧毁<shield>护盾</shield>然后造成<physicalDamage>@EmpTotalDamage@物理伤害</physicalDamage>和@EnragedStunDuration@秒<status>晕眩</status>。不会生成任何<keywordMajor>怒气</keywordMajor>。",
+    "spell_renektonpreexecute_tooltipextendedbelowline": "<rules>所有攻击都会各自施加攻击特效。</rules><br><rules>不会打破野怪身上的护盾。</rules>",
+    "spell_renektonsliceanddice_name": "横冲直撞",
+    "spell_renektonsliceanddice_summary": "雷克顿冲向前方，对沿途的敌人造成伤害。如果雷克顿有50点以上怒气，就会造成额外伤害，并减少沿途敌人的护甲值。",
+    "spell_renektonsliceanddice_tooltip": "雷克顿进行冲刺，造成<physicalDamage>@BasicDamage@物理伤害</physicalDamage>。他每命中一名非英雄单位就会生成<keywordMajor>@MinionRageGeneration@怒气</keywordMajor>，每命中一位英雄就会生成<keywordMajor>@ChampionRageGeneration@怒气</keywordMajor>。如果至少命中一名敌人，那么雷克顿就能在@DiceTimer@秒内<recast>再次施放</recast>这个技能一次。<br><br><keywordMajor>怒气加成</keywordMajor>：<recast>再次施放</recast>的冲刺转而造成<physicalDamage>@EmpDamage@物理伤害</physicalDamage>并造成持续@ShredTimer@秒的<scaleArmor>@EnragedArmorShred@%护甲</scaleArmor>削减。不会生成<keywordMajor>怒气</keywordMajor>。",
+    "spell_renektonsliceanddice_tooltipextendedbelowline": "<rules>每次施放最多获得<keywordMajor>@FuryMax@ 怒气</keywordMajor>。</rules>",
+    "spell_renektonreignofthetyrant_name": "终极统治",
+    "spell_renektonreignofthetyrant_summary": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。",
+    "spell_renektonreignofthetyrant_tooltip": "雷克顿用黑暗能量笼罩自身，持续@BuffDuration@秒，获得<healing>@HealthGain@最大生命值</healing>和<keywordMajor>@FuryOnCast@怒气</keywordMajor>。在激活时，他每秒造成<magicDamage>@TotalDamagePerSecond@魔法伤害</magicDamage>并获得<keywordMajor>@FuryPerSecond@怒气</keywordMajor>。"
+  }
+}

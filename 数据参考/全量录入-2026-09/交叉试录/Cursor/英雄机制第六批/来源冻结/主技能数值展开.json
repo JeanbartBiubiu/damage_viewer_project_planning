@@ -1,0 +1,3238 @@
+{
+  "generatedAt": "2026-09-08T15:26:05.588Z",
+  "heroes": [
+    {
+      "id": "Garen",
+      "chineseName": "德玛西亚之力",
+      "rootPath": "Characters/Garen/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Garen.json.gz",
+        "sha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+        "compressedSha256": "6cfa44116bbcfbb5edfe1573eedd2f3bb18d2d0092cde71ec76531933068de61",
+        "byteSize": 47339,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/garen/garen.bin.json",
+        "fetchedAt": "2026-09-06T14:20:10.546Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Garen.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Garen.json",
+        "fetchedAt": "2026-09-06T14:12:47.375Z",
+        "byteSize": 13028,
+        "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "garen_p",
+          "binding": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "name": "坚韧",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "如果盖伦近期没有受到伤害或者被敌方技能命中，那么他会每秒回复若干百分比的总生命值。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "DamageTimer",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            }
+          ],
+          "calculations": {
+            "RegenCalc": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 1.5,
+                  "mInitialBonusPerLevel": 0.20000000298023224,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 0.800000011920929,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 14,
+                      "mBonusPerLevelAtAndAfter": 0.4000000059604645,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "garen_q",
+          "binding": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "name": "致命打击",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "盖伦的移动速度获得爆发性提升，同时移除身上的所有减速效果。他的下次攻击将打击敌人的要害部位，造成额外伤害并将目标沉默。",
+          "officialTooltip": "盖伦移除身上的所有<status>减速</status>效果并获得<speed>{{ movementspeedamount*100 }}%移动速度</speed>，持续{{ movementspeedduration }}秒。<br /><br />他的下次攻击会使目标<status>沉默</status>{{ silenceduration }}秒并造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                0,
+                30,
+                60,
+                90,
+                120,
+                150,
+                180
+              ]
+            },
+            {
+              "name": "SilenceDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "MovementSpeedDuration",
+              "values": [
+                0.8500000238418579,
+                1.399999976158142,
+                1.9500000476837158,
+                2.5,
+                3.049999952316284,
+                3.5999999046325684,
+                4.150000095367432
+              ]
+            },
+            {
+              "name": "MovementSpeedAmount",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ]
+            },
+            {
+              "name": "AttackWindow",
+              "values": [
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5
+              ]
+            },
+            {
+              "name": "tADRatio",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "tADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "garen_w",
+          "binding": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "name": "勇气",
+          "maxrank": 5,
+          "officialCooldown": [
+            22,
+            19.5,
+            17,
+            14.5,
+            12
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>{{ resistsfortooltip }}额外护甲</scaleArmor>和<scaleMR>{{ resistsfortooltip }}额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>{{ resistgainonkilltooltip }}双抗</attention>，至多至最大值<attention>{{ resistmax }}</attention>。<br /><br /><spellActive>主动：</spellActive>盖伦加固他的勇气{{ drduration }}秒，使即将到来的伤害降低{{ drpercent*100 }}%。他还会获得持续{{ upfrontduration }}秒的<shield>{{ totalshield }}护盾值</shield>和<slow>{{ upfronttenacity*100 }}%韧性</slow>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            22,
+            19.5,
+            17,
+            14.5,
+            12,
+            12
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BuffCounterPerKill",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "ResistGainOnKill",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "ResistGainOnKillTooltip",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "ResistMax",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ]
+            },
+            {
+              "name": "DRPercent",
+              "values": [
+                0.20999999344348907,
+                0.25,
+                0.28999999165534973,
+                0.33000001311302185,
+                0.3700000047683716,
+                0.4099999964237213,
+                0.44999998807907104
+              ]
+            },
+            {
+              "name": "DRDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "UpfrontTenacity",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "UpfrontDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "LargeMonsterStacks",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "EpicMonsterStacks",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "ShieldHealthRatio",
+              "values": [
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737
+              ]
+            },
+            {
+              "name": "BaseShield",
+              "values": [
+                45,
+                65,
+                85,
+                105,
+                125,
+                145,
+                165
+              ]
+            },
+            {
+              "name": "NormalResistKillValue"
+            }
+          ],
+          "calculations": {
+            "TotalShield": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "ShieldHealthRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ResistsForTooltip": {
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{9e10ce18}",
+                  "mDataValue": "ResistGainOnKill",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "garen_e",
+          "binding": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "name": "审判",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8.25,
+            7.5,
+            6.75,
+            6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "盖伦快速地旋转身体挥舞大剑，并对邻近敌人造成物理伤害。",
+          "officialTooltip": "盖伦快速地旋舞大剑，持续{{ duration }}秒，每旋转一圈造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>，共旋转{{ f1 }}圈。相距最近的敌人受到<physicalDamage>{{ nearestenemybonus*100 }}%提升伤害</physicalDamage>。被{{ stackstoshred }}圈旋转命中的敌方英雄会损失<scaleArmor>{{ shredamount*100 }}%护甲</scaleArmor>，持续{{ shredduration }}秒。<br /><br /><recast>再次施放</recast>：盖伦提前结束这个技能。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            9,
+            9,
+            8.25,
+            7.5,
+            6.75,
+            6,
+            6
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "NumTicks",
+              "values": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            },
+            {
+              "name": "ASPerTick",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "BaseDamagePerTick",
+              "values": [
+                1,
+                4,
+                7,
+                10,
+                13,
+                16,
+                19
+              ]
+            },
+            {
+              "name": "ADRatioPerTick",
+              "values": [
+                0.3700000047683716,
+                0.4000000059604645,
+                0.4300000071525574,
+                0.46000000834465027,
+                0.49000000953674316,
+                0.5199999809265137,
+                0.550000011920929
+              ]
+            },
+            {
+              "name": "ShredDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "StacksToShred",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "name": "Duration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "ShredAmount",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "NearestEnemyBonus",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "CritMod",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamagePerTick",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatioPerTick",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "CriticalDamage": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mPart1": {
+                      "mDataValue": "CritMod",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mSubparts": [
+                        {
+                          "mStat": 9,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        {
+                          "mNumber": -1,
+                          "__type": "NumberCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            },
+            "NumberOfStrikes": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "NumTicks",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "garen_r",
+          "binding": "Characters/Garen/Spells/GarenRAbility/GarenR",
+          "name": "德玛西亚正义",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "盖伦召唤德玛西亚之力，试图处决一名敌方英雄。",
+          "officialTooltip": "盖伦召唤德玛西亚之力来击杀他的敌人，造成<trueDamage>{{ basedamage }}外加{{ executedamage*100 }}%已损失生命值的真实伤害</trueDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            100,
+            80,
+            120,
+            120,
+            120
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.4350000023841858,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                50,
+                125,
+                200,
+                275,
+                350,
+                425,
+                500
+              ]
+            },
+            {
+              "name": "ExecuteDamage",
+              "values": [
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5
+              ]
+            },
+            {
+              "name": "RevealDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "calculations": {}
+        }
+      ]
+    },
+    {
+      "id": "Jax",
+      "chineseName": "武器大师",
+      "rootPath": "Characters/Jax/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Jax.json.gz",
+        "sha256": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+        "compressedSha256": "488ac8a29d9ed7e844bf924a9751c612e501598a132bc7ec531a0500b117cec3",
+        "byteSize": 51045,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jax/jax.bin.json",
+        "fetchedAt": "2026-09-06T14:26:21.078Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Jax.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jax.json",
+        "fetchedAt": "2026-09-06T14:12:47.779Z",
+        "byteSize": 12587,
+        "sha256": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "jax_p",
+          "binding": "Characters/Jax/Spells/JaxPassiveAbility/JaxPassive",
+          "name": "无情连打",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "贾克斯连续的普通攻击，会持续地提高他的攻击速度。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BuffDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "MaxStacks",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            },
+            {
+              "name": "FallOffRate",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ]
+            },
+            {
+              "name": "BelvethVsJaxQuestRewardStacks",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ],
+          "calculations": {
+            "AttackSpeedPerStack": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.05000000074505806,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 4,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 7,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 10,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 13,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 19,
+                      "mAdditionalBonusAtThisLevel": 0.014999999664723873,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "MaxBonusAttackSpeed": {
+              "mMultiplier": {
+                "mDataValue": "MaxStacks",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "AttackSpeedPerStack",
+              "__type": "GameCalculationModified"
+            },
+            "BelvethVsJaxQuestRewardAttackSpeedPerStack": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.00279999990016222,
+                  "mInitialBonusPerLevel": 0.0006000000284984708,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 14,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 2,
+              "__type": "GameCalculation"
+            },
+            "BelvethVsJaxQuestRewardAttackSpeed": {
+              "mMultiplier": {
+                "mBuffName": "{a8a3dd7a}",
+                "mCoefficient": 1,
+                "__type": "BuffCounterByCoefficientCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mModifiedGameCalculation": "BelvethVsJaxQuestRewardAttackSpeedPerStack",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "jax_q",
+          "binding": "Characters/Jax/Spells/JaxQAbility/JaxQ",
+          "name": "跳斩",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialDescription": "贾克斯跳向一个单位。如果目标是敌人，贾克斯会用他的武器狠狠地抽打敌人的脸，造成额外伤害。",
+          "officialTooltip": "贾克斯跳向一个友方或敌方单位或守卫，如果目标是敌人则会造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            7.5,
+            7,
+            6.5,
+            6,
+            5.5
+          ],
+          "mana": [
+            65,
+            65,
+            65,
+            65,
+            65,
+            65
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                25,
+                65,
+                105,
+                145,
+                185,
+                225,
+                265
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "jax_w",
+          "binding": "Characters/Jax/Spells/JaxWAbility/JaxW",
+          "name": "蓄力一击",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "officialCost": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "officialDescription": "贾克斯为武器充能，使他的下次攻击能造成额外伤害。",
+          "officialTooltip": "贾克斯给他的武器充能，使他的下次攻击或<spellName>跳斩</spellName>造成额外的<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            7,
+            6,
+            5,
+            4,
+            3,
+            3
+          ],
+          "mana": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "{0a3e0478}": 30,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                15,
+                50,
+                85,
+                120,
+                155,
+                190,
+                225
+              ]
+            },
+            {
+              "name": "StructureMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "FinalDamage": {
+              "mConditionalGameCalculation": "TotalDamage",
+              "mConditionalCalculationRequirements": {
+                "mBuffName": "{12395d09}",
+                "__type": "HasBuffCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "jax_e",
+          "binding": "Characters/Jax/Spells/JaxEAbility/JaxE",
+          "name": "反击风暴",
+          "maxrank": 5,
+          "officialCooldown": [
+            17,
+            15,
+            13,
+            11,
+            9
+          ],
+          "officialCost": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "officialDescription": "贾克斯的武艺让他能够在短时间里躲闪掉所有即将到来的普通攻击，随后对所有周围的敌人快速发起反击，并将他们击晕。",
+          "officialTooltip": "贾克斯进入一个最多持续{{ dodgeduration }}秒的防御姿态，能够躲闪掉一切即将到来的攻击，并且减少{{ aoedamagereduction }}%来自群体技能的伤害。在{{ dodgeduration }}秒后，或<recast>再次施放</recast>后，贾克斯会造成<magicDamage>{{ totaldamage }} + {{ percenthealthdamage }}%最大生命值的魔法伤害</magicDamage>并使附近的敌人<status>晕眩</status>{{ stunduration }}秒。<br /><br />贾克斯每躲掉一次攻击，这个伤害值就会提升{{ percentincreasedperdodge*100 }}%，最多可提升至最大值<magicDamage>{{ maxdamage }} + {{ maxpercenthealthdamage }}%最大生命值</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            17,
+            17,
+            15,
+            13,
+            11,
+            9,
+            9
+          ],
+          "mana": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              100
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                10,
+                40,
+                70,
+                100,
+                130,
+                160,
+                190
+              ]
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "PercentIncreasedPerDodge",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "MaxDodgesForDamageIncrease",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "PercentHealthDamage",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "DodgeDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "AoEDamageReduction",
+              "values": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStatFormula": 2,
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            },
+            "MaxPercentHealthDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "mExpandedTooltipCalculationDisplay": 5,
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "PercentHealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MonsterDamageCap": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 9000,
+                  "mEndValue": 9000,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "jax_r",
+          "binding": "Characters/Jax/Spells/JaxRAbility/JaxR",
+          "name": "武器大师",
+          "maxrank": 3,
+          "officialCooldown": [
+            110,
+            100,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>{{ passivefallofftime }}秒内的每第三次攻击造成额外的<magicDamage>{{ onhitdamage }}魔法伤害</magicDamage>。<br /><br /><spellActive>主动：</spellActive>贾克斯将他的灯柱砸落，对附近的敌人们造成<magicDamage>{{ swingdamagetotal }}魔法伤害</magicDamage>。如果他命中了一名英雄，那么他会获得<scaleArmor>{{ basearmor }}护甲</scaleArmor>和<scaleMR>{{ basemr }}魔法抗性</scaleMR>，并且每额外命中一个英雄就会获得额外的<scaleArmor>{{ bonusarmor }}护甲</scaleArmor>和<scaleMR>{{ bonusmr }}魔法抗性</scaleMR>，持续{{ duration }}秒。在此期间，他每第二次攻击（而非每第三次攻击）造成额外的<magicDamage>魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            110,
+            110,
+            100,
+            90,
+            8,
+            7,
+            7
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Duration",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            },
+            {
+              "name": "PassiveBaseDamage",
+              "values": [
+                20,
+                75,
+                130,
+                185,
+                240,
+                295,
+                350
+              ]
+            },
+            {
+              "name": "PassiveFallOffTime",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "BaseResists",
+              "values": [
+                30,
+                45,
+                60,
+                75,
+                90,
+                105,
+                120
+              ]
+            },
+            {
+              "name": "ResistsPerExtraTarget",
+              "values": [
+                15,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ]
+            },
+            {
+              "name": "MRMult",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "SwingDamageBase",
+              "values": [
+                25,
+                100,
+                175,
+                250,
+                325,
+                400,
+                475
+              ]
+            },
+            {
+              "name": "AoESize",
+              "values": [
+                375,
+                375,
+                375,
+                375,
+                375,
+                375,
+                375
+              ]
+            },
+            {
+              "name": "StructureMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "calculations": {
+            "OnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "PassiveBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BaseArmor": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseResists",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusArmor": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ResistsPerExtraTarget",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "SwingDamageTotal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SwingDamageBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BaseMR": {
+              "mMultiplier": {
+                "mDataValue": "MRMult",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "BaseArmor",
+              "__type": "GameCalculationModified"
+            },
+            "BonusMR": {
+              "mMultiplier": {
+                "mDataValue": "MRMult",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "BonusArmor",
+              "__type": "GameCalculationModified"
+            },
+            "FinalDamage": {
+              "mConditionalGameCalculation": "OnHitDamage",
+              "mConditionalCalculationRequirements": {
+                "mBuffName": "{1e75ffdf}",
+                "__type": "HasBuffCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Mordekaiser",
+      "chineseName": "铁铠冥魂",
+      "rootPath": "Characters/Mordekaiser/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Mordekaiser.json.gz",
+        "sha256": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+        "compressedSha256": "17715b1f05f32ef9b3996764fba977634a4f9e3f23d2dfb7b7b3ef57cd263d1c",
+        "byteSize": 51444,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/mordekaiser/mordekaiser.bin.json",
+        "fetchedAt": "2026-09-06T14:26:28.198Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Mordekaiser.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Mordekaiser.json",
+        "fetchedAt": "2026-09-06T14:12:50.788Z",
+        "byteSize": 13197,
+        "sha256": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "mordekaiser_p",
+          "binding": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "name": "黑暗起兮",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "莫德凯撒在对英雄或野怪打出3次攻击或技能之后获得一个强力的伤害光环和移动速度。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.3812499940395355,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "CombatTrackingDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "MaximumStacks",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "PercentAPAddedToAutos",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "FuryForQHit",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "FuryForAutoHit",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "FuryForEHit",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "DoTRadius",
+              "values": [
+                375,
+                375,
+                375,
+                375,
+                375,
+                375,
+                375
+              ]
+            },
+            {
+              "name": "MovementSpeed",
+              "values": [
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746
+              ]
+            }
+          ],
+          "calculations": {
+            "AuraDamagePerStack": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mNumber": 5,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PercentHealthForAura": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 1,
+                  "mEndValue": 5,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxAuraMonsterDamage": {
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 40,
+                  "mEndValue": 200,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusAPAuto": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "{72c5c2a8}": 1,
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveMovementSpeed": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.029999999329447746,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 19,
+                      "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 24,
+                      "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 30,
+                      "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "mordekaiser_q",
+          "binding": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "name": "破灭之锤",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            7,
+            6,
+            5,
+            4
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "莫德凯撒用他的权杖猛砸地面，来对被击中的每个敌人造成伤害。在只命中单个敌人时，伤害会提升。",
+          "officialTooltip": "莫德凯撒用夜陨猛砸地面，造成<magicDamage>{{ qdamage }}魔法伤害</magicDamage>，如果这个技能只命中了一个敌人，则伤害提升至<magicDamage>{{ empowereddamagetooltip }}</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            7,
+            6,
+            5,
+            4,
+            4
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0,
+          "mCastTime": 0.5,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "QBaseDamage",
+              "values": [
+                45,
+                80,
+                115,
+                150,
+                185,
+                220,
+                255
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ]
+            },
+            {
+              "name": "IsolationScalar",
+              "values": [
+                1.25,
+                1.2999999523162842,
+                1.350000023841858,
+                1.399999976158142,
+                1.4500000476837158,
+                1.5,
+                1.5499999523162842
+              ]
+            },
+            {
+              "name": "IsolationTooltip",
+              "values": [
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929
+              ]
+            },
+            {
+              "name": "MaceStartDistance",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            },
+            {
+              "name": "MaceLength",
+              "values": [
+                625,
+                625,
+                625,
+                625,
+                625,
+                625,
+                625
+              ]
+            },
+            {
+              "name": "RectangleWidth",
+              "values": [
+                160,
+                160,
+                160,
+                160,
+                160,
+                160,
+                160
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            }
+          ],
+          "calculations": {
+            "QDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "QBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 10,
+                      "mBonusPerLevelAtAndAfter": 5,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredDamageTooltip": {
+              "mMultiplier": {
+                "mDataValue": "IsolationScalar",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "QDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "mordekaiser_w",
+          "binding": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "name": "不坏之身",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "莫德凯撒将他所造成和承受的伤害储存起来，以创造一个护盾。他可以消耗这个护盾来治疗自身。",
+          "officialTooltip": "<passive>被动：</passive>莫德凯撒将他造成的{{ damageconversion*100 }}%伤害和他受到的{{ damagetakenconversion*100 }}%伤害储存起来。<br /><br /><active>主动：</active>莫德凯撒获得相当于已储存伤害值的<shield>护盾</shield>。他可以<recast>再次施放</recast>这个技能来回复<healing>相当于{{ healingpercent*100 }}%剩余护盾值的生命值</healing>。<br /><br />最小护盾值：<shield>{{ minhealthtooltip }}</shield><br />最大护盾值：<shield>{{ maxhealthtooltip }}</shield>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            11,
+            10,
+            9,
+            8,
+            8
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Duration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "DamageConversion",
+              "values": [
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104
+              ]
+            },
+            {
+              "name": "BaseShield",
+              "values": [
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806
+              ]
+            },
+            {
+              "name": "HealingPercent",
+              "values": [
+                0.32499998807907104,
+                0.3499999940395355,
+                0.375,
+                0.4000000059604645,
+                0.42500001192092896,
+                0.44999998807907104,
+                0.4749999940395355
+              ]
+            },
+            {
+              "name": "MinionPenalty",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "DamageTakenConversion",
+              "values": [
+                0.07500000298023224,
+                0.07500000298023224,
+                0.07500000298023224,
+                0.07500000298023224,
+                0.07500000298023224,
+                0.07500000298023224,
+                0.07500000298023224
+              ]
+            },
+            {
+              "name": "MaxHealthCap",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "TimeBeforeDecay",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "DecayPerSecond",
+              "values": [
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291
+              ]
+            }
+          ],
+          "calculations": {
+            "HealthDecay": {
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mStatFormula": 1,
+                  "mDataValue": "DecayPerSecond",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxHealthTooltip": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinHealthTooltip": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.05000000074505806,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "mordekaiser_e",
+          "binding": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "name": "断魂一扼",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            14,
+            12,
+            10,
+            8
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "莫德凯撒拉拽一个区域内的所有敌人",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>莫德凯撒获得<magicPen>{{ magicpen*100 }}%法术穿透</magicPen>。<br /><br /><spellActive>主动：</spellActive>莫德凯撒将敌人拉往他的方向，并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            18,
+            18,
+            16,
+            14,
+            12,
+            10,
+            10
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                40,
+                60,
+                80,
+                100,
+                120,
+                140,
+                160
+              ]
+            },
+            {
+              "name": "DelayBeforeMovement",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "MaxDistance",
+              "values": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ]
+            },
+            {
+              "name": "KnockTowardsDistance",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ]
+            },
+            {
+              "name": "StandAsideRange",
+              "values": [
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900
+              ]
+            },
+            {
+              "name": "MagicPen",
+              "values": [
+                0.02500000037252903,
+                0.05000000074505806,
+                0.07500000298023224,
+                0.10000000149011612,
+                0.125,
+                0.15000000596046448,
+                0.17499999701976776
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.44999998807907104,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "mordekaiser_r",
+          "binding": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "name": "轮回绝境",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            120,
+            100
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。",
+          "officialTooltip": "莫德凯撒将自身和一个敌方英雄放逐至死者领域{{ spiritrealmduration }}秒，并在期间内偷取该英雄{{ statstealpercentscalar*100 }}%的核心属性。<br /><br />如果莫德凯撒在死者领域击杀了该敌人，那么他会吞噬目标的灵魂，保留他所偷取的属性，直到目标复活为止。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            120,
+            100,
+            90,
+            80,
+            8
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": 0.5,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "SpiritRealmDuration",
+              "values": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            },
+            {
+              "name": "StatStealPercentScalar",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            },
+            {
+              "name": "ZoneRadius",
+              "values": [
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200
+              ]
+            },
+            {
+              "name": "GhostAPRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            }
+          ],
+          "calculations": {}
+        }
+      ]
+    },
+    {
+      "id": "Renekton",
+      "chineseName": "荒漠屠夫",
+      "rootPath": "Characters/Renekton/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Renekton.json.gz",
+        "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+        "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+        "byteSize": 51573,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+        "fetchedAt": "2026-09-06T14:26:34.266Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+        "fetchedAt": "2026-09-06T14:12:53.387Z",
+        "byteSize": 14709,
+        "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "renekton_p",
+          "binding": "Characters/Renekton/Spells/RenektonPredatorAbility/RenektonPredator",
+          "name": "怒之领域",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "雷克顿的攻击会产生【怒气】，在它的生命值较低时产生更多【怒气】。【怒气】可以强化他的基础技能，使它们具有额外效果。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.22499999403953552,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "FuryPerAttack",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "FuryIncreasePercent",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "LowHealthPercentThreshold",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "InCombatDuration",
+              "values": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ]
+            },
+            {
+              "name": "FuryCost",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "Q",
+          "skillKey": "renekton_q",
+          "binding": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave",
+          "name": "巨鳄狂袭",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "雷克顿挥动他的武器，对周围所有目标造成中等水平物理伤害，并根据造成的伤害来治疗自己。如果他有50点以上怒气，那么此技能的伤害和治疗效果会得到提升。",
+          "officialTooltip": "雷克顿挥舞他的战刃，造成<physicalDamage>{{ basicdamage }}物理伤害</physicalDamage>，此外，每命中一个非英雄单位就会回复<healing>{{ nonchamphealing }}生命值</healing>，每命中一位英雄就会回复<healing>{{ champhealing }}</healing>。他每命中一个非英雄单位还会生成<keywordMajor>{{ minionfurygain }}怒气</keywordMajor>，且每命中一位英雄生成<keywordMajor>{{ championfurygain }}怒气</keywordMajor>。<br /><br /><keywordMajor>怒气加成</keywordMajor>：伤害提升至<physicalDamage>{{ empdamage }}物理伤害</physicalDamage>并且对非英雄单位的治疗效果提升至<healing>{{ empnonchamphealing }}生命值</healing>，对英雄的治疗效果提升至<healing>{{ empchamphealing }}生命值</healing>。不会生成任何<keywordMajor>怒气</keywordMajor>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                60,
+                90,
+                120,
+                150,
+                180,
+                210
+              ]
+            },
+            {
+              "name": "BaseADRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "BaseMinionHeal",
+              "values": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "name": "MinionHealADRatio",
+              "values": [
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164,
+                0.019999999552965164
+              ]
+            },
+            {
+              "name": "ChampHeal",
+              "values": [
+                4,
+                12,
+                20,
+                28,
+                36,
+                44,
+                52
+              ]
+            },
+            {
+              "name": "ChampionHealADRatio",
+              "values": [
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934
+              ]
+            },
+            {
+              "name": "BasicHealCap",
+              "values": [
+                25,
+                50,
+                75,
+                100,
+                125,
+                150,
+                175
+              ]
+            },
+            {
+              "name": "EmpoweredBaseDamage",
+              "values": [
+                45,
+                90,
+                135,
+                180,
+                225,
+                270,
+                315
+              ]
+            },
+            {
+              "name": "EmpoweredADRatio",
+              "values": [
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142
+              ]
+            },
+            {
+              "name": "EmpoweredHealCap",
+              "values": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700
+              ]
+            },
+            {
+              "name": "EmpoweredHealMultiplier",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "Range",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ]
+            },
+            {
+              "name": "UltimateRangeMod",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "MinionFuryGain",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "ChampionFuryGain",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            },
+            {
+              "name": "FuryGainCap",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ]
+            }
+          ],
+          "calculations": {
+            "BasicDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "BaseADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "EmpoweredBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "EmpoweredADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "NonChampHealing": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMinionHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "MinionHealADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChampHealing": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ChampHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ChampionHealADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpNonChampHealing": {
+              "mMultiplier": {
+                "mDataValue": "EmpoweredHealMultiplier",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "NonChampHealing",
+              "__type": "GameCalculationModified"
+            },
+            "EmpChampHealing": {
+              "mMultiplier": {
+                "mDataValue": "EmpoweredHealMultiplier",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "ChampHealing",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "renekton_w",
+          "binding": "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute",
+          "name": "冷酷捕猎",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            14,
+            12,
+            10,
+            8
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "雷克顿两次挥击目标，对其造成中等水平物理伤害并晕眩其0.75秒。如果雷克顿有50点以上怒气，他会三次挥击目标，摧毁目标身上的伤害护盾，对其造成高额物理伤害，并晕眩其1.5秒。",
+          "officialTooltip": "雷克顿的下次攻击会进行两次打击，造成{{ stunduration }}秒<status>晕眩</status>和共计<physicalDamage>{{ basictotaldamage }}物理伤害</physicalDamage>。命中一名英雄会生成额外的<keywordMajor>{{ bonusfuryvschamps }}怒气</keywordMajor>。<br /><br /><keywordMajor>怒气加成</keywordMajor>：雷克顿转而进行三次打击，摧毁<shield>护盾</shield>然后造成<physicalDamage>{{ emptotaldamage }}物理伤害</physicalDamage>和{{ enragedstunduration }}秒<status>晕眩</status>。不会生成任何<keywordMajor>怒气</keywordMajor>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0,
+            16,
+            14,
+            12,
+            10,
+            8,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamagePerHit",
+              "values": [
+                -10,
+                5,
+                20,
+                35,
+                50,
+                65,
+                80
+              ]
+            },
+            {
+              "name": "TotalADPerHit",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ]
+            },
+            {
+              "name": "EnragedStunDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ]
+            },
+            {
+              "name": "BonusFuryVsChamps",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            }
+          ],
+          "calculations": {
+            "BasicTotalDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "HitDamage",
+              "__type": "GameCalculationModified"
+            },
+            "EmpTotalDamage": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "HitDamage",
+              "__type": "GameCalculationModified"
+            },
+            "HitDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamagePerHit",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalADPerHit",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "renekton_e",
+          "binding": "Characters/Renekton/Spells/RenektonSliceAndDiceAbility/RenektonSliceAndDice",
+          "name": "横冲直撞",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            14.5,
+            13,
+            11.5,
+            10
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "雷克顿冲向前方，对沿途的敌人造成伤害。如果雷克顿有50点以上怒气，就会造成额外伤害，并减少沿途敌人的护甲值。",
+          "officialTooltip": "雷克顿进行冲刺，造成<physicalDamage>{{ basicdamage }}物理伤害</physicalDamage>。他每命中一名非英雄单位就会生成<keywordMajor>{{ minionragegeneration }}怒气</keywordMajor>，每命中一位英雄就会生成<keywordMajor>{{ championragegeneration }}怒气</keywordMajor>。如果至少命中一名敌人，那么雷克顿就能在{{ dicetimer }}秒内<recast>再次施放</recast>这个技能一次。<br /><br /><keywordMajor>怒气加成</keywordMajor>：<recast>再次施放</recast>的冲刺转而造成<physicalDamage>{{ empdamage }}物理伤害</physicalDamage>并造成持续{{ shredtimer }}秒的<scaleArmor>{{ enragedarmorshred }}%护甲</scaleArmor>削减。不会生成<keywordMajor>怒气</keywordMajor>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            16,
+            14.5,
+            13,
+            11.5,
+            10,
+            10
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                10,
+                40,
+                70,
+                100,
+                130,
+                160,
+                190
+              ]
+            },
+            {
+              "name": "BaseADRatio",
+              "values": [
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421
+              ]
+            },
+            {
+              "name": "EnragedBaseDamage",
+              "values": [
+                25,
+                70,
+                115,
+                160,
+                205,
+                250,
+                295
+              ]
+            },
+            {
+              "name": "EnragedADRatio",
+              "values": [
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858
+              ]
+            },
+            {
+              "name": "EnragedArmorShred",
+              "values": [
+                22.5,
+                25,
+                27.5,
+                30,
+                32.5,
+                35,
+                37.5
+              ]
+            },
+            {
+              "name": "ShredTimer",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "MinionRageGeneration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "ChampionRageGeneration",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            },
+            {
+              "name": "FuryMax",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ]
+            },
+            {
+              "name": "DiceTimer",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            },
+            {
+              "name": "BaseDashSpeed",
+              "values": [
+                750,
+                750,
+                750,
+                750,
+                750,
+                750,
+                750
+              ]
+            }
+          ],
+          "calculations": {
+            "BasicDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "BaseADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "EnragedBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "EnragedADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "DashSpeed": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDashSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 7,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "renekton_r",
+          "binding": "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant",
+          "name": "终极统治",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialDescription": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。",
+          "officialTooltip": "雷克顿用黑暗能量笼罩自身，持续{{ buffduration }}秒，获得<healing>{{ healthgain }}最大生命值</healing>和<keywordMajor>{{ furyoncast }}怒气</keywordMajor>。在激活时，他每秒造成<magicDamage>{{ totaldamagepersecond }}魔法伤害</magicDamage>并获得<keywordMajor>{{ furypersecond }}怒气</keywordMajor>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "HealthGain",
+              "values": [
+                100,
+                300,
+                500,
+                700,
+                900,
+                1100,
+                1300
+              ]
+            },
+            {
+              "name": "AuraDamagePerSecond",
+              "values": [
+                -30,
+                60,
+                150,
+                240,
+                330,
+                420,
+                510
+              ]
+            },
+            {
+              "name": "FuryPerSecond",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "FuryOnCast",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            },
+            {
+              "name": "TickRate",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamagePerSecond": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "AuraDamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

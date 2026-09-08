@@ -1,0 +1,556 @@
+{
+  "at": "2026-09-08T16:38:10.299Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "subjects": 5,
+  "independentGetCount": 16,
+  "checks": [
+    {
+      "route": "/skills/mordekaiser_w/parameters/actual_remaining_shield",
+      "actual": {
+        "createdAt": "2026-09-08T16:07:57.607561Z",
+        "description": "在本次二次施放真实消费该护盾实例前捕获；扣除已吸收伤害与衰减，不使用初始护盾或全部同名护盾。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次再次施放实际剩余护盾",
+        "parameterKey": "actual_remaining_shield",
+        "skillKey": "mordekaiser_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T16:07:57.607561Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/mordekaiser_w/parameters/remaining_shield_heal_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T16:07:56.175355Z",
+        "description": "客户端当前根绑定 DataValues.HealingPercent 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.35,
+          "2": 0.375,
+          "3": 0.4,
+          "4": 0.425,
+          "5": 0.45
+        },
+        "name": "剩余护盾转换治疗比例",
+        "parameterKey": "remaining_shield_heal_ratio",
+        "skillKey": "mordekaiser_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T16:07:56.175355Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/mordekaiser_w/formulas/recast_heal",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:00.278448Z",
+        "description": "35/37.5/40/42.5/45%本次实际剩余护盾。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_remaining_shield"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "remaining_shield_heal_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "recast_heal",
+        "gameId": "lol",
+        "name": "消耗本次剩余护盾后的治疗",
+        "skillKey": "mordekaiser_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T16:08:00.278448Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/mordekaiser_w/effects/recast_heal",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:00.97997Z",
+        "description": null,
+        "effectKey": "recast_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "不坏之身二次施放自身治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "不坏之身二次施放自身治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "recast_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "mordekaiser_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:08:00.97997Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_q/parameters/normal_heal_cap",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:17.790249Z",
+        "description": "客户端当前根绑定 DataValues.BasicHealCap 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "name": "通常施放治疗上限",
+        "parameterKey": "normal_heal_cap",
+        "skillKey": "renekton_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T16:08:17.790249Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_q/parameters/empowered_heal_cap",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:18.611134Z",
+        "description": "客户端当前根绑定 DataValues.EmpoweredHealCap 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400,
+          "4": 500,
+          "5": 600
+        },
+        "name": "强化施放治疗上限",
+        "parameterKey": "empowered_heal_cap",
+        "skillKey": "renekton_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T16:08:18.611134Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_q/parameters/empowered_heal_multiplier",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:19.516312Z",
+        "description": "客户端当前根绑定 DataValues.EmpoweredHealMultiplier 取索引1至5。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化治疗倍率",
+        "parameterKey": "empowered_heal_multiplier",
+        "skillKey": "renekton_q",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-08T16:08:19.516312Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_q/formulas/normal_champion_heal",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:23.043273Z",
+        "description": "12/20/28/36/44 + .17额外攻击力，仍受本次50/75/100/125/150治疗上限限制。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "normal_heal_cap"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "normal_champion_heal",
+        "gameId": "lol",
+        "name": "通常命中一名英雄的有上限治疗",
+        "skillKey": "renekton_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T16:08:23.043273Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_q/formulas/empowered_champion_heal",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:23.885373Z",
+        "description": "通常未封顶英雄治疗量×3，再按强化200/300/400/500/600上限截断，不能先套普通上限。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_heal_cap"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "champion_base_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "heal_bonus_ad_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_heal_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "empowered_champion_heal",
+        "gameId": "lol",
+        "name": "强化命中一名英雄的有上限治疗",
+        "skillKey": "renekton_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T16:08:23.885373Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/jax_r/parameters/active_bonus_ap_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T15:45:42.441372Z",
+        "description": "当前完整SwingDamageTotal计算树的属性与总量/额外量已核对。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动额外法强系数",
+        "parameterKey": "active_bonus_ap_ratio",
+        "skillKey": "jax_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T15:45:42.441372Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/jax_r/formulas/active_damage",
+      "actual": {
+        "createdAt": "2026-09-08T15:45:44.800589Z",
+        "description": "100/175/250 + 1.0额外法强。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_bonus_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "active_damage",
+        "gameId": "lol",
+        "name": "武器大师主动魔法伤害",
+        "skillKey": "jax_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:45:44.800589Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/garen_p/parameters/regen_ratio_per_5s",
+      "actual": {
+        "createdAt": "2026-09-06T15:36:25.759918Z",
+        "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.015,
+          "2": 0.017,
+          "3": 0.019,
+          "4": 0.021,
+          "5": 0.023,
+          "6": 0.025,
+          "7": 0.033,
+          "8": 0.041,
+          "9": 0.049,
+          "10": 0.057,
+          "11": 0.065,
+          "12": 0.073,
+          "13": 0.081,
+          "14": 0.085,
+          "15": 0.089,
+          "16": 0.093,
+          "17": 0.097,
+          "18": 0.101
+        },
+        "name": "每5秒最大生命回复比例",
+        "parameterKey": "regen_ratio_per_5s",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:36:25.759918Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/garen_p/formulas/regen_per_5s",
+      "actual": {
+        "createdAt": "2026-09-06T15:53:56.378958Z",
+        "description": "总生命值×等级回复比例；此值是每5秒回复量，不是每秒治疗，也不是瞬时直接治疗。来源：16.17固定资料。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "regen_ratio_per_5s"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "regen_per_5s",
+        "gameId": "lol",
+        "name": "被动提供的每5秒生命回复",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:53:56.378958Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_r/parameters/duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:52.167318Z",
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至3。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "终极统治持续（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "renekton_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T16:08:52.167318Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_r/effects/dominance_health",
+      "actual": {
+        "createdAt": "2026-09-08T16:08:53.522937Z",
+        "description": "自身最大生命增加300/500/700，持续15秒；当前生命如何随最大生命变更由资源契约另核，不另送一份等额直接治疗。",
+        "effectKey": "dominance_health",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "终极统治自身最大生命",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "hp",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "终极统治自身最大生命",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "maximum_health_gain"
+              }
+            }
+          }
+        ],
+        "skillKey": "renekton_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:08:53.522937Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/skills/renekton_r/processes/cast",
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-08T16:08:54.204958Z",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "dominance_health",
+            "effectKey": "dominance_health",
+            "moment": {
+              "momentType": "STEP_COMPLETE",
+              "stepKey": "start"
+            },
+            "sortOrder": 20
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放终极统治",
+        "processKey": "cast",
+        "skillKey": "renekton_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-08T16:08:54.204958Z"
+      },
+      "matched": true
+    }
+  ],
+  "passed": true,
+  "browserChecks": [
+    "莫德凯撒W参数列表显示实际剩余护盾为计算时传入，治疗公式读取actual_remaining_shield乘当前技能级别的remaining_shield_heal_ratio，没有使用初始盾替代。",
+    "雷克顿Q分别保留通常与强化治疗上限；查看强化公式为MIN(强化上限,(英雄基础治疗+额外攻击力系数×来源额外攻击力)×强化倍率)，没有先截断通常治疗再乘3。",
+    "贾克斯R主动伤害公式属性选择法术强度/加成值，表达式确认主动基础伤害加额外法强系数乘来源额外法强。",
+    "盖伦P参数名称为每5秒最大生命回复比例，1级0.015、18级0.101，保留原数据口径。",
+    "雷克顿R效果说明与duration_ms参数为15秒；结果为来源生命属性增加、属性固定加算、持续生效，仅一个结果，没有另送等额直接治疗。"
+  ],
+  "runtime": "未执行；页面查看与保存表达式算术不等于战斗验证"
+}
