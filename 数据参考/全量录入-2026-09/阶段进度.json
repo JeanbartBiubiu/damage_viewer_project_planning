@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T16:47:46.203Z",
+  "generatedAt": "2026-09-08T16:57:12.031Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 57,
+    "additionalEquipmentSkillRepresentativeReuses": 64,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -113,7 +113,8 @@
       "装备技能实录/Luna第八批/逐字段回读证据.json",
       "装备技能实录/Luna第九批/独立最终回读.json",
       "装备技能实录/第十二批常规效果/独立全量回读.json",
-      "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json"
+      "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json",
+      "装备技能实录/第十三批常规效果/独立全量回读.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3205,
@@ -135,6 +136,28 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentThirteenthBatch": {
+      "skills": [
+        "item_3145_passive",
+        "item_3146_active",
+        "item_4629_passive",
+        "item_3082_passive",
+        "item_3110_passive",
+        "item_3143_passive",
+        "item_3143_active"
+      ],
+      "parameters": 18,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 7,
+      "representativeImageReuses": 7,
+      "status": "部分录入；41组成400字段独立GET及3个代表页面一致；发电机未定护盾资格的效果在写前撤出，枪刃插值、正确减伤与合法触发继续待配",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第十三批常规效果/独立全量回读.json"
+    },
     "heroSixthBatch": {
       "skills": [
         "jax_p",
