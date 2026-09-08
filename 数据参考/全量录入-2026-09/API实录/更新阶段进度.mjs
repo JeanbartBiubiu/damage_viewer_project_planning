@@ -18,6 +18,11 @@ const equipmentUpgrade = read(equipmentUpgradeEvidence);
 assert.equal(equipmentUpgrade.passed, true);
 assert.deepEqual(equipmentUpgrade.counts, {subjects:5, attributeValues:15, representativeImageReuses:5, actualWrites:0, completeSubjects:5});
 assert.equal(read('API实录/装备升级形态第一批/页面验收.json').passed, true);
+const equipmentUpgradeSecondEvidence = 'API实录/装备升级形态第二批/独立最终回读.json';
+const equipmentUpgradeSecond = read(equipmentUpgradeSecondEvidence);
+assert.equal(equipmentUpgradeSecond.passed, true);
+assert.deepEqual(equipmentUpgradeSecond.counts, {subjects:8, attributeValues:18, representativeImageReuses:8, actualWrites:0, completeSubjects:8});
+assert.equal(read('API实录/装备升级形态第二批/页面验收.json').passed, true);
 const heroSkillImages = read('API实录/图片/full-relation-verification.json');
 const equipmentImages = read('API实录/装备图片/代表图关系最终核对.json');
 const scopePlan = read('1V1范围筛选/处置清单.json');
@@ -510,15 +515,15 @@ const summary = {
     evidence: 'API实录/英雄全量核对/汇总.json', status: '主体及明确基础属性完成，完整角色仍为部分录入' },
   skills: { metadata: 855, characterRelations: 855, createdByApiThisStage: 835, previouslyAuthored: 20,
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
-  equipment: { count: 186, ordinaryBaseline:181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
-    specialForms:{count:5, directAttributeValues:15, keys:equipmentUpgrade.final.objects.map(x=>x.equipmentKey), evidence:equipmentUpgradeEvidence},
+  equipment: { count: 194, ordinaryBaseline:181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
+    specialForms:{count:13, directAttributeValues:33, keys:[...equipmentUpgrade.final.objects,...equipmentUpgradeSecond.final.objects].map(x=>x.equipmentKey), evidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence]},
     additionalDirectAttributes:2, additionalDirectAttributeEvidence:[equipmentThirdEvidence,equipmentEleventhEvidence],
-    evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence], status: '181件普通装备及5件特殊形态的主体与明确属性完成；其余特殊形态和完整技能机制继续补录' },
-  images: { objectUses: 1212, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 186,
-    additionalSpecialFormReuses:5, additionalSpecialFormEvidence:equipmentUpgradeEvidence,
+    evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence], status: '181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理' },
+  images: { objectUses: 1220, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 194,
+    additionalSpecialFormReuses:13, additionalSpecialFormEvidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence],
     additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length,
     additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence],
-    status: '原1207个主体代表图历史证据保留，另5个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验',
+    status: '原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验',
     browserCacheRecords: 3202, browserReadFailures: 0,
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },
