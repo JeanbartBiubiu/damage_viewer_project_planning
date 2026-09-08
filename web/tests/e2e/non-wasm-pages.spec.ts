@@ -1845,7 +1845,7 @@ class MockApi {
       sortOrder: Number(body.sortOrder),
       cooldown: cooldownRaw
         ? {
-            durationValue: String(cooldownRaw.durationValue),
+            durationValue: cooldownRaw.durationValue as NumericValue,
             startMoment: this.parseProcessMoment(cooldownRaw.startMoment)
           }
         : null,
@@ -1881,7 +1881,7 @@ class MockApi {
               name: String(item.name),
               stateKey: String(item.stateKey),
               operation: String(item.operation),
-              value: typeof item.value === 'string' ? item.value : null,
+              value: (item.value ?? null) as NumericValue | null,
               optionKey: typeof item.optionKey === 'string' ? item.optionKey : null,
               moment: this.parseProcessMoment(item.moment),
               sortOrder: Number(item.sortOrder)
@@ -5364,13 +5364,28 @@ test.describe('skill management without Wasm', () => {
     await expect(shell.getByText('内部状态「准备标记」已保存。', { exact: true })).toBeVisible();
 
     await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
+    const fixedCounter = visibleModal(page, '新增内部状态');
+    await fixedCounter.getByLabel('内部状态标识', { exact: true }).fill('fixed_counter');
+    await fixedCounter.getByLabel('内部状态名称', { exact: true }).fill('固定数值计数');
+    await fixedCounter.getByLabel('初始值取值固定数值', { exact: true }).fill('0');
+    await fixedCounter.getByLabel('上限取值固定数值', { exact: true }).fill('3');
+    await expect(fixedCounter.getByText(/公式读取失败/)).toHaveCount(0);
+    await saveOpenModal(fixedCounter);
+    expect(mock.skillInternalStates.find(state => state.stateKey === 'fixed_counter')?.detail).toEqual({ initialValue: { kind: 'FIXED', value: 0 }, maxValue: { kind: 'FIXED', value: 3 } });
+
+    const failedFormulaRead = page.waitForResponse(response => response.url().endsWith('/skills/varus_w/formulas') && response.status() === 503);
+    await shell.getByRole('button', { name: '新增内部状态', exact: true }).click();
     const blockedCounter = visibleModal(page, '新增内部状态');
+    await failedFormulaRead;
     await blockedCounter.getByLabel('内部状态标识', { exact: true }).fill('blocked_counter');
     await blockedCounter.getByLabel('内部状态名称', { exact: true }).fill('被阻断计数');
-    await expect(blockedCounter.getByText('503.SKILL_FORMULA_LIST_UNAVAILABLE: 技能公式读取失败', { exact: true }).or(blockedCounter.getByText(/公式读取失败/))).toBeVisible();
+    await blockedCounter.getByLabel('上限取值固定数值', { exact: true }).fill('3');
+    await blockedCounter.getByLabel('初始值取值取值来源', { exact: true }).getByText('技能公式', { exact: true }).click();
+    await expect(blockedCounter.getByLabel('初始值取值技能公式', { exact: true })).toBeVisible();
     await blockedCounter.getByRole('button', { name: '保存', exact: true }).click();
     await expect(blockedCounter).toBeVisible();
-    await expect(blockedCounter.getByText('请选择初始值取值。', { exact: true }).or(blockedCounter.getByText('目录不完整，无法保存未知引用。'))).toBeVisible();
+    await expect(blockedCounter.getByText('取值来源不完整或数值不合法。', { exact: true })).toBeVisible();
+    expect(mock.skillInternalStates.some(state => state.stateKey === 'blocked_counter')).toBe(false);
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('referenced step block, retained draft and catalog isolation');
   });
