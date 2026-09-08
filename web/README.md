@@ -23,6 +23,7 @@
 - `src/pages/admin/statuses/`：状态管理（`#/statuses`）
 - `src/pages/admin/game-settings/`：游戏配置（`#/game-settings`）
 - `src/pages/admin/images/`：图片管理、浏览器侧图片处理与缓存工具（`#/images`）
+  - 图片列表使用本地分页，默认每页25条，可选50/100条；翻页只切换当前缓存结果，不请求后端管理列表。查询、重置和切换游戏回到第一页；编辑保存、刷新及同步保留有效页码，清理缓存或结果缩减后回退至有效页。
 
 ## 关键入口地图
 
