@@ -1,0 +1,1289 @@
+{
+  "generatedAt": "2026-09-08T15:11:16.135Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sources": [
+    {
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "objects": [
+    {
+      "itemId": "2421",
+      "equipmentKey": "item_2421",
+      "name": "碎裂的护臂",
+      "imageKey": "item_2421",
+      "description": "来源：官方16.17.1装备2421及客户端16.17。原始说明：40 法术强度 25 护甲 支离破碎的时间 【护臂】目前是破碎状态，但仍然可以用于升级。 在打破一个【护臂】后，商店主人就只会卖给你 碎裂的护臂 了。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "ability_power": 40,
+        "armor": 25
+      },
+      "proofs": [
+        {
+          "attributeKey": "ability_power",
+          "value": 40,
+          "sourceValue": 40,
+          "pointer": "/Items~12421/mFlatMagicDamageMod"
+        },
+        {
+          "attributeKey": "armor",
+          "value": 25,
+          "sourceValue": 25,
+          "pointer": "/Items~12421/mFlatArmorMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~12421",
+        "object": {
+          "mDisplayName": "Item_2421_Name",
+          "itemID": 2421,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/StopwatchGroup"
+          ],
+          "price": 500,
+          "mRequiredBuffCurrencyName": "Item2420",
+          "mCanBeSold": true,
+          "recipeItemLinks": [
+            "Items/1052",
+            "Items/1029",
+            "Items/1052"
+          ],
+          "mItemModifiers": [
+            "{e246dfd1}"
+          ],
+          "mFlatArmorMod": 25,
+          "mFlatMagicDamageMod": 40,
+          "sellBackModifier": 0.4000000059604645,
+          "mItemDataBuild": {
+            "itemLinks": [
+              "Items/3157"
+            ],
+            "__type": "ItemDataBuild"
+          },
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "mHidefromAll": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2421",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2421_Name",
+                "keyTooltip": "Item_2421_Tooltip",
+                "keyFlavorText": "Item_2421_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Armor",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2421_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2421_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2421_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/2420_shatteredarmguard.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2420_ShatteredArmguard44.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2420_ShatteredArmguard88.png",
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "碎裂的护臂",
+          "description": "<mainText><stats><attention>40</attention>法术强度<br><attention>25</attention>护甲</stats><br><br><passive>支离破碎的时间</passive><br>【护臂】目前是破碎状态，但仍然可以用于升级。<br><br><rules>在打破一个【护臂】后，商店主人就只会卖给你<rarityGeneric>碎裂的护臂</rarityGeneric>了。</rules><br><br></mainText>",
+          "colloq": ";Shattered Armguard",
+          "plaintext": "升级为秒表",
+          "from": [
+            "1052",
+            "1029",
+            "1052"
+          ],
+          "hideFromAll": true,
+          "into": [
+            "3157"
+          ],
+          "image": {
+            "full": "2421.png",
+            "sprite": "item2.png",
+            "group": "item",
+            "x": 384,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 500,
+            "purchasable": true,
+            "total": 1600,
+            "sell": 640
+          },
+          "tags": [],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 40,
+            "FlatArmorMod": 25
+          },
+          "depth": 2
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2421_Name",
+            "pointer": "/entries/item_2421_name",
+            "text": "碎裂的护臂"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_2421_Tooltip",
+            "pointer": "/entries/item_2421_tooltip",
+            "text": "<passive>支离破碎的时间</passive><br>【护臂】目前是破碎状态，但仍然可以用于升级。<br><br><rules>在打破一个【护臂】后，商店主人就只会卖给你<rarityGeneric>碎裂的护臂</rarityGeneric>了。</rules><br><br>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_2421_FlavorText",
+            "pointer": "/entries/item_2421_flavortext",
+            "text": "破损无法修复……但魔法依然残存。"
+          }
+        ]
+      },
+      "parentItemId": 2420,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "2530",
+      "equipmentKey": "item_2530",
+      "name": "歌之权冠",
+      "imageKey": "item_2530",
+      "description": "来源：官方16.17.1装备2530及客户端16.17。原始说明：200 生命值 8% 治疗和护盾强度 1000 法力 100% 基础法力回复 和谐 获得0%治疗和护盾强度。 和音 当你或你在前3秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "hp": 200,
+        "heal_shield_power_percent": 0.08,
+        "mana": 1000,
+        "base_mana_regen_percent": 1
+      },
+      "proofs": [
+        {
+          "attributeKey": "hp",
+          "value": 200,
+          "sourceValue": 200,
+          "pointer": "/Items~12530/mFlatHPPoolMod"
+        },
+        {
+          "attributeKey": "heal_shield_power_percent",
+          "value": 0.08,
+          "sourceValue": 0.07999999821186066,
+          "pointer": "/Items~12530/mPercentHealingAmountMod"
+        },
+        {
+          "attributeKey": "mana",
+          "value": 1000,
+          "sourceValue": 1000,
+          "pointer": "/Items~12530/flatMPPoolMod"
+        },
+        {
+          "attributeKey": "base_mana_regen_percent",
+          "value": 1,
+          "sourceValue": 1,
+          "pointer": "/Items~12530/percentBaseMPRegenMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~12530",
+        "object": {
+          "mDisplayName": "Item_2530_Name",
+          "itemID": 2530,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{f842a497}",
+            "{6dcade42}"
+          ],
+          "price": 2250,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "specialRecipe": 2526,
+          "epicness": 5,
+          "mScripts": [
+            "2530"
+          ],
+          "mDataValues": [
+            {
+              "mName": "PercentManaToHeal",
+              "mValue": 0.009999999776482582,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AllyRangeCheck",
+              "mValue": 900,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AllyCombatDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "BonusHSPCalc": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.004999999888241291,
+                  "mStatFormula": 2,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ManaToHeal": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.00800000037997961,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatHPPoolMod": 200,
+          "mPercentHealingAmountMod": 0.07999999821186066,
+          "flatMPPoolMod": 1000,
+          "percentBaseMPRegenMod": 1,
+          "mCategories": [
+            "Health",
+            "Mana",
+            "ManaRegen",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            32
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2530",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2530_Name",
+                "keyTooltip": "Item_2530_Tooltip",
+                "keyInventoryOnlyText": "Item_2530_InventoryOnlyText",
+                "keySecondaryBrief": "Item_Unique_Manaflow",
+                "keyTooltipExternal": "Item_2530_TooltipExternal",
+                "keyBrief": "Item_2530_Brief"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "HealShieldPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Mana",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BaseManaRegen",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2530_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2530_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2530_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/2530_enchantertearupgraded.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2530_EnchanterTearUpgraded44.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2530_EnchanterTearUpgraded88.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{0b4ef81d}": "Items/2530/Particles/2530_Heal_Missile",
+              "{5fc27401}": "Items/2530/Particles/2530_Soul_Heal_Missile",
+              "{951fc232}": "Items/2530/Particles/2530_Soul_Heal_Missile",
+              "{513d899b}": "Items/2530/Particles/2530_tar"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "歌之权冠",
+          "description": "<mainText><stats><attention>200</attention>生命值<br><attention>8%</attention>治疗和护盾强度<br><attention>1000</attention>法力<br><attention>100%</attention>基础法力回复</stats><br><br><passive>和谐</passive><br>获得0%治疗和护盾强度。<br><br><passive>和音</passive><br>当你或你在前3秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "specialRecipe": 2526,
+          "inStore": false,
+          "image": {
+            "full": "2530.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 192,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 2250,
+            "purchasable": false,
+            "total": 2250,
+            "sell": 1575
+          },
+          "tags": [
+            "Health",
+            "Mana",
+            "ManaRegen",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 1000,
+            "FlatHPPoolMod": 200
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2530_Name",
+            "pointer": "/entries/item_2530_name",
+            "text": "歌之权冠"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_2530_Tooltip",
+            "pointer": "/entries/item_2530_tooltip",
+            "text": "<passive>和谐</passive><br>获得@BonusHSPCalc@%治疗和护盾强度。<br><br><passive>和音</passive><br>当你或你在前@AllyCombatDuration@秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军@ManaToHeal@生命值。"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_2530_InventoryOnlyText",
+            "pointer": "/entries/item_2530_inventoryonlytext",
+            "text": "已造成的治疗效果：<attention>@f1@</attention>"
+          },
+          {
+            "field": "keySecondaryBrief",
+            "key": "Item_Unique_Manaflow",
+            "pointer": "/entries/item_unique_manaflow",
+            "text": "半唯一：法力流"
+          },
+          {
+            "field": "keyTooltipExternal",
+            "key": "Item_2530_TooltipExternal",
+            "pointer": "/entries/item_2530_tooltipexternal",
+            "text": "<passive>和谐</passive><br>获得@BonusHSPCalc@%治疗和护盾强度。<br><br><passive>和音</passive><br>当你或你在前@AllyCombatDuration@秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军。"
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_2530_Brief",
+            "pointer": "/entries/item_2530_brief",
+            "text": "法力值增长"
+          }
+        ]
+      },
+      "parentItemId": 2526,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3040",
+      "equipmentKey": "item_3040",
+      "name": "炽天使之拥",
+      "imageKey": "item_3040",
+      "description": "来源：官方16.17.1装备3040及客户端16.17。原始说明：70 法术强度 1000 法力 25 技能急速 敬畏 获得 0法术强度 。 救主灵刃 (0秒) 在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的 0护盾值 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "ability_power": 70,
+        "mana": 1000,
+        "ability_haste": 25
+      },
+      "proofs": [
+        {
+          "attributeKey": "ability_power",
+          "value": 70,
+          "sourceValue": 70,
+          "pointer": "/Items~13040/mFlatMagicDamageMod"
+        },
+        {
+          "attributeKey": "mana",
+          "value": 1000,
+          "sourceValue": 1000,
+          "pointer": "/Items~13040/flatMPPoolMod"
+        },
+        {
+          "attributeKey": "ability_haste",
+          "value": 25,
+          "sourceValue": 25,
+          "pointer": "/Items~13040/mAbilityHasteMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13040",
+        "object": {
+          "mDisplayName": "Item_3040_Name",
+          "itemID": 3040,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{2bb000ae}",
+            "Items/ItemGroups/LifelineItems",
+            "{33df72dd}"
+          ],
+          "price": 2900,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "specialRecipe": 3003,
+          "epicness": 5,
+          "mScripts": [
+            "3040"
+          ],
+          "mDataValues": [
+            {
+              "mName": "APFromMana",
+              "mValue": 0.019999999552965164,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "HealthThreshold",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "LifelineCooldown",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "ARAM": {
+              "DataValues": [
+                {
+                  "mName": "LifelineCooldown",
+                  "mValue": 75,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "Cooldown",
+                  "mValue": 75,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{bffdf499}": {
+              "DataValues": [
+                {
+                  "mName": "LifelineCooldown",
+                  "mValue": 75,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "Cooldown",
+                  "mValue": 75,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "ShieldValue": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.18000000715255737,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusAPCalc": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.019999999552965164,
+                  "mStatFormula": 2,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 25,
+          "mFlatMagicDamageMod": 70,
+          "flatMPPoolMod": 1000,
+          "mCategories": [
+            "SpellDamage",
+            "Mana",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            16
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3040",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3040_Name",
+                "keyBrief": "Item_3040_Brief",
+                "keyTooltip": "Item_3040_Tooltip",
+                "keyTooltipInventory": "Item_3040_TooltipDynamic",
+                "keyInventoryOnlyText": "Item_3040_InventoryOnlyText",
+                "keySecondaryBrief": "Item_Unique_Manaflow"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Mana",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3040_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3040_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3040_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3048_mage_t3_seraphsembrace.dds",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{4af87836}": "Items/3040/Particles/3040_Shield"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "炽天使之拥",
+          "description": "<mainText><stats><attention>70</attention>法术强度<br><attention>1000</attention>法力<br><attention>25</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAP>0法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> (0秒)<br>在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的<shield>0护盾值</shield>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "specialRecipe": 3003,
+          "inStore": false,
+          "image": {
+            "full": "3040.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 336,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 2900,
+            "purchasable": false,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "SpellDamage",
+            "Mana",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 1000,
+            "FlatMagicDamageMod": 70
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3040_Name",
+            "pointer": "/entries/item_3040_name",
+            "text": "炽天使之拥"
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_3040_Brief",
+            "pointer": "/entries/item_3040_brief",
+            "text": "法力值增长"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3040_Tooltip",
+            "pointer": "/entries/item_3040_tooltip",
+            "text": "<passive>敬畏</passive><br>获得<scaleAP>@BonusAPCalc@法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> {{ Item_Cooldown }}<br>在受到将使你的生命值跌到@HealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。"
+          },
+          {
+            "field": "keyTooltipInventory",
+            "key": "Item_3040_TooltipDynamic",
+            "pointer": "/entries/item_3040_tooltipdynamic",
+            "text": "<passive>敬畏</passive><br>获得<scaleAP>@BonusAPCalc@法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> {{ Item_Cooldown }}<br>在受到将使你的生命值跌到@HealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3040_InventoryOnlyText",
+            "pointer": "/entries/item_3040_inventoryonlytext",
+            "text": "护盾抵消的伤害：<attention>@f5@</attention>"
+          },
+          {
+            "field": "keySecondaryBrief",
+            "key": "Item_Unique_Manaflow",
+            "pointer": "/entries/item_unique_manaflow",
+            "text": "半唯一：法力流"
+          }
+        ]
+      },
+      "parentItemId": 3003,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3042",
+      "equipmentKey": "item_3042",
+      "name": "魔切",
+      "imageKey": "item_3042",
+      "description": "来源：官方16.17.1装备3042及客户端16.17。原始说明：35 攻击力 1000 法力 15 技能急速 敬畏 获得 2%最大法力值的额外攻击力 。 冲击 攻击会对英雄造成 1.2%最大法力值的额外物理伤害 攻击特效 。 伤害型技能会对英雄造成 3% - 4%最大法力值的额外物理伤害 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "attack_damage": 35,
+        "mana": 1000,
+        "ability_haste": 15
+      },
+      "proofs": [
+        {
+          "attributeKey": "attack_damage",
+          "value": 35,
+          "sourceValue": 35,
+          "pointer": "/Items~13042/mFlatPhysicalDamageMod"
+        },
+        {
+          "attributeKey": "mana",
+          "value": 1000,
+          "sourceValue": 1000,
+          "pointer": "/Items~13042/flatMPPoolMod"
+        },
+        {
+          "attributeKey": "ability_haste",
+          "value": 15,
+          "sourceValue": 15,
+          "pointer": "/Items~13042/mAbilityHasteMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13042",
+        "object": {
+          "spellName": "",
+          "mDisplayName": "Item_3042_Name",
+          "mDeathRecapName": "Muramana",
+          "itemID": 3042,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{29affd88}",
+            "{33df72dd}"
+          ],
+          "price": 2900,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "specialRecipe": 3004,
+          "epicness": 5,
+          "mScripts": [
+            "3042"
+          ],
+          "mEffectAmount": [
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "BonusADManaRatioTOOLTIPONLY",
+              "mValue": 0.019999999552965164,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "OnHitManaRatioTOOLTIPONLY",
+              "mValue": 0.012000000104308128,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AbilityManaRatioRangedTOOLTIPONLY",
+              "mValue": 0.029999999329447746,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AbilityTADRatio",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "PerCastIDLockout",
+              "mValue": 6.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AbilityManaRatioMeleeTOOLTIPONLY",
+              "mValue": 0.03999999910593033,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "BonusADFromMana": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.019999999552965164,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "OnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.012000000104308128,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MeleeItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.03999999910593033,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RangedItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.029999999329447746,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChampRange": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mDefaultGameCalculation": "{792cf56b}",
+              "mConditionalGameCalculation": "{06387172}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsRangedCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{792cf56b}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{06387172}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 2,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 15,
+          "mFlatPhysicalDamageMod": 35,
+          "flatMPPoolMod": 1000,
+          "mCategories": [
+            "Damage",
+            "Mana",
+            "CooldownReduction",
+            "OnHit",
+            "ArmorPenetration"
+          ],
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            1,
+            4,
+            2
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3042",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3042_Name",
+                "keyBrief": "Item_3042_Brief",
+                "keyInventoryOnlyText": "Item_3042_InventoryOnlyText",
+                "keyTooltip": "Item_3042_Tooltip",
+                "keyTooltipInventory": "Item_3042_TooltipDynamic",
+                "keySecondaryBrief": "Item_Unique_Manaflow",
+                "keyTooltipExternal": "Item_3042_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Mana",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3042_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3042_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3042_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3042_marksman_t3_muramana.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3042_Marksman_T3_Muramana.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3042_Marksman_T3_Muramana.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "魔切",
+          "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>1000</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAD>2%最大法力值的额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成<physicalDamage>1.2%最大法力值的额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>。<br>伤害型技能会对英雄造成<physicalDamage>3% - 4%最大法力值的额外物理伤害</physicalDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "specialRecipe": 3004,
+          "inStore": false,
+          "image": {
+            "full": "3042.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 432,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 2900,
+            "purchasable": false,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "Damage",
+            "Mana",
+            "CooldownReduction",
+            "OnHit",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 1000,
+            "FlatPhysicalDamageMod": 35
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3042_Name",
+            "pointer": "/entries/item_3042_name",
+            "text": "魔切"
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_3042_Brief",
+            "pointer": "/entries/item_3042_brief",
+            "text": "法力值增长"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3042_InventoryOnlyText",
+            "pointer": "/entries/item_3042_inventoryonlytext",
+            "text": "已对英雄造成的伤害：<attention>@f1@</attention>"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3042_Tooltip",
+            "pointer": "/entries/item_3042_tooltip",
+            "text": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成额外的<physicalDamage>@OnHitDamage@物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>伤害型技能会对英雄造成<physicalDamage>{{ Item_Melee_Ranged_Split }}额外物理伤害</physicalDamage>。"
+          },
+          {
+            "field": "keyTooltipInventory",
+            "key": "Item_3042_TooltipDynamic",
+            "pointer": "/entries/item_3042_tooltipdynamic",
+            "text": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成额外的<physicalDamage>@OnHitDamage@物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>伤害型技能会对英雄造成额外的<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。"
+          },
+          {
+            "field": "keySecondaryBrief",
+            "key": "Item_Unique_Manaflow",
+            "pointer": "/entries/item_unique_manaflow",
+            "text": "半唯一：法力流"
+          },
+          {
+            "field": "keyTooltipExternal",
+            "key": "Item_3042_TooltipExternal",
+            "pointer": "/entries/item_3042_tooltipexternal",
+            "text": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADManaRatioTOOLTIPONLY*100@%最大法力值的额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成<physicalDamage>@OnHitManaRatioTOOLTIPONLY*100@%最大法力值的额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>伤害型技能会对英雄造成<physicalDamage>@AbilityManaRatioRangedTOOLTIPONLY*100@% - @AbilityManaRatioMeleeTOOLTIPONLY*100@%最大法力值的额外物理伤害</physicalDamage>。"
+          }
+        ]
+      },
+      "parentItemId": 3004,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3121",
+      "equipmentKey": "item_3121",
+      "name": "末日寒冬",
+      "imageKey": "item_3121",
+      "description": "来源：官方16.17.1装备3121及客户端16.17。原始说明：550 生命值 1000 法力 15 技能急速 敬畏 获得 0生命值 。 永续 (0秒) 定身 或 减速 (仅限近战)一名敌方英雄时会提供一个持续3秒的 护盾 。 如果附近有1名以上的敌人，则护盾值会提升80%。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "hp": 550,
+        "mana": 1000,
+        "ability_haste": 15
+      },
+      "proofs": [
+        {
+          "attributeKey": "hp",
+          "value": 550,
+          "sourceValue": 550,
+          "pointer": "/Items~13121/mFlatHPPoolMod"
+        },
+        {
+          "attributeKey": "mana",
+          "value": 1000,
+          "sourceValue": 1000,
+          "pointer": "/Items~13121/flatMPPoolMod"
+        },
+        {
+          "attributeKey": "ability_haste",
+          "value": 15,
+          "sourceValue": 15,
+          "pointer": "/Items~13121/mAbilityHasteMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13121",
+        "object": {
+          "mDisplayName": "Item_3121_Name",
+          "itemID": 3121,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9d42d534}"
+          ],
+          "price": 2400,
+          "mItemCalloutSpectator": true,
+          "ShowCooldownVfxToAllies": false,
+          "ShowCooldownInPings": false,
+          "mCanBeSold": true,
+          "specialRecipe": 3119,
+          "epicness": 5,
+          "mScripts": [
+            "3121"
+          ],
+          "mDataValues": [
+            {
+              "mName": "Cooldown",
+              "mValue": 8,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "CurrentManaShieldRatio",
+              "mValue": 0.04500000178813934,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Multiplier",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "URF": {
+              "DataValues": [
+                {
+                  "mName": "Cooldown",
+                  "mValue": 16,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "CurrentManaShieldRatio",
+                  "mValue": 0.019999999552965164,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "BonusHPFromMana": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.15000000596046448,
+                  "mStatFormula": 2,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ShieldBase": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 100,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 15,
+          "mFlatHPPoolMod": 550,
+          "flatMPPoolMod": 1000,
+          "mCategories": [
+            "Health",
+            "Mana",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            8
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3121",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3121_Name",
+                "keyBrief": "Item_3121_Brief",
+                "keyInventoryOnlyText": "Item_3121_InventoryOnlyText",
+                "keyTooltip": "Item_3121_Tooltip",
+                "keyKeywordDefinitions": "Item_3121_KeywordDefinitions",
+                "keySecondaryBrief": "Item_Unique_Manaflow",
+                "keyTooltipExternal": "Item_3121_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Mana",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3121_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3121_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3121_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3121_fimbulwinter.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3121_Tank_T3_Fimbulwinter.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3121_Tank_T3_Fimbulwinter.png",
+            "epicness": 5,
+            "effectRadius": 1200,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{5fe20858}": "Items/3121/Particles/3121_shield",
+              "{ec1ff45b}": "Items/3121/Particles/3121_deactivate"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "末日寒冬",
+          "description": "<mainText><stats><attention>550</attention>生命值<br><attention>1000</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleHealth>0生命值</scaleHealth>。<br><br><passive>永续</passive>(0秒)<br><keyword>定身</keyword>或<keyword>减速</keyword> (仅限近战)一名敌方英雄时会提供一个持续3秒的<shield>护盾 </shield>。<br>如果附近有1名以上的敌人，则护盾值会提升80%。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "specialRecipe": 3119,
+          "inStore": false,
+          "image": {
+            "full": "3121.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 288,
+            "y": 384,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 2400,
+            "purchasable": false,
+            "total": 2400,
+            "sell": 1680
+          },
+          "tags": [
+            "Health",
+            "Mana",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 1000,
+            "FlatHPPoolMod": 550
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3121_Name",
+            "pointer": "/entries/item_3121_name",
+            "text": "末日寒冬"
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_3121_Brief",
+            "pointer": "/entries/item_3121_brief",
+            "text": "法力值增长"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3121_InventoryOnlyText",
+            "pointer": "/entries/item_3121_inventoryonlytext",
+            "text": "护盾抵消的伤害：<attention>@f2@</attention>"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3121_Tooltip",
+            "pointer": "/entries/item_3121_tooltip",
+            "text": "<passive>敬畏</passive><br>获得<scaleHealth>@BonusHPFromMana@生命值</scaleHealth>。<br><br><passive>永续</passive>{{ Item_Cooldown}}<br><keyword>定身</keyword>或<keyword>减速</keyword> (仅限%i:meleeActive%近战)一名敌方英雄时会提供一个持续@ShieldDuration@秒的<shield>护盾</shield>，护盾值为<shield>@ShieldBase@外加@CurrentManaShieldRatio*100@%当前法力值</shield>。<br>如果附近有1名以上的敌人，则护盾值会提升@Multiplier*100@%。"
+          },
+          {
+            "field": "keyKeywordDefinitions",
+            "key": "Item_3121_KeywordDefinitions",
+            "pointer": "/entries/item_3121_keyworddefinitions",
+            "text": "{{ Item_KeywordDefinition_Immobilize}}<br>{{ Item_KeywordDefinition_Slow}}"
+          },
+          {
+            "field": "keySecondaryBrief",
+            "key": "Item_Unique_Manaflow",
+            "pointer": "/entries/item_unique_manaflow",
+            "text": "半唯一：法力流"
+          },
+          {
+            "field": "keyTooltipExternal",
+            "key": "Item_3121_TooltipExternal",
+            "pointer": "/entries/item_3121_tooltipexternal",
+            "text": "<passive>敬畏</passive><br>获得<scaleHealth>@BonusHPFromMana@生命值</scaleHealth>。<br><br><passive>永续</passive>{{ Item_Cooldown}}<br><keyword>定身</keyword>或<keyword>减速</keyword> (仅限%i:meleeActive%近战)一名敌方英雄时会提供一个持续@ShieldDuration@秒的<shield>护盾 </shield>。<br>如果附近有1名以上的敌人，则护盾值会提升@Multiplier*100@%。"
+          }
+        ]
+      },
+      "parentItemId": 3119,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    }
+  ]
+}

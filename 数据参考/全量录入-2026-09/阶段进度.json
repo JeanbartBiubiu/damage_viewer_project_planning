@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T15:05:35.682Z",
+  "generatedAt": "2026-09-08T15:17:33.517Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -21,10 +21,23 @@
     "status": "基本资料和关联完成，完整技能数值及机制待逐项补录"
   },
   "equipment": {
-    "count": 181,
+    "count": 186,
+    "ordinaryBaseline": 181,
     "pureAttribute": 47,
     "withEffects": 134,
     "effectEquipmentDirectValues": 353,
+    "specialForms": {
+      "count": 5,
+      "directAttributeValues": 15,
+      "keys": [
+        "item_2421",
+        "item_2530",
+        "item_3040",
+        "item_3042",
+        "item_3121"
+      ],
+      "evidence": "API实录/装备升级形态第一批/独立最终回读.json"
+    },
     "additionalDirectAttributes": 2,
     "additionalDirectAttributeEvidence": [
       "装备技能实录/Luna第三批/主负责人复核.json",
@@ -32,15 +45,19 @@
     ],
     "evidence": [
       "实录记录.json",
-      "API实录/装备/summary.json"
+      "API实录/装备/summary.json",
+      "API实录/装备升级形态第一批/独立最终回读.json"
     ],
-    "status": "主体与明确直接属性完成；已录装备技能组成见各批独立回读，完整触发与其余机制继续补录"
+    "status": "181件普通装备及5件特殊形态的主体与明确属性完成；其余特殊形态和完整技能机制继续补录"
   },
   "images": {
-    "objectUses": 1207,
+    "objectUses": 1212,
+    "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
-    "equipment": 181,
+    "equipment": 186,
+    "additionalSpecialFormReuses": 5,
+    "additionalSpecialFormEvidence": "API实录/装备升级形态第一批/独立最终回读.json",
     "additionalEquipmentSkillRepresentativeReuses": 49,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
@@ -53,7 +70,7 @@
       "装备技能实录/Luna第八批/逐字段回读证据.json",
       "装备技能实录/Luna第九批/独立最终回读.json"
     ],
-    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图九个已验收批次共49项复用另列，不宣称全部对象已整体重验",
+    "status": "原1207个主体代表图历史证据保留，另5个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
