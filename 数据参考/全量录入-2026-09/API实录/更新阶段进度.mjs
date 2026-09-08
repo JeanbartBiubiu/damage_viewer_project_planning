@@ -73,6 +73,11 @@ const publicParametersFifth = read(publicParameterFifthEvidence);
 assert.equal(publicParametersFifth.passed, true);
 assert.deepEqual(publicParametersFifth.counts, {verifiedParameters:152, verifiedSkills:86, created:0, missing:0, conflicts:0});
 assert.equal(read('技能公共参数第五批/页面验收.json').passed, true);
+const publicParameterSixthEvidence = '技能公共参数第六批/独立核对.json';
+const publicParametersSixth = read(publicParameterSixthEvidence);
+assert.equal(publicParametersSixth.passed, true);
+assert.deepEqual(publicParametersSixth.counts, {verifiedParameters:148, verifiedSkills:89, created:0, missing:0, conflicts:0});
+assert.equal(read('技能公共参数第六批/页面验收.json').passed, true);
 const nasusEvidence = '内瑟斯技能实录第一批/独立核对.json';
 const nasusMechanism = read(nasusEvidence);
 const nasusInitializationEvidence = '内瑟斯技能实录第一批/初始化回读.json';
@@ -186,7 +191,7 @@ for (const entry of entries) {
   }
 }
 const scopeEvidence = '1V1范围筛选/处置清单.json';
-for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence], [publicParametersThird, publicParameterThirdEvidence], [publicParametersFourth, publicParameterFourthEvidence], [publicParametersFifth, publicParameterFifthEvidence]]) {
+for (const [parameterBatch, parameterEvidence] of [[publicParameters, publicParameterEvidence], [publicParametersSecond, publicParameterSecondEvidence], [publicParametersThird, publicParameterThirdEvidence], [publicParametersFourth, publicParameterFourthEvidence], [publicParametersFifth, publicParameterFifthEvidence], [publicParametersSixth, publicParameterSixthEvidence]]) {
 for (const skillKey of new Set(parameterBatch.records.map(record => record.skillKey))) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -197,7 +202,7 @@ for (const skillKey of new Set(parameterBatch.records.map(record => record.skill
   entry.note += ` 已补录并回读 ${records.length} 项基础冷却或法力参数；不计为完整技能。`;
 }
 }
-for (const candidateEvidence of ['技能公共参数实录/公共参数候选.json','技能公共参数第二批/公共参数候选.json','技能公共参数第三批/公共参数候选.json','技能公共参数第四批/公共参数候选.json','技能公共参数第五批/公共参数候选.json']) {
+for (const candidateEvidence of ['技能公共参数实录/公共参数候选.json','技能公共参数第二批/公共参数候选.json','技能公共参数第三批/公共参数候选.json','技能公共参数第四批/公共参数候选.json','技能公共参数第五批/公共参数候选.json','技能公共参数第六批/公共参数候选.json']) {
   for (const skipped of read(candidateEvidence).excludedSkillFields.filter(row=>row.status==='范围外跳过'&&!row.field)) {
     const entry=entries.find(row=>row.objectType==='技能'&&row.systemObjectKey===skipped.skillKey);
     assert.ok(entry, skipped.skillKey);
@@ -273,6 +278,12 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  publicParametersSixthBatch: {
+    heroes:publicParametersSixth.selectedHeroes, skills:publicParametersSixth.counts.verifiedSkills,
+    parameters:publicParametersSixth.counts.verifiedParameters,
+    status:'公共参数已保存并回读，零费用与普通/弹药冷却区别已核，完整技能机制继续录入',
+    runtimeValidation:'未执行', evidence:publicParameterSixthEvidence,
+  },
   publicParametersFifthBatch: {
     heroes:publicParametersFifth.selectedHeroes, skills:publicParametersFifth.counts.verifiedSkills,
     parameters:publicParametersFifth.counts.verifiedParameters,
