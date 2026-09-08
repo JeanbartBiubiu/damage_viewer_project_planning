@@ -1,0 +1,10 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+const path='C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz';
+const raw=gunzipSync(await readFile(path));
+const sha256=createHash('sha256').update(raw).digest('hex');
+const json=JSON.parse(raw),entries=json.entries??json;
+const chosen=Object.fromEntries(Object.entries(entries).filter(([k])=>/^(generatedtip_spell_|spell_)(ahri|darius|diana|veigar)/i.test(k)&&/(_tooltip|_tooltipcontentextended|_tooltipextendedbelowline|_description)$/i.test(k)&&!/(jade|ruby|ultbook|tft|arena|cherry)/i.test(k)));
+await writeFile(new URL('./补充文本证据.json',import.meta.url),JSON.stringify({path,sha256,entries:chosen},null,2)+'\n');
+console.log(JSON.stringify({sha256,count:Object.keys(chosen).length}));

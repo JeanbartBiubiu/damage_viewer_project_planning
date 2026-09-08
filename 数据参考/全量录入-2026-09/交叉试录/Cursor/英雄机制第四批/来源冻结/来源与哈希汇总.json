@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-09-07T18:33:48.918Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；不以名称相似评分选对象。完整原文及SHA位于规划树公共来源。官方16.17.1与客户端16.17分别记录。",
+  "heroes": [
+    {
+      "id": "Ahri",
+      "chineseName": "九尾妖狐",
+      "rootPath": "Characters/Ahri/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Ahri.json.gz",
+        "sha256": "65607b5729a1e8e851d6b95ee16f504737ff2a2a796f2cc49ff69bcfae70480f",
+        "compressedSha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+        "byteSize": 63517,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ahri/ahri.bin.json",
+        "fetchedAt": "2026-09-06T14:26:13.181Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Ahri.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ahri.json",
+        "fetchedAt": "2026-09-06T14:12:44.095Z",
+        "byteSize": 16182,
+        "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "ahri_p",
+          "binding": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "name": "摄魂夺魄"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "ahri_q",
+          "binding": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "name": "欺诈宝珠"
+        },
+        {
+          "slot": "W",
+          "skillKey": "ahri_w",
+          "binding": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "name": "妖异狐火"
+        },
+        {
+          "slot": "E",
+          "skillKey": "ahri_e",
+          "binding": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "name": "魅惑妖术"
+        },
+        {
+          "slot": "R",
+          "skillKey": "ahri_r",
+          "binding": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "name": "灵魄突袭"
+        }
+      ]
+    },
+    {
+      "id": "Darius",
+      "chineseName": "诺克萨斯之手",
+      "rootPath": "Characters/Darius/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Darius.json.gz",
+        "sha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+        "compressedSha256": "d2d16f40d4ae507b0287a1a16236c0d41f04bb2c07b78716141940e31f956526",
+        "byteSize": 48751,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/darius/darius.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.831Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Darius.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Darius.json",
+        "fetchedAt": "2026-09-06T14:12:46.033Z",
+        "byteSize": 15967,
+        "sha256": "af12c700bff495d4e531a10d4be8f6b68445fe34839bda302d4d8acd74aa89a7"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "darius_p",
+          "binding": "Characters/Darius/Spells/DariusHemoMarkerAbility/DariusHemoMarker",
+          "name": "出血"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "darius_q",
+          "binding": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
+          "name": "大杀四方"
+        },
+        {
+          "slot": "W",
+          "skillKey": "darius_w",
+          "binding": "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH",
+          "name": "致残打击"
+        },
+        {
+          "slot": "E",
+          "skillKey": "darius_e",
+          "binding": "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone",
+          "name": "无情铁手"
+        },
+        {
+          "slot": "R",
+          "skillKey": "darius_r",
+          "binding": "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute",
+          "name": "诺克萨斯断头台"
+        }
+      ]
+    },
+    {
+      "id": "Diana",
+      "chineseName": "皎月女神",
+      "rootPath": "Characters/Diana/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Diana.json.gz",
+        "sha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa",
+        "compressedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+        "byteSize": 48586,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/diana/diana.bin.json",
+        "fetchedAt": "2026-09-06T14:26:15.772Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Diana.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Diana.json",
+        "fetchedAt": "2026-09-06T14:12:45.779Z",
+        "byteSize": 16631,
+        "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "diana_p",
+          "binding": "Characters/Diana/Spells/DianaPassiveAbility/DianaPassive",
+          "name": "月银之刃"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "diana_q",
+          "binding": "Characters/Diana/Spells/DianaQAbility/DianaQ",
+          "name": "新月打击"
+        },
+        {
+          "slot": "W",
+          "skillKey": "diana_w",
+          "binding": "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs",
+          "name": "苍白之瀑"
+        },
+        {
+          "slot": "E",
+          "skillKey": "diana_e",
+          "binding": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "name": "月神冲刺"
+        },
+        {
+          "slot": "R",
+          "skillKey": "diana_r",
+          "binding": "Characters/Diana/Spells/DianaRAbility/DianaR",
+          "name": "月之降临"
+        }
+      ]
+    },
+    {
+      "id": "Veigar",
+      "chineseName": "邪恶小法师",
+      "rootPath": "Characters/Veigar/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Veigar.json.gz",
+        "sha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+        "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+        "byteSize": 47382,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/veigar/veigar.bin.json",
+        "fetchedAt": "2026-09-06T14:26:46.951Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Veigar.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Veigar.json",
+        "fetchedAt": "2026-09-06T14:12:56.615Z",
+        "byteSize": 14350,
+        "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "veigar_p",
+          "binding": "Characters/Veigar/Spells/VeigarPassiveAbility/VeigarPassive",
+          "name": "超凡邪力"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "veigar_q",
+          "binding": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "name": "黑暗祭祀"
+        },
+        {
+          "slot": "W",
+          "skillKey": "veigar_w",
+          "binding": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "name": "黑暗物质"
+        },
+        {
+          "slot": "E",
+          "skillKey": "veigar_e",
+          "binding": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "name": "扭曲空间"
+        },
+        {
+          "slot": "R",
+          "skillKey": "veigar_r",
+          "binding": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+          "name": "能量爆裂"
+        }
+      ]
+    }
+  ]
+}

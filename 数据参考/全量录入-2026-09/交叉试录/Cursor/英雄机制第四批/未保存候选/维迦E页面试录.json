@@ -1,0 +1,209 @@
+{
+  "skillKey": "veigar_e",
+  "reservedFor": "主负责人真实页面",
+  "effect": {
+    "effectKey": "event_horizon_stun",
+    "name": "碰到牢笼边缘眩晕",
+    "description": "仅真实碰到牢笼边缘时施加；效果持续1.5至2.5秒，不在围住或施法结束时施加。",
+    "sortOrder": 20,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "stun_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE_TARGET",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "stun",
+        "name": "事件视界眩晕",
+        "resultType": "STATUS_OPERATION",
+        "target": "TARGET",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": null,
+          "stackValueMode": null,
+          "reapplicationValueMode": null,
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": "EFFECT",
+        "valueRule": null,
+        "detail": {
+          "statusKey": "vertigo",
+          "operation": "APPLY"
+        }
+      }
+    ]
+  },
+  "rule": {
+    "ruleKey": "actual_cage_contact",
+    "name": "事件视界真实边缘命中",
+    "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+    "sortOrder": 10,
+    "eventSource": {
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "veigar_e"
+      }
+    },
+    "conditionGroups": [],
+    "actions": [
+      {
+        "actionKey": "action_1",
+        "name": "施加事件视界眩晕",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "event_horizon_stun"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "prerequisites": {
+    "parameters": [
+      {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 18500,
+          "3": 17000,
+          "4": 15500,
+          "5": 14000
+        },
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "mana_cost",
+        "name": "法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "sortOrder": 20
+      },
+      {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "sortOrder": 30
+      },
+      {
+        "parameterKey": "stun_duration_ms",
+        "name": "事件视界眩晕时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1500,
+          "2": 1750,
+          "3": 2000,
+          "4": 2250,
+          "5": 2500
+        },
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+        "sortOrder": 40
+      },
+      {
+        "parameterKey": "cage_delay_ms",
+        "name": "牢笼生成延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CageDelay 取索引1至5。",
+        "sortOrder": 50
+      },
+      {
+        "parameterKey": "cage_duration_ms",
+        "name": "牢笼持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根Spell_VeigarEventHorizon_Tooltip明确持续3秒。",
+        "sortOrder": 60
+      }
+    ],
+    "process": {
+      "processKey": "cast",
+      "name": "施放扭曲空间",
+      "activationType": "ACTIVE",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "sortOrder": 10,
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "steps": [
+        {
+          "stepKey": "cast_time",
+          "name": "施法延迟",
+          "description": "主技能已核对的施法时间。",
+          "sortOrder": 10,
+          "stepType": "DELAY",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          }
+        }
+      ],
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "stateOperations": []
+    }
+  },
+  "note": "执行代理只补参数、法力效果、施放过程；此状态效果和实际边缘命中规则由主负责人页面保存。"
+}
