@@ -194,6 +194,30 @@ const heroFifth = {
     excluded:heroFifthPlan.skills[key].excluded,
   }])),
 };
+const heroSixthRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/最终独立回读证据.json';
+const heroSixthEvidence = readAbsolute(path.join(luxEvidenceWorktree, heroSixthRelative));
+const heroSixthPlan = readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroSixthRelative), '完整候选.json'));
+assert.equal(heroSixthEvidence.success, true);
+assert.equal(heroSixthEvidence.snapshot.subjects.length, 20);
+assert.equal(heroSixthEvidence.snapshot.lists.length, 120);
+assert.equal(heroSixthEvidence.snapshot.readbacks.length, 233);
+assert.deepEqual(heroSixthEvidence.snapshot.missing, []);
+assert.deepEqual(heroSixthEvidence.snapshot.conflicts, []);
+assert.deepEqual(heroSixthEvidence.verification.failures, []);
+assert.equal(heroSixthEvidence.verification.arithmetic.length, 104);
+assert.equal(heroSixthEvidence.verification.invariants.length, 68);
+assert.deepEqual(heroSixthEvidence.snapshot.totals, {parameters:156, formulas:35, effects:33, processes:5, internalStates:0, triggerRules:4});
+const heroSixthPage = readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroSixthRelative), '页面验收.json'));
+assert.equal(heroSixthPage.passed, true);
+assert.equal(heroSixthPage.independentGetCount, 16);
+const heroSixth = {
+  totals:heroSixthEvidence.snapshot.totals,
+  skills:Object.fromEntries(Object.entries(heroSixthEvidence.snapshot.skills).map(([key, proof]) => [key, {
+    counts:Object.fromEntries(Object.keys(heroSixthEvidence.snapshot.totals).map(type => [type, proof[type].length])),
+    pending:key === 'jax_p' ? [{kind:'来源与表达', component:'逐层衰减的完整时序', reason:'独立审查已确认当前被动实际绑定文本为2.5秒、最多8层、逐层衰减；FallOffRate=0.35的单位、刷新时机和首次/后续退层时点仍待确证。每层攻速可用现有角色等级参数、每层贡献及当前取值表达，无需放开计算时输入限制；不能用每层重新等待2500毫秒代替尚未明确的时序。原失败请求仍保留。'}] : heroSixthPlan.skills[key].pending,
+    excluded:heroSixthPlan.skills[key].excluded,
+  }])),
+};
 const luxReadbackSummary = readAbsolute(path.join(luxEvidenceWorktree, luxReadbackSummaryRelative));
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
@@ -325,7 +349,7 @@ for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) 
     entry.note = '当前1～18级范围：生命偷取等级参数、无限期自身属性效果、来源初始化规则均已保存并独立回读，规则由真实页面新增及关闭重开核对。配置录入已验收，战斗未执行。';
   }
 }
-for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative],[heroFourth,heroFourthRelative],[heroFifth,heroFifthRelative]]) {
+for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative],[heroFourth,heroFourthRelative],[heroFifth,heroFifthRelative],[heroSixth,heroSixthRelative]]) {
 for (const [skillKey, proof] of Object.entries(batch.skills)) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -354,6 +378,13 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  heroSixthBatch: {
+    skills:Object.keys(heroSixth.skills), ...heroSixth.totals,
+    created:169, reused:64, arithmeticCases:104, invariantChecks:68,
+    status:'部分录入；233组成独立GET及5个代表页面通过；盖伦53项历史组成复用，贾克斯被动衰减时序待补',
+    executor:'执行代理录入，独立代理复核，主负责人真实页面验收',
+    runtimeValidation:'未执行', evidence:{worktree:luxEvidenceWorktree,relativePath:heroSixthRelative,commit:'35bb3eb0'},
+  },
   equipmentTenthFirstGroup:{
     skills:['duolanjie_passive','item_1082_passive'],parameters:9,formulas:5,effects:1,triggerRules:0,equipmentRelations:2,representativeImageReuses:2,
     status:'部分录入；21组成独立GET及代表页面通过，多兰戒仅保存恢复速率，荣耀事件和共享层数继续待配',

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T16:26:40.172Z",
+  "generatedAt": "2026-09-08T16:47:46.203Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -135,6 +135,48 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "heroSixthBatch": {
+      "skills": [
+        "jax_p",
+        "jax_q",
+        "jax_w",
+        "jax_e",
+        "jax_r",
+        "garen_p",
+        "garen_q",
+        "garen_w",
+        "garen_e",
+        "garen_r",
+        "mordekaiser_p",
+        "mordekaiser_q",
+        "mordekaiser_w",
+        "mordekaiser_e",
+        "mordekaiser_r",
+        "renekton_p",
+        "renekton_q",
+        "renekton_w",
+        "renekton_e",
+        "renekton_r"
+      ],
+      "parameters": 156,
+      "formulas": 35,
+      "effects": 33,
+      "processes": 5,
+      "internalStates": 0,
+      "triggerRules": 4,
+      "created": 169,
+      "reused": 64,
+      "arithmeticCases": 104,
+      "invariantChecks": 68,
+      "status": "部分录入；233组成独立GET及5个代表页面通过；盖伦53项历史组成复用，贾克斯被动衰减时序待补",
+      "executor": "执行代理录入，独立代理复核，主负责人真实页面验收",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:\\project\\damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/最终独立回读证据.json",
+        "commit": "35bb3eb0"
+      }
+    },
     "equipmentTenthFirstGroup": {
       "skills": [
         "duolanjie_passive",
