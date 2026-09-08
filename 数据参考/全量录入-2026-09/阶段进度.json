@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T00:53:18.347Z",
+  "generatedAt": "2026-09-08T02:01:23.879Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -38,7 +38,7 @@
     "heroes": 171,
     "skills": 855,
     "equipment": 181,
-    "additionalEquipmentSkillRepresentativeReuses": 37,
+    "additionalEquipmentSkillRepresentativeReuses": 43,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -46,9 +46,10 @@
       "装备技能实录/Luna第四批/纠错后独立回读.json",
       "装备技能实录/Luna第五批/独立最终回读.json",
       "装备技能实录/Luna第六批/独立最终回读.json",
-      "装备技能实录/Luna第七批/独立最终回读.json"
+      "装备技能实录/Luna第七批/独立最终回读.json",
+      "装备技能实录/Luna第九批/独立最终回读.json"
     ],
-    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图七批共37项复用另列，不宣称全部对象已整体重验",
+    "status": "原1207个主体代表图历史证据保留；新增装备技能代表图八个已验收批次共43项复用另列，第八批仍在纠错，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
@@ -67,6 +68,25 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentNinthBatch": {
+      "skills": [
+        "item_2502_passive",
+        "item_2504_passive",
+        "item_3026_passive",
+        "item_3084_passive",
+        "item_4632_passive",
+        "item_6672_passive"
+      ],
+      "parameters": 27,
+      "formulas": 8,
+      "effects": 6,
+      "triggerRules": 2,
+      "equipmentRelations": 6,
+      "representativeImageReuses": 6,
+      "status": "部分录入；属性基数和等级断点已补证，翠绿屏障初始化及成功消费已保存；其余按待配清单继续",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第九批/独立最终回读.json"
+    },
     "heroFourthBatch": {
       "skills": [
         "ahri_p",
