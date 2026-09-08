@@ -57,13 +57,15 @@ class ImageRelationAdminControllerTest {
             Arguments.of("/equipment/sword", "EQUIPMENT", "", "sword"),
             Arguments.of("/skills/q", "SKILL", "", "q"),
             Arguments.of("/skills/q/effects/hit", "SKILL_EFFECT", "q", "hit"),
-            Arguments.of("/statuses/burn", "STATUS", "", "burn")
+            Arguments.of("/statuses/burn", "STATUS", "", "burn"),
+            Arguments.of("/runes/focus", "RUNE", "", "focus"),
+            Arguments.of("/rune-paths/precision", "RUNE_PATH", "", "precision")
         );
     }
 
     @ParameterizedTest
     @MethodSource("sourcePaths")
-    void allSevenExplicitPathsSupportEmptyReadSetReadAndDelete(String prefix, String type, String parent, String key) throws Exception {
+    void allExplicitPathsSupportEmptyReadSetReadAndDelete(String prefix, String type, String parent, String key) throws Exception {
         String path = ROOT + prefix + "/representative-image";
         when(mapper.countSource("lol", type, parent, key)).thenReturn(1L);
         if (type.equals("SKILL_EFFECT")) when(mapper.countSource("lol", "SKILL", "", "q")).thenReturn(1L);

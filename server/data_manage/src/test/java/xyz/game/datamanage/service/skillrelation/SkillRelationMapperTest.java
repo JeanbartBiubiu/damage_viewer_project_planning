@@ -77,10 +77,11 @@ class SkillRelationMapperTest {
     }
 
     @Test
-    void skillDeleteGuardCountsBothSourceTablesInSameGame() {
+    void skillDeleteGuardCountsAllSourceTablesInSameGame() {
         String sql = sql("countBySkill", Map.of("gameId", "lol", "skillKey", "fire"));
         assertTrue(sql.contains("FROM public.character_skill_relations WHERE game_id = ? AND skill_key = ?"));
         assertTrue(sql.contains("FROM public.equipment_skill_relations WHERE game_id = ? AND skill_key = ?"));
+        assertTrue(sql.contains("FROM public.rune_skill_relations WHERE game_id = ? AND skill_key = ?"));
     }
 
     private String sql(String statement, Map<String, Object> parameters) {

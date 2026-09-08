@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillrelation.RuneRelationMapper">
+
+    <resultMap id="runeRelation" type="xyz.game.datamanage.model.skillrelation.RuneSkillRelationResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="rune_key" javaType="java.lang.String"/>
+            <arg column="rune_name" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="skill_name" javaType="java.lang.String"/>
+            <arg column="skill_status" javaType="xyz.game.datamanage.model.skill.SkillStatus"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="runeSelect">
+        SELECT r.game_id, r.rune_key, source.name AS rune_name,
+               r.skill_key, s.name AS skill_name, s.status AS skill_status, r.sort_order
+        FROM public.rune_skill_relations r
+        JOIN public.runes source
+          ON source.game_id = r.game_id AND source.rune_key = r.rune_key
+        JOIN public.skills s
+          ON s.game_id = r.game_id AND s.skill_key = r.skill_key
+        WHERE r.game_id = #{gameId}
+    </sql>
+
+    <select id="listRuneRelations" resultMap="runeRelation">
+        <include refid="runeSelect"/>
+        <if test="runeKey != null">
+            AND r.rune_key = #{runeKey}
+        </if>
+        <if test="skillKey != null">
+            AND r.skill_key = #{skillKey}
+        </if>
+        <choose>
+            <when test="runeKey != null">
+                ORDER BY r.sort_order ASC, s.name ASC, r.skill_key ASC
+            </when>
+            <otherwise>
+                ORDER BY source.name ASC, r.rune_key ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findRuneRelation" resultMap="runeRelation">
+        <include refid="runeSelect"/>
+          AND r.rune_key = #{runeKey}
+          AND r.skill_key = #{skillKey}
+    </select>
+
+    <insert id="insertRuneRelation">
+        INSERT INTO public.rune_skill_relations (game_id, rune_key, skill_key, sort_order)
+        VALUES (#{gameId}, #{runeKey}, #{skillKey}, #{sortOrder})
+        ON CONFLICT (game_id, rune_key, skill_key) DO NOTHING
+    </insert>
+
+    <update id="updateRuneRelation">
+        UPDATE public.rune_skill_relations SET sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND rune_key = #{runeKey} AND skill_key = #{skillKey}
+    </update>
+
+    <delete id="deleteRuneRelation">
+        DELETE FROM public.rune_skill_relations
+        WHERE game_id = #{gameId} AND rune_key = #{runeKey} AND skill_key = #{skillKey}
+    </delete>
+
+</mapper>

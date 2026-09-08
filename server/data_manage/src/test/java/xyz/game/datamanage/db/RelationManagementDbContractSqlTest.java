@@ -13,11 +13,17 @@ class RelationManagementDbContractSqlTest {
         "character_skill_relations", "equipment_skill_relations", "image_relations");
 
     @Test
-    void freshSchemaAndMigrationDefineTheSameThreeRelations() throws Exception {
+    void freshSchemaKeepsHistoricalRelationsApartFromExplicitRuneSourceAddition() throws Exception {
         String fresh = read("db/game_manage/schema.sql");
         String migration = read("db/game_manage/migrations/breaking/relation_management_migration.sql");
         for (String table : TABLES) {
-            assertEquals(table(fresh, table), table(migration, table), table);
+            String current = table(fresh, table);
+            if ("image_relations".equals(table)) {
+                assertTrue(current.contains("'status', 'rune', 'rune_path'"));
+                // 历史阶段 9 迁移保持原七类；本次追加由 rune_management.sql 独立完成。
+                current = current.replace("'status', 'rune', 'rune_path'", "'status'");
+            }
+            assertEquals(current, table(migration, table), table);
         }
         assertFalse(table(fresh, "games").contains("game_img_url"));
         for (String source : List.of("character", "equipment")) {
@@ -57,7 +63,7 @@ class RelationManagementDbContractSqlTest {
     @Test
     void integrityQueryChecksAllSourcesAndGameScopedImageTargetsWithoutWriting() throws Exception {
         String sql = read("db/game_manage/checks/image_relations_integrity.sql");
-        for (String source : List.of("game", "character", "attribute", "equipment", "skill", "skill_effect", "status")) {
+        for (String source : List.of("game", "character", "attribute", "equipment", "skill", "skill_effect", "status", "rune", "rune_path")) {
             assertTrue(sql.contains("'" + source + "'"), source);
         }
         assertTrue(sql.contains("s.source_parent_key = r.source_parent_key"));
