@@ -91,6 +91,16 @@ assert.equal(heroThird.componentsChecked, 210);
 assert.deepEqual(heroThird.failures, []);
 assert.deepEqual(heroThird.totals, {parameters:127, formulas:24, effects:39, processes:12, internalStates:0, triggerRules:8});
 assert.equal(Object.keys(heroThird.skills).length, 20);
+const heroFourthRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终回读摘要.json';
+const heroFourth = readAbsolute(path.join(luxEvidenceWorktree, heroFourthRelative));
+assert.equal(heroFourth.componentsChecked, 230);
+assert.deepEqual(heroFourth.failures, []);
+assert.deepEqual(heroFourth.totals, {parameters:138, formulas:26, effects:44, processes:11, internalStates:0, triggerRules:11});
+assert.equal(heroFourth.subjectCount, 20);
+assert.equal(heroFourth.listCount, 120);
+assert.equal(heroFourth.arithmeticCount, 100);
+assert.equal(heroFourth.invariantCount, 20);
+assert.equal(readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroFourthRelative), '页面验收.json')).passed, true);
 const luxReadbackSummary = readAbsolute(path.join(luxEvidenceWorktree, luxReadbackSummaryRelative));
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
@@ -222,7 +232,7 @@ for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) 
     entry.note = '当前1～18级范围：生命偷取等级参数、无限期自身属性效果、来源初始化规则均已保存并独立回读，规则由真实页面新增及关闭重开核对。配置录入已验收，战斗未执行。';
   }
 }
-for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative]]) {
+for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative],[heroFourth,heroFourthRelative]]) {
 for (const [skillKey, proof] of Object.entries(batch.skills)) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -251,6 +261,13 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  heroFourthBatch: {
+    skills:Object.keys(heroFourth.skills), ...heroFourth.totals,
+    status:'部分录入；黛安娜攻速已纠正并页面核对，维迦E两项未保存草稿保留待修',
+    executor:'Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收',
+    arithmeticCases:heroFourth.arithmeticCount, invariantChecks:heroFourth.invariantCount,
+    runtimeValidation:'未执行', evidence:{worktree:luxEvidenceWorktree,relativePath:heroFourthRelative},
+  },
   equipmentSeventhBatch: {
     skills:equipmentSeventh.objects.map(record=>record.skillKey), parameters:28, formulas:3, effects:6, processes:1, triggerRules:6,
     equipmentRelations:6, representativeImageReuses:6,
