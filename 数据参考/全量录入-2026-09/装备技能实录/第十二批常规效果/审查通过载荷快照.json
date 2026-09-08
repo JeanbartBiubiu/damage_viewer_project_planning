@@ -1,0 +1,554 @@
+[
+  {
+    "skill": {
+      "skillKey": "item_3033_passive",
+      "name": "凡性的提醒·重伤",
+      "description": "当前绑定说明：对敌方英雄造成物理伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    },
+    "parameters": [
+      {
+        "parameterKey": "grievous_amount",
+        "name": "重伤减疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "grievous_duration_ms",
+        "name": "重伤持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+        "sortOrder": 20
+      }
+    ],
+    "formulas": [],
+    "effects": [],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_3033",
+      "skillKey": "item_3033_passive",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_3033"
+    }
+  },
+  {
+    "skill": {
+      "skillKey": "item_3165_passive",
+      "name": "莫雷洛秘典·重伤",
+      "description": "当前绑定说明：对敌方英雄造成魔法伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    },
+    "parameters": [
+      {
+        "parameterKey": "grievous_amount",
+        "name": "重伤减疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "grievous_duration_ms",
+        "name": "重伤持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+        "sortOrder": 20
+      }
+    ],
+    "formulas": [],
+    "effects": [],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_3165",
+      "skillKey": "item_3165_passive",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_3165"
+    }
+  },
+  {
+    "skill": {
+      "skillKey": "item_6609_passive",
+      "name": "炼金朋克链锯剑·劈削",
+      "description": "当前绑定说明：对敌方英雄造成物理伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    },
+    "parameters": [
+      {
+        "parameterKey": "grievous_amount",
+        "name": "重伤减疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "grievous_duration_ms",
+        "name": "重伤持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+        "sortOrder": 20
+      }
+    ],
+    "formulas": [],
+    "effects": [],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_6609",
+      "skillKey": "item_6609_passive",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_6609"
+    }
+  },
+  {
+    "skill": {
+      "skillKey": "item_2420_active",
+      "name": "探索者的护臂·时间停止",
+      "description": "当前绑定明确单次使用，进入凝滞2.5秒。候选仅记录确证的单次次数、持续时间及独立伤害免疫组成；不可被选取、无法移动和一次性使用控制未完整配置。不复制中娅沙漏120秒冷却。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": []
+    },
+    "parameters": [
+      {
+        "parameterKey": "stasis_duration_ms",
+        "name": "凝滞持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前根Duration=2.5秒，绑定主动及官方说明一致。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "maximum_uses",
+        "name": "当前装备单次使用上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定主动明确单次使用；该值不是可周期恢复的弹药。",
+        "sortOrder": 20
+      }
+    ],
+    "formulas": [],
+    "effects": [
+      {
+        "description": "单次凝滞中的独立伤害免疫组成，持续2.5秒；不包含不可选取、移动限制和一次性消费，不自动触发。",
+        "effectKey": "stasis_damage_immunity",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stasis_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "探索者凝滞伤害免疫",
+        "results": [
+          {
+            "description": "来源在凝滞持续期间免疫所有伤害类型。",
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "全类型伤害免疫",
+            "resultKey": "stasis_damage_immunity",
+            "resultType": "DAMAGE_IMMUNITY",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 10
+      }
+    ],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_2420",
+      "skillKey": "item_2420_active",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_2420"
+    }
+  },
+  {
+    "skill": {
+      "skillKey": "item_3139_active",
+      "name": "水银弯刀·水银",
+      "description": "当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。独立移速组成保留；通用解控与浮空例外未完整表达，当前不接部分解控冒充水银。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": []
+    },
+    "parameters": [
+      {
+        "parameterKey": "active_cooldown_ms",
+        "name": "水银主动冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90000,
+        "levelValues": null,
+        "description": "当前根Cooldown=90秒，绑定Item_Cooldown模板明确读取该值。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "move_speed_ratio",
+        "name": "水银自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前根MoveSpeed=0.5，绑定主动说明×100显示50%。",
+        "sortOrder": 20
+      },
+      {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "水银自身移速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根MSDuration=2秒，换算2000毫秒。",
+        "sortOrder": 30
+      }
+    ],
+    "formulas": [],
+    "effects": [
+      {
+        "effectKey": "quicksilver_move_speed",
+        "name": "水银自身移动速度",
+        "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "move_speed",
+            "name": "水银自身移动速度",
+            "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+            "sortOrder": 10,
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    ],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_3139",
+      "skillKey": "item_3139_active",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_3139"
+    }
+  },
+  {
+    "skill": {
+      "skillKey": "item_3044_passive",
+      "name": "净蚀·狂怒",
+      "description": "当前绑定攻击单位后获得2秒移速：近战20点、远程10点。保留两个独立分支，来源近远程选择尚未接线，不复制三相之力无条件20点规则。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    },
+    "parameters": [
+      {
+        "parameterKey": "melee_move_speed_bonus",
+        "name": "近战攻击后固定移速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "当前MSBonusSplit基础值引用MoveSpeedBonus=20。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "ranged_multiplier",
+        "name": "远程移速倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前MSBonusSplit.mRangedMultiplier引用RangedMod=0.5。",
+        "sortOrder": 20
+      },
+      {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "狂怒移速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前MoveSpeedDuration=2秒，换算2000毫秒。",
+        "sortOrder": 30
+      }
+    ],
+    "formulas": [
+      {
+        "formulaKey": "ranged_move_speed_bonus",
+        "name": "远程攻击后固定移速",
+        "description": "20点基础值×0.5远程倍率=10点；来源类型选择另配。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_move_speed_bonus"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_multiplier"
+            }
+          ]
+        }
+      }
+    ],
+    "effects": [
+      {
+        "effectKey": "melee_move_speed",
+        "name": "近战狂怒移动速度",
+        "description": "仅近战来源实际攻击单位后选择此分支，20点固定移速持续2秒。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "move_speed",
+            "name": "近战狂怒移动速度",
+            "description": "仅近战来源实际攻击单位后选择此分支，20点固定移速持续2秒。",
+            "sortOrder": 10,
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "melee_move_speed_bonus"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      {
+        "effectKey": "ranged_move_speed",
+        "name": "远程狂怒移动速度",
+        "description": "仅远程来源实际攻击单位后选择此分支，10点固定移速持续2秒。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "move_speed",
+            "name": "远程狂怒移动速度",
+            "description": "仅远程来源实际攻击单位后选择此分支，10点固定移速持续2秒。",
+            "sortOrder": 10,
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "ranged_move_speed_bonus"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    ],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": [],
+    "relation": {
+      "equipmentKey": "item_3044",
+      "skillKey": "item_3044_passive",
+      "sortOrder": 10
+    },
+    "representativeImage": {
+      "imageKey": "item_3044"
+    }
+  }
+]
