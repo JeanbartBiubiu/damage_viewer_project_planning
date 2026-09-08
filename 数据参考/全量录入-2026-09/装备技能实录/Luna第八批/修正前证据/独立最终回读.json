@@ -1,0 +1,5178 @@
+{
+  "generatedAt": "2026-09-07T18:52:34.008Z",
+  "mode": "独立最终回读",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "objects": [
+    {
+      "equipmentKey": "item_3032",
+      "skillKey": "item_3032_passive"
+    },
+    {
+      "equipmentKey": "item_3050",
+      "skillKey": "item_3050_passive"
+    },
+    {
+      "equipmentKey": "item_3071",
+      "skillKey": "item_3071_passive"
+    },
+    {
+      "equipmentKey": "item_3803",
+      "skillKey": "item_3803_passive"
+    },
+    {
+      "equipmentKey": "item_6653",
+      "skillKey": "item_6653_passive"
+    },
+    {
+      "equipmentKey": "item_8010",
+      "skillKey": "item_8010_passive"
+    }
+  ],
+  "checks": [
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3032/attributes",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "attack_damage",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        },
+        {
+          "path": "bonus_attack_speed_percent",
+          "expected": 0.45,
+          "actual": 0.45,
+          "equal": true
+        },
+        {
+          "path": "critical_strike_chance",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3032_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3032_passive",
+          "actual": "item_3032_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "育恩塔尔荒野箭·疾风骤雨",
+          "actual": "育恩塔尔荒野箭·疾风骤雨",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方16.17.1说明共同确证的30%攻击速度、6秒持续、30秒冷却以及攻击缩短1秒、暴击缩短2秒。普通攻击命中规则限定英雄目标，动作使用当前命中目标而结果指向装备持有者；永久暴击每次增量未按冲突原始字段猜值，装备直接属性不在技能结果中重复施加。",
+          "actual": "保存16.17客户端与官方16.17.1说明共同确证的30%攻击速度、6秒持续、30秒冷却以及攻击缩短1秒、暴击缩短2秒。普通攻击命中规则限定英雄目标，动作使用当前命中目标而结果指向装备持有者；永久暴击每次增量未按冲突原始字段猜值，装备直接属性不在技能结果中重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:crit_cap_ratio",
+      "path": "/skills/item_3032_passive/parameters/crit_cap_ratio",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "crit_cap_ratio",
+          "actual": "crit_cap_ratio",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "熟能生巧暴击上限",
+          "actual": "熟能生巧暴击上限",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.25,
+          "actual": 0.25,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "永久获得暴击几率的上限，小数0.25表示25%；每次攻击增量待来源核定。",
+          "actual": "永久获得暴击几率的上限，小数0.25表示25%；每次攻击增量待来源核定。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_speed_bonus_ratio",
+      "path": "/skills/item_3032_passive/parameters/attack_speed_bonus_ratio",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_speed_bonus_ratio",
+          "actual": "attack_speed_bonus_ratio",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "疾风骤雨攻击速度增幅",
+          "actual": "疾风骤雨攻击速度增幅",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.3,
+          "actual": 0.3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "触发后额外攻击速度30%，小数0.3表示30%。",
+          "actual": "触发后额外攻击速度30%，小数0.3表示30%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_speed_duration_ms",
+      "path": "/skills/item_3032_passive/parameters/attack_speed_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_speed_duration_ms",
+          "actual": "attack_speed_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "疾风骤雨持续时间",
+          "actual": "疾风骤雨持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 6000,
+          "actual": 6000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击速度增幅持续6秒，单位：毫秒。",
+          "actual": "攻击速度增幅持续6秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_buff_cooldown_ms",
+      "path": "/skills/item_3032_passive/parameters/attack_buff_cooldown_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_buff_cooldown_ms",
+          "actual": "attack_buff_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "疾风骤雨冷却时间",
+          "actual": "疾风骤雨冷却时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 30000,
+          "actual": 30000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击英雄触发后的冷却为30秒，单位：毫秒。当前触发规则未用错误的逐目标冷却替代持有者内部冷却。",
+          "actual": "攻击英雄触发后的冷却为30秒，单位：毫秒。当前触发规则未用错误的逐目标冷却替代持有者内部冷却。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:attack_cooldown_reduction_ms",
+      "path": "/skills/item_3032_passive/parameters/attack_cooldown_reduction_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "attack_cooldown_reduction_ms",
+          "actual": "attack_cooldown_reduction_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "普通攻击冷却缩短",
+          "actual": "普通攻击冷却缩短",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1000,
+          "actual": 1000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击使疾风骤雨冷却缩短1秒，单位：毫秒。",
+          "actual": "攻击使疾风骤雨冷却缩短1秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:critical_cooldown_reduction_ms",
+      "path": "/skills/item_3032_passive/parameters/critical_cooldown_reduction_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "critical_cooldown_reduction_ms",
+          "actual": "critical_cooldown_reduction_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "暴击冷却缩短",
+          "actual": "暴击冷却缩短",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 2000,
+          "actual": 2000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "暴击时该冷却缩短2秒，单位：毫秒。",
+          "actual": "暴击时该冷却缩短2秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:attack_speed_buff",
+      "path": "/skills/item_3032_passive/effects/attack_speed_buff",
+      "status": 200,
+      "fieldCount": 37,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "attack_speed_buff",
+          "actual": "attack_speed_buff",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "疾风骤雨攻击速度增幅",
+          "actual": "疾风骤雨攻击速度增幅",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "对英雄普通攻击命中后，使装备持有者获得30%额外攻击速度，持续6秒。",
+          "actual": "对英雄普通攻击命中后，使装备持有者获得30%额外攻击速度，持续6秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "attack_speed_duration_ms",
+          "actual": "attack_speed_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "attack_speed",
+          "actual": "attack_speed",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "额外攻击速度",
+          "actual": "额外攻击速度",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "增加持有者bonus_attack_speed_percent属性0.30；小数0.30表示30个百分点。",
+          "actual": "增加持有者bonus_attack_speed_percent属性0.30；小数0.30表示30个百分点。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "REPLACE",
+          "actual": "REPLACE",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "attack_speed_bonus_ratio",
+          "actual": "attack_speed_bonus_ratio",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "bonus_attack_speed_percent",
+          "actual": "bonus_attack_speed_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_flat_add",
+          "actual": "attribute_flat_add",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "trigger-rule:resolve_attack_speed_on_champion_attack",
+      "path": "/skills/item_3032_passive/trigger-rules/resolve_attack_speed_on_champion_attack",
+      "status": 200,
+      "fieldCount": 26,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "resolve_attack_speed_on_champion_attack",
+          "actual": "resolve_attack_speed_on_champion_attack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "英雄普通攻击命中触发疾风骤雨",
+          "actual": "英雄普通攻击命中触发疾风骤雨",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "BASIC_ATTACK_HIT命中类别限定为英雄；动作读取CURRENT_TARGET，效果结果target=SOURCE作用于装备持有者。30秒持有者内部冷却及攻击/暴击缩短参数已保存，但当前规则结构不宣称已完成该冷却门控。",
+          "actual": "BASIC_ATTACK_HIT命中类别限定为英雄；动作读取CURRENT_TARGET，效果结果target=SOURCE作用于装备持有者。30秒持有者内部冷却及攻击/暴击缩短参数已保存，但当前规则结构不宣称已完成该冷却门控。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "BASIC_ATTACK_HIT",
+          "actual": "BASIC_ATTACK_HIT",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].groupKey",
+          "expected": "champion_target",
+          "actual": "champion_target",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].name",
+          "expected": "英雄目标",
+          "actual": "英雄目标",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[0].conditionKey",
+          "expected": "target_is_champion",
+          "actual": "target_is_champion",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[0].conditionType",
+          "expected": "TARGET_CATEGORY_CHECK",
+          "actual": "TARGET_CATEGORY_CHECK",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[0].detail.categories[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[0].conditions[0].detail.categories[0]",
+          "expected": "CHAMPION",
+          "actual": "CHAMPION",
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_attack_speed_buff",
+          "actual": "execute_attack_speed_buff",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行疾风骤雨攻击速度增幅",
+          "actual": "执行疾风骤雨攻击速度增幅",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "CURRENT_TARGET",
+          "actual": "CURRENT_TARGET",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "attack_speed_buff",
+          "actual": "attack_speed_buff",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3032",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3032",
+          "actual": "item_3032",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3032_passive",
+          "actual": "item_3032_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3032/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3032",
+          "actual": "item_3032",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3032_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3032",
+          "actual": "item_3032",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3050/attributes",
+      "status": 200,
+      "fieldCount": 4,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 300,
+          "actual": 300,
+          "equal": true
+        },
+        {
+          "path": "armor",
+          "expected": 25,
+          "actual": 25,
+          "equal": true
+        },
+        {
+          "path": "magic_resistance",
+          "expected": 25,
+          "actual": 25,
+          "equal": true
+        },
+        {
+          "path": "ability_haste",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3050_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3050_passive",
+          "actual": "item_3050_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "基克的聚合·霜火风暴",
+          "actual": "基克的聚合·霜火风暴",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存终极技能触发风暴的确证组成：持续5秒、半径350、每秒30点魔法伤害、30%减速与45秒冷却参数。当前结构只保存风暴周期魔法伤害；终极技能筛选、范围内英雄目标选择、减速状态键和持有者冷却门控分别列为待配，不用无条件技能触发冒充完整机制。",
+          "actual": "保存终极技能触发风暴的确证组成：持续5秒、半径350、每秒30点魔法伤害、30%减速与45秒冷却参数。当前结构只保存风暴周期魔法伤害；终极技能筛选、范围内英雄目标选择、减速状态键和持有者冷却门控分别列为待配，不用无条件技能触发冒充完整机制。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_duration_ms",
+      "path": "/skills/item_3050_passive/parameters/storm_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_duration_ms",
+          "actual": "storm_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴持续时间",
+          "actual": "霜火风暴持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 5000,
+          "actual": 5000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "风暴持续5秒，单位：毫秒。",
+          "actual": "风暴持续5秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_radius",
+      "path": "/skills/item_3050_passive/parameters/storm_radius",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_radius",
+          "actual": "storm_radius",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴作用半径",
+          "actual": "霜火风暴作用半径",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 350,
+          "actual": 350,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端绑定树StormRadius=350，单位：游戏距离单位。",
+          "actual": "客户端绑定树StormRadius=350，单位：游戏距离单位。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_damage_per_second",
+      "path": "/skills/item_3050_passive/parameters/storm_damage_per_second",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_damage_per_second",
+          "actual": "storm_damage_per_second",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴每秒魔法伤害",
+          "actual": "霜火风暴每秒魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每秒造成30点魔法伤害，单位：伤害点/秒。",
+          "actual": "每秒造成30点魔法伤害，单位：伤害点/秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_slow_ratio",
+      "path": "/skills/item_3050_passive/parameters/storm_slow_ratio",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_slow_ratio",
+          "actual": "storm_slow_ratio",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴减速比例",
+          "actual": "霜火风暴减速比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.3,
+          "actual": 0.3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "减速30%，小数0.3表示30%；减速状态键尚未在现有共享状态目录中确认。",
+          "actual": "减速30%，小数0.3表示30%；减速状态键尚未在现有共享状态目录中确认。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_tick_interval_ms",
+      "path": "/skills/item_3050_passive/parameters/storm_tick_interval_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_tick_interval_ms",
+          "actual": "storm_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴伤害间隔",
+          "actual": "霜火风暴伤害间隔",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1000,
+          "actual": 1000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "官方说明使用“每秒”，周期效果按1000毫秒记录；未执行运行时跳频验证。",
+          "actual": "官方说明使用“每秒”，周期效果按1000毫秒记录；未执行运行时跳频验证。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:storm_cooldown_ms",
+      "path": "/skills/item_3050_passive/parameters/storm_cooldown_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "storm_cooldown_ms",
+          "actual": "storm_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴触发冷却",
+          "actual": "霜火风暴触发冷却",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 45000,
+          "actual": 45000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端绑定树Cooldown=45，单位：毫秒。",
+          "actual": "客户端绑定树Cooldown=45，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:storm_magic_damage",
+      "path": "/skills/item_3050_passive/effects/storm_magic_damage",
+      "status": 200,
+      "fieldCount": 41,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "storm_magic_damage",
+          "actual": "storm_magic_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "霜火风暴周期魔法伤害",
+          "actual": "霜火风暴周期魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "风暴生命周期内每1000毫秒对作用范围内当前目标造成30点魔法伤害；作用范围和敌方英雄筛选由上层目标选择提供。",
+          "actual": "风暴生命周期内每1000毫秒对作用范围内当前目标造成30点魔法伤害；作用范围和敌方英雄筛选由上层目标选择提供。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "storm_duration_ms",
+          "actual": "storm_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue.parameterKey",
+          "expected": "storm_tick_interval_ms",
+          "actual": "storm_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": "AFTER_INTERVAL",
+          "actual": "AFTER_INTERVAL",
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "magic_damage",
+          "actual": "magic_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "每秒魔法伤害",
+          "actual": "每秒魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE",
+          "actual": "DAMAGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每周期30点魔法伤害；来源标记为技能伤害的独立组成。",
+          "actual": "每周期30点魔法伤害；来源标记为技能伤害的独立组成。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERIODIC",
+          "actual": "PERIODIC",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "MOMENT_EVALUATION",
+          "actual": "MOMENT_EVALUATION",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": "ONCE_PER_INSTANCE",
+          "actual": "ONCE_PER_INSTANCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "storm_damage_per_second",
+          "actual": "storm_damage_per_second",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": "magic",
+          "actual": "magic",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "SKILL",
+          "actual": "SKILL",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "DIRECT",
+          "actual": "DIRECT",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.mode",
+          "expected": "DISALLOWED",
+          "actual": "DISALLOWED",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.multiplierValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.vampRules[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3050",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3050",
+          "actual": "item_3050",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3050_passive",
+          "actual": "item_3050_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3050/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3050",
+          "actual": "item_3050",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3050_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3050",
+          "actual": "item_3050",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3071/attributes",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 400,
+          "actual": 400,
+          "equal": true
+        },
+        {
+          "path": "attack_damage",
+          "expected": 45,
+          "actual": 45,
+          "equal": true
+        },
+        {
+          "path": "ability_haste",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3071_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3071_passive",
+          "actual": "item_3071_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "黑色切割者·切割",
+          "actual": "黑色切割者·切割",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化。只使用目标属性百分比减益的确证独立组成，不把来源显示为0的热烈移速假装完成。",
+          "actual": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化。只使用目标属性百分比减益的确证独立组成，不把来源显示为0的热烈移速假装完成。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:armor_shred_ratio_per_stack",
+      "path": "/skills/item_3071_passive/parameters/armor_shred_ratio_per_stack",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "armor_shred_ratio_per_stack",
+          "actual": "armor_shred_ratio_per_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "切割每层护甲削减",
+          "actual": "切割每层护甲削减",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.06,
+          "actual": 0.06,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每层降低目标护甲6%，小数0.06表示6个百分点。",
+          "actual": "每层降低目标护甲6%，小数0.06表示6个百分点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:armor_shred_duration_ms",
+      "path": "/skills/item_3071_passive/parameters/armor_shred_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "armor_shred_duration_ms",
+          "actual": "armor_shred_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "切割持续时间",
+          "actual": "切割持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 6000,
+          "actual": 6000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "护甲削减持续6秒，单位：毫秒。",
+          "actual": "护甲削减持续6秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:armor_shred_max_stacks",
+      "path": "/skills/item_3071_passive/parameters/armor_shred_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "armor_shred_max_stacks",
+          "actual": "armor_shred_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "切割最大层数",
+          "actual": "切割最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 5,
+          "actual": 5,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "最多5层；第五层后再次触发不增加层数。",
+          "actual": "最多5层；第五层后再次触发不增加层数。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:damage_internal_cooldown_ms",
+      "path": "/skills/item_3071_passive/parameters/damage_internal_cooldown_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "damage_internal_cooldown_ms",
+          "actual": "damage_internal_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "切割伤害内部间隔",
+          "actual": "切割伤害内部间隔",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端InternalCD=0.01秒，按毫秒记录为10；触发语义仍需伤害事件核对。",
+          "actual": "客户端InternalCD=0.01秒，按毫秒记录为10；触发语义仍需伤害事件核对。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:heated_move_speed_client_value",
+      "path": "/skills/item_3071_passive/parameters/heated_move_speed_client_value",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "heated_move_speed_client_value",
+          "actual": "heated_move_speed_client_value",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "热烈客户端移动速度值",
+          "actual": "热烈客户端移动速度值",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端MoveSpeedBonus=20；官方16.17.1当前说明渲染为0，属于来源冲突待核，本批不建立移动速度效果。",
+          "actual": "客户端MoveSpeedBonus=20；官方16.17.1当前说明渲染为0，属于来源冲突待核，本批不建立移动速度效果。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:heated_move_speed_duration_ms",
+      "path": "/skills/item_3071_passive/parameters/heated_move_speed_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "heated_move_speed_duration_ms",
+          "actual": "heated_move_speed_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "热烈移动速度持续时间",
+          "actual": "热烈移动速度持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 2000,
+          "actual": 2000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端MoveSpeedDuration=2秒；对应移动速度值存在来源冲突。",
+          "actual": "客户端MoveSpeedDuration=2秒；对应移动速度值存在来源冲突。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:armor_shred",
+      "path": "/skills/item_3071_passive/effects/armor_shred",
+      "status": 200,
+      "fieldCount": 37,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "armor_shred",
+          "actual": "armor_shred",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "切割目标护甲削减",
+          "actual": "切割目标护甲削减",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "actual": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "armor_shred_duration_ms",
+          "actual": "armor_shred_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.parameterKey",
+          "expected": "armor_shred_max_stacks",
+          "actual": "armor_shred_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "armor_reduction",
+          "actual": "armor_reduction",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "目标护甲降低",
+          "actual": "目标护甲降低",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+          "actual": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "PER_STACK",
+          "actual": "PER_STACK",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "armor_shred_ratio_per_stack",
+          "actual": "armor_shred_ratio_per_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "armor",
+          "actual": "armor",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "DECREASE",
+          "actual": "DECREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_percent_bonus",
+          "actual": "attribute_percent_bonus",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3071",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3071",
+          "actual": "item_3071",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3071_passive",
+          "actual": "item_3071_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3071/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3071",
+          "actual": "item_3071",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3071_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3071",
+          "actual": "item_3071",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_3803/attributes",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 300,
+          "actual": 300,
+          "equal": true
+        },
+        {
+          "path": "mana",
+          "expected": 375,
+          "actual": 375,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_3803_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3803_passive",
+          "actual": "item_3803_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "万世催化石·永恒",
+          "actual": "万世催化石·永恒",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存来自英雄所受伤害10%回蓝、技能法力消耗25%自疗、单次治疗上限20和1秒内部冷却等确证组成。伤害取值、英雄来源筛选、技能消耗绑定与持续技能处理尚未接入触发规则，未用无条件效果冒充完整永恒。",
+          "actual": "保存来自英雄所受伤害10%回蓝、技能法力消耗25%自疗、单次治疗上限20和1秒内部冷却等确证组成。伤害取值、英雄来源筛选、技能消耗绑定与持续技能处理尚未接入触发规则，未用无条件效果冒充完整永恒。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:mana_restore_ratio_from_damage",
+      "path": "/skills/item_3803_passive/parameters/mana_restore_ratio_from_damage",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mana_restore_ratio_from_damage",
+          "actual": "mana_restore_ratio_from_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "所受伤害回蓝比例",
+          "actual": "所受伤害回蓝比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.1,
+          "actual": 0.1,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "来自英雄所受伤害的10%转为法力，小数0.1表示10%。",
+          "actual": "来自英雄所受伤害的10%转为法力，小数0.1表示10%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:health_restore_ratio_from_mana_cost",
+      "path": "/skills/item_3803_passive/parameters/health_restore_ratio_from_mana_cost",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "health_restore_ratio_from_mana_cost",
+          "actual": "health_restore_ratio_from_mana_cost",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "法力消耗治疗比例",
+          "actual": "法力消耗治疗比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.25,
+          "actual": 0.25,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "技能法力消耗的25%转为自身治疗，小数0.25表示25%。",
+          "actual": "技能法力消耗的25%转为自身治疗，小数0.25表示25%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:health_restore_cap_per_cast",
+      "path": "/skills/item_3803_passive/parameters/health_restore_cap_per_cast",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "health_restore_cap_per_cast",
+          "actual": "health_restore_cap_per_cast",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "单次技能治疗上限",
+          "actual": "单次技能治疗上限",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端EternityMaxHealPerCast=20，单位：生命点/次。",
+          "actual": "客户端EternityMaxHealPerCast=20，单位：生命点/次。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:eternity_internal_cooldown_ms",
+      "path": "/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "eternity_internal_cooldown_ms",
+          "actual": "eternity_internal_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "永恒内部冷却",
+          "actual": "永恒内部冷却",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1000,
+          "actual": 1000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端EternityCDPerCast=1秒，单位：毫秒；不将它误作技能总冷却。",
+          "actual": "客户端EternityCDPerCast=1秒，单位：毫秒；不将它误作技能总冷却。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:damage_input",
+      "path": "/skills/item_3803_passive/parameters/damage_input",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "damage_input",
+          "actual": "damage_input",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受击伤害运行时输入",
+          "actual": "受击伤害运行时输入",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "RUNTIME_INPUT",
+          "actual": "RUNTIME_INPUT",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "待触发绑定提供的受击伤害数值，未指定取原始伤害或结算后伤害。",
+          "actual": "待触发绑定提供的受击伤害数值，未指定取原始伤害或结算后伤害。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:mana_cost_input",
+      "path": "/skills/item_3803_passive/parameters/mana_cost_input",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mana_cost_input",
+          "actual": "mana_cost_input",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "技能法力消耗运行时输入",
+          "actual": "技能法力消耗运行时输入",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "RUNTIME_INPUT",
+          "actual": "RUNTIME_INPUT",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "待触发绑定提供的本次技能法力消耗，持续技能规则待核。",
+          "actual": "待触发绑定提供的本次技能法力消耗，持续技能规则待核。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:mana_restore_from_damage",
+      "path": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "status": 200,
+      "fieldCount": 11,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "mana_restore_from_damage",
+          "actual": "mana_restore_from_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "所受伤害转法力",
+          "actual": "所受伤害转法力",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "运行时受击伤害输入乘10%回蓝比例；英雄来源和伤害取值留待触发绑定。",
+          "actual": "运行时受击伤害输入乘10%回蓝比例；英雄来源和伤害取值留待触发绑定。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "damage_input",
+          "actual": "damage_input",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "mana_restore_ratio_from_damage",
+          "actual": "mana_restore_ratio_from_damage",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:health_restore_uncapped",
+      "path": "/skills/item_3803_passive/formulas/health_restore_uncapped",
+      "status": 200,
+      "fieldCount": 11,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "health_restore_uncapped",
+          "actual": "health_restore_uncapped",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "法力消耗转治疗未封顶值",
+          "actual": "法力消耗转治疗未封顶值",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "运行时法力消耗乘25%治疗比例。",
+          "actual": "运行时法力消耗乘25%治疗比例。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "mana_cost_input",
+          "actual": "mana_cost_input",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "health_restore_ratio_from_mana_cost",
+          "actual": "health_restore_ratio_from_mana_cost",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:health_restore_from_skill_cost",
+      "path": "/skills/item_3803_passive/formulas/health_restore_from_skill_cost",
+      "status": 200,
+      "fieldCount": 16,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "health_restore_from_skill_cost",
+          "actual": "health_restore_from_skill_cost",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "法力消耗转治疗封顶值",
+          "actual": "法力消耗转治疗封顶值",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "单次治疗取25%法力消耗与20点上限的较小值；公式树内联25%乘法，避免把公式结果误当表达式节点。",
+          "actual": "单次治疗取25%法力消耗与20点上限的较小值；公式树内联25%乘法，避免把公式结果误当表达式节点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MIN",
+          "actual": "MIN",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[0].parameterKey",
+          "expected": "mana_cost_input",
+          "actual": "mana_cost_input",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].parameterKey",
+          "expected": "health_restore_ratio_from_mana_cost",
+          "actual": "health_restore_ratio_from_mana_cost",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "health_restore_cap_per_cast",
+          "actual": "health_restore_cap_per_cast",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:mana_from_hero_damage",
+      "path": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "status": 200,
+      "fieldCount": 21,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "mana_from_hero_damage",
+          "actual": "mana_from_hero_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受击回蓝",
+          "actual": "受击回蓝",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "以运行时受击伤害输入的10%恢复持有者法力；英雄来源、伤害口径和内部冷却未通过触发规则接线。",
+          "actual": "以运行时受击伤害输入的10%恢复持有者法力；英雄来源、伤害口径和内部冷却未通过触发规则接线。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "mana_restore",
+          "actual": "mana_restore",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "恢复法力",
+          "actual": "恢复法力",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "RESOURCE_CHANGE",
+          "actual": "RESOURCE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "恢复运行时伤害输入的10%法力。",
+          "actual": "恢复运行时伤害输入的10%法力。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "mana_restore_from_damage",
+          "actual": "mana_restore_from_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "mana",
+          "actual": "mana",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "RESTORE",
+          "actual": "RESTORE",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:health_from_skill_cost",
+      "path": "/skills/item_3803_passive/effects/health_from_skill_cost",
+      "status": 200,
+      "fieldCount": 19,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "health_from_skill_cost",
+          "actual": "health_from_skill_cost",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "施法自疗",
+          "actual": "施法自疗",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "以运行时技能法力消耗的25%治疗持有者，单次通过公式封顶20点。",
+          "actual": "以运行时技能法力消耗的25%治疗持有者，单次通过公式封顶20点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "health_restore",
+          "actual": "health_restore",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "恢复生命",
+          "actual": "恢复生命",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DIRECT_HEAL",
+          "actual": "DIRECT_HEAL",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "恢复25%运行时技能法力消耗，且单次不超过20点。",
+          "actual": "恢复25%运行时技能法力消耗，且单次不超过20点。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "health_restore_from_skill_cost",
+          "actual": "health_restore_from_skill_cost",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3803",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3803",
+          "actual": "item_3803",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3803_passive",
+          "actual": "item_3803_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_3803/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_3803",
+          "actual": "item_3803",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_3803_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_3803",
+          "actual": "item_3803",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_6653/attributes",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 300,
+          "actual": 300,
+          "equal": true
+        },
+        {
+          "path": "ability_power",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_6653_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_6653_passive",
+          "actual": "item_6653_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "兰德里的折磨·折磨与受苦",
+          "actual": "兰德里的折磨·折磨与受苦",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存灼烧2%目标最大生命/秒、持续3秒以及客户端0.5秒跳频；另保存受苦每秒2%增伤、最多3层即6%上限参数。当前未创建不存在的伤害修正乘区，伤害型技能筛选和战斗层数处理留待接线。",
+          "actual": "保存灼烧2%目标最大生命/秒、持续3秒以及客户端0.5秒跳频；另保存受苦每秒2%增伤、最多3层即6%上限参数。当前未创建不存在的伤害修正乘区，伤害型技能筛选和战斗层数处理留待接线。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:burn_ratio_per_second",
+      "path": "/skills/item_6653_passive/parameters/burn_ratio_per_second",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "burn_ratio_per_second",
+          "actual": "burn_ratio_per_second",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "折磨每秒目标生命比例",
+          "actual": "折磨每秒目标生命比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.02,
+          "actual": 0.02,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每秒造成目标最大生命2%的魔法伤害，小数0.02表示2%。",
+          "actual": "每秒造成目标最大生命2%的魔法伤害，小数0.02表示2%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:burn_duration_ms",
+      "path": "/skills/item_6653_passive/parameters/burn_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "burn_duration_ms",
+          "actual": "burn_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "折磨灼烧持续时间",
+          "actual": "折磨灼烧持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3000,
+          "actual": 3000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "灼烧持续3秒，单位：毫秒。",
+          "actual": "灼烧持续3秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:burn_tick_interval_ms",
+      "path": "/skills/item_6653_passive/parameters/burn_tick_interval_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "burn_tick_interval_ms",
+          "actual": "burn_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "折磨灼烧跳频",
+          "actual": "折磨灼烧跳频",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 500,
+          "actual": 500,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端TickFrequency=0.5秒，单位：毫秒。",
+          "actual": "客户端TickFrequency=0.5秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:milliseconds_to_seconds",
+      "path": "/skills/item_6653_passive/parameters/milliseconds_to_seconds",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "milliseconds_to_seconds",
+          "actual": "milliseconds_to_seconds",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "毫秒换算秒",
+          "actual": "毫秒换算秒",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.001,
+          "actual": 0.001,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "将500毫秒换算为0.5秒的换算常数。",
+          "actual": "将500毫秒换算为0.5秒的换算常数。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:suffer_bonus_per_second",
+      "path": "/skills/item_6653_passive/parameters/suffer_bonus_per_second",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "suffer_bonus_per_second",
+          "actual": "suffer_bonus_per_second",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受苦每秒额外伤害比例",
+          "actual": "受苦每秒额外伤害比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.02,
+          "actual": 0.02,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "与英雄战斗时每秒额外伤害2%，小数0.02表示2个百分点。",
+          "actual": "与英雄战斗时每秒额外伤害2%，小数0.02表示2个百分点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:suffer_bonus_cap",
+      "path": "/skills/item_6653_passive/parameters/suffer_bonus_cap",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "suffer_bonus_cap",
+          "actual": "suffer_bonus_cap",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受苦额外伤害上限",
+          "actual": "受苦额外伤害上限",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.06,
+          "actual": 0.06,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "额外伤害最多6%，小数0.06表示6个百分点。",
+          "actual": "额外伤害最多6%，小数0.06表示6个百分点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 60,
+          "actual": 60,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:suffer_max_stacks",
+      "path": "/skills/item_6653_passive/parameters/suffer_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "suffer_max_stacks",
+          "actual": "suffer_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受苦最大层数",
+          "actual": "受苦最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3,
+          "actual": 3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端MaxStackNumber=3；达到第三层后的第四次计时不再增加。",
+          "actual": "客户端MaxStackNumber=3；达到第三层后的第四次计时不再增加。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 70,
+          "actual": 70,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:suffer_counter_duration_ms",
+      "path": "/skills/item_6653_passive/parameters/suffer_counter_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "suffer_counter_duration_ms",
+          "actual": "suffer_counter_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "受苦计数持续时间",
+          "actual": "受苦计数持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3000,
+          "actual": 3000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端BuffCounterDuration=3秒；战斗结束及计数刷新规则待核。",
+          "actual": "客户端BuffCounterDuration=3秒；战斗结束及计数刷新规则待核。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 80,
+          "actual": 80,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:burn_tick_seconds",
+      "path": "/skills/item_6653_passive/formulas/burn_tick_seconds",
+      "status": 200,
+      "fieldCount": 11,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "burn_tick_seconds",
+          "actual": "burn_tick_seconds",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "灼烧单次跳频秒数",
+          "actual": "灼烧单次跳频秒数",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "500毫秒乘0.001换算为0.5秒。",
+          "actual": "500毫秒乘0.001换算为0.5秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "burn_tick_interval_ms",
+          "actual": "burn_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].parameterKey",
+          "expected": "milliseconds_to_seconds",
+          "actual": "milliseconds_to_seconds",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:burn_ratio_per_tick",
+      "path": "/skills/item_6653_passive/formulas/burn_ratio_per_tick",
+      "status": 200,
+      "fieldCount": 16,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "burn_ratio_per_tick",
+          "actual": "burn_ratio_per_tick",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "灼烧单次比例",
+          "actual": "灼烧单次比例",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每秒2%乘0.5秒跳频，得到每次1%最大生命；公式树内联毫秒换算。",
+          "actual": "每秒2%乘0.5秒跳频，得到每次1%最大生命；公式树内联毫秒换算。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "burn_ratio_per_second",
+          "actual": "burn_ratio_per_second",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].parameterKey",
+          "expected": "burn_tick_interval_ms",
+          "actual": "burn_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].parameterKey",
+          "expected": "milliseconds_to_seconds",
+          "actual": "milliseconds_to_seconds",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "formula:burn_damage_per_tick",
+      "path": "/skills/item_6653_passive/formulas/burn_damage_per_tick",
+      "status": 200,
+      "fieldCount": 23,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "burn_damage_per_tick",
+          "actual": "burn_damage_per_tick",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "灼烧单次魔法伤害",
+          "actual": "灼烧单次魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "目标最大生命乘每次跳频比例；公式树内联每秒比例和跳频换算。",
+          "actual": "目标最大生命乘每次跳频比例；公式树内联每秒比例和跳频换算。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeOwner",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeKey",
+          "expected": "hp",
+          "actual": "hp",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].parameterKey",
+          "expected": "burn_ratio_per_second",
+          "actual": "burn_ratio_per_second",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[0].parameterKey",
+          "expected": "burn_tick_interval_ms",
+          "actual": "burn_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].parameterKey",
+          "expected": "milliseconds_to_seconds",
+          "actual": "milliseconds_to_seconds",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:burn",
+      "path": "/skills/item_6653_passive/effects/burn",
+      "status": 200,
+      "fieldCount": 41,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "burn",
+          "actual": "burn",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "折磨周期灼烧",
+          "actual": "折磨周期灼烧",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "对伤害型技能命中的目标按目标最大生命计算魔法灼烧；每500毫秒一次，持续3秒。",
+          "actual": "对伤害型技能命中的目标按目标最大生命计算魔法灼烧；每500毫秒一次，持续3秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "burn_duration_ms",
+          "actual": "burn_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue.parameterKey",
+          "expected": "burn_tick_interval_ms",
+          "actual": "burn_tick_interval_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": "AFTER_INTERVAL",
+          "actual": "AFTER_INTERVAL",
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "magic_burn",
+          "actual": "magic_burn",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "目标最大生命比例魔法伤害",
+          "actual": "目标最大生命比例魔法伤害",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE",
+          "actual": "DAMAGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每次跳频造成目标最大生命1%的魔法伤害；1%由2%每秒乘0.5秒得到。",
+          "actual": "每次跳频造成目标最大生命1%的魔法伤害；1%由2%每秒乘0.5秒得到。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERIODIC",
+          "actual": "PERIODIC",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "MOMENT_EVALUATION",
+          "actual": "MOMENT_EVALUATION",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": "ONCE_PER_INSTANCE",
+          "actual": "ONCE_PER_INSTANCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "burn_damage_per_tick",
+          "actual": "burn_damage_per_tick",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": "magic",
+          "actual": "magic",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "SKILL",
+          "actual": "SKILL",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "DIRECT",
+          "actual": "DIRECT",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.mode",
+          "expected": "DISALLOWED",
+          "actual": "DISALLOWED",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.multiplierValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.vampRules[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_6653",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_6653",
+          "actual": "item_6653",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_6653_passive",
+          "actual": "item_6653_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_6653/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_6653",
+          "actual": "item_6653",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_6653_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_6653",
+          "actual": "item_6653",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-direct-attributes",
+      "path": "/equipment/item_8010/attributes",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 400,
+          "actual": 400,
+          "equal": true
+        },
+        {
+          "path": "ability_power",
+          "expected": 65,
+          "actual": 65,
+          "equal": true
+        },
+        {
+          "path": "ability_haste",
+          "expected": 15,
+          "actual": 15,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill",
+      "path": "/skills/item_8010_passive",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_8010_passive",
+          "actual": "item_8010_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "放血者的诅咒·恶劣衰朽",
+          "actual": "放血者的诅咒·恶劣衰朽",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存技能或被动魔法伤害对英雄造成7.5%魔法抗性削减、6秒持续和最多4层的目标属性组成。只表达单一来源每层与上限，不宣称与其他百分比减抗来源的叠加或剩余比例组合已经核对。",
+          "actual": "保存技能或被动魔法伤害对英雄造成7.5%魔法抗性削减、6秒持续和最多4层的目标属性组成。只表达单一来源每层与上限，不宣称与其他百分比减抗来源的叠加或剩余比例组合已经核对。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:mr_shred_ratio_per_stack",
+      "path": "/skills/item_8010_passive/parameters/mr_shred_ratio_per_stack",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mr_shred_ratio_per_stack",
+          "actual": "mr_shred_ratio_per_stack",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "恶劣衰朽每层魔抗削减",
+          "actual": "恶劣衰朽每层魔抗削减",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.075,
+          "actual": 0.075,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每层降低目标魔法抗性7.5%，小数0.075表示7.5个百分点。",
+          "actual": "每层降低目标魔法抗性7.5%，小数0.075表示7.5个百分点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:mr_shred_duration_ms",
+      "path": "/skills/item_8010_passive/parameters/mr_shred_duration_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mr_shred_duration_ms",
+          "actual": "mr_shred_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "恶劣衰朽持续时间",
+          "actual": "恶劣衰朽持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 6000,
+          "actual": 6000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "魔抗削减持续6秒，单位：毫秒。",
+          "actual": "魔抗削减持续6秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:mr_shred_max_stacks",
+      "path": "/skills/item_8010_passive/parameters/mr_shred_max_stacks",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mr_shred_max_stacks",
+          "actual": "mr_shred_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "恶劣衰朽最大层数",
+          "actual": "恶劣衰朽最大层数",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 4,
+          "actual": 4,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "最多4层；第四层后再次触发不增加层数。",
+          "actual": "最多4层；第四层后再次触发不增加层数。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "parameter:magic_damage_internal_cooldown_ms",
+      "path": "/skills/item_8010_passive/parameters/magic_damage_internal_cooldown_ms",
+      "status": 200,
+      "fieldCount": 8,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "magic_damage_internal_cooldown_ms",
+          "actual": "magic_damage_internal_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "恶劣衰朽内部间隔",
+          "actual": "恶劣衰朽内部间隔",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 300,
+          "actual": 300,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端InternalCD=0.3秒，单位：毫秒；具体按技能或被动伤害的计数时点待核。",
+          "actual": "客户端InternalCD=0.3秒，单位：毫秒；具体按技能或被动伤害的计数时点待核。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 40,
+          "actual": 40,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "effect:magic_resistance_shred",
+      "path": "/skills/item_8010_passive/effects/magic_resistance_shred",
+      "status": 200,
+      "fieldCount": 37,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "magic_resistance_shred",
+          "actual": "magic_resistance_shred",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "恶劣衰朽目标魔抗削减",
+          "actual": "恶劣衰朽目标魔抗削减",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每次合法魔法伤害触发在目标上增加一层7.5%魔抗削减，持续6秒，最多4层。",
+          "actual": "每次合法魔法伤害触发在目标上增加一层7.5%魔抗削减，持续6秒，最多4层。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "mr_shred_duration_ms",
+          "actual": "mr_shred_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.parameterKey",
+          "expected": "mr_shred_max_stacks",
+          "actual": "mr_shred_max_stacks",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "magic_resistance_reduction",
+          "actual": "magic_resistance_reduction",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "目标魔法抗性降低",
+          "actual": "目标魔法抗性降低",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每层降低目标魔法抗性7.5个百分点；第四层后第五次触发保持30%总削减。",
+          "actual": "每层降低目标魔法抗性7.5个百分点；第四层后第五次触发保持30%总削减。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "PER_STACK",
+          "actual": "PER_STACK",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "mr_shred_ratio_per_stack",
+          "actual": "mr_shred_ratio_per_stack",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "magic_resistance",
+          "actual": "magic_resistance",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "DECREASE",
+          "actual": "DECREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_percent_bonus",
+          "actual": "attribute_percent_bonus",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-skill-relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_8010",
+      "status": 200,
+      "fieldCount": 3,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_8010",
+          "actual": "item_8010",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_8010_passive",
+          "actual": "item_8010_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "equipment-representative-image",
+      "path": "/equipment/item_8010/representative-image",
+      "status": 200,
+      "fieldCount": 2,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "enabled",
+          "expected": true,
+          "actual": true,
+          "equal": true
+        },
+        {
+          "path": "imageKey",
+          "expected": "item_8010",
+          "actual": "item_8010",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "kind": "skill-representative-image",
+      "path": "/skills/item_8010_passive/representative-image",
+      "status": 200,
+      "fieldCount": 1,
+      "mismatchCount": 0,
+      "fields": [
+        {
+          "path": "image.imageKey",
+          "expected": "item_8010",
+          "actual": "item_8010",
+          "equal": true
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "objectCount": 6,
+    "checkCount": 80,
+    "fieldCount": 736,
+    "mismatchCount": 0,
+    "failedCheckCount": 0
+  },
+  "note": "每个组件均由本脚本独立发送GET；配置回读不等于运行时或浏览器验证。"
+}

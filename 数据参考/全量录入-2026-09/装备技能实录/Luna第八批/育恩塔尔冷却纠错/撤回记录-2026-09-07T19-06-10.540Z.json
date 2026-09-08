@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-07T19:06:10.540Z",
+  "mode": "精确撤回",
+  "endpoint": "/skills/item_3032_passive/trigger-rules/resolve_attack_speed_on_champion_attack",
+  "passed": true,
+  "before": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_attack_speed_buff",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "attack_speed_buff"
+          },
+          "name": "执行疾风骤雨攻击速度增幅",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "target_is_champion",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "BASIC_ATTACK_HIT命中类别限定为英雄；动作读取CURRENT_TARGET，效果结果target=SOURCE作用于装备持有者。30秒持有者内部冷却及攻击/暴击缩短参数已保存，但当前规则结构不宣称已完成该冷却门控。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "BASIC_ATTACK_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "英雄普通攻击命中触发疾风骤雨",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_attack_speed_on_champion_attack",
+      "sortOrder": 10
+    }
+  },
+  "write": {
+    "status": 204,
+    "data": null
+  },
+  "after": {
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+        "details": {
+          "ruleKey": "resolve_attack_speed_on_champion_attack"
+        },
+        "message": "技能触发规则不存在"
+      }
+    }
+  }
+}

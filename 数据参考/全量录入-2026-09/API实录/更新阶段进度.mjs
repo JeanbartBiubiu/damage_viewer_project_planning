@@ -42,6 +42,17 @@ const equipmentSeventh = read(equipmentSeventhEvidence);
 assert.equal(equipmentSeventh.objects.length, 6);
 assert.deepEqual(equipmentSeventh.summary, {objectCount:6, checkCount:74, fieldCount:721, mismatchCount:0, failedCheckCount:0});
 assert.equal(read('装备技能实录/Luna第七批/页面验收.json').passed, true);
+const equipmentEighthEvidence = '装备技能实录/Luna第八批/逐字段回读证据.json';
+const equipmentEighth = read(equipmentEighthEvidence);
+assert.equal(equipmentEighth.objects.length, 6);
+assert.equal(equipmentEighth.summary.componentCount, 79);
+assert.equal(equipmentEighth.summary.fieldCount, 915);
+assert.equal(equipmentEighth.summary.mismatchCount + equipmentEighth.summary.missingCount, 0);
+const equipmentEighthCorrectionEvidence='装备技能实录/Luna第八批/独立最终回读-纠错-2026-09-08T02-32-25.547Z.json';
+const equipmentEighthCorrection=read(equipmentEighthCorrectionEvidence);
+assert.equal(equipmentEighthCorrection.passed,true);
+assert.deepEqual(equipmentEighthCorrection.summary,{operationCount:26,operationTargetCount:26,skillCount:6,equipmentCount:6,modifierZoneCount:4,failureCount:0});
+assert.equal(read('装备技能实录/Luna第八批/页面验收.json').passed, true);
 const equipmentNinthEvidence = '装备技能实录/Luna第九批/独立最终回读.json';
 const equipmentNinth = read(equipmentNinthEvidence);
 assert.equal(equipmentNinth.summary.objectCount, 6);
@@ -283,6 +294,12 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  equipmentEighthBatch: {
+    skills:equipmentEighth.objects.map(record=>record.skillKey), parameters:41, formulas:6, effects:7, triggerRules:1,
+    equipmentRelations:6, representativeImageReuses:6, modifierZonesAdded:2,
+    status:'部分录入；26项纠错、独立GET与代表页面通过，持有者冷却、同次施法及合法触发等继续补录',
+    runtimeValidation:'未执行', evidence:equipmentEighthEvidence, correctionEvidence:equipmentEighthCorrectionEvidence,
+  },
   publicParametersSeventhBatch: {
     heroes:publicParametersSeventh.selectedHeroes, skills:publicParametersSeventh.counts.verifiedSkills,
     parameters:publicParametersSeventh.counts.verifiedParameters,
@@ -448,11 +465,11 @@ const summary = {
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
   equipment: { count: 181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
     additionalDirectAttributes:1, additionalDirectAttributeEvidence:equipmentThirdEvidence,
-    evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成；三十七项装备技能已有组成，完整触发与其余机制继续补录' },
+    evidence: ['实录记录.json', 'API实录/装备/summary.json'], status: '主体与明确直接属性完成；已录装备技能组成见各批独立回读，完整触发与其余机制继续补录' },
   images: { objectUses: 1207, heroes: 171, skills: 855, equipment: 181,
-    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentNinth.objects.length,
-    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentNinthEvidence],
-    status: '原1207个主体代表图历史证据保留；新增装备技能代表图八个已验收批次共43项复用另列，第八批仍在纠错，不宣称全部对象已整体重验',
+    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length,
+    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence],
+    status: '原1207个主体代表图历史证据保留；新增装备技能代表图九个已验收批次共49项复用另列，不宣称全部对象已整体重验',
     browserCacheRecords: 3202, browserReadFailures: 0,
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },
