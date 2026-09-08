@@ -1,0 +1,147 @@
+{
+  "generatedAt": "2026-09-08T18:13:54.936Z",
+  "scope": "Luna第十批/第三组/3053、3068",
+  "versionBoundary": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "locale": "zh_CN",
+    "map": "普通地图"
+  },
+  "candidate": {
+    "interfaceFile": "第三组接口候选.json",
+    "interfaceSha256": "b09ddbacf245676678b2a41153dbd5339d91c4a952a907dc0bce769e22e12800",
+    "sourceFile": "第三组录入候选.json",
+    "sourceSha256": "f8a58e18946439ae4d90d3ae49dcdb53ad84982a2d95ab443a206de539493d61",
+    "components": {
+      "skills": 2,
+      "parameters": 9,
+      "formulas": 0,
+      "effects": 0,
+      "triggerRules": 0,
+      "relations": 2,
+      "representativeImages": 2,
+      "total": 15
+    }
+  },
+  "preflight": {
+    "file": "第三组安全写入-只读-20260908181035049.json",
+    "candidateSha256": "b09ddbacf245676678b2a41153dbd5339d91c4a952a907dc0bce769e22e12800",
+    "sourceCandidateSha256": "f8a58e18946439ae4d90d3ae49dcdb53ad84982a2d95ab443a206de539493d61",
+    "directorySkillTotal": 928,
+    "directoryReferenceCheck": {
+      "passed": true,
+      "issues": [],
+      "note": "技能目录总数取自本次GET返回并按返回total动态分页；没有固定905或其他旧总数。"
+    },
+    "summary": {
+      "objectCount": 2,
+      "componentCount": 15,
+      "failedObjectCount": 0,
+      "createdCount": 0,
+      "sameCount": 0,
+      "missingCount": 15,
+      "verifiedWriteCount": 0,
+      "mismatchCount": 0,
+      "stateValues": {
+        "same": 0,
+        "created": 0,
+        "missing": 15
+      },
+      "kindCounts": {
+        "skill": 0,
+        "parameter": 0,
+        "formula": 0,
+        "effect": 0,
+        "trigger-rule": 0,
+        "relation": 0,
+        "representative-image": 0
+      }
+    },
+    "mode": "只读预检；不调用业务写接口"
+  },
+  "apply": {
+    "file": "第三组安全写入-执行-20260908181057084.json",
+    "directorySkillTotal": 928,
+    "summary": {
+      "objectCount": 2,
+      "componentCount": 15,
+      "failedObjectCount": 0,
+      "createdCount": 15,
+      "sameCount": 0,
+      "missingCount": 0,
+      "verifiedWriteCount": 15,
+      "mismatchCount": 0,
+      "stateValues": {
+        "same": 0,
+        "created": 15,
+        "missing": 0
+      },
+      "kindCounts": {
+        "skill": 2,
+        "parameter": 9,
+        "formula": 0,
+        "effect": 0,
+        "trigger-rule": 0,
+        "relation": 2,
+        "representative-image": 2
+      }
+    },
+    "objectStatuses": [
+      {
+        "equipmentKey": "item_3053",
+        "status": "已补缺并独立回读全组成",
+        "finalReadbackCount": 8,
+        "allFinalReadback200": true
+      },
+      {
+        "equipmentKey": "item_3068",
+        "status": "已补缺并独立回读全组成",
+        "finalReadbackCount": 7,
+        "allFinalReadback200": true
+      }
+    ],
+    "writeRequestKinds": {
+      "POST": 13,
+      "PUT": 2
+    }
+  },
+  "independentGet": {
+    "file": "第三组独立GET-20260908181208105.json",
+    "summary": {
+      "endpointCount": 23,
+      "okCount": 23,
+      "mismatchCount": 0,
+      "failedObjectCount": 0
+    },
+    "objects": [
+      {
+        "equipmentKey": "item_3053",
+        "endpointCount": 12,
+        "allComponentsRead": true,
+        "errorCount": 0
+      },
+      {
+        "equipmentKey": "item_3068",
+        "endpointCount": 11,
+        "allComponentsRead": true,
+        "errorCount": 0
+      }
+    ]
+  },
+  "arithmetic": {
+    "file": "第三组算例校验.json",
+    "sha256": "6e346dbc8e904558069706594af463a99b63783389e75d41d05d62924232c295",
+    "totalChecks": 9,
+    "passedChecks": 9,
+    "passed": true
+  },
+  "experience": {
+    "operation": "先只读预检，再显式补缺；每个缺项写后立即GET，最后独立重新GET全部对象。",
+    "cost": "只读预检技能目录动态分页总数928；补缺15项；写后每项独立GET15次；另做独立GET23个端点；未写装备元数据、完整直接属性或其他批次。",
+    "failuresAndFixes": [
+      "候选生成首次因.mjs使用require而失败，改为模块导入后成功；未产生业务副作用。",
+      "首次预检因冻结来源路径多退一层而失败，修正为第三组内路径后重新预检；失败阶段未发业务写请求。"
+    ],
+    "boundary": "3053仅提交5个固定参数；TimeBeforeDecay、HealDuration、TenacityDuration不带已确认单位。3068仅提交4个固定参数，Range=325留在来源记录；每秒1次只作DPS显示速率。两对象均不提交公式、效果、触发规则、周期状态；旧未绑定扩展字符串和未证事件/时点仍待核。"
+  }
+}

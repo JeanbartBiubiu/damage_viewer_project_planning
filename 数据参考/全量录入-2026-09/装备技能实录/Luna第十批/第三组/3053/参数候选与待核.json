@@ -1,0 +1,350 @@
+{
+  "batch": "Luna第十批/第三组/3053",
+  "generatedAt": "2026-09-08T17:42:58.617Z",
+  "status": "仅确定参数候选与待核；不生成效果、触发规则或业务API写入。",
+  "writeBoundary": {
+    "apiWrite": false,
+    "directAttributes": "只保护现有GET值，不提交属性写入。",
+    "sourceExcerpt": "来源摘录.json保留完整Items/3053根、当前绑定说明、绑定SpellObject和冻结来源SHA。"
+  },
+  "versionBoundary": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "locale": "zh_CN",
+    "map": "普通地图候选；不采用模式覆盖值"
+  },
+  "sourceExcerpt": {
+    "file": "第三组/3053/来源摘录.json",
+    "sha256": "8e93bd39843779140b6af4917fe0cae6af2ba6beeccaa3c9d32270591cd46a11",
+    "sourceIndexSha256": {
+      "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz": {
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "bytes": 1577238,
+        "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+      },
+      "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz": {
+        "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+        "bytes": 8350124,
+        "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+      },
+      "数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json": {
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+        "bytes": 691131
+      },
+      "数据参考\\全量录入-2026-09\\装备符文\\装备全量处置清单.json": {
+        "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+        "bytes": 1878434
+      },
+      "数据参考\\全量录入-2026-09\\装备效果补证\\来源与覆盖.json": {
+        "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c",
+        "bytes": 9380
+      },
+      "数据参考\\全量录入-2026-09\\API实录\\装备\\summary.json": {
+        "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9",
+        "bytes": 228004
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第九批\\属性映射补证.json": {
+        "sha256": "65862cd426d071a061ca977aea288c59a3536f7819e33e9f1da1022c4857b610",
+        "bytes": 6140
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-52-11.404Z.json": {
+        "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e",
+        "bytes": 11829
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-53-49.953Z.json": {
+        "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+        "bytes": 19660
+      }
+    }
+  },
+  "equipment": {
+    "itemId": "3053",
+    "equipmentKey": "item_3053",
+    "skillKey": "item_3053_passive",
+    "equipmentName": "斯特拉克的挑战护手",
+    "skillName": "斯特拉克的挑战护手·抓人双爪与救主灵刃"
+  },
+  "historicalExistingAttributes": {
+    "hp": 400,
+    "tenacity_percent": 0.2
+  },
+  "determinedParameters": [
+    {
+      "parameterKey": "bonus_ad_from_base_attack_ratio",
+      "name": "抓人双爪基础攻击力转额外攻击力比例",
+      "valueType": "DECIMAL",
+      "fixedValue": 0.5,
+      "unit": "小数比例",
+      "status": "数值候选已由当前根和绑定占位确认；公式及应用时点待核。",
+      "sourcePointers": [
+        "Items/3053/mDataValues[ADtoAD]",
+        "Items/3053/mItemCalculations/BonusAD/mFormulaParts/0"
+      ],
+      "rawBinding": {
+        "mStat": 2,
+        "mStatFormula": 1,
+        "mDataValue": "ADtoAD",
+        "mValue": 0.5
+      },
+      "baseKindCandidate": "attack_damage BASE"
+    },
+    {
+      "parameterKey": "lifeline_health_threshold",
+      "name": "救主灵刃生命值阈值",
+      "valueType": "DECIMAL",
+      "fixedValue": 0.3,
+      "unit": "小数比例",
+      "status": "数值候选已确认；“将使生命值跌到阈值以下”的前置事件待核。",
+      "sourcePointers": [
+        "Items/3053/mDataValues[LowHealthThreshold]",
+        "entries/item_3053_tooltip:@LowHealthThreshold*100@%"
+      ],
+      "rawBinding": {
+        "mName": "LowHealthThreshold",
+        "mValue": 0.30000001192092896
+      }
+    },
+    {
+      "parameterKey": "lifeline_shield_duration_ms",
+      "name": "救主灵刃护盾持续时间",
+      "valueType": "INTEGER",
+      "fixedValue": 4500,
+      "unit": "毫秒",
+      "status": "数值候选已确认；重复施加和冷却期间行为待核。",
+      "sourcePointers": [
+        "Items/3053/mDataValues[ShieldDuration]",
+        "entries/item_3053_tooltip:@ShieldDuration@秒"
+      ],
+      "rawBinding": {
+        "mName": "ShieldDuration",
+        "mValue": 4.5,
+        "normalizedMs": 4500
+      }
+    },
+    {
+      "parameterKey": "lifeline_shield_bonus_health_ratio",
+      "name": "救主灵刃额外生命值护盾比例",
+      "valueType": "DECIMAL",
+      "fixedValue": 0.6,
+      "unit": "小数比例",
+      "status": "数值候选已确认；基数按mStat=12、mStatFormula=2候选为SOURCE hp BONUS，施加快照待核。",
+      "sourcePointers": [
+        "Items/3053/mDataValues[BaseShieldRatio]",
+        "Items/3053/mItemCalculations/ShieldSize/mFormulaParts/0",
+        "属性映射补证.json:/evidence[mStat=12,mStatFormula=2]"
+      ],
+      "rawBinding": {
+        "mStat": 12,
+        "mStatFormula": 2,
+        "mDataValue": "BaseShieldRatio",
+        "mValue": 0.6000000238418579
+      },
+      "baseKindCandidate": "hp BONUS"
+    },
+    {
+      "parameterKey": "lifeline_cooldown_ms",
+      "name": "救主灵刃冷却时间",
+      "valueType": "INTEGER",
+      "fixedValue": 90000,
+      "unit": "毫秒",
+      "status": "客户端DataValue数值候选已确认；Item_Cooldown的启动、重置、初始可用和触发规则待核。",
+      "sourcePointers": [
+        "Items/3053/mDataValues[Cooldown]",
+        "entries/item_3053_tooltip:{{ Item_Cooldown }}"
+      ],
+      "rawBinding": {
+        "mName": "Cooldown",
+        "mValue": 90,
+        "normalizedMs": 90000
+      }
+    }
+  ],
+  "counts": {
+    "determinedParameters": 5,
+    "formulas": 0,
+    "effects": 0,
+    "triggerRules": 0,
+    "relations": 0,
+    "representativeImages": 0
+  },
+  "arithmeticChecks": [
+    {
+      "sample": "基础攻击力100时抓人双爪数值算例",
+      "calculation": "100 × 0.5",
+      "expected": 50,
+      "unit": "额外攻击力；只核参数算术，不代表效果已写入或已初始化"
+    },
+    {
+      "sample": "额外生命值500时救主灵刃护盾数值算例",
+      "calculation": "500 × 0.6",
+      "expected": 300,
+      "unit": "护盾值；基数按hp BONUS候选，施加快照和衰减过程待核"
+    },
+    {
+      "sample": "生命值阈值边界",
+      "calculation": "29.9% < 30.0%",
+      "expected": "29.9%满足“以下”候选，30.0%不以等于替代以下",
+      "unit": "小数比例；最终前置事件待核"
+    },
+    {
+      "sample": "护盾持续时间换算",
+      "calculation": "4.5 × 1000",
+      "expected": 4500,
+      "unit": "毫秒；不推导首跳或周期"
+    },
+    {
+      "sample": "冷却时间换算",
+      "calculation": "90 × 1000",
+      "expected": 90000,
+      "unit": "毫秒；启动和重置时点待核"
+    }
+  ],
+  "pendingVerification": [
+    "救主灵刃必须识别“受到将使生命值跌到30%以下的伤害”这一前置事件；不能用普通DAMAGE_TAKEN或扣血后事件代替。",
+    "冷却90秒的初始可用、触发后开始、重置、重复授盾和冷却期间行为未由当前绑定说明完整确认。",
+    "护盾数值按当前计算树候选使用SOURCE hp BONUS × 0.6；效果施加时是否快照、生命值变化是否动态影响，须独立复核。",
+    "中文说明确认“不断衰减”，根中TimeBeforeDecay=0.75秒；衰减曲线、首段等待和到期处理未确认，不生成周期跳频或首跳。",
+    "抓人双爪的基础攻击力读取时点及与持有者等级变化的动态更新未形成效果候选。"
+  ],
+  "sourceOnlyOrExcluded": [
+    {
+      "key": "TimeBeforeDecay",
+      "value": 0.75,
+      "unit": "秒",
+      "reason": "当前根原始值；没有绑定首段行为证据，不转成周期或首跳参数。"
+    },
+    {
+      "key": "HealthPercent",
+      "value": 0.10000000149011612,
+      "unit": "小数比例",
+      "reason": "当前计算树存在但未绑定到当前说明的@ShieldSize@，不替代BaseShieldRatio。"
+    },
+    {
+      "key": "HealPercent",
+      "value": 0.019999999552965164,
+      "unit": "小数比例",
+      "reason": "当前根附带治疗计算，当前绑定说明没有治疗效果，不生成治疗候选。"
+    },
+    {
+      "key": "RangedEffectiveness",
+      "value": 0.6000000238418579,
+      "unit": "小数比例",
+      "reason": "远程分支来源值；本普通地图候选不展开没有独立目标分支证据的效果。"
+    },
+    {
+      "key": "ReductionAmount",
+      "value": 0.5,
+      "unit": "小数比例",
+      "reason": "当前根原始值，当前绑定说明未给出减伤效果。"
+    },
+    {
+      "key": "HealDuration",
+      "value": 5,
+      "unit": "秒",
+      "reason": "当前根原始值，未绑定当前说明的救主灵刃护盾生命周期。"
+    },
+    {
+      "key": "TenacityDuration",
+      "value": 8,
+      "unit": "秒",
+      "reason": "当前根附带增益值，当前说明只有固定20%韧性，未生成临时韧性效果。"
+    },
+    {
+      "key": "SizeIncrease",
+      "value": 0.10000000149011612,
+      "unit": "小数比例",
+      "reason": "当前根附带体型值，当前说明未给出体型效果。"
+    },
+    {
+      "key": "TenacityAmount",
+      "value": null,
+      "unit": null,
+      "reason": "当前根没有mValue，不补数值。"
+    },
+    {
+      "key": "DataValuesModeOverride",
+      "value": {
+        "ARAM": {
+          "DataValues": [
+            {
+              "mName": "ADtoAD",
+              "mValue": 0.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BaseShieldRatio",
+              "mValue": 0.699999988079071,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 75,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "__type": "ItemDataValues"
+        },
+        "{bffdf499}": {
+          "DataValues": [
+            {
+              "mName": "ADtoAD",
+              "mValue": 0.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BaseShieldRatio",
+              "mValue": 0.699999988079071,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "__type": "ItemDataValues"
+        }
+      },
+      "unit": null,
+      "reason": "ARAM和哈希模式覆盖值不混入普通地图候选。"
+    },
+    {
+      "key": "mEffectByLevelAmount",
+      "value": [
+        400,
+        400,
+        400,
+        400,
+        400,
+        400,
+        440,
+        500,
+        580,
+        700,
+        825,
+        950,
+        1100,
+        1250,
+        1400,
+        1550,
+        1700,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800,
+        1800
+      ],
+      "unit": null,
+      "reason": "根存在继承数组但没有当前绑定等级占位，暂不展开等级插值。"
+    }
+  ],
+  "relationBoundary": "关系快照确认真实装备键item_3053、装备/属性/关系GET为200且当前关联为空；预期item_3053_passive探针404只作探针，不判定系统不能表达。"
+}
