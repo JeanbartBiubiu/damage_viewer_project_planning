@@ -13,6 +13,13 @@ const skills = read('API实录/技能/summary.json');
 const skillPlan = read('英雄技能全量页面输入/skills-basic-plan.json').skills;
 const equipment = read('API实录/装备/summary.json');
 const pureEquipment = read('实录记录.json');
+const runeEquipmentEvidence='API实录/符文生成装备第一批/独立最终回读.json';
+const runeEquipment=read(runeEquipmentEvidence);
+assert.equal(runeEquipment.passed,true);
+assert.deepEqual(runeEquipment.counts,{subjects:4,attributeValues:1,representativeImageReuses:4,actualWrites:0,completeSubjects:4});
+assert.equal(read('API实录/符文生成装备第一批/页面验收.json').passed,true);
+const nonShopEquipmentScope=read('API实录/符文生成装备第一批/非普通条目范围核对.json');
+assert.deepEqual(nonShopEquipmentScope.counts,{reviewed:17,included:4,excluded:12,acquisitionPending:1});
 const equipmentTenthFirstEvidence = '装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json';
 const equipmentTenthFirst = read(equipmentTenthFirstEvidence);
 assert.equal(equipmentTenthFirst.stopped, false);
@@ -542,16 +549,19 @@ const summary = {
     evidence: 'API实录/英雄全量核对/汇总.json', status: '主体及明确基础属性完成，完整角色仍为部分录入' },
   skills: { metadata: 855, characterRelations: 855, createdByApiThisStage: 835, previouslyAuthored: 20,
     evidence: 'API实录/技能/README.md', status: '基本资料和关联完成，完整技能数值及机制待逐项补录' },
-  equipment: { count: 194, ordinaryBaseline:181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
-    specialForms:{count:13, directAttributeValues:33, keys:[...equipmentUpgrade.final.objects,...equipmentUpgradeSecond.final.objects].map(x=>x.equipmentKey), evidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence]},
+  equipment: { count: 198, ordinaryBaseline:181, pureAttribute: 47, withEffects: 134, effectEquipmentDirectValues: 353,
+    specialForms:{count:13, directAttributeValues:33, keys:[...equipmentUpgrade.final.objects,...equipmentUpgradeSecond.final.objects].map(x=>x.equipmentKey), currentAcquisitionPending:['item_3176'], evidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence]},
+    runeGeneratedForms:{count:4,directAttributeValues:1,keys:runeEquipment.final.objects.map(x=>x.equipmentKey),evidence:runeEquipmentEvidence,mechanismStatus:'主体与图片完成，消耗效果和符文生成关系待录'},
+    nonShopScope:{...nonShopEquipmentScope.counts,pendingKeys:['item_3013'],evidence:'API实录/符文生成装备第一批/非普通条目范围核对.json'},
     additionalDirectAttributes:2, additionalDirectAttributeEvidence:[equipmentThirdEvidence,equipmentEleventhEvidence],
-    evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence], status: '181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理' },
-  images: { objectUses: 1220, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 194,
+    evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence,runeEquipmentEvidence], status: '181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理' },
+  images: { objectUses: 1224, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 198,
     additionalSpecialFormReuses:13, additionalSpecialFormEvidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence],
+    additionalRuneGeneratedFormUses:4,additionalRuneGeneratedFormEvidence:runeEquipmentEvidence,
     additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length + equipmentTenthFirst.summary.objectCount,
     additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence,equipmentTenthFirstEvidence],
-    status: '原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能代表图按各已验收批次单列，不宣称全部对象已整体重验',
-    browserCacheRecords: 3202, browserReadFailures: 0,
+    status: '原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验',
+    browserCacheRecords: 3205, browserReadFailures: 0, browserCacheEvidence:'API实录/符文生成装备第一批/页面验收.json',
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },
   runes: { status: '资料已准备，缺少独立管理入口，尚未录入', evidence: '装备符文/符文待录清单.json' },
   deferred: ['斗魂竞技场海克斯', '海克斯大乱斗海克斯', '既定召唤与变形等机制排除项'],

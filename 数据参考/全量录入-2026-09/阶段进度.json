@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T15:46:23.772Z",
+  "generatedAt": "2026-09-08T16:26:40.172Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -21,7 +21,7 @@
     "status": "基本资料和关联完成，完整技能数值及机制待逐项补录"
   },
   "equipment": {
-    "count": 194,
+    "count": 198,
     "ordinaryBaseline": 181,
     "pureAttribute": 47,
     "withEffects": 134,
@@ -44,10 +44,35 @@
         "item_3175",
         "item_3176"
       ],
+      "currentAcquisitionPending": [
+        "item_3176"
+      ],
       "evidence": [
         "API实录/装备升级形态第一批/独立最终回读.json",
         "API实录/装备升级形态第二批/独立最终回读.json"
       ]
+    },
+    "runeGeneratedForms": {
+      "count": 4,
+      "directAttributeValues": 1,
+      "keys": [
+        "item_2010",
+        "item_2150",
+        "item_2152",
+        "item_2422"
+      ],
+      "evidence": "API实录/符文生成装备第一批/独立最终回读.json",
+      "mechanismStatus": "主体与图片完成，消耗效果和符文生成关系待录"
+    },
+    "nonShopScope": {
+      "reviewed": 17,
+      "included": 4,
+      "excluded": 12,
+      "acquisitionPending": 1,
+      "pendingKeys": [
+        "item_3013"
+      ],
+      "evidence": "API实录/符文生成装备第一批/非普通条目范围核对.json"
     },
     "additionalDirectAttributes": 2,
     "additionalDirectAttributeEvidence": [
@@ -58,21 +83,24 @@
       "实录记录.json",
       "API实录/装备/summary.json",
       "API实录/装备升级形态第一批/独立最终回读.json",
-      "API实录/装备升级形态第二批/独立最终回读.json"
+      "API实录/装备升级形态第二批/独立最终回读.json",
+      "API实录/符文生成装备第一批/独立最终回读.json"
     ],
-    "status": "181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理"
+    "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1220,
+    "objectUses": 1224,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
-    "equipment": 194,
+    "equipment": 198,
     "additionalSpecialFormReuses": 13,
     "additionalSpecialFormEvidence": [
       "API实录/装备升级形态第一批/独立最终回读.json",
       "API实录/装备升级形态第二批/独立最终回读.json"
     ],
+    "additionalRuneGeneratedFormUses": 4,
+    "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
     "additionalEquipmentSkillRepresentativeReuses": 57,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
@@ -87,9 +115,10 @@
       "装备技能实录/第十二批常规效果/独立全量回读.json",
       "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json"
     ],
-    "status": "原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能代表图按各已验收批次单列，不宣称全部对象已整体重验",
-    "browserCacheRecords": 3202,
+    "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
+    "browserCacheRecords": 3205,
     "browserReadFailures": 0,
+    "browserCacheEvidence": "API实录/符文生成装备第一批/页面验收.json",
     "evidence": [
       "API实录/图片/full-relation-verification.json",
       "API实录/装备图片/代表图关系最终核对.json",

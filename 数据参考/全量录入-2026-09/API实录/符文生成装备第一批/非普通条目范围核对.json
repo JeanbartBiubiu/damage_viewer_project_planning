@@ -1,0 +1,251 @@
+{
+  "checkedAt": "2026-09-08T16:10:12.673Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "source": {
+    "relativePath": "装备符文/装备全量处置清单.json",
+    "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6"
+  },
+  "evidenceBoundary": "独立代理与主负责人核对冻结根对象、当前绑定说明、官方移除公告和实际主体GET；未执行战斗或全面枚举客户端以外生成路径。公告用于移除史，不替换冻结版本数值。",
+  "rows": [
+    {
+      "itemId": "2010",
+      "equipmentKey": "item_2010",
+      "name": "永续意志夹心饼干",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/86",
+      "disposition": "本轮保留",
+      "reason": "消耗自疗和永久最大生命影响1V1；消费或出售后的生命收益均保留，出售金币排除。治疗倍率客户端0.015与符文说明0.02冲突，缺失生命增幅函数未定，不能编造完整治疗公式。",
+      "currentSubject": {
+        "status": 200,
+        "equipmentKey": "item_2010",
+        "name": "永续意志夹心饼干"
+      }
+    },
+    {
+      "itemId": "2150",
+      "equipmentKey": "item_2150",
+      "name": "技能合剂",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/111",
+      "disposition": "本轮保留",
+      "reason": "额外技能点会改变技能等级与伤害；保留明确分配约束，不提升英雄等级，不绕过技能最高等级。",
+      "currentSubject": {
+        "status": 200,
+        "equipmentKey": "item_2150",
+        "name": "技能合剂"
+      }
+    },
+    {
+      "itemId": "2151",
+      "equipmentKey": "item_2151",
+      "name": "贪财合剂",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/112",
+      "disposition": "1V1范围外跳过",
+      "reason": "贪财合剂只提供对小兵额外伤害及金币，均属于本轮明确排除部分。",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "2152",
+      "equipmentKey": "item_2152",
+      "name": "原力合剂",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/113",
+      "disposition": "本轮保留",
+      "reason": "25适应之力持续60000毫秒影响1V1；后续配置属性选择及换算，不同时添加攻击力和法术强度。",
+      "currentSubject": {
+        "status": 200,
+        "equipmentKey": "item_2152",
+        "name": "原力合剂"
+      }
+    },
+    {
+      "itemId": "2403",
+      "equipmentKey": "item_2403",
+      "name": "小兵去质器",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/117",
+      "disposition": "1V1范围外跳过",
+      "reason": "小兵去质器只处理小兵；官方14.10同时说明符文移除。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/patch-14-10-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "2422",
+      "equipmentKey": "item_2422",
+      "name": "有点神奇之鞋",
+      "originalCategory": "符文生成物",
+      "sourcePointer": "/items/120",
+      "disposition": "本轮保留",
+      "reason": "直接移动速度25，另有10额外移动速度且升级后保留；生成时间可作为预设来源，经济部分跳过。",
+      "currentSubject": {
+        "status": 200,
+        "equipmentKey": "item_2422",
+        "name": "有点神奇之鞋"
+      }
+    },
+    {
+      "itemId": "3002",
+      "equipmentKey": "item_3002",
+      "name": "引路者",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/137",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方26.9说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-9-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "3010",
+      "equipmentKey": "item_3010",
+      "name": "共生鞋鱼",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/144",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方26.1说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "3011",
+      "equipmentKey": "item_3011",
+      "name": "炼金科技纯化器",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/145",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.1说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "3013",
+      "equipmentKey": "item_3013",
+      "name": "灵犀众魂",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/147",
+      "disposition": "取得途径待核",
+      "reason": "固定资料只定位到3010共生鞋底的旧变换链；26.1移除上游，尚无当前普通地图替代取得途径的肯定证据。不能从根对象存在或maps.11=true直接判定在范围内，也不据此断言绝对不可获得。",
+      "officialPatch": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "3117",
+      "equipmentKey": "item_3117",
+      "name": "疾行之靴",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/204",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.10说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/patch-14-10-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "4635",
+      "equipmentKey": "item_4635",
+      "name": "榨血睥睨",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/313",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.1说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "4636",
+      "equipmentKey": "item_4636",
+      "name": "暗夜收割者",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/314",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方2024说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/2024-gameplay-preview/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "4637",
+      "equipmentKey": "item_4637",
+      "name": "恶魔之拥",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/315",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.1说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "6693",
+      "equipmentKey": "item_6693",
+      "name": "暗行者之爪",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/355",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.1说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-1-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "6701",
+      "equipmentKey": "item_6701",
+      "name": "禁忌时机",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/363",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方26.9说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-9-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    },
+    {
+      "itemId": "8001",
+      "equipmentKey": "item_8001",
+      "name": "厌恨锁链",
+      "originalCategory": "非普通商店条目",
+      "sourcePointer": "/items/366",
+      "disposition": "历史移除条目跳过",
+      "reason": "官方14.10说明明确移除；冻结客户端仍有根对象不能单独证明当前普通地图取得途径。",
+      "officialPatch": "https://www.leagueoflegends.com/en-au/news/game-updates/patch-14-10-notes/",
+      "currentSubject": {
+        "status": 404
+      }
+    }
+  ],
+  "counts": {
+    "reviewed": 17,
+    "included": 4,
+    "excluded": 12,
+    "acquisitionPending": 1
+  },
+  "previouslySavedSpecialForm": {
+    "equipmentKey": "item_3176",
+    "name": "永远前进",
+    "disposition": "旧链保留，当前标准范围未确认",
+    "reason": "冻结资料来源3013，其上游3010已移除；现有13件特殊形态主体计数仍是真实落库数量，不代表13件当前可取得。保留现有主体、55直接移速和图片，不自动删除，不将取得途径待核计为完成。"
+  },
+  "passed": true
+}
