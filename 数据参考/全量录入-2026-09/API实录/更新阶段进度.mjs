@@ -139,6 +139,28 @@ assert.equal(heroFourth.listCount, 120);
 assert.equal(heroFourth.arithmeticCount, 100);
 assert.equal(heroFourth.invariantCount, 20);
 assert.equal(readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroFourthRelative), '页面验收.json')).passed, true);
+const heroFifthRelative = '数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/最终独立回读证据.json';
+const heroFifthEvidence = readAbsolute(path.join(luxEvidenceWorktree, heroFifthRelative));
+const heroFifthPlan = readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroFifthRelative), '完整候选.json'));
+assert.equal(heroFifthEvidence.success, true);
+assert.equal(heroFifthEvidence.snapshot.subjects.length, 20);
+assert.equal(heroFifthEvidence.snapshot.lists.length, 120);
+assert.equal(heroFifthEvidence.snapshot.readbacks.length, 256);
+assert.deepEqual(heroFifthEvidence.snapshot.missing, []);
+assert.deepEqual(heroFifthEvidence.snapshot.conflicts, []);
+assert.deepEqual(heroFifthEvidence.verification.failures, []);
+assert.equal(heroFifthEvidence.verification.arithmetic.length, 93);
+assert.equal(heroFifthEvidence.verification.invariants.length, 61);
+assert.deepEqual(heroFifthEvidence.snapshot.totals, {parameters:163, formulas:32, effects:45, processes:12, internalStates:0, triggerRules:4});
+assert.equal(readAbsolute(path.join(luxEvidenceWorktree, path.dirname(heroFifthRelative), '页面验收.json')).passed, true);
+const heroFifth = {
+  totals:heroFifthEvidence.snapshot.totals,
+  skills:Object.fromEntries(Object.entries(heroFifthEvidence.snapshot.skills).map(([key, proof]) => [key, {
+    counts:Object.fromEntries(Object.keys(heroFifthEvidence.snapshot.totals).map(type => [type, proof[type].length])),
+    pending:heroFifthPlan.skills[key].pending,
+    excluded:heroFifthPlan.skills[key].excluded,
+  }])),
+};
 const luxReadbackSummary = readAbsolute(path.join(luxEvidenceWorktree, luxReadbackSummaryRelative));
 assert.equal(heroes.coverage.checked, 171);
 assert.equal(heroes.totals.missingValues, 0);
@@ -270,7 +292,7 @@ for (const skillKey of ['nasus_p', 'nasus_q', 'nasus_w', 'nasus_e', 'nasus_r']) 
     entry.note = '当前1～18级范围：生命偷取等级参数、无限期自身属性效果、来源初始化规则均已保存并独立回读，规则由真实页面新增及关闭重开核对。配置录入已验收，战斗未执行。';
   }
 }
-for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative],[heroFourth,heroFourthRelative]]) {
+for (const [batch,batchRelative] of [[heroSecond,heroSecondRelative],[heroThird,heroThirdRelative],[heroFourth,heroFourthRelative],[heroFifth,heroFifthRelative]]) {
 for (const [skillKey, proof] of Object.entries(batch.skills)) {
   const entry = entries.find(candidate => candidate.objectType === '技能' && candidate.systemObjectKey === skillKey);
   assert.ok(entry, skillKey);
@@ -299,6 +321,13 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  heroFifthBatch: {
+    skills:Object.keys(heroFifth.skills), ...heroFifth.totals,
+    created:228, reused:28, arithmeticCases:93, invariantChecks:61,
+    status:'部分录入；256组成独立GET及代表页面通过，瑟提四个无行为过程未保存，其余按待配清单返回补录',
+    executor:'Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收',
+    runtimeValidation:'未执行', evidence:{worktree:luxEvidenceWorktree,relativePath:heroFifthRelative},
+  },
   equipmentEighthBatch: {
     skills:equipmentEighth.objects.map(record=>record.skillKey), parameters:41, formulas:6, effects:7, triggerRules:1,
     equipmentRelations:6, representativeImageReuses:6, modifierZonesAdded:2,

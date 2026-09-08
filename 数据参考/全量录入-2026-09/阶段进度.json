@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T14:40:02.593Z",
+  "generatedAt": "2026-09-08T15:05:35.682Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -72,6 +72,47 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "heroFifthBatch": {
+      "skills": [
+        "sett_p",
+        "sett_q",
+        "sett_w",
+        "sett_e",
+        "sett_r",
+        "trundle_p",
+        "trundle_q",
+        "trundle_w",
+        "trundle_e",
+        "trundle_r",
+        "warwick_p",
+        "warwick_q",
+        "warwick_w",
+        "warwick_e",
+        "warwick_r",
+        "xinzhao_p",
+        "xinzhao_q",
+        "xinzhao_w",
+        "xinzhao_e",
+        "xinzhao_r"
+      ],
+      "parameters": 163,
+      "formulas": 32,
+      "effects": 45,
+      "processes": 12,
+      "internalStates": 0,
+      "triggerRules": 4,
+      "created": 228,
+      "reused": 28,
+      "arithmeticCases": 93,
+      "invariantChecks": 61,
+      "status": "部分录入；256组成独立GET及代表页面通过，瑟提四个无行为过程未保存，其余按待配清单返回补录",
+      "executor": "Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:\\project\\damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/最终独立回读证据.json"
+      }
+    },
     "equipmentEighthBatch": {
       "skills": [
         "item_3032_passive",
