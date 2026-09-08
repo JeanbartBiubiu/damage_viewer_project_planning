@@ -306,7 +306,7 @@ export function SkillParameterEditorModal({
             >
               <Radio value="FIXED">固定值</Radio>
               <Radio value="SKILL_LEVEL">按技能等级</Radio>
-              <Radio value="CHARACTER_LEVEL" disabled={!characterLevelRange}>
+              <Radio value="CHARACTER_LEVEL" disabled={readOnly || saving || !characterLevelRange}>
                 按角色等级
               </Radio>
               <Radio value="RUNTIME_INPUT">计算时传入</Radio>
