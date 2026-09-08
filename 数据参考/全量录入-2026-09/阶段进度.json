@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T19:15:43.658Z",
+  "generatedAt": "2026-09-08T00:53:18.347Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -67,6 +67,45 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "heroFourthBatch": {
+      "skills": [
+        "ahri_p",
+        "ahri_q",
+        "ahri_w",
+        "ahri_e",
+        "ahri_r",
+        "darius_p",
+        "darius_q",
+        "darius_w",
+        "darius_e",
+        "darius_r",
+        "diana_p",
+        "diana_q",
+        "diana_w",
+        "diana_e",
+        "diana_r",
+        "veigar_p",
+        "veigar_q",
+        "veigar_w",
+        "veigar_e",
+        "veigar_r"
+      ],
+      "parameters": 138,
+      "formulas": 26,
+      "effects": 44,
+      "processes": 11,
+      "internalStates": 0,
+      "triggerRules": 11,
+      "status": "部分录入；黛安娜攻速已纠正并页面核对，维迦E两项未保存草稿保留待修",
+      "executor": "Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收",
+      "arithmeticCases": 100,
+      "invariantChecks": 20,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:\\project\\damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终回读摘要.json"
+      }
+    },
     "equipmentSeventhBatch": {
       "skills": [
         "item_3003_passive",
