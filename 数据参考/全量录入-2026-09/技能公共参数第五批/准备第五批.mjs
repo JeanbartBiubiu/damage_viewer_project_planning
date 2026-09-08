@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import assert from 'node:assert/strict';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const previous = path.resolve(here, '../技能公共参数第四批');
+const selected = ['Anivia','Aurora','Gangplank','JarvanIV','Katarina','Kindred','Lulu','Maokai','Milio','Nunu','Ornn','Pyke','Renata','Riven','Sett','Shen','Singed','Smolder','Sona','Soraka','Swain','TahmKench','Taliyah','Talon'];
+for (const name of ['生成公共参数候选.mjs','录入公共参数.mjs']) assert.equal(fs.existsSync(path.join(here, name)), false, '已准备，不覆盖后续审查：' + name);
+let generator = fs.readFileSync(path.join(previous, '生成公共参数候选.mjs'), 'utf8');
+generator = generator.replace(/const selected = \[[^\n]+\];/, 'const selected = ' + JSON.stringify(selected) + ';');
+generator = generator.replace(/const skipped = \{[\s\S]*?\n\};/, 'const skipped = {};');
+generator = generator.replace(/const reviewedOrdinaryCooldowns = new Set\([^\n]+\);/, 'const reviewedOrdinaryCooldowns = new Set([]);');
+generator = generator.replace(/const reviewedMixedZeroCosts = new Set\([^\n]+\);/, 'const reviewedMixedZeroCosts = new Set([]);');
+generator = generator.replace(/const scopeNotes = \{[\s\S]*?\n\};/, 'const scopeNotes = {};');
+generator = generator.replace(/    if \(skillKey === 'belveth_q'\)[^\n]+\n    else if \(complexCooldown\)/, '    if (complexCooldown)');
+assert.ok(!generator.includes('belveth_q'));
+fs.writeFileSync(path.join(here, '生成公共参数候选.mjs'), generator);
+fs.copyFileSync(path.join(previous, '录入公共参数.mjs'), path.join(here, '录入公共参数.mjs'));
+console.log(JSON.stringify({ selected, status: '仅准备，未调用业务接口' }));

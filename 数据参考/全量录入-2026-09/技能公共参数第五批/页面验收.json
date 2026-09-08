@@ -1,0 +1,11 @@
+{
+  "observedOn": "2026-09-08",
+  "passed": true,
+  "page": "http://127.0.0.1:5173/#/skills",
+  "observations": [
+    {"skillKey":"taliyah_w","imageVisible":true,"manaCost":[40,30,20,10,0],"cooldownMs":[14000,12500,11000,9500,8000],"method":"查询技能，打开参数与公式，核对五级完整回显"},
+    {"skillKey":"nunu_q","imageVisible":true,"manaCost":60,"cooldownMs":[13000,12000,11000,10000,9000],"method":"关闭上一技能窗口，重新查询并打开参数，固定法力与逐级冷却均显示正确"}
+  ],
+  "independentReadbackEvidence": "独立核对.json",
+  "boundary": "真实页面代表查看及152参数独立GET，不代表完整技能或战斗运行验收"
+}
