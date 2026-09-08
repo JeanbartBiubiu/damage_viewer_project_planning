@@ -1,0 +1,107 @@
+{
+  "batch": "Luna第十批",
+  "generatedAt": "2026-09-08T15:07:12.699Z",
+  "status": "独立算术核对；不等同运行时或数据库证据。",
+  "objects": [
+    {
+      "equipmentKey": "duolanjie",
+      "equipmentName": "多兰之戒",
+      "directAttributes": {
+        "hp": 90,
+        "ability_power": 18
+      },
+      "arithmetic": [
+        {
+          "sample": "基础回蓝速率",
+          "calculation": "1",
+          "expected": 1,
+          "unit": "法力/秒；不能当成单次跳频量"
+        },
+        {
+          "sample": "强化回蓝速率",
+          "calculation": "2",
+          "expected": 2,
+          "unit": "法力/秒；强化持续5000毫秒但不推导跳数"
+        },
+        {
+          "sample": "无法回蓝时基础治疗速率",
+          "calculation": "1 × 0.45",
+          "expected": 0.45,
+          "unit": "生命/秒；45%小数比例"
+        },
+        {
+          "sample": "无法回蓝时强化治疗速率",
+          "calculation": "2 × 0.45",
+          "expected": 0.9,
+          "unit": "生命/秒；45%小数比例"
+        }
+      ],
+      "sourceValues": {
+        "BonusDamage": 5,
+        "ManaRestorePerSecond": 1,
+        "ManaToHealthConversion": 0.44999998807907104,
+        "HealthRestorePerSecond": 0.550000011920929,
+        "ManaRestorePerSecondUpgraded": 2,
+        "UpgradeDuration": 5
+      },
+      "sourceBindings": {
+        "fallbackRatio": 0.45,
+        "upgradeDurationMs": 5000
+      }
+    },
+    {
+      "equipmentKey": "item_1082",
+      "equipmentName": "黑暗封印",
+      "directAttributes": {
+        "hp": 50,
+        "ability_power": 15
+      },
+      "arithmetic": [
+        {
+          "sample": "满层法术强度",
+          "calculation": "10 × 4",
+          "expected": 40,
+          "unit": "法术强度"
+        },
+        {
+          "sample": "一次击杀后层数",
+          "calculation": "已有层数 + 2，且不超过10",
+          "expected": "min(10, 已有层数+2)",
+          "unit": "层"
+        },
+        {
+          "sample": "阵亡损失",
+          "calculation": "已有层数 - 5，实际下限待事件契约确认",
+          "expected": "按层数状态规则处理",
+          "unit": "层"
+        }
+      ],
+      "sourceValues": {
+        "MaxGloryStacks": 10,
+        "APPerGlory": 4,
+        "GloryOnKill": 2,
+        "GloryOnAssist": 1,
+        "GloryLossOnDeath": 5
+      },
+      "sourceBindings": {
+        "maxGloryStacks": 10,
+        "abilityPowerPerGlory": 4,
+        "gloryOnKill": 2,
+        "gloryOnAssist": 1,
+        "gloryLossOnDeath": 5
+      }
+    }
+  ],
+  "checks": [
+    {
+      "expression": "1056: 1 × 0.45",
+      "expected": 0.45,
+      "meaning": "无法回蓝时基础自我治疗每秒量"
+    },
+    {
+      "expression": "1082: 10 × 4",
+      "expected": 40,
+      "meaning": "满10层荣耀提供的额外法术强度"
+    }
+  ]
+}

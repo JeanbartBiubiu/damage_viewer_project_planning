@@ -13,6 +13,11 @@ const skills = read('API实录/技能/summary.json');
 const skillPlan = read('英雄技能全量页面输入/skills-basic-plan.json').skills;
 const equipment = read('API实录/装备/summary.json');
 const pureEquipment = read('实录记录.json');
+const equipmentTenthFirstEvidence = '装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json';
+const equipmentTenthFirst = read(equipmentTenthFirstEvidence);
+assert.equal(equipmentTenthFirst.stopped, false);
+assert.deepEqual(equipmentTenthFirst.summary, {objectCount:2,componentCount:21,failedObjectCount:0,createdCount:0,sameCount:21,missingCount:0,verifiedWriteCount:0,mismatchCount:0,stateValues:{same:21,created:0,missing:0},kindCounts:{skill:2,parameter:9,formula:5,effect:1,'trigger-rule':0,relation:2,'representative-image':2}});
+assert.equal(read('装备技能实录/Luna第十批/页面验收.json').passed, true);
 const equipmentTwelfthEvidence = '装备技能实录/第十二批常规效果/独立全量回读.json';
 const equipmentTwelfth = read(equipmentTwelfthEvidence);
 assert.equal(equipmentTwelfth.success, true);
@@ -342,6 +347,11 @@ const equipmentMechanismCounts = {
   representativeImageReuses: equipmentMechanism.records.filter(record => record.skillImage?.image?.enabled && record.skillImage.image.imageKey === record.itemKey).length,
 };
 const mechanismBatches = {
+  equipmentTenthFirstGroup:{
+    skills:['duolanjie_passive','item_1082_passive'],parameters:9,formulas:5,effects:1,triggerRules:0,equipmentRelations:2,representativeImageReuses:2,
+    status:'部分录入；21组成独立GET及代表页面通过，多兰戒仅保存恢复速率，荣耀事件和共享层数继续待配',
+    runtimeValidation:'未执行',evidence:equipmentTenthFirstEvidence,
+  },
   equipmentTwelfthBatch:{
     skills:['item_3033_passive','item_3165_passive','item_6609_passive','item_2420_active','item_3139_active','item_3044_passive'],
     parameters:14,formulas:1,effects:4,processes:0,internalStates:0,triggerRules:0,equipmentRelations:6,representativeImageReuses:6,
@@ -538,8 +548,8 @@ const summary = {
     evidence: ['实录记录.json', 'API实录/装备/summary.json', equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence], status: '181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理' },
   images: { objectUses: 1220, baselineObjectUses:1207, heroes: 171, skills: 855, equipment: 194,
     additionalSpecialFormReuses:13, additionalSpecialFormEvidence:[equipmentUpgradeEvidence,equipmentUpgradeSecondEvidence],
-    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length,
-    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence],
+    additionalEquipmentSkillRepresentativeReuses: equipmentMechanismCounts.representativeImageReuses + equipmentSecond.counts.representativeImageReuses + equipmentThird.counts.representativeImageReuses + equipmentFourth.summary.skillCount + equipmentFifth.objects.length + equipmentSixth.objects.length + equipmentSeventh.objects.length + equipmentEighth.objects.length + equipmentNinth.objects.length + equipmentTwelfth.snapshot.objects.length + equipmentTenthFirst.summary.objectCount,
+    additionalEquipmentSkillEvidence: ['装备技能实录/Luna第一批/主负责人复核.json', equipmentSecondEvidence, equipmentThirdEvidence, equipmentFourthEvidence, equipmentFifthEvidence, equipmentSixthEvidence, equipmentSeventhEvidence, equipmentEighthEvidence, equipmentNinthEvidence,equipmentTwelfthEvidence,equipmentTenthFirstEvidence],
     status: '原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能代表图按各已验收批次单列，不宣称全部对象已整体重验',
     browserCacheRecords: 3202, browserReadFailures: 0,
     evidence: ['API实录/图片/full-relation-verification.json', 'API实录/装备图片/代表图关系最终核对.json', 'API实录/页面验收-2026-09-07.md'] },

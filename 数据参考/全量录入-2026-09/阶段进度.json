@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T15:36:01.398Z",
+  "generatedAt": "2026-09-08T15:46:23.772Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -73,7 +73,7 @@
       "API实录/装备升级形态第一批/独立最终回读.json",
       "API实录/装备升级形态第二批/独立最终回读.json"
     ],
-    "additionalEquipmentSkillRepresentativeReuses": 55,
+    "additionalEquipmentSkillRepresentativeReuses": 57,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -84,7 +84,8 @@
       "装备技能实录/Luna第七批/独立最终回读.json",
       "装备技能实录/Luna第八批/逐字段回读证据.json",
       "装备技能实录/Luna第九批/独立最终回读.json",
-      "装备技能实录/第十二批常规效果/独立全量回读.json"
+      "装备技能实录/第十二批常规效果/独立全量回读.json",
+      "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能代表图按各已验收批次单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
@@ -105,6 +106,21 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentTenthFirstGroup": {
+      "skills": [
+        "duolanjie_passive",
+        "item_1082_passive"
+      ],
+      "parameters": 9,
+      "formulas": 5,
+      "effects": 1,
+      "triggerRules": 0,
+      "equipmentRelations": 2,
+      "representativeImageReuses": 2,
+      "status": "部分录入；21组成独立GET及代表页面通过，多兰戒仅保存恢复速率，荣耀事件和共享层数继续待配",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json"
+    },
     "equipmentTwelfthBatch": {
       "skills": [
         "item_3033_passive",

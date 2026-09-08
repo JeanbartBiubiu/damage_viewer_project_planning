@@ -1,0 +1,443 @@
+{
+  "at": "2026-09-08T15:44:27.439Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "method": "主负责人真实页面查看，未修改；页面后独立22项GET及对实际保存表达式的8项算术核对。",
+  "samples": [
+    {
+      "skillKey": "item_1082_passive",
+      "observation": "生命周期按来源、显式移除、叠层增加；结果为施法者持续属性，每层分别贡献法强。击杀助攻阵亡及共享层数未接线。"
+    },
+    {
+      "skillKey": "duolanjie_passive",
+      "observation": "参数列表1、2、5000、0.45；四公式按每秒速率命名，强化无蓝公式详情为强化每秒回蓝乘治疗比例，预览正确。"
+    }
+  ],
+  "imageObservation": "两个技能列表均有正确的代表图片元素和名称。",
+  "checks": [
+    {
+      "route": "/skills/duolanjie_passive/parameters/mana_restore_per_second",
+      "body": {
+        "createdAt": "2026-09-08T15:21:10.494622Z",
+        "description": "当前绑定DataValue ManaRestorePerSecond=1；这是每秒速率，不换算成单次跳频量。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "汲取基础每秒回蓝",
+        "parameterKey": "mana_restore_per_second",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:21:10.494622Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/parameters/mana_restore_per_second_upgraded",
+      "body": {
+        "createdAt": "2026-09-08T15:21:11.070048Z",
+        "description": "当前绑定DataValue ManaRestorePerSecondUpgraded=2；敌方英雄受伤后的5秒强化段。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "汲取强化每秒回蓝",
+        "parameterKey": "mana_restore_per_second_upgraded",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:21:11.070048Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/parameters/upgrade_duration_ms",
+      "body": {
+        "createdAt": "2026-09-08T15:21:11.646894Z",
+        "description": "当前绑定DataValue UpgradeDuration=5秒，换算为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "汲取强化持续时间",
+        "parameterKey": "upgrade_duration_ms",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T15:21:11.646894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/parameters/mana_to_health_ratio",
+      "body": {
+        "createdAt": "2026-09-08T15:21:12.222559Z",
+        "description": "当前绑定DataValue ManaToHealthConversion=0.45，即45%小数比例，不是45个百分点。",
+        "fixedValue": 0.45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "无法回蓝时的治疗比例",
+        "parameterKey": "mana_to_health_ratio",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T15:21:12.222559Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/formulas/mana_restore_rate_base",
+      "body": {
+        "createdAt": "2026-09-08T15:21:12.759711Z",
+        "description": "当前绑定每秒1点法力的速率；周期跳频和首跳时点未由冻结源确认。",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "mana_restore_per_second"
+        },
+        "formulaKey": "mana_restore_rate_base",
+        "gameId": "lol",
+        "name": "汲取基础法力每秒速率",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:21:12.759711Z"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/formulas/mana_restore_rate_upgraded",
+      "body": {
+        "createdAt": "2026-09-08T15:21:13.304783Z",
+        "description": "当前绑定每秒2点法力的速率；强化持续时间为5000毫秒。",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "mana_restore_per_second_upgraded"
+        },
+        "formulaKey": "mana_restore_rate_upgraded",
+        "gameId": "lol",
+        "name": "汲取强化法力每秒速率",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:21:13.304783Z"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/formulas/fallback_health_rate_base",
+      "body": {
+        "createdAt": "2026-09-08T15:21:13.923717Z",
+        "description": "基础法力不可获得时按1乘45%得到0.45生命/秒；分支和跳频未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_per_second"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_to_health_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "fallback_health_rate_base",
+        "gameId": "lol",
+        "name": "无法回蓝时基础治疗每秒速率",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T15:21:13.923717Z"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/formulas/fallback_health_rate_upgraded",
+      "body": {
+        "createdAt": "2026-09-08T15:21:14.528116Z",
+        "description": "强化法力不可获得时按2乘45%得到0.9生命/秒；分支和跳频未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_per_second_upgraded"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_to_health_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "fallback_health_rate_upgraded",
+        "gameId": "lol",
+        "name": "无法回蓝时强化治疗每秒速率",
+        "skillKey": "duolanjie_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T15:21:14.528116Z"
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/representative-image",
+      "body": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_duolanjie",
+          "name": "duolanjie"
+        }
+      }
+    },
+    {
+      "route": "/skills/duolanjie_passive/trigger-rules",
+      "body": []
+    },
+    {
+      "route": "/skills/item_1082_passive/parameters/max_glory_stacks",
+      "body": {
+        "createdAt": "2026-09-08T15:21:18.23941Z",
+        "description": "当前绑定DataValue MaxGloryStacks=10；普通地图值，模式覆盖值不采用。",
+        "fixedValue": 10,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "荣耀最大层数",
+        "parameterKey": "max_glory_stacks",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:21:18.23941Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/parameters/ability_power_per_glory",
+      "body": {
+        "createdAt": "2026-09-08T15:21:18.827905Z",
+        "description": "当前绑定DataValue APPerGlory=4；每层贡献4点法术强度。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层荣耀法术强度",
+        "parameterKey": "ability_power_per_glory",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:21:18.827905Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/parameters/glory_on_kill",
+      "body": {
+        "createdAt": "2026-09-08T15:21:19.381299Z",
+        "description": "当前绑定DataValue GloryOnKill=2；击杀事件分支尚未接线。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀获得荣耀",
+        "parameterKey": "glory_on_kill",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T15:21:19.381299Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/parameters/glory_on_assist",
+      "body": {
+        "createdAt": "2026-09-08T15:21:19.934687Z",
+        "description": "当前绑定DataValue GloryOnAssist=1；助攻事件分支尚未接线。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "助攻获得荣耀",
+        "parameterKey": "glory_on_assist",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T15:21:19.934687Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/parameters/glory_loss_on_death",
+      "body": {
+        "createdAt": "2026-09-08T15:21:20.523575Z",
+        "description": "当前绑定DataValue GloryLossOnDeath=5；阵亡事件分支尚未接线。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "阵亡损失荣耀",
+        "parameterKey": "glory_loss_on_death",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T15:21:20.523575Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/formulas/ability_power_from_glory",
+      "body": {
+        "createdAt": "2026-09-08T15:21:21.104535Z",
+        "description": "每个荣耀层数贡献4点法术强度；层数由生命周期的每层值承载。",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "ability_power_per_glory"
+        },
+        "formulaKey": "ability_power_from_glory",
+        "gameId": "lol",
+        "name": "荣耀法术强度贡献",
+        "skillKey": "item_1082_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:21:21.104535Z"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/effects/glory_ability_power",
+      "body": {
+        "createdAt": "2026-09-08T15:21:21.644576Z",
+        "description": "保存每层荣耀提供4点法术强度，最大10层；击杀、助攻、阵亡事件及跨装备共享层数尚待接线。",
+        "effectKey": "glory_ability_power",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "max_glory_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "荣耀法术强度",
+        "results": [
+          {
+            "description": "每个有效荣耀层数向持有者增加4点法术强度。",
+            "detail": {
+              "attributeKey": "ability_power",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "每层荣耀法术强度",
+            "resultKey": "ability_power_from_glory",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ability_power_from_glory",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_1082_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:21:21.644576Z"
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/representative-image",
+      "body": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_1082",
+          "name": "item_1082"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_1082_passive/trigger-rules",
+      "body": []
+    },
+    {
+      "route": "/skills/duolanjie_passive/effects",
+      "body": []
+    },
+    {
+      "route": "/equipment/duolanjie/attributes",
+      "body": {
+        "attributeValues": {
+          "hp": 90,
+          "mana": 50,
+          "ability_power": 18
+        },
+        "equipmentKey": "duolanjie"
+      }
+    },
+    {
+      "route": "/equipment/item_1082/attributes",
+      "body": {
+        "attributeValues": {
+          "hp": 50,
+          "ability_power": 15
+        },
+        "equipmentKey": "item_1082"
+      }
+    }
+  ],
+  "arithmetic": [
+    {
+      "formulaKey": "mana_restore_rate_base",
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "formulaKey": "mana_restore_rate_upgraded",
+      "expected": 2,
+      "actual": 2,
+      "match": true
+    },
+    {
+      "formulaKey": "fallback_health_rate_base",
+      "expected": 0.45,
+      "actual": 0.45,
+      "match": true
+    },
+    {
+      "formulaKey": "fallback_health_rate_upgraded",
+      "expected": 0.9,
+      "actual": 0.9,
+      "match": true
+    },
+    {
+      "stacks": 0,
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "stacks": 1,
+      "expected": 4,
+      "actual": 4,
+      "match": true
+    },
+    {
+      "stacks": 5,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    },
+    {
+      "stacks": 10,
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    }
+  ],
+  "runtimeValidation": "未执行",
+  "passed": true
+}

@@ -1,0 +1,86 @@
+{
+  "batch": "Luna第十批",
+  "generatedAt": "2026-09-08T15:07:12.699Z",
+  "status": "来源不足、排除项和同值复用清单；不足项不能被描述成系统不能表达。",
+  "objects": [
+    {
+      "equipmentKey": "duolanjie",
+      "equipmentName": "多兰之戒",
+      "gaps": [
+        "每秒速率的实际跳频和首跳时点没有冻结来源，当前不生成周期效果或固定首跳",
+        "敌方英雄伤害事件的归属、强化段刷新和结束",
+        "无法获得法力的判定及同一周期转治疗",
+        "帮助之手5点小兵额外物理伤害按要求跳过，不进入本次接口候选"
+      ],
+      "sourceOnly": [
+        {
+          "key": "BonusDamage",
+          "value": 5,
+          "unit": "物理伤害",
+          "reason": "仅小兵分支，按本批要求跳过业务候选。"
+        }
+      ],
+      "sameValueReuse": [
+        {
+          "value": "0.45",
+          "reusedBy": [
+            "基础无法回蓝治疗速率",
+            "强化无法回蓝治疗速率"
+          ],
+          "reason": "当前绑定ManaToHealthConversion；区分45%比例和45个百分点，不推导跳频。"
+        },
+        {
+          "value": "1/2法力每秒速率",
+          "reusedBy": [
+            "基础回蓝公式",
+            "强化回蓝公式"
+          ],
+          "reason": "只复用速率语义，不把速率当成单次跳频量。"
+        }
+      ],
+      "historicalBoundary": "历史回读含mana=50；固定属性本轮仅标历史，不重新提交。"
+    },
+    {
+      "equipmentKey": "item_1082",
+      "equipmentName": "黑暗封印",
+      "gaps": [
+        "击杀+2、助攻+1、阵亡-5的事件来源与同次处理",
+        "荣耀层数在黑暗封印与梅贾之间的共享状态接线",
+        "达到10层后的上限处理和阵亡损失下限"
+      ],
+      "sourceOnly": [
+        {
+          "key": "URF GloryOnKill",
+          "value": 1,
+          "reason": "模式覆盖值；冻结普通地图候选不采用。"
+        },
+        {
+          "key": "URF GloryLossOnDeath",
+          "value": 3,
+          "reason": "模式覆盖值；冻结普通地图候选不采用。"
+        }
+      ],
+      "sameValueReuse": [
+        {
+          "value": "4法术强度/层",
+          "reusedBy": [
+            "荣耀法术强度结果",
+            "客户端CurrentGloryAP计算树"
+          ],
+          "reason": "通过每层结果表达；层数事件仍待接线。"
+        }
+      ],
+      "historicalBoundary": "历史回读固定属性已一致，本轮不重复提交。"
+    }
+  ],
+  "sharedPending": [
+    {
+      "value": "荣耀层数",
+      "relatedObjects": [
+        "item_1082",
+        "item_3041"
+      ],
+      "note": "两件装备应共享同一荣耀状态；本次只落地1082，3041不在本次生成范围。"
+    }
+  ]
+}
