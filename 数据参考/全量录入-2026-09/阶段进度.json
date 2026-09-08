@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T17:13:28.969Z",
+  "generatedAt": "2026-09-08T17:38:24.873Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 66,
+    "additionalEquipmentSkillRepresentativeReuses": 72,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -115,7 +115,8 @@
       "装备技能实录/第十二批常规效果/独立全量回读.json",
       "装备技能实录/Luna第十批/安全写入-只读-20260908152226862.json",
       "装备技能实录/第十三批常规效果/独立全量回读.json",
-      "装备技能实录/Luna第十批/第二组/页面验收.json"
+      "装备技能实录/Luna第十批/第二组/页面验收.json",
+      "装备技能实录/第十四批常规效果/独立全量回读.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3205,
@@ -137,6 +138,27 @@
     "既定召唤与变形等机制排除项"
   ],
   "mechanismBatches": {
+    "equipmentFourteenthBatch": {
+      "skills": [
+        "item_3142_passive",
+        "item_3142_active",
+        "item_3144_passive",
+        "item_3802_passive",
+        "item_3070_passive",
+        "item_3077_active"
+      ],
+      "parameters": 20,
+      "formulas": 4,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 6,
+      "representativeImageReuses": 6,
+      "status": "部分录入；42组成378字段独立GET、32算例和3个代表页面通过；舒瑞娅自用范围待核未建技能，时序和合法事件继续待配",
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第十四批常规效果/独立全量回读.json"
+    },
     "equipmentTenthSecondGroup": {
       "skills": [
         "item_3004_passive",

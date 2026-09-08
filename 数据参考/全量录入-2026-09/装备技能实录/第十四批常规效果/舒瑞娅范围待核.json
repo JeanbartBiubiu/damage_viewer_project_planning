@@ -1,0 +1,243 @@
+{
+  "equipmentKey": "item_2065",
+  "includedInNormalCandidate": false,
+  "source": {
+    "id": 2065,
+    "equipmentKey": "item_2065",
+    "name": "舒瑞娅的战歌",
+    "path": "Items/2065",
+    "object": {
+      "spellName": "2065Active",
+      "mDisplayName": "Item_2065_Name",
+      "itemID": 2065,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default",
+        "{3179bd6e}"
+      ],
+      "mItemAdviceAttributes": [
+        "{705ee247}",
+        "{32984313}"
+      ],
+      "price": 400,
+      "clickable": true,
+      "mItemCalloutPlayer": true,
+      "mItemCalloutSpectator": true,
+      "mCanBeSold": true,
+      "epicness": 5,
+      "recipeItemLinks": [
+        "Items/3113",
+        "Items/4642"
+      ],
+      "mScripts": [
+        "2065"
+      ],
+      "mEffectAmount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mDataValues": [
+        {
+          "mName": "ActiveMoveSpeed",
+          "mValue": 0.30000001192092896,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "BuffDuration",
+          "mValue": 4,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "ActiveCooldown",
+          "mValue": 75,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "ItemRange",
+          "mValue": 1000,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "PerChampCD",
+          "mValue": 4,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "Cooldown",
+          "mValue": 75,
+          "__type": "ItemDataValue"
+        }
+      ],
+      "DataValuesModeOverride": {
+        "{bffdf499}": {
+          "DataValues": [
+            {
+              "mName": "ActiveCooldown",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "__type": "ItemDataValues"
+        }
+      },
+      "mAbilityHasteMod": 15,
+      "mPercentMovementSpeedMod": 0.03999999910593033,
+      "mFlatMagicDamageMod": 50,
+      "percentBaseMPRegenMod": 1.25,
+      "mCategories": [
+        "SpellDamage",
+        "ManaRegen",
+        "Active",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "mItemDataAvailability": {
+        "mInStore": true,
+        "__type": "ItemDataAvailability"
+      },
+      "mItemAttributes": [
+        32
+      ],
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "2065",
+          "mFormat": "{32559c50}",
+          "EnableExtendedTooltip": false,
+          "mLocKeys": {
+            "keyName": "Item_2065_Name",
+            "keyBrief": "Item_2065_Brief",
+            "keyActive": "Item_2065_Active",
+            "keyActiveExternal": "Item_2065_ActiveExternal"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "AbilityPower",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "AbilityHaste",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "MoveSpeedPercent",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "BaseManaRegen",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_2065_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_2065_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_2065_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/2065_tank_t4_shurelyasbattlesong.dds",
+        "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2065_Tank_T4_ShurelyasBattlesong.png",
+        "epicness": 6,
+        "__type": "ItemDataClient"
+      },
+      "mVFXResourceResolver": {
+        "resourceMap": {
+          "{a18b61f8}": "Items/2065/Particles/SRI_Shurelyas_Battlesong_Proc",
+          "{4cbf9124}": "Items/2065/Particles/SRI_Shurelyas_Battlesong_Self_Buff",
+          "{d08fc76a}": "Items/2065/Particles/SRI_Shurelyas_Battlesong_Hit_Damage_Proc",
+          "{7c2eacc1}": "Items/2065/Particles/SRI_Shurelyas_Battlesong_AOE",
+          "{007413ad}": "Items/2065/Particles/SRI_Shurelyas_Battlesong_Ally_Mis"
+        },
+        "__type": "ResourceResolver"
+      },
+      "__type": "ItemData"
+    },
+    "bound": {
+      "keyName": {
+        "sourceKey": "Item_2065_Name",
+        "key": "item_2065_name",
+        "text": "舒瑞娅的战歌"
+      },
+      "keyBrief": {
+        "sourceKey": "Item_2065_Brief",
+        "key": "item_2065_brief",
+        "text": "团队机动力"
+      },
+      "keyActive": {
+        "sourceKey": "Item_2065_Active",
+        "key": "item_2065_active",
+        "text": "%i:activeEffect% <active>鼓舞演讲</active> {{ Item_Cooldown }}<br>为附近友军们提供持续@BuffDuration@秒的<speed>@ActiveMoveSpeed*100@%移动速度</speed>。"
+      },
+      "keyActiveExternal": {
+        "sourceKey": "Item_2065_ActiveExternal",
+        "key": "item_2065_activeexternal",
+        "text": "%i:activeEffect% <active>鼓舞演讲</active><br>为附近友军们提供持续@BuffDuration@秒的<speed>@ActiveMoveSpeed*100@%移动速度</speed>。"
+      }
+    },
+    "official": {
+      "name": "舒瑞娅的战歌",
+      "description": "<mainText><stats><attention>50</attention>法术强度<br><attention>15</attention>技能急速<br><attention>4%</attention>移动速度<br><attention>125%</attention>基础法力回复</stats><br><br><active>鼓舞演讲</active><br>为附近友军们提供持续4秒的<speed>30%移动速度</speed>。</mainText>",
+      "colloq": ";shuruiya;kuangxiangqu;srydkxq;Shurelya's Battlesong",
+      "plaintext": "激活以加速附近的友军",
+      "from": [
+        "3113",
+        "4642"
+      ],
+      "image": {
+        "full": "2065.png",
+        "sprite": "item1.png",
+        "group": "item",
+        "x": 144,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 2200,
+        "sell": 1540
+      },
+      "tags": [
+        "SpellDamage",
+        "ManaRegen",
+        "Active",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatMagicDamageMod": 50,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "depth": 3
+    }
+  },
+  "determinedValues": {
+    "moveSpeedRatio": 0.3,
+    "durationMs": 4000,
+    "cooldownMs": 75000
+  },
+  "reason": "当前绑定只写附近友军，Self施放类型不能单独证明施法者获得增益。保留来源及原装备，不创建参数或技能占位；待明确1V1自用资格后决定补录或排除。"
+}
