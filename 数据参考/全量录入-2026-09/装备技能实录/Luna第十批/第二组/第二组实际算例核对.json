@@ -1,0 +1,416 @@
+{
+  "batch": "Luna第十批/第二组",
+  "generatedAt": "2026-09-08T16:58:41.158Z",
+  "status": "写后独立GET与实际公式树算例；不调用写接口。",
+  "candidateSha256": "8e1befbdbdeef83b78f0208fd2eff260a1e0d3333a5db514f1c5eda3d4ab88e2",
+  "readOnlyEvidence": {
+    "file": "第二组只读检查-20260908165600049.json",
+    "generatedAt": "2026-09-08T16:56:00.050Z",
+    "objects": [
+      {
+        "equipmentKey": "item_3004",
+        "skillKey": "item_3004_passive",
+        "resultCount": 12,
+        "statuses": [
+          {
+            "route": "/equipment/item_3004",
+            "status": 200
+          },
+          {
+            "route": "/equipment/item_3004/attributes",
+            "status": 200
+          },
+          {
+            "route": "/equipment/item_3004/representative-image",
+            "status": 200
+          },
+          {
+            "route": "/equipment-skill-relations?equipmentKey=item_3004",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/parameters",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/formulas",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/effects",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/processes",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/internal-states",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/trigger-rules",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3004_passive/representative-image",
+            "status": 200
+          }
+        ]
+      },
+      {
+        "equipmentKey": "item_3041",
+        "skillKey": "item_3041_passive",
+        "resultCount": 12,
+        "statuses": [
+          {
+            "route": "/equipment/item_3041",
+            "status": 200
+          },
+          {
+            "route": "/equipment/item_3041/attributes",
+            "status": 200
+          },
+          {
+            "route": "/equipment/item_3041/representative-image",
+            "status": 200
+          },
+          {
+            "route": "/equipment-skill-relations?equipmentKey=item_3041",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/parameters",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/formulas",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/effects",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/processes",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/internal-states",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/trigger-rules",
+            "status": 200
+          },
+          {
+            "route": "/skills/item_3041_passive/representative-image",
+            "status": 200
+          }
+        ]
+      }
+    ]
+  },
+  "writeEvidence": {
+    "file": "第二组安全写入-执行-20260908165517058.json",
+    "generatedAt": "2026-09-08T16:55:17.059Z",
+    "summary": {
+      "objectCount": 2,
+      "componentCount": 27,
+      "failedObjectCount": 0,
+      "createdCount": 27,
+      "sameCount": 0,
+      "missingCount": 0,
+      "verifiedWriteCount": 27,
+      "mismatchCount": 0,
+      "stateValues": {
+        "same": 0,
+        "created": 27,
+        "missing": 0
+      },
+      "kindCounts": {
+        "skill": 2,
+        "parameter": 13,
+        "formula": 5,
+        "effect": 2,
+        "trigger-rule": 1,
+        "relation": 2,
+        "representative-image": 2
+      }
+    }
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3004",
+      "skillKey": "item_3004_passive",
+      "arithmetic": [
+        {
+          "formulaKey": "bonus_attack_damage_from_max_mana",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "mana",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_from_max_mana_ratio"
+              }
+            ]
+          },
+          "inputs": {
+            "attributes": {
+              "mana": 500
+            },
+            "parameters": {
+              "bonus_ad_from_max_mana_ratio": 0.02,
+              "mana_flow_charge_window_ms": 8000,
+              "mana_flow_max_stacks": 4,
+              "mana_flow_max_mana_per_hit": 3,
+              "mana_flow_hero_hit_multiplier": 2,
+              "mana_flow_transform_threshold": 360
+            }
+          },
+          "calculated": 10,
+          "expected": 10,
+          "passed": true
+        },
+        {
+          "formulaKey": "mana_flow_max_mana_per_hit",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mana_flow_max_mana_per_hit"
+          },
+          "inputs": {
+            "attributes": {
+              "mana": 500
+            },
+            "parameters": {
+              "bonus_ad_from_max_mana_ratio": 0.02,
+              "mana_flow_charge_window_ms": 8000,
+              "mana_flow_max_stacks": 4,
+              "mana_flow_max_mana_per_hit": 3,
+              "mana_flow_hero_hit_multiplier": 2,
+              "mana_flow_transform_threshold": 360
+            }
+          },
+          "calculated": 3,
+          "expected": 3,
+          "passed": true
+        },
+        {
+          "formulaKey": "mana_flow_hero_hit_max_mana",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_max_mana_per_hit"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_hero_hit_multiplier"
+              }
+            ]
+          },
+          "inputs": {
+            "attributes": {
+              "mana": 500
+            },
+            "parameters": {
+              "bonus_ad_from_max_mana_ratio": 0.02,
+              "mana_flow_charge_window_ms": 8000,
+              "mana_flow_max_stacks": 4,
+              "mana_flow_max_mana_per_hit": 3,
+              "mana_flow_hero_hit_multiplier": 2,
+              "mana_flow_transform_threshold": 360
+            }
+          },
+          "calculated": 6,
+          "expected": 6,
+          "passed": true
+        }
+      ],
+      "ast": [
+        {
+          "formulaKey": "bonus_attack_damage_from_max_mana",
+          "expectedExpression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "mana",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_from_max_mana_ratio"
+              }
+            ]
+          },
+          "actualExpression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "mana",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_from_max_mana_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "astMatches": true,
+          "astIssues": []
+        },
+        {
+          "formulaKey": "mana_flow_max_mana_per_hit",
+          "expectedExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mana_flow_max_mana_per_hit"
+          },
+          "actualExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mana_flow_max_mana_per_hit"
+          },
+          "astMatches": true,
+          "astIssues": []
+        },
+        {
+          "formulaKey": "mana_flow_hero_hit_max_mana",
+          "expectedExpression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_max_mana_per_hit"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_hero_hit_multiplier"
+              }
+            ]
+          },
+          "actualExpression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_max_mana_per_hit"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_flow_hero_hit_multiplier"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "astMatches": true,
+          "astIssues": []
+        }
+      ],
+      "passed": true
+    },
+    {
+      "equipmentKey": "item_3041",
+      "skillKey": "item_3041_passive",
+      "arithmetic": [
+        {
+          "formulaKey": "ability_power_from_glory",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_power_per_glory"
+          },
+          "inputs": {
+            "attributes": {},
+            "parameters": {
+              "max_glory_stacks": 25,
+              "ability_power_per_glory": 5,
+              "glory_on_kill": 4,
+              "glory_on_assist": 2,
+              "glory_loss_on_death": 10,
+              "glory_threshold_for_move_speed": 10,
+              "move_speed_percent_at_threshold": 0.1
+            }
+          },
+          "calculated": 5,
+          "expected": 5,
+          "passed": true
+        },
+        {
+          "formulaKey": "move_speed_percent_from_glory_threshold",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_percent_at_threshold"
+          },
+          "inputs": {
+            "attributes": {},
+            "parameters": {
+              "max_glory_stacks": 25,
+              "ability_power_per_glory": 5,
+              "glory_on_kill": 4,
+              "glory_on_assist": 2,
+              "glory_loss_on_death": 10,
+              "glory_threshold_for_move_speed": 10,
+              "move_speed_percent_at_threshold": 0.1
+            }
+          },
+          "calculated": 0.1,
+          "expected": 0.1,
+          "passed": true
+        }
+      ],
+      "ast": [
+        {
+          "formulaKey": "ability_power_from_glory",
+          "expectedExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_power_per_glory"
+          },
+          "actualExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_power_per_glory"
+          },
+          "astMatches": true,
+          "astIssues": []
+        },
+        {
+          "formulaKey": "move_speed_percent_from_glory_threshold",
+          "expectedExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_percent_at_threshold"
+          },
+          "actualExpression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_percent_at_threshold"
+          },
+          "astMatches": true,
+          "astIssues": []
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "boundary": "500法力、荣耀层数等仅为算例输入；算例证明数值与当前回读AST一致，不证明击杀、助攻、阵亡或升级运行时已经接线。"
+}
