@@ -1,0 +1,151 @@
+{
+  "batch": "Luna第十批/第二组",
+  "generatedAt": "2026-09-08T15:46:43.717Z",
+  "status": "独立算术核对；不等同运行时、数据库或页面证据。",
+  "objects": [
+    {
+      "equipmentKey": "item_3004",
+      "equipmentName": "魔宗",
+      "directAttributes": {
+        "mana": 500,
+        "attack_damage": 35,
+        "ability_haste": 15
+      },
+      "arithmetic": [
+        {
+          "sample": "输入最大法力500时的敬畏额外攻击力",
+          "calculation": "500 × 0.02",
+          "expected": 10,
+          "unit": "攻击力；只作为公式算例，500是输入TOTAL，不是新增属性写入"
+        },
+        {
+          "sample": "一次普通命中法力流增加",
+          "calculation": "3",
+          "expected": 3,
+          "unit": "最大法力值；不代表已确认的跳频或触发次数"
+        },
+        {
+          "sample": "一次英雄命中法力流增加",
+          "calculation": "3 × 2",
+          "expected": 6,
+          "unit": "最大法力值；目标筛选仍待接线"
+        },
+        {
+          "sample": "四次符合条件的英雄命中累计",
+          "calculation": "4 × 6",
+          "expected": 24,
+          "unit": "最大法力值；仅按4层×每层6的算术，不推导实际事件时序"
+        },
+        {
+          "sample": "法力流升级阈值比较",
+          "calculation": "累计增加359 < 360，累计增加360 ≥ 360",
+          "expected": "前者不满足，后者满足",
+          "unit": "阈值；与角色当前总最大法力和装备固定500法力分开"
+        }
+      ],
+      "sourceValues": {
+        "ManaPerCharge": 3,
+        "ManaChargeAmmoCD": 8,
+        "ManaChargeMaxAmmo": 4,
+        "MaxMana": 360,
+        "TakedownMana": null,
+        "InternalCDPerCastID": 6.5
+      },
+      "sourceBindings": {
+        "maxManaAttributeKind": "TOTAL",
+        "bonusAdRatio": 0.02,
+        "manaPerCharge": 3,
+        "heroHitMultiplier": 2,
+        "chargeWindowMs": 8000,
+        "maxStacks": 4,
+        "transformThreshold": 360
+      }
+    },
+    {
+      "equipmentKey": "item_3041",
+      "equipmentName": "梅贾的窃魂卷",
+      "directAttributes": {
+        "hp": 100,
+        "ability_power": 20
+      },
+      "arithmetic": [
+        {
+          "sample": "满25层荣耀法术强度",
+          "calculation": "25 × 5",
+          "expected": 125,
+          "unit": "额外法术强度；不含装备固定20法术强度"
+        },
+        {
+          "sample": "正常地图一次击杀获得荣耀",
+          "calculation": "已有层数 + 4",
+          "expected": "min(25, 已有层数 + 4)",
+          "unit": "层；实际上限裁决与事件接线待配"
+        },
+        {
+          "sample": "正常地图一次助攻获得荣耀",
+          "calculation": "已有层数 + 2",
+          "expected": "按共享荣耀状态规则处理",
+          "unit": "层；不与同次击杀重复相加"
+        },
+        {
+          "sample": "阵亡损失荣耀",
+          "calculation": "已有层数 - 10",
+          "expected": "按层数状态下限规则处理",
+          "unit": "层；来源确认损失10，实际下限待配"
+        },
+        {
+          "sample": "移动速度门槛",
+          "calculation": "9层 < 10层；10层 ≥ 10层",
+          "expected": "9层不启用；10层使用0.1比例",
+          "unit": "0.1=10%比例，不是10个百分点；条件启停待配"
+        },
+        {
+          "sample": "与黑暗封印每层法术强度对照",
+          "calculation": "黑暗封印10 × 4；梅贾25 × 5",
+          "expected": "40；125",
+          "unit": "两项均为额外法术强度，层数共享关系仍待接线"
+        }
+      ],
+      "sourceValues": {
+        "MaxGloryStacks": 25,
+        "APPerGlory": 5,
+        "GloryOnKill": 4,
+        "GloryOnAssist": 2,
+        "GloryLossOnDeath": 10,
+        "GloryThreshold": 10,
+        "MoveSpeedMod": 0.10000000149011612
+      },
+      "sourceBindings": {
+        "maxGloryStacks": 25,
+        "abilityPowerPerGlory": 5,
+        "gloryOnKill": 4,
+        "gloryOnAssist": 2,
+        "gloryLossOnDeath": 10,
+        "gloryThreshold": 10,
+        "moveSpeedRatio": 0.1
+      }
+    }
+  ],
+  "checks": [
+    {
+      "expression": "3004: 500 × 0.02",
+      "expected": 10,
+      "meaning": "示例最大法力TOTAL转额外攻击力"
+    },
+    {
+      "expression": "3004: 3 × 2",
+      "expected": 6,
+      "meaning": "示例英雄命中最大法力增加"
+    },
+    {
+      "expression": "3041: 25 × 5",
+      "expected": 125,
+      "meaning": "满25层荣耀额外法术强度"
+    },
+    {
+      "expression": "3041: 10层触发0.1",
+      "expected": 0.1,
+      "meaning": "达到门槛的移动速度小数比例；条件启停未配"
+    }
+  ]
+}
