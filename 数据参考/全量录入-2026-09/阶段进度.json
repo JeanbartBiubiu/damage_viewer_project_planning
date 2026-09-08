@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T15:17:33.517Z",
+  "generatedAt": "2026-09-08T15:26:28.093Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -21,22 +21,33 @@
     "status": "基本资料和关联完成，完整技能数值及机制待逐项补录"
   },
   "equipment": {
-    "count": 186,
+    "count": 194,
     "ordinaryBaseline": 181,
     "pureAttribute": 47,
     "withEffects": 134,
     "effectEquipmentDirectValues": 353,
     "specialForms": {
-      "count": 5,
-      "directAttributeValues": 15,
+      "count": 13,
+      "directAttributeValues": 33,
       "keys": [
         "item_2421",
         "item_2530",
         "item_3040",
         "item_3042",
-        "item_3121"
+        "item_3121",
+        "item_3168",
+        "item_3170",
+        "item_3171",
+        "item_3172",
+        "item_3173",
+        "item_3174",
+        "item_3175",
+        "item_3176"
       ],
-      "evidence": "API实录/装备升级形态第一批/独立最终回读.json"
+      "evidence": [
+        "API实录/装备升级形态第一批/独立最终回读.json",
+        "API实录/装备升级形态第二批/独立最终回读.json"
+      ]
     },
     "additionalDirectAttributes": 2,
     "additionalDirectAttributeEvidence": [
@@ -46,18 +57,22 @@
     "evidence": [
       "实录记录.json",
       "API实录/装备/summary.json",
-      "API实录/装备升级形态第一批/独立最终回读.json"
+      "API实录/装备升级形态第一批/独立最终回读.json",
+      "API实录/装备升级形态第二批/独立最终回读.json"
     ],
-    "status": "181件普通装备及5件特殊形态的主体与明确属性完成；其余特殊形态和完整技能机制继续补录"
+    "status": "181件普通装备及13件特殊形态主体与明确属性完成；其他非普通条目范围及完整技能机制继续处理"
   },
   "images": {
-    "objectUses": 1212,
+    "objectUses": 1220,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
-    "equipment": 186,
-    "additionalSpecialFormReuses": 5,
-    "additionalSpecialFormEvidence": "API实录/装备升级形态第一批/独立最终回读.json",
+    "equipment": 194,
+    "additionalSpecialFormReuses": 13,
+    "additionalSpecialFormEvidence": [
+      "API实录/装备升级形态第一批/独立最终回读.json",
+      "API实录/装备升级形态第二批/独立最终回读.json"
+    ],
     "additionalEquipmentSkillRepresentativeReuses": 49,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
@@ -70,7 +85,7 @@
       "装备技能实录/Luna第八批/逐字段回读证据.json",
       "装备技能实录/Luna第九批/独立最终回读.json"
     ],
-    "status": "原1207个主体代表图历史证据保留，另5个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验",
+    "status": "原1207个主体代表图历史证据保留，另13个特殊形态复用已回读；装备技能九个已验收批次共49项复用另列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3202,
     "browserReadFailures": 0,
     "evidence": [
