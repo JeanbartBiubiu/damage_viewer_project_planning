@@ -1,0 +1,45 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "method": "POST",
+    "route": "/skills/aurora_e/formulas",
+    "detailRoute": "/skills/aurora_e/formulas/magic_damage",
+    "skillKey": "aurora_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "怪奇喷涌单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamageCalc=BaseDamage+0.7×来源法强。",
+      "sortOrder": 10
+    }
+  }
+}

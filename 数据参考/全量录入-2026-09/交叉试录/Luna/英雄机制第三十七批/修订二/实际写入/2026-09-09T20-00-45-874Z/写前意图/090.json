@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/energy_refund_increase",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "energy_refund_increase",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_refund_increase",
+      "name": "龙犬诡步强化攻击能量回复断点增量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15,
+      "levelValues": null,
+      "description": "当前7级和13级各增加15；不猜断点累计算法。",
+      "sortOrder": 170
+    }
+  }
+}

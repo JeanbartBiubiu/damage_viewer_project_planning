@@ -1,0 +1,23 @@
+{
+  "i": 192,
+  "intent": {
+    "sequence": 193,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/missing_health_heal_stat_value",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "missing_health_heal_stat_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_heal_stat_value",
+      "name": "猩红诅咒mStat12实际输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前已损生命治疗上限树使用mStat12，属性枚举未窄证；运行层提供实际值，无默认。",
+      "sortOrder": 130
+    }
+  }
+}

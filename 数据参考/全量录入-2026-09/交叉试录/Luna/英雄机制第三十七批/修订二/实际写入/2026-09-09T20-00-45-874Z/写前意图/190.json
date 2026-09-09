@@ -1,0 +1,23 @@
+{
+  "i": 189,
+  "intent": {
+    "sequence": 190,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/max_bleed_stack_count",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "max_bleed_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_bleed_stack_count",
+      "name": "猩红诅咒最大流血层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前最多5层。",
+      "sortOrder": 100
+    }
+  }
+}

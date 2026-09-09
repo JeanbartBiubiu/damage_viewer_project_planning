@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/damage_1_bonus_ad_ratio",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "damage_1_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_1_bonus_ad_ratio",
+      "name": "暗袭额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.60000002,
+      "levelValues": null,
+      "description": "当前Calc_Damage_1_Max的mStat=2、mStatFormula=2，系数0.6为来源额外攻击力。",
+      "sortOrder": 90
+    }
+  }
+}

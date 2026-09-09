@@ -1,0 +1,734 @@
+{
+  "generatedAt": "2026-09-09T19:50:46.769Z",
+  "batch": "英雄机制第三十七批",
+  "revision": "hero37-source-v1-revision2",
+  "basedOn": {
+    "candidateFile": "修订一-完整候选.json",
+    "candidateFileSha256": "080badac1f40e51d1953f0eb0e9f1ffe247bff66b07a23161f222bef9bc4bf54",
+    "planFile": "修订一-写前请求计划.json",
+    "planFileSha256": "003170189232374c49723f67ae647458fd6b10cb864fa3190924fd550ece1450"
+  },
+  "final": {
+    "candidateFile": "完整候选.json",
+    "candidateFileSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+    "planFile": "写前请求计划.json",
+    "planFileSha256": "31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec"
+  },
+  "counts": {
+    "old": {
+      "newParameters": 191,
+      "newFormulas": 40,
+      "newEffects": 7,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 238,
+      "reusedPublicParameters": 24,
+      "plannedTotalIncludingReused": 262,
+      "protectedCurrentCompositionLists": 120
+    },
+    "new": {
+      "newParameters": 199,
+      "newFormulas": 41,
+      "newEffects": 7,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 247,
+      "reusedPublicParameters": 24,
+      "plannedTotalIncludingReused": 271,
+      "protectedCurrentCompositionLists": 120
+    }
+  },
+  "changes": [
+    {
+      "skillKey": "akshan_e",
+      "kind": "removedParameter",
+      "parameterKey": "attack_interval_ms",
+      "old": {
+        "parameterKey": "attack_interval_ms",
+        "name": "骄行荡寇攻击频率间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "当前AttackFrequency=0.2秒，转换为200毫秒；只记录节拍，不把它当发数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "addedParameter",
+      "parameterKey": "attack_frequency_source_value",
+      "new": {
+        "parameterKey": "attack_frequency_source_value",
+        "name": "骄行荡寇攻击频率原始值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前DataValues.AttackFrequency=0.2；当前正文未给时间单位，只保存无单位原始值，不换算毫秒或推导发数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "addedParameter",
+      "parameterKey": "critical_damage_mod_ratio",
+      "new": {
+        "parameterKey": "critical_damage_mod_ratio",
+        "name": "骄行荡寇暴击伤害修正系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前CriticalCalc的CritDamageMod=0.5；当前树明确将其乘入mStat9-1，不映射成现有属性。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "addedParameter",
+      "parameterKey": "critical_mstat9_value",
+      "new": {
+        "parameterKey": "critical_mstat9_value",
+        "name": "骄行荡寇CriticalCalc的mStat9实际输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前扩展正文明确消费CriticalCalc，树使用mStat9；属性枚举、暴击资格和实际触发待接，运行层必须提供实际值，无默认。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "addedParameter",
+      "parameterKey": "critical_stat_offset",
+      "new": {
+        "parameterKey": "critical_stat_offset",
+        "name": "骄行荡寇暴击属性减一偏移",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "当前CriticalCalc明确计算mStat9-1；用显式偏移保留原树。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "addedFormula",
+      "formulaKey": "critical_shot_physical_damage",
+      "new": {
+        "formulaKey": "critical_shot_physical_damage",
+        "name": "骄行荡寇单发暴击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shot_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_multiplier_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "extra_attack_speed_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "bonus_attack_speed_percent",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_multiplier_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_damage_mod_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_mstat9_value"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_stat_offset"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前CriticalCalc=DamageToDeal×(1+CritDamageMod×(mStat9-1))；完整暴击单发树保留，mStat9实际输入无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "changedExcluded",
+      "old": [
+        {
+          "item": "暴击修改树和mStat9暴击输入",
+          "reason": "暴击效能参数可由当前正文读取，但mStat9枚举和暴击事件未证，本轮不造额外公式。"
+        },
+        {
+          "item": "SpinDuration作为持续时间或AttackFrequency作为发数",
+          "reason": "当前SpinDuration为内部节拍窗口，AttackFrequency为间隔；没有发数树，不作线性展开。"
+        }
+      ],
+      "new": [
+        {
+          "item": "SpinDuration作为持续时间或AttackFrequency作为发数",
+          "reason": "当前SpinDuration为内部节拍窗口，AttackFrequency为间隔；没有发数树，不作线性展开。"
+        }
+      ]
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "changedPending",
+      "old": [
+        {
+          "item": "钩爪、摆荡、逐发次数、碰撞提前结束和击杀刷新",
+          "reason": "保留每发伤害、节拍和刷新冷却数值；空间、发数和事件时序待接。"
+        }
+      ],
+      "new": [
+        {
+          "item": "钩爪、摆荡、逐发次数、碰撞提前结束和击杀刷新",
+          "reason": "保留每发伤害、节拍和刷新冷却数值；空间、发数和事件时序待接。"
+        },
+        {
+          "item": "CriticalCalc的mStat9属性资格与暴击触发事件",
+          "reason": "当前扩展正文明确消费CriticalCalc；完整乘区、CritDamageMod和无默认mStat9输入已保留，属性枚举、资格与触发事件待接。"
+        }
+      ]
+    },
+    {
+      "skillKey": "akshan_e",
+      "kind": "changedProofNote",
+      "old": "阿克尚E只把当前DamageToDeal的每发物理伤害保留为实际二元树；攻击频率不被误作发数，ResetCooldownToSet保留为刷新后的数值。",
+      "new": "阿克尚E保留DamageToDeal逐发物理伤害及CriticalCalc完整暴击乘区；AttackFrequency只保存无单位原始0.2，不换算毫秒或推导发数。"
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedParameter",
+      "parameterKey": "critical_damage_effectiveness_ratio",
+      "old": {
+        "parameterKey": "critical_damage_effectiveness_ratio",
+        "name": "恩怨相抵暴击伤害效能比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.30000001,
+        "levelValues": null,
+        "description": "当前正文明确子弹受暴击几率和暴击伤害影响，效能为30%；mStat8/9不映射属性。",
+        "sortOrder": 30
+      },
+      "new": {
+        "parameterKey": "critical_damage_effectiveness_ratio",
+        "name": "恩怨相抵暴击伤害修正系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.30000001,
+        "levelValues": null,
+        "description": "当前DamagePerBulletWithCrit的mMultiplier明确消费CritDamageMod=0.3；不把mStat8/9映射成现有属性。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "addedParameter",
+      "parameterKey": "critical_multiplier_base",
+      "new": {
+        "parameterKey": "critical_multiplier_base",
+        "name": "恩怨相抵暴击倍率基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前DamagePerBulletWithCrit的mMultiplier含Number=1。",
+        "sortOrder": 35
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "addedParameter",
+      "parameterKey": "critical_mstat8_value",
+      "new": {
+        "parameterKey": "critical_mstat8_value",
+        "name": "恩怨相抵暴击mStat8实际输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前DamagePerBulletWithCrit的mMultiplier使用mStat8；属性枚举、暴击资格待接，运行层必须提供实际值，无默认。",
+        "sortOrder": 36
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "addedParameter",
+      "parameterKey": "critical_mstat9_value",
+      "new": {
+        "parameterKey": "critical_mstat9_value",
+        "name": "恩怨相抵暴击mStat9实际输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前DamagePerBulletWithCrit的mMultiplier使用mStat9；属性枚举、暴击资格待接，运行层必须提供实际值，无默认。",
+        "sortOrder": 37
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "addedParameter",
+      "parameterKey": "critical_stat_offset",
+      "new": {
+        "parameterKey": "critical_stat_offset",
+        "name": "恩怨相抵暴击属性减一偏移",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "当前DamagePerBulletWithCrit明确计算mStat9-1；用显式偏移保留原树。",
+        "sortOrder": 38
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedFormula",
+      "formulaKey": "damage_per_bullet",
+      "old": {
+        "formulaKey": "damage_per_bullet",
+        "name": "恩怨相抵每颗子弹基础物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前DamagePerBulletWithCrit基础树=BonusDamage+0.15×来源总攻击力；暴击效能另作为来源参数。",
+        "sortOrder": 10
+      },
+      "new": {
+        "formulaKey": "damage_per_bullet",
+        "name": "恩怨相抵每颗子弹含暴击乘区的物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "critical_multiplier_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_mstat8_value"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_damage_effectiveness_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "critical_mstat9_value"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "critical_stat_offset"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前DamagePerBulletWithCrit=(BonusDamage+0.15×来源总攻击力)×(1+mStat8×0.3×(mStat9-1))；完整mMultiplier保留，mStat8/9实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedFormula",
+      "formulaKey": "max_damage_per_bullet",
+      "old": {
+        "formulaKey": "max_damage_per_bullet",
+        "name": "恩怨相抵每颗子弹最高物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_increase_multiplier"
+            }
+          ]
+        },
+        "description": "当前MaxDamagePerBullet=DamagePerBulletWithCrit×MaxIncrease；已损生命中间曲线未编。",
+        "sortOrder": 20
+      },
+      "new": {
+        "formulaKey": "max_damage_per_bullet",
+        "name": "恩怨相抵每颗子弹最高物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_multiplier_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_mstat8_value"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "critical_damage_effectiveness_ratio"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "ADD",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "critical_mstat9_value"
+                                },
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "critical_stat_offset"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_increase_multiplier"
+            }
+          ]
+        },
+        "description": "当前MaxDamagePerBullet=完整DamagePerBulletWithCrit×MaxIncrease；已损生命中间曲线未编。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedExcluded",
+      "old": [
+        {
+          "item": "小兵处决、生命偷取和建筑物分支",
+          "reason": "当前扩展文本和首个敌人选择包含兵野/建筑专用收益，本轮只保留单一敌方英雄伤害主路径。"
+        },
+        {
+          "item": "暴击修改树的mStat8/mStat9属性项",
+          "reason": "暴击效能比例已保存，但属性枚举与实际暴击事件未证，不把mStat8/9默认成暴击几率或暴击伤害。"
+        }
+      ],
+      "new": [
+        {
+          "item": "小兵处决、生命偷取和建筑物分支",
+          "reason": "当前扩展文本和首个敌人选择包含兵野/建筑专用收益，本轮只保留单一敌方英雄伤害主路径。"
+        }
+      ]
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedPending",
+      "old": [
+        {
+          "item": "已损生命中间曲线、充能子弹数量和逐发时序",
+          "reason": "只保存基础值和最高倍率两端；已损生命中间曲线、充能和发射事件待接。"
+        }
+      ],
+      "new": [
+        {
+          "item": "mStat8/mStat9属性资格、暴击事件与已损生命中间曲线",
+          "reason": "当前树已明确含完整暴击mMultiplier并保留两个无默认输入；属性枚举、暴击事件和已损生命中间曲线待接，不作端点线性猜测。"
+        },
+        {
+          "item": "充能子弹数量和逐发时序",
+          "reason": "只保存子弹数量、基础树和最高倍率，充能与发射事件待接。"
+        }
+      ]
+    },
+    {
+      "skillKey": "akshan_r",
+      "kind": "changedProofNote",
+      "old": "阿克尚R沿DamagePerBulletWithCrit和MaxDamagePerBullet保留每颗子弹的基础树及最高倍率；未知已损生命曲线不作端点线性猜测。",
+      "new": "阿克尚R沿DamagePerBulletWithCrit和MaxDamagePerBullet保留完整暴击乘区及最高倍率；未知已损生命曲线不作端点线性猜测。"
+    },
+    {
+      "skillKey": "aurora_q",
+      "kind": "addedParameter",
+      "parameterKey": "additional_hit_damage_ratio",
+      "new": {
+        "parameterKey": "additional_hit_damage_ratio",
+        "name": "飞去来咒后续命中伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前正文明确第一次命中后的伤害降低至20%，DataValues.DamageReduction=0.2；后续命中归属与命中顺序待核，不把正文短语直接解释为额外目标。",
+        "sortOrder": 55
+      }
+    },
+    {
+      "skillKey": "aurora_q",
+      "kind": "changedExcluded",
+      "old": [
+        {
+          "item": "小兵/野怪再次施放倍率",
+          "reason": "Q2MinionMod是兵野专用分支，本轮排除。"
+        },
+        {
+          "item": "已损生命中间曲线、DamageReduction=20%后续命中和非首个目标事件",
+          "reason": "当前正文将20%用于首次命中后的后续命中，属于额外目标/命中事件；保留Q2最高值，事件待接。"
+        }
+      ],
+      "new": [
+        {
+          "item": "小兵/野怪再次施放倍率",
+          "reason": "Q2MinionMod是兵野专用分支，本轮排除。"
+        }
+      ]
+    },
+    {
+      "skillKey": "aurora_q",
+      "kind": "changedPending",
+      "old": [
+        {
+          "item": "诅咒标记、自动再次施放、已损生命和命中顺序",
+          "reason": "保留3.5秒标记、首次/再次施放公式；标记消费、自动重施和命中时序待接。"
+        }
+      ],
+      "new": [
+        {
+          "item": "后续命中归属、命中顺序、已损生命中间曲线和自动再次施放",
+          "reason": "保留正文明确的20%后续命中比例和Q2最高值；当前短文本不足以判定额外目标、适用命中顺序或中间曲线，相关事件待接。"
+        },
+        {
+          "item": "诅咒标记消费",
+          "reason": "保留3.5秒标记和首次/再次施放公式，标记消费事件待接。"
+        }
+      ]
+    },
+    {
+      "skillKey": "aurora_q",
+      "kind": "changedProofNote",
+      "old": "阿萝拉Q分开记录首次伤害、再次施放基础树和1.5倍最高值；不把Q2最高值误当完整已损生命曲线。",
+      "new": "阿萝拉Q分开记录首次伤害、再次施放基础树、1.5倍最高值和正文明确的20%后续命中比例；不把短文本直接解释为额外目标，也不把Q2最高值误当完整已损生命曲线。"
+    }
+  ],
+  "sourceFacts": [
+    "AkshanE当前扩展正文明确消费CriticalCalc，原树为DamageToDeal×(1+CritDamageMod×(mStat9-1))；修订二新增CritDamageMod、无默认mStat9和完整暴击逐发公式。",
+    "AkshanR的DamagePerBulletWithCrit原树含mMultiplier=1+mStat8×CritDamageMod×(mStat9-1)，MaxDamagePerBullet再乘MaxIncrease=3；修订二新增无默认mStat8/mStat9并保留完整乘区。",
+    "AkshanE的AttackFrequency=0.2在当前正文没有时间单位；修订二改存DECIMAL原始值attack_frequency_source_value，不换算毫秒或推导发数。",
+    "AuroraQ的DamageReduction=0.2按当前正文“第一次命中后的伤害降低至20%”恢复为参数；后续命中归属、命中顺序和已损生命中间曲线改列待核，不从短文本断言额外目标。"
+  ],
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "noBusinessWrites": true
+}

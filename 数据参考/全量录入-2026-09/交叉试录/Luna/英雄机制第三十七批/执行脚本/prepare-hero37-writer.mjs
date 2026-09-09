@@ -1,0 +1,11 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import crypto from 'node:crypto';
+const a='C:/project/damage_web_dev/.agents/artifacts',d=a+'/hero37-luna-candidate/修订二',input=a+'/hero37-root-entry-20260910',sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),read=p=>JSON.parse(fs.readFileSync(p));
+assert.equal(sha(d+'/完整候选.json'),'a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5');assert.equal(sha(d+'/写前请求计划.json'),'31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec');
+let s=fs.readFileSync(a+'/hero36-luna-candidate/修订一/受保护写入器.mjs','utf8').replaceAll('HERO36','HERO37').replace("['evelynn','lillia','fiddlesticks','singed']","['akshan','ambessa','aurora','briar']").replace('input="C:/project/damage_web_dev/.agents/artifacts/hero36-root-entry-20260910"',`input=${JSON.stringify(input)}`);
+s=s.replace(/const wanted=\{[^\n]+\};/,`const wanted={candidate:'${sha(d+'/完整候选.json')}',plan:'${sha(d+'/写前请求计划.json')}',input:'${sha(input+'/输入版本.json')}'};`);
+const lines=s.split('\n'),idx=lines.findIndex(l=>l.startsWith('assert.equal(sha(input+')&&l.includes('来源绑定与当前文本.json'));assert(idx>=0);
+lines[idx]=['来源绑定与当前文本.json','参考资料/当前20槽保护快照.json','主负责人范围与核对要求.md','Cursor复核后补充.md','Cursor复核后补核.json'].map(n=>`assert.equal(sha(input+${JSON.stringify('/'+n)}),'${sha(input+'/'+n)}');`).join('');s=lines.join('\n');
+for(const[x,y]of [['candidateEntries.length,190','candidateEntries.length,271'],['plan.count,160','plan.count,247'],['plan.intents.length,160','plan.intents.length,247'],['.size,160','.size,247'],['baseline.requests.length,202','baseline.requests.length,196'],['details.missingBefore,160','details.missingBefore,247'],['details.matched,30','details.matched,24'],['details.matched,190','details.matched,271']]){assert(s.includes(x),x);s=s.replace(x,y);}
+assert(!s.includes('hero36'));fs.writeFileSync(d+'/受保护写入器.mjs',s,{flag:'wx'});
+for(const[x,y]of [['Cursor来源复核结论.md','独立来源评审.md'],['主负责人执行审计.json','Cursor执行审计.json']])fs.copyFileSync(a+'/hero37-cursor-review-run-20260910-retry1/'+x,d+'/'+y,fs.constants.COPYFILE_EXCL);
+console.log(JSON.stringify({created:247,reused:24,current:271,writerSha256:sha(d+'/受保护写入器.mjs')}));

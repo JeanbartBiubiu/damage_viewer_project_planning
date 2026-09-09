@@ -1,0 +1,23 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/max_health_damage_base_ratio",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "max_health_damage_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_damage_base_ratio",
+      "name": "驱灵奇术最大生命基础伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "当前ProcDamage按最大生命值显示，基础比例为1%。",
+      "sortOrder": 20
+    }
+  }
+}

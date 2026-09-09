@@ -1,0 +1,45 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/ambessa_q/formulas",
+    "detailRoute": "/skills/ambessa_q/formulas/damage_1_max_health_ratio",
+    "skillKey": "ambessa_q",
+    "kind": "formulas",
+    "stableKey": "damage_1_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_1_max_health_ratio",
+      "name": "暗袭目标最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_1_max_health_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_1_max_health_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Damage_1_Percent_Max=基础百分比+0.0003×来源额外攻击力，mDisplayAsPercent为真；目标最大生命由正文目标口径提供。",
+      "sortOrder": 20
+    }
+  }
+}

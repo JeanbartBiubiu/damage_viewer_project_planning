@@ -1,0 +1,104 @@
+{
+  "at": "2026-09-09T20:28:22.372Z",
+  "batch": "英雄机制第三十七批",
+  "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+  "skills": [
+    "akshan_p",
+    "akshan_q",
+    "akshan_w",
+    "akshan_e",
+    "akshan_r",
+    "ambessa_p",
+    "ambessa_q",
+    "ambessa_w",
+    "ambessa_e",
+    "ambessa_r",
+    "aurora_p",
+    "aurora_q",
+    "aurora_w",
+    "aurora_e",
+    "aurora_r",
+    "briar_p",
+    "briar_q",
+    "briar_w",
+    "briar_e",
+    "briar_r"
+  ],
+  "heroes": [
+    "Akshan",
+    "Ambessa",
+    "Aurora",
+    "Briar"
+  ],
+  "newCounts": {
+    "parameters": 199,
+    "formulas": 41,
+    "effects": 7
+  },
+  "counts": {
+    "parameters": 223,
+    "formulas": 41,
+    "effects": 7
+  },
+  "created": 247,
+  "businessWrites": 247,
+  "reusedParameters": 24,
+  "currentTotalComponents": 271,
+  "candidateFile": "修订二/完整候选.json",
+  "candidateFileSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+  "writePlan": "修订二/写前请求计划.json",
+  "writePlanSha256": "31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec",
+  "save": {
+    "GETs": 1428,
+    "POSTs": 247,
+    "confirmed": 247,
+    "file": "修订二/实际写入/2026-09-09T20-00-45-874Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 467,
+    "protectedPaths": 196,
+    "details": 271,
+    "reused": 24,
+    "new": 247,
+    "reader": "Luna Max独立只读脚本",
+    "file": "独立回读证据/实际回读/2026-09-09T20-19-48-824Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 41,
+    "cases": 82,
+    "missing": 60,
+    "integerValueChecks": 268,
+    "integerParameters": 132,
+    "millisecondsParameters": 58,
+    "bounds": 13,
+    "file": "实际数学证据/独立源值数学报告.json",
+    "passed": true,
+    "explanation": "同一467次独立GET快照用于实际数学；整数值检查数不等于整数参数数。"
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "修订二/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 2921,
+    "uniqueTools": 34,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "保存前保留阿克尚E和R完整暴击计算子树及无默认实际输入，校正攻击频率原始值不能无证转为毫秒",
+    "阿萝拉W移动速度百分数换算修正，Q命中顺序系数0.2保留待核；贝蕾亚W/E最大生命口径补证；额外目标分配与纯第三方收益排除"
+  ],
+  "experienceIssues": [],
+  "pending": [
+    "未知等级曲线、输入枚举、触发条件与实际事件接线单列，未虚构默认值"
+  ],
+  "runtimeValidation": "未执行"
+}

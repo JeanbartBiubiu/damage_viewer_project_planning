@@ -1,0 +1,23 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/spirit_heal_base_at_character_level",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "spirit_heal_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spirit_heal_base_at_character_level",
+      "name": "驱灵奇术灵物治疗角色等级基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前HealCalc角色等级中间插值未证；运行层提供实际值，无默认。",
+      "sortOrder": 60
+    }
+  }
+}

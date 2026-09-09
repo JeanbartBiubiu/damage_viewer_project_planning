@@ -1,0 +1,45 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "method": "POST",
+    "route": "/skills/aurora_q/formulas",
+    "detailRoute": "/skills/aurora_q/formulas/q2_base_magic_damage",
+    "skillKey": "aurora_q",
+    "kind": "formulas",
+    "stableKey": "q2_base_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "q2_base_magic_damage",
+      "name": "飞去来咒再次施放基础魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q2_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q2_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Q2DamageMax基础树=Q2BaseDamage+0.4×来源法强；已损生命最高倍率另行计算。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 217,
+  "intent": {
+    "sequence": 218,
+    "method": "POST",
+    "route": "/skills/briar_w/formulas",
+    "detailRoute": "/skills/briar_w/formulas/empowered_attack_missing_health_percent",
+    "skillKey": "briar_w",
+    "kind": "formulas",
+    "stableKey": "empowered_attack_missing_health_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_attack_missing_health_percent",
+      "name": "噬击目标已损生命百分数",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_attack_missing_health_base_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_attack_missing_health_bonus_ad_percent"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalAttackPercentMissingHealth=9+0.025×来源额外攻击力，输出单位为百分数点并再乘目标已损生命。",
+      "sortOrder": 20
+    }
+  }
+}

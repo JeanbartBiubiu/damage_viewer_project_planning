@@ -1,0 +1,23 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/swap_static_cooldown_ms",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "swap_static_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "swap_static_cooldown_ms",
+      "name": "暗袭/裂斩形态静态冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前Swap_Static_Cooldown=0.5秒，转换为500毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

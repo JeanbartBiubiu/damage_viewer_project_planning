@@ -1,0 +1,23 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/max_health_damage_ap_ratio",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "max_health_damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_damage_ap_ratio",
+      "name": "驱灵奇术最大生命法强伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00027,
+      "levelValues": null,
+      "description": "当前ProcDamage第二项无mStat、系数0.00027，按同版窄证读取来源法强；正文按百分比显示。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/grace_cooldown_ms",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "grace_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grace_cooldown_ms",
+      "name": "恩怨相抵宽限冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前GraceCooldown=5秒，转换为5000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

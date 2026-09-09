@@ -1,0 +1,23 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/high_damage_multiplier",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "high_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "high_damage_multiplier",
+      "name": "铁令格挡后伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前Calc_Damage_High在低伤害基础上乘1.5；只保存来源倍率。",
+      "sortOrder": 100
+    }
+  }
+}

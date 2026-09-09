@@ -1,0 +1,23 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/critical_mstat8_value",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "critical_mstat8_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_mstat8_value",
+      "name": "恩怨相抵暴击mStat8实际输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前DamagePerBulletWithCrit的mMultiplier使用mStat8；属性枚举、暴击资格待接，运行层必须提供实际值，无默认。",
+      "sortOrder": 36
+    }
+  }
+}

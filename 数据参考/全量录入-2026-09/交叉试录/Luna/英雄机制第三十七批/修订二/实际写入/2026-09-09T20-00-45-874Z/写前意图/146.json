@@ -1,0 +1,23 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/spirit_heal_ap_ratio",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "spirit_heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spirit_heal_ap_ratio",
+      "name": "驱灵奇术灵物治疗法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "当前HealCalc第二项系数0.02×来源法强。",
+      "sortOrder": 70
+    }
+  }
+}

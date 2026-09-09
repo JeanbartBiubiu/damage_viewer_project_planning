@@ -1,0 +1,23 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/buffer_dash_time_ms",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "buffer_dash_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buffer_dash_time_ms",
+      "name": "龙犬诡步指令缓冲时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "当前Buffer_Dash_Time=0.3秒，转换为300毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

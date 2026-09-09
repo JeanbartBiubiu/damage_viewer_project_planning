@@ -1,0 +1,23 @@
+{
+  "i": 225,
+  "intent": {
+    "sequence": 226,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/wall_hit_bonus_ad_ratio",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "wall_hit_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_hit_bonus_ad_ratio",
+      "name": "惊吼撞墙额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2.4000001,
+      "levelValues": null,
+      "description": "当前WallHitDamage第二项mStat=2、mStatFormula=2、系数2.4，读取来源额外攻击力。",
+      "sortOrder": 50
+    }
+  }
+}

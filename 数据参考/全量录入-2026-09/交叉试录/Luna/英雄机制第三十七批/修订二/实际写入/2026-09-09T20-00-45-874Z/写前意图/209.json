@@ -1,0 +1,29 @@
+{
+  "i": 208,
+  "intent": {
+    "sequence": 209,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/berserk_attack_speed_ratio",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "berserk_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "berserk_attack_speed_ratio",
+      "name": "血莽攻击速度加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.55000001,
+        "2": 0.64999998,
+        "3": 0.75,
+        "4": 0.85000002,
+        "5": 0.94999999
+      },
+      "description": "当前BerserkAS技能等级1至5为55%/65%/75%/85%/95%，按比例保存。",
+      "sortOrder": 20
+    }
+  }
+}

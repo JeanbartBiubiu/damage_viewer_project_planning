@@ -1,0 +1,23 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/ambessa_e/parameters",
+    "detailRoute": "/skills/ambessa_e/parameters/slow_duration_ms",
+    "skillKey": "ambessa_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "血戮减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前Slow_Duration=1秒，转换为1000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 171,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/base_damage",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "双界合一冲击波基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 175,
+        "2": 275,
+        "3": 375
+      },
+      "description": "当前BaseDamage技能等级1至3为175/275/375；索引0为旧占位75。",
+      "sortOrder": 10
+    }
+  }
+}

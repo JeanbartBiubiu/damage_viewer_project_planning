@@ -1,0 +1,45 @@
+{
+  "i": 216,
+  "intent": {
+    "sequence": 217,
+    "method": "POST",
+    "route": "/skills/briar_w/formulas",
+    "detailRoute": "/skills/briar_w/formulas/empowered_attack_flat_damage",
+    "skillKey": "briar_w",
+    "kind": "formulas",
+    "stableKey": "empowered_attack_flat_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_attack_flat_damage",
+      "name": "噬击单一目标额外物理伤害平坦部分",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_attack_total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalAttackBonusDamage=AttackBonusDamage+1.05×来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

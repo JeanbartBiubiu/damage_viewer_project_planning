@@ -1,0 +1,23 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/on_hit_base_damage_min",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "on_hit_base_damage_min",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_base_damage_min",
+      "name": "龙犬诡步强化攻击角色等级伤害下限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前Calc_OnHit_Damage_Flat角色等级插值下限5。",
+      "sortOrder": 120
+    }
+  }
+}

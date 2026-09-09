@@ -1,0 +1,23 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/spirit_mode_duration_ms",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "spirit_mode_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spirit_mode_duration_ms",
+      "name": "驱灵奇术灵物跟随持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前英雄目标灵物跟随4秒，转换为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 176,
+  "intent": {
+    "sequence": 177,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/area_size",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "area_size",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "area_size",
+      "name": "双界合一交界领域尺寸",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 700,
+      "levelValues": null,
+      "description": "当前AoESize=700；只保存区域来源值，不创建额外目标过程。",
+      "sortOrder": 70
+    }
+  }
+}

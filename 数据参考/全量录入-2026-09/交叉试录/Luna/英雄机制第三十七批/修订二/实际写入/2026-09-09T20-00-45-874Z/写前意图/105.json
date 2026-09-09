@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/damage_2_bonus_ad_ratio",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "damage_2_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_2_bonus_ad_ratio",
+      "name": "裂斩额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.89999998,
+      "levelValues": null,
+      "description": "当前Calc_Damage_2_Max的mStat=2、mStatFormula=2，系数0.9为来源额外攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

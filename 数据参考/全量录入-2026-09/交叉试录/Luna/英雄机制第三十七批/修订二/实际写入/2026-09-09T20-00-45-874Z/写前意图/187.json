@@ -1,0 +1,23 @@
+{
+  "i": 186,
+  "intent": {
+    "sequence": 187,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_base_damage_at_character_level",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_base_damage_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_base_damage_at_character_level",
+      "name": "猩红诅咒角色等级流血基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前{15da76ad}角色等级中间插值未证；运行层提供每秒基础值，无默认。",
+      "sortOrder": 70
+    }
+  }
+}

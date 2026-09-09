@@ -1,0 +1,23 @@
+{
+  "i": 205,
+  "intent": {
+    "sequence": 206,
+    "method": "POST",
+    "route": "/skills/briar_q/parameters",
+    "detailRoute": "/skills/briar_q/parameters/shred_duration_ms",
+    "skillKey": "briar_q",
+    "kind": "parameters",
+    "stableKey": "shred_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shred_duration_ms",
+      "name": "冲头护甲魔抗削减持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前ShredDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

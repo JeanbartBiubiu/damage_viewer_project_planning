@@ -1,0 +1,27 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/exit_slow_duration_ms",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "exit_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "exit_slow_duration_ms",
+      "name": "双界合一进出区域减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1500,
+        "2": 1750,
+        "3": 2000
+      },
+      "description": "当前字段名StunDuration但正文明确是进出区域减速，技能等级1至3为1.25/1.5/1.75秒，转换为毫秒；不称晕眩。",
+      "sortOrder": 90
+    }
+  }
+}

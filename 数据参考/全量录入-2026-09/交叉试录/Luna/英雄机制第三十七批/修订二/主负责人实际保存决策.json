@@ -1,0 +1,63 @@
+{
+  "at": "2026-09-09T20:00:45.789Z",
+  "decision": "修订二通过主负责人独立源值窄复核，按计划新增247项并复用24项。保存后独立GET与实际数学及代表页面验收。",
+  "hashes": {
+    "完整候选.json": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+    "写前请求计划.json": "31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec",
+    "受保护写入器.mjs": "9e8cd84c18b16a9d73338f70f03aa733958967e22288a58b20317c7f1d8d5d76"
+  },
+  "counts": {
+    "parameters": 199,
+    "formulas": 41,
+    "effects": 7
+  },
+  "created": 247,
+  "reused": 24,
+  "current": 271,
+  "preflightGETs": 467,
+  "checks": [
+    {
+      "label": "E当前CriticalCalc与R当前DamagePerBulletWithCrit保留完整乘区，两个非零暴击场景由原始树数值独立计算",
+      "passed": true
+    },
+    {
+      "label": "AttackFrequency仅保留DECIMAL原始值0.2，未假定毫秒",
+      "passed": true
+    },
+    {
+      "label": "阿萝拉Q后续命中20%保持待核归属，W百分数转比例",
+      "passed": true
+    },
+    {
+      "label": "贝蕾亚W/E来源生命公式归属正确；阿萝拉P三次与撞墙1500毫秒保持",
+      "passed": true
+    },
+    {
+      "label": "额外敌人专属与非猎物恐惧未写入",
+      "passed": true
+    },
+    {
+      "label": "7效果均显式空法术护盾字段，引用类型已通过受保护写入器检查",
+      "passed": true
+    },
+    {
+      "label": "来源与请求计划字节冻结，467次只读预检为196保护、24复用和247待新增",
+      "passed": true
+    },
+    {
+      "label": "候选41公式82场景60缺值拒绝与13边界无失败，实际侧使用候选参数",
+      "passed": true
+    },
+    {
+      "label": "实际Cursor重试正常READY，输入哈希与只读审计通过，原未启动失败保留",
+      "passed": true
+    }
+  ],
+  "knownBoundaries": [
+    "184为候选数学记录的参数适用性检查条目，不直接称184个整数参数",
+    "未知属性枚举、曲线、时序与过程接线保留待核，未虚构默认",
+    "所有业务写入均为新增；没有删除既有数据"
+  ],
+  "runtimeValidation": "未执行",
+  "apiWritesBeforeRun": 0
+}

@@ -1,0 +1,23 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/shield_duration_ms",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "铁令护盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前Shield_Duration=1.5秒，转换为1500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

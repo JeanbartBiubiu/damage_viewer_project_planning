@@ -1,0 +1,45 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/aurora_p/formulas",
+    "detailRoute": "/skills/aurora_p/formulas/spirit_heal_value",
+    "skillKey": "aurora_p",
+    "kind": "formulas",
+    "stableKey": "spirit_heal_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "spirit_heal_value",
+      "name": "驱灵奇术灵物每秒自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "spirit_heal_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spirit_heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前HealCalc=角色等级基础值+0.02×来源法强；正文说明英雄目标灵物每秒治疗。",
+      "sortOrder": 20
+    }
+  }
+}

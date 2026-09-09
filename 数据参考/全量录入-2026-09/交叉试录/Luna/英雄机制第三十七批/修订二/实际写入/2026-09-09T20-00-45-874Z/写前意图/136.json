@@ -1,0 +1,23 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/ambessa_r/parameters",
+    "detailRoute": "/skills/ambessa_r/parameters/omnivamp_unknown_stat_value",
+    "skillKey": "ambessa_r",
+    "kind": "parameters",
+    "stableKey": "omnivamp_unknown_stat_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "omnivamp_unknown_stat_value",
+      "name": "公开处刑mStat18实际输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前Calc_Omnivamp的mStat18属性枚举未证；运行层提供实际值，无默认，禁止把它默认成生命偷取或法强。",
+      "sortOrder": 80
+    }
+  }
+}

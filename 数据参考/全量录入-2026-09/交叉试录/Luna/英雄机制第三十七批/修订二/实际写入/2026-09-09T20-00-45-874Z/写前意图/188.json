@@ -1,0 +1,23 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_bonus_ad_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_bonus_ad_ratio",
+      "name": "猩红诅咒流血额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "当前{15da76ad}第二项mStat=2、mStatFormula=2、系数0.1，读取来源额外攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "method": "POST",
+    "route": "/skills/aurora_p/parameters",
+    "detailRoute": "/skills/aurora_p/parameters/max_hit_count",
+    "skillKey": "aurora_p",
+    "kind": "parameters",
+    "stableKey": "max_hit_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_hit_count",
+      "name": "驱灵奇术单一敌人触发所需命中次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确对一个敌人造成3次伤害后驱灵；命中事件由事件层接线。",
+      "sortOrder": 5
+    }
+  }
+}

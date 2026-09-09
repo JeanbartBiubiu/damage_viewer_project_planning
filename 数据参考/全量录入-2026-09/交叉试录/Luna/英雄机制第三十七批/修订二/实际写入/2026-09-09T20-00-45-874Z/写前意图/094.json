@@ -1,0 +1,71 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/ambessa_p/effects",
+    "detailRoute": "/skills/ambessa_p/effects/attack_speed_bonus",
+    "skillKey": "ambessa_p",
+    "kind": "effects",
+    "stableKey": "attack_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "attack_speed_bonus",
+      "name": "龙犬诡步强化攻击自身攻击速度",
+      "description": "当前充能期间给自身50%攻击速度；层数消费和施放事件待接。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_buff_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "龙犬诡步强化攻击自身攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义来源明确的自身属性变化；触发事件由后续事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_bonus_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

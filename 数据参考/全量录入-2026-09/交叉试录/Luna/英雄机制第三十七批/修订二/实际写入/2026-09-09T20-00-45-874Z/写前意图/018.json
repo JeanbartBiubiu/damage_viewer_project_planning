@@ -1,0 +1,23 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/passive_proc_ap_ratio",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "passive_proc_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_proc_ap_ratio",
+      "name": "三次命中法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.60000002,
+      "levelValues": null,
+      "description": "当前PassiveProcDamage第二项为APRatio×法术强度，mStat省略按同版窄证读取法强。",
+      "sortOrder": 180
+    }
+  }
+}

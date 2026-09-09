@@ -1,0 +1,23 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/second_attack_range_points",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "second_attack_range_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_attack_range_points",
+      "name": "额外射击攻击距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 200,
+      "levelValues": null,
+      "description": "当前DataValues.SecondAutoFlexedAttackRange=200；只保存来源数值，不建攻击事件。",
+      "sortOrder": 40
+    }
+  }
+}

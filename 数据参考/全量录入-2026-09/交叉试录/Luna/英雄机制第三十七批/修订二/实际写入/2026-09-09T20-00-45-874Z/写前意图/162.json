@@ -1,0 +1,23 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "method": "POST",
+    "route": "/skills/aurora_w/parameters",
+    "detailRoute": "/skills/aurora_w/parameters/jump_distance",
+    "skillKey": "aurora_w",
+    "kind": "parameters",
+    "stableKey": "jump_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "jump_distance",
+      "name": "灵纱洞开跳跃距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "当前JumpDistance=300；位移资格保留，不创建过程。",
+      "sortOrder": 40
+    }
+  }
+}

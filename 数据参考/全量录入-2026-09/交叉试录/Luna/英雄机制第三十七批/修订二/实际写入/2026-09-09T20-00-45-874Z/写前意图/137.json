@@ -1,0 +1,45 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "method": "POST",
+    "route": "/skills/ambessa_r/formulas",
+    "detailRoute": "/skills/ambessa_r/formulas/physical_damage",
+    "skillKey": "ambessa_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "公开处刑单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Damage=Damage+0.8×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

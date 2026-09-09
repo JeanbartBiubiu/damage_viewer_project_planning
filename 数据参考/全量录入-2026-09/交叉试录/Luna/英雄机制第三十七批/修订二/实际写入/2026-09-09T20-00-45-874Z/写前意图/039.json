@@ -1,0 +1,45 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/akshan_q/formulas",
+    "detailRoute": "/skills/akshan_q/formulas/physical_damage",
+    "skillKey": "akshan_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "去而复还单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前FinalDamage=BaseDamage+ADRatio×来源额外攻击力；去程与返程命中同一敌人各自由事件层结算。",
+      "sortOrder": 10
+    }
+  }
+}

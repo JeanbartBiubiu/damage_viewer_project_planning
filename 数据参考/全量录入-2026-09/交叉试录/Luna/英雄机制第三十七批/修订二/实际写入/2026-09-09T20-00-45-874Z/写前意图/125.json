@@ -1,0 +1,23 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "method": "POST",
+    "route": "/skills/ambessa_e/parameters",
+    "detailRoute": "/skills/ambessa_e/parameters/slow_ratio",
+    "skillKey": "ambessa_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "血戮减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.99000001,
+      "levelValues": null,
+      "description": "当前正文以Slow_Amount×100显示99%减速；保留0.99比例。",
+      "sortOrder": 20
+    }
+  }
+}

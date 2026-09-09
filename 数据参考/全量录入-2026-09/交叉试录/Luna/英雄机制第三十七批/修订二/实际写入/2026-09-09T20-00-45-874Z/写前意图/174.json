@@ -1,0 +1,23 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/impact_slow_duration_ms",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "impact_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_slow_duration_ms",
+      "name": "双界合一落地减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前正文明确落地减速持续2秒，转换为2000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

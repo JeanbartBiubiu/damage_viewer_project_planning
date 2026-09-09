@@ -1,0 +1,45 @@
+{
+  "i": 245,
+  "intent": {
+    "sequence": 246,
+    "method": "POST",
+    "route": "/skills/briar_r/formulas",
+    "detailRoute": "/skills/briar_r/formulas/magic_damage",
+    "skillKey": "briar_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "毙除着陆单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=BaseDamage+1.3×来源法强；周围额外敌人分支不展开。",
+      "sortOrder": 10
+    }
+  }
+}

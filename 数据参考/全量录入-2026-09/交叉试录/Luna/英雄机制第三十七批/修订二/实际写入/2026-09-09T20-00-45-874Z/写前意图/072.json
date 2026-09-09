@@ -1,0 +1,95 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/akshan_r/formulas",
+    "detailRoute": "/skills/akshan_r/formulas/damage_per_bullet",
+    "skillKey": "akshan_r",
+    "kind": "formulas",
+    "stableKey": "damage_per_bullet",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_bullet",
+      "name": "恩怨相抵每颗子弹含暴击乘区的物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_mstat8_value"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_damage_effectiveness_ratio"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_mstat9_value"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_stat_offset"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamagePerBulletWithCrit=(BonusDamage+0.15×来源总攻击力)×(1+mStat8×0.3×(mStat9-1))；完整mMultiplier保留，mStat8/9实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

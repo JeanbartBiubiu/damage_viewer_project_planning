@@ -1,0 +1,23 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "method": "POST",
+    "route": "/skills/aurora_e/parameters",
+    "detailRoute": "/skills/aurora_e/parameters/slow_decay_ratio",
+    "skillKey": "aurora_e",
+    "kind": "parameters",
+    "stableKey": "slow_decay_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_decay_ratio",
+      "name": "怪奇喷涌减速衰减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.85000002,
+      "levelValues": null,
+      "description": "当前SlowDecay=0.85；只保存衰减终点参数，不编中间曲线。",
+      "sortOrder": 40
+    }
+  }
+}

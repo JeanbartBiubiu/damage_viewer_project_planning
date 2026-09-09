@@ -1,0 +1,23 @@
+{
+  "i": 211,
+  "intent": {
+    "sequence": 212,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/empowered_attack_total_ad_ratio",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_total_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_total_ad_ratio",
+      "name": "噬击总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.04999995,
+      "levelValues": null,
+      "description": "当前TotalAttackBonusDamage的mStat=2且未给formula，按同版窄证读取来源总攻击力。",
+      "sortOrder": 50
+    }
+  }
+}

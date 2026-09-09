@@ -1,0 +1,789 @@
+{
+  "generatedAt": "2026-09-09T20:24:07.488Z",
+  "status": "PASS",
+  "batch": "英雄机制第三十七批",
+  "revision": "hero37-source-v1-revision2",
+  "candidateFileSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+  "sourceFileSha256": "2a49a2cb4cebed3945d8ccea7352ba128b007cd01a18a812d478e0a767275905",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "planFileSha256": "31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec",
+  "getReportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero37-independent-review\\实际回读\\2026-09-09T20-19-48-824Z\\独立全量GET.json",
+  "getReportSha256": "856d4198b25d90b6c8e3dec4ac6cb1f1069e03b6e929c6c65717cd1cc1869a08",
+  "sourcePolicy": "期望值只读取第37批冻结根条目的原始DataValues与mSpellCalculations；实际值只读取同一轮467次独立GET保存的参数与公式详情。两侧独立。",
+  "formulaCount": 41,
+  "formulaCaseCount": 82,
+  "formulaCases": [
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "cancelled_second_attack_move_speed",
+      "variant": 0,
+      "level": 1,
+      "actual": 25,
+      "sourceExpected": 25,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "cancelled_second_attack_move_speed",
+      "variant": 1,
+      "level": 1,
+      "actual": 131.25,
+      "sourceExpected": 131.25,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "champion_shield_value",
+      "variant": 0,
+      "level": 1,
+      "actual": 67.99999919999999,
+      "sourceExpected": 67.99999952316284,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "champion_shield_value",
+      "variant": 1,
+      "level": 1,
+      "actual": 356.9999978,
+      "sourceExpected": 356.9999986886978,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "passive_proc_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 195.00000599999998,
+      "sourceExpected": 195.00000715255737,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "passive_proc_magic_damage",
+      "variant": 1,
+      "level": 1,
+      "actual": 665.000018,
+      "sourceExpected": 665.0000214576721,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "second_attack_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 100,
+      "sourceExpected": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_p",
+      "formulaKey": "second_attack_physical_damage",
+      "variant": 1,
+      "level": 1,
+      "actual": 210,
+      "sourceExpected": 210,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_q",
+      "formulaKey": "champion_hit_haste_ratio",
+      "variant": 0,
+      "level": 1,
+      "actual": 0.35,
+      "sourceExpected": 0.35000001010484993,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_q",
+      "formulaKey": "champion_hit_haste_ratio",
+      "variant": 1,
+      "level": 5,
+      "actual": 0.65,
+      "sourceExpected": 0.6500000243540853,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_q",
+      "formulaKey": "physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 100.9999992,
+      "sourceExpected": 100.99999904632568,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_q",
+      "formulaKey": "physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 318.9999978,
+      "sourceExpected": 318.99999737739563,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_e",
+      "formulaKey": "critical_shot_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 37.41000008699999,
+      "sourceExpected": 37.41000010371208,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_e",
+      "formulaKey": "critical_shot_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 155.4218759515625,
+      "sourceExpected": 155.4218761343509,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_e",
+      "formulaKey": "shot_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 62.350000144999996,
+      "sourceExpected": 62.35000017285347,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_e",
+      "formulaKey": "shot_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 177.6250010875,
+      "sourceExpected": 177.62500129640102,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_r",
+      "formulaKey": "damage_per_bullet",
+      "variant": 0,
+      "level": 1,
+      "actual": 51.70000176999999,
+      "sourceExpected": 51.7000009894371,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_r",
+      "formulaKey": "damage_per_bullet",
+      "variant": 1,
+      "level": 3,
+      "actual": 101.11500370274997,
+      "sourceExpected": 101.11500207021832,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_r",
+      "formulaKey": "max_damage_per_bullet",
+      "variant": 0,
+      "level": 1,
+      "actual": 155.10000530999997,
+      "sourceExpected": 155.1000029683113,
+      "passed": true
+    },
+    {
+      "skillKey": "akshan_r",
+      "formulaKey": "max_damage_per_bullet",
+      "variant": 1,
+      "level": 3,
+      "actual": 303.34501110824993,
+      "sourceExpected": 303.34500621065496,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_p",
+      "formulaKey": "on_hit_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 25,
+      "sourceExpected": 25,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_p",
+      "formulaKey": "on_hit_physical_damage",
+      "variant": 1,
+      "level": 1,
+      "actual": 85,
+      "sourceExpected": 85,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_1_edge_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 88.00000159999999,
+      "sourceExpected": 88.00000190734863,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_1_edge_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 252.0000044,
+      "sourceExpected": 252.00000524520874,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_1_max_health_ratio",
+      "variant": 0,
+      "level": 1,
+      "actual": 0.064,
+      "sourceExpected": 0.06400000024586916,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_1_max_health_ratio",
+      "variant": 1,
+      "level": 5,
+      "actual": 0.126,
+      "sourceExpected": 0.12600000179372728,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_2_first_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 121.99999840000001,
+      "sourceExpected": 121.99999809265137,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_2_first_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 347.99999560000003,
+      "sourceExpected": 347.99999475479126,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_2_max_health_ratio",
+      "variant": 0,
+      "level": 1,
+      "actual": 0.07200000000000001,
+      "sourceExpected": 0.07199999829754233,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_q",
+      "formulaKey": "damage_2_max_health_ratio",
+      "variant": 1,
+      "level": 5,
+      "actual": 0.14800000000000002,
+      "sourceExpected": 0.1479999964358285,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "high_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 135,
+      "sourceExpected": 135,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "high_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 390,
+      "sourceExpected": 390,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "low_physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 90,
+      "sourceExpected": 90,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "low_physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 260,
+      "sourceExpected": 260,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "shield_value",
+      "variant": 0,
+      "level": 1,
+      "actual": 160,
+      "sourceExpected": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_w",
+      "formulaKey": "shield_value",
+      "variant": 1,
+      "level": 5,
+      "actual": 610,
+      "sourceExpected": 610,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_e",
+      "formulaKey": "physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 80,
+      "sourceExpected": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_e",
+      "formulaKey": "physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 230,
+      "sourceExpected": 230,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_r",
+      "formulaKey": "omnivamp_ratio",
+      "variant": 0,
+      "level": 1,
+      "actual": 150.15000001,
+      "sourceExpected": 150.15000000596046,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_r",
+      "formulaKey": "omnivamp_ratio",
+      "variant": 1,
+      "level": 3,
+      "actual": 600.2,
+      "sourceExpected": 600.2000000029802,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_r",
+      "formulaKey": "physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 214.0000008,
+      "sourceExpected": 214.00000095367432,
+      "passed": true
+    },
+    {
+      "skillKey": "ambessa_r",
+      "formulaKey": "physical_damage",
+      "variant": 1,
+      "level": 3,
+      "actual": 526.0000021999999,
+      "sourceExpected": 526.0000026226044,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_p",
+      "formulaKey": "proc_damage_ratio",
+      "variant": 0,
+      "level": 1,
+      "actual": 0.091,
+      "sourceExpected": 0.09099999663885683,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_p",
+      "formulaKey": "proc_damage_ratio",
+      "variant": 1,
+      "level": 1,
+      "actual": 0.253,
+      "sourceExpected": 0.2529999903636053,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_p",
+      "formulaKey": "spirit_heal_value",
+      "variant": 0,
+      "level": 1,
+      "actual": 9,
+      "sourceExpected": 8.99999986588955,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_p",
+      "formulaKey": "spirit_heal_value",
+      "variant": 1,
+      "level": 1,
+      "actual": 38,
+      "sourceExpected": 37.99999959766865,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "first_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 165.000003,
+      "sourceExpected": 165.00000178813934,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "first_magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 505.00000900000003,
+      "sourceExpected": 505.00000536441803,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "q2_base_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 165.000003,
+      "sourceExpected": 165.00000178813934,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "q2_base_magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 505.00000900000003,
+      "sourceExpected": 505.00000536441803,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "q2_max_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 247.5000045,
+      "sourceExpected": 247.50000268220901,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_q",
+      "formulaKey": "q2_max_magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 757.5000135,
+      "sourceExpected": 757.500008046627,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_e",
+      "formulaKey": "magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 279.999997,
+      "sourceExpected": 279.9999964237213,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_e",
+      "formulaKey": "magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 859.999991,
+      "sourceExpected": 859.9999892711639,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_r",
+      "formulaKey": "magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 384.999997,
+      "sourceExpected": 384.9999964237213,
+      "passed": true
+    },
+    {
+      "skillKey": "aurora_r",
+      "formulaKey": "magic_damage",
+      "variant": 1,
+      "level": 3,
+      "actual": 1004.999991,
+      "sourceExpected": 1004.9999892711639,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_damage_per_second",
+      "variant": 0,
+      "level": 1,
+      "actual": 10,
+      "sourceExpected": 10.00000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_damage_per_second",
+      "variant": 1,
+      "level": 1,
+      "actual": 32,
+      "sourceExpected": 32.000000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_max_total_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 100,
+      "sourceExpected": 100.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_max_total_damage",
+      "variant": 1,
+      "level": 1,
+      "actual": 320,
+      "sourceExpected": 320.00000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_total_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 50,
+      "sourceExpected": 50.00000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "bleed_total_damage",
+      "variant": 1,
+      "level": 1,
+      "actual": 160,
+      "sourceExpected": 160.00000163912773,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "missing_health_heal_percent",
+      "variant": 0,
+      "level": 1,
+      "actual": 47.500001000000005,
+      "sourceExpected": 47.50000095227733,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_p",
+      "formulaKey": "missing_health_heal_percent",
+      "variant": 1,
+      "level": 1,
+      "actual": 70.000001,
+      "sourceExpected": 70.00000202096999,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_q",
+      "formulaKey": "physical_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 304.0000068,
+      "sourceExpected": 304.0000081062317,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_q",
+      "formulaKey": "physical_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 876.0000201999999,
+      "sourceExpected": 876.0000240802765,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_flat_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 214.99998999999997,
+      "sourceExpected": 214.99999046325684,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_flat_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 505.99997899999994,
+      "sourceExpected": 505.99997997283936,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_heal_base",
+      "variant": 0,
+      "level": 1,
+      "actual": 90,
+      "sourceExpected": 90.00000134110451,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_heal_base",
+      "variant": 1,
+      "level": 5,
+      "actual": 200,
+      "sourceExpected": 200.00000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_missing_health_percent",
+      "variant": 0,
+      "level": 1,
+      "actual": 11,
+      "sourceExpected": 11.000000029802322,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_w",
+      "formulaKey": "empowered_attack_missing_health_percent",
+      "variant": 1,
+      "level": 5,
+      "actual": 14.5,
+      "sourceExpected": 14.500000081956387,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "max_health_heal_value",
+      "variant": 0,
+      "level": 1,
+      "actual": 180,
+      "sourceExpected": 180.00000268220901,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "max_health_heal_value",
+      "variant": 1,
+      "level": 5,
+      "actual": 640,
+      "sourceExpected": 639.9999856948853,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "max_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 460,
+      "sourceExpected": 460,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "max_magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 1340,
+      "sourceExpected": 1340,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "wall_hit_magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 1052.0000380000001,
+      "sourceExpected": 1052.000036239624,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_e",
+      "formulaKey": "wall_hit_magic_damage",
+      "variant": 1,
+      "level": 5,
+      "actual": 3128.000112,
+      "sourceExpected": 3128.0001068115234,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_r",
+      "formulaKey": "magic_damage",
+      "variant": 0,
+      "level": 1,
+      "actual": 539.9999849999999,
+      "sourceExpected": 539.9999856948853,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_r",
+      "formulaKey": "magic_damage",
+      "variant": 1,
+      "level": 3,
+      "actual": 1519.999955,
+      "sourceExpected": 1519.9999570846558,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_r",
+      "formulaKey": "total_resists",
+      "variant": 0,
+      "level": 1,
+      "actual": 40,
+      "sourceExpected": 40.00000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "briar_r",
+      "formulaKey": "total_resists",
+      "variant": 1,
+      "level": 3,
+      "actual": 84,
+      "sourceExpected": 84.00000125169754,
+      "passed": true
+    }
+  ],
+  "missingInputChecks": 60,
+  "binaryChecks": 111,
+  "integerChecks": 268,
+  "millisecondTypeChecks": 58,
+  "sourceSeriesChecks": 151,
+  "effectChecks": 7,
+  "boundaryChecks": 13,
+  "actualComponentCounts": {
+    "parameters": 223,
+    "formulas": 41,
+    "effects": 7,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "actualDetailSources": {
+    "parameterDetails": 223,
+    "formulaDetails": 41,
+    "effectDetails": 7,
+    "uniqueDetailRoutes": 271,
+    "rawGetCalls": 467
+  },
+  "failures": [],
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "noBusinessWrites": true,
+  "noBrowser": true,
+  "notes": [
+    "mStat12/formula2（贝蕾亚P、安蓓萨R相关未知输入）继续无默认；贝蕾亚W/E无选择器mStat12按主负责人同版窄证以SOURCE.hp.TOTAL求值。",
+    "阿萝拉W MoveSpeedBonus原始值是百分数点，独立期望按100换算为比例；不按原始20/40直接作为属性比例。",
+    "阿克尚E的CriticalCalc和R的DamagePerBulletWithCrit均按冻结树保留完整暴击乘区；mStat8/mStat9使用不同的非零运行输入，期望侧直接读取原始树，不能把它们映射成既有属性。",
+    "阿萝拉Q的DamageReduction=0.2按正文保存为后续命中比例；归属、命中顺序和已损生命中间曲线仍待核。",
+    "角色等级插值只验证原始端点和运行输入拒绝，中间曲线不由端点推导。"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/passive_proc_base_damage_at_character_level",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "passive_proc_base_damage_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_proc_base_damage_at_character_level",
+      "name": "三次命中角色等级基础伤害实际值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前PassiveProcDamage的断点求值循环未证；运行层须提供角色等级实际基础值，不能按端点线性猜测。",
+      "sortOrder": 170
+    }
+  }
+}

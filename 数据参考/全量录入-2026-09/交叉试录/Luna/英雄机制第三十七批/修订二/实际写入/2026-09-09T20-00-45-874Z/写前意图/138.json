@@ -1,0 +1,43 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/ambessa_r/formulas",
+    "detailRoute": "/skills/ambessa_r/formulas/omnivamp_ratio",
+    "skillKey": "ambessa_r",
+    "kind": "formulas",
+    "stableKey": "omnivamp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "omnivamp_ratio",
+      "name": "公开处刑自身回复比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "omnivamp_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "omnivamp_unknown_stat_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "omnivamp_unknown_stat_value"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Omnivamp=Omnivamp+0.5×mStat18；属性枚举保持运行输入，不默认成生命偷取。",
+      "sortOrder": 20
+    }
+  }
+}

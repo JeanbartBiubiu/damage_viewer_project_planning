@@ -1,0 +1,45 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/ambessa_q/formulas",
+    "detailRoute": "/skills/ambessa_q/formulas/damage_1_edge_physical_damage",
+    "skillKey": "ambessa_q",
+    "kind": "formulas",
+    "stableKey": "damage_1_edge_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_1_edge_physical_damage",
+      "name": "暗袭边缘单一敌人基础物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_1_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_1_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Damage_1_Max=Damage_1_Base+0.6×来源额外攻击力；目标最大生命比例另行保存。",
+      "sortOrder": 10
+    }
+  }
+}

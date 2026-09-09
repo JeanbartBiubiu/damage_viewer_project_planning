@@ -1,0 +1,29 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/damage_2_base",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "damage_2_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_2_base",
+      "name": "裂斩基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "description": "当前Damage_2_Base技能等级1至5为50/75/100/125/150。",
+      "sortOrder": 60
+    }
+  }
+}

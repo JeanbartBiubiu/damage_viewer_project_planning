@@ -1,0 +1,23 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/shield_base_at_character_level",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "shield_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base_at_character_level",
+      "name": "铁令护盾角色等级基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前Calc_Shield角色等级中间插值未证；运行层提供实际角色等级基础值，无默认。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/ambessa_w/formulas",
+    "detailRoute": "/skills/ambessa_w/formulas/high_physical_damage",
+    "skillKey": "ambessa_w",
+    "kind": "formulas",
+    "stableKey": "high_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "high_physical_damage",
+      "name": "铁令格挡后单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "high_damage_multiplier"
+          }
+        ]
+      },
+      "description": "当前Calc_Damage_High=Calc_Damage_Low×HighDamageMultiplier；格挡条件由事件层提供。",
+      "sortOrder": 30
+    }
+  }
+}

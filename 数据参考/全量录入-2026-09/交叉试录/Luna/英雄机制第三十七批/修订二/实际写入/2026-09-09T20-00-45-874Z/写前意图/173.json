@@ -1,0 +1,23 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/impact_slow_ratio",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "impact_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_slow_ratio",
+      "name": "双界合一落地减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.30000001,
+      "levelValues": null,
+      "description": "当前SlowPercent原值-0.3，正文以负号转为30%减速；保存正的0.3幅度。",
+      "sortOrder": 30
+    }
+  }
+}

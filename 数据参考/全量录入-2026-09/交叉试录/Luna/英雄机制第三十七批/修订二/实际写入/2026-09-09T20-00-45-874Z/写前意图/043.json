@@ -1,0 +1,29 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/akshan_w/parameters",
+    "detailRoute": "/skills/akshan_w/parameters/move_speed_points",
+    "skillKey": "akshan_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_points",
+      "name": "赴险夺人朝恶人移动速度",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 90,
+        "3": 100,
+        "4": 110,
+        "5": 120
+      },
+      "description": "当前GameModeInteger=1展开的正文消费MSValue，技能等级1至5为80/90/100/110/120移动速度点。",
+      "sortOrder": 20
+    }
+  }
+}

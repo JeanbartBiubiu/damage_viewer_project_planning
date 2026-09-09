@@ -1,0 +1,53 @@
+{
+  "batch": "英雄机制第三十七批",
+  "revision": "hero37-source-v1-revision1",
+  "status": "候选交付，未录入业务数据",
+  "files": [
+    "完整候选.json",
+    "写前请求计划.json",
+    "源值解析.json",
+    "来源哈希汇总.json",
+    "来源与范围.json",
+    "候选版本.json",
+    "冻结候选锁.json",
+    "体验报告.md",
+    "独立源值数学.mjs",
+    "独立源值数学报告.json",
+    "生成候选.mjs",
+    "修订差异.json",
+    "文件散列.json"
+  ],
+  "candidateFileSha256": "080badac1f40e51d1953f0eb0e9f1ffe247bff66b07a23161f222bef9bc4bf54",
+  "planFileSha256": "003170189232374c49723f67ae647458fd6b10cb864fa3190924fd550ece1450",
+  "counts": {
+    "newParameters": 191,
+    "newFormulas": 40,
+    "newEffects": 7,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 238,
+    "reusedPublicParameters": 24,
+    "plannedTotalIncludingReused": 262,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 238,
+  "apiWrites": 0,
+  "protectedCounts": {
+    "GETs": 196,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 24,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "finalizedAt": "2026-09-09T19:39:35.141Z",
+  "mathReport": {
+    "path": "独立源值数学报告.json",
+    "sha256": "f73b1dc8397b2cbcb11f025a884b14e06bdb36b7a1ad9b39c42e0629604ffb9f",
+    "status": "PASS"
+  }
+}

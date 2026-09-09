@@ -1,0 +1,23 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/aurora_q/parameters",
+    "detailRoute": "/skills/aurora_q/parameters/additional_hit_damage_ratio",
+    "skillKey": "aurora_q",
+    "kind": "parameters",
+    "stableKey": "additional_hit_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "additional_hit_damage_ratio",
+      "name": "飞去来咒后续命中伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前正文明确第一次命中后的伤害降低至20%，DataValues.DamageReduction=0.2；后续命中归属与命中顺序待核，不把正文短语直接解释为额外目标。",
+      "sortOrder": 55
+    }
+  }
+}
