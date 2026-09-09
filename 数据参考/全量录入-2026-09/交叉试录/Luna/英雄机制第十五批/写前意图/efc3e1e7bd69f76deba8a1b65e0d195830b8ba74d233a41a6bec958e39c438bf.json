@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:55:13.971Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_e/parameters/shield_base_amount",
+  "id": "shield_base_amount",
+  "method": "POST",
+  "body": {
+    "parameterKey": "shield_base_amount",
+    "name": "指令：防卫基础护盾",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 55,
+      "2": 90,
+      "3": 125,
+      "4": 160,
+      "5": 195
+    },
+    "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+    "sortOrder": 40
+  }
+}

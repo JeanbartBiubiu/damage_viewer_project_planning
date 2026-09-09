@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:54:00.398Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_q/formulas/shield_amount",
+  "id": "shield_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "shield_amount",
+    "name": "基础护盾数值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shield_amount_level_value"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "角色等级插值基础项+护盾法强系数；实际等级值外供，不按端点猜线性。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:54:48.681Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_p/formulas/passive_total_damage",
+  "id": "passive_total_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_total_damage",
+    "name": "普通攻击附加魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "passive_total_damage_level_value"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前角色等级基础项+法强系数；同一目标层数由真实攻击事件决定。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-09T09:55:00.420Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_q/formulas/minimum_damage",
+  "id": "minimum_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "minimum_damage",
+    "name": "指令：攻击最低魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "DIVIDE",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前树明确最低伤害比例；路径目标次序和衰减触发待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

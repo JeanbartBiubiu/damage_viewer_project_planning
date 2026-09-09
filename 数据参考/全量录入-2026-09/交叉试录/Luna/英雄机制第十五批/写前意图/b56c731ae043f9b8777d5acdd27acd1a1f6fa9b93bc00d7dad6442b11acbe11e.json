@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T09:56:46.250Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/formulas/max_rock_damage",
+  "id": "max_rock_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "max_rock_damage",
+    "name": "最多石块合计伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_1"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前tooltipOnly公式为单发伤害乘2.6，只作为源算术上限，不把五发总伤或命中资格写成默认结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 30
+  }
+}

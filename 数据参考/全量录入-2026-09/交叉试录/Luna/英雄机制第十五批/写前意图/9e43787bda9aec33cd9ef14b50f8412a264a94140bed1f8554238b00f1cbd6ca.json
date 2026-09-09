@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T09:57:10.095Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_r/parameters/cooldown_ms",
+  "id": "cooldown_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 180000,
+      "2": 150000,
+      "3": 120000
+    },
+    "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}

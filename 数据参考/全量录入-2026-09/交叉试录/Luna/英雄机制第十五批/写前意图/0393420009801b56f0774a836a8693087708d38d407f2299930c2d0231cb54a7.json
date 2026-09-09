@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T09:54:27.284Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_r/parameters/initial_burst_base_damage",
+  "id": "initial_burst_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "initial_burst_base_damage",
+    "name": "初始爆发基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 100,
+      "2": 175,
+      "3": 250
+    },
+    "description": "客户端当前根绑定 DataValues.InitialBurstBaseDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

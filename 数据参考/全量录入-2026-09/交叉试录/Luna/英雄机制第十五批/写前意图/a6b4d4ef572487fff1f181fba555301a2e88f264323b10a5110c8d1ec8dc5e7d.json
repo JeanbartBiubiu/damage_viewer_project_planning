@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:54:23.916Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_e/formulas/aftershock_damage",
+  "id": "aftershock_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "aftershock_damage",
+    "name": "后续爆炸魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "aftershock_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "aftershock_ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "进化E沿激光路径的后续爆炸伤害；命中时序待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

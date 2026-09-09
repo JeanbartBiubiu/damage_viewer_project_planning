@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T07:05:02.144Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Viktor",
+      "chineseName": "奥术先驱",
+      "rootPath": "Characters/Viktor/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Viktor.json.gz",
+        "sha256": "aceba5e8ba4a0a9570984efe1132504c485ab40ec42da921539c003189a192ab",
+        "compressedSha256": "d8f799546e1df56f7bc257fcf555e6f05513ac3e7246511bbacecfa794e1d825",
+        "byteSize": 68390,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/viktor/viktor.bin.json",
+        "fetchedAt": "2026-09-06T14:26:46.967Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Viktor.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Viktor.json",
+        "fetchedAt": "2026-09-06T14:12:56.499Z",
+        "byteSize": 12647,
+        "sha256": "769642e452a90a9f56ff58c204a22202a098d84955c8e68731c2e429a8c5fafb"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "viktor_p",
+          "binding": "Characters/Viktor/Spells/ViktorPassiveAbility/ViktorPassive",
+          "name": "光荣进化",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "viktor_q",
+          "binding": "Characters/Viktor/Spells/ViktorQAbility/ViktorQ",
+          "name": "虹吸能量",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "viktor_w",
+          "binding": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
+          "name": "重力场",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "viktor_e",
+          "binding": "Characters/Viktor/Spells/ViktorEAbility/ViktorE",
+          "name": "海克斯射线",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "viktor_r",
+          "binding": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
+          "name": "奥术风暴",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Orianna",
+      "chineseName": "发条魔灵",
+      "rootPath": "Characters/Orianna/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Orianna.json.gz",
+        "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+        "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+        "byteSize": 55437,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+        "fetchedAt": "2026-09-06T14:26:32.199Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+        "fetchedAt": "2026-09-06T14:12:51.262Z",
+        "byteSize": 12461,
+        "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "orianna_p",
+          "binding": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+          "name": "发条协奏",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "orianna_q",
+          "binding": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand",
+          "name": "指令：攻击",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "orianna_w",
+          "binding": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+          "name": "指令：杂音",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "orianna_e",
+          "binding": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+          "name": "指令：防卫",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "orianna_r",
+          "binding": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+          "name": "指令：冲击波",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Syndra",
+      "chineseName": "暗黑元首",
+      "rootPath": "Characters/Syndra/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Syndra.json.gz",
+        "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+        "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+        "byteSize": 99307,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+        "fetchedAt": "2026-09-06T14:26:39.938Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+        "fetchedAt": "2026-09-06T14:12:54.736Z",
+        "byteSize": 16022,
+        "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "syndra_p",
+          "binding": "Characters/Syndra/Spells/SyndraPassiveAbility/SyndraPassive",
+          "name": "卓尔不凡",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "syndra_q",
+          "binding": "Characters/Syndra/Spells/SyndraQAbility/SyndraQ",
+          "name": "暗黑法球",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "syndra_w",
+          "binding": "Characters/Syndra/Spells/SyndraWAbility/SyndraW",
+          "name": "驱使念力",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "syndra_e",
+          "binding": "Characters/Syndra/Spells/SyndraEAbility/SyndraE",
+          "name": "弱者退散",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "syndra_r",
+          "binding": "Characters/Syndra/Spells/SyndraRAbility/SyndraR",
+          "name": "能量倾泻",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Taliyah",
+      "chineseName": "岩雀",
+      "rootPath": "Characters/Taliyah/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Taliyah.json.gz",
+        "sha256": "23be6b62d6c824c23acfb00ad7e569849171b109e94baa82e0dd1e8d83cc4811",
+        "compressedSha256": "8a35d2305641051f442de5ee3a3a3c72c8bf1db44177c881bd22d4e6142ea952",
+        "byteSize": 72019,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/taliyah/taliyah.bin.json",
+        "fetchedAt": "2026-09-06T14:26:40.499Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Taliyah.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Taliyah.json",
+        "fetchedAt": "2026-09-06T14:12:54.528Z",
+        "byteSize": 10673,
+        "sha256": "cb91b47637ddde4cf6cf2e323e01d0cfe4ad980accf73e66734929e20a012f42"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "taliyah_p",
+          "binding": "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive",
+          "name": "浮石冲",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "taliyah_q",
+          "binding": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
+          "name": "石穿",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "taliyah_w",
+          "binding": "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC",
+          "name": "岩突",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "taliyah_e",
+          "binding": "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE",
+          "name": "撒石阵",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "taliyah_r",
+          "binding": "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR",
+          "name": "墙幔",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

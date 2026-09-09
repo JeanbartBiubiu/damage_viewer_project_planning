@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T09:56:18.878Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/syndra_r/parameters/damage_per_sphere",
+  "id": "damage_per_sphere",
+  "method": "POST",
+  "body": {
+    "parameterKey": "damage_per_sphere",
+    "name": "每个法球基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 80,
+      "2": 120,
+      "3": 160
+    },
+    "description": "客户端当前根绑定 DataValues.DamagePerSphere 取索引1至3。",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,523 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "viktor_p": {
+      "binding": "Characters/Viktor/Spells/ViktorPassiveAbility/ViktorPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViktorP_Name",
+          "key": "spell_viktorp_name",
+          "text": "光荣进化"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViktorP_Summary",
+          "key": "spell_viktorp_summary",
+          "text": "维克托会在击杀一名敌人后获得海克斯碎片。每获得100个海克斯碎片，维克托将永久强化一个主动技能。升级完所有基础技能后，他可以再收集100个海克斯碎片，用来强化自己的终极技能。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViktorP_Tooltip",
+          "key": "spell_viktorp_tooltip",
+          "text": "维克托会在击杀一名敌人后获得<keywordMajor>海克斯碎片</keywordMajor>。每获得@EvolutionStackBreakpoint@个<keywordMajor>海克斯碎片</keywordMajor>，维克托将永久升级一个主动技能。在维克托升级他的所有基础技能后，就能升级他的终极技能了。<br><br>击杀小兵提供@MinionStacks@个<keywordMajor>海克斯碎片</keywordMajor>。<br>击杀炮兵提供@CannonStacks@个<keywordMajor>海克斯碎片</keywordMajor>。<br>参与击杀英雄提供@ChampionStacks@个<keywordMajor>海克斯碎片</keywordMajor>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_ViktorPassive_TooltipExtended",
+          "key": "spell_viktorpassive_tooltipextended",
+          "text": "{{Spell_ViktorP_Tooltip}}<br><rules><br>维克托只能在将所有非终极技能进化为升级版之后，才能将他的终极技能进化为升级版。</rules>"
+        }
+      }
+    },
+    "viktor_q": {
+      "binding": "Characters/Viktor/Spells/ViktorQAbility/ViktorQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_spell_displayname_ViktorPowerTransfer",
+          "key": "game_spell_displayname_viktorpowertransfer",
+          "text": "虹吸能量"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_spell_tooltip_ViktorPowerTransfer",
+          "key": "game_spell_tooltip_viktorpowertransfer",
+          "text": " 维克托引爆一名敌方单位，造成<magicDamage>@TotalMissileDamage@魔法伤害</magicDamage>并为维克托提供持续@BuffDuration@秒的<shield>@ShieldLevelScaling@护盾值</shield>。<br><br>维克托在4秒内的下一次攻击会造成<magicDamage>@AttackTotalDMG@魔法伤害</magicDamage>。<br><br><keywordMajor>升级版：</keywordMajor>提供<shield>@TotalAugmentedShieldValue@护盾值</shield>并且维克托还会获得持续@BuffDuration@秒的<speed>@AugmentMoveSpeedBonus@%移动速度</speed>。"
+        },
+        "keySummary": {
+          "sourceKey": "game_spell_description_ViktorPowerTransfer",
+          "key": "game_spell_description_viktorpowertransfer",
+          "text": "维克托引爆一个敌方单位，造成魔法伤害，同时获得一道护盾，并强化自己的下次普通攻击。<br><br>增强：虹吸能量的护盾提升60%，并且维克托在施放这个技能后获得额外移动速度加成。<br>"
+        }
+      }
+    },
+    "viktor_w": {
+      "binding": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_spell_displayname_ViktorGravitonField",
+          "key": "game_spell_displayname_viktorgravitonfield",
+          "text": "重力场"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_spell_tooltip_ViktorGravitonField",
+          "key": "game_spell_tooltip_viktorgravitonfield",
+          "text": "维克托部署一个持续@FieldDuration@秒的引力限制装置，使其中的敌人<status>减速</status>@SlowPotency*-1@%。敌人在范围半径内驻留1.25秒后，会<status>晕眩</status>@StunDuration@秒。<br><br><keywordMajor>升级版被动：</keywordMajor>维克托的技能会造成持续1秒的@AugmentSlow@%<status>减速</status>。<br><br><br>"
+        },
+        "keySummary": {
+          "sourceKey": "game_spell_description_ViktorGravitonField",
+          "key": "game_spell_description_viktorgravitonfield",
+          "text": "维克托放出一个重型引力场装置，使半径范围内的敌人减速。在力场中驻留时间过长的敌人会遭到晕眩。<br><br>增强：维克托的技能会对命中的敌人施加一个减速效果。<br>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_ViktorGravitonField_TooltipExtendedBelowLine",
+          "key": "spell_viktorgravitonfield_tooltipextendedbelowline",
+          "text": "<rules>被这个技能<status>晕眩</status>的敌人们还会被<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "viktor_e": {
+      "binding": "Characters/Viktor/Spells/ViktorEAbility/ViktorE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ViktorDeathRay_Name",
+          "key": "spell_viktordeathray_name",
+          "text": "海克斯射线"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ViktorDeathRay_Summary",
+          "key": "spell_viktordeathray_summary",
+          "text": "维克托用自己的生物机械臂发射一束海克斯射线，沿一条直线在战场上切割，对沿途敌人造成伤害。<br><br>增强：一道爆炸会跟随海克斯射线的轨迹，造成魔法伤害。<br>"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ViktorDeathRay_Tooltip",
+          "key": "spell_viktordeathray_tooltip",
+          "text": "维克托朝所选方向发射一道海克斯射线，对命中的每个敌人造成<magicDamage>@LaserDamage@魔法伤害</magicDamage>。<br><br><keywordMajor>升级版：</keywordMajor>一道余波会跟随海克斯射线的轨迹，造成<magicDamage>@AftershockDamage@魔法伤害</magicDamage>。<br><br><br>"
+        }
+      }
+    },
+    "viktor_r": {
+      "binding": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_spell_displayname_ViktorChaosStormGuide",
+          "key": "game_spell_displayname_viktorchaosstormguide",
+          "text": "奥术风暴"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_spell_tooltip_ViktorChaosStorm",
+          "key": "game_spell_tooltip_viktorchaosstorm",
+          "text": "维克托在一个区域内召唤一道持续@StormDuration@秒的奥术风暴，对周围的敌人立刻造成<magicDamage>@InitialBurstDamage@魔法伤害</magicDamage>，随后每秒造成<magicDamage>@SubsequentBurstDamage@魔法伤害</magicDamage>。风暴会自动跟随它近期造成过伤害的英雄。<br><br><recast>再次施放：</recast>维克托可以手动移动风暴。<br><br><keywordMajor>升级版：</keywordMajor>风暴的移动速度加快@AugmentBoost*100@%。如果一个受到风暴伤害的英雄阵亡，风暴就会扩大，并使其持续时间延长@Tooltip_DurationExtension@秒(至多至@MaxGrowths@次)。<br><br>"
+        },
+        "keySummary": {
+          "sourceKey": "game_spell_description_ViktorChaosStorm",
+          "key": "game_spell_description_viktorchaosstorm",
+          "text": "维克托在场上召唤一道奥术风暴，对敌人造成魔法伤害并打断敌人的引导。之后风暴会周期性对附近所有敌人造成魔法伤害，且可以被维克托重新导向。<br><br>增强：奥术风暴的移动速度提升25%，每有英雄在受到风暴伤害后阵亡，风暴就会扩大，持续时间也会延长。<br><br>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_ViktorChaosStorm_TooltipExtendedBelowLine",
+          "key": "spell_viktorchaosstorm_tooltipextendedbelowline",
+          "text": "<rules>在风暴出现时，它会打断引导类技能。<br>风暴越远离维克托，移动得越慢。</rules>"
+        }
+      }
+    },
+    "orianna_p": {
+      "binding": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OriannaP_Name",
+          "key": "spell_oriannap_name",
+          "text": "发条协奏"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OriannaP_Summary",
+          "key": "spell_oriannap_summary",
+          "text": "奥莉安娜的攻击会造成额外魔法伤害。这个伤害可在奥莉安娜对相同目标进行更多次攻击后提升。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OriannaP_Tooltip",
+          "key": "spell_oriannap_tooltip",
+          "text": "奥莉安娜的技能都源自她的<keywordMajor>魔偶</keywordMajor>。如果<keywordMajor>魔偶</keywordMajor>与奥莉安娜相距太远，就会自动回到她身边。<br><br>奥莉安娜的攻击会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。@StackDuration@秒内对相同目标的后续攻击会造成额外的<magicDamage>@StackDamage@魔法伤害</magicDamage>(最大<magicDamage>@StackDamageMax@伤害</magicDamage>)。"
+        }
+      }
+    },
+    "orianna_q": {
+      "binding": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OrianaIzunaCommand_Name",
+          "key": "spell_orianaizunacommand_name",
+          "text": "指令：攻击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OrianaIzunaCommand_Summary",
+          "key": "spell_orianaizunacommand_summary",
+          "text": "奥莉安娜指挥她的魔偶，朝目标区域发射，对沿途目标造成魔法伤害（对后续目标伤害递减）。指令结束后魔偶会停在目标区域。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OrianaIzunaCommand_Tooltip",
+          "key": "spell_orianaizunacommand_tooltip",
+          "text": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>移动至一个区域，对附近敌人和它途经的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。对第一个敌人之后的所有敌人造成的伤害就减少@ReducedDamagePercent@%。"
+        }
+      }
+    },
+    "orianna_w": {
+      "binding": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OrianaDissonanceCommand_Name",
+          "key": "spell_orianadissonancecommand_name",
+          "text": "指令：杂音"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OrianaDissonanceCommand_Summary",
+          "key": "spell_orianadissonancecommand_summary",
+          "text": "奥莉安娜指挥她的魔偶，释放能量脉冲，造成魔法伤害，并产生一个加速友军、减速敌军的能量场。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OrianaDissonanceCommand_Tooltip",
+          "key": "spell_orianadissonancecommand_tooltip",
+          "text": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>释放一股电脉冲，对周围敌军造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>此电脉冲会留下持续@FieldDuration@秒的能量场，使敌人<status>减速</status>@SlowAmount*100@%，并为友军提供<speed>@HasteAmount*100@%移动速度</speed>，在@SlowAndHasteDuration@秒里持续衰减。"
+        }
+      }
+    },
+    "orianna_e": {
+      "binding": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OrianaRedactCommand_Name",
+          "key": "spell_orianaredactcommand_name",
+          "text": "指令：防卫"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OrianaRedactCommand_Summary",
+          "key": "spell_orianaredactcommand_summary",
+          "text": "奥莉安娜指挥她的魔偶，依附于友军英雄身上，保护他们并对经过的敌人造成魔法伤害。此外，魔偶还会对依附的友军增加额外护甲和魔法抗性。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OrianaRedactCommand_Tooltip",
+          "key": "spell_orianaredactcommand_tooltip",
+          "text": "<spellPassive>被动：</spellPassive><keywordMajor>魔偶</keywordMajor>为附身的友军英雄增加<scaleArmor>@DefenseBonus@护甲</scaleArmor>和<scaleMR>@DefenseBonus@魔法抗性</scaleMR>。<br><br><spellActive>主动：</spellActive>奥莉安娜指挥她的魔偶附身在一名友方英雄身上，为其提供<shield>@TotalShieldTooltip@护盾值</shield>，持续@ShieldDuration@秒。<keywordMajor>魔偶</keywordMajor>途经的敌方单位都会受到<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "orianna_r": {
+      "binding": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_OrianaDetonateCommand_Name",
+          "key": "spell_orianadetonatecommand_name",
+          "text": "指令：冲击波"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_OrianaDetonateCommand_Summary",
+          "key": "spell_orianadetonatecommand_summary",
+          "text": "奥莉安娜指挥她的魔偶，释放一股冲击波，对周围敌军造成魔法伤害并在短暂延迟后将他们拉向魔偶。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_OrianaDetonateCommand_Tooltip",
+          "key": "spell_orianadetonatecommand_tooltip",
+          "text": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>，在短暂的延迟后释放一股冲击波，对周围敌军造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并将他们朝<keywordMajor>魔偶</keywordMajor>的方向<status>击飞</status>。"
+        }
+      }
+    },
+    "syndra_p": {
+      "binding": "Characters/Syndra/Spells/SyndraPassiveAbility/SyndraPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SyndraPassive_Name",
+          "key": "spell_syndrapassive_name",
+          "text": "卓尔不凡"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SyndraPassive_Summary",
+          "key": "spell_syndrapassive_summary",
+          "text": "辛德拉可通过提升等级和伤害敌人来收集【怒法碎晶】，用来使她的各技能获得强化。<br><br><font color='#FF9900'>暗黑法球</font>：辛德拉可以持有额外一层充能。<br><font color='#FF9900'>驱使念力</font>：额外真实伤害。<br><font color='#FF9900'>弱者退散</font>：提升宽度并减速所有目标。<br><font color='#FF9900'>能量倾泻</font>：处决低生命值的目标。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SyndraPassive_Tooltip",
+          "key": "spell_syndrapassive_tooltip",
+          "text": "辛德拉可收集至多@MaxStackAmount@块<evolve>怒法碎晶</evolve>。这些碎晶会增强辛德拉的技能，并且每当辛德拉从一名敌人那里获取一块碎晶时，就会回复<scaleMana>@ManaPerProc@法力值</scaleMana>。<br><br>辛德拉可通过以下途径收集<evolve>怒法碎晶</evolve>：<li>- 在@MarkDuration@秒内用2个技能对敌方英雄造成伤害时获得<evolve>@StacksPerProc@块碎晶</evolve>(@PassiveMarkCooldown@秒冷却时间)<li>- 每花费一个技能点获得<evolve>@PassiveStacksPerLevel@块碎晶</evolve><li>- 每击杀一个大型小兵获得<evolve>@StackPerSiege@块碎晶</evolve><br><br>在@MaxStackAmount@块<evolve>怒法碎晶</evolve>时，辛德拉使她的<scaleAP>法术强度提升@CapstoneAPPerc*100@%</scaleAP>。<br>"
+        }
+      }
+    },
+    "syndra_q": {
+      "binding": "Characters/Syndra/Spells/SyndraQAbility/SyndraQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SyndraQ_Name",
+          "key": "spell_syndraq_name",
+          "text": "暗黑法球"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SyndraQ_Summary",
+          "key": "spell_syndraq_summary",
+          "text": "辛德拉幻化出一个造成魔法伤害的暗黑法球。法球会存留，并且被她的其它能力所操纵。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SyndraQ_Tooltip",
+          "key": "spell_syndraq_tooltip",
+          "text": "辛德拉幻化出一颗<keywordMajor>暗黑法球</keywordMajor>，造成{{Spell_SyndraQ_Damage_0}}。这个<keywordMajor>暗黑法球</keywordMajor>可以存留@SphereDuration@秒，并且能被辛德拉的其它技能所操纵。<br><br><evolve>@spell.SyndraPassive:Q1UpgradeThreshold@块怒法碎晶</evolve>：辛德拉可以储存@Upgrade1MaxAmmo@个<keywordMajor>暗黑法球</keywordMajor>充能。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SyndraQ_TooltipExtendedBelowLine",
+          "key": "spell_syndraq_tooltipextendedbelowline",
+          "text": "<rules>这个技能可以在移动时施放。</rules>"
+        }
+      }
+    },
+    "syndra_w": {
+      "binding": "Characters/Syndra/Spells/SyndraWAbility/SyndraW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SyndraW_Name",
+          "key": "spell_syndraw_name",
+          "text": "驱使念力"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SyndraW_Summary",
+          "key": "spell_syndraw_summary",
+          "text": "辛德拉抓取并投掷一名敌方小兵或者暗黑法球，来对敌人造成魔法伤害，并减少他们的移动速度。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SyndraW_Tooltip",
+          "key": "spell_syndraw_tooltip",
+          "text": "辛德拉抓取一颗<keywordMajor>暗黑法球</keywordMajor>、一个敌方小兵或一只非史诗级野怪。她在抓取后的至多5秒内可以<recast>再次施放</recast>这个技能。<br><br><recast>再次施放</recast>：辛德拉将物体猛掷出去，造成{{Spell_SyndraW_Damage@f3@}}和持续@f2@秒的@TotalSlowAmount@%<status>减速</status>效果。<br><br><evolve>@spell.SyndraPassive:WUpgradeThreshold@块怒法碎晶</evolve>：这个技能造成额外的<trueDamage>@TOOLTIPONLYPassiveBonusPercent@真实伤害</trueDamage>。<br>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SyndraW_TooltipExtendedBelowLine",
+          "key": "spell_syndraw_tooltipextendedbelowline",
+          "text": "<rules>如果没有选择任何目标，那么就会抓取相距最近的<keywordMajor>暗黑法球</keywordMajor>。<br>这个技能可以在移动时施放。</rules>"
+        }
+      }
+    },
+    "syndra_e": {
+      "binding": "Characters/Syndra/Spells/SyndraEAbility/SyndraE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SyndraE_Name",
+          "key": "spell_syndrae_name",
+          "text": "弱者退散"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SyndraE_Summary",
+          "key": "spell_syndrae_summary",
+          "text": "辛德拉将敌人和暗黑法球击退，并造成魔法伤害。被暗黑法球命中的敌人会被晕眩。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SyndraE_Tooltip",
+          "key": "spell_syndrae_tooltip",
+          "text": "辛德拉投出一道原力波，<status>击退</status>敌人们和<keywordMajor>暗黑法球</keywordMajor>并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>被推挤的<keywordMajor>暗黑法球</keywordMajor>会<status>晕眩</status>敌人@StunDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br><evolve>@spell.SyndraPassive:EUpgradeThreshold@块怒法碎晶</evolve>：这个技能的宽度得到提升并且还会对敌人们造成持续@UpgradedSlowDuration@秒的<status>@UpgradedSlowAmount*100@%</status><status>减速</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SyndraE_TooltipExtendedBelowLine",
+          "key": "spell_syndrae_tooltipextendedbelowline",
+          "text": "<rules>这个技能每次施放时只会对相同敌人造成一次伤害和击退效果。<br></rules>"
+        }
+      }
+    },
+    "syndra_r": {
+      "binding": "Characters/Syndra/Spells/SyndraRAbility/SyndraR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SyndraR_Name",
+          "key": "spell_syndrar_name",
+          "text": "能量倾泻"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SyndraR_Summary",
+          "key": "spell_syndrar_summary",
+          "text": "辛德拉用她的所有暗黑法球来轰击一名敌方英雄。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SyndraR_Tooltip",
+          "key": "spell_syndrar_tooltip",
+          "text": "<spellPassive>被动</spellPassive>：每级<spellName>能量倾泻</spellName>都会为<spellName>暗黑法球</spellName>提供额外的@QHastePerRank@技能急速。<br><br>辛德拉动用她洪流般的能量，将环绕于她的3颗<keywordMajor>暗黑法球</keywordMajor>外加至多4颗附近的暗黑法球轰在一名敌方英雄身上。每颗<keywordMajor>暗黑法球</keywordMajor>造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>(最大<magicDamage>@MaxDamageCalc@魔法伤害</magicDamage>)。<br><br><evolve>@spell.SyndraPassive:RUpgradeThreshold@块怒法碎晶</evolve>：这个技能<danger>处决</danger>生命值低于@UpgradeExecuteThreshold*100@%的敌人。"
+        }
+      }
+    },
+    "taliyah_p": {
+      "binding": "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Taliyah",
+          "key": "game_character_passivename_taliyah",
+          "text": "浮石冲"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_character_passiveTooltip_Taliyah",
+          "key": "game_character_passivetooltip_taliyah",
+          "text": "在非战斗状态时，如果塔莉垭在前@FallOffTime@秒内靠近过墙体，就会获得<speed>@TotalMS@移动速度</speed>。"
+        },
+        "keySummary": {
+          "sourceKey": "game_character_passiveDescription_Taliyah",
+          "key": "game_character_passivedescription_taliyah",
+          "text": "塔莉垭在墙体附近时会获得移动速度。"
+        }
+      }
+    },
+    "taliyah_q": {
+      "binding": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TaliyahQ_Name",
+          "key": "spell_taliyahq_name",
+          "text": "石穿"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TaliyahQ_Summary",
+          "key": "spell_taliyahq_summary",
+          "text": "塔莉垭朝目标方向扔出一串岩石，同时自身可自由移动。这个技能会在她脚下生成【掘石场】。如果塔莉垭在【掘石场】上使用【Q石穿】，她将消耗掉【掘石场】来投掷一颗更强大的岩石来减速敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TaliyahQ_Tooltip",
+          "key": "spell_taliyahq_tooltip",
+          "text": "塔莉垭挥出5块石头，每块会在命中的第一个敌人的附近区域内造成<magicDamage>@RockDamage@魔法伤害</magicDamage>并在该区域生成【掘石场】。对相同敌人的后续命中造成的伤害降低@ExtraMissileReducedDamagePercent@%。<br><br>在【掘石场】上施放时会消耗@BigRockManaCost@法力并且冷却时间缩短@WorkedGroundCDR*100@%，消耗掉【掘石场】，并挥出一块巨石来对命中的敌人们造成持续@SlowDuration@秒的 @SlowPercent*100@%<status>减速</status>，对首要目标造成<magicDamage>@BigRockDamage@魔法伤害</magicDamage>。巨石对命中的野怪们造成@MonsterStunDuration@秒<status>晕眩</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TaliyahQ_TooltipExtendedBelowLine",
+          "key": "spell_taliyahq_tooltipextendedbelowline",
+          "text": "<rules>塔莉垭在挥出巨石的同时可以移动并使用其它技能。<br>在【掘石场】上施放这个技能不会使其冷却时间缩短至@MinimumWorkedGroundCD@秒以下。<br>对单个目标的总伤害：<magicDamage>@MaxDamageTooltip@</magicDamage><br>每颗岩石对野怪造成<magicDamage>@TotalBonusFlatMonsterDamage@</magicDamage>额外伤害。</rules>"
+        }
+      }
+    },
+    "taliyah_w": {
+      "binding": "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TaliyahWVC_Name",
+          "key": "spell_taliyahwvc_name",
+          "text": "岩突"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TaliyahWVC_Summary",
+          "key": "spell_taliyahwvc_summary",
+          "text": "塔莉垭在目标区域引发岩突，并将区域内的敌人们扔向她所选的方向。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TaliyahWVC_Tooltip",
+          "key": "spell_taliyahwvc_tooltip",
+          "text": "塔莉垭动摇大地，将一个区域内的敌人们<status>强制位移</status>至一个所选方向。"
+        }
+      }
+    },
+    "taliyah_e": {
+      "binding": "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TaliyahE_Name",
+          "key": "spell_taliyahe_name",
+          "text": "撒石阵"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TaliyahE_Summary",
+          "key": "spell_taliyahe_summary",
+          "text": "塔莉垭创造一个可减速的雷区。如果敌人在使用冲刺技能途径雷区或是被强制位移效果途经雷区，石雷就会爆炸并晕眩该敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TaliyahE_Tooltip",
+          "key": "spell_taliyahe_tooltip",
+          "text": "塔莉垭在一个区域内布下碎石阵，对命中的敌人造成<magicDamage>@ScatterDamage@魔法伤害</magicDamage>和@SlowPercent*100@%<status>减速</status>。碎石会在敌人冲刺或被<status>强制位移</status>途经它们时爆炸，造成剩余位移时长+@StunDuration@秒<status>晕眩</status>和<magicDamage>@DetonationDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TaliyahE_TooltipExtendedBelowLine",
+          "key": "spell_taliyahe_tooltipextendedbelowline",
+          "text": "<rules>晕眩时长无法超过@MaxStunDuration@秒。每次施放仅会对每个敌人造成1次晕眩。总会对野怪造成最大时长的晕眩效果。<br>后续爆炸碎石造成的伤害减少@MineDamageFalloff*100@%。<br>最大爆炸伤害：<magicDamage>@MaxDetonationDamageTooltip@</magicDamage><br>这个技能对野怪造成@MonsterModPercent*100@%伤害。</rules>"
+        }
+      }
+    },
+    "taliyah_r": {
+      "binding": "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_TaliyahR_Name",
+          "key": "spell_taliyahr_name",
+          "text": "墙幔"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TaliyahR_Summary",
+          "key": "spell_taliyahr_summary",
+          "text": "塔莉垭创造出一个非常长的石墙，然后在石墙上冲浪。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TaliyahR_Tooltip",
+          "key": "spell_taliyahr_tooltip",
+          "text": "塔莉垭生成一道巨型土墙，持续@WallDuration@秒。如果她立刻<recast>再次施放</recast>，那么她将踏上土墙随其一路骑行。移动或受到定身都将结束这段骑行。<br><br>如果塔莉垭在@DamageLockoutTime@秒内曾受到过来自英雄或建筑物的伤害，那么她将不能施放这个技能。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TaliyahR_TooltipExtendedBelowLine",
+          "key": "spell_taliyahr_tooltipextendedbelowline",
+          "text": "<rules>一旦墙体完全形成，塔莉垭就能<recast>再次施放</recast>来提前摧毁它。</rules>"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_viktorp_name": "光荣进化",
+    "spell_viktorp_summary": "维克托会在击杀一名敌人后获得海克斯碎片。每获得100个海克斯碎片，维克托将永久强化一个主动技能。升级完所有基础技能后，他可以再收集100个海克斯碎片，用来强化自己的终极技能。",
+    "spell_viktorp_tooltip": "维克托会在击杀一名敌人后获得<keywordMajor>海克斯碎片</keywordMajor>。每获得@EvolutionStackBreakpoint@个<keywordMajor>海克斯碎片</keywordMajor>，维克托将永久升级一个主动技能。在维克托升级他的所有基础技能后，就能升级他的终极技能了。<br><br>击杀小兵提供@MinionStacks@个<keywordMajor>海克斯碎片</keywordMajor>。<br>击杀炮兵提供@CannonStacks@个<keywordMajor>海克斯碎片</keywordMajor>。<br>参与击杀英雄提供@ChampionStacks@个<keywordMajor>海克斯碎片</keywordMajor>。",
+    "spell_viktorpassive_tooltipextended": "{{Spell_ViktorP_Tooltip}}<br><rules><br>维克托只能在将所有非终极技能进化为升级版之后，才能将他的终极技能进化为升级版。</rules>",
+    "game_spell_displayname_viktorpowertransfer": "虹吸能量",
+    "game_spell_tooltip_viktorpowertransfer": " 维克托引爆一名敌方单位，造成<magicDamage>@TotalMissileDamage@魔法伤害</magicDamage>并为维克托提供持续@BuffDuration@秒的<shield>@ShieldLevelScaling@护盾值</shield>。<br><br>维克托在4秒内的下一次攻击会造成<magicDamage>@AttackTotalDMG@魔法伤害</magicDamage>。<br><br><keywordMajor>升级版：</keywordMajor>提供<shield>@TotalAugmentedShieldValue@护盾值</shield>并且维克托还会获得持续@BuffDuration@秒的<speed>@AugmentMoveSpeedBonus@%移动速度</speed>。",
+    "game_spell_description_viktorpowertransfer": "维克托引爆一个敌方单位，造成魔法伤害，同时获得一道护盾，并强化自己的下次普通攻击。<br><br>增强：虹吸能量的护盾提升60%，并且维克托在施放这个技能后获得额外移动速度加成。<br>",
+    "game_spell_displayname_viktorgravitonfield": "重力场",
+    "game_spell_tooltip_viktorgravitonfield": "维克托部署一个持续@FieldDuration@秒的引力限制装置，使其中的敌人<status>减速</status>@SlowPotency*-1@%。敌人在范围半径内驻留1.25秒后，会<status>晕眩</status>@StunDuration@秒。<br><br><keywordMajor>升级版被动：</keywordMajor>维克托的技能会造成持续1秒的@AugmentSlow@%<status>减速</status>。<br><br><br>",
+    "game_spell_description_viktorgravitonfield": "维克托放出一个重型引力场装置，使半径范围内的敌人减速。在力场中驻留时间过长的敌人会遭到晕眩。<br><br>增强：维克托的技能会对命中的敌人施加一个减速效果。<br>",
+    "spell_viktorgravitonfield_tooltipextendedbelowline": "<rules>被这个技能<status>晕眩</status>的敌人们还会被<status>中断位移</status>。</rules>",
+    "spell_viktordeathray_name": "海克斯射线",
+    "spell_viktordeathray_summary": "维克托用自己的生物机械臂发射一束海克斯射线，沿一条直线在战场上切割，对沿途敌人造成伤害。<br><br>增强：一道爆炸会跟随海克斯射线的轨迹，造成魔法伤害。<br>",
+    "spell_viktordeathray_tooltip": "维克托朝所选方向发射一道海克斯射线，对命中的每个敌人造成<magicDamage>@LaserDamage@魔法伤害</magicDamage>。<br><br><keywordMajor>升级版：</keywordMajor>一道余波会跟随海克斯射线的轨迹，造成<magicDamage>@AftershockDamage@魔法伤害</magicDamage>。<br><br><br>",
+    "game_spell_displayname_viktorchaosstormguide": "奥术风暴",
+    "game_spell_tooltip_viktorchaosstorm": "维克托在一个区域内召唤一道持续@StormDuration@秒的奥术风暴，对周围的敌人立刻造成<magicDamage>@InitialBurstDamage@魔法伤害</magicDamage>，随后每秒造成<magicDamage>@SubsequentBurstDamage@魔法伤害</magicDamage>。风暴会自动跟随它近期造成过伤害的英雄。<br><br><recast>再次施放：</recast>维克托可以手动移动风暴。<br><br><keywordMajor>升级版：</keywordMajor>风暴的移动速度加快@AugmentBoost*100@%。如果一个受到风暴伤害的英雄阵亡，风暴就会扩大，并使其持续时间延长@Tooltip_DurationExtension@秒(至多至@MaxGrowths@次)。<br><br>",
+    "game_spell_description_viktorchaosstorm": "维克托在场上召唤一道奥术风暴，对敌人造成魔法伤害并打断敌人的引导。之后风暴会周期性对附近所有敌人造成魔法伤害，且可以被维克托重新导向。<br><br>增强：奥术风暴的移动速度提升25%，每有英雄在受到风暴伤害后阵亡，风暴就会扩大，持续时间也会延长。<br><br>",
+    "spell_viktorchaosstorm_tooltipextendedbelowline": "<rules>在风暴出现时，它会打断引导类技能。<br>风暴越远离维克托，移动得越慢。</rules>",
+    "spell_oriannap_name": "发条协奏",
+    "spell_oriannap_summary": "奥莉安娜的攻击会造成额外魔法伤害。这个伤害可在奥莉安娜对相同目标进行更多次攻击后提升。",
+    "spell_oriannap_tooltip": "奥莉安娜的技能都源自她的<keywordMajor>魔偶</keywordMajor>。如果<keywordMajor>魔偶</keywordMajor>与奥莉安娜相距太远，就会自动回到她身边。<br><br>奥莉安娜的攻击会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。@StackDuration@秒内对相同目标的后续攻击会造成额外的<magicDamage>@StackDamage@魔法伤害</magicDamage>(最大<magicDamage>@StackDamageMax@伤害</magicDamage>)。",
+    "spell_orianaizunacommand_name": "指令：攻击",
+    "spell_orianaizunacommand_summary": "奥莉安娜指挥她的魔偶，朝目标区域发射，对沿途目标造成魔法伤害（对后续目标伤害递减）。指令结束后魔偶会停在目标区域。",
+    "spell_orianaizunacommand_tooltip": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>移动至一个区域，对附近敌人和它途经的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。对第一个敌人之后的所有敌人造成的伤害就减少@ReducedDamagePercent@%。",
+    "spell_orianadissonancecommand_name": "指令：杂音",
+    "spell_orianadissonancecommand_summary": "奥莉安娜指挥她的魔偶，释放能量脉冲，造成魔法伤害，并产生一个加速友军、减速敌军的能量场。",
+    "spell_orianadissonancecommand_tooltip": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>释放一股电脉冲，对周围敌军造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>此电脉冲会留下持续@FieldDuration@秒的能量场，使敌人<status>减速</status>@SlowAmount*100@%，并为友军提供<speed>@HasteAmount*100@%移动速度</speed>，在@SlowAndHasteDuration@秒里持续衰减。",
+    "spell_orianaredactcommand_name": "指令：防卫",
+    "spell_orianaredactcommand_summary": "奥莉安娜指挥她的魔偶，依附于友军英雄身上，保护他们并对经过的敌人造成魔法伤害。此外，魔偶还会对依附的友军增加额外护甲和魔法抗性。",
+    "spell_orianaredactcommand_tooltip": "<spellPassive>被动：</spellPassive><keywordMajor>魔偶</keywordMajor>为附身的友军英雄增加<scaleArmor>@DefenseBonus@护甲</scaleArmor>和<scaleMR>@DefenseBonus@魔法抗性</scaleMR>。<br><br><spellActive>主动：</spellActive>奥莉安娜指挥她的魔偶附身在一名友方英雄身上，为其提供<shield>@TotalShieldTooltip@护盾值</shield>，持续@ShieldDuration@秒。<keywordMajor>魔偶</keywordMajor>途经的敌方单位都会受到<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。",
+    "spell_orianadetonatecommand_name": "指令：冲击波",
+    "spell_orianadetonatecommand_summary": "奥莉安娜指挥她的魔偶，释放一股冲击波，对周围敌军造成魔法伤害并在短暂延迟后将他们拉向魔偶。",
+    "spell_orianadetonatecommand_tooltip": "奥莉安娜指挥她的<keywordMajor>魔偶</keywordMajor>，在短暂的延迟后释放一股冲击波，对周围敌军造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并将他们朝<keywordMajor>魔偶</keywordMajor>的方向<status>击飞</status>。",
+    "spell_syndrapassive_name": "卓尔不凡",
+    "spell_syndrapassive_summary": "辛德拉可通过提升等级和伤害敌人来收集【怒法碎晶】，用来使她的各技能获得强化。<br><br><font color='#FF9900'>暗黑法球</font>：辛德拉可以持有额外一层充能。<br><font color='#FF9900'>驱使念力</font>：额外真实伤害。<br><font color='#FF9900'>弱者退散</font>：提升宽度并减速所有目标。<br><font color='#FF9900'>能量倾泻</font>：处决低生命值的目标。",
+    "spell_syndrapassive_tooltip": "辛德拉可收集至多@MaxStackAmount@块<evolve>怒法碎晶</evolve>。这些碎晶会增强辛德拉的技能，并且每当辛德拉从一名敌人那里获取一块碎晶时，就会回复<scaleMana>@ManaPerProc@法力值</scaleMana>。<br><br>辛德拉可通过以下途径收集<evolve>怒法碎晶</evolve>：<li>- 在@MarkDuration@秒内用2个技能对敌方英雄造成伤害时获得<evolve>@StacksPerProc@块碎晶</evolve>(@PassiveMarkCooldown@秒冷却时间)<li>- 每花费一个技能点获得<evolve>@PassiveStacksPerLevel@块碎晶</evolve><li>- 每击杀一个大型小兵获得<evolve>@StackPerSiege@块碎晶</evolve><br><br>在@MaxStackAmount@块<evolve>怒法碎晶</evolve>时，辛德拉使她的<scaleAP>法术强度提升@CapstoneAPPerc*100@%</scaleAP>。<br>",
+    "spell_syndraq_name": "暗黑法球",
+    "spell_syndraq_summary": "辛德拉幻化出一个造成魔法伤害的暗黑法球。法球会存留，并且被她的其它能力所操纵。",
+    "spell_syndraq_tooltip": "辛德拉幻化出一颗<keywordMajor>暗黑法球</keywordMajor>，造成{{Spell_SyndraQ_Damage_0}}。这个<keywordMajor>暗黑法球</keywordMajor>可以存留@SphereDuration@秒，并且能被辛德拉的其它技能所操纵。<br><br><evolve>@spell.SyndraPassive:Q1UpgradeThreshold@块怒法碎晶</evolve>：辛德拉可以储存@Upgrade1MaxAmmo@个<keywordMajor>暗黑法球</keywordMajor>充能。",
+    "spell_syndraq_tooltipextendedbelowline": "<rules>这个技能可以在移动时施放。</rules>",
+    "spell_syndraw_name": "驱使念力",
+    "spell_syndraw_summary": "辛德拉抓取并投掷一名敌方小兵或者暗黑法球，来对敌人造成魔法伤害，并减少他们的移动速度。",
+    "spell_syndraw_tooltip": "辛德拉抓取一颗<keywordMajor>暗黑法球</keywordMajor>、一个敌方小兵或一只非史诗级野怪。她在抓取后的至多5秒内可以<recast>再次施放</recast>这个技能。<br><br><recast>再次施放</recast>：辛德拉将物体猛掷出去，造成{{Spell_SyndraW_Damage@f3@}}和持续@f2@秒的@TotalSlowAmount@%<status>减速</status>效果。<br><br><evolve>@spell.SyndraPassive:WUpgradeThreshold@块怒法碎晶</evolve>：这个技能造成额外的<trueDamage>@TOOLTIPONLYPassiveBonusPercent@真实伤害</trueDamage>。<br>",
+    "spell_syndraw_tooltipextendedbelowline": "<rules>如果没有选择任何目标，那么就会抓取相距最近的<keywordMajor>暗黑法球</keywordMajor>。<br>这个技能可以在移动时施放。</rules>",
+    "spell_syndrae_name": "弱者退散",
+    "spell_syndrae_summary": "辛德拉将敌人和暗黑法球击退，并造成魔法伤害。被暗黑法球命中的敌人会被晕眩。",
+    "spell_syndrae_tooltip": "辛德拉投出一道原力波，<status>击退</status>敌人们和<keywordMajor>暗黑法球</keywordMajor>并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>被推挤的<keywordMajor>暗黑法球</keywordMajor>会<status>晕眩</status>敌人@StunDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br><evolve>@spell.SyndraPassive:EUpgradeThreshold@块怒法碎晶</evolve>：这个技能的宽度得到提升并且还会对敌人们造成持续@UpgradedSlowDuration@秒的<status>@UpgradedSlowAmount*100@%</status><status>减速</status>。",
+    "spell_syndrae_tooltipextendedbelowline": "<rules>这个技能每次施放时只会对相同敌人造成一次伤害和击退效果。<br></rules>",
+    "spell_syndrar_name": "能量倾泻",
+    "spell_syndrar_summary": "辛德拉用她的所有暗黑法球来轰击一名敌方英雄。",
+    "spell_syndrar_tooltip": "<spellPassive>被动</spellPassive>：每级<spellName>能量倾泻</spellName>都会为<spellName>暗黑法球</spellName>提供额外的@QHastePerRank@技能急速。<br><br>辛德拉动用她洪流般的能量，将环绕于她的3颗<keywordMajor>暗黑法球</keywordMajor>外加至多4颗附近的暗黑法球轰在一名敌方英雄身上。每颗<keywordMajor>暗黑法球</keywordMajor>造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>(最大<magicDamage>@MaxDamageCalc@魔法伤害</magicDamage>)。<br><br><evolve>@spell.SyndraPassive:RUpgradeThreshold@块怒法碎晶</evolve>：这个技能<danger>处决</danger>生命值低于@UpgradeExecuteThreshold*100@%的敌人。",
+    "game_character_passivename_taliyah": "浮石冲",
+    "game_character_passivetooltip_taliyah": "在非战斗状态时，如果塔莉垭在前@FallOffTime@秒内靠近过墙体，就会获得<speed>@TotalMS@移动速度</speed>。",
+    "game_character_passivedescription_taliyah": "塔莉垭在墙体附近时会获得移动速度。",
+    "spell_taliyahq_name": "石穿",
+    "spell_taliyahq_summary": "塔莉垭朝目标方向扔出一串岩石，同时自身可自由移动。这个技能会在她脚下生成【掘石场】。如果塔莉垭在【掘石场】上使用【Q石穿】，她将消耗掉【掘石场】来投掷一颗更强大的岩石来减速敌人。",
+    "spell_taliyahq_tooltip": "塔莉垭挥出5块石头，每块会在命中的第一个敌人的附近区域内造成<magicDamage>@RockDamage@魔法伤害</magicDamage>并在该区域生成【掘石场】。对相同敌人的后续命中造成的伤害降低@ExtraMissileReducedDamagePercent@%。<br><br>在【掘石场】上施放时会消耗@BigRockManaCost@法力并且冷却时间缩短@WorkedGroundCDR*100@%，消耗掉【掘石场】，并挥出一块巨石来对命中的敌人们造成持续@SlowDuration@秒的 @SlowPercent*100@%<status>减速</status>，对首要目标造成<magicDamage>@BigRockDamage@魔法伤害</magicDamage>。巨石对命中的野怪们造成@MonsterStunDuration@秒<status>晕眩</status>。",
+    "spell_taliyahq_tooltipextendedbelowline": "<rules>塔莉垭在挥出巨石的同时可以移动并使用其它技能。<br>在【掘石场】上施放这个技能不会使其冷却时间缩短至@MinimumWorkedGroundCD@秒以下。<br>对单个目标的总伤害：<magicDamage>@MaxDamageTooltip@</magicDamage><br>每颗岩石对野怪造成<magicDamage>@TotalBonusFlatMonsterDamage@</magicDamage>额外伤害。</rules>",
+    "spell_taliyahwvc_name": "岩突",
+    "spell_taliyahwvc_summary": "塔莉垭在目标区域引发岩突，并将区域内的敌人们扔向她所选的方向。",
+    "spell_taliyahwvc_tooltip": "塔莉垭动摇大地，将一个区域内的敌人们<status>强制位移</status>至一个所选方向。",
+    "spell_taliyahe_name": "撒石阵",
+    "spell_taliyahe_summary": "塔莉垭创造一个可减速的雷区。如果敌人在使用冲刺技能途径雷区或是被强制位移效果途经雷区，石雷就会爆炸并晕眩该敌人。",
+    "spell_taliyahe_tooltip": "塔莉垭在一个区域内布下碎石阵，对命中的敌人造成<magicDamage>@ScatterDamage@魔法伤害</magicDamage>和@SlowPercent*100@%<status>减速</status>。碎石会在敌人冲刺或被<status>强制位移</status>途经它们时爆炸，造成剩余位移时长+@StunDuration@秒<status>晕眩</status>和<magicDamage>@DetonationDamage@魔法伤害</magicDamage>。",
+    "spell_taliyahe_tooltipextendedbelowline": "<rules>晕眩时长无法超过@MaxStunDuration@秒。每次施放仅会对每个敌人造成1次晕眩。总会对野怪造成最大时长的晕眩效果。<br>后续爆炸碎石造成的伤害减少@MineDamageFalloff*100@%。<br>最大爆炸伤害：<magicDamage>@MaxDetonationDamageTooltip@</magicDamage><br>这个技能对野怪造成@MonsterModPercent*100@%伤害。</rules>",
+    "spell_taliyahr_name": "墙幔",
+    "spell_taliyahr_summary": "塔莉垭创造出一个非常长的石墙，然后在石墙上冲浪。",
+    "spell_taliyahr_tooltip": "塔莉垭生成一道巨型土墙，持续@WallDuration@秒。如果她立刻<recast>再次施放</recast>，那么她将踏上土墙随其一路骑行。移动或受到定身都将结束这段骑行。<br><br>如果塔莉垭在@DamageLockoutTime@秒内曾受到过来自英雄或建筑物的伤害，那么她将不能施放这个技能。",
+    "spell_taliyahr_tooltipextendedbelowline": "<rules>一旦墙体完全形成，塔莉垭就能<recast>再次施放</recast>来提前摧毁它。</rules>"
+  }
+}

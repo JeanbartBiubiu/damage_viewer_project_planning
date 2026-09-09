@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T09:54:01.626Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_q/formulas/augmented_shield_amount",
+  "id": "augmented_shield_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "augmented_shield_amount",
+    "name": "强化护盾数值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "augmented_shield_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_amount_level_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "基础护盾乘当前强化护盾倍数1.6；强化触发条件待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 50
+  }
+}

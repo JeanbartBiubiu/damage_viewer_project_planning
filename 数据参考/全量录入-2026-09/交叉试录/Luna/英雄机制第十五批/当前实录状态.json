@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T09:57:15.936Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "exactPlanSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+  "apiWritesComplete": true,
+  "allCandidateComponentsConfirmed": true,
+  "validationComplete": true,
+  "runId": "2026-09-09T09-53-26-948Z",
+  "newPostCount": 191,
+  "finishedAt": "2026-09-09T09:57:38.926Z",
+  "actualWrite": {
+    "runId": "2026-09-09T09-53-26-948Z",
+    "apiWrites": 191,
+    "counts": {
+      "parameters": 168,
+      "formulas": 31,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "preflightCalls": 200,
+    "finalDetails": 219,
+    "protectionDrift": 0,
+    "writerPass": true
+  },
+  "independentReadback": {
+    "runId": "2026-09-09T10-00-38-171Z",
+    "mode": "第二轮独立全量GET；不发送业务写入",
+    "status": "READY_FOR_INDEPENDENT_REVIEW",
+    "apiWrites": 0,
+    "requests": {
+      "catalogs": 4,
+      "subjects": 20,
+      "characters": 4,
+      "relations": 4,
+      "images": 20,
+      "lists": 120,
+      "componentDetails": 219,
+      "total": 391
+    },
+    "statuses": {
+      "GET": 391,
+      "success": 391
+    },
+    "fullBusinessComparisons": 219,
+    "formulaCount": 31,
+    "formulaCases": 32,
+    "sourceTreeCases": 32,
+    "failedChecks": 0,
+    "missingComponents": 0,
+    "mathResult": "实际读后数学核算.json"
+  },
+  "notes": [
+    "独立回读使用该轮新GET文件，不引用写入器保存的最终详情；实际读后数学核算为独立算法进程。",
+    "主负责人完成4代表页面及其对应新GET；本地Git提交另由主负责人完成，不表示战斗运行。"
+  ],
+  "browser": {
+    "representativePages": 4,
+    "GETs": 18,
+    "evidence": "页面验收.json",
+    "passed": true
+  }
+}

@@ -1,0 +1,2374 @@
+{
+  "at": "2026-09-09T07:31:19.516Z",
+  "candidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "planSha256": "db627b349dc0d34c8f6f3c89994c7118dbce9d5f9906f9f03fd653894c940940",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "scope": "独立读取16.17客户端压缩原文、16.17.1官方文件和当前根绑定；对照候选树逐项核算，不执行业务写入。",
+  "checks": 1260,
+  "failures": [],
+  "preservedPublicParameters": 28,
+  "newComponents": 198,
+  "sourceCases": [
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "sourceKey": "TotalMissileDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 100,
+      "sourceValue": 100.00000059604645,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "sourceKey": "TotalMissileDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 154.8,
+      "sourceValue": 154.80000141263008,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "sourceKey": "TotalMissileDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 160,
+      "sourceValue": 160.00000059604645,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "sourceKey": "TotalMissileDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 214.8,
+      "sourceValue": 214.80000141263008,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "sourceKey": "AttackTotalDMG",
+      "rank": 1,
+      "ap": 100,
+      "actual": 270,
+      "sourceValue": 270,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "sourceKey": "AttackTotalDMG",
+      "rank": 1,
+      "ap": 237,
+      "actual": 455.5,
+      "sourceValue": 455.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "sourceKey": "AttackTotalDMG",
+      "rank": 5,
+      "ap": 100,
+      "actual": 370,
+      "sourceValue": 370,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "sourceKey": "AttackTotalDMG",
+      "rank": 5,
+      "ap": 237,
+      "actual": 555.5,
+      "sourceValue": 555.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_total_ad",
+      "sourceKey": "{147c7de9}",
+      "rank": 1,
+      "ap": 100,
+      "actual": 200,
+      "sourceValue": 200,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_total_ad",
+      "sourceKey": "{147c7de9}",
+      "rank": 1,
+      "ap": 237,
+      "actual": 317,
+      "sourceValue": 317,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_total_ad",
+      "sourceKey": "{147c7de9}",
+      "rank": 5,
+      "ap": 100,
+      "actual": 200,
+      "sourceValue": 200,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_total_ad",
+      "sourceKey": "{147c7de9}",
+      "rank": 5,
+      "ap": 237,
+      "actual": 317,
+      "sourceValue": 317,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "sourceKey": "ShieldLevelScaling",
+      "rank": 1,
+      "ap": 100,
+      "actual": 165,
+      "sourceValue": 165,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "sourceKey": "ShieldLevelScaling",
+      "rank": 1,
+      "ap": 237,
+      "actual": 199.25,
+      "sourceValue": 199.25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "sourceKey": "ShieldLevelScaling",
+      "rank": 5,
+      "ap": 100,
+      "actual": 165,
+      "sourceValue": 165,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "sourceKey": "ShieldLevelScaling",
+      "rank": 5,
+      "ap": 237,
+      "actual": 199.25,
+      "sourceValue": 199.25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "sourceKey": "TotalAugmentedShieldValue",
+      "rank": 1,
+      "ap": 100,
+      "actual": 264,
+      "sourceValue": 264.00000393390656,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "sourceKey": "TotalAugmentedShieldValue",
+      "rank": 1,
+      "ap": 237,
+      "actual": 318.8,
+      "sourceValue": 318.8000047504902,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "sourceKey": "TotalAugmentedShieldValue",
+      "rank": 5,
+      "ap": 100,
+      "actual": 264,
+      "sourceValue": 264.00000393390656,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "sourceKey": "TotalAugmentedShieldValue",
+      "rank": 5,
+      "ap": 237,
+      "actual": 318.8,
+      "sourceValue": 318.8000047504902,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "sourceKey": "LaserDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 120,
+      "sourceValue": 120,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "sourceKey": "LaserDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 188.5,
+      "sourceValue": 188.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "sourceKey": "LaserDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 280,
+      "sourceValue": 280,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "sourceKey": "LaserDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 348.5,
+      "sourceValue": 348.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "sourceKey": "AftershockDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 100,
+      "sourceValue": 100.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "sourceKey": "AftershockDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 209.60000000000002,
+      "sourceValue": 209.60000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "sourceKey": "AftershockDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 220,
+      "sourceValue": 220.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "sourceKey": "AftershockDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 329.6,
+      "sourceValue": 329.60000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "sourceKey": "InitialBurstDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 150,
+      "sourceValue": 150,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "sourceKey": "InitialBurstDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 218.5,
+      "sourceValue": 218.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "sourceKey": "InitialBurstDamage",
+      "rank": 3,
+      "ap": 100,
+      "actual": 300,
+      "sourceValue": 300,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "sourceKey": "InitialBurstDamage",
+      "rank": 3,
+      "ap": 237,
+      "actual": 368.5,
+      "sourceValue": 368.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "sourceKey": "SubsequentBurstDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 100,
+      "sourceValue": 99.99999940395355,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "sourceKey": "SubsequentBurstDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 147.95,
+      "sourceValue": 147.94999858736992,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "sourceKey": "SubsequentBurstDamage",
+      "rank": 3,
+      "ap": 100,
+      "actual": 180,
+      "sourceValue": 179.99999940395355,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "sourceKey": "SubsequentBurstDamage",
+      "rank": 3,
+      "ap": 237,
+      "actual": 227.95,
+      "sourceValue": 227.94999858736992,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 65,
+      "sourceValue": 65.00000059604645,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 85.55,
+      "sourceValue": 85.55000141263008,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "sourceKey": "StackDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 9.75,
+      "sourceValue": 9.750000476837162,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "sourceKey": "StackDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 12.8325,
+      "sourceValue": 12.832500721812256,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "sourceKey": "StackDamageMax",
+      "rank": 1,
+      "ap": 100,
+      "actual": 19.5,
+      "sourceValue": 19.500000953674324,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "sourceKey": "StackDamageMax",
+      "rank": 1,
+      "ap": 237,
+      "actual": 25.665,
+      "sourceValue": 25.66500144362451,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 115,
+      "sourceValue": 115.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 190.35000000000002,
+      "sourceValue": 190.35000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 235,
+      "sourceValue": 235.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 310.35,
+      "sourceValue": 310.35000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinimumDamageTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 80.50000000000001,
+      "sourceValue": 80.4999990351498,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinimumDamageTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 133.24500000000003,
+      "sourceValue": 133.24499899942424,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinimumDamageTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 164.50000000000003,
+      "sourceValue": 164.49999715760347,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinimumDamageTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 217.24500000000003,
+      "sourceValue": 217.24499712187793,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 150,
+      "sourceValue": 150.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 259.6,
+      "sourceValue": 259.60000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 310,
+      "sourceValue": 310.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 419.6,
+      "sourceValue": 419.60000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 90,
+      "sourceValue": 90.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 131.1,
+      "sourceValue": 131.10000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 210,
+      "sourceValue": 210.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "sourceKey": "TotalDamageTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 251.1,
+      "sourceValue": 251.10000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "sourceKey": "TotalShieldTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 100,
+      "sourceValue": 99.9999988079071,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "sourceKey": "TotalShieldTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 161.65,
+      "sourceValue": 161.64999717473984,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "sourceKey": "TotalShieldTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 240,
+      "sourceValue": 239.9999988079071,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "sourceKey": "TotalShieldTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 301.65,
+      "sourceValue": 301.64999717473984,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 335,
+      "sourceValue": 335.0000023841858,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 485.70000000000005,
+      "sourceValue": 485.7000056505203,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 3,
+      "ap": 100,
+      "actual": 585,
+      "sourceValue": 585.0000023841858,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 3,
+      "ap": 237,
+      "actual": 735.7,
+      "sourceValue": 735.7000056505203,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "stacks_per_proc",
+      "sourceKey": "StacksPerProc",
+      "rank": 1,
+      "ap": 100,
+      "actual": 2,
+      "sourceValue": 2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "stacks_per_proc",
+      "sourceKey": "StacksPerProc",
+      "rank": 1,
+      "ap": 237,
+      "actual": 2,
+      "sourceValue": 2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "mana_per_proc",
+      "sourceKey": "ManaPerProc",
+      "rank": 1,
+      "ap": 100,
+      "actual": 35,
+      "sourceValue": 35,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "mana_per_proc",
+      "sourceKey": "ManaPerProc",
+      "rank": 1,
+      "ap": 237,
+      "actual": 35,
+      "sourceValue": 35,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 160,
+      "sourceValue": 159.9999988079071,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 255.89999999999998,
+      "sourceValue": 255.89999717473984,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 300,
+      "sourceValue": 299.9999988079071,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 395.9,
+      "sourceValue": 395.89999717473984,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "sourceKey": "ThrowDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 135,
+      "sourceValue": 134.9999976158142,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "sourceKey": "ThrowDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 224.05,
+      "sourceValue": 224.04999434947968,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "sourceKey": "ThrowDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 255,
+      "sourceValue": 254.9999976158142,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "sourceKey": "ThrowDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 344.05,
+      "sourceValue": 344.0499943494797,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "sourceKey": "PassiveBonusDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 18.9,
+      "sourceValue": 18.899999183416377,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "sourceKey": "PassiveBonusDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 37.50597,
+      "sourceValue": 37.50596797840434,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "sourceKey": "PassiveBonusDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 35.699999999999996,
+      "sourceValue": 35.699998754262936,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "sourceKey": "PassiveBonusDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 57.59397,
+      "sourceValue": 57.59396740226585,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "slow_amount",
+      "sourceKey": "TotalSlowAmount",
+      "rank": 1,
+      "ap": 100,
+      "actual": 25,
+      "sourceValue": 25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "slow_amount",
+      "sourceKey": "TotalSlowAmount",
+      "rank": 1,
+      "ap": 237,
+      "actual": 25,
+      "sourceValue": 25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "slow_amount",
+      "sourceKey": "TotalSlowAmount",
+      "rank": 5,
+      "ap": 100,
+      "actual": 25,
+      "sourceValue": 25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "slow_amount",
+      "sourceKey": "TotalSlowAmount",
+      "rank": 5,
+      "ap": 237,
+      "actual": 25,
+      "sourceValue": 25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_ratio",
+      "sourceKey": "TOOLTIPONLYPassiveBonusPercent",
+      "rank": 1,
+      "ap": 100,
+      "actual": 0.14,
+      "sourceValue": 0.13999999642372132,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_ratio",
+      "sourceKey": "TOOLTIPONLYPassiveBonusPercent",
+      "rank": 1,
+      "ap": 237,
+      "actual": 0.16740000000000002,
+      "sourceValue": 0.16739999519884588,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_ratio",
+      "sourceKey": "TOOLTIPONLYPassiveBonusPercent",
+      "rank": 5,
+      "ap": 100,
+      "actual": 0.14,
+      "sourceValue": 0.13999999642372132,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_ratio",
+      "sourceKey": "TOOLTIPONLYPassiveBonusPercent",
+      "rank": 5,
+      "ap": 237,
+      "actual": 0.16740000000000002,
+      "sourceValue": 0.16739999519884588,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 120,
+      "sourceValue": 120.00000238418579,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 202.2,
+      "sourceValue": 202.20000565052032,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 260,
+      "sourceValue": 260.0000023841858,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 342.2,
+      "sourceValue": 342.2000056505203,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "sourceKey": "DamageCalc",
+      "rank": 1,
+      "ap": 100,
+      "actual": 100,
+      "sourceValue": 100.00000029802322,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "sourceKey": "DamageCalc",
+      "rank": 1,
+      "ap": 237,
+      "actual": 127.4,
+      "sourceValue": 127.40000070631504,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "sourceKey": "DamageCalc",
+      "rank": 3,
+      "ap": 100,
+      "actual": 180,
+      "sourceValue": 180.00000029802322,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "sourceKey": "DamageCalc",
+      "rank": 3,
+      "ap": 237,
+      "actual": 207.4,
+      "sourceValue": 207.40000070631504,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinDamageCalc",
+      "rank": 1,
+      "ap": 100,
+      "actual": 300,
+      "sourceValue": 300.0000008940697,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinDamageCalc",
+      "rank": 1,
+      "ap": 237,
+      "actual": 382.20000000000005,
+      "sourceValue": 382.2000021189451,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinDamageCalc",
+      "rank": 3,
+      "ap": 100,
+      "actual": 540,
+      "sourceValue": 540.0000008940697,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "sourceKey": "MinDamageCalc",
+      "rank": 3,
+      "ap": 237,
+      "actual": 622.2,
+      "sourceValue": 622.2000021189451,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "sourceKey": "MaxDamageCalc",
+      "rank": 1,
+      "ap": 100,
+      "actual": 700,
+      "sourceValue": 700.0000020861626,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "sourceKey": "MaxDamageCalc",
+      "rank": 1,
+      "ap": 237,
+      "actual": 891.8000000000001,
+      "sourceValue": 891.8000049442053,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "sourceKey": "MaxDamageCalc",
+      "rank": 3,
+      "ap": 100,
+      "actual": 1260,
+      "sourceValue": 1260.0000020861626,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "sourceKey": "MaxDamageCalc",
+      "rank": 3,
+      "ap": 237,
+      "actual": 1451.8,
+      "sourceValue": 1451.8000049442053,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "sourceKey": "TotalMS",
+      "rank": 1,
+      "ap": 100,
+      "actual": 0.2,
+      "sourceValue": 0.2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "sourceKey": "TotalMS",
+      "rank": 1,
+      "ap": 237,
+      "actual": 0.2,
+      "sourceValue": 0.2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "sourceKey": "RockDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 105,
+      "sourceValue": 105,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "sourceKey": "RockDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 173.5,
+      "sourceValue": 173.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "sourceKey": "RockDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 175,
+      "sourceValue": 175,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "sourceKey": "RockDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 243.5,
+      "sourceValue": 243.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "sourceKey": "BigRockDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 189,
+      "sourceValue": 188.99999499320984,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "sourceKey": "BigRockDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 312.3,
+      "sourceValue": 312.2999917268753,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "sourceKey": "BigRockDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 315,
+      "sourceValue": 314.99999165534973,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "sourceKey": "BigRockDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 438.3,
+      "sourceValue": 438.2999883890152,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "sourceKey": "MaxDamageTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 273,
+      "sourceValue": 272.9999899864197,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "sourceKey": "MaxDamageTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 451.1,
+      "sourceValue": 451.0999834537506,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "sourceKey": "MaxDamageTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 455,
+      "sourceValue": 454.99998331069946,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "sourceKey": "MaxDamageTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 633.1,
+      "sourceValue": 633.0999767780304,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "sourceKey": "ScatterDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 120,
+      "sourceValue": 120.00000238418579,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "sourceKey": "ScatterDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 202.2,
+      "sourceValue": 202.20000565052032,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "sourceKey": "ScatterDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 300,
+      "sourceValue": 300.0000023841858,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "sourceKey": "ScatterDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 382.2,
+      "sourceValue": 382.2000056505203,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "sourceKey": "DetonationDamage",
+      "rank": 1,
+      "ap": 100,
+      "actual": 55,
+      "sourceValue": 55.000001192092896,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "sourceKey": "DetonationDamage",
+      "rank": 1,
+      "ap": 237,
+      "actual": 96.1,
+      "sourceValue": 96.10000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "sourceKey": "DetonationDamage",
+      "rank": 5,
+      "ap": 100,
+      "actual": 115,
+      "sourceValue": 115.0000011920929,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "sourceKey": "DetonationDamage",
+      "rank": 5,
+      "ap": 237,
+      "actual": 156.1,
+      "sourceValue": 156.10000282526016,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "sourceKey": "MaxDetonationDamageTooltip",
+      "rank": 1,
+      "ap": 100,
+      "actual": 137.5,
+      "sourceValue": 137.50000298023224,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "sourceKey": "MaxDetonationDamageTooltip",
+      "rank": 1,
+      "ap": 237,
+      "actual": 240.25,
+      "sourceValue": 240.2500070631504,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "sourceKey": "MaxDetonationDamageTooltip",
+      "rank": 5,
+      "ap": 100,
+      "actual": 287.5,
+      "sourceValue": 287.50000298023224,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "sourceKey": "MaxDetonationDamageTooltip",
+      "rank": 5,
+      "ap": 237,
+      "actual": 390.25,
+      "sourceValue": 390.2500070631504,
+      "passed": true,
+      "error": null
+    }
+  ],
+  "manualCases": [
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "rank": 1,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 100,
+      "actual": 100,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 250,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 220,
+      "actual": 220,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 150,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 190,
+      "actual": 190,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 304,
+      "actual": 304,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 300,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 380,
+      "actual": 380,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 300,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 380,
+      "actual": 380,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 400,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 450,
+      "actual": 450,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 400,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 285,
+      "actual": 285,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "rank": 1,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 80,
+      "actual": 80,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "rank": 1,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 12,
+      "actual": 12,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "rank": 1,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 24,
+      "actual": 24,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 290,
+      "actual": 290,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 203,
+      "actual": 203.00000000000003,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 390,
+      "actual": 390,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 240,
+      "actual": 240,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 285,
+      "actual": 285,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 695,
+      "actual": 695,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 370,
+      "actual": 370,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 51.2,
+      "actual": 51.2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 400,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 240,
+      "actual": 240,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 400,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 720,
+      "actual": 720,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "rank": 3,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 400,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 1680,
+      "actual": 1680,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "rank": 1,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 225,
+      "actual": 225,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 405,
+      "actual": 405,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 585,
+      "actual": 585,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 360,
+      "actual": 360,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 145,
+      "actual": 145,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "rank": 5,
+      "inputs": {
+        "shield_amount_level_value": 140,
+        "passive_total_damage_level_value": 50,
+        "stacks_per_proc_level_value": 2,
+        "mana_per_proc_level_value_2": 35,
+        "wall_move_speed_ratio_level_value": 0.2
+      },
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 362.5,
+      "actual": 362.5,
+      "passed": true,
+      "error": null
+    }
+  ],
+  "runtimeChecks": [
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "rejected": true
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "stacks_per_proc",
+      "rejected": true
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "mana_per_proc",
+      "rejected": true
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "rejected": true
+    }
+  ],
+  "unknownCurves": [
+    {
+      "skillKey": "viktor_q",
+      "parameterKey": "shield_amount_level_value",
+      "source": "mSpellCalculations.ShieldLevelScaling.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "orianna_p",
+      "parameterKey": "passive_total_damage_level_value",
+      "source": "mSpellCalculations.TotalDamage.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "syndra_p",
+      "parameterKey": "stacks_per_proc_level_value",
+      "source": "mSpellCalculations.StacksPerProc.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "syndra_p",
+      "parameterKey": "mana_per_proc_level_value_2",
+      "source": "mSpellCalculations.ManaPerProc.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "taliyah_p",
+      "parameterKey": "wall_move_speed_ratio_level_value",
+      "source": "mSpellCalculations.TotalMS.mFormulaParts[0]"
+    }
+  ],
+  "notes": [
+    "未知等级插值/断点只使用明确外供值，未按端点生成曲线，也未填默认0。",
+    "普通多段与范围命中唯一敌人保留；纯几何、第三方友军和小兵/野怪专用分支只留来源证据。",
+    "伤害公式保留但未创建默认DAMAGE；没有成熟的时序或资格时不创建DIRECT_HEAL、空过程和触发规则。",
+    "公式表达式只含PARAMETER、ATTRIBUTE、OPERATION；子公式已经内联，未使用FORMULA节点。"
+  ]
+}

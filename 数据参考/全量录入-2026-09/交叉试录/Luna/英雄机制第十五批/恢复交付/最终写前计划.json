@@ -1,0 +1,6014 @@
+{
+  "at": "2026-09-09T09:16:30.764Z",
+  "status": "仅准备，未执行业务写入",
+  "mode": "最终修正版精确POST请求体清单；仅供主负责人审查，不是自动执行工具",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "apiWrites": 0,
+  "originalCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "finalCandidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "sourceCandidateVersionSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "sourceCandidateVersionPlanSha256": "db627b349dc0d34c8f6f3c89994c7118dbce9d5f9906f9f03fd653894c940940",
+  "originalSnapshotSha256": "79142b374fba9a9b5f099dda33525788ca1071ea35bc668b5998721cabe8f834",
+  "relationProtectionSnapshotSha256": "10d71c98f2a9106e0ddddd5e6dbc0a01da75d6cb2b7cb9603f40bd1d0daa1ee0",
+  "finalIndependentSummarySha256": "e43dd1b1ef9e92dedaa75dcd747ee04d448c96b9b904394ccd7656cf9ad1fc4b",
+  "counts": {
+    "candidate": {
+      "parameters": 168,
+      "formulas": 31,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "total": 219
+    },
+    "reused": {
+      "parameters": 28,
+      "total": 28
+    },
+    "new": {
+      "parameters": 140,
+      "formulas": 31,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "total": 191
+    }
+  },
+  "policy": "同键对象完整复用，不发更新请求；同键异值不得覆盖；未知输入不默认0；候选之外不补过程、内部状态、触发规则或默认伤害/治疗结果。Taliyah Q普通法力与掘石场法力为互斥分支。",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/viktor_p/parameters",
+      "skillKey": "viktor_p",
+      "kind": "parameters",
+      "key": "minion_stacks",
+      "body": {
+        "parameterKey": "minion_stacks",
+        "name": "普通小兵提供层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MinionStacks 取索引1至1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_p/parameters",
+      "skillKey": "viktor_p",
+      "kind": "parameters",
+      "key": "cannon_stacks",
+      "body": {
+        "parameterKey": "cannon_stacks",
+        "name": "炮车小兵提供层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CannonStacks 取索引1至1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_p/parameters",
+      "skillKey": "viktor_p",
+      "kind": "parameters",
+      "key": "champion_stacks",
+      "body": {
+        "parameterKey": "champion_stacks",
+        "name": "英雄提供层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ChampionStacks 取索引1至1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_p/parameters",
+      "skillKey": "viktor_p",
+      "kind": "parameters",
+      "key": "evolution_stack_breakpoint",
+      "body": {
+        "parameterKey": "evolution_stack_breakpoint",
+        "name": "进化所需层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.EvolutionStackBreakpoint 取索引1至1。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "missile_base_damage",
+      "body": {
+        "parameterKey": "missile_base_damage",
+        "name": "法球基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 75,
+          "3": 90,
+          "4": 105,
+          "5": 120
+        },
+        "description": "客户端当前根绑定 DataValues.MissileDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "next_attack_base_damage",
+      "body": {
+        "parameterKey": "next_attack_base_damage",
+        "name": "强化后续普攻基础伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 45,
+          "3": 70,
+          "4": 95,
+          "5": 120
+        },
+        "description": "客户端当前根绑定 DataValues.AABonusDamage 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "护盾与强化移速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5；仅对应正文护盾与进化后强化移速持续时间。强化后续普攻另有独立4秒资格窗口，不共用此时长。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "missile_ap_ratio",
+      "body": {
+        "parameterKey": "missile_ap_ratio",
+        "name": "法球法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MissileAPRatio 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "next_attack_ap_ratio",
+      "body": {
+        "parameterKey": "next_attack_ap_ratio",
+        "name": "强化后续普攻法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.HitAPRatio 取索引1至5。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "shield_ap_ratio",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ShieldAPRatio 取索引1至5。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "augmented_shield_multiplier",
+      "body": {
+        "parameterKey": "augmented_shield_multiplier",
+        "name": "强化护盾倍数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AugmentShieldBonus 取索引1至5。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "augment_move_speed_ratio",
+      "body": {
+        "parameterKey": "augment_move_speed_ratio",
+        "name": "强化移速加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AugmentMoveSpeedBonus 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "强化后续普攻伤害固定系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "shield_amount_level_value",
+      "body": {
+        "parameterKey": "shield_amount_level_value",
+        "name": "基础护盾数值的实际等级项",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/parameters",
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "next_attack_window_ms",
+      "body": {
+        "parameterKey": "next_attack_window_ms",
+        "name": "强化后续普攻资格窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "官方当前正文明确“在4秒内的下一次攻击”；这是独立资格窗口，不并入护盾与强化移速持续时间，也不创建默认触发。",
+        "sortOrder": 65
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/formulas",
+      "skillKey": "viktor_q",
+      "kind": "formulas",
+      "key": "missile_damage",
+      "body": {
+        "formulaKey": "missile_damage",
+        "name": "法球魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missile_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missile_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "实际命中敌方英雄的法球伤害；后续普攻与护盾分开。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/formulas",
+      "skillKey": "viktor_q",
+      "kind": "formulas",
+      "key": "next_attack_damage",
+      "body": {
+        "formulaKey": "next_attack_damage",
+        "name": "强化后续普攻伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "next_attack_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "next_attack_ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树为基础伤害+法强项+总AD；实际普攻资格待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/formulas",
+      "skillKey": "viktor_q",
+      "kind": "formulas",
+      "key": "shield_amount",
+      "body": {
+        "formulaKey": "shield_amount",
+        "name": "基础护盾数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_amount_level_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "角色等级插值基础项+护盾法强系数；实际等级值外供，不按端点猜线性。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/formulas",
+      "skillKey": "viktor_q",
+      "kind": "formulas",
+      "key": "augmented_shield_amount",
+      "body": {
+        "formulaKey": "augmented_shield_amount",
+        "name": "强化护盾数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "augmented_shield_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_level_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "基础护盾乘当前强化护盾倍数1.6；强化触发条件待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/effects",
+      "skillKey": "viktor_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/effects",
+      "skillKey": "viktor_q",
+      "kind": "effects",
+      "key": "shield",
+      "body": {
+        "effectKey": "shield",
+        "name": "虹吸能量自身护盾",
+        "description": "仅普通Q命中分支；与进化Q强化护盾互斥。护盾数值和实际命中/取样时点未接线，不表示无条件自动应用。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "虹吸能量自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/effects",
+      "skillKey": "viktor_q",
+      "kind": "effects",
+      "key": "augmented_shield",
+      "body": {
+        "effectKey": "augmented_shield",
+        "name": "虹吸能量强化自身护盾",
+        "description": "仅进化Q命中分支；与普通Q护盾互斥。强化资格和实际命中/取样时点未接线，不表示无条件自动应用。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "虹吸能量强化自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "augmented_shield_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_q/effects",
+      "skillKey": "viktor_q",
+      "kind": "effects",
+      "key": "augment_move_speed",
+      "body": {
+        "effectKey": "augment_move_speed",
+        "name": "虹吸能量强化移速",
+        "description": "仅进化Q分支的自身收益；不适用于普通Q。进化资格、实际触发和提前结束未接线，不表示无条件自动应用。",
+        "sortOrder": 40,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "虹吸能量强化移速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "augment_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "重力场减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.33,
+          "2": 0.36,
+          "3": 0.39,
+          "4": 0.42,
+          "5": 0.45
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPotency 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "眩晕时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "field_duration_ms",
+      "body": {
+        "parameterKey": "field_duration_ms",
+        "name": "重力场持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.FieldDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "stack_cadence_ms",
+      "body": {
+        "parameterKey": "stack_cadence_ms",
+        "name": "重力场层数节拍（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackCadence 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "stun_stack_count",
+      "body": {
+        "parameterKey": "stun_stack_count",
+        "name": "眩晕所需层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StacksForStun 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "强化减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "augment_slow_ratio",
+      "body": {
+        "parameterKey": "augment_slow_ratio",
+        "name": "强化减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AugmentSlow 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/parameters",
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "stun_residence_duration_ms",
+      "body": {
+        "parameterKey": "stun_residence_duration_ms",
+        "name": "眩晕所需驻留时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "官方当前正文明确敌人在范围内驻留1.25秒后才会眩晕；独立保存为条件字段，不由层数节拍与层数相乘推导。实际停留判定和事件顺序未接线。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_w/effects",
+      "skillKey": "viktor_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/parameters",
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "laser_base_damage",
+      "body": {
+        "parameterKey": "laser_base_damage",
+        "name": "激光基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamageLaser 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/parameters",
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "aftershock_base_damage",
+      "body": {
+        "parameterKey": "aftershock_base_damage",
+        "name": "后续爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 50,
+          "3": 80,
+          "4": 110,
+          "5": 140
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamageAftershock 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/parameters",
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "aftershock_delay_ms",
+      "body": {
+        "parameterKey": "aftershock_delay_ms",
+        "name": "后续爆炸延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Delay 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/parameters",
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "laser_ap_ratio",
+      "body": {
+        "parameterKey": "laser_ap_ratio",
+        "name": "激光法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.LaserAPRatio 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/parameters",
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "aftershock_ap_ratio",
+      "body": {
+        "parameterKey": "aftershock_ap_ratio",
+        "name": "后续爆炸法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AftershockAPRatio 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/formulas",
+      "skillKey": "viktor_e",
+      "kind": "formulas",
+      "key": "laser_damage",
+      "body": {
+        "formulaKey": "laser_damage",
+        "name": "激光魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "laser_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "laser_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前英雄目标命中的直线激光伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/formulas",
+      "skillKey": "viktor_e",
+      "kind": "formulas",
+      "key": "aftershock_damage",
+      "body": {
+        "formulaKey": "aftershock_damage",
+        "name": "后续爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "aftershock_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "aftershock_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "进化E沿激光路径的后续爆炸伤害；命中时序待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_e/effects",
+      "skillKey": "viktor_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "initial_burst_base_damage",
+      "body": {
+        "parameterKey": "initial_burst_base_damage",
+        "name": "初始爆发基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 175,
+          "3": 250
+        },
+        "description": "客户端当前根绑定 DataValues.InitialBurstBaseDamage 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "subsequent_burst_base_damage",
+      "body": {
+        "parameterKey": "subsequent_burst_base_damage",
+        "name": "后续爆发基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 105,
+          "3": 145
+        },
+        "description": "客户端当前根绑定 DataValues.SubsequentBurstBaseDamage 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "storm_duration_ms",
+      "body": {
+        "parameterKey": "storm_duration_ms",
+        "name": "风暴持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StormDuration 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "tick_cadence_ms",
+      "body": {
+        "parameterKey": "tick_cadence_ms",
+        "name": "后续伤害节拍（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.TickCadence 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "max_ticks",
+      "body": {
+        "parameterKey": "max_ticks",
+        "name": "最大后续节拍次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxTicks 取索引1至3。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "augment_boost_ratio",
+      "body": {
+        "parameterKey": "augment_boost_ratio",
+        "name": "进化后风暴速度提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AugmentBoost 取索引1至3。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "max_growths",
+      "body": {
+        "parameterKey": "max_growths",
+        "name": "最大成长次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxGrowths 取索引1至3。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "subsequent_burst_ap_ratio",
+      "body": {
+        "parameterKey": "subsequent_burst_ap_ratio",
+        "name": "后续爆发法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SubsequentBurstAPRaio 取索引1至3。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "initial_burst_ap_ratio",
+      "body": {
+        "parameterKey": "initial_burst_ap_ratio",
+        "name": "初始爆发法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.InitialBurstAPRatio 取索引1至3。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/parameters",
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "duration_extension_ms",
+      "body": {
+        "parameterKey": "duration_extension_ms",
+        "name": "击杀英雄延长持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Tooltip_DurationExtension 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/formulas",
+      "skillKey": "viktor_r",
+      "kind": "formulas",
+      "key": "initial_burst_damage",
+      "body": {
+        "formulaKey": "initial_burst_damage",
+        "name": "初始爆发魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_burst_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "initial_burst_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "R首次爆发对当前敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/formulas",
+      "skillKey": "viktor_r",
+      "kind": "formulas",
+      "key": "subsequent_burst_damage",
+      "body": {
+        "formulaKey": "subsequent_burst_damage",
+        "name": "后续爆发魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "subsequent_burst_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "subsequent_burst_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "R后续单次爆发伤害；持续总量和节拍不折算成一次伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/viktor_r/effects",
+      "skillKey": "viktor_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "stack_damage_ratio",
+      "body": {
+        "parameterKey": "stack_damage_ratio",
+        "name": "同一目标每层额外伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackMult 取索引1至1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "stack_count",
+      "body": {
+        "parameterKey": "stack_count",
+        "name": "同一目标最多额外层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackCount 取索引1至1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "stack_duration_ms",
+      "body": {
+        "parameterKey": "stack_duration_ms",
+        "name": "同一目标层数持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "passive_ap_ratio",
+      "body": {
+        "parameterKey": "passive_ap_ratio",
+        "name": "被动法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "passive_total_damage_level_value",
+      "body": {
+        "parameterKey": "passive_total_damage_level_value",
+        "name": "普通攻击附加魔法伤害的实际等级项",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/parameters",
+      "skillKey": "orianna_p",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "同一目标满层额外魔法伤害固定系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/formulas",
+      "skillKey": "orianna_p",
+      "kind": "formulas",
+      "key": "passive_total_damage",
+      "body": {
+        "formulaKey": "passive_total_damage",
+        "name": "普通攻击附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_total_damage_level_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前角色等级基础项+法强系数；同一目标层数由真实攻击事件决定。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/formulas",
+      "skillKey": "orianna_p",
+      "kind": "formulas",
+      "key": "passive_stack_damage",
+      "body": {
+        "formulaKey": "passive_stack_damage",
+        "name": "同一目标单层额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stack_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_total_damage_level_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "保留同一目标层数分支，不把层数自动叠满。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_p/formulas",
+      "skillKey": "orianna_p",
+      "kind": "formulas",
+      "key": "passive_max_stack_damage",
+      "body": {
+        "formulaKey": "passive_max_stack_damage",
+        "name": "同一目标满层额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "stack_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_total_damage_level_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "仅作为最多两层的算术上限，不表示每次攻击必定满层。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "球路径基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "reduced_damage_ratio",
+      "body": {
+        "parameterKey": "reduced_damage_ratio",
+        "name": "后续目标伤害减少幅度",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ReducedDamagePercent 取索引1至5；源字段表示减少百分数，候选保存正的0.3减少幅度，不使用负号。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "minimum_damage_ratio",
+      "body": {
+        "parameterKey": "minimum_damage_ratio",
+        "name": "后续目标最低伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MinimumDamagePercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "指令：攻击魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/parameters",
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "body": {
+        "parameterKey": "calculation_constant_2",
+        "name": "指令：攻击最低魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/formulas",
+      "skillKey": "orianna_q",
+      "kind": "formulas",
+      "key": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "指令：攻击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "球沿路径对当前敌方目标的伤害；同一目标单次取值保留。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/formulas",
+      "skillKey": "orianna_q",
+      "kind": "formulas",
+      "key": "minimum_damage",
+      "body": {
+        "formulaKey": "minimum_damage",
+        "name": "指令：攻击最低魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "DIVIDE",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "minimum_damage_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树明确最低伤害比例；路径目标次序和衰减触发待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_q/effects",
+      "skillKey": "orianna_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "指令：杂音基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "敌方减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "self_haste_ratio",
+      "body": {
+        "parameterKey": "self_haste_ratio",
+        "name": "合资格友方英雄加速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "field_duration_ms",
+      "body": {
+        "parameterKey": "field_duration_ms",
+        "name": "场地持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.FieldDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/parameters",
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "slow_haste_duration_ms",
+      "body": {
+        "parameterKey": "slow_haste_duration_ms",
+        "name": "减速与加速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowAndHasteDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/formulas",
+      "skillKey": "orianna_w",
+      "kind": "formulas",
+      "key": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "指令：杂音魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前球位置对唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/effects",
+      "skillKey": "orianna_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "shield_base_amount",
+      "body": {
+        "parameterKey": "shield_base_amount",
+        "name": "指令：防卫基础护盾",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 90,
+          "3": 125,
+          "4": 160,
+          "5": 195
+        },
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "defense_bonus",
+      "body": {
+        "parameterKey": "defense_bonus",
+        "name": "附着目标护甲与魔抗加成",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6,
+          "2": 12,
+          "3": 18,
+          "4": 24,
+          "5": 30
+        },
+        "description": "客户端当前根绑定 DataValues.DefenseBonus 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "pass_through_base_damage",
+      "body": {
+        "parameterKey": "pass_through_base_damage",
+        "name": "球经过敌人的基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "指令：防卫经过伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/parameters",
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "body": {
+        "parameterKey": "calculation_constant_2",
+        "name": "指令：防卫护盾数值固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/formulas",
+      "skillKey": "orianna_e",
+      "kind": "formulas",
+      "key": "pass_through_damage",
+      "body": {
+        "formulaKey": "pass_through_damage",
+        "name": "指令：防卫经过伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "pass_through_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "球移动经过当前敌方目标的伤害；第三方友军附着关系待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/formulas",
+      "skillKey": "orianna_e",
+      "kind": "formulas",
+      "key": "shield_amount",
+      "body": {
+        "formulaKey": "shield_amount",
+        "name": "指令：防卫护盾数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base_amount"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "基础护盾+0.45AP；目标附着与取样时点待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/effects",
+      "skillKey": "orianna_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_r/parameters",
+      "skillKey": "orianna_r",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "冲击波基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 225,
+          "2": 350,
+          "3": 475
+        },
+        "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_r/parameters",
+      "skillKey": "orianna_r",
+      "kind": "parameters",
+      "key": "control_duration_ms",
+      "body": {
+        "parameterKey": "control_duration_ms",
+        "name": "拉拽击飞控制时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_r/parameters",
+      "skillKey": "orianna_r",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "指令：冲击波魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.1,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_r/formulas",
+      "skillKey": "orianna_r",
+      "kind": "formulas",
+      "key": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "指令：冲击波魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "范围命中当前唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_r/effects",
+      "skillKey": "orianna_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "mark_duration_ms",
+      "body": {
+        "parameterKey": "mark_duration_ms",
+        "name": "碎片标记持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MarkDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "q_upgrade_threshold",
+      "body": {
+        "parameterKey": "q_upgrade_threshold",
+        "name": "Q升级所需碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Q1UpgradeThreshold 取索引1至1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "w_upgrade_threshold",
+      "body": {
+        "parameterKey": "w_upgrade_threshold",
+        "name": "W升级所需碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.WUpgradeThreshold 取索引1至1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "e_upgrade_threshold",
+      "body": {
+        "parameterKey": "e_upgrade_threshold",
+        "name": "E升级所需碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.EUpgradeThreshold 取索引1至1。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "r_upgrade_threshold",
+      "body": {
+        "parameterKey": "r_upgrade_threshold",
+        "name": "R升级所需碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.RUpgradeThreshold 取索引1至1。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "capstone_ap_ratio",
+      "body": {
+        "parameterKey": "capstone_ap_ratio",
+        "name": "终极被动法强增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CapstoneAPPerc 取索引1至1。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "max_stack_amount",
+      "body": {
+        "parameterKey": "max_stack_amount",
+        "name": "碎片上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 120,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxStackAmount 取索引1至1。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "stack_per_siege",
+      "body": {
+        "parameterKey": "stack_per_siege",
+        "name": "炮车小兵提供碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackPerSiege 取索引1至1。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "passive_mark_cooldown_ms",
+      "body": {
+        "parameterKey": "passive_mark_cooldown_ms",
+        "name": "被动标记冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PassiveMarkCooldown 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "passive_stacks_per_level",
+      "body": {
+        "parameterKey": "passive_stacks_per_level",
+        "name": "每次升级碎片",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PassiveStacksPerLevel 取索引1至1。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "stacks_per_proc_level_value",
+      "body": {
+        "parameterKey": "stacks_per_proc_level_value",
+        "name": "每次触发碎片数的实际等级项",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_p/parameters",
+      "skillKey": "syndra_p",
+      "kind": "parameters",
+      "key": "mana_per_proc_level_value_2",
+      "body": {
+        "parameterKey": "mana_per_proc_level_value_2",
+        "name": "每次触发法力回复的实际等级项",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "q_upgrade_max_ammo",
+      "body": {
+        "parameterKey": "q_upgrade_max_ammo",
+        "name": "Q第一次升级最大充能数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Upgrade1MaxAmmo 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "sphere_duration_ms",
+      "body": {
+        "parameterKey": "sphere_duration_ms",
+        "name": "暗黑法球存在时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SphereDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "暗黑法球基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 125,
+          "3": 160,
+          "4": 195,
+          "5": 230
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/parameters",
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "暗黑法球魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/formulas",
+      "skillKey": "syndra_q",
+      "kind": "formulas",
+      "key": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "暗黑法球魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "实际命中当前敌方目标的法球伤害；球的后续操作另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/effects",
+      "skillKey": "syndra_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "驱使念力减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BaseSlow 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "驱使念力基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "投掷魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.65,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "body": {
+        "parameterKey": "calculation_constant_2",
+        "name": "升级W额外真实伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "calculation_constant_3",
+      "body": {
+        "parameterKey": "calculation_constant_3",
+        "name": "升级W额外真实伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.02,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "calculation_constant_4",
+      "body": {
+        "parameterKey": "calculation_constant_4",
+        "name": "升级W额外真实伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/parameters",
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "calculation_constant_5",
+      "body": {
+        "parameterKey": "calculation_constant_5",
+        "name": "升级W额外伤害比例固定系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/formulas",
+      "skillKey": "syndra_w",
+      "kind": "formulas",
+      "key": "throw_damage",
+      "body": {
+        "formulaKey": "throw_damage",
+        "name": "投掷魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树基础伤害+0.65AP；实际拾取、投掷及目标资格待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/formulas",
+      "skillKey": "syndra_w",
+      "kind": "formulas",
+      "key": "passive_bonus_damage",
+      "body": {
+        "formulaKey": "passive_bonus_damage",
+        "name": "升级W额外真实伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "calculation_constant_3"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_4"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树只保留升级后的额外数学关系；真实伤害结果资格仍未证，不创建默认结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/formulas",
+      "skillKey": "syndra_w",
+      "kind": "formulas",
+      "key": "passive_bonus_ratio",
+      "body": {
+        "formulaKey": "passive_bonus_ratio",
+        "name": "升级W额外伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_4"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_5"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "tooltipOnly数学关系保留；不把显示百分比误当独立伤害结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_w/effects",
+      "skillKey": "syndra_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "法球命中后的晕眩时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "upgraded_slow_duration_ms",
+      "body": {
+        "parameterKey": "upgraded_slow_duration_ms",
+        "name": "升级后减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.UpgradedSlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "upgraded_slow_ratio",
+      "body": {
+        "parameterKey": "upgraded_slow_ratio",
+        "name": "升级后减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.UpgradedSlowAmount 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "弱者退散基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/parameters",
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/formulas",
+      "skillKey": "syndra_e",
+      "kind": "formulas",
+      "key": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "弱者退散魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "锥形命中当前敌方目标的伤害；法球命中控制另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_e/effects",
+      "skillKey": "syndra_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "damage_per_sphere",
+      "body": {
+        "parameterKey": "damage_per_sphere",
+        "name": "每个法球基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerSphere 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "max_spheres_to_use",
+      "body": {
+        "parameterKey": "max_spheres_to_use",
+        "name": "最多使用法球数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxSpheresToUse 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "execute_threshold",
+      "body": {
+        "parameterKey": "execute_threshold",
+        "name": "升级处决生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.UpgradeExecuteThreshold 取索引1至3。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "q_haste_per_rank",
+      "body": {
+        "parameterKey": "q_haste_per_rank",
+        "name": "Q每级急速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.QHastePerRank 取索引1至3。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "tooltip_q_haste",
+      "body": {
+        "parameterKey": "tooltip_q_haste",
+        "name": "升级后Q总急速",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30
+        },
+        "description": "客户端当前根绑定 DataValues.TOOLTIPONLYTotalQHaste 取索引1至3。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "min_spheres_to_use",
+      "body": {
+        "parameterKey": "min_spheres_to_use",
+        "name": "最少使用法球数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MinSpheresToUse 取索引1至3。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/parameters",
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/formulas",
+      "skillKey": "syndra_r",
+      "kind": "formulas",
+      "key": "damage_per_sphere_total",
+      "body": {
+        "formulaKey": "damage_per_sphere_total",
+        "name": "每个法球总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_sphere"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树为每个法球基础值+法强；实际使用数量待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/formulas",
+      "skillKey": "syndra_r",
+      "kind": "formulas",
+      "key": "minimum_damage",
+      "body": {
+        "formulaKey": "minimum_damage",
+        "name": "最低三球总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "min_spheres_to_use"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_sphere"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "仅表示源树最少三球的算术值，不表示实际施法一定满足命中。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/formulas",
+      "skillKey": "syndra_r",
+      "kind": "formulas",
+      "key": "maximum_damage",
+      "body": {
+        "formulaKey": "maximum_damage",
+        "name": "最多七球总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_spheres_to_use"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_sphere"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "仅表示源树最多七球的算术上限，不表示每次施法必定满球。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_r/effects",
+      "skillKey": "syndra_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_p/parameters",
+      "skillKey": "taliyah_p",
+      "kind": "parameters",
+      "key": "wall_speed_falloff_ms",
+      "body": {
+        "parameterKey": "wall_speed_falloff_ms",
+        "name": "靠墙移速衰减时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.FallOffTime 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_p/parameters",
+      "skillKey": "taliyah_p",
+      "kind": "parameters",
+      "key": "wall_move_speed_ratio_level_value",
+      "body": {
+        "parameterKey": "wall_move_speed_ratio_level_value",
+        "name": "靠墙移动速度比例的实际等级项",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "worked_ground_cooldown_ratio",
+      "body": {
+        "parameterKey": "worked_ground_cooldown_ratio",
+        "name": "工作地面冷却缩短比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.WorkedGroundCDR 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "minimum_worked_ground_cooldown_ms",
+      "body": {
+        "parameterKey": "minimum_worked_ground_cooldown_ms",
+        "name": "工作地面冷却下限（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MinimumWorkedGroundCD 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "big_rock_damage_multiplier",
+      "body": {
+        "parameterKey": "big_rock_damage_multiplier",
+        "name": "工作地面大石块伤害倍数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.8,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BigRockDamageMult 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "石块基础魔法伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 72.5,
+          "3": 90,
+          "4": 107.5,
+          "5": 125
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "subsequent_rock_reduction_ratio",
+      "body": {
+        "parameterKey": "subsequent_rock_reduction_ratio",
+        "name": "后续石块伤害减少比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ExtraMissileReducedDamagePercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "工作地面大石块减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "工作地面减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "worked_ground_duration_ms",
+      "body": {
+        "parameterKey": "worked_ground_duration_ms",
+        "name": "工作地面持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GroundExhaustDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "worked_ground_mana_cost",
+      "body": {
+        "parameterKey": "worked_ground_mana_cost",
+        "name": "掘石场分支法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BigRockManaCost 取索引1至5；正文仅在【掘石场】分支使用10法力，这是该分支的唯一法力消耗，不与普通石穿基础法力消耗相加。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/parameters",
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "最多石块合计伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.6,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/formulas",
+      "skillKey": "taliyah_q",
+      "kind": "formulas",
+      "key": "rock_damage",
+      "body": {
+        "formulaKey": "rock_damage",
+        "name": "石穿单发魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树基础伤害+法强；后续石块对同一目标的折减保留为待接分支。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/formulas",
+      "skillKey": "taliyah_q",
+      "kind": "formulas",
+      "key": "big_rock_damage",
+      "body": {
+        "formulaKey": "big_rock_damage",
+        "name": "工作地面大石块魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "big_rock_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前树基础单发伤害乘1.8；工作地面条件待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/formulas",
+      "skillKey": "taliyah_q",
+      "kind": "formulas",
+      "key": "max_rock_damage",
+      "body": {
+        "formulaKey": "max_rock_damage",
+        "name": "最多石块合计伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前tooltipOnly公式为单发伤害乘2.6，只作为源算术上限，不把五发总伤或命中资格写成默认结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/effects",
+      "skillKey": "taliyah_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "普通石穿分支法力消耗",
+        "description": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "普通分支消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "普通石穿分支；与掘石场分支互斥。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_q/effects",
+      "skillKey": "taliyah_q",
+      "kind": "effects",
+      "key": "worked_ground_mana_cost",
+      "body": {
+        "effectKey": "worked_ground_mana_cost",
+        "name": "掘石场分支法力消耗",
+        "description": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume",
+            "name": "掘石场分支消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "掘石场分支唯一法力消耗10；与普通分支互斥。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "worked_ground_mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_w/parameters",
+      "skillKey": "taliyah_w",
+      "kind": "parameters",
+      "key": "knockup_delay_ms",
+      "body": {
+        "parameterKey": "knockup_delay_ms",
+        "name": "岩突击飞延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.KnockupDelay 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_w/effects",
+      "skillKey": "taliyah_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "scatter_base_damage",
+      "body": {
+        "parameterKey": "scatter_base_damage",
+        "name": "撒石阵基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "detonation_base_damage",
+      "body": {
+        "parameterKey": "detonation_base_damage",
+        "name": "触发爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 40,
+          "3": 55,
+          "4": 70,
+          "5": 85
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDetonationDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "触发爆炸基础晕眩时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "max_stun_duration_ms",
+      "body": {
+        "parameterKey": "max_stun_duration_ms",
+        "name": "触发爆炸最大晕眩时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "mine_damage_falloff_ratio",
+      "body": {
+        "parameterKey": "mine_damage_falloff_ratio",
+        "name": "后续地雷伤害衰减比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MineDamageFalloff 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "delay_between_rows_ms",
+      "body": {
+        "parameterKey": "delay_between_rows_ms",
+        "name": "地雷行间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 170,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DelayBetweenRows 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "撒石阵减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "mine_lifetime_ms",
+      "body": {
+        "parameterKey": "mine_lifetime_ms",
+        "name": "地雷持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MineLifetime 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "body": {
+        "parameterKey": "calculation_constant_1",
+        "name": "撒石阵初始魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "body": {
+        "parameterKey": "calculation_constant_2",
+        "name": "撒石阵触发爆炸魔法伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/parameters",
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "calculation_constant_3",
+      "body": {
+        "parameterKey": "calculation_constant_3",
+        "name": "撒石阵最大爆炸伤害固定系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.5,
+        "levelValues": null,
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/formulas",
+      "skillKey": "taliyah_e",
+      "kind": "formulas",
+      "key": "scatter_damage",
+      "body": {
+        "formulaKey": "scatter_damage",
+        "name": "撒石阵初始魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "scatter_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对当前敌方目标的初始地雷伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/formulas",
+      "skillKey": "taliyah_e",
+      "kind": "formulas",
+      "key": "detonation_damage",
+      "body": {
+        "formulaKey": "detonation_damage",
+        "name": "撒石阵触发爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "detonation_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "位移触发的单次爆炸伤害；后续地雷衰减保留待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/formulas",
+      "skillKey": "taliyah_e",
+      "kind": "formulas",
+      "key": "max_detonation_damage",
+      "body": {
+        "formulaKey": "max_detonation_damage",
+        "name": "撒石阵最大爆炸伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_3"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "detonation_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前tooltipOnly公式为单次爆炸乘2.5，只作为源算术上限。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_e/effects",
+      "skillKey": "taliyah_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_r/parameters",
+      "skillKey": "taliyah_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 180000,
+          "2": 150000,
+          "3": 120000
+        },
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_r/parameters",
+      "skillKey": "taliyah_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "官方cost与当前根manaValues逐级一致；不含额外持续资源。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_r/parameters",
+      "skillKey": "taliyah_r",
+      "kind": "parameters",
+      "key": "channel_duration_ms",
+      "body": {
+        "parameterKey": "channel_duration_ms",
+        "name": "引导持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根mChannelDuration逐级值；不据此推导命中次数或周期。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_r/parameters",
+      "skillKey": "taliyah_r",
+      "kind": "parameters",
+      "key": "damage_lockout_ms",
+      "body": {
+        "parameterKey": "damage_lockout_ms",
+        "name": "受英雄或建筑伤害后的施放锁定时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DamageLockoutTime 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/taliyah_r/effects",
+      "skillKey": "taliyah_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "reuseObjects": [
+    {
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_q/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:47.179406Z",
+        "description": "DDragon16.17.1 Viktor.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viktor_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:47.179406Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_q/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:47.676743Z",
+        "description": "DDragon16.17.1 Viktor.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "viktor_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:47.676743Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_w/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:48.12502Z",
+        "description": "DDragon16.17.1 Viktor.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 17000,
+          "2": 16000,
+          "3": 15000,
+          "4": 14000,
+          "5": 13000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viktor_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:48.12502Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 17000,
+          "2": 16000,
+          "3": 15000,
+          "4": 14000,
+          "5": 13000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_w/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:48.566516Z",
+        "description": "DDragon16.17.1 Viktor.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "viktor_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:48.566516Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_e/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:49.086108Z",
+        "description": "DDragon16.17.1 Viktor.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viktor_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:49.086108Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_e/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:49.65723Z",
+        "description": "DDragon16.17.1 Viktor.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "viktor_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:49.65723Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_r/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:50.184186Z",
+        "description": "DDragon16.17.1 Viktor.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viktor_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:50.184186Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "viktor_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/viktor_r/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T02:05:50.730149Z",
+        "description": "DDragon16.17.1 Viktor.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "viktor_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:50.730149Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Viktor.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_q/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:53.673743Z",
+        "description": "DDragon16.17.1 Orianna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:53.673743Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_q/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:54.003245Z",
+        "description": "DDragon16.17.1 Orianna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:54.003245Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_w/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:54.406135Z",
+        "description": "DDragon16.17.1 Orianna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:54.406135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_w/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:54.781019Z",
+        "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:54.781019Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_e/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:55.195322Z",
+        "description": "DDragon16.17.1 Orianna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:55.195322Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_e/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:55.551174Z",
+        "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:55.551174Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_r/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:55.977514Z",
+        "description": "DDragon16.17.1 Orianna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:55.977514Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "orianna_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/orianna_r/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:38:56.37636Z",
+        "description": "DDragon16.17.1 Orianna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:56.37636Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Orianna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_q/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:09.265206Z",
+        "description": "DDragon16.17.1 Syndra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "syndra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:09.265206Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_w/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:09.662737Z",
+        "description": "DDragon16.17.1 Syndra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "syndra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:09.662737Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_e/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:10.003684Z",
+        "description": "DDragon16.17.1 Syndra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "syndra_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:10.003684Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_e/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:10.416463Z",
+        "description": "DDragon16.17.1 Syndra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "syndra_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:10.416463Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_r/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:10.790571Z",
+        "description": "DDragon16.17.1 Syndra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "syndra_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:10.790571Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "syndra_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/syndra_r/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-07T17:39:11.19651Z",
+        "description": "DDragon16.17.1 Syndra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "syndra_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:11.19651Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Syndra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_q/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:46.321851Z",
+        "description": "DDragon16.17.1 Taliyah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "taliyah_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:46.321851Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_q/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:46.773737Z",
+        "description": "DDragon16.17.1 Taliyah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "taliyah_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:46.773737Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_w/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:47.30382Z",
+        "description": "DDragon16.17.1 Taliyah.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12500,
+          "3": 11000,
+          "4": 9500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "taliyah_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:47.30382Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 14000,
+          "2": 12500,
+          "3": 11000,
+          "4": 9500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_w/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:47.790839Z",
+        "description": "DDragon16.17.1 Taliyah.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 30,
+          "3": 20,
+          "4": 10,
+          "5": 0
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "taliyah_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:47.790839Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 30,
+          "3": 20,
+          "4": 10,
+          "5": 0
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_e/parameters/cooldown_ms",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:48.257017Z",
+        "description": "DDragon16.17.1 Taliyah.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留施放瞬间伤害与减速，不随石雷独立触发支路整槽排除。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "taliyah_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:48.257017Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留施放瞬间伤害与减速，不随石雷独立触发支路整槽排除。",
+        "fixedValue": 14000,
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    },
+    {
+      "skillKey": "taliyah_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "policy": "原对象完整复用，不发更新请求",
+      "get": {
+        "route": "/skills/taliyah_e/parameters/mana_cost",
+        "method": "GET",
+        "status": 200
+      },
+      "currentObject": {
+        "createdAt": "2026-09-08T01:03:48.778645Z",
+        "description": "DDragon16.17.1 Taliyah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留施放瞬间伤害与减速，不随石雷独立触发支路整槽排除。",
+        "fixedValue": 90,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "taliyah_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:48.778645Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "candidateBody": {
+        "description": "DDragon16.17.1 Taliyah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留施放瞬间伤害与减速，不随石雷独立触发支路整槽排除。",
+        "fixedValue": 90,
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "differingFields": []
+    }
+  ]
+}

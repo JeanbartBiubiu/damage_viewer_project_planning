@@ -1,0 +1,1384 @@
+{
+  "at": "2026-09-09T08:50:38.158Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "scope": "独立读取16.17客户端压缩原文、16.17.1官方文件和当前根绑定；对照候选树逐项核算，不执行业务写入。",
+  "candidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "candidateVersionPlanSha256": "db627b349dc0d34c8f6f3c89994c7118dbce9d5f9906f9f03fd653894c940940",
+  "checks": 1260,
+  "failures": [],
+  "sourceCases": {
+    "count": 132,
+    "allPassed": true
+  },
+  "manualCases": {
+    "count": 32,
+    "allPassed": true,
+    "cases": [
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 1,
+        "expected": 100,
+        "actual": 100,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 5,
+        "expected": 220,
+        "actual": 220,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 3,
+        "expected": 320,
+        "actual": 320,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 5,
+        "expected": 190,
+        "actual": 190,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "augmented_shield_amount",
+        "rank": 5,
+        "expected": 304,
+        "actual": 304,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_e",
+        "formulaKey": "laser_damage",
+        "rank": 5,
+        "expected": 380,
+        "actual": 380,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_e",
+        "formulaKey": "aftershock_damage",
+        "rank": 5,
+        "expected": 380,
+        "actual": 380,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_r",
+        "formulaKey": "initial_burst_damage",
+        "rank": 3,
+        "expected": 450,
+        "actual": 450,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_r",
+        "formulaKey": "subsequent_burst_damage",
+        "rank": 3,
+        "expected": 285,
+        "actual": 285,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_total_damage",
+        "rank": 1,
+        "expected": 80,
+        "actual": 80,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_stack_damage",
+        "rank": 1,
+        "expected": 12,
+        "actual": 12,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_max_stack_damage",
+        "rank": 1,
+        "expected": 24,
+        "actual": 24,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_q",
+        "formulaKey": "damage",
+        "rank": 5,
+        "expected": 290,
+        "actual": 290,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_q",
+        "formulaKey": "minimum_damage",
+        "rank": 5,
+        "expected": 203,
+        "actual": 203.00000000000003,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_w",
+        "formulaKey": "damage",
+        "rank": 5,
+        "expected": 390,
+        "actual": 390,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_e",
+        "formulaKey": "pass_through_damage",
+        "rank": 5,
+        "expected": 240,
+        "actual": 240,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_e",
+        "formulaKey": "shield_amount",
+        "rank": 5,
+        "expected": 285,
+        "actual": 285,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_r",
+        "formulaKey": "damage",
+        "rank": 3,
+        "expected": 695,
+        "actual": 695,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_q",
+        "formulaKey": "damage",
+        "rank": 5,
+        "expected": 370,
+        "actual": 370,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_w",
+        "formulaKey": "throw_damage",
+        "rank": 5,
+        "expected": 320,
+        "actual": 320,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_w",
+        "formulaKey": "passive_bonus_damage",
+        "rank": 5,
+        "expected": 51.2,
+        "actual": 51.2,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_e",
+        "formulaKey": "damage",
+        "rank": 5,
+        "expected": 320,
+        "actual": 320,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_r",
+        "formulaKey": "damage_per_sphere_total",
+        "rank": 3,
+        "expected": 240,
+        "actual": 240,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_r",
+        "formulaKey": "minimum_damage",
+        "rank": 3,
+        "expected": 720,
+        "actual": 720,
+        "passed": true
+      },
+      {
+        "skillKey": "syndra_r",
+        "formulaKey": "maximum_damage",
+        "rank": 3,
+        "expected": 1680,
+        "actual": 1680,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_p",
+        "formulaKey": "wall_move_speed_ratio",
+        "rank": 1,
+        "expected": 0.2,
+        "actual": 0.2,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_q",
+        "formulaKey": "rock_damage",
+        "rank": 5,
+        "expected": 225,
+        "actual": 225,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_q",
+        "formulaKey": "big_rock_damage",
+        "rank": 5,
+        "expected": 405,
+        "actual": 405,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_q",
+        "formulaKey": "max_rock_damage",
+        "rank": 5,
+        "expected": 585,
+        "actual": 585,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_e",
+        "formulaKey": "scatter_damage",
+        "rank": 5,
+        "expected": 360,
+        "actual": 360,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_e",
+        "formulaKey": "detonation_damage",
+        "rank": 5,
+        "expected": 145,
+        "actual": 145,
+        "passed": true
+      },
+      {
+        "skillKey": "taliyah_e",
+        "formulaKey": "max_detonation_damage",
+        "rank": 5,
+        "expected": 362.5,
+        "actual": 362.5,
+        "passed": true
+      }
+    ]
+  },
+  "runtimeChecks": [
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "rejected": true
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "stacks_per_proc",
+      "rejected": true
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "mana_per_proc",
+      "rejected": true
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "rejected": true
+    }
+  ],
+  "unknownCurves": [
+    {
+      "skillKey": "viktor_q",
+      "parameterKey": "shield_amount_level_value",
+      "source": "mSpellCalculations.ShieldLevelScaling.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "orianna_p",
+      "parameterKey": "passive_total_damage_level_value",
+      "source": "mSpellCalculations.TotalDamage.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "syndra_p",
+      "parameterKey": "stacks_per_proc_level_value",
+      "source": "mSpellCalculations.StacksPerProc.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "syndra_p",
+      "parameterKey": "mana_per_proc_level_value_2",
+      "source": "mSpellCalculations.ManaPerProc.mFormulaParts[0]"
+    },
+    {
+      "skillKey": "taliyah_p",
+      "parameterKey": "wall_move_speed_ratio_level_value",
+      "source": "mSpellCalculations.TotalMS.mFormulaParts[0]"
+    }
+  ],
+  "formulaCoverage": [
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "missile_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 100,
+          "sourceValue": 100.00000059604645,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 214.8,
+          "sourceValue": 214.80000141263008,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 270,
+          "sourceValue": 270,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 555.5,
+          "sourceValue": 555.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "next_attack_total_ad",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 200,
+          "sourceValue": 200,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 317,
+          "sourceValue": 317,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "shield_amount",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 165,
+          "sourceValue": 165,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 199.25,
+          "sourceValue": 199.25,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_q",
+      "formulaKey": "augmented_shield_amount",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 264,
+          "sourceValue": 264.00000393390656,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 318.8,
+          "sourceValue": 318.8000047504902,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "laser_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 120,
+          "sourceValue": 120,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 348.5,
+          "sourceValue": 348.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_e",
+      "formulaKey": "aftershock_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 100,
+          "sourceValue": 100.0000011920929,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 329.6,
+          "sourceValue": 329.60000282526016,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "initial_burst_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 150,
+          "sourceValue": 150,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 368.5,
+          "sourceValue": 368.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "viktor_r",
+      "formulaKey": "subsequent_burst_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 100,
+          "sourceValue": 99.99999940395355,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 227.95,
+          "sourceValue": 227.94999858736992,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_total_damage",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 65,
+          "sourceValue": 65.00000059604645,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 85.55,
+          "sourceValue": 85.55000141263008,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_stack_damage",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 9.75,
+          "sourceValue": 9.750000476837162,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 12.8325,
+          "sourceValue": 12.832500721812256,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_p",
+      "formulaKey": "passive_max_stack_damage",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 19.5,
+          "sourceValue": 19.500000953674324,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 25.665,
+          "sourceValue": 25.66500144362451,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 115,
+          "sourceValue": 115.0000011920929,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 310.35,
+          "sourceValue": 310.35000282526016,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_q",
+      "formulaKey": "minimum_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 80.50000000000001,
+          "sourceValue": 80.4999990351498,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 217.24500000000003,
+          "sourceValue": 217.24499712187793,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 150,
+          "sourceValue": 150.0000011920929,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 419.6,
+          "sourceValue": 419.60000282526016,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "pass_through_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 90,
+          "sourceValue": 90.0000011920929,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 251.1,
+          "sourceValue": 251.10000282526016,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_e",
+      "formulaKey": "shield_amount",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 100,
+          "sourceValue": 99.9999988079071,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 301.65,
+          "sourceValue": 301.64999717473984,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 335,
+          "sourceValue": 335.0000023841858,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 735.7,
+          "sourceValue": 735.7000056505203,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "stacks_per_proc",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 2,
+          "sourceValue": 2,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 2,
+          "sourceValue": 2,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_p",
+      "formulaKey": "mana_per_proc",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 35,
+          "sourceValue": 35,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 35,
+          "sourceValue": 35,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 160,
+          "sourceValue": 159.9999988079071,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 395.9,
+          "sourceValue": 395.89999717473984,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "throw_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 135,
+          "sourceValue": 134.9999976158142,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 344.05,
+          "sourceValue": 344.0499943494797,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 18.9,
+          "sourceValue": 18.899999183416377,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 57.59397,
+          "sourceValue": 57.59396740226585,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "slow_amount",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 25,
+          "sourceValue": 25,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 25,
+          "sourceValue": 25,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_w",
+      "formulaKey": "passive_bonus_ratio",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 0.14,
+          "sourceValue": 0.13999999642372132,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 0.16740000000000002,
+          "sourceValue": 0.16739999519884588,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_e",
+      "formulaKey": "damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 120,
+          "sourceValue": 120.00000238418579,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 342.2,
+          "sourceValue": 342.2000056505203,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "damage_per_sphere_total",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 100,
+          "sourceValue": 100.00000029802322,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 207.4,
+          "sourceValue": 207.40000070631504,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "minimum_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 300,
+          "sourceValue": 300.0000008940697,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 622.2,
+          "sourceValue": 622.2000021189451,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "syndra_r",
+      "formulaKey": "maximum_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 700,
+          "sourceValue": 700.0000020861626,
+          "passed": true
+        },
+        {
+          "rank": 3,
+          "ap": 237,
+          "actual": 1451.8,
+          "sourceValue": 1451.8000049442053,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_p",
+      "formulaKey": "wall_move_speed_ratio",
+      "count": 2,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 0.2,
+          "sourceValue": 0.2,
+          "passed": true
+        },
+        {
+          "rank": 1,
+          "ap": 237,
+          "actual": 0.2,
+          "sourceValue": 0.2,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "rock_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 105,
+          "sourceValue": 105,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 243.5,
+          "sourceValue": 243.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "big_rock_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 189,
+          "sourceValue": 188.99999499320984,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 438.3,
+          "sourceValue": 438.2999883890152,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_q",
+      "formulaKey": "max_rock_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 273,
+          "sourceValue": 272.9999899864197,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 633.1,
+          "sourceValue": 633.0999767780304,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "scatter_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 120,
+          "sourceValue": 120.00000238418579,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 382.2,
+          "sourceValue": 382.2000056505203,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "detonation_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 55,
+          "sourceValue": 55.000001192092896,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 156.1,
+          "sourceValue": 156.10000282526016,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "taliyah_e",
+      "formulaKey": "max_detonation_damage",
+      "count": 4,
+      "passed": true,
+      "examples": [
+        {
+          "rank": 1,
+          "ap": 100,
+          "actual": 137.5,
+          "sourceValue": 137.50000298023224,
+          "passed": true
+        },
+        {
+          "rank": 5,
+          "ap": 237,
+          "actual": 390.25,
+          "sourceValue": 390.2500070631504,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "sourceFiles": {
+    "clientAndOfficialIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+    "sourceFreezeSummary": "来源冻结/来源与哈希汇总.json",
+    "rootEvidence": "根绑定与数值证据.json",
+    "localizedTextEvidence": "补充文本证据.json",
+    "rawTextSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+    "heroes": [
+      {
+        "id": "Viktor",
+        "chineseName": "奥术先驱",
+        "rootPath": "Characters/Viktor/CharacterRecords/Root",
+        "client": {
+          "path": "客户端原文/Viktor.json.gz",
+          "sha256": "aceba5e8ba4a0a9570984efe1132504c485ab40ec42da921539c003189a192ab",
+          "compressedSha256": "d8f799546e1df56f7bc257fcf555e6f05513ac3e7246511bbacecfa794e1d825",
+          "byteSize": 68390,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/viktor/viktor.bin.json",
+          "fetchedAt": "2026-09-06T14:26:46.967Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Viktor.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Viktor.json",
+          "fetchedAt": "2026-09-06T14:12:56.499Z",
+          "byteSize": 12647,
+          "sha256": "769642e452a90a9f56ff58c204a22202a098d84955c8e68731c2e429a8c5fafb"
+        },
+        "bindings": [
+          {
+            "slot": "P",
+            "skillKey": "viktor_p",
+            "binding": "Characters/Viktor/Spells/ViktorPassiveAbility/ViktorPassive",
+            "name": "光荣进化",
+            "maxrank": 1
+          },
+          {
+            "slot": "Q",
+            "skillKey": "viktor_q",
+            "binding": "Characters/Viktor/Spells/ViktorQAbility/ViktorQ",
+            "name": "虹吸能量",
+            "maxrank": 5
+          },
+          {
+            "slot": "W",
+            "skillKey": "viktor_w",
+            "binding": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
+            "name": "重力场",
+            "maxrank": 5
+          },
+          {
+            "slot": "E",
+            "skillKey": "viktor_e",
+            "binding": "Characters/Viktor/Spells/ViktorEAbility/ViktorE",
+            "name": "海克斯射线",
+            "maxrank": 5
+          },
+          {
+            "slot": "R",
+            "skillKey": "viktor_r",
+            "binding": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
+            "name": "奥术风暴",
+            "maxrank": 3
+          }
+        ]
+      },
+      {
+        "id": "Orianna",
+        "chineseName": "发条魔灵",
+        "rootPath": "Characters/Orianna/CharacterRecords/Root",
+        "client": {
+          "path": "客户端原文/Orianna.json.gz",
+          "sha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+          "compressedSha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe",
+          "byteSize": 55437,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/orianna/orianna.bin.json",
+          "fetchedAt": "2026-09-06T14:26:32.199Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Orianna.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 12461,
+          "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+        },
+        "bindings": [
+          {
+            "slot": "P",
+            "skillKey": "orianna_p",
+            "binding": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+            "name": "发条协奏",
+            "maxrank": 1
+          },
+          {
+            "slot": "Q",
+            "skillKey": "orianna_q",
+            "binding": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand",
+            "name": "指令：攻击",
+            "maxrank": 5
+          },
+          {
+            "slot": "W",
+            "skillKey": "orianna_w",
+            "binding": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+            "name": "指令：杂音",
+            "maxrank": 5
+          },
+          {
+            "slot": "E",
+            "skillKey": "orianna_e",
+            "binding": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+            "name": "指令：防卫",
+            "maxrank": 5
+          },
+          {
+            "slot": "R",
+            "skillKey": "orianna_r",
+            "binding": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+            "name": "指令：冲击波",
+            "maxrank": 3
+          }
+        ]
+      },
+      {
+        "id": "Syndra",
+        "chineseName": "暗黑元首",
+        "rootPath": "Characters/Syndra/CharacterRecords/Root",
+        "client": {
+          "path": "客户端原文/Syndra.json.gz",
+          "sha256": "390b89221a9e0b2b7390659b6647e92b3718d9ed24e462071d499d96287c38d6",
+          "compressedSha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf",
+          "byteSize": 99307,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/syndra/syndra.bin.json",
+          "fetchedAt": "2026-09-06T14:26:39.938Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Syndra.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+          "fetchedAt": "2026-09-06T14:12:54.736Z",
+          "byteSize": 16022,
+          "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+        },
+        "bindings": [
+          {
+            "slot": "P",
+            "skillKey": "syndra_p",
+            "binding": "Characters/Syndra/Spells/SyndraPassiveAbility/SyndraPassive",
+            "name": "卓尔不凡",
+            "maxrank": 1
+          },
+          {
+            "slot": "Q",
+            "skillKey": "syndra_q",
+            "binding": "Characters/Syndra/Spells/SyndraQAbility/SyndraQ",
+            "name": "暗黑法球",
+            "maxrank": 5
+          },
+          {
+            "slot": "W",
+            "skillKey": "syndra_w",
+            "binding": "Characters/Syndra/Spells/SyndraWAbility/SyndraW",
+            "name": "驱使念力",
+            "maxrank": 5
+          },
+          {
+            "slot": "E",
+            "skillKey": "syndra_e",
+            "binding": "Characters/Syndra/Spells/SyndraEAbility/SyndraE",
+            "name": "弱者退散",
+            "maxrank": 5
+          },
+          {
+            "slot": "R",
+            "skillKey": "syndra_r",
+            "binding": "Characters/Syndra/Spells/SyndraRAbility/SyndraR",
+            "name": "能量倾泻",
+            "maxrank": 3
+          }
+        ]
+      },
+      {
+        "id": "Taliyah",
+        "chineseName": "岩雀",
+        "rootPath": "Characters/Taliyah/CharacterRecords/Root",
+        "client": {
+          "path": "客户端原文/Taliyah.json.gz",
+          "sha256": "23be6b62d6c824c23acfb00ad7e569849171b109e94baa82e0dd1e8d83cc4811",
+          "compressedSha256": "8a35d2305641051f442de5ee3a3a3c72c8bf1db44177c881bd22d4e6142ea952",
+          "byteSize": 72019,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/taliyah/taliyah.bin.json",
+          "fetchedAt": "2026-09-06T14:26:40.499Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Taliyah.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Taliyah.json",
+          "fetchedAt": "2026-09-06T14:12:54.528Z",
+          "byteSize": 10673,
+          "sha256": "cb91b47637ddde4cf6cf2e323e01d0cfe4ad980accf73e66734929e20a012f42"
+        },
+        "bindings": [
+          {
+            "slot": "P",
+            "skillKey": "taliyah_p",
+            "binding": "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive",
+            "name": "浮石冲",
+            "maxrank": 1
+          },
+          {
+            "slot": "Q",
+            "skillKey": "taliyah_q",
+            "binding": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
+            "name": "石穿",
+            "maxrank": 5
+          },
+          {
+            "slot": "W",
+            "skillKey": "taliyah_w",
+            "binding": "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC",
+            "name": "岩突",
+            "maxrank": 5
+          },
+          {
+            "slot": "E",
+            "skillKey": "taliyah_e",
+            "binding": "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE",
+            "name": "撒石阵",
+            "maxrank": 5
+          },
+          {
+            "slot": "R",
+            "skillKey": "taliyah_r",
+            "binding": "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR",
+            "name": "墙幔",
+            "maxrank": 3
+          }
+        ]
+      }
+    ]
+  },
+  "notes": [
+    "客户端根绑定和官方逐级值先独立读取，再与候选公式核对；不按端点猜等级曲线。",
+    "公式表达式只保存已证数学关系；缺少结果资格、命中时点或事件接线时不创建默认伤害/治疗结果。",
+    "完整案例和原始节点仍以候选目录的独立源值与算例.json、根绑定与数值证据.json为准。"
+  ]
+}

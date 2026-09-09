@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T09:54:15.057Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_w/parameters/stun_residence_duration_ms",
+  "id": "stun_residence_duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "stun_residence_duration_ms",
+    "name": "眩晕所需驻留时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 1250,
+    "levelValues": null,
+    "description": "官方当前正文明确敌人在范围内驻留1.25秒后才会眩晕；独立保存为条件字段，不由层数节拍与层数相乘推导。实际停留判定和事件顺序未接线。",
+    "sortOrder": 100
+  }
+}

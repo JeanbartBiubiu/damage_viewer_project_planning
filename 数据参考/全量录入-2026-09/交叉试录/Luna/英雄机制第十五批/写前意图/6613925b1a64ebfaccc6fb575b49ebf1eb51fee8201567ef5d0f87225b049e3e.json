@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:56:37.894Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/parameters/slow_ratio",
+  "id": "slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "工作地面大石块减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.2,
+      "2": 0.25,
+      "3": 0.3,
+      "4": 0.35,
+      "5": 0.4
+    },
+    "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+    "sortOrder": 80
+  }
+}

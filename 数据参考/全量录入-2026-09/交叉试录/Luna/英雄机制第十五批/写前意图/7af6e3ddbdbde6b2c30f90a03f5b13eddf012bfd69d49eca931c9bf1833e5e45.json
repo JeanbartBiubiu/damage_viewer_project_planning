@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:54:59.317Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_q/formulas/damage",
+  "id": "damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "指令：攻击魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "球沿路径对当前敌方目标的伤害；同一目标单次取值保留。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}
