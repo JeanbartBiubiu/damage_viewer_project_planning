@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T11:23:50.435Z",
+  "generatedAt": "2026-09-09T11:51:32.241Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2422,6 +2422,50 @@
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/第二十三批辅助装备明确数值/当前实录状态.json",
       "browserEvidence": "装备技能实录/第二十三批辅助装备明确数值/页面验收.json"
+    },
+    "heroEighteenthBatch": {
+      "skills": [
+        "zoe_p",
+        "zoe_q",
+        "zoe_w",
+        "zoe_e",
+        "zoe_r"
+      ],
+      "protectedHeroes": [
+        "lux"
+      ],
+      "parameters": 26,
+      "formulas": 6,
+      "effects": 3,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 6,
+      "created": 29,
+      "independentGets": 183,
+      "independentFormulaChecks": 6,
+      "independentSourceCases": 12,
+      "independentNegativeControls": 9,
+      "independentChecks": 21,
+      "representativePages": 2,
+      "pageGets": 10,
+      "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+      "planSha256": "dead20e1e882ca6c72bced9b3944951d0773684f0c3d063bd0684b5e6316462c",
+      "executor": "Cursor实际运行完成，主负责人复核录入",
+      "cursorRunId": "run-8a94048d-f4c4-4d96-a156-49f8334736c5",
+      "status": "29项新增、6公共参数复用；183次独立GET与21检查、2代表页面通过。等级曲线、惊醒事件与时长冲突继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十八批/当前实录状态.json",
+        "sha256": "b03c1b0d6727cd599857ca866494c020f6e751c11dcef306a3ae83d62d387f23",
+        "commit": "ad0a639f550621b392901f6a2703ea9591750e88"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十八批/页面验收.json",
+        "commit": "ad0a639f550621b392901f6a2703ea9591750e88"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
