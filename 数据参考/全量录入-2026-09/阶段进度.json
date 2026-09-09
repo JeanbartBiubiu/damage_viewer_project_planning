@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T04:40:01.042Z",
+  "generatedAt": "2026-09-09T04:56:12.452Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1235,7 +1235,7 @@
         "item_3073_passive",
         "item_3083_passive"
       ],
-      "parameters": 67,
+      "parameters": 66,
       "formulas": 29,
       "effects": 0,
       "processes": 0,
@@ -1248,7 +1248,9 @@
       "evidence": "装备技能实录/第十六批成长与触发装备/最终独立全量回读.json",
       "browserEvidence": "装备技能实录/第十六批成长与触发装备/页面验收.json",
       "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "parametersBeforeBaseAttackBackfill": 67,
+      "currentCountNote": "原本批实际创建132项、67参数为历史执行证据；后续基础攻击力补证已替代并删除2510一个临时输入，当前66参数。"
     },
     "heroNinthBatch": {
       "skills": [
@@ -1395,6 +1397,74 @@
         "worktree": "C:/project/damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/页面验收.json",
         "commit": "eb9df345"
+      }
+    },
+    "formulaAttributeBackfillSecond": {
+      "skills": [
+        "item_2510_passive"
+      ],
+      "updated": 3,
+      "deleted": 1,
+      "sourceProofCommit": "02155ec3",
+      "readOnlyPreparationGets": 65,
+      "executionGets": 33,
+      "independentGets": 17,
+      "actualMathCases": 3,
+      "pages": 1,
+      "protectedAlreadyCorrectSkills": [
+        "item_3057_passive",
+        "item_3078_passive",
+        "item_3100_passive"
+      ],
+      "status": "黄昏与黎明基础攻击力改为直接属性；确认零引用后删除本轮临时输入。参数现为5，治疗、图片和挂载未变；页面与独立回读通过。6662未有对应技能，仍在后续装备队列。",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/基础攻击力属性回补/实际回补结果.json",
+        "commit": "5eb21b6b"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/基础攻击力属性回补/页面验收.json",
+        "commit": "5eb21b6b"
+      }
+    },
+    "heroTwelfthAudit": {
+      "skills": [
+        "twitch_p",
+        "twitch_q",
+        "twitch_w",
+        "twitch_e",
+        "twitch_r",
+        "lucian_p",
+        "lucian_q",
+        "lucian_w",
+        "lucian_e",
+        "lucian_r",
+        "sivir_p",
+        "sivir_q",
+        "sivir_w",
+        "sivir_e",
+        "sivir_r",
+        "tristana_p",
+        "tristana_q",
+        "tristana_w",
+        "tristana_e",
+        "tristana_r"
+      ],
+      "priorBatch": "heroThirdBatch",
+      "created": 0,
+      "readbackGets": 354,
+      "protectedExistingComponents": 210,
+      "semanticallyReusedComponents": 190,
+      "checks": 1256,
+      "formulaEvaluations": 180,
+      "status": "仅复核第三批既有20槽，零新增，不重复累计英雄或技能完成数。语义相同不等于显示字段相同；现值完整保护，来源与未接时序仍待补。",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/README.md",
+        "commit": "e2aa70ca"
       }
     }
   },
