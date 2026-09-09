@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:40:15.694Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_q/parameters/kill_mana_restore",
+  "id": "kill_mana_restore",
+  "method": "POST",
+  "body": {
+    "parameterKey": "kill_mana_restore",
+    "name": "每击杀单位回复法力",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 22.5,
+      "3": 25,
+      "4": 27.5,
+      "5": 30
+    },
+    "description": "客户端当前根绑定 DataValues.TooltipManaRefund 取索引1至5。",
+    "sortOrder": 70
+  }
+}

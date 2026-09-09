@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T06:41:44.497Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_q/formulas/capped_self_slow_ratio",
+  "id": "capped_self_slow_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "capped_self_slow_ratio",
+    "name": "含明确上限的自身减速比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MIN",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_self_slow_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zero"
+            }
+          ]
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_self_slow_ratio"
+        }
+      ]
+    },
+    "description": "最终幅度夹在0至0.5；尚无确证减速合并区，不将它当普通移速加成减算。",
+    "sortOrder": 30
+  }
+}

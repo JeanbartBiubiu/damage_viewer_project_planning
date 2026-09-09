@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:40:46.404Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_r/formulas/total_damage",
+  "id": "total_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "total_damage",
+    "name": "完整射线总伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_total_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "此式是完整2.5秒总量；魔法/真实由目标近期被P伤害资格决定，不生成一次瞬时伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

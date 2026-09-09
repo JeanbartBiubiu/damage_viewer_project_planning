@@ -1,0 +1,196 @@
+{
+  "at": "2026-09-09T06:31:49.049Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "originalCandidateSha256": "c65e0a8866d7658a4646241d6a96f94da3f1ad75496914e23cfdd61c3ec86e24",
+  "writePlanSha256": "efbe71e316fdf71b7ee2250a9357a906501072abe0fd94a9e7a9fe6d95da7382",
+  "scope": "仅确定初始4秒持续时间和说明修改；原34公式完全未变，原102源树/52手算证据继续适用于相同数值。新增长度语义反例，未业务写或战斗运行。",
+  "counts": {
+    "parameters": 154,
+    "formulas": 34,
+    "effects": 25,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "totalComposition": 213,
+  "newComponents": 189,
+  "reusedPublicParameters": 24,
+  "changedRequests": [
+    {
+      "index": 44,
+      "skillKey": "kennen_e",
+      "kind": "effects",
+      "key": "after_attack_speed",
+      "before": {
+        "effectKey": "after_attack_speed",
+        "name": "闪电形态结束后攻速",
+        "description": "额外攻速比例；持续时间含明确延长上限。此独立组成依赖有效暴击次数输入，应用和增益剩余时长更新未接，不在每次暴击重置完整总时长。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "FORMULA",
+            "formulaKey": "capped_after_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "闪电形态结束后攻速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "after": {
+        "effectKey": "after_attack_speed",
+        "name": "闪电形态结束后攻速",
+        "description": "仅表达离开闪电形态后初始4秒的额外攻速。暴击延长事件、累计延长上限及真实剩余时长更新尚未接线；总时长上限公式仅保留算术，不作为此效果持续时间或每次暴击的刷新值，不默认满档延长。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "after_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "闪电形态结束后攻速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "arithmetic": [
+    {
+      "criticalCount": 0,
+      "totalDurationMs": 4000,
+      "meaning": "只验证总时长上限算术，不是事件发生时剩余时长"
+    },
+    {
+      "criticalCount": 1,
+      "totalDurationMs": 5000,
+      "meaning": "只验证总时长上限算术，不是事件发生时剩余时长"
+    },
+    {
+      "criticalCount": 4,
+      "totalDurationMs": 8000,
+      "meaning": "只验证总时长上限算术，不是事件发生时剩余时长"
+    },
+    {
+      "criticalCount": 8,
+      "totalDurationMs": 8000,
+      "meaning": "只验证总时长上限算术，不是事件发生时剩余时长"
+    }
+  ],
+  "counterexamples": [
+    {
+      "elapsedMs": 1000,
+      "remainingBeforeMs": 3000,
+      "priorCriticalCount": 0,
+      "expectedRemainingAfterMs": 4000,
+      "permittedExtensionMs": 1000,
+      "incorrectRefreshMs": 5000,
+      "overstatedRemainingMs": 1000,
+      "passed": true
+    },
+    {
+      "elapsedMs": 3500,
+      "remainingBeforeMs": 500,
+      "priorCriticalCount": 0,
+      "expectedRemainingAfterMs": 1500,
+      "permittedExtensionMs": 1000,
+      "incorrectRefreshMs": 5000,
+      "overstatedRemainingMs": 3500,
+      "passed": true
+    }
+  ],
+  "initialEffectDurationMs": 4000,
+  "initialEffectNeedsCriticalCount": false,
+  "totalDurationFormulaPreserved": true,
+  "totalDurationFormulaBoundToEffect": false,
+  "noMomentEvaluationEffects": true,
+  "missingInputRejected": true,
+  "originalProofSha256": "23370a5b4e2e29445e1eed33390109665d08a7fcd5f4a22e67a7ab334d17e3f7",
+  "originalFrozenLockUnchanged": true,
+  "apiWrites": 0
+}

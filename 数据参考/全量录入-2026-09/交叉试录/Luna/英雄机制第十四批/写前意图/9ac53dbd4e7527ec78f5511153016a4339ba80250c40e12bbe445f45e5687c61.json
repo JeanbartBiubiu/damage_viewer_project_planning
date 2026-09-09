@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T06:39:53.524Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_e/effects/after_attack_speed",
+  "id": "after_attack_speed",
+  "method": "POST",
+  "body": {
+    "effectKey": "after_attack_speed",
+    "name": "闪电形态结束后攻速",
+    "description": "仅表达离开闪电形态后初始4秒的额外攻速。暴击延长事件、累计延长上限及真实剩余时长更新尚未接线；总时长上限公式仅保留算术，不作为此效果持续时间或每次暴击的刷新值，不默认满档延长。",
+    "sortOrder": 30,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "after_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "闪电形态结束后攻速",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "bonus_attack_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "bonus_attack_speed_percent",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_flat_add"
+        }
+      }
+    ]
+  }
+}

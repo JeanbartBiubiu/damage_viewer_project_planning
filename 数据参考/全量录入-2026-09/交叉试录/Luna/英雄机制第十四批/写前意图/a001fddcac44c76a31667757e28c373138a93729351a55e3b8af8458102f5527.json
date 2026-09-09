@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T06:39:52.372Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_e/effects/ball_move_speed",
+  "id": "ball_move_speed",
+  "method": "POST",
+  "body": {
+    "effectKey": "ball_move_speed",
+    "name": "闪电形态移速加成",
+    "description": "进入后最长2秒，实际提前结束必须撤除；1表示100%，不用面板移速作为固定加算。",
+    "sortOrder": 20,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "ball_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "闪电形态移速加成",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "move_speed_percent",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_flat_add"
+        }
+      }
+    ]
+  }
+}

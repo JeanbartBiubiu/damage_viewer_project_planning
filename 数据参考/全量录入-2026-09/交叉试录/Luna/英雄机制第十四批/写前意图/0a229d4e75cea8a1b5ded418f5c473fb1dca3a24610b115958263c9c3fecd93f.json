@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T06:41:43.503Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_q/formulas/unreleased_mana_refund",
+  "id": "unreleased_mana_refund",
+  "method": "POST",
+  "body": {
+    "formulaKey": "unreleased_mana_refund",
+    "name": "未释放时法力返还",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "actual_mana_spent"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "unreleased_refund_ratio"
+        }
+      ]
+    },
+    "description": "只在光束未释放时返还实际消耗的0.5。",
+    "sortOrder": 20
+  }
+}

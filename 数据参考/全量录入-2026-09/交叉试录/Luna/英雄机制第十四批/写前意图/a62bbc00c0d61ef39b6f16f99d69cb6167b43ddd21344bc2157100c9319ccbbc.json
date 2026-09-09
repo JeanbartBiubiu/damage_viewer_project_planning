@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:39:56.734Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_r/parameters/base_tick_damage",
+  "id": "base_tick_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_tick_damage",
+    "name": "每次命中基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 40,
+      "2": 80,
+      "3": 120
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+    "sortOrder": 30
+  }
+}

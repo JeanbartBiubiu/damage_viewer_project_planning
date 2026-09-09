@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:40:23.497Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_w/parameters/secondary_base_damage",
+  "id": "secondary_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "secondary_base_damage",
+    "name": "第二段基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 45,
+      "2": 75,
+      "3": 105,
+      "4": 135,
+      "5": 165
+    },
+    "description": "客户端当前根绑定 DataValues.BaseSecondaryDamage 取索引1至5。",
+    "sortOrder": 50
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-09T06:07:10.249Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "heroes": [
+    "Kennen",
+    "Velkoz",
+    "Ziggs",
+    "Xerath"
+  ],
+  "candidateSha256": "c65e0a8866d7658a4646241d6a96f94da3f1ad75496914e23cfdd61c3ec86e24",
+  "planSha256": "a4724e8d23fd708987ee47f5940268fd5d9534d23039bba258c2eeb796feae8f",
+  "summary": {
+    "parameters": 130,
+    "formulas": 34,
+    "effects": 25,
+    "reusedParameters": 24,
+    "totalNew": 189,
+    "totalComposition": 213
+  },
+  "actualGETs": 196,
+  "allGETs200": true,
+  "apiWrites": 0,
+  "independent": {
+    "checks": 1132,
+    "sourceCases": 102,
+    "manualCases": 52,
+    "formulas": 34,
+    "unknownLevelNodes": 4,
+    "failures": 0
+  },
+  "files": {
+    "完整候选.json": "c65e0a8866d7658a4646241d6a96f94da3f1ad75496914e23cfdd61c3ec86e24",
+    "候选版本.json": "93b45de75b9b6f9c62dbee946d3697a8aaa3bf3c320c5b7d14554ceb38bf9ffc",
+    "写前现值.json": "ed6b29f505f5d4886185673a4cb20c4995c1a6b30ac667b462124f0bf2539ee2",
+    "根绑定与数值证据.json": "5dcfe3d85ac61157b8bb79c751d7acbfa207a43c3acd78d401a8f1274542ba7d",
+    "补充文本证据.json": "7e649360de43efac39787457ad9617c5adc08967cd175b7029eebc7362fff7b2",
+    "阶段去重预检.json": "6695d654e7c70c959083af523107395ce2a2bebf7d4eb067924e12e1412081fc",
+    "关联与图片保护快照.json": "b4dec80d991cd904b68ec2a4f9174a5b736002c121225989e93df232acab5aa1",
+    "独立源值与算例.json": "23370a5b4e2e29445e1eed33390109665d08a7fcd5f4a22e67a7ab334d17e3f7",
+    "写前计划.json": "31fbbea8d53edc05beb904fb20f59e1d9d41f7fab40935dd50f0069fb420fb31"
+  },
+  "limits": [
+    "候选与请求准备，不代表已保存或完整战斗可运行。",
+    "关联保护快照在前一候选说明版本采集；本次仅将3个有证场景输入从来源待核改列未接线，20技能键及所有请求体未改变，保护原对象未改写。",
+    "凯南E暴击延长总时长公式含4秒延长上限，实际事件/剩余时长更新未接，不能在每次暴击重新应用完整总时长。",
+    "未知等级4项、未知9/2属性、未证充能索引和距离/减速算法均无默认。"
+  ]
+}

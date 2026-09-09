@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-09T06:39:32.138Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_w/formulas/passive_damage",
+  "id": "passive_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_damage",
+    "name": "强化攻击附加伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ad_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "本槽额外AD节点2/2已证；不是总AD。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

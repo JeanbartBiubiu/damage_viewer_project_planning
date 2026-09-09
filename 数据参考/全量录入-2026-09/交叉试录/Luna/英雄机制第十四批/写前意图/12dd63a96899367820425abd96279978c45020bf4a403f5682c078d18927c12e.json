@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T06:41:31.261Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_p/formulas/non_champion_mana_restore",
+  "id": "non_champion_mana_restore",
+  "method": "POST",
+  "body": {
+    "formulaKey": "non_champion_mana_restore",
+    "name": "攻击非英雄的法力回复",
+    "expression": {
+      "nodeType": "PARAMETER",
+      "parameterKey": "non_champion_mana_restore_level_value"
+    },
+    "description": "原角色等级断点算法未证，实际等级基础回复外供；包括小兵、野怪和建筑，影响自身战前状态。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

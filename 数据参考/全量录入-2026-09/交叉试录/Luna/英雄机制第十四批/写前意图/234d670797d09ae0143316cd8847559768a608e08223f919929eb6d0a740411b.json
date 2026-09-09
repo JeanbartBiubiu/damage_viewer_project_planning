@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:39:36.062Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_e/parameters/cooldown_ms",
+  "id": "cooldown_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 10000,
+      "2": 9000,
+      "3": 8000,
+      "4": 7000,
+      "5": 6000
+    },
+    "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}

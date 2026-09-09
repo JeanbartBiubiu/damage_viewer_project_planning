@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T06:40:05.691Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_r/effects/magic_resistance",
+  "id": "magic_resistance",
+  "method": "POST",
+  "body": {
+    "effectKey": "magic_resistance",
+    "name": "风暴魔法抗性",
+    "description": "独立持续属性；应用、取消与实际触发分别核对。",
+    "sortOrder": 20,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "风暴魔法抗性",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "bonus_resistances"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "magic_resistance",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_flat_add"
+        }
+      }
+    ]
+  }
+}

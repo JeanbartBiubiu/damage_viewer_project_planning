@@ -1,0 +1,5150 @@
+{
+  "at": "2026-09-09T06:05:17.840Z",
+  "candidateSha256": "c65e0a8866d7658a4646241d6a96f94da3f1ad75496914e23cfdd61c3ec86e24",
+  "planSha256": "a4724e8d23fd708987ee47f5940268fd5d9534d23039bba258c2eeb796feae8f",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "scope": "独立读取压缩客户端原文和当前官方/中文文件核SHA与完整根对象；独立计算源树与候选，不导入生成器。无业务写入，不声称战斗运行。",
+  "checks": 1132,
+  "failures": [],
+  "preservedPublicParameters": 24,
+  "newComponents": 189,
+  "sourceCases": [
+    {
+      "skillKey": "kennen_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 150,
+      "sourceValue": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 252.75,
+      "sourceValue": 252.75,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 350,
+      "sourceValue": 350,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 452.75,
+      "sourceValue": 452.75,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "TotalDamagePassive",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 110,
+      "sourceValue": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "TotalDamagePassive",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 142.75,
+      "sourceValue": 142.74999895691872,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "TotalDamagePassive",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 170,
+      "sourceValue": 170.00000178813934,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "TotalDamagePassive",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 195.14999999999998,
+      "sourceValue": 195.1500000655651,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "TotalDamageActive",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 150,
+      "sourceValue": 150.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "TotalDamageActive",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 259.6,
+      "sourceValue": 259.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "TotalDamageActive",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 250,
+      "sourceValue": 250.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "TotalDamageActive",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 359.6,
+      "sourceValue": 359.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "sourceKey": "TotalDamagePassiveCrit",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 171.6,
+      "sourceValue": 171.59999763965607,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "sourceKey": "TotalDamagePassiveCrit",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 222.69,
+      "sourceValue": 222.68999530971053,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "sourceKey": "TotalDamagePassiveCrit",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 265.2,
+      "sourceValue": 265.19999914169307,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "sourceKey": "TotalDamagePassiveCrit",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 304.43399999999997,
+      "sourceValue": 304.4339959148169,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 160,
+      "sourceValue": 160.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 269.6,
+      "sourceValue": 269.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 320,
+      "sourceValue": 320.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 429.6,
+      "sourceValue": 429.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_r",
+      "formulaKey": "base_tick_damage",
+      "sourceKey": "PerTickDamageCalculated",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 65,
+      "sourceValue": 65,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_r",
+      "formulaKey": "base_tick_damage",
+      "sourceKey": "PerTickDamageCalculated",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 99.25,
+      "sourceValue": 99.25,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_r",
+      "formulaKey": "base_tick_damage",
+      "sourceKey": "PerTickDamageCalculated",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 145,
+      "sourceValue": 145,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_r",
+      "formulaKey": "base_tick_damage",
+      "sourceKey": "PerTickDamageCalculated",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 179.25,
+      "sourceValue": 179.25,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_p",
+      "formulaKey": "true_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 160,
+      "sourceValue": 160.0000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_p",
+      "formulaKey": "true_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 242.2,
+      "sourceValue": 242.20000565052032,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 170,
+      "sourceValue": 169.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 293.3,
+      "sourceValue": 293.2999943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 330,
+      "sourceValue": 329.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 453.3,
+      "sourceValue": 453.2999943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "initial_damage",
+      "sourceKey": "InitialDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 50,
+      "sourceValue": 50.000000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "initial_damage",
+      "sourceKey": "InitialDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 77.4,
+      "sourceValue": 77.40000070631504,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "initial_damage",
+      "sourceKey": "InitialDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 130,
+      "sourceValue": 130.00000029802322,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "initial_damage",
+      "sourceKey": "InitialDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 157.4,
+      "sourceValue": 157.40000070631504,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "secondary_damage",
+      "sourceKey": "SecondaryDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 70,
+      "sourceValue": 70,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "secondary_damage",
+      "sourceKey": "SecondaryDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 104.25,
+      "sourceValue": 104.25,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "secondary_damage",
+      "sourceKey": "SecondaryDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 190,
+      "sourceValue": 190,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "secondary_damage",
+      "sourceKey": "SecondaryDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 224.25,
+      "sourceValue": 224.25,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 100,
+      "sourceValue": 100.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 141.1,
+      "sourceValue": 141.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 220,
+      "sourceValue": 220.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 261.1,
+      "sourceValue": 261.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 575,
+      "sourceValue": 575,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 746.25,
+      "sourceValue": 746.25,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 1050,
+      "sourceValue": 1050,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 1221.25,
+      "sourceValue": 1221.25,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 150,
+      "sourceValue": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 218.5,
+      "sourceValue": 218.5,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_seconds",
+      "sourceKey": "SpellCdr",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 4,
+      "sourceValue": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_seconds",
+      "sourceKey": "SpellCdr",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 4,
+      "sourceValue": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 140,
+      "sourceValue": 140.0000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 222.2,
+      "sourceValue": 222.20000565052032,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 360,
+      "sourceValue": 360.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 469.6,
+      "sourceValue": 469.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 120,
+      "sourceValue": 120,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 188.5,
+      "sourceValue": 188.5,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 260,
+      "sourceValue": 260,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_w",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 328.5,
+      "sourceValue": 328.5,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 55,
+      "sourceValue": 55,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 89.25,
+      "sourceValue": 89.25,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 235,
+      "sourceValue": 234.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 296.65,
+      "sourceValue": 296.64999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "sourceKey": "ReducedDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 22,
+      "sourceValue": 22.000000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "sourceKey": "ReducedDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 35.7,
+      "sourceValue": 35.700000531971455,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "sourceKey": "ReducedDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 94,
+      "sourceValue": 94.000000923872,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "sourceKey": "ReducedDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 118.66,
+      "sourceValue": 118.6600006380677,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "center_damage",
+      "sourceKey": "EmpoweredDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 400,
+      "sourceValue": 400,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "center_damage",
+      "sourceKey": "EmpoweredDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 537,
+      "sourceValue": 537,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "center_damage",
+      "sourceKey": "EmpoweredDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 800,
+      "sourceValue": 800,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "center_damage",
+      "sourceKey": "EmpoweredDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 937,
+      "sourceValue": 937,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "outer_damage",
+      "sourceKey": "BlastDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 260,
+      "sourceValue": 259.99999046325684,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "outer_damage",
+      "sourceKey": "BlastDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 349.05,
+      "sourceValue": 349.0499871969223,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "outer_damage",
+      "sourceKey": "BlastDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 520,
+      "sourceValue": 519.9999809265137,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "outer_damage",
+      "sourceKey": "BlastDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 609.0500000000001,
+      "sourceValue": 609.0499776601791,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "non_champion_mana_restore",
+      "sourceKey": "MinionManaRestoreTT",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 100,
+      "sourceValue": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "non_champion_mana_restore",
+      "sourceKey": "MinionManaRestoreTT",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 100,
+      "sourceValue": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "champion_mana_restore",
+      "sourceKey": "ChampionManaRestoreTT",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 200,
+      "sourceValue": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "champion_mana_restore",
+      "sourceKey": "ChampionManaRestoreTT",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 200,
+      "sourceValue": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 160,
+      "sourceValue": 159.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 283.3,
+      "sourceValue": 283.2999943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 320,
+      "sourceValue": 319.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 443.3,
+      "sourceValue": 443.2999943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "normal_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 115,
+      "sourceValue": 114.99999761581421,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "normal_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 204.05,
+      "sourceValue": 204.04999434947968,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "normal_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 255,
+      "sourceValue": 254.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "normal_damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 344.05,
+      "sourceValue": 344.0499943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "sourceKey": "SweetSpotTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 191.705,
+      "sourceValue": 191.70500238656984,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "sourceKey": "SweetSpotTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 340.15135000000004,
+      "sourceValue": 340.1513518672225,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "sourceKey": "SweetSpotTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 425.08500000000004,
+      "sourceValue": 425.0850101304053,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "sourceKey": "SweetSpotTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 573.5313500000001,
+      "sourceValue": 573.531359611058,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 115,
+      "sourceValue": 114.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 176.65,
+      "sourceValue": 176.64999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 235,
+      "sourceValue": 234.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 296.65,
+      "sourceValue": 296.64999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "base_shot_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 215,
+      "sourceValue": 214.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "base_shot_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 276.65,
+      "sourceValue": 276.64999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "base_shot_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 315,
+      "sourceValue": 314.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "base_shot_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 376.65,
+      "sourceValue": 376.64999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "extra_champion_hit_damage",
+      "sourceKey": "RampDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 25,
+      "sourceValue": 25.000000074505806,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "extra_champion_hit_damage",
+      "sourceKey": "RampDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 31.85,
+      "sourceValue": 31.85000017657876,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "extra_champion_hit_damage",
+      "sourceKey": "RampDamageCalc",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 35,
+      "sourceValue": 35.000000074505806,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "extra_champion_hit_damage",
+      "sourceKey": "RampDamageCalc",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "source_stat_9_2_value": 0.4,
+        "confirmed_critical_extension_count": 2,
+        "true_damage_level_value": 100,
+        "confirmed_recharge_ms": 18000,
+        "damage_level_value": 100,
+        "cooldown_reduction_seconds_level_value_2": 4,
+        "non_champion_mana_restore_level_value": 100,
+        "actual_mana_spent": 100,
+        "actual_self_slow_ratio": 0.8,
+        "confirmed_distance_stun_ms": 3000,
+        "actual_recasts": 100
+      },
+      "actual": 41.85,
+      "sourceValue": 41.85000017657876,
+      "passed": true
+    }
+  ],
+  "manualCases": [
+    {
+      "skillKey": "kennen_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 110,
+      "actual": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "active_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 171.6,
+      "actual": 171.6,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "capped_after_duration_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 6000,
+      "actual": 6000,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_r",
+      "formulaKey": "base_tick_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 65,
+      "actual": 65,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_p",
+      "formulaKey": "true_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 170,
+      "actual": 170,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "initial_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 50,
+      "actual": 50,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_w",
+      "formulaKey": "secondary_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 70,
+      "actual": 70,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_e",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 100,
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 575,
+      "actual": 575,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_seconds",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 4000,
+      "actual": 4000,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 140,
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_w",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 120,
+      "actual": 120,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 55,
+      "actual": 55,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 22,
+      "actual": 22,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "center_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 400,
+      "actual": 400,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_r",
+      "formulaKey": "outer_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 260,
+      "actual": 260,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "non_champion_mana_restore",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 100,
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "champion_mana_restore",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "unreleased_mana_refund",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 50,
+      "actual": 50,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "capped_self_slow_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.5,
+      "actual": 0.5,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "normal_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 115,
+      "actual": 115,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 191.705,
+      "actual": 191.705,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 115,
+      "actual": 115,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "bounded_stun_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 2250,
+      "actual": 2250,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "base_shot_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 215,
+      "actual": 215,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "extra_champion_hit_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 25,
+      "actual": 25,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "capped_recasts",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 999,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 110,
+      "actual": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 100,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 154,
+      "actual": 154,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "capped_after_duration_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 0,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 4000,
+      "actual": 4000,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "capped_after_duration_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 20,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 8000,
+      "actual": 8000,
+      "passed": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "capped_after_duration_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": -2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 4000,
+      "actual": 4000,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 5,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 360,
+      "actual": 360,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "first_mine_damage",
+      "input": {
+        "rank": 5,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 235,
+      "actual": 235,
+      "passed": true
+    },
+    {
+      "skillKey": "ziggs_e",
+      "formulaKey": "subsequent_mine_damage",
+      "input": {
+        "rank": 5,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 94,
+      "actual": 94,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_w",
+      "formulaKey": "center_damage",
+      "input": {
+        "rank": 5,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 425.085,
+      "actual": 425.08500000000004,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "unreleased_mana_refund",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 32,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 16,
+      "actual": 16,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "capped_self_slow_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.2,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "capped_self_slow_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": -0.1,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "bounded_stun_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 300,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 750,
+      "actual": 750,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "bounded_stun_ms",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 1500,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 1500,
+      "actual": 1500,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "capped_recasts",
+      "input": {
+        "rank": 3,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 6,
+      "actual": 6,
+      "passed": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "capped_recasts",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": -1
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "velkoz_r",
+      "formulaKey": "total_damage",
+      "input": {
+        "rank": 3,
+        "inputs": {
+          "source_stat_9_2_value": 0.4,
+          "confirmed_critical_extension_count": 2,
+          "true_damage_level_value": 100,
+          "confirmed_recharge_ms": 18000,
+          "damage_level_value": 100,
+          "cooldown_reduction_seconds_level_value_2": 4,
+          "non_champion_mana_restore_level_value": 100,
+          "actual_mana_spent": 100,
+          "actual_self_slow_ratio": 0.8,
+          "confirmed_distance_stun_ms": 3000,
+          "actual_recasts": 100
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 1050,
+      "actual": 1050,
+      "passed": true
+    }
+  ],
+  "unknownCurves": [
+    {
+      "skillKey": "velkoz_p",
+      "parameterKey": "true_damage_level_value",
+      "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]",
+      "raw": {
+        "mStartValue": 35,
+        "mEndValue": 180,
+        "__type": "ByCharLevelInterpolationCalculationPart"
+      }
+    },
+    {
+      "skillKey": "ziggs_p",
+      "parameterKey": "damage_level_value",
+      "source": "mSpellCalculations.TotalDamage.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 20,
+        "mInitialBonusPerLevel": 4,
+        "mBreakpoints": [
+          {
+            "mLevel": 7,
+            "mBonusPerLevelAtAndAfter": 8,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 13,
+            "mBonusPerLevelAtAndAfter": 12,
+            "__type": "Breakpoint"
+          }
+        ],
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    },
+    {
+      "skillKey": "ziggs_p",
+      "parameterKey": "cooldown_reduction_seconds_level_value_2",
+      "source": "mSpellCalculations.SpellCdr.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 4,
+        "mBreakpoints": [
+          {
+            "mLevel": 7,
+            "mAdditionalBonusAtThisLevel": 1,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 13,
+            "mAdditionalBonusAtThisLevel": 1,
+            "__type": "Breakpoint"
+          }
+        ],
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    },
+    {
+      "skillKey": "xerath_p",
+      "parameterKey": "non_champion_mana_restore_level_value",
+      "source": "mSpellCalculations.MinionManaRestoreTT.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 30,
+        "mInitialBonusPerLevel": 3,
+        "mBreakpoints": [
+          {
+            "mLevel": 4,
+            "mBonusPerLevelAtAndAfter": 6,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 7,
+            "mBonusPerLevelAtAndAfter": 9,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 11,
+            "mBonusPerLevelAtAndAfter": 12,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 16,
+            "mBonusPerLevelAtAndAfter": 15,
+            "__type": "Breakpoint"
+          }
+        ],
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    }
+  ],
+  "missingInputChecks": [
+    {
+      "skillKey": "kennen_w",
+      "formulaKey": "critical_passive_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "kennen_e",
+      "formulaKey": "capped_after_duration_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "velkoz_p",
+      "formulaKey": "true_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_seconds",
+      "rejected": true
+    },
+    {
+      "skillKey": "ziggs_p",
+      "formulaKey": "cooldown_reduction_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "non_champion_mana_restore",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_p",
+      "formulaKey": "champion_mana_restore",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "unreleased_mana_refund",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_q",
+      "formulaKey": "capped_self_slow_ratio",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_e",
+      "formulaKey": "bounded_stun_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "xerath_r",
+      "formulaKey": "capped_recasts",
+      "rejected": true
+    }
+  ],
+  "notes": [
+    "算例中的等级实际值由调用方明确提供，只验证数学，不证明客户端曲线。",
+    "当前原根数据和老effect数组冲突保留并采用直接具名绑定，未默默换来源。",
+    "有效暴击次数、实际支出和当前控制量无默认；管理参数说明不是运行时边界校验。",
+    "168组成与字典GET之外另有28主体/关系/代表图GET，均无业务写入。"
+  ]
+}

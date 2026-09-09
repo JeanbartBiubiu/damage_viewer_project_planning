@@ -1,0 +1,535 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "kennen_p": {
+      "binding": "Characters/Kennen/Spells/KennenPassiveAbility/KennenPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KennenPassive_Name",
+          "key": "spell_kennenpassive_name",
+          "text": "【忍法！雷缚印】"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KennenPassive_Tooltip",
+          "key": "spell_kennenpassive_tooltip",
+          "text": "凯南的技能会施加一层持续@MarkDuration@秒的印记。在3层时，敌人会被<status>晕眩</status>@StunDuration@秒并且凯南会回复<keywordMajor>@EnergyRestore@能量</keywordMajor>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KennenPassive_Summary",
+          "key": "spell_kennenpassive_summary",
+          "text": "凯南在用他的技能命中同一敌方3次后，会将其晕眩。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KennenPassive_TooltipExtended",
+          "key": "spell_kennenpassive_tooltipextended",
+          "text": "{{ Spell_KennenPassive_Tooltip }}<br><rules>如果一名敌人在@DiminishingReturnDuration@秒内被这个技能<status>晕眩</status>了不止一次，那么该敌人会被转而<status>晕眩</status>@ReducedStunDuration@秒。</rules>"
+        }
+      }
+    },
+    "kennen_q": {
+      "binding": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KennenShurikenHurlMissile1_Name",
+          "key": "spell_kennenshurikenhurlmissile1_name",
+          "text": "奥义！千鸟"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KennenShurikenHurlMissile1_Summary",
+          "key": "spell_kennenshurikenhurlmissile1_summary",
+          "text": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KennenShurikenHurlMissile1_Tooltip",
+          "key": "spell_kennenshurikenhurlmissile1_tooltip",
+          "text": "凯南投掷一枚手里剑，对命中的第一个敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "kennen_w": {
+      "binding": "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KennenBringTheLight_Name",
+          "key": "spell_kennenbringthelight_name",
+          "text": "奥义！电刃"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KennenBringTheLight_Summary",
+          "key": "spell_kennenbringthelight_summary",
+          "text": "凯南连续攻击附加额外伤害并对目标造成一层【忍法！雷缚印】，主动释放会对所有带有【忍法！雷缚印】的敌人造成闪电伤害，并额外附加一层【忍法！雷缚印】。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KennenBringTheLight_Tooltip",
+          "key": "spell_kennenbringthelight_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>每第5次攻击额外的<magicDamage>@TotalDamagePassive@魔法伤害</magicDamage>%i:OnHit%<OnHit>攻击特效</OnHit>。<br><br><spellActive>主动：</spellActive>凯南释放一道电能爆裂，对附近被施加了<spellName>忍法！雷缚印</spellName>的敌人们造成<magicDamage>@TotalDamageActive@魔法伤害</magicDamage>。<br>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KennenBringTheLight_TooltipExtendedBelowLine",
+          "key": "spell_kennenbringthelight_tooltipextendedbelowline",
+          "text": "<rules>被动效果会施加<spellName>忍法！雷缚印</spellName>，并且可以产生暴击，转而造成@TotalDamagePassiveCrit@伤害。<br>攻击建筑时会叠加被动效果，但不会消耗被动效果。主动效果会自动命中所有处在<spellName>秘奥义！万雷天牢引</spellName>中的敌人。</rules>"
+        }
+      }
+    },
+    "kennen_e": {
+      "binding": "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KennenLightningRush_Name",
+          "key": "spell_kennenlightningrush_name",
+          "text": "奥义！雷铠"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KennenLightningRush_Summary",
+          "key": "spell_kennenlightningrush_summary",
+          "text": "凯南变身为一个闪电形态，高速移动并可以穿越单位。对碰到的所有敌人造成伤害并施加一层【忍法！雷缚印】。凯南会在进入这个形态时获得移动速度，并在离开时获得攻击速度。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KennenLightningRush_Tooltip",
+          "key": "spell_kennenlightningrush_tooltip",
+          "text": "凯南变成一个闪电球，获得<speed>@MovementSpeed*100@%移动速度</speed>，在穿过敌人时造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，同时变为幽灵状态，持续@DurationAsBall@秒。如果凯南对至少一名敌人造成了伤害，那么他会获得@EnergyRefund@能量。<br><br>在这个技能结束后，凯南会获得持续@DurationAfterBall@秒的<attackSpeed>@TotalAS*100@%攻击速度</attackSpeed>。暴击会将这个时长延长@CritDurationBonus@秒。凯南可以<recast>再次施放</recast>以提前结束这个技能。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KennenLightningRush_TooltipExtendedBelowLine",
+          "key": "spell_kennenlightningrush_tooltipextendedbelowline",
+          "text": "<rules>【幽灵】状态的单位能够无视其它单位的碰撞体积。<br>对小兵和野怪造成@DamageToMinions*100@%伤害。<br>延长的时长不能超过其初始时长。</rules>"
+        }
+      }
+    },
+    "kennen_r": {
+      "binding": "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KennenShurikenStorm_Name",
+          "key": "spell_kennenshurikenstorm_name",
+          "text": "秘奥义！万雷天牢引"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KennenShurikenStorm_Summary",
+          "key": "spell_kennenshurikenstorm_summary",
+          "text": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KennenShurikenStorm_Tooltip",
+          "key": "spell_kennenshurikenstorm_tooltip",
+          "text": "凯南释放一阵魔法风暴，每@KennenRTickRate@秒对附近的所有敌人造成<magicDamage>@PerTickDamageCalculated@魔法伤害</magicDamage>，并且获得<scaleArmor>@KennenRDefenses@护甲</scaleArmor>和<scaleMR>@KennenRDefenses@魔法抗性</scaleMR>，持续@KennenRDuration@秒。后续的每次命中会对已被影响的敌人造成@DamageAmp*100@%提升伤害。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KennenShurikenStorm_TooltipExtendedBelowLine",
+          "key": "spell_kennenshurikenstorm_tooltipextendedbelowline",
+          "text": "<rules>敌人只会被这个技能施加3层<spellName>忍法！雷缚印</spellName>。</rules>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "velkoz_p": {
+      "binding": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VelkozPassive_Name",
+          "key": "spell_velkozpassive_name",
+          "text": "有机体解构"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VelkozPassive_Summary",
+          "key": "spell_velkozpassive_summary",
+          "text": "维克兹的技能会对命中的敌人施加<keywordName>有机体解构</keywordName>效果。如果累积到3层效果，敌人就会受到爆发性的真实伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VelkozPassive_Tooltip",
+          "key": "spell_velkozpassive_tooltip",
+          "text": "维克兹的技能会施加一层持续@Duration@秒的<keywordMajor>解构</keywordMajor>。带有3层效果的敌人会消耗所有层数，受到<trueDamage>@TotalDamage@真实伤害</trueDamage>。<br><br>维克兹的攻击会刷新<keywordMajor>解构</keywordMajor>的持续时间，但不会添加新的层数。"
+        }
+      }
+    },
+    "velkoz_q": {
+      "binding": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VelkozQ_Name",
+          "key": "spell_velkozq_name",
+          "text": "等离子裂变"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VelkozQ_Tooltip",
+          "key": "spell_velkozq_tooltip",
+          "text": "维克兹发射一束等离子，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和在@SlowDuration@秒里持续衰减的@SlowAmount*100@%<status>减速</status>。在到达它的距离终点，或是命中一个目标，或是<recast>再次施放</recast>此技能时，等离子束会分裂成新的两束并呈90度角发射出去。<br><br>用这个技能击杀一个单位，就会回复<scaleMana>@TooltipManaRefund@法力</scaleMana>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VelkozQ_Summary",
+          "key": "spell_velkozq_summary",
+          "text": "维克兹发射一束等离子，再次施放此技能或在命中一名敌人后，等离子束会一分为二。等离子束在命中时会造成伤害和减速效果。"
+        }
+      }
+    },
+    "velkoz_w": {
+      "binding": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VelkozW_Name",
+          "key": "spell_velkozw_name",
+          "text": "虚空裂隙"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VelkozW_Summary",
+          "key": "spell_velkozw_summary",
+          "text": "维克兹开启一道虚空裂隙，造成初始爆发伤害，并在短暂的延迟后爆炸，造成第二段爆发伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VelkozW_Tooltip",
+          "key": "spell_velkozw_tooltip",
+          "text": "维克兹打开一道虚空裂隙，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>。然后裂隙会喷发，造成<magicDamage>@SecondaryDamage@魔法伤害</magicDamage>。<br><br>这个技能有2层充能(@AmmoRechargeTime@秒刷新时间)。"
+        }
+      }
+    },
+    "velkoz_e": {
+      "binding": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VelkozE_Name",
+          "key": "spell_velkoze_name",
+          "text": "构造分解"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VelkozE_Summary",
+          "key": "spell_velkoze_summary",
+          "text": "维克兹让一个区域爆炸，击飞敌人，并将近处的敌人略微击退。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VelkozE_Tooltip",
+          "key": "spell_velkoze_tooltip",
+          "text": "维克兹瓦解一个附近的区域，导致它爆炸，造成@StunDuration@秒<status>击飞</status>和<magicDamage>@TotalDamage@魔法伤害</magicDamage>。靠近维克兹的敌人们将被<status>击退</status>，而不是<status>击飞</status>。"
+        }
+      }
+    },
+    "velkoz_r": {
+      "binding": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VelkozR_Name",
+          "key": "spell_velkozr_name",
+          "text": "生命形态瓦解射线"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VelkozR_Summary",
+          "key": "spell_velkozr_summary",
+          "text": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VelkozR_Tooltip",
+          "key": "spell_velkozr_tooltip",
+          "text": "维克兹引导一道能量射线来跟随鼠标指针，在2.5秒里持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>和@Effect3Amount@%<status>减速</status>。对近期被<spellName>{{Spell_VelkozPassive_Name}}</spellName>伤害过的敌人们造成<trueDamage>真实伤害</trueDamage>作为替代。<br><br>射线内的敌人会周期性地获得<keywordMajor>解构</keywordMajor>层数。"
+        }
+      }
+    },
+    "ziggs_p": {
+      "binding": "Characters/Ziggs/Spells/ZiggsPassiveBuffAbility/ZiggsPassiveBuff",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ZiggsPassiveBuff_Name",
+          "key": "spell_ziggspassivebuff_name",
+          "text": "一触即发"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ZiggsPassiveBuff_Summary",
+          "key": "spell_ziggspassivebuff_summary",
+          "text": "每过一段时间，吉格斯的下次普通攻击就会造成额外的魔法伤害。这个冷却时间会在吉格斯每用一次技能时得到减少。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ZiggsPassiveBuff_Tooltip",
+          "key": "spell_ziggspassivebuff_tooltip",
+          "text": "每过@Cooldown@秒，吉格斯的下次普通攻击就会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。这个技能会对建筑造成<magicDamage>@StructureDamage@伤害</magicDamage>。<br><br>吉格斯每施放一次技能，这个效果的冷却时间就会缩短@SpellCDR@秒。"
+        }
+      }
+    },
+    "ziggs_q": {
+      "binding": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ZiggsQ_Name",
+          "key": "spell_ziggsq_name",
+          "text": "弹跳炸弹"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ZiggsQ_Summary",
+          "key": "spell_ziggsq_summary",
+          "text": "吉格斯扔出一个会弹跳的炸弹，对敌人造成魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ZiggsQ_Tooltip",
+          "key": "spell_ziggsq_tooltip",
+          "text": "吉格斯扔出一个会弹跳的炸弹，对敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "ziggs_w": {
+      "binding": "Characters/Ziggs/Spells/ZiggsWAbility/ZiggsW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ZiggsW_Name",
+          "key": "spell_ziggsw_name",
+          "text": "定点爆破"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ZiggsW_Summary",
+          "key": "spell_ziggsw_summary",
+          "text": "吉格斯扔出一个炸药包，会在一段延迟后爆炸，或者在再次施放该技能后爆炸。爆炸会对敌人造成魔法伤害，并将他们击退。吉格斯也会被击退，但不会受到伤害。<br><br>吉格斯可以用这个技能来爆破敌方摇摇欲坠的防御塔。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ZiggsW_Tooltip",
+          "key": "spell_ziggsw_tooltip",
+          "text": "吉格斯扔出一个炸药包，会在@BombDuration@秒后或者在<recast>再次施放</recast>该技能后爆炸。爆炸会对敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，并将他们<status>击</status><status>退</status>。吉格斯也会被震开，但不会受到伤害。<br><br>【定点爆破】会自动摧毁生命值低于@TurretDestroyPercent*100@%的防御塔。"
+        }
+      }
+    },
+    "ziggs_e": {
+      "binding": "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ZiggsE_Name",
+          "key": "spell_ziggse_name",
+          "text": "海克斯爆破雷区"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ZiggsE_Summary",
+          "key": "spell_ziggse_summary",
+          "text": "吉格斯布下敌人一踩就炸的感应雷区，对踩中地雷的敌人造成魔法伤害和减速效果。对相同目标的后续爆炸将造成较少伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ZiggsE_Tooltip",
+          "key": "spell_ziggse_tooltip",
+          "text": "吉格斯布下敌人一踩就炸的感应雷区，对踩中地雷的敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@Slow*-100@%<status>减速</status>。地雷持续@MineDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_ZiggsE_TooltipExtendedBelowLine",
+          "key": "spell_ziggse_tooltipextendedbelowline",
+          "text": "<rules>第一个之后的地雷造成<magicDamage>@ReducedDamage@伤害</magicDamage>。</rules>"
+        }
+      }
+    },
+    "ziggs_r": {
+      "binding": "Characters/Ziggs/Spells/ZiggsRAbility/ZiggsR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_ZiggsR_Name",
+          "key": "spell_ziggsr_name",
+          "text": "科学的地狱火炮"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_ZiggsR_Summary",
+          "key": "spell_ziggsr_summary",
+          "text": "吉格斯部署他的尖端发明，科学的地狱火炮，将它推送一段极远的距离。在主要爆炸区域里的敌人会比在其它爆炸区域里的敌人受到更多的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_ZiggsR_Tooltip",
+          "key": "spell_ziggsr_tooltip",
+          "text": "吉格斯扔出他的终极造物，在爆炸范围的中心区域造成<magicDamage>@EmpoweredDamage@魔法伤害</magicDamage>，或在边缘区域造成<magicDamage>@BlastDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "xerath_p": {
+      "binding": "Characters/Xerath/Spells/XerathAscended2Ability/XerathAscended2",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Xerath",
+          "key": "game_character_passivename_xerath",
+          "text": "法力澎湃"
+        },
+        "keyTooltip": {
+          "sourceKey": "game_character_passiveTooltip_Xerath",
+          "key": "game_character_passivetooltip_xerath",
+          "text": "每过16秒，泽拉斯的下次对英雄发起的攻击就会回复<scaleMana>@ChampionManaRestoreTT@法力</scaleMana>。如果攻击小兵、野怪或建筑物，那么会回复<scaleMana>@MinionManaRestoreTT@法力</scaleMana>。<br><br>每当泽拉斯击杀了一个单位时，这个冷却时间就会缩短@CooldownKillRefund@秒。"
+        },
+        "keySummary": {
+          "sourceKey": "game_character_passiveDescription_Xerath",
+          "key": "game_character_passivedescription_xerath",
+          "text": "泽拉斯的普通攻击会周期性地恢复法力值。每当泽拉斯击杀了一个单位时，这个冷却时间就会缩短。"
+        }
+      }
+    },
+    "xerath_q": {
+      "binding": "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XerathArcanopulseChargeUp_Name",
+          "key": "spell_xeratharcanopulsechargeup_name",
+          "text": "奥能脉冲"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XerathArcanopulseChargeUp_Summary",
+          "key": "spell_xeratharcanopulsechargeup_summary",
+          "text": "泽拉斯聚集能量，随后发射出一道射程很远的能量光束，对所有命中的目标造成魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XerathArcanopulseChargeUp_Tooltip",
+          "key": "spell_xeratharcanopulsechargeup_tooltip",
+          "text": "<charge>开始蓄力：</charge>泽拉斯开始积蓄一次奥术光束，自身逐步<status>减速</status>，至多可达50%。<br><br><release>释放：</release>泽拉斯发射光束，造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。距离随蓄力时间提升。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_AmmoRecharge_As_Cooldown",
+          "key": "spell_ammorecharge_as_cooldown",
+          "text": "@AmmoRechargeTime@秒%i:cooldown%"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XerathArcanopulseChargeUp_TooltipExtendedBelowLine",
+          "key": "spell_xeratharcanopulsechargeup_tooltipextendedbelowline",
+          "text": "<rules>如果泽拉斯没有将光束释放，那么会返还一半的消耗。</rules>"
+        }
+      }
+    },
+    "xerath_w": {
+      "binding": "Characters/Xerath/Spells/XerathArcaneBarrage2Ability/XerathArcaneBarrage2",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XerathArcaneBarrage2_Name",
+          "key": "spell_xeratharcanebarrage2_name",
+          "text": "毁灭之眼"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XerathArcaneBarrage2_Summary",
+          "key": "spell_xeratharcanebarrage2_summary",
+          "text": "在目标区域降下奥术能量的弹幕，对一个区域内的所有敌人造成减速效果和魔法伤害。区域中心的目标会受到额外伤害和一个更强大的减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XerathArcaneBarrage2_Tooltip",
+          "key": "spell_xeratharcanebarrage2_tooltip",
+          "text": "泽拉斯引爆目标区域的奥术能量，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。区域中心的敌人会受到<magicDamage>@SweetSpotTotalDamage@魔法伤害</magicDamage>，并被<status>减速</status>@SweetSpotSlowAmount*100@%，减速效果会在@SlowDuration@秒里持续衰减。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XerathArcaneBarrage2_TooltipExtendedBelowLine",
+          "key": "spell_xeratharcanebarrage2_tooltipextendedbelowline",
+          "text": "<rules>强化版<status>减速</status>效果会持续衰减至@SlowAmount*100@%。</rules>"
+        }
+      }
+    },
+    "xerath_e": {
+      "binding": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XerathMageSpear_Name",
+          "key": "spell_xerathmagespear_name",
+          "text": "冲击法球"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XerathMageSpear_Summary",
+          "key": "spell_xerathmagespear_summary",
+          "text": "对单个敌人造成魔法伤害和晕眩效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XerathMageSpear_Tooltip",
+          "key": "spell_xerathmagespear_tooltip",
+          "text": "泽拉斯发射一颗原生魔法之球，基于飞行距离使命中第一个的敌人<status>晕眩</status>至多@MaxStunDuration@秒，并造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。 "
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XerathMageSpear_TooltipExtendedBelowLine",
+          "key": "spell_xerathmagespear_tooltipextendedbelowline",
+          "text": "<rules>最小<status>晕眩</status>时长为0.75秒。</rules>"
+        }
+      }
+    },
+    "xerath_r": {
+      "binding": "Characters/Xerath/Spells/XerathLocusOfPower2Ability/XerathLocusOfPower2",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_XerathLocusOfPower2_Name",
+          "key": "spell_xerathlocusofpower2_name",
+          "text": "奥术仪式"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_XerathLocusOfPower2_Summary",
+          "key": "spell_xerathlocusofpower2_summary",
+          "text": "泽拉斯将自己固定在一处魔力之源上，并获得数次远程施法的机会。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_XerathLocusOfPower2_Tooltip",
+          "key": "spell_xerathlocusofpower2_tooltip",
+          "text": "泽拉斯飞升至他的真正形态并引导@Duration@秒。在此期间，他可以<recast>再次施放</recast>此技能至多@NumberOfShots@次。<br><br><recast>再次施放：</recast>泽拉斯施放一道魔法炮击，造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。每次命中英雄时，炮击都会造成额外的<magicDamage>@RampDamageCalc@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_XerathR_TooltipExtendedBelowLine",
+          "key": "spell_xerathr_tooltipextendedbelowline",
+          "text": "<rules>如果泽拉斯根本没有<recast>再次施放</recast>，那么这技能的冷却时间会降低@FailCastRefund*100@%。</rules>"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_kennenpassive_name": "【忍法！雷缚印】",
+    "spell_kennenpassive_tooltip": "凯南的技能会施加一层持续@MarkDuration@秒的印记。在3层时，敌人会被<status>晕眩</status>@StunDuration@秒并且凯南会回复<keywordMajor>@EnergyRestore@能量</keywordMajor>。",
+    "spell_kennenpassive_summary": "凯南在用他的技能命中同一敌方3次后，会将其晕眩。",
+    "spell_kennenpassive_tooltipextended": "{{ Spell_KennenPassive_Tooltip }}<br><rules>如果一名敌人在@DiminishingReturnDuration@秒内被这个技能<status>晕眩</status>了不止一次，那么该敌人会被转而<status>晕眩</status>@ReducedStunDuration@秒。</rules>",
+    "spell_kennenshurikenhurlmissile1_name": "奥义！千鸟",
+    "spell_kennenshurikenhurlmissile1_summary": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。",
+    "spell_kennenshurikenhurlmissile1_tooltip": "凯南投掷一枚手里剑，对命中的第一个敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_kennenbringthelight_name": "奥义！电刃",
+    "spell_kennenbringthelight_summary": "凯南连续攻击附加额外伤害并对目标造成一层【忍法！雷缚印】，主动释放会对所有带有【忍法！雷缚印】的敌人造成闪电伤害，并额外附加一层【忍法！雷缚印】。",
+    "spell_kennenbringthelight_tooltip": "<spellPassive>被动：</spellPassive>每第5次攻击额外的<magicDamage>@TotalDamagePassive@魔法伤害</magicDamage>%i:OnHit%<OnHit>攻击特效</OnHit>。<br><br><spellActive>主动：</spellActive>凯南释放一道电能爆裂，对附近被施加了<spellName>忍法！雷缚印</spellName>的敌人们造成<magicDamage>@TotalDamageActive@魔法伤害</magicDamage>。<br>",
+    "spell_kennenbringthelight_tooltipextendedbelowline": "<rules>被动效果会施加<spellName>忍法！雷缚印</spellName>，并且可以产生暴击，转而造成@TotalDamagePassiveCrit@伤害。<br>攻击建筑时会叠加被动效果，但不会消耗被动效果。主动效果会自动命中所有处在<spellName>秘奥义！万雷天牢引</spellName>中的敌人。</rules>",
+    "spell_kennenlightningrush_name": "奥义！雷铠",
+    "spell_kennenlightningrush_summary": "凯南变身为一个闪电形态，高速移动并可以穿越单位。对碰到的所有敌人造成伤害并施加一层【忍法！雷缚印】。凯南会在进入这个形态时获得移动速度，并在离开时获得攻击速度。",
+    "spell_kennenlightningrush_tooltip": "凯南变成一个闪电球，获得<speed>@MovementSpeed*100@%移动速度</speed>，在穿过敌人时造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，同时变为幽灵状态，持续@DurationAsBall@秒。如果凯南对至少一名敌人造成了伤害，那么他会获得@EnergyRefund@能量。<br><br>在这个技能结束后，凯南会获得持续@DurationAfterBall@秒的<attackSpeed>@TotalAS*100@%攻击速度</attackSpeed>。暴击会将这个时长延长@CritDurationBonus@秒。凯南可以<recast>再次施放</recast>以提前结束这个技能。",
+    "spell_kennenlightningrush_tooltipextendedbelowline": "<rules>【幽灵】状态的单位能够无视其它单位的碰撞体积。<br>对小兵和野怪造成@DamageToMinions*100@%伤害。<br>延长的时长不能超过其初始时长。</rules>",
+    "spell_kennenshurikenstorm_name": "秘奥义！万雷天牢引",
+    "spell_kennenshurikenstorm_summary": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。",
+    "spell_kennenshurikenstorm_tooltip": "凯南释放一阵魔法风暴，每@KennenRTickRate@秒对附近的所有敌人造成<magicDamage>@PerTickDamageCalculated@魔法伤害</magicDamage>，并且获得<scaleArmor>@KennenRDefenses@护甲</scaleArmor>和<scaleMR>@KennenRDefenses@魔法抗性</scaleMR>，持续@KennenRDuration@秒。后续的每次命中会对已被影响的敌人造成@DamageAmp*100@%提升伤害。",
+    "spell_kennenshurikenstorm_tooltipextendedbelowline": "<rules>敌人只会被这个技能施加3层<spellName>忍法！雷缚印</spellName>。</rules>",
+    "spell_cost_nocost": "无消耗",
+    "spell_velkozpassive_name": "有机体解构",
+    "spell_velkozpassive_summary": "维克兹的技能会对命中的敌人施加<keywordName>有机体解构</keywordName>效果。如果累积到3层效果，敌人就会受到爆发性的真实伤害。",
+    "spell_velkozpassive_tooltip": "维克兹的技能会施加一层持续@Duration@秒的<keywordMajor>解构</keywordMajor>。带有3层效果的敌人会消耗所有层数，受到<trueDamage>@TotalDamage@真实伤害</trueDamage>。<br><br>维克兹的攻击会刷新<keywordMajor>解构</keywordMajor>的持续时间，但不会添加新的层数。",
+    "spell_velkozq_name": "等离子裂变",
+    "spell_velkozq_tooltip": "维克兹发射一束等离子，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和在@SlowDuration@秒里持续衰减的@SlowAmount*100@%<status>减速</status>。在到达它的距离终点，或是命中一个目标，或是<recast>再次施放</recast>此技能时，等离子束会分裂成新的两束并呈90度角发射出去。<br><br>用这个技能击杀一个单位，就会回复<scaleMana>@TooltipManaRefund@法力</scaleMana>。",
+    "spell_velkozq_summary": "维克兹发射一束等离子，再次施放此技能或在命中一名敌人后，等离子束会一分为二。等离子束在命中时会造成伤害和减速效果。",
+    "spell_velkozw_name": "虚空裂隙",
+    "spell_velkozw_summary": "维克兹开启一道虚空裂隙，造成初始爆发伤害，并在短暂的延迟后爆炸，造成第二段爆发伤害。",
+    "spell_velkozw_tooltip": "维克兹打开一道虚空裂隙，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>。然后裂隙会喷发，造成<magicDamage>@SecondaryDamage@魔法伤害</magicDamage>。<br><br>这个技能有2层充能(@AmmoRechargeTime@秒刷新时间)。",
+    "spell_velkoze_name": "构造分解",
+    "spell_velkoze_summary": "维克兹让一个区域爆炸，击飞敌人，并将近处的敌人略微击退。",
+    "spell_velkoze_tooltip": "维克兹瓦解一个附近的区域，导致它爆炸，造成@StunDuration@秒<status>击飞</status>和<magicDamage>@TotalDamage@魔法伤害</magicDamage>。靠近维克兹的敌人们将被<status>击退</status>，而不是<status>击飞</status>。",
+    "spell_velkozr_name": "生命形态瓦解射线",
+    "spell_velkozr_summary": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。",
+    "spell_velkozr_tooltip": "维克兹引导一道能量射线来跟随鼠标指针，在2.5秒里持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>和@Effect3Amount@%<status>减速</status>。对近期被<spellName>{{Spell_VelkozPassive_Name}}</spellName>伤害过的敌人们造成<trueDamage>真实伤害</trueDamage>作为替代。<br><br>射线内的敌人会周期性地获得<keywordMajor>解构</keywordMajor>层数。",
+    "spell_ziggspassivebuff_name": "一触即发",
+    "spell_ziggspassivebuff_summary": "每过一段时间，吉格斯的下次普通攻击就会造成额外的魔法伤害。这个冷却时间会在吉格斯每用一次技能时得到减少。",
+    "spell_ziggspassivebuff_tooltip": "每过@Cooldown@秒，吉格斯的下次普通攻击就会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。这个技能会对建筑造成<magicDamage>@StructureDamage@伤害</magicDamage>。<br><br>吉格斯每施放一次技能，这个效果的冷却时间就会缩短@SpellCDR@秒。",
+    "spell_ziggsq_name": "弹跳炸弹",
+    "spell_ziggsq_summary": "吉格斯扔出一个会弹跳的炸弹，对敌人造成魔法伤害。",
+    "spell_ziggsq_tooltip": "吉格斯扔出一个会弹跳的炸弹，对敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_ziggsw_name": "定点爆破",
+    "spell_ziggsw_summary": "吉格斯扔出一个炸药包，会在一段延迟后爆炸，或者在再次施放该技能后爆炸。爆炸会对敌人造成魔法伤害，并将他们击退。吉格斯也会被击退，但不会受到伤害。<br><br>吉格斯可以用这个技能来爆破敌方摇摇欲坠的防御塔。",
+    "spell_ziggsw_tooltip": "吉格斯扔出一个炸药包，会在@BombDuration@秒后或者在<recast>再次施放</recast>该技能后爆炸。爆炸会对敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，并将他们<status>击</status><status>退</status>。吉格斯也会被震开，但不会受到伤害。<br><br>【定点爆破】会自动摧毁生命值低于@TurretDestroyPercent*100@%的防御塔。",
+    "spell_ziggse_name": "海克斯爆破雷区",
+    "spell_ziggse_summary": "吉格斯布下敌人一踩就炸的感应雷区，对踩中地雷的敌人造成魔法伤害和减速效果。对相同目标的后续爆炸将造成较少伤害。",
+    "spell_ziggse_tooltip": "吉格斯布下敌人一踩就炸的感应雷区，对踩中地雷的敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@Slow*-100@%<status>减速</status>。地雷持续@MineDuration@秒。",
+    "spell_ziggse_tooltipextendedbelowline": "<rules>第一个之后的地雷造成<magicDamage>@ReducedDamage@伤害</magicDamage>。</rules>",
+    "spell_ziggsr_name": "科学的地狱火炮",
+    "spell_ziggsr_summary": "吉格斯部署他的尖端发明，科学的地狱火炮，将它推送一段极远的距离。在主要爆炸区域里的敌人会比在其它爆炸区域里的敌人受到更多的伤害。",
+    "spell_ziggsr_tooltip": "吉格斯扔出他的终极造物，在爆炸范围的中心区域造成<magicDamage>@EmpoweredDamage@魔法伤害</magicDamage>，或在边缘区域造成<magicDamage>@BlastDamage@魔法伤害</magicDamage>。",
+    "game_character_passivename_xerath": "法力澎湃",
+    "game_character_passivetooltip_xerath": "每过16秒，泽拉斯的下次对英雄发起的攻击就会回复<scaleMana>@ChampionManaRestoreTT@法力</scaleMana>。如果攻击小兵、野怪或建筑物，那么会回复<scaleMana>@MinionManaRestoreTT@法力</scaleMana>。<br><br>每当泽拉斯击杀了一个单位时，这个冷却时间就会缩短@CooldownKillRefund@秒。",
+    "game_character_passivedescription_xerath": "泽拉斯的普通攻击会周期性地恢复法力值。每当泽拉斯击杀了一个单位时，这个冷却时间就会缩短。",
+    "spell_xeratharcanopulsechargeup_name": "奥能脉冲",
+    "spell_xeratharcanopulsechargeup_summary": "泽拉斯聚集能量，随后发射出一道射程很远的能量光束，对所有命中的目标造成魔法伤害。",
+    "spell_xeratharcanopulsechargeup_tooltip": "<charge>开始蓄力：</charge>泽拉斯开始积蓄一次奥术光束，自身逐步<status>减速</status>，至多可达50%。<br><br><release>释放：</release>泽拉斯发射光束，造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。距离随蓄力时间提升。",
+    "spell_ammorecharge_as_cooldown": "@AmmoRechargeTime@秒%i:cooldown%",
+    "spell_xeratharcanopulsechargeup_tooltipextendedbelowline": "<rules>如果泽拉斯没有将光束释放，那么会返还一半的消耗。</rules>",
+    "spell_xeratharcanebarrage2_name": "毁灭之眼",
+    "spell_xeratharcanebarrage2_summary": "在目标区域降下奥术能量的弹幕，对一个区域内的所有敌人造成减速效果和魔法伤害。区域中心的目标会受到额外伤害和一个更强大的减速效果。",
+    "spell_xeratharcanebarrage2_tooltip": "泽拉斯引爆目标区域的奥术能量，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。区域中心的敌人会受到<magicDamage>@SweetSpotTotalDamage@魔法伤害</magicDamage>，并被<status>减速</status>@SweetSpotSlowAmount*100@%，减速效果会在@SlowDuration@秒里持续衰减。",
+    "spell_xeratharcanebarrage2_tooltipextendedbelowline": "<rules>强化版<status>减速</status>效果会持续衰减至@SlowAmount*100@%。</rules>",
+    "spell_xerathmagespear_name": "冲击法球",
+    "spell_xerathmagespear_summary": "对单个敌人造成魔法伤害和晕眩效果。",
+    "spell_xerathmagespear_tooltip": "泽拉斯发射一颗原生魔法之球，基于飞行距离使命中第一个的敌人<status>晕眩</status>至多@MaxStunDuration@秒，并造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。 ",
+    "spell_xerathmagespear_tooltipextendedbelowline": "<rules>最小<status>晕眩</status>时长为0.75秒。</rules>",
+    "spell_xerathlocusofpower2_name": "奥术仪式",
+    "spell_xerathlocusofpower2_summary": "泽拉斯将自己固定在一处魔力之源上，并获得数次远程施法的机会。",
+    "spell_xerathlocusofpower2_tooltip": "泽拉斯飞升至他的真正形态并引导@Duration@秒。在此期间，他可以<recast>再次施放</recast>此技能至多@NumberOfShots@次。<br><br><recast>再次施放：</recast>泽拉斯施放一道魔法炮击，造成<magicDamage>@TooltipTotalDamage@魔法伤害</magicDamage>。每次命中英雄时，炮击都会造成额外的<magicDamage>@RampDamageCalc@魔法伤害</magicDamage>。",
+    "spell_xerathr_tooltipextendedbelowline": "<rules>如果泽拉斯根本没有<recast>再次施放</recast>，那么这技能的冷却时间会降低@FailCastRefund*100@%。</rules>"
+  }
+}

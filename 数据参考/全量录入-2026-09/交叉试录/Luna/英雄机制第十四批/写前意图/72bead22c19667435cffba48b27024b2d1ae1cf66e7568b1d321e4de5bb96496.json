@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:40:03.732Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_r/formulas/base_tick_damage",
+  "id": "base_tick_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "base_tick_damage",
+    "name": "未叠后续加成的单次伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_tick_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "本式每次伤害，不把3秒持续总伤当单跳。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

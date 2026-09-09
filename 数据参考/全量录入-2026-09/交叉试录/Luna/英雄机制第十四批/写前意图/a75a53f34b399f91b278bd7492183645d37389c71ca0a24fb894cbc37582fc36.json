@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T06:42:22.141Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_r/formulas/capped_recasts",
+  "id": "capped_recasts",
+  "method": "POST",
+  "body": {
+    "formulaKey": "capped_recasts",
+    "name": "受本次上限约束的实际炮击次数",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MIN",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_recasts"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zero"
+            }
+          ]
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "maximum_shots"
+        }
+      ]
+    },
+    "description": "本次最多4/5/6次；上限进入最终数值，不只写说明。",
+    "sortOrder": 30
+  }
+}

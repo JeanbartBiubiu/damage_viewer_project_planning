@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:40:31.008Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_w/formulas/secondary_damage",
+  "id": "secondary_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "secondary_damage",
+    "name": "裂隙第二段伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "secondary_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "第二段独立伤害，不合并成一次命中。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

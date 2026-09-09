@@ -1,0 +1,557 @@
+{
+  "at": "2026-09-09T06:03:27.996Z",
+  "mode": "只读GET；保护目录主体、角色技能关系和代表图，不读取或修改图字节",
+  "candidateSha256": "e49e0d472ee131a0ff324b21f37d3803bf4c4e367c3c8ed2508d7591b09acb52",
+  "requests": [
+    {
+      "route": "/characters/champion_kennen",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 55,
+      "data": {
+        "characterKey": "champion_kennen",
+        "createdAt": "2026-09-06T17:19:17.112624Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "凯南",
+        "updatedAt": "2026-09-06T17:19:17.112624Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_kennen",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 44,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_p",
+            "skillName": "凯南·【忍法！雷缚印】",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_q",
+            "skillName": "凯南·奥义！千鸟",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_w",
+            "skillName": "凯南·奥义！电刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_e",
+            "skillName": "凯南·奥义！雷铠",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_r",
+            "skillName": "凯南·秘奥义！万雷天牢引",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_velkoz",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 32,
+      "data": {
+        "characterKey": "champion_velkoz",
+        "createdAt": "2026-09-06T18:02:57.337036Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "维克兹",
+        "updatedAt": "2026-09-06T18:02:57.337036Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_velkoz",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 104,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_p",
+            "skillName": "维克兹·有机体解构",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_q",
+            "skillName": "维克兹·等离子裂变",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_w",
+            "skillName": "维克兹·虚空裂隙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_e",
+            "skillName": "维克兹·构造分解",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_r",
+            "skillName": "维克兹·生命形态瓦解射线",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_ziggs",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 38,
+      "data": {
+        "characterKey": "champion_ziggs",
+        "createdAt": "2026-09-06T18:13:36.472491Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "吉格斯",
+        "updatedAt": "2026-09-06T18:13:36.472491Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_ziggs",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 50,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_p",
+            "skillName": "吉格斯·一触即发",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_q",
+            "skillName": "吉格斯·弹跳炸弹",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_w",
+            "skillName": "吉格斯·定点爆破",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_e",
+            "skillName": "吉格斯·海克斯爆破雷区",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_r",
+            "skillName": "吉格斯·科学的地狱火炮",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_xerath",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 40,
+      "data": {
+        "characterKey": "champion_xerath",
+        "createdAt": "2026-09-06T18:07:48.364681Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "泽拉斯",
+        "updatedAt": "2026-09-06T18:07:48.364681Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_xerath",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 46,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_p",
+            "skillName": "泽拉斯·法力澎湃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_q",
+            "skillName": "泽拉斯·奥能脉冲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_w",
+            "skillName": "泽拉斯·毁灭之眼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_e",
+            "skillName": "泽拉斯·冲击法球",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_r",
+            "skillName": "泽拉斯·奥术仪式",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/kennen_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 60,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_p",
+          "name": "kennen_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/kennen_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_q",
+          "name": "kennen_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/kennen_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 52,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_w",
+          "name": "kennen_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kennen_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 62,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_e",
+          "name": "kennen_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/kennen_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 47,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_r",
+          "name": "kennen_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 69,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_p",
+          "name": "velkoz_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 82,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_q",
+          "name": "velkoz_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 58,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_w",
+          "name": "velkoz_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 63,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_e",
+          "name": "velkoz_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 43,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_r",
+          "name": "velkoz_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_p",
+          "name": "ziggs_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 58,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_q",
+          "name": "ziggs_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 75,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_w",
+          "name": "ziggs_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 77,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_e",
+          "name": "ziggs_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 73,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_r",
+          "name": "ziggs_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 68,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_p",
+          "name": "xerath_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 136,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_q",
+          "name": "xerath_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 66,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_w",
+          "name": "xerath_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 61,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_e",
+          "name": "xerath_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_r",
+          "name": "xerath_r"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "completedAt": "2026-09-09T06:03:29.743Z",
+  "success": true,
+  "summary": {
+    "requests": 28,
+    "characters": 4,
+    "characterSkillRelationLists": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  }
+}

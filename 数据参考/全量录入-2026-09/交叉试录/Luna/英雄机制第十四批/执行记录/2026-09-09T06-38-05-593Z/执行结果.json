@@ -1,0 +1,74 @@
+{
+  "startedAt": "2026-09-09T06:38:05.595Z",
+  "runId": "2026-09-09T06-38-05-593Z",
+  "mode": "只读预检",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "candidateObjectSha256": "72fbbeffca5e899405741dce3f8f2a9845de1c12a742adefa0c34838f480d6b4",
+  "originalSnapshotSha256": "ed6b29f505f5d4886185673a4cb20c4995c1a6b30ac667b462124f0bf2539ee2",
+  "expected": {
+    "subjects": 20,
+    "images": 20,
+    "characterRelations": 4,
+    "characters": 4,
+    "catalogs": 4,
+    "total": 213,
+    "existing": 24,
+    "new": 189,
+    "newByKind": {
+      "parameters": 130,
+      "formulas": 34,
+      "effects": 25,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "candidateCounts": {
+    "parameters": 154,
+    "formulas": 34,
+    "effects": 25,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "apiWrites": 0,
+  "calls": {
+    "total": 196,
+    "methods": {
+      "GET": 196
+    },
+    "statuses": {
+      "200": 196
+    }
+  },
+  "success": true,
+  "errors": [],
+  "preflight": {
+    "protectionConflicts": [],
+    "catalogReferenceCount": 56,
+    "componentCounts": {
+      "lists": 120,
+      "details": 24,
+      "existing": 24,
+      "missing": 189
+    },
+    "missingByKind": {
+      "parameters": 130,
+      "formulas": 34,
+      "effects": 25,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "conflicts": 0,
+    "pass": true
+  },
+  "independentReadback": {
+    "complete": false,
+    "details": 24,
+    "protectedParameters": 24
+  },
+  "finishedAt": "2026-09-09T06:38:17.618Z",
+  "writeEvents": 0
+}

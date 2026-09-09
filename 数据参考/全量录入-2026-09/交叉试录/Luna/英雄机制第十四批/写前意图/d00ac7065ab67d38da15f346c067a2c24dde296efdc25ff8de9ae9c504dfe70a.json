@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:40:19.568Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_q/effects/kill_mana_restore",
+  "id": "kill_mana_restore",
+  "method": "POST",
+  "body": {
+    "effectKey": "kill_mana_restore",
+    "name": "击杀单位法力回复",
+    "description": "当前正文与当前TooltipManaRefund给出20/22.5/25/27.5/30法力；非英雄击杀影响自身战前状态，保留。；仅独立效果，没有默认施放、命中或初始化触发。",
+    "sortOrder": 20,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "resource",
+        "name": "击杀单位法力回复",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "kill_mana_restore"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "RESTORE"
+        }
+      }
+    ]
+  }
+}
