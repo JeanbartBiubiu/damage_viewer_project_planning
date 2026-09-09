@@ -1,0 +1,497 @@
+{
+  "at": "2026-09-09T04:12:59.367Z",
+  "clientVersion": "16.17",
+  "sources": [
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    }
+  ],
+  "proofs": [
+    {
+      "id": 773025,
+      "rootPath": "Items/773025",
+      "rootObjectSha256": "d8936406e88fe74fba2579dba2604e360cd47232578cae10478d66dbc66d8f60",
+      "tooltipKey": "Item_773025_Tooltip",
+      "tooltip": "<jadeUnique>臻冰之咒刃：</jadeUnique>施放技能后，下次普通攻击(命中时)会对目标附近的敌人造成<physicalDamage>相当于@SpellBladeMultiplier*100@%基础攻击力的额外物理伤害</physicalDamage>，并在目标周围生成持续@CrippleDuration@秒的<status>减速</status>区域，使敌人的<speed>移动速度</speed>降低@MeleeItemCalcValue*100@%(@SpellbladeCooldown@秒冷却时间，远程英雄生成的区域范围减半)。",
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SpellbladeMultiplier",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "coefficientParameter": {
+        "mName": "SpellBladeMultiplier",
+        "mValue": 1.25,
+        "__type": "ItemDataValue"
+      },
+      "object": {
+        "mDisplayName": "game_item_displayname_3025",
+        "itemID": 773025,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default"
+        ],
+        "mItemAdviceAttributes": [
+          "{165d7c1f}",
+          "{39b1adc9}",
+          "{3868804c}"
+        ],
+        "price": 700,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/773057",
+          "Items/773024"
+        ],
+        "mDataValues": [
+          {
+            "mName": "SlowFieldDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MeleeItemCalcValue",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangedItemCalcValue",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SpellbladeCooldown",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "CrippleDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AoERadiusMelee",
+            "mValue": 285,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AoERadiusRanged",
+            "mValue": 210,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SpellBladeMultiplier",
+            "mValue": 1.25,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "SpellbladeDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mStatFormula": 1,
+                "mDataValue": "SpellbladeMultiplier",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mPercentCooldownMod": -0.10000000149011612,
+        "mFlatArmorMod": 70,
+        "mFlatMagicDamageMod": 30,
+        "flatMPPoolMod": 500,
+        "mCategories": [
+          "Armor",
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "Slow"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1,
+          8,
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "773025",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "game_item_displayname_3025",
+              "keyTooltip": "Item_773025_Tooltip",
+              "keyBrief": "Item_6656_Brief",
+              "keyColloquialism": "Item_773025_Colloquialism"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CooldownReduction",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_773025_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_773025_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_773025_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3025_frozen_fist.tex",
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{7e68f878}": "Items/773025/Particles/773025_Slow_Field",
+            "{e0bb3ee9}": "Items/773025/Particles/773025_Hand_Glow",
+            "{5966b9cb}": "Items/773025/Particles/773025_Slow_Field_Enemy",
+            "{f8061444}": "Items/773025/Particles/773025_Slow_Field_Half",
+            "{26cc875f}": "Items/773025/Particles/773025_Slow_Field_Half_Enemy"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    },
+    {
+      "id": 773078,
+      "rootPath": "Items/773078",
+      "rootObjectSha256": "9798d7898b1c3a8653a2f81b1c21326e810789c45a64050755a0949f2438e17e",
+      "tooltipKey": "Item_773078_Tooltip",
+      "tooltip": "<jadeUnique>狂怒：</jadeUnique>普通攻击命中时提供持续@MoveSpeedDuration@秒的<speed>@MSBonus@移动速度</speed>。击杀时提供持续@MoveSpeedDuration@秒的<speed>@KillMSBonus@移动速度</speed>。<br><jadeUnique>成吨的伤害之咒刃：</jadeUnique>施放技能后，你的下一次普通攻击会造成相当于你<physicalDamage>200%基础攻击力</physicalDamage>的额外<physicalDamage>物理伤害</physicalDamage>(@SpellbladeCooldown@秒冷却时间)。",
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mCoefficient": 2,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "coefficientParameter": null,
+      "object": {
+        "mDisplayName": "Item_773078_Name",
+        "itemID": 773078,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default"
+        ],
+        "mItemAdviceAttributes": [
+          "{39b1adc9}"
+        ],
+        "price": 3,
+        "ShowCooldownVfxToAllies": false,
+        "ShowCooldownInPings": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/773086",
+          "Items/773057",
+          "Items/773044"
+        ],
+        "mDataValues": [
+          {
+            "mName": "SpellbladeCooldown",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeedDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MSBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "KillMSBonus",
+            "mValue": 60,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "SpellbladeDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mStatFormula": 1,
+                "mCoefficient": 2,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mFlatHPPoolMod": 250,
+        "mPercentMovementSpeedMod": 0.07999999821186066,
+        "mFlatCritChanceMod": 0.10000000149011612,
+        "mFlatPhysicalDamageMod": 30,
+        "mFlatMagicDamageMod": 30,
+        "mPercentAttackSpeedMod": 0.30000001192092896,
+        "flatMPPoolMod": 200,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "CriticalStrike",
+          "AttackSpeed",
+          "SpellDamage",
+          "Mana",
+          "NonbootsMovement",
+          "OnHit",
+          "Slow"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1,
+          8,
+          16,
+          32
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "773078",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_773078_Name",
+              "keyTooltip": "Item_773078_Tooltip",
+              "keyBrief": "game_item_plaintext_3078",
+              "keyColloquialism": "game_item_colloquialism_3078"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_773078_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_773078_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_773078_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/773078_trinity_force.tex",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{6874877b}": "Items/773057/Particles/773057_Enrage_Buf"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    }
+  ],
+  "crossChecks": [
+    {
+      "id": 3057,
+      "rootObjectSha256": "8f86aaa0c113380620ac02d5be244e642498795d096520a94fc830a5f3e05749",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/SpellbladeDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mCoefficient": 1,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3078,
+      "rootObjectSha256": "9c17bc7d484f8cf4d957419c47006a8a9d92c55d21ee0d9c7b0867c9862876b1",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/SpellbladeDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SpellbladeMultiplier",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3100,
+      "rootObjectSha256": "171a73c5d9273d42833f863291d65d7eb1277fc55c7abdf090385d317e800b77",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/SpellbladeDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SpellbladeADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6662,
+      "rootObjectSha256": "06e150d3618efd94247f555dbe179d085acd8cc362eec06de3b8b3e407518769",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/SpellbladeDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SpellbladeMultiplier",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6610,
+      "rootObjectSha256": "cafb0d9b37460252127bb27cf38674b5771b2a06a27c9d88f8556275e63056da",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/{01099b16}/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "HealBaseADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2510,
+      "rootObjectSha256": "679ee5e351ea4c70523324df1ea214b4ba5228e5c1e6d71af8407a6a8eae48dc",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/SpellbladeDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mCoefficient": 0.75,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3181,
+      "rootObjectSha256": "4a7b82da4531877fdab5306998047e756ceadb03bc1d6e4cb814d886f00055e9",
+      "nodes": [
+        {
+          "path": "/mItemCalculations/MaxStackDamage/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SkipperADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        },
+        {
+          "path": "/mItemCalculations/MaxStackDamageVSStructures/mFormulaParts/0",
+          "node": {
+            "mStat": 2,
+            "mStatFormula": 1,
+            "mDataValue": "SkipperADRatioVSStructures",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        }
+      ]
+    }
+  ],
+  "conclusion": {
+    "status": "主负责人采用的静态来源推断",
+    "mapping": {
+      "mStat": 2,
+      "mStatFormula": 1,
+      "attributeOwner": "SOURCE",
+      "attributeKey": "attack_damage",
+      "attributeValueKind": "BASE"
+    },
+    "classes": [
+      "StatByCoefficientCalculationPart",
+      "StatByNamedDataValueCalculationPart"
+    ],
+    "conditions": "仅同构建已证旧属性读取方式、UseNewStats=false、OutputType=0；沿此前构造默认补证。",
+    "basis": "当前同一根绑定的中文基础攻击力与倍率参数/固定200%，分别对应两类原始2/1属性节点，另七个当前根做同形交叉核对。",
+    "limits": [
+      "不同模式对象仅用于证明同构建共享属性节点枚举；不引入该模式装备、不复制其数值或取得资格。",
+      "不推广到mStat12/0、mStat29、AbilityResource节点或其他未证枚举。",
+      "本轮未执行客户端或战斗引擎；这是来源与类型一致性推断。"
+    ]
+  },
+  "businessWrites": 0
+}
