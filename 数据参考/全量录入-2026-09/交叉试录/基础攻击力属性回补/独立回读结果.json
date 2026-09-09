@@ -1,0 +1,607 @@
+{
+  "at": "2026-09-09T04:53:08.110Z",
+  "reads": [
+    {
+      "route": "/skills/item_2510_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:53.764993Z",
+        "description": "保留施放技能后下一次攻击的额外魔法伤害、治疗和额外攻击特效说明。伤害为0.75基础攻击力+0.1法强，自身治疗为0.1法强+0.03额外生命；属性口径已有同构建具名补证，攻击消费、重复攻击特效和治疗时点尚未接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黄昏与黎明·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_2510_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T04:49:44.755323Z"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:37:54.585787Z",
+          "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃冷却",
+          "parameterKey": "spellblade_cooldown_ms",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:37:54.585787Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:55.362593Z",
+          "description": "当前SpellbladeDamage第一项mStat2/formula1，系数0.75；同构建具名补证确定为施法者基础攻击力。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃基础攻击力伤害系数",
+          "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T04:49:43.904073Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:56.85427Z",
+          "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃伤害第二缩放系数",
+          "parameterKey": "spellblade_damage_default_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:37:56.85427Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:57.691182Z",
+          "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃治疗第一缩放系数",
+          "parameterKey": "spellblade_healing_default_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:37:57.691182Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:58.409458Z",
+          "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃额外生命治疗系数",
+          "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:37:58.409458Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:54.585787Z",
+        "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃冷却",
+        "parameterKey": "spellblade_cooldown_ms",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:37:54.585787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:55.362593Z",
+        "description": "当前SpellbladeDamage第一项mStat2/formula1，系数0.75；同构建具名补证确定为施法者基础攻击力。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃基础攻击力伤害系数",
+        "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T04:49:43.904073Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_default_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:56.85427Z",
+        "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃伤害第二缩放系数",
+        "parameterKey": "spellblade_damage_default_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:37:56.85427Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_default_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:57.691182Z",
+        "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃治疗第一缩放系数",
+        "parameterKey": "spellblade_healing_default_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:37:57.691182Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_mstat12_formula2_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:58.409458Z",
+        "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃额外生命治疗系数",
+        "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:37:58.409458Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:37:59.081826Z",
+          "description": "0.75×施法者基础攻击力+0.1×施法者总法术强度。mStat2/formula1按同构建两类具名补证读取基础攻击力；实际下一次攻击消费仍待接线。",
+          "formulaKey": "spellblade_damage_value",
+          "gameId": "lol",
+          "name": "咒刃额外魔法伤害值",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T04:49:42.970656Z"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:59.875041Z",
+          "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+          "formulaKey": "spellblade_healing_value",
+          "gameId": "lol",
+          "name": "咒刃自身治疗值",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:37:59.875041Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_2510_passive/formulas/spellblade_damage_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:59.081826Z",
+        "description": "0.75×施法者基础攻击力+0.1×施法者总法术强度。mStat2/formula1按同构建两类具名补证读取基础攻击力；实际下一次攻击消费仍待接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_damage_mstat2_formula1_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BASE",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_damage_default_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "spellblade_damage_value",
+        "gameId": "lol",
+        "name": "咒刃额外魔法伤害值",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:49:42.970656Z"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/formulas/spellblade_healing_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:59.875041Z",
+        "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_healing_default_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_healing_mstat12_formula2_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "spellblade_healing_value",
+        "gameId": "lol",
+        "name": "咒刃自身治疗值",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:37:59.875041Z"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_input",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "spellblade_damage_mstat2_formula1_input"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2510",
+          "name": "item_2510"
+        }
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_2510",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_2510",
+            "equipmentName": "黄昏与黎明",
+            "gameId": "lol",
+            "skillKey": "item_2510_passive",
+            "skillName": "黄昏与黎明·咒刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    }
+  ],
+  "actual": {
+    "subject": {
+      "createdAt": "2026-09-09T03:37:53.764993Z",
+      "description": "保留施放技能后下一次攻击的额外魔法伤害、治疗和额外攻击特效说明。伤害为0.75基础攻击力+0.1法强，自身治疗为0.1法强+0.03额外生命；属性口径已有同构建具名补证，攻击消费、重复攻击特效和治疗时点尚未接线。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "黄昏与黎明·咒刃",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_2510_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T04:49:44.755323Z"
+    },
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-09T03:37:54.585787Z",
+          "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃冷却",
+          "parameterKey": "spellblade_cooldown_ms",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:37:54.585787Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:55.362593Z",
+          "description": "当前SpellbladeDamage第一项mStat2/formula1，系数0.75；同构建具名补证确定为施法者基础攻击力。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃基础攻击力伤害系数",
+          "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T04:49:43.904073Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:56.85427Z",
+          "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃伤害第二缩放系数",
+          "parameterKey": "spellblade_damage_default_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:37:56.85427Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:57.691182Z",
+          "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃治疗第一缩放系数",
+          "parameterKey": "spellblade_healing_default_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:37:57.691182Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:58.409458Z",
+          "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃额外生命治疗系数",
+          "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:37:58.409458Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-09-09T03:37:59.081826Z",
+          "description": "0.75×施法者基础攻击力+0.1×施法者总法术强度。mStat2/formula1按同构建两类具名补证读取基础攻击力；实际下一次攻击消费仍待接线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_damage_mstat2_formula1_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BASE",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_damage_default_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "spellblade_damage_value",
+          "gameId": "lol",
+          "name": "咒刃额外魔法伤害值",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T04:49:42.970656Z"
+        },
+        {
+          "createdAt": "2026-09-09T03:37:59.875041Z",
+          "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_healing_default_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_healing_mstat12_formula2_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "spellblade_healing_value",
+          "gameId": "lol",
+          "name": "咒刃自身治疗值",
+          "skillKey": "item_2510_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:37:59.875041Z"
+        }
+      ],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "mathCases": [
+    {
+      "attrs": {
+        "SOURCE.attack_damage.BASE": 100,
+        "SOURCE.attack_damage.TOTAL": 300,
+        "SOURCE.attack_damage.BONUS": 200,
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "actual": 95,
+      "expected": 95
+    },
+    {
+      "attrs": {
+        "SOURCE.attack_damage.BASE": 80,
+        "SOURCE.attack_damage.TOTAL": 1000,
+        "SOURCE.attack_damage.BONUS": 920,
+        "SOURCE.ability_power.TOTAL": 0
+      },
+      "actual": 60,
+      "expected": 60
+    },
+    {
+      "attrs": {
+        "SOURCE.attack_damage.BASE": 120,
+        "SOURCE.attack_damage.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 0,
+        "SOURCE.ability_power.TOTAL": 300
+      },
+      "actual": 120,
+      "expected": 120
+    }
+  ],
+  "businessWrites": 0,
+  "passed": true
+}
