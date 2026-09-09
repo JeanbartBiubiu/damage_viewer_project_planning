@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T03:08:15.425Z",
+  "generatedAt": "2026-09-09T03:15:55.157Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1310,
+    "objectUses": 1322,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -132,10 +132,11 @@
     "runeIdentityUses": 69,
     "runePathUses": 5,
     "runeEvidence": "API实录/符文基础资料第一批/页面验收.json",
-    "additionalRuneSkillRepresentativeReuses": 17,
+    "additionalRuneSkillRepresentativeReuses": 29,
     "additionalRuneSkillEvidence": [
       "API实录/符文效果第一批/页面验收.json",
-      "API实录/符文效果第二批/页面验收.json"
+      "API实录/符文效果第二批/页面验收.json",
+      "API实录/符文效果第三批/页面验收.json"
     ]
   },
   "runes": {
@@ -151,7 +152,7 @@
     "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
     "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
     "runtimeValidation": "未执行",
-    "mechanismStatus": "17符文/碎片技能已挂载；已有确定参数、公式及独立效果，完整触发和其他来源缺口继续处理",
+    "mechanismStatus": "29符文/碎片技能已挂载；已有明确参数、公式和独立效果，完整资格/时序及其他来源缺口继续处理",
     "scopeReview": {
       "ordinaryRunes": 62,
       "within": 43,
@@ -1185,6 +1186,36 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/公式属性回补第一批/最终独立核对.json",
         "commit": "4dd9d05c"
       },
+      "runtimeValidation": "未执行"
+    },
+    "runeThirdBatch": {
+      "skills": [
+        "rune_8105_passive",
+        "rune_8106_passive",
+        "rune_8304_passive",
+        "rune_8352_passive",
+        "rune_8347_passive",
+        "rune_8410_passive",
+        "rune_8014_passive",
+        "rune_8017_passive",
+        "rune_8429_passive",
+        "rune_8444_passive",
+        "rune_8451_passive",
+        "rune_8234_passive"
+      ],
+      "parameters": 36,
+      "formulas": 14,
+      "effects": 3,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "runeRelations": 12,
+      "representativeImageReuses": 12,
+      "status": "77内容及挂载组成、12图片关联已保存；独立391GET及29实值算例通过，3个代表页面和32项页面后GET通过；完整资格和时序继续配置",
+      "executor": "Cursor首次候选路线连接重置后由Codex执行代理接手，主负责人审查边界及页面验收",
+      "evidence": "API实录/符文效果第三批/实际录入结果.json",
+      "browserEvidence": "API实录/符文效果第三批/页面验收.json",
+      "finalSha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
       "runtimeValidation": "未执行"
     }
   },

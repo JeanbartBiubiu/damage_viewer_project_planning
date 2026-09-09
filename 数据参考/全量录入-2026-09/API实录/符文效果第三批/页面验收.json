@@ -1,0 +1,695 @@
+{
+  "at": "2026-09-09T03:15:55.156Z",
+  "finalSha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "pages": [
+    {
+      "skillKey": "rune_8352_passive",
+      "verified": "0.4比例和同一药水总额度输入；剩余公式明确为总额度减去40%，代表图显示正常。"
+    },
+    {
+      "skillKey": "rune_8451_passive",
+      "verified": "每8单位加3、120门槛、0.035比例；完整档数为无默认整数，公式档数×3，不含纯空间1400参数；代表图显示正常。"
+    },
+    {
+      "skillKey": "rune_8429_passive",
+      "verified": "固定8护甲与8魔抗两独立效果，查看护甲说明明确12分钟和百分比流程尚未连接，无自动初始化；代表图正常。"
+    }
+  ],
+  "method": "主负责人真实页面查看与关闭全部弹窗，未保存草稿",
+  "independentGets": 32,
+  "reads": [
+    {
+      "route": "/skills/rune_8352_passive/parameters/instant_restore_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:27.131762Z",
+        "description": "同一瓶药水总额度的40%，不是额外增加40%。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "提前恢复额度比例",
+        "parameterKey": "instant_restore_ratio",
+        "skillKey": "rune_8352_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:27.131762Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8352_passive/parameters/confirmed_potion_total_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:28.077158Z",
+        "description": "必须来自本次合法消耗且与原药水持续治疗统一口径；不使用角色最大生命或任意药剂值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认药水总生命恢复额度",
+        "parameterKey": "confirmed_potion_total_heal",
+        "skillKey": "rune_8352_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:28.077158Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8352_passive/formulas/instant_potion_heal_budget",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:28.799796Z",
+        "description": "同一总额度的即时部分；没有创建DIRECT_HEAL效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_potion_total_heal"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "instant_restore_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "instant_potion_heal_budget",
+        "gameId": "lol",
+        "name": "提前恢复生命额度",
+        "skillKey": "rune_8352_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:28.799796Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8352_passive/formulas/remaining_potion_heal_budget",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:29.496809Z",
+        "description": "从原额度扣除即时部分，不能保留100%持续治疗后再加40%。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_potion_total_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_potion_total_heal"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "instant_restore_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "SUBTRACT"
+        },
+        "formulaKey": "remaining_potion_heal_budget",
+        "gameId": "lol",
+        "name": "剩余持续恢复额度",
+        "skillKey": "rune_8352_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:29.496809Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8352_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/rune_8352_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8352",
+          "name": "符文·时间扭曲补药"
+        }
+      }
+    },
+    {
+      "route": "/runes/rune_8352/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8352",
+          "name": "符文·时间扭曲补药"
+        }
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/units_per_tier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:03.839539Z",
+        "description": "野怪或小兵死亡进度，不能因为对线外对象而删除已获得进度。",
+        "fixedValue": 8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每档吸收单位数",
+        "parameterKey": "units_per_tier",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:58:03.839539Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/flat_health_per_tier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:04.58289Z",
+        "description": "普通模式每完成8个死亡进度增加3。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每档永久最大生命",
+        "parameterKey": "flat_health_per_tier",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:58:04.58289Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/threshold_units",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:05.230831Z",
+        "description": "普通模式吸收120个单位。",
+        "fixedValue": 120,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "比例增益吸收门槛",
+        "parameterKey": "threshold_units",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:58:05.230831Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/threshold_max_health_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:05.991058Z",
+        "description": "额外3.5%，精确基数及跨来源组合待核。",
+        "fixedValue": 0.035,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "门槛后最大生命比例",
+        "parameterKey": "threshold_max_health_ratio",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:58:05.991058Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/confirmed_completed_tiers",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:06.769642Z",
+        "description": "应由已确认吸收进度按每8个完成一档生产，当前公式无FLOOR；不把总单位数直接除8作为档数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认完成档数",
+        "parameterKey": "confirmed_completed_tiers",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:58:06.769642Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/confirmed_max_health_basis",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:07.563102Z",
+        "description": "只在已达到120门槛并核实组合时点后供值；不默认TOTAL已含或未含本符文。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认比例最大生命基数",
+        "parameterKey": "confirmed_max_health_basis",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T02:58:07.563102Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/formulas/permanent_flat_health",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:08.325202Z",
+        "description": "明确完成档数×3；不设任意最大层数，状态生产尚未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_completed_tiers"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_health_per_tier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "permanent_flat_health",
+        "gameId": "lol",
+        "name": "固定永久生命累计数值",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:58:08.325202Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/formulas/threshold_percent_health",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:58:09.509377Z",
+        "description": "仅独立数值，门槛与基数仍未绑定；不自动增加生命。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_max_health_basis"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "threshold_max_health_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "threshold_percent_health",
+        "gameId": "lol",
+        "name": "门槛后比例生命数值",
+        "skillKey": "rune_8451_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:58:09.509377Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/rune_8451_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8451",
+          "name": "符文·过度生长"
+        }
+      }
+    },
+    {
+      "route": "/runes/rune_8451/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8451",
+          "name": "符文·过度生长"
+        }
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/flat_armor",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:49.370892Z",
+        "description": "仅固定组成，不代表完整调节收益。",
+        "fixedValue": 8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "固定护甲",
+        "parameterKey": "flat_armor",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:49.370892Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/flat_magic_resistance",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:50.165849Z",
+        "description": "仅固定组成，不代表完整调节收益。",
+        "fixedValue": 8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "固定魔法抗性",
+        "parameterKey": "flat_magic_resistance",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:50.165849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/resistance_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:51.13564Z",
+        "description": "后续百分比组合不直接写入共用乘区。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "双抗提升比例",
+        "parameterKey": "resistance_ratio",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:57:51.13564Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/activation_game_time_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:51.93239Z",
+        "description": "普通模式本局12分钟后；不是来源初始化的延迟。",
+        "fixedValue": 720000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "激活游戏绝对时间",
+        "parameterKey": "activation_game_time_ms",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:57:51.93239Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/confirmed_armor_basis",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:52.804945Z",
+        "description": "原树ArmorCalcTooltip读取护甲；是否已含本符文固定/比例收益及其他来源的取值次序待核，不默认当前TOTAL。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认提示公式护甲基数",
+        "parameterKey": "confirmed_armor_basis",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T02:57:52.804945Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/parameters/confirmed_magic_resistance_basis",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:53.709815Z",
+        "description": "对应MagicResistCalcTooltip，精确取值和百分比组合次序待核。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认提示公式魔抗基数",
+        "parameterKey": "confirmed_magic_resistance_basis",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:57:53.709815Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/formulas/armor_tooltip_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:54.494029Z",
+        "description": "逐项对应同版本ArmorCalcTooltip；基数明确作为未绑定输入，不用自身已修改属性循环读取。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_armor"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_armor_basis"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "resistance_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "armor_tooltip_amount",
+        "gameId": "lol",
+        "name": "调节护甲提示数值",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:54.494029Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/formulas/magic_resistance_tooltip_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:55.331812Z",
+        "description": "仅提示数值，不能把它当成独立固定加算结果自动执行。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_magic_resistance"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_magic_resistance_basis"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "resistance_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_resistance_tooltip_amount",
+        "gameId": "lol",
+        "name": "调节魔抗提示数值",
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:55.331812Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/effects/flat_armor_component",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:56.340125Z",
+        "description": "仅已明确的+8固定组成；未连接12分钟条件和完整百分比流程，不能当作完整调节或单独自动初始化。",
+        "effectKey": "flat_armor_component",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "调节固定护甲组成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "调节固定护甲组成",
+            "resultKey": "attribute_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "flat_armor"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:56.340125Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/effects/flat_magic_resistance_component",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:57:57.141557Z",
+        "description": "仅已明确的+8固定组成；未来需与百分比部分按核实的顺序统一应用。",
+        "effectKey": "flat_magic_resistance_component",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "调节固定魔抗组成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "调节固定魔抗组成",
+            "resultKey": "attribute_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "flat_magic_resistance"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8429_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:57.141557Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8429_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/rune_8429_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8429",
+          "name": "符文·调节"
+        }
+      }
+    },
+    {
+      "route": "/runes/rune_8429/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8429",
+          "name": "符文·调节"
+        }
+      }
+    },
+    {
+      "route": "/skills/rune_8451_passive/parameters/absorption_range",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "absorption_range"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    }
+  ],
+  "success": true,
+  "runtimeValidation": "未执行"
+}

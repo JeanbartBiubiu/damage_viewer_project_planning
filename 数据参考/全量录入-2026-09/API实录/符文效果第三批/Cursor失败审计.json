@@ -1,0 +1,43 @@
+{
+  "at": "2026-09-09T02:27:36.987Z",
+  "runId": "run-861d107e-019b-4506-84b4-2605e494ac72",
+  "agentId": "agent-c887f909-9566-4504-8911-43218d5bf28f",
+  "actualModel": "grok-4.6",
+  "sdk": "1.0.24",
+  "effort": "high",
+  "fast": false,
+  "mode": "IMPLEMENTATION",
+  "exitCode": 1,
+  "completion": "未完成，未取得finished或最终运行审计",
+  "error": "ConnectError: [unknown] [aborted] read ECONNRESET，堆栈位于checkRepoBlocked/getTeamReposOrEmptyIfNotInTeam",
+  "events": 612,
+  "lastEventAt": "2026-09-09T02:13:27.238Z",
+  "inputChecks": [
+    {
+      "name": "冻结来源.json",
+      "unchanged": true
+    },
+    {
+      "name": "关联装备来源.json",
+      "unchanged": true
+    },
+    {
+      "name": "逐项机器清单.json",
+      "unchanged": true
+    },
+    {
+      "name": "当前目录.json",
+      "unchanged": true
+    },
+    {
+      "name": "下一批最多12项.json",
+      "unchanged": true
+    },
+    {
+      "name": "下一批候选.mjs",
+      "unchanged": true
+    }
+  ],
+  "outputFiles": [],
+  "decision": "输入文件未变、输出为空，主负责人接手候选；不把工具运行失败当业务录入失败，不重放同一实现运行"
+}
