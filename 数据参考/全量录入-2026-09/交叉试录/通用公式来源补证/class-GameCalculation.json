@@ -1,0 +1,140 @@
+{
+  "name": "GameCalculation",
+  "hash": "0xbc409284",
+  "interface": false,
+  "value": false,
+  "bases": [
+    "IGameCalculation"
+  ],
+  "since": null,
+  "removedIn": null,
+  "properties": [
+    {
+      "name": "mDisplayAsPercent",
+      "hash": "0x5a2297d3",
+      "ft": "Bool",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "defaultValue": "false",
+      "from": "GameCalculation"
+    },
+    {
+      "name": "mFormulaParts",
+      "hash": "0x50f145c0",
+      "ft": "List",
+      "kt": null,
+      "vt": "Pointer",
+      "kh": "0xb60012ce",
+      "khName": "IGameCalculationPart",
+      "khKind": "class",
+      "defaultValue": "[]",
+      "from": "GameCalculation"
+    },
+    {
+      "name": "mPrecision",
+      "hash": "0x08d47ee4",
+      "ft": "I32",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "defaultValue": "0",
+      "from": "GameCalculation"
+    },
+    {
+      "name": "DamageType",
+      "hash": "0x72c5c2a8",
+      "ft": "U32",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "since": "15.20",
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "ResultModifier",
+      "hash": "0x75a116d5",
+      "ft": "U8",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "StaticTooltipCalculationDisplay",
+      "hash": "0xe6eebb2f",
+      "ft": "U8",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "removedIn": "15.19",
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "mExpandedTooltipCalculationDisplay",
+      "hash": "0x37070a8d",
+      "ft": "U8",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "mMultiplier",
+      "hash": "0x2c77adff",
+      "ft": "Pointer",
+      "kt": null,
+      "vt": null,
+      "kh": "0xb60012ce",
+      "khName": "IGameCalculationPart",
+      "khKind": "class",
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "mSimpleTooltipCalculationDisplay",
+      "hash": "0xcbcac618",
+      "ft": "U8",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "from": "IGameCalculation"
+    },
+    {
+      "name": "tooltipOnly",
+      "hash": "0xd6b7a622",
+      "ft": "Bool",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "from": "IGameCalculation"
+    }
+  ],
+  "ancestorLevels": [
+    [
+      "IGameCalculation"
+    ]
+  ],
+  "descendantTree": [
+    {
+      "name": "0xe9a3c91d",
+      "children": []
+    }
+  ],
+  "flattened": true
+}
