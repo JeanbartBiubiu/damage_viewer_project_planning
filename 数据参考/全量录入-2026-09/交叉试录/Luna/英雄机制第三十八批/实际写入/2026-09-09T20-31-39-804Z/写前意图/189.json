@@ -1,0 +1,23 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "method": "POST",
+    "route": "/skills/kayle_r/parameters",
+    "detailRoute": "/skills/kayle_r/parameters/invulnerability_duration_ms",
+    "skillKey": "kayle_r",
+    "kind": "parameters",
+    "stableKey": "invulnerability_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "invulnerability_duration_ms",
+      "name": "圣裁之刻友方英雄无敌持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前InvulnDuration=2.5秒，转换为2500毫秒。友方英雄资格不由范围推断。",
+      "sortOrder": 40
+    }
+  }
+}

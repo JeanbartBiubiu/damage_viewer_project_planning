@@ -1,0 +1,23 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/armor_shred_duration_ms",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "armor_shred_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_shred_duration_ms",
+      "name": "巨龙撞击护甲削减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前Effect3Amount取索引1为3秒，转换为3000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

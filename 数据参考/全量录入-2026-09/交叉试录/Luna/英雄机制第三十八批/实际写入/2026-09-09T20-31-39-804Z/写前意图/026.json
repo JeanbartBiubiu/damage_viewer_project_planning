@@ -1,0 +1,23 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/behind_flag_check_distance",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "behind_flag_check_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "behind_flag_check_distance",
+      "name": "德邦军旗身后判定距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "当前来源几何判定值，保留为资料参数。",
+      "sortOrder": 20
+    }
+  }
+}

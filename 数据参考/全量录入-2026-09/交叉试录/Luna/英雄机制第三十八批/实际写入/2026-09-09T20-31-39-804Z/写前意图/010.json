@@ -1,0 +1,23 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/bonus_ad_ratio",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "巨龙撞击额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.45000005,
+      "levelValues": null,
+      "description": "TotalDamage的mStat=2、mStatFormula=2，按同版窄证读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

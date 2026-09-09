@@ -1,0 +1,45 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 89,
+    "method": "POST",
+    "route": "/skills/leesin_r/formulas",
+    "detailRoute": "/skills/leesin_r/formulas/physical_damage",
+    "skillKey": "leesin_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "猛龙摆尾主目标单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=BaseDamage+2×来源额外攻击力；碰撞目标的额外生命附加是另一目标分支。",
+      "sortOrder": 10
+    }
+  }
+}

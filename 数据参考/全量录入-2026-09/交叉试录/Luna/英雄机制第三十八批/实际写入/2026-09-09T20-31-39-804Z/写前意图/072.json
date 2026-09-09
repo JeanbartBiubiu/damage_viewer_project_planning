@@ -1,0 +1,45 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/leesin_w/formulas",
+    "detailRoute": "/skills/leesin_w/formulas/shield_value",
+    "skillKey": "leesin_w",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "金钟罩自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ShieldAmount=ShieldValue+0.8×来源总法术强度；友军英雄资格与自身目标分支由事件层接线。",
+      "sortOrder": 10
+    }
+  }
+}

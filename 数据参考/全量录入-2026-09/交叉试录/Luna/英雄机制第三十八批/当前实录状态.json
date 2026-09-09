@@ -1,0 +1,122 @@
+{
+  "at": "2026-09-09T20:45:59.160Z",
+  "batch": "英雄机制第三十八批",
+  "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+  "skills": [
+    "jarvaniv_p",
+    "jarvaniv_q",
+    "jarvaniv_w",
+    "jarvaniv_e",
+    "jarvaniv_r",
+    "leesin_p",
+    "leesin_q",
+    "leesin_w",
+    "leesin_e",
+    "leesin_r",
+    "skarner_p",
+    "skarner_q",
+    "skarner_w",
+    "skarner_e",
+    "skarner_r",
+    "kayle_p",
+    "kayle_q",
+    "kayle_w",
+    "kayle_e",
+    "kayle_r"
+  ],
+  "heroes": [
+    "JarvanIV",
+    "LeeSin",
+    "Skarner",
+    "Kayle"
+  ],
+  "newCounts": {
+    "parameters": 149,
+    "formulas": 25,
+    "effects": 19
+  },
+  "counts": {
+    "parameters": 174,
+    "formulas": 25,
+    "effects": 19
+  },
+  "created": 193,
+  "businessWrites": 193,
+  "reusedParameters": 25,
+  "currentTotalComponents": 218,
+  "candidateFile": "完整候选.json",
+  "candidateFileSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+  "writePlan": "写前请求计划.json",
+  "writePlanSha256": "90e673a8cc1f0475eb0bbf518e05f04168eb20f59c46a49e16ce4158532e319b",
+  "save": {
+    "GETs": 1216,
+    "POSTs": 193,
+    "confirmed": 193,
+    "file": "实际写入/2026-09-09T20-31-39-804Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 415,
+    "protectedPaths": 197,
+    "details": 218,
+    "reused": 25,
+    "new": 193,
+    "reader": "主负责人复用独立全字段只读脚本",
+    "file": "独立回读证据/实际回读/2026-09-09T20-36-51-739Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 25,
+    "cases": 50,
+    "missing": 32,
+    "sourceArrays": 29,
+    "newIntegerParameters": 96,
+    "integerParameters": 121,
+    "millisecondsParameters": 52,
+    "breakpoints": 2,
+    "semantics": 7,
+    "file": "实际数学证据/实际公式数学.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 5391,
+    "uniqueTools": 40,
+    "inputs": 22,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "军旗永久攻速移除8秒期限，李青Q补齐完整最高伤害、嘉文Q连旗750毫秒、斯卡纳Q三次攻击",
+    "来源生命阶段、额外目标排除及冲突施法在保存前修正",
+    "作者原Cursor审计按running/completed状态重复统计工具次数；主负责人补充审计去重为40次"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "仅显式移除仍显示持续时间固定值输入框",
+      "detail": "嘉文E真实详情中durationValue为空，页面仍选择固定数值并呈现空步进框。可访问性Value=0没有Details，不能据此判定数据库写入0。与此前芮尔案例相同，首轮后应隐藏或明确显示无需持续时间。"
+    },
+    {
+      "issue": "结果摘要显示原始属性标识",
+      "detail": "嘉文E摘要为bonus_attack_speed_percent，打开结果详情才显示中文额外攻击速度比例，应统一可读名称。"
+    },
+    {
+      "issue": "来源浮点尾差直接呈现在数值列表",
+      "detail": "李青0.9比例显示为0.89999998、其他比例有0.30000001。后续可改善展示格式，原始保存值和数学精度不可随显示任意改动。"
+    }
+  ],
+  "pending": [
+    "嘉文P与李青P纯加法角色等级断点完整保留原值，当前作者尚使用断点参数或实际输入，后续统一转角色等级取值",
+    "凯尔焰浪暴击属于单敌已知资格，倍率未证不得排除为范围外；与普通附伤衔接单列待接",
+    "自身军旗主动光环与凯尔W/R自身资格须在后续事件接线保留",
+    "凯尔E实际目标已损生命、斯卡纳P与Q目标最大生命，以及嘉文P目标当前生命只保留已知比例与待接，不能称完整战斗机制"
+  ],
+  "runtimeValidation": "未执行"
+}

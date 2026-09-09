@@ -1,0 +1,29 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/cooldown_ms",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "撼地基础冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8000,
+        "2": 6750,
+        "3": 5500,
+        "4": 4250,
+        "5": 3000
+      },
+      "description": "当前root.cooldownTime按技能等级取索引1至5；mDoesNotConsumeCooldown不覆盖实际基础冷却数据。",
+      "sortOrder": 5
+    }
+  }
+}

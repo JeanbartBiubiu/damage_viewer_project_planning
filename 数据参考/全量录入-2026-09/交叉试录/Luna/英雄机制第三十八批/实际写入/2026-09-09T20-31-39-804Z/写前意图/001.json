@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/jarvaniv_p/parameters",
+    "detailRoute": "/skills/jarvaniv_p/parameters/current_health_damage_ratio",
+    "skillKey": "jarvaniv_p",
+    "kind": "parameters",
+    "stableKey": "current_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_damage_ratio",
+      "name": "战争律动目标当前生命值伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.08,
+      "levelValues": null,
+      "description": "客户端当前根绑定TooltipCurrentHealthDamage取索引0；正文乘100后显示百分数。目标当前生命值和首次攻击触发由运行层提供。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/leesin_e/parameters",
+    "detailRoute": "/skills/leesin_e/parameters/slow_percent_points",
+    "skillKey": "leesin_e",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "摧筋断骨初始减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 45,
+        "3": 55,
+        "4": 65,
+        "5": 75
+      },
+      "description": "当前正文直接接SlowAmount百分号；技能等级索引1至5为35/45/55/65/75百分数点。",
+      "sortOrder": 10
+    }
+  }
+}

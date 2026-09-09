@@ -1,0 +1,29 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/base_damage",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "撼地强化攻击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 20,
+        "3": 30,
+        "4": 40,
+        "5": 50
+      },
+      "description": "客户端当前根绑定BaseDamage取技能等级索引1至5为10/20/30/40/50。",
+      "sortOrder": 10
+    }
+  }
+}

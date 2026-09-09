@@ -1,0 +1,45 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/leesin_e/formulas",
+    "detailRoute": "/skills/leesin_e/formulas/initial_magic_damage",
+    "skillKey": "leesin_e",
+    "kind": "formulas",
+    "stableKey": "initial_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_magic_damage",
+      "name": "天雷破首段单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前InitialDamage=E1Damage+0.9×来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

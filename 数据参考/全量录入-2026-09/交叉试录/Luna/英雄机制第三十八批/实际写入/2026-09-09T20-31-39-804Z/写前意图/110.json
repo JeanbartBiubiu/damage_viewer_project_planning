@@ -1,0 +1,29 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/base_damage",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "震地壁垒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "description": "客户端当前根绑定BaseDamage取技能等级索引1至5为50/70/90/110/130。",
+      "sortOrder": 10
+    }
+  }
+}

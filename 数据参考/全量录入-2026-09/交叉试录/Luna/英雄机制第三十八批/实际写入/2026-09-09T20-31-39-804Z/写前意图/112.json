@@ -1,0 +1,23 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/shield_stat12_ratio",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "shield_stat12_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_stat12_ratio",
+      "name": "震地壁垒自身护盾生命总值比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.08,
+      "levelValues": null,
+      "description": "InitialShield使用mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/kayle_q/parameters",
+    "detailRoute": "/skills/kayle_q/parameters/slow_percent_points",
+    "skillKey": "kayle_q",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "耀焰冲击减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 30,
+        "3": 35,
+        "4": 40,
+        "5": 45
+      },
+      "description": "当前正文直接接SlowPercent百分号；技能等级索引1至5为25/30/35/40/45。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/bonus_ad_ratio",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "以绪塔尔冲击撞墙额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.20000005,
+      "levelValues": null,
+      "description": "PinDamage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+      "sortOrder": 70
+    }
+  }
+}

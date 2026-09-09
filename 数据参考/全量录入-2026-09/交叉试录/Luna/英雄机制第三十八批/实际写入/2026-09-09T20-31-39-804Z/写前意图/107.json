@@ -1,0 +1,23 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/cast_time_ms",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "撼地根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "只记录根spellCastTime。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/jarvaniv_r/parameters",
+    "detailRoute": "/skills/jarvaniv_r/parameters/wall_duration_ms",
+    "skillKey": "jarvaniv_r",
+    "kind": "parameters",
+    "stableKey": "wall_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_duration_ms",
+      "name": "天崩地裂竞技场持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "当前WallDuration=3.5秒，转换为3500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

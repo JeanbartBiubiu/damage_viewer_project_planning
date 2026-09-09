@@ -1,0 +1,45 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "method": "POST",
+    "route": "/skills/kayle_w/formulas",
+    "detailRoute": "/skills/kayle_w/formulas/heal_value",
+    "skillKey": "kayle_w",
+    "kind": "formulas",
+    "stableKey": "heal_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "heal_value",
+      "name": "星界恩典单次基础治疗值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/attack_speed_per_stack_percent_points",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_per_stack_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_per_stack_percent_points",
+      "name": "登神长阶每层攻击速度百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前正文直接接EnrageTotalASPerStack百分号，计算树直接引用EnrageASPerStack。",
+      "sortOrder": 110
+    }
+  }
+}

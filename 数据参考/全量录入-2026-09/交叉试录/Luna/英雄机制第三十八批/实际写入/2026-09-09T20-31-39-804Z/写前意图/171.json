@@ -1,0 +1,29 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 171,
+    "method": "POST",
+    "route": "/skills/kayle_w/parameters",
+    "detailRoute": "/skills/kayle_w/parameters/haste_ratio",
+    "skillKey": "kayle_w",
+    "kind": "parameters",
+    "stableKey": "haste_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "haste_ratio",
+      "name": "星界恩典移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.23999999,
+        "2": 0.28,
+        "3": 0.31999999,
+        "4": 0.36000001,
+        "5": 0.40000001
+      },
+      "description": "当前正文直接接TotalHaste，计算树标记mDisplayAsPercent；保存技能等级1至5的0.24至0.40。",
+      "sortOrder": 30
+    }
+  }
+}

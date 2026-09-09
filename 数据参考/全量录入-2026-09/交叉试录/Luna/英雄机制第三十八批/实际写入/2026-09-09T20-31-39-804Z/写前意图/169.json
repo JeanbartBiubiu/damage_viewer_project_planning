@@ -1,0 +1,29 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "method": "POST",
+    "route": "/skills/kayle_w/parameters",
+    "detailRoute": "/skills/kayle_w/parameters/base_heal",
+    "skillKey": "kayle_w",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "星界恩典基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/leesin_e/parameters",
+    "detailRoute": "/skills/leesin_e/parameters/reactivate_window_ms",
+    "skillKey": "leesin_e",
+    "kind": "parameters",
+    "stableKey": "reactivate_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "reactivate_window_ms",
+      "name": "天雷破再次施放窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前ReactivateTime=3秒，转换为3000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

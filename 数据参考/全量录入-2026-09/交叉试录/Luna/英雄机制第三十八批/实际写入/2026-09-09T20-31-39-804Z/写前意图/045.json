@@ -1,0 +1,23 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/leesin_p/parameters",
+    "detailRoute": "/skills/leesin_p/parameters/energy_return_at_character_level",
+    "skillKey": "leesin_p",
+    "kind": "parameters",
+    "stableKey": "energy_return_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_return_at_character_level",
+      "name": "疾风骤雨第二次攻击当前等级能量回复",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "EnergyReturn为角色等级断点树；运行层提供当前角色等级实际值，不将断点线性展开。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/slow_ratio",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "撼地减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.40000001,
+      "levelValues": null,
+      "description": "正文将SlowPercent乘100显示；保存0.4比例。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/skarner_q/formulas",
+    "detailRoute": "/skills/skarner_q/formulas/ability_damage",
+    "skillKey": "skarner_q",
+    "kind": "formulas",
+    "stableKey": "ability_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ability_damage",
+      "name": "撼地强化攻击单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前AbilityDamage=BaseDamage+0.9×来源额外攻击力+0.03×来源额外生命；最后一次攻击的最大生命比例另行保存。",
+      "sortOrder": 10
+    }
+  }
+}

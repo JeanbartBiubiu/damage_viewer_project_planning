@@ -1,0 +1,67 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/skarner_e/formulas",
+    "detailRoute": "/skills/skarner_e/formulas/pin_physical_damage",
+    "skillKey": "skarner_e",
+    "kind": "formulas",
+    "stableKey": "pin_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "pin_physical_damage",
+      "name": "以绪塔尔冲击撞墙单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "pin_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "pin_stat12_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PinDamage=PinBaseDamage+1.2×来源额外攻击力+0.06×来源生命总值；只在拖拽后撞墙事件中成立。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/leesin_w/parameters",
+    "detailRoute": "/skills/leesin_w/parameters/shield_base",
+    "skillKey": "leesin_w",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "金钟罩基础护盾",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "description": "客户端当前根绑定ShieldValue取技能等级索引1至5为60/105/150/195/240，索引0的15为旧占位。",
+      "sortOrder": 10
+    }
+  }
+}

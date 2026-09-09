@@ -1,0 +1,23 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "method": "POST",
+    "route": "/skills/skarner_p/parameters",
+    "detailRoute": "/skills/skarner_p/parameters/percent_health_base_at_character_level",
+    "skillKey": "skarner_p",
+    "kind": "parameters",
+    "stableKey": "percent_health_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_health_base_at_character_level",
+      "name": "战栗最大生命伤害角色等级实际基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "PercentHealthDamage只有角色等级插值5至9；运行层提供当前角色等级实际基础值，不把端点线性展开。",
+      "sortOrder": 30
+    }
+  }
+}

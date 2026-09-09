@@ -1,0 +1,45 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/leesin_q/formulas",
+    "detailRoute": "/skills/leesin_q/formulas/recast_physical_damage",
+    "skillKey": "leesin_q",
+    "kind": "formulas",
+    "stableKey": "recast_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "recast_physical_damage",
+      "name": "回音击再施放单一敌人物理伤害基础项",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q2_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q2_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前RecastDamage=Q2BaseDamage+Q2ADRatio×来源额外攻击力；目标已损生命的中间曲线没有计算树。",
+      "sortOrder": 20
+    }
+  }
+}

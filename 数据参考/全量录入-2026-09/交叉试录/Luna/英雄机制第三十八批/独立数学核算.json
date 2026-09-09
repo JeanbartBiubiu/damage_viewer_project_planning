@@ -1,0 +1,1476 @@
+{
+  "generatedAt": "2026-09-09T20:24:12.863Z",
+  "batch": "第三十八批嘉文四世李青斯卡纳凯尔",
+  "revision": "hero38-source-v1-candidate",
+  "candidateFile": ".agents/artifacts/hero38-luna-candidate/完整候选.json",
+  "candidateFileSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+  "sourceBindingFile": ".agents/artifacts/hero38-root-entry-20260910/来源绑定与当前文本.json",
+  "sourceBindingSha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+  "inputVersionSha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+  "independentSourcePolicy": "实际值读取候选参数树；独立期望重新读取冻结来源绑定中的DataValues、效果数组和计算树，不读取候选固定值或候选等级数组作为期望。",
+  "counts": {
+    "skills": 20,
+    "formulas": 25,
+    "expectedFormulas": 25,
+    "formulaScenarios": 50,
+    "expectedScenarios": 50,
+    "missingFormulaChecks": 25,
+    "missingRejectedCases": 32,
+    "sourceParameterChecks": 29,
+    "integerParameterChecks": 96,
+    "runtimeParameters": 3,
+    "formulaValueNodes": 85,
+    "breakpointChecks": 2,
+    "semanticChecks": 7
+  },
+  "gates": {
+    "allBinaryOperations": true,
+    "actualCandidateParameterTree": true,
+    "independentRawSourceExpected": true,
+    "missingInputRejected": true,
+    "skillLevelAndIntegerBoundaries": true,
+    "forbiddenDirectResultTypesAbsent": true
+  },
+  "formulaResults": [
+    {
+      "skillKey": "jarvaniv_q",
+      "formulaKey": "physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 155.25000225000002,
+      "expected": 155.2500021457672,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_q",
+      "formulaKey": "physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 467.50000750000004,
+      "expected": 467.5000071525574,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 91.49999955,
+      "expected": 91.4999994635582,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 244.9999985,
+      "expected": 244.99999821186066,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "bonus_shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 23.4,
+      "expected": 23.400000482797623,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "bonus_shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 46.8,
+      "expected": 46.800000965595245,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "formulaKey": "magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 144.0000008,
+      "expected": 144.00000095367432,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "formulaKey": "magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 460.00000275,
+      "expected": 460.00000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "formulaKey": "physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 280.99999775,
+      "expected": 280.9999978542328,
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "formulaKey": "physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "actual": 719.9999925,
+      "expected": 719.9999928474426,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_p",
+      "formulaKey": "first_hit_energy_return",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 20,
+      "expected": 20,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_p",
+      "formulaKey": "first_hit_energy_return",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "actual": 30,
+      "expected": 30,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "initial_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 100.4999991,
+      "expected": 100.4999989271164,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "initial_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 314.999997,
+      "expected": 314.9999964237213,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "recast_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 100.4999991,
+      "expected": 100.4999989271164,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "recast_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 314.999997,
+      "expected": 314.9999964237213,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "empowered_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 200.9999982,
+      "expected": 200.9999978542328,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "empowered_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 629.999994,
+      "expected": 629.9999928474426,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 124.0000008,
+      "expected": 124.00000095367432,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 460.00000275,
+      "expected": 460.00000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_e",
+      "formulaKey": "initial_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 147.4999975,
+      "expected": 147.49999701976776,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_e",
+      "formulaKey": "initial_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 341.9999954,
+      "expected": 341.9999945163727,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_r",
+      "formulaKey": "physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 265,
+      "expected": 265,
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_r",
+      "formulaKey": "physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "actual": 925,
+      "expected": 925,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_p",
+      "formulaKey": "percent_health_damage_ratio",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 0.05,
+      "expected": 0.04999999888241291,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_p",
+      "formulaKey": "percent_health_damage_ratio",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "actual": 0.09,
+      "expected": 0.08999999798834324,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "formulaKey": "ability_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 65.4999991,
+      "expected": 65.49999859184027,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "formulaKey": "ability_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 220.999997,
+      "expected": 220.9999956190586,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 114.0000008,
+      "expected": 114.00000095367432,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 350.00000275,
+      "expected": 350.00000327825546,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 144,
+      "expected": 143.99999678134918,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 288,
+      "expected": 287.99999356269836,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_e",
+      "formulaKey": "pin_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 192.00000225,
+      "expected": 191.9999997317791,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_e",
+      "formulaKey": "pin_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 546.0000075,
+      "expected": 546.0000023245811,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_r",
+      "formulaKey": "magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 230,
+      "expected": 230,
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_r",
+      "formulaKey": "magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "actual": 625,
+      "expected": 625,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_p",
+      "formulaKey": "passive_wave_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 44.5,
+      "expected": 44.500000067055225,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_p",
+      "formulaKey": "passive_wave_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "actual": 121.75,
+      "expected": 121.75000022351742,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_q",
+      "formulaKey": "magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 127.0000009,
+      "expected": 127.0000010728836,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_q",
+      "formulaKey": "magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 407.500003,
+      "expected": 407.5000035762787,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "heal_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 75,
+      "expected": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "heal_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 223.75,
+      "expected": 223.75,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "haste_ratio",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 0.30399999,
+      "expected": 0.303999993018806,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "haste_ratio",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 0.62000001,
+      "expected": 0.620000000402797,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "passive_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 35.5,
+      "expected": 35.500000305473804,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "passive_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 105,
+      "expected": 105.00000104308128,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "active_execute_ratio",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 0.092,
+      "expected": 0.09199999767541886,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "active_execute_ratio",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "actual": 0.14125000000000001,
+      "expected": 0.14124999592080714,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_r",
+      "formulaKey": "magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "actual": 300.9999992,
+      "expected": 300.9999990463257,
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_r",
+      "formulaKey": "magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "actual": 742.49999725,
+      "expected": 742.4999967217445,
+      "passed": true
+    }
+  ],
+  "missingResults": [
+    {
+      "skillKey": "jarvaniv_q",
+      "formulaKey": "physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "shield_value",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "formulaKey": "bonus_shield_value",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "hp:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "formulaKey": "magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "formulaKey": "physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_p",
+      "formulaKey": "first_hit_energy_return",
+      "missing": [
+        {
+          "kind": "RUNTIME_INPUT",
+          "key": "energy_return_at_character_level"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "initial_physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "recast_physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "formulaKey": "empowered_physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_w",
+      "formulaKey": "shield_value",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_e",
+      "formulaKey": "initial_magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_r",
+      "formulaKey": "physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_p",
+      "formulaKey": "percent_health_damage_ratio",
+      "missing": [
+        {
+          "kind": "RUNTIME_INPUT",
+          "key": "percent_health_base_at_character_level"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "formulaKey": "ability_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "hp:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "formulaKey": "shield_value",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "hp:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_e",
+      "formulaKey": "pin_physical_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "hp:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_r",
+      "formulaKey": "magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_p",
+      "formulaKey": "passive_wave_magic_damage",
+      "missing": [
+        {
+          "kind": "RUNTIME_INPUT",
+          "key": "passive_wave_base_at_character_level"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_q",
+      "formulaKey": "magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "heal_value",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "formulaKey": "haste_ratio",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "passive_magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "formulaKey": "active_execute_ratio",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_r",
+      "formulaKey": "magic_damage",
+      "missing": [
+        {
+          "kind": "ATTRIBUTE",
+          "key": "ability_power:TOTAL"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "key": "attack_damage:BONUS"
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "sourceParameterResults": [
+    {
+      "skillKey": "jarvaniv_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        90,
+        130,
+        170,
+        210,
+        250
+      ],
+      "expected": [
+        90,
+        130,
+        170,
+        210,
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_q",
+      "parameterKey": "armor_shred_ratio",
+      "sourceName": "BaseARShred",
+      "sourceStart": 1,
+      "actual": [
+        0.1,
+        0.14,
+        0.18000001,
+        0.22,
+        0.25999999
+      ],
+      "expected": [
+        0.10000000149011612,
+        0.14000000059604645,
+        0.18000000715255737,
+        0.2199999988079071,
+        0.25999999046325684
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "parameterKey": "shield_base",
+      "sourceName": 0,
+      "sourceStart": 1,
+      "actual": [
+        60,
+        80,
+        100,
+        120,
+        140
+      ],
+      "expected": [
+        60,
+        80,
+        100,
+        120,
+        140
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "parameterKey": "slow_ratio",
+      "sourceName": "BaseSlowAmount",
+      "sourceStart": 1,
+      "actual": [
+        0.15000001,
+        0.2,
+        0.25,
+        0.30000001,
+        0.34999999
+      ],
+      "expected": [
+        0.15000000596046448,
+        0.20000000298023224,
+        0.25,
+        0.30000001192092896,
+        0.3499999940395355
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "parameterKey": "self_attack_speed_ratio",
+      "sourceName": "PermanentAttackSpeed",
+      "sourceStart": 1,
+      "actual": [
+        0.2,
+        0.22499999,
+        0.25,
+        0.27500001,
+        0.30000001
+      ],
+      "expected": [
+        0.20000000298023224,
+        0.22499999403953552,
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "parameterKey": "ally_attack_speed_ratio",
+      "sourceName": "BaseAuraAS",
+      "sourceStart": 1,
+      "actual": [
+        0.2,
+        0.22499999,
+        0.25,
+        0.27500001,
+        0.30000001
+      ],
+      "expected": [
+        0.20000000298023224,
+        0.22499999403953552,
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "parameterKey": "base_magic_damage",
+      "sourceName": 1,
+      "sourceStart": 1,
+      "actual": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "expected": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        200,
+        325,
+        450
+      ],
+      "expected": [
+        200,
+        325,
+        450
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "parameterKey": "q1_base_damage",
+      "sourceName": "Q1BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "expected": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_q",
+      "parameterKey": "q2_base_damage",
+      "sourceName": "Q2BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "expected": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_w",
+      "parameterKey": "shield_base",
+      "sourceName": "ShieldValue",
+      "sourceStart": 1,
+      "actual": [
+        60,
+        105,
+        150,
+        195,
+        240
+      ],
+      "expected": [
+        60,
+        105,
+        150,
+        195,
+        240
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_w",
+      "parameterKey": "omnivamp_ratio",
+      "sourceName": "LifestealAndSpellVamp",
+      "sourceStart": 1,
+      "actual": [
+        0.1,
+        0.14,
+        0.18,
+        0.22,
+        0.26
+      ],
+      "expected": [
+        0.1,
+        0.14,
+        0.18,
+        0.22,
+        0.26
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_e",
+      "parameterKey": "slow_percent_points",
+      "sourceName": "SlowAmount",
+      "sourceStart": 1,
+      "actual": [
+        35,
+        45,
+        55,
+        65,
+        75
+      ],
+      "expected": [
+        35,
+        45,
+        55,
+        65,
+        75
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_e",
+      "parameterKey": "base_magic_damage",
+      "sourceName": "E1Damage",
+      "sourceStart": 1,
+      "actual": [
+        35,
+        60,
+        85,
+        110,
+        135
+      ],
+      "expected": [
+        35,
+        60,
+        85,
+        110,
+        135
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leesin_r",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        175,
+        400,
+        625
+      ],
+      "expected": [
+        175,
+        400,
+        625
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "parameterKey": "cooldown_ms",
+      "sourceName": "cooldownTime",
+      "sourceStart": 1,
+      "actual": [
+        8000,
+        6750,
+        5500,
+        4250,
+        3000
+      ],
+      "expected": [
+        8000,
+        6750,
+        5500,
+        4250,
+        3000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "expected": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_q",
+      "parameterKey": "attack_speed_ratio",
+      "sourceName": "AttackSpeed",
+      "sourceStart": 1,
+      "actual": [
+        0.2,
+        0.25,
+        0.30000001,
+        0.34999999,
+        0.40000001
+      ],
+      "expected": [
+        0.20000000298023224,
+        0.25,
+        0.30000001192092896,
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_w",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        50,
+        70,
+        90,
+        110,
+        130
+      ],
+      "expected": [
+        50,
+        70,
+        90,
+        110,
+        130
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_e",
+      "parameterKey": "pin_base_damage",
+      "sourceName": "PinBaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        30,
+        60,
+        90,
+        120,
+        150
+      ],
+      "expected": [
+        30,
+        60,
+        90,
+        120,
+        150
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "skarner_r",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "sourceStart": 1,
+      "actual": [
+        150,
+        250,
+        350
+      ],
+      "expected": [
+        150,
+        250,
+        350
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_q",
+      "parameterKey": "base_damage",
+      "sourceName": "Damage",
+      "sourceStart": 1,
+      "actual": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "expected": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_q",
+      "parameterKey": "slow_percent_points",
+      "sourceName": "SlowPercent",
+      "sourceStart": 1,
+      "actual": [
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "expected": [
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "parameterKey": "base_heal",
+      "sourceName": "Heal",
+      "sourceStart": 1,
+      "actual": [
+        55,
+        80,
+        105,
+        130,
+        155
+      ],
+      "expected": [
+        55,
+        80,
+        105,
+        130,
+        155
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_w",
+      "parameterKey": "haste_ratio",
+      "sourceName": "Haste",
+      "sourceStart": 1,
+      "actual": [
+        0.23999999,
+        0.28,
+        0.31999999,
+        0.36000001,
+        0.40000001
+      ],
+      "expected": [
+        0.23999999463558197,
+        0.2800000011920929,
+        0.3199999928474426,
+        0.36000001430511475,
+        0.4000000059604645
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "parameterKey": "passive_base_damage",
+      "sourceName": "PassiveDamage",
+      "sourceStart": 1,
+      "actual": [
+        15,
+        20,
+        25,
+        30,
+        35
+      ],
+      "expected": [
+        15,
+        20,
+        25,
+        30,
+        35
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_e",
+      "parameterKey": "active_execute_percent_points",
+      "sourceName": "ActiveExecutePercent",
+      "sourceStart": 1,
+      "actual": [
+        8,
+        8.5,
+        9,
+        9.5,
+        10
+      ],
+      "expected": [
+        8,
+        8.5,
+        9,
+        9.5,
+        10
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_r",
+      "parameterKey": "base_damage",
+      "sourceName": "Damage",
+      "sourceStart": 1,
+      "actual": [
+        200,
+        300,
+        400
+      ],
+      "expected": [
+        200,
+        300,
+        400
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kayle_r",
+      "parameterKey": "aoe_radius",
+      "sourceName": "AoERadius",
+      "sourceStart": 1,
+      "actual": [
+        675,
+        675,
+        775
+      ],
+      "expected": [
+        675,
+        675,
+        775
+      ],
+      "passed": true
+    }
+  ],
+  "breakpointChecks": [
+    {
+      "skillKey": "jarvaniv_p",
+      "sourceName": "TooltipCooldown",
+      "levels": [
+        1,
+        6,
+        11,
+        16
+      ],
+      "expected": [
+        6,
+        5,
+        4,
+        3
+      ],
+      "actual": [
+        6,
+        5,
+        4,
+        3
+      ]
+    },
+    {
+      "skillKey": "leesin_p",
+      "sourceName": "EnergyReturn",
+      "levels": [
+        1,
+        7,
+        13
+      ],
+      "expected": [
+        10,
+        15,
+        20
+      ],
+      "actual": [
+        10,
+        15,
+        20
+      ]
+    }
+  ],
+  "semanticChecks": [
+    {
+      "name": "jarvaniv_e自身攻速为持久生命周期",
+      "passed": true
+    },
+    {
+      "name": "jarvaniv_q保留连接击飞750毫秒",
+      "passed": true
+    },
+    {
+      "name": "leesin_r未写入碰撞额外生命参数",
+      "passed": true
+    },
+    {
+      "name": "kayle_q未写入冲突CastDelay",
+      "passed": true
+    },
+    {
+      "name": "kayle_e未写入额外敌人爆炸半径",
+      "passed": true
+    },
+    {
+      "name": "skarner_q记录下3次强化攻击",
+      "passed": true
+    },
+    {
+      "name": "mStat12窄映射节点明确",
+      "passed": true
+    }
+  ],
+  "runtimeParameters": [
+    {
+      "skillKey": "leesin_p",
+      "parameterKey": "energy_return_at_character_level",
+      "fixedValue": null,
+      "levelValues": null
+    },
+    {
+      "skillKey": "skarner_p",
+      "parameterKey": "percent_health_base_at_character_level",
+      "fixedValue": null,
+      "levelValues": null
+    },
+    {
+      "skillKey": "kayle_p",
+      "parameterKey": "passive_wave_base_at_character_level",
+      "fixedValue": null,
+      "levelValues": null
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,23 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/damage_ap_ratio",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_ap_ratio",
+      "name": "震地壁垒法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "Damage的StatByNamedDataValue使用DamageAPRatio，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

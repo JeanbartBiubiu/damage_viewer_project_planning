@@ -1,0 +1,29 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/active_execute_percent_points",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "active_execute_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_execute_percent_points",
+      "name": "星火符刃主动已损生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8,
+        "2": 8.5,
+        "3": 9,
+        "4": 9.5,
+        "5": 10
+      },
+      "description": "当前ActiveTotalExecuteDamage树使用百分数点数组，取技能等级索引1至5为8/8.5/9/9.5/10。",
+      "sortOrder": 20
+    }
+  }
+}

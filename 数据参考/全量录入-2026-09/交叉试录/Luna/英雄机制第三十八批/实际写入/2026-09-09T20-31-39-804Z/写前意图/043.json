@@ -1,0 +1,23 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/leesin_p/parameters",
+    "detailRoute": "/skills/leesin_p/parameters/empowered_attack_count",
+    "skillKey": "leesin_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_count",
+      "name": "疾风骤雨强化攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确一次技能后的下两次攻击获得效果。",
+      "sortOrder": 10
+    }
+  }
+}

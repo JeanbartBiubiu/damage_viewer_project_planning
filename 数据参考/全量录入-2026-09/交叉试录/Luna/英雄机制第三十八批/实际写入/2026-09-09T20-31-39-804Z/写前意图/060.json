@@ -1,0 +1,29 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/leesin_q/parameters",
+    "detailRoute": "/skills/leesin_q/parameters/energy_cost",
+    "skillKey": "leesin_q",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "天音波能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 50,
+        "3": 50,
+        "4": 50,
+        "5": 50
+      },
+      "description": "当前英雄资源为能量；冻结官方成本等级1至5均为50，本参数不与法力字段混用。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/knock_up_radius",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "knock_up_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knock_up_radius",
+      "name": "德邦军旗击飞范围半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 180,
+      "levelValues": null,
+      "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+      "sortOrder": 30
+    }
+  }
+}

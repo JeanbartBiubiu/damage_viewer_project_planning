@@ -1,0 +1,23 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/max_stack_count",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "max_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stack_count",
+      "name": "登神长阶攻击层数上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前正文明确最大5层。",
+      "sortOrder": 90
+    }
+  }
+}

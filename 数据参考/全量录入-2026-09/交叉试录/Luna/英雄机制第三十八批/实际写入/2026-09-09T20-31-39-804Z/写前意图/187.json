@@ -1,0 +1,23 @@
+{
+  "i": 186,
+  "intent": {
+    "sequence": 187,
+    "method": "POST",
+    "route": "/skills/kayle_r/parameters",
+    "detailRoute": "/skills/kayle_r/parameters/ap_ratio",
+    "skillKey": "kayle_r",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "圣裁之刻法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.69999999,
+      "levelValues": null,
+      "description": "TotalDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

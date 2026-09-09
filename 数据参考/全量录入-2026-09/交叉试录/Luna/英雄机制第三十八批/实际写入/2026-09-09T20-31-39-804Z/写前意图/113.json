@@ -1,0 +1,23 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/shield_duration_ms",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "震地壁垒护盾持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前ShieldDuration=2.5秒，转换为2500毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

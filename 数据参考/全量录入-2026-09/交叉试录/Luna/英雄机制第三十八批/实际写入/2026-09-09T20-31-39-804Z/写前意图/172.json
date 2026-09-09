@@ -1,0 +1,23 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "method": "POST",
+    "route": "/skills/kayle_w/parameters",
+    "detailRoute": "/skills/kayle_w/parameters/haste_ap_ratio",
+    "skillKey": "kayle_w",
+    "kind": "parameters",
+    "stableKey": "haste_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "haste_ap_ratio",
+      "name": "星界恩典法术强度移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0008,
+      "levelValues": null,
+      "description": "TotalHaste第二项为0.0008×来源总法术强度，结果按百分比显示。",
+      "sortOrder": 40
+    }
+  }
+}

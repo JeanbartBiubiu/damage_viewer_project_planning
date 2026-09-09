@@ -1,0 +1,29 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "method": "POST",
+    "route": "/skills/kayle_q/parameters",
+    "detailRoute": "/skills/kayle_q/parameters/base_damage",
+    "skillKey": "kayle_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "耀焰冲击基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "客户端当前根绑定Damage取技能等级索引1至5为60/90/120/150/180。",
+      "sortOrder": 10
+    }
+  }
+}

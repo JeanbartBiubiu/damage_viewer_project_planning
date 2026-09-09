@@ -1,0 +1,23 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "method": "POST",
+    "route": "/skills/kayle_w/parameters",
+    "detailRoute": "/skills/kayle_w/parameters/heal_ap_ratio",
+    "skillKey": "kayle_w",
+    "kind": "parameters",
+    "stableKey": "heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_ap_ratio",
+      "name": "星界恩典法术强度治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

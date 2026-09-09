@@ -1,0 +1,45 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/leesin_e/effects",
+    "detailRoute": "/skills/leesin_e/effects/energy_cost",
+    "skillKey": "leesin_e",
+    "kind": "effects",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "energy_cost",
+      "name": "施放能量消耗",
+      "description": "李青使用能量资源；当前公共复用清单没有能量消耗，本候选新增意图仅记录基础消耗。",
+      "sortOrder": 900,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "consume_resource",
+          "name": "施放能量消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  }
+}

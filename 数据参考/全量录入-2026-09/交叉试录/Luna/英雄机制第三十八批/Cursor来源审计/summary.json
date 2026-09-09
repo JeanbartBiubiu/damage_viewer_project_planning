@@ -1,0 +1,728 @@
+{
+  "startedAt": "2026-09-09T19:37:32.019Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910",
+  "promptSource": "hero38-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 3,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-f15100b5-abbb-42fa-8334-2bd1e21ff474",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 388,
+    "assistant": 4920,
+    "tool_call": 80,
+    "usage": 1
+  },
+  "assistantText": "先只读冻结输入包，核对嘉文四世、李青、斯卡纳、凯尔的根绑定、正文、数值与官方数组，不写文件、不跑命令。客户端原文是 gzip，先读来源绑定、保护快照和官方中英文，再核对各槽根绑定。gzip 原文读不了，改为在绑定文件里按技能槽检索 DataValues、计算树和正文。嘉文四世 Q 的计算树已看到，接着把其余槽位的 DataValues、计算树和正文读完。VERDICT: READY\nREVIEWED_PLAN_REV: hero38-source-v1\n\n冻结包版本、20 槽根绑定、197 次保护 GET 与 25 项公共参数复用一致：客户端 16.17（`contentVersion` 16.17.8104348）、官方 16.17.1；嘉文四世/李青/斯卡纳/凯尔均沿角色根 `mCharacterPassiveSpell` 与 QWER 四条实际引用，未借用他槽。李青 `resourceType`/`partype` 为能量，保护快照已有 `energy` 属性，且复用清单不含李青 `mana_cost`。gzip 原文无法在本只读环境展开，核对以 `来源绑定与当前文本.json` 中的解压对象为准，压缩散列与输入版本一致。\n\n## 选择器与计算树（全英雄共用）\n\n- **mStat=2 且 mStatFormula=2**：同版窄证是额外攻击力（Draven R / Caitlyn R），不是总攻击力。本批显式 2/2 节点：嘉文 Q `TotalDamage` 1.45、W `TotalShield` 0.7、R `DamageCalc` 1.8；李青 Q 两段 `Q1ADRatio`/`Q2ADRatio`、R `Damage` 系数 2；斯卡纳 Q `ADRatio` 0.9、E `ADRatio` 1.2；凯尔 P 焰浪 `PassiveWaveBonusADRatio` 0.1、Q 0.6、E 被动 0.1、R 1.0。\n- **mStat=2 且省略 mStatFormula**（构造默认 0）：同版窄证为总攻击力。本批仅李青 E `InitialDamage` 系数 0.9，以及凯尔 E 哈希树 `{266027bf}`（正文未引用）。\n- **省略 mStat/mStatFormula**：同版窄证为法强。本批：嘉文 E `APRatio` 0.8；李青 W `ShieldAmount` 0.8；斯卡纳 W `DamageAPRatio` 0.8、R 系数 1；凯尔 P `PassiveWaveAPRatio` 0.25、Q 0.5、W 治疗 0.25 / 移速 0.0008、E 被动 0.2 与主动 0.015、R 0.7。\n- **mStat=12**（含 12/2）：无同版属性枚举证，只能作运行输入，不得写成生命值固定公式。节点：嘉文 W `BonusShield` 系数 0.013；斯卡纳 Q `BonusHealthRatio` 0.03（12/2）、W `InitialShieldRatio` 0.08、E `PinDamageRatio` 0.06。\n- **mMultiplier / GameCalculationModified**：李青 P `TTFirstHitEnergy` 以 `FirstHitEnergyMult=2` 修改 `EnergyReturn`；李青 Q `EmpoweredDamage` 以常数 2 修改 `RecastDamage` 且 **`tooltipOnly: true`**。不得把修改树当成另一套实伤，也不得把倍率再乘一遍根字段 `mCoefficient2`。\n- **mDisplayAsPercent / mPrecision / mMultiplier 叠用**：斯卡纳 P `PercentHealthDamage`（插值 5→9、`mMultiplier≈0.01`、`mDisplayAsPercent`、`mPrecision=1`）；凯尔 W `TotalHaste`、E `ActiveTotalExecuteDamage`（`mMultiplier≈0.01` + `mDisplayAsPercent`）。不得用显示精度反推实际值，也不得自行决定先乘 0.01 再百分比。\n- **三项 mFormulaParts**：接口样例以 ADD 连接；本包无求值器证明。可按加法候选，不得另加乘、夹、分段。命中：斯卡纳 Q/E，凯尔 P/Q/E/R。\n- **ByCharLevelBreakpoints / Interpolation**：不得展开成 1–18 固定曲线。嘉文 P `TooltipCooldown`（1 级 6，6/11/16 各 −1）；李青 P `EnergyReturn`（1 级 10，7/13 各 +5）；凯尔 P 焰浪基础（1 级 20，12 级起 `mBonusPerLevelAtAndAfter=3`）；斯卡纳 P 两段插值。\n- 数组惯例（与样例一致，不得用显示精度改源值）：技能等级 DataValues / `cooldownTime` 取索引 1 起至 `maxRank`；法力/能量 `mana` 取索引 0 起至 `maxRank`；官方数组索引 0=1 级。末尾占位必须丢掉（嘉文 R 冷却 `[0,120,105,90,8,5,0]` 只取 120/105/90；李青 R 冷却索引 0 的 100 丢掉；凯尔 E 冷却末位 8、Q 冷却末位 7 丢掉）。\n\n## 嘉文四世\n\n**可录**\n- P：当前生命值比例来自 `TooltipCurrentHealthDamage≈0.08`（正文 `*100@%`）；非英雄最小/最大 20/400 只在扩展正文；同一目标间隔是角色等级断点树，不是技能等级。\n- Q：根 `JarvanIVDragonStrike`，施法 0.25s；冷却索引 1–5 与官方 10/9/8/7/6 一致；法力索引 0–4 与官方 45–65 一致。`TotalDamage`= `BaseDamage` 索引 1–5（90/130/170/210/250）+ 1.45×额外 AD。护甲削减 `BaseARShred` 索引 1–5（0.10–0.26），正文 `*100@%`。削减持续 `Effect3Amount=3` 秒。连线击飞 0.75 秒是 Q 正文字面量。\n- W：施法 0.125s；冷却 9、法力 30。自身护盾 `TotalShield`= `mEffectAmount[0]` 索引 1–5（60–140）+ 0.7×额外 AD。每命中敌方英雄额外护盾是 `BonusShield`（mStat=12×0.013，运行输入）。附近减速 `BaseSlowAmount` 索引 1–5（0.15–0.35），持续 `Effect5Amount=2` 秒。\n- E：施法 0.25s。被动自身攻速 `PermanentAttackSpeed` 与主动附近友军攻速 `BaseAuraAS` 数值相同（索引 1–5 约 0.20–0.30）但必须分列。落旗伤害 `TotalDamage`= `mEffectAmount[1]` 索引 1–5（80–240）+ 0.8×法强。光环持续 `Effect4Amount=8` 秒。\n- R：施法 0.25s。选中敌方英雄伤害 `DamageCalc`= `BaseDamage` 索引 1–3（200/325/450）+ 1.8×额外 AD。竞技场持续 `WallDuration=3.5` 秒。冷却/法力与官方 120/105/90、100 一致。\n\n**应排除**\n- 官方 `effect[]` 旧数组（Q 80–240、E 被动 10–22 等）不得覆盖 DataValues/计算树。\n- Q 的 `SWIFTPLAY`、E 的 `cherry` APRatio、全部 `BotData`、音频、指示器。\n- E 的 `castRange=25000`；显示距离用 `castRangeDisplayOverride=860`。\n- R 冷却尾部 8/5/0 与索引 0 的 0。\n\n**待核 / 会写错数的点**\n- P 伤害树只有比例 DataValue，没有当前生命值属性节点；当前生命值只能运行输入。`TooltipCooldown` 无 `tooltipOnly`，但也无求值循环证，不能写成 6/5/4/3 固定四级。\n- 连线位移速度/判定在 **E** 的 `EDashSpeed=1400`、`EKnockUpAoE=180`、`EBehindJarvanCheck=400`，Q 正文未引用，不能塞进 Q 伤害公式。\n- W 护盾持续 `Effect4Amount=4` 秒未进当前 tooltip，不能当已证持续。\n- R 正文对主目标与周围敌人用同一 `@DamageCalc@`，额外敌人落地伤害必须单列，不能因同树合并。`mRequiredUnitTags` 不能自行解成任意单位。\n\n## 李青\n\n**可录**\n- P：一次技能后的下两次攻击。攻速 `PassiveAS=40`（正文已是百分数点）。第二次能量 `@EnergyReturn@`，第一次 `@TTFirstHitEnergy@`（EnergyReturn 的 Modified×2），不可合并。\n- Q：同一槽两段。首段 `InitialDamage`、再施放下限 `RecastDamage` 均为 `Q1/Q2BaseDamage` 索引 1–5（60–180）+ 0.9×额外 AD。再施放窗口 3 秒。冷却索引 1–5 与官方 10/9/8/7/6 一致。消耗 50 是能量，须写能量消耗。\n- W：自身护盾 `ShieldAmount`= `ShieldValue` 索引 1–5（60–240）+ 0.8×法强，持续 2 秒。铁布衫全能吸血 `LifestealAndSpellVamp` 索引 1–5（10–26）% 仅自身，持续 4 秒。无 `spellCastTime`。\n- E：初段 `InitialDamage`= `E1Damage` 索引 1–5（35–135）+ **0.9×总 AD**（省略 formula）。减速 `SlowAmount` 索引 1–5（35–75）与衰减持续 4 秒分开；显形也引用同一 `SlowDuration`。\n- R：无消耗。主目标 `Damage`= `BaseDamage` 索引 1–3（175/400/625）+ 2×额外 AD。击退距离 `KickDistance=800`。施法时间内禁锢只在扩展正文。冷却索引 1–3 与官方 110/85/60 一致。\n\n**应排除**\n- `EmpoweredDamage`（tooltipOnly）、`CherryBonusHaste`、cherry/SWIFTPLAY、BotData、哈希 Bot 树。\n- `W1CooldownRecovered=0.5`、`Q2MaxMissingHealthMod=1` 均未进入计算树或当前 tooltip。\n- 根字段 `mana` 对李青不是法力；不得复用或新写 `mana_cost`。\n\n**待核 / 会写错数的点**\n- 回音击已损生命：正文是 `@RecastDamage@` 到 `@EmpoweredDamage@`，后者只是 RecastDamage×2 的 tooltip 树，没有缺失生命属性节点。不能编线性插值或 `Q2MaxMissingHealthMod` 公式。\n- W 概要写自身始终有盾、友军英雄额外获得；tooltip 写仅当目标友军是英雄时才为自己和该友军提供盾。友军资格以 tooltip 为准分列，不能按概要给守卫冲刺也套盾。\n- 摧筋断骨“持续衰减”无衰减曲线，只能录初始减速与持续。\n- R 额外英雄：`@Damage@` + 初始目标 `@PercentHPCarryThrough@%` 额外生命（索引 1–3 为 12/15/18 百分数点）。无计算树，额外生命只能运行输入；碰撞伤害/击飞必须作为额外目标分支，不能与主目标击退合并。\n\n## 斯卡纳\n\n**可录**\n- P：3 层、持续 4 秒。满层期间最大生命值魔法伤害是 `PercentHealthDamage` 树（角色等级插值，显示为百分比）。野怪上限 `DamageMonsterCap` 单列（插值 100→300）。\n- Q：三次强化攻击伤害 `AbilityDamage`= `BaseDamage` 索引 1–5（10–50）+ 0.9×额外 AD + 0.03×（mStat=12 且 formula=2，运行输入）。最后一次额外 `MaxHPPercent≈0.11` 与减速 40%/1 秒分开。投掷对首个敌人用同一伤害树 + 最大生命值百分比 + 减速；周围其余敌人必须另列。野怪百分比生命上限 `MonsterDamageCap` 索引 1–5（150–350）单列。冷却 8/6.75/5.5/4.25/3，法力 30。施法约 0.35s。\n- W：自身护盾 `InitialShield`（8%×mStat=12，运行输入），持续 2.5 秒。附近伤害 `Damage`= `BaseDamage` 索引 1–5（50–130）+ 0.8×法强。减速正文 `@SlowEffect*-100@%`（源值 −0.2），持续 1 秒。三者分列。\n- E：冲锋参数可作数据值保留（持续 2.75s、初速/加速度/最大速度），但伤害/眩晕只发生在拖拽后撞墙的单一敌人：`PinDamage`= `PinBaseDamage` 索引 1–5（30–150）+ 1.2×额外 AD + 0.06×mStat=12。眩晕 1.1 秒。扩展正文：成功撞墙后冷却 **降至** `RefundPercent≈0.65`（65%），不是返还 65%。无施法时间字段。\n- R：首个目标 `Damage`= `BaseDamage` 索引 1–3（150/250/350）+ 1×法强，压制 1.5 秒。命中至少一个英雄后自身移速 40%、1.5 秒。最多三个英雄，其余目标单列。\n\n**应排除**\n- 全部 cherry/`{f9c2333e}` 模式覆盖、命中盒延迟/偏移（`SecondHitboxDelay`、`FinalHitboxDelay`、R 的 Hitbox 宽等）、`MinimumQRenew`、`TurretDamageMod=1` 的“100% 对塔”除非单独说明非减伤。\n- 不得由 `TickFrequency=0.5` 或命中盒字段名编造跳动周期、碰撞时序、分段伤害。\n\n**待核 / 会写错数的点**\n- P 的 `TickFrequency` 正文未引用，不能写成每 0.5 秒结算一次。`PercentHealthDamage` 的 0.01×插值×百分号显示不能压成单一百分数。\n- Q 根有 `mDoesNotConsumeCooldown: true`，但官方与 `cooldownTime` 仍有冷却；复用清单无 `skarner_q` 冷却，须按数组新录，不能因旗标删冷却。\n- Q 投掷正文对首个及其周围用同一套数值，周围敌人仍须额外目标分支。`MaxHPPercent` 无目标最大生命属性节点。\n- E 冲锋本身无伤害树；不要把 `PinDamage` 接到冲锋途中。\n\n## 凯尔\n\n**可录**\n- P：角色等级门槛 1/6/11/16 是同一技能内的进阶，不是换技能。攻击层数上限 5、每层攻速 6%（`EnrageTotalASPerStack` 即 `EnrageASPerStack`）、持续 5 秒；满层移速 10%。6 级攻击距离 525，16 级 625。11 级焰浪 `PassiveWaveDamage`=断点基础 + 0.25×法强 + 0.1×额外 AD，不得按等级把整槽改成另一套。\n- Q：`TotalDamage`= `Damage` 索引 1–5（60–180）+ 0.5×法强 + 0.6×额外 AD。减速索引 1–5 为 25–45 百分数点，持续 2 秒。护甲/魔抗削减 `ShredPercent=15`，持续 4 秒，作用为目标及其后方。冷却 12–8，法力 60–100。`spellCastTime=0` 但 `mCastTime`/`CastDelay=0.25`，施法时间只能录根 `spellCastTime` 并注明 `mCastTime` 另存，不能把 0 当成无前摇。\n- W：自身与一名友军治疗/移速必须分列，数值同源：`TotalHeal`= `Heal` 索引 1–5（55–155）+ 0.25×法强；`TotalHaste` 含 `Haste` 索引 1–5（约 0.24–0.40）+ 0.0008×法强且 `mDisplayAsPercent`。持续 2 秒。冷却 15，法力 70–90。\n- E：被动攻击附加 `EPassiveTotalDamage`= `PassiveDamage` 索引 1–5（15–35）+ 0.2×法强 + 0.1×额外 AD。主动下一次攻击已损生命 `ActiveTotalExecuteDamage` 树（百分号显示，含 `ActiveExecutePercent` 索引 1–5 为 8–10 与 0.015×法强），与被动分开。无消耗。达到被动 11 级门槛后的爆炸资格单列，半径 `ExplosionRadius=350`。野怪额外伤害上限 400 单列。冷却索引 1–5 为 8/7.5/7/6.5/6。\n- R：友方英雄无敌 `InvulnDuration=2.5` 秒与目标附近敌方 `TotalDamage`（`Damage` 索引 1–3 为 200/300/400 + 0.7×法强 + 1×额外 AD）分开。范围 `AoERadius` 索引 1–3 为 675/675/775。冷却 160/120/80。法力索引 0–2 为 100/50/0（3 级 0 是真值）。无 `mTargetingTypeData`。\n\n**应排除**\n- 哈希树 `{266027bf}`、`{72c5c2a8}`、`{fe87f21e}`、BotData、cherry/SWIFTPLAY。\n- Q 的 `ManaRefundPercent=0.5` 未进 tooltip。\n- Q 一组 `Explosion*` 几何字段未被当前 tooltip 引用，不能拼成爆炸范围公式，也不能假定爆炸打出与剑相同的 `TotalDamage`。\n- E 爆炸“对附近敌人造成伤害”无独立伤害树，不能套用主动已损生命公式。\n- W/R 的 `mDoesNotConsumeCooldown`、W 的 `mDoesNotConsumeMana` 与根冷却/法力数组及已保护 `mana_cost` 并存；不得据此改成无消耗或删冷却。W `castRange=25000` 只用显示覆盖 900。\n\n**待核 / 会写错数的点**\n- 焰浪断点不能展开为 1–18。`EnrageMaxStacks` 与正文“最大 5 层”一致，但层数累积时序无树。\n- W 无目标施放改为距离内伤势最重友军，不能写成“只能自施放”或“任意友军”。自身与友军效果分列。\n- R 正文是“一名友方英雄”；不能因 900 范围或一对一指示器假定自施放资格。`mRequiredUnitTags`/`mCastRequirementsTarget` 无枚举证。\n- E `ActiveTotalExecuteDamage` 的 0.01 倍率与 `mDisplayAsPercent` 叠用，已损生命只能运行输入，不能猜成 8%+1.5%AP 的闭式。\n\n## 公共参数与保护快照\n\n25 项复用与快照一致：嘉文 QWER 冷却+法力；李青 QWER 仅冷却；斯卡纳 Q 仅法力，WER 冷却+法力；凯尔 QW 冷却+法力，ER 仅冷却。后续不得把李青能量写成法力，不得覆盖这些已有键。`kayle_r` 法力、`skarner_q` 冷却、李青能量消耗均不在复用清单，属新录而非改保护值。20 槽均为 ENABLED，公式/效果仍空，符合尚未生成候选。\n\n无冻结证据表明根绑定、版本或槽位错位；上述问题都是候选阶段的取值/资格/时序约束，不构成改包阻塞。",
+  "toolCalls": [
+    {
+      "callId": "call-ce97949e-8dd9-47c1-abc5-08a3245408ce-0\nfc_d9825522-b8f4-9f9c-addb-ce78c2f75856_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce97949e-8dd9-47c1-abc5-08a3245408ce-1\nfc_d9825522-b8f4-9f9c-addb-ce78c2f75856_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce97949e-8dd9-47c1-abc5-08a3245408ce-0\nfc_d9825522-b8f4-9f9c-addb-ce78c2f75856_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce97949e-8dd9-47c1-abc5-08a3245408ce-1\nfc_d9825522-b8f4-9f9c-addb-ce78c2f75856_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-2\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-3\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-4\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-5\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-6\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-2\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-3\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-5\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-4\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-6\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-7\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-8\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_6",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-7\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ed9d4d84-c10b-4b2c-9719-1c1f8af6573b-8\nfc_da1d2f7c-fbba-99ca-84af-3d0509044c14_6",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-9\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-10\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-11\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-12\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-9\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-10\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-11\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e190495c-c68a-4ae7-a673-5cb1f032f1f2-12\nfc_f2250132-f6c3-9a0b-ab60-e23f91af3fe5_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-14\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-15\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-16\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-17\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-17\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-16\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-14\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d7964e60-da1c-4646-b4ac-8906a5c707b4-15\nfc_e886401b-3e1f-9981-b44e-794540bcf81d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-2e0de8df-b1cb-4a8a-aab1-f16a66bbc3f5-18\nfc_b30fa9ba-fcc4-9f7b-9d52-4cd3c5456e93_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-2e0de8df-b1cb-4a8a-aab1-f16a66bbc3f5-19\nfc_b30fa9ba-fcc4-9f7b-9d52-4cd3c5456e93_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-2e0de8df-b1cb-4a8a-aab1-f16a66bbc3f5-18\nfc_b30fa9ba-fcc4-9f7b-9d52-4cd3c5456e93_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-2e0de8df-b1cb-4a8a-aab1-f16a66bbc3f5-19\nfc_b30fa9ba-fcc4-9f7b-9d52-4cd3c5456e93_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e6247b75-5497-4b7d-9aca-b7bbd52612cf-20\nfc_28cb270d-5d51-9c67-81e7-436071d357b0_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e6247b75-5497-4b7d-9aca-b7bbd52612cf-21\nfc_28cb270d-5d51-9c67-81e7-436071d357b0_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e6247b75-5497-4b7d-9aca-b7bbd52612cf-20\nfc_28cb270d-5d51-9c67-81e7-436071d357b0_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e6247b75-5497-4b7d-9aca-b7bbd52612cf-21\nfc_28cb270d-5d51-9c67-81e7-436071d357b0_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-22\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-23\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-24\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-25\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-25\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-23\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-22\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-39fcb0b4-5564-4af5-b1c8-fa1644880d27-24\nfc_ba9f9e59-d7d7-9cab-b3b7-b423fddf3004_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-26\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-26\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-27\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-27\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-28\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-29\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-28\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e5a2243b-ce7a-4a50-afa3-fa4b41af94d4-29\nfc_c44da073-aa33-97c1-9b39-7edfb110c9bc_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-30\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-31\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-32\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-33\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-34\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-35\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-32\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-30\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-33\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-31\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-34\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-72553276-3e67-41a8-b54d-00473c74450d-35\nfc_2c0e2d78-63f3-9f45-8833-9edc8532c49f_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-36\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-37\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-38\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-39\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-40\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-36\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-38\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-37\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-39\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6eb61a0c-bb8a-4ba7-bfa7-7e5452397f98-40\nfc_d33b473a-eac3-9d78-a21a-764eac8db70a_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero38-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-f15100b5-abbb-42fa-8334-2bd1e21ff474",
+  "runId": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+  "result": {
+    "id": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+    "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+    "status": "finished",
+    "result": "VERDICT: READY\nREVIEWED_PLAN_REV: hero38-source-v1\n\n冻结包版本、20 槽根绑定、197 次保护 GET 与 25 项公共参数复用一致：客户端 16.17（`contentVersion` 16.17.8104348）、官方 16.17.1；嘉文四世/李青/斯卡纳/凯尔均沿角色根 `mCharacterPassiveSpell` 与 QWER 四条实际引用，未借用他槽。李青 `resourceType`/`partype` 为能量，保护快照已有 `energy` 属性，且复用清单不含李青 `mana_cost`。gzip 原文无法在本只读环境展开，核对以 `来源绑定与当前文本.json` 中的解压对象为准，压缩散列与输入版本一致。\n\n## 选择器与计算树（全英雄共用）\n\n- **mStat=2 且 mStatFormula=2**：同版窄证是额外攻击力（Draven R / Caitlyn R），不是总攻击力。本批显式 2/2 节点：嘉文 Q `TotalDamage` 1.45、W `TotalShield` 0.7、R `DamageCalc` 1.8；李青 Q 两段 `Q1ADRatio`/`Q2ADRatio`、R `Damage` 系数 2；斯卡纳 Q `ADRatio` 0.9、E `ADRatio` 1.2；凯尔 P 焰浪 `PassiveWaveBonusADRatio` 0.1、Q 0.6、E 被动 0.1、R 1.0。\n- **mStat=2 且省略 mStatFormula**（构造默认 0）：同版窄证为总攻击力。本批仅李青 E `InitialDamage` 系数 0.9，以及凯尔 E 哈希树 `{266027bf}`（正文未引用）。\n- **省略 mStat/mStatFormula**：同版窄证为法强。本批：嘉文 E `APRatio` 0.8；李青 W `ShieldAmount` 0.8；斯卡纳 W `DamageAPRatio` 0.8、R 系数 1；凯尔 P `PassiveWaveAPRatio` 0.25、Q 0.5、W 治疗 0.25 / 移速 0.0008、E 被动 0.2 与主动 0.015、R 0.7。\n- **mStat=12**（含 12/2）：无同版属性枚举证，只能作运行输入，不得写成生命值固定公式。节点：嘉文 W `BonusShield` 系数 0.013；斯卡纳 Q `BonusHealthRatio` 0.03（12/2）、W `InitialShieldRatio` 0.08、E `PinDamageRatio` 0.06。\n- **mMultiplier / GameCalculationModified**：李青 P `TTFirstHitEnergy` 以 `FirstHitEnergyMult=2` 修改 `EnergyReturn`；李青 Q `EmpoweredDamage` 以常数 2 修改 `RecastDamage` 且 **`tooltipOnly: true`**。不得把修改树当成另一套实伤，也不得把倍率再乘一遍根字段 `mCoefficient2`。\n- **mDisplayAsPercent / mPrecision / mMultiplier 叠用**：斯卡纳 P `PercentHealthDamage`（插值 5→9、`mMultiplier≈0.01`、`mDisplayAsPercent`、`mPrecision=1`）；凯尔 W `TotalHaste`、E `ActiveTotalExecuteDamage`（`mMultiplier≈0.01` + `mDisplayAsPercent`）。不得用显示精度反推实际值，也不得自行决定先乘 0.01 再百分比。\n- **三项 mFormulaParts**：接口样例以 ADD 连接；本包无求值器证明。可按加法候选，不得另加乘、夹、分段。命中：斯卡纳 Q/E，凯尔 P/Q/E/R。\n- **ByCharLevelBreakpoints / Interpolation**：不得展开成 1–18 固定曲线。嘉文 P `TooltipCooldown`（1 级 6，6/11/16 各 −1）；李青 P `EnergyReturn`（1 级 10，7/13 各 +5）；凯尔 P 焰浪基础（1 级 20，12 级起 `mBonusPerLevelAtAndAfter=3`）；斯卡纳 P 两段插值。\n- 数组惯例（与样例一致，不得用显示精度改源值）：技能等级 DataValues / `cooldownTime` 取索引 1 起至 `maxRank`；法力/能量 `mana` 取索引 0 起至 `maxRank`；官方数组索引 0=1 级。末尾占位必须丢掉（嘉文 R 冷却 `[0,120,105,90,8,5,0]` 只取 120/105/90；李青 R 冷却索引 0 的 100 丢掉；凯尔 E 冷却末位 8、Q 冷却末位 7 丢掉）。\n\n## 嘉文四世\n\n**可录**\n- P：当前生命值比例来自 `TooltipCurrentHealthDamage≈0.08`（正文 `*100@%`）；非英雄最小/最大 20/400 只在扩展正文；同一目标间隔是角色等级断点树，不是技能等级。\n- Q：根 `JarvanIVDragonStrike`，施法 0.25s；冷却索引 1–5 与官方 10/9/8/7/6 一致；法力索引 0–4 与官方 45–65 一致。`TotalDamage`= `BaseDamage` 索引 1–5（90/130/170/210/250）+ 1.45×额外 AD。护甲削减 `BaseARShred` 索引 1–5（0.10–0.26），正文 `*100@%`。削减持续 `Effect3Amount=3` 秒。连线击飞 0.75 秒是 Q 正文字面量。\n- W：施法 0.125s；冷却 9、法力 30。自身护盾 `TotalShield`= `mEffectAmount[0]` 索引 1–5（60–140）+ 0.7×额外 AD。每命中敌方英雄额外护盾是 `BonusShield`（mStat=12×0.013，运行输入）。附近减速 `BaseSlowAmount` 索引 1–5（0.15–0.35），持续 `Effect5Amount=2` 秒。\n- E：施法 0.25s。被动自身攻速 `PermanentAttackSpeed` 与主动附近友军攻速 `BaseAuraAS` 数值相同（索引 1–5 约 0.20–0.30）但必须分列。落旗伤害 `TotalDamage`= `mEffectAmount[1]` 索引 1–5（80–240）+ 0.8×法强。光环持续 `Effect4Amount=8` 秒。\n- R：施法 0.25s。选中敌方英雄伤害 `DamageCalc`= `BaseDamage` 索引 1–3（200/325/450）+ 1.8×额外 AD。竞技场持续 `WallDuration=3.5` 秒。冷却/法力与官方 120/105/90、100 一致。\n\n**应排除**\n- 官方 `effect[]` 旧数组（Q 80–240、E 被动 10–22 等）不得覆盖 DataValues/计算树。\n- Q 的 `SWIFTPLAY`、E 的 `cherry` APRatio、全部 `BotData`、音频、指示器。\n- E 的 `castRange=25000`；显示距离用 `castRangeDisplayOverride=860`。\n- R 冷却尾部 8/5/0 与索引 0 的 0。\n\n**待核 / 会写错数的点**\n- P 伤害树只有比例 DataValue，没有当前生命值属性节点；当前生命值只能运行输入。`TooltipCooldown` 无 `tooltipOnly`，但也无求值循环证，不能写成 6/5/4/3 固定四级。\n- 连线位移速度/判定在 **E** 的 `EDashSpeed=1400`、`EKnockUpAoE=180`、`EBehindJarvanCheck=400`，Q 正文未引用，不能塞进 Q 伤害公式。\n- W 护盾持续 `Effect4Amount=4` 秒未进当前 tooltip，不能当已证持续。\n- R 正文对主目标与周围敌人用同一 `@DamageCalc@`，额外敌人落地伤害必须单列，不能因同树合并。`mRequiredUnitTags` 不能自行解成任意单位。\n\n## 李青\n\n**可录**\n- P：一次技能后的下两次攻击。攻速 `PassiveAS=40`（正文已是百分数点）。第二次能量 `@EnergyReturn@`，第一次 `@TTFirstHitEnergy@`（EnergyReturn 的 Modified×2），不可合并。\n- Q：同一槽两段。首段 `InitialDamage`、再施放下限 `RecastDamage` 均为 `Q1/Q2BaseDamage` 索引 1–5（60–180）+ 0.9×额外 AD。再施放窗口 3 秒。冷却索引 1–5 与官方 10/9/8/7/6 一致。消耗 50 是能量，须写能量消耗。\n- W：自身护盾 `ShieldAmount`= `ShieldValue` 索引 1–5（60–240）+ 0.8×法强，持续 2 秒。铁布衫全能吸血 `LifestealAndSpellVamp` 索引 1–5（10–26）% 仅自身，持续 4 秒。无 `spellCastTime`。\n- E：初段 `InitialDamage`= `E1Damage` 索引 1–5（35–135）+ **0.9×总 AD**（省略 formula）。减速 `SlowAmount` 索引 1–5（35–75）与衰减持续 4 秒分开；显形也引用同一 `SlowDuration`。\n- R：无消耗。主目标 `Damage`= `BaseDamage` 索引 1–3（175/400/625）+ 2×额外 AD。击退距离 `KickDistance=800`。施法时间内禁锢只在扩展正文。冷却索引 1–3 与官方 110/85/60 一致。\n\n**应排除**\n- `EmpoweredDamage`（tooltipOnly）、`CherryBonusHaste`、cherry/SWIFTPLAY、BotData、哈希 Bot 树。\n- `W1CooldownRecovered=0.5`、`Q2MaxMissingHealthMod=1` 均未进入计算树或当前 tooltip。\n- 根字段 `mana` 对李青不是法力；不得复用或新写 `mana_cost`。\n\n**待核 / 会写错数的点**\n- 回音击已损生命：正文是 `@RecastDamage@` 到 `@EmpoweredDamage@`，后者只是 RecastDamage×2 的 tooltip 树，没有缺失生命属性节点。不能编线性插值或 `Q2MaxMissingHealthMod` 公式。\n- W 概要写自身始终有盾、友军英雄额外获得；tooltip 写仅当目标友军是英雄时才为自己和该友军提供盾。友军资格以 tooltip 为准分列，不能按概要给守卫冲刺也套盾。\n- 摧筋断骨“持续衰减”无衰减曲线，只能录初始减速与持续。\n- R 额外英雄：`@Damage@` + 初始目标 `@PercentHPCarryThrough@%` 额外生命（索引 1–3 为 12/15/18 百分数点）。无计算树，额外生命只能运行输入；碰撞伤害/击飞必须作为额外目标分支，不能与主目标击退合并。\n\n## 斯卡纳\n\n**可录**\n- P：3 层、持续 4 秒。满层期间最大生命值魔法伤害是 `PercentHealthDamage` 树（角色等级插值，显示为百分比）。野怪上限 `DamageMonsterCap` 单列（插值 100→300）。\n- Q：三次强化攻击伤害 `AbilityDamage`= `BaseDamage` 索引 1–5（10–50）+ 0.9×额外 AD + 0.03×（mStat=12 且 formula=2，运行输入）。最后一次额外 `MaxHPPercent≈0.11` 与减速 40%/1 秒分开。投掷对首个敌人用同一伤害树 + 最大生命值百分比 + 减速；周围其余敌人必须另列。野怪百分比生命上限 `MonsterDamageCap` 索引 1–5（150–350）单列。冷却 8/6.75/5.5/4.25/3，法力 30。施法约 0.35s。\n- W：自身护盾 `InitialShield`（8%×mStat=12，运行输入），持续 2.5 秒。附近伤害 `Damage`= `BaseDamage` 索引 1–5（50–130）+ 0.8×法强。减速正文 `@SlowEffect*-100@%`（源值 −0.2），持续 1 秒。三者分列。\n- E：冲锋参数可作数据值保留（持续 2.75s、初速/加速度/最大速度），但伤害/眩晕只发生在拖拽后撞墙的单一敌人：`PinDamage`= `PinBaseDamage` 索引 1–5（30–150）+ 1.2×额外 AD + 0.06×mStat=12。眩晕 1.1 秒。扩展正文：成功撞墙后冷却 **降至** `RefundPercent≈0.65`（65%），不是返还 65%。无施法时间字段。\n- R：首个目标 `Damage`= `BaseDamage` 索引 1–3（150/250/350）+ 1×法强，压制 1.5 秒。命中至少一个英雄后自身移速 40%、1.5 秒。最多三个英雄，其余目标单列。\n\n**应排除**\n- 全部 cherry/`{f9c2333e}` 模式覆盖、命中盒延迟/偏移（`SecondHitboxDelay`、`FinalHitboxDelay`、R 的 Hitbox 宽等）、`MinimumQRenew`、`TurretDamageMod=1` 的“100% 对塔”除非单独说明非减伤。\n- 不得由 `TickFrequency=0.5` 或命中盒字段名编造跳动周期、碰撞时序、分段伤害。\n\n**待核 / 会写错数的点**\n- P 的 `TickFrequency` 正文未引用，不能写成每 0.5 秒结算一次。`PercentHealthDamage` 的 0.01×插值×百分号显示不能压成单一百分数。\n- Q 根有 `mDoesNotConsumeCooldown: true`，但官方与 `cooldownTime` 仍有冷却；复用清单无 `skarner_q` 冷却，须按数组新录，不能因旗标删冷却。\n- Q 投掷正文对首个及其周围用同一套数值，周围敌人仍须额外目标分支。`MaxHPPercent` 无目标最大生命属性节点。\n- E 冲锋本身无伤害树；不要把 `PinDamage` 接到冲锋途中。\n\n## 凯尔\n\n**可录**\n- P：角色等级门槛 1/6/11/16 是同一技能内的进阶，不是换技能。攻击层数上限 5、每层攻速 6%（`EnrageTotalASPerStack` 即 `EnrageASPerStack`）、持续 5 秒；满层移速 10%。6 级攻击距离 525，16 级 625。11 级焰浪 `PassiveWaveDamage`=断点基础 + 0.25×法强 + 0.1×额外 AD，不得按等级把整槽改成另一套。\n- Q：`TotalDamage`= `Damage` 索引 1–5（60–180）+ 0.5×法强 + 0.6×额外 AD。减速索引 1–5 为 25–45 百分数点，持续 2 秒。护甲/魔抗削减 `ShredPercent=15`，持续 4 秒，作用为目标及其后方。冷却 12–8，法力 60–100。`spellCastTime=0` 但 `mCastTime`/`CastDelay=0.25`，施法时间只能录根 `spellCastTime` 并注明 `mCastTime` 另存，不能把 0 当成无前摇。\n- W：自身与一名友军治疗/移速必须分列，数值同源：`TotalHeal`= `Heal` 索引 1–5（55–155）+ 0.25×法强；`TotalHaste` 含 `Haste` 索引 1–5（约 0.24–0.40）+ 0.0008×法强且 `mDisplayAsPercent`。持续 2 秒。冷却 15，法力 70–90。\n- E：被动攻击附加 `EPassiveTotalDamage`= `PassiveDamage` 索引 1–5（15–35）+ 0.2×法强 + 0.1×额外 AD。主动下一次攻击已损生命 `ActiveTotalExecuteDamage` 树（百分号显示，含 `ActiveExecutePercent` 索引 1–5 为 8–10 与 0.015×法强），与被动分开。无消耗。达到被动 11 级门槛后的爆炸资格单列，半径 `ExplosionRadius=350`。野怪额外伤害上限 400 单列。冷却索引 1–5 为 8/7.5/7/6.5/6。\n- R：友方英雄无敌 `InvulnDuration=2.5` 秒与目标附近敌方 `TotalDamage`（`Damage` 索引 1–3 为 200/300/400 + 0.7×法强 + 1×额外 AD）分开。范围 `AoERadius` 索引 1–3 为 675/675/775。冷却 160/120/80。法力索引 0–2 为 100/50/0（3 级 0 是真值）。无 `mTargetingTypeData`。\n\n**应排除**\n- 哈希树 `{266027bf}`、`{72c5c2a8}`、`{fe87f21e}`、BotData、cherry/SWIFTPLAY。\n- Q 的 `ManaRefundPercent=0.5` 未进 tooltip。\n- Q 一组 `Explosion*` 几何字段未被当前 tooltip 引用，不能拼成爆炸范围公式，也不能假定爆炸打出与剑相同的 `TotalDamage`。\n- E 爆炸“对附近敌人造成伤害”无独立伤害树，不能套用主动已损生命公式。\n- W/R 的 `mDoesNotConsumeCooldown`、W 的 `mDoesNotConsumeMana` 与根冷却/法力数组及已保护 `mana_cost` 并存；不得据此改成无消耗或删冷却。W `castRange=25000` 只用显示覆盖 900。\n\n**待核 / 会写错数的点**\n- 焰浪断点不能展开为 1–18。`EnrageMaxStacks` 与正文“最大 5 层”一致，但层数累积时序无树。\n- W 无目标施放改为距离内伤势最重友军，不能写成“只能自施放”或“任意友军”。自身与友军效果分列。\n- R 正文是“一名友方英雄”；不能因 900 范围或一对一指示器假定自施放资格。`mRequiredUnitTags`/`mCastRequirementsTarget` 无枚举证。\n- E `ActiveTotalExecuteDamage` 的 0.01 倍率与 `mDisplayAsPercent` 叠用，已损生命只能运行输入，不能猜成 8%+1.5%AP 的闭式。\n\n## 公共参数与保护快照\n\n25 项复用与快照一致：嘉文 QWER 冷却+法力；李青 QWER 仅冷却；斯卡纳 Q 仅法力，WER 冷却+法力；凯尔 QW 冷却+法力，ER 仅冷却。后续不得把李青能量写成法力，不得覆盖这些已有键。`kayle_r` 法力、`skarner_q` 冷却、李青能量消耗均不在复用清单，属新录而非改保护值。20 槽均为 ENABLED，公式/效果仍空，符合尚未生成候选。\n\n无冻结证据表明根绑定、版本或槽位错位；上述问题都是候选阶段的取值/资格/时序约束，不构成改包阻塞。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 506166,
+    "usage": {
+      "inputTokens": 757779,
+      "outputTokens": 22338,
+      "cacheReadTokens": 514688,
+      "cacheWriteTokens": 0,
+      "totalTokens": 1294805,
+      "reasoningTokens": 15230
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 506166,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T19:46:04.889Z"
+}

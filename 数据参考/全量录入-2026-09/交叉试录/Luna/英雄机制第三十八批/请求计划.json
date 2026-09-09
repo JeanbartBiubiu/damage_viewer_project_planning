@@ -1,0 +1,5680 @@
+{
+  "generatedAt": "2026-09-09T20:22:11.629Z",
+  "status": "仅写入意图，未调用业务接口；候选等待主负责人审查",
+  "batch": "第三十八批嘉文四世李青斯卡纳凯尔",
+  "revision": "hero38-source-v1-candidate",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+  "sourceInputSha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+  "sourceBindingSha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero38-cursor-review-run-20260910/review.md",
+    "conclusionSha256": "a581f7a09fd18787edb2cd3bae578478562afae79262909dc1f727dc6f1dd232",
+    "auditFile": ".agents/artifacts/hero38-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "f5a43bfd41214cee3299a1f623b4cba99a290b4619eb8cd432240c9bd464d5ba",
+    "inputManifestFile": ".agents/artifacts/hero38-cursor-review-20260910/输入冻结散列.json",
+    "inputManifestSha256": "f4de735f3e1675d007ee37cb23cb0f4bd2eed2685e5e8829f2d1ed146eb01c4f",
+    "verdict": "READY",
+    "runId": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+    "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+    "events": 5391,
+    "uniqueTools": [
+      "glob",
+      "grep",
+      "read"
+    ],
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "protectionSnapshotSha256": "6d84f4781aba0f03055f7ec480148b919e7604847f0166fe683093051f747d34",
+  "publicReuseSha256": "bd5102dea8eb301f6eeaf4467e5ff336cb58325e9f99096989e622c909a85e1b",
+  "requestCount": 193,
+  "requestCounts": {
+    "parameters": 149,
+    "formulas": 25,
+    "effects": 19,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "currentTotalComponents": 218,
+  "currentCompositionListsProtected": 120,
+  "reusedPublicParameters": [
+    {
+      "skillKey": "jarvaniv_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "jarvaniv_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leesin_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leesin_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leesin_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leesin_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "skarner_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "kayle_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "protectedSkills": [
+    "jarvaniv_p",
+    "jarvaniv_q",
+    "jarvaniv_w",
+    "jarvaniv_e",
+    "jarvaniv_r",
+    "leesin_p",
+    "leesin_q",
+    "leesin_w",
+    "leesin_e",
+    "leesin_r",
+    "skarner_p",
+    "skarner_q",
+    "skarner_w",
+    "skarner_e",
+    "skarner_r",
+    "kayle_p",
+    "kayle_q",
+    "kayle_w",
+    "kayle_e",
+    "kayle_r"
+  ],
+  "protectedCounts": {
+    "GETs": 197,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 25,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_jarvaniv",
+    "/character-skill-relations?characterKey=champion_jarvaniv",
+    "/characters/champion_leesin",
+    "/character-skill-relations?characterKey=champion_leesin",
+    "/characters/champion_skarner",
+    "/character-skill-relations?characterKey=champion_skarner",
+    "/characters/champion_kayle",
+    "/character-skill-relations?characterKey=champion_kayle",
+    "/skills/jarvaniv_p",
+    "/skills/jarvaniv_p/representative-image",
+    "/skills/jarvaniv_p/parameters",
+    "/skills/jarvaniv_p/formulas",
+    "/skills/jarvaniv_p/effects",
+    "/skills/jarvaniv_p/processes",
+    "/skills/jarvaniv_p/internal-states",
+    "/skills/jarvaniv_p/trigger-rules",
+    "/skills/jarvaniv_q",
+    "/skills/jarvaniv_q/representative-image",
+    "/skills/jarvaniv_q/parameters",
+    "/skills/jarvaniv_q/formulas",
+    "/skills/jarvaniv_q/effects",
+    "/skills/jarvaniv_q/processes",
+    "/skills/jarvaniv_q/internal-states",
+    "/skills/jarvaniv_q/trigger-rules",
+    "/skills/jarvaniv_w",
+    "/skills/jarvaniv_w/representative-image",
+    "/skills/jarvaniv_w/parameters",
+    "/skills/jarvaniv_w/formulas",
+    "/skills/jarvaniv_w/effects",
+    "/skills/jarvaniv_w/processes",
+    "/skills/jarvaniv_w/internal-states",
+    "/skills/jarvaniv_w/trigger-rules",
+    "/skills/jarvaniv_e",
+    "/skills/jarvaniv_e/representative-image",
+    "/skills/jarvaniv_e/parameters",
+    "/skills/jarvaniv_e/formulas",
+    "/skills/jarvaniv_e/effects",
+    "/skills/jarvaniv_e/processes",
+    "/skills/jarvaniv_e/internal-states",
+    "/skills/jarvaniv_e/trigger-rules",
+    "/skills/jarvaniv_r",
+    "/skills/jarvaniv_r/representative-image",
+    "/skills/jarvaniv_r/parameters",
+    "/skills/jarvaniv_r/formulas",
+    "/skills/jarvaniv_r/effects",
+    "/skills/jarvaniv_r/processes",
+    "/skills/jarvaniv_r/internal-states",
+    "/skills/jarvaniv_r/trigger-rules",
+    "/skills/leesin_p",
+    "/skills/leesin_p/representative-image",
+    "/skills/leesin_p/parameters",
+    "/skills/leesin_p/formulas",
+    "/skills/leesin_p/effects",
+    "/skills/leesin_p/processes",
+    "/skills/leesin_p/internal-states",
+    "/skills/leesin_p/trigger-rules",
+    "/skills/leesin_q",
+    "/skills/leesin_q/representative-image",
+    "/skills/leesin_q/parameters",
+    "/skills/leesin_q/formulas",
+    "/skills/leesin_q/effects",
+    "/skills/leesin_q/processes",
+    "/skills/leesin_q/internal-states",
+    "/skills/leesin_q/trigger-rules",
+    "/skills/leesin_w",
+    "/skills/leesin_w/representative-image",
+    "/skills/leesin_w/parameters",
+    "/skills/leesin_w/formulas",
+    "/skills/leesin_w/effects",
+    "/skills/leesin_w/processes",
+    "/skills/leesin_w/internal-states",
+    "/skills/leesin_w/trigger-rules",
+    "/skills/leesin_e",
+    "/skills/leesin_e/representative-image",
+    "/skills/leesin_e/parameters",
+    "/skills/leesin_e/formulas",
+    "/skills/leesin_e/effects",
+    "/skills/leesin_e/processes",
+    "/skills/leesin_e/internal-states",
+    "/skills/leesin_e/trigger-rules",
+    "/skills/leesin_r",
+    "/skills/leesin_r/representative-image",
+    "/skills/leesin_r/parameters",
+    "/skills/leesin_r/formulas",
+    "/skills/leesin_r/effects",
+    "/skills/leesin_r/processes",
+    "/skills/leesin_r/internal-states",
+    "/skills/leesin_r/trigger-rules",
+    "/skills/skarner_p",
+    "/skills/skarner_p/representative-image",
+    "/skills/skarner_p/parameters",
+    "/skills/skarner_p/formulas",
+    "/skills/skarner_p/effects",
+    "/skills/skarner_p/processes",
+    "/skills/skarner_p/internal-states",
+    "/skills/skarner_p/trigger-rules",
+    "/skills/skarner_q",
+    "/skills/skarner_q/representative-image",
+    "/skills/skarner_q/parameters",
+    "/skills/skarner_q/formulas",
+    "/skills/skarner_q/effects",
+    "/skills/skarner_q/processes",
+    "/skills/skarner_q/internal-states",
+    "/skills/skarner_q/trigger-rules",
+    "/skills/skarner_w",
+    "/skills/skarner_w/representative-image",
+    "/skills/skarner_w/parameters",
+    "/skills/skarner_w/formulas",
+    "/skills/skarner_w/effects",
+    "/skills/skarner_w/processes",
+    "/skills/skarner_w/internal-states",
+    "/skills/skarner_w/trigger-rules",
+    "/skills/skarner_e",
+    "/skills/skarner_e/representative-image",
+    "/skills/skarner_e/parameters",
+    "/skills/skarner_e/formulas",
+    "/skills/skarner_e/effects",
+    "/skills/skarner_e/processes",
+    "/skills/skarner_e/internal-states",
+    "/skills/skarner_e/trigger-rules",
+    "/skills/skarner_r",
+    "/skills/skarner_r/representative-image",
+    "/skills/skarner_r/parameters",
+    "/skills/skarner_r/formulas",
+    "/skills/skarner_r/effects",
+    "/skills/skarner_r/processes",
+    "/skills/skarner_r/internal-states",
+    "/skills/skarner_r/trigger-rules",
+    "/skills/kayle_p",
+    "/skills/kayle_p/representative-image",
+    "/skills/kayle_p/parameters",
+    "/skills/kayle_p/formulas",
+    "/skills/kayle_p/effects",
+    "/skills/kayle_p/processes",
+    "/skills/kayle_p/internal-states",
+    "/skills/kayle_p/trigger-rules",
+    "/skills/kayle_q",
+    "/skills/kayle_q/representative-image",
+    "/skills/kayle_q/parameters",
+    "/skills/kayle_q/formulas",
+    "/skills/kayle_q/effects",
+    "/skills/kayle_q/processes",
+    "/skills/kayle_q/internal-states",
+    "/skills/kayle_q/trigger-rules",
+    "/skills/kayle_w",
+    "/skills/kayle_w/representative-image",
+    "/skills/kayle_w/parameters",
+    "/skills/kayle_w/formulas",
+    "/skills/kayle_w/effects",
+    "/skills/kayle_w/processes",
+    "/skills/kayle_w/internal-states",
+    "/skills/kayle_w/trigger-rules",
+    "/skills/kayle_e",
+    "/skills/kayle_e/representative-image",
+    "/skills/kayle_e/parameters",
+    "/skills/kayle_e/formulas",
+    "/skills/kayle_e/effects",
+    "/skills/kayle_e/processes",
+    "/skills/kayle_e/internal-states",
+    "/skills/kayle_e/trigger-rules",
+    "/skills/kayle_r",
+    "/skills/kayle_r/representative-image",
+    "/skills/kayle_r/parameters",
+    "/skills/kayle_r/formulas",
+    "/skills/kayle_r/effects",
+    "/skills/kayle_r/processes",
+    "/skills/kayle_r/internal-states",
+    "/skills/kayle_r/trigger-rules"
+  ],
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/current_health_damage_ratio",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "current_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_damage_ratio",
+        "name": "战争律动目标当前生命值伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "客户端当前根绑定TooltipCurrentHealthDamage取索引0；正文乘100后显示百分数。目标当前生命值和首次攻击触发由运行层提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_base_seconds",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_base_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_base_seconds",
+        "name": "战争律动基础冷却（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前TooltipCooldown是角色等级断点树，保留1级起点，不把断点曲线展开为技能等级。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_1_level",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_1_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_1_level",
+        "name": "战争律动第一次冷却断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前角色等级断点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_1_delta_seconds",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_1_delta_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_1_delta_seconds",
+        "name": "战争律动第一次冷却变化（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "当前6级起冷却变化为-1秒；保留来源有符号变化。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_2_level",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_2_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_2_level",
+        "name": "战争律动第二次冷却断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 11,
+        "levelValues": null,
+        "description": "当前角色等级断点。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_2_delta_seconds",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_2_delta_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_2_delta_seconds",
+        "name": "战争律动第二次冷却变化（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "当前11级起冷却变化为-1秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_3_level",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_3_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_3_level",
+        "name": "战争律动第三次冷却断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 16,
+        "levelValues": null,
+        "description": "当前角色等级断点。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/jarvaniv_p/parameters",
+      "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_breakpoint_3_delta_seconds",
+      "skillKey": "jarvaniv_p",
+      "kind": "parameters",
+      "stableKey": "cadence_cooldown_breakpoint_3_delta_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cadence_cooldown_breakpoint_3_delta_seconds",
+        "name": "战争律动第三次冷却变化（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "当前16级起冷却变化为-1秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/base_damage",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "巨龙撞击基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 130,
+          "3": 170,
+          "4": 210,
+          "5": 250
+        },
+        "description": "客户端当前根绑定DataValues.BaseDamage取技能等级索引1至5；索引0的50不是1级候选值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/bonus_ad_ratio",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "巨龙撞击额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.45000005,
+        "levelValues": null,
+        "description": "TotalDamage的mStat=2、mStatFormula=2，按同版窄证读取来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/armor_shred_ratio",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "armor_shred_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_shred_ratio",
+        "name": "巨龙撞击护甲削减比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.14,
+          "3": 0.18000001,
+          "4": 0.22,
+          "5": 0.25999999
+        },
+        "description": "正文将BaseARShred乘100后显示；保存0.10至0.26比例，不把显示百分数当整数点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/armor_shred_duration_ms",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "armor_shred_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_shred_duration_ms",
+        "name": "巨龙撞击护甲削减持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前Effect3Amount取索引1为3秒，转换为3000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/knock_up_duration_ms",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "knock_up_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knock_up_duration_ms",
+        "name": "巨龙撞击连接军旗击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确连接军旗时沿途敌人击飞0.75秒；只保存时长，不创建控制结果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/parameters",
+      "detailRoute": "/skills/jarvaniv_q/parameters/cast_time_ms",
+      "skillKey": "jarvaniv_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "巨龙撞击根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime；不表示命中或击飞事件完成。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/formulas",
+      "detailRoute": "/skills/jarvaniv_q/formulas/physical_damage",
+      "skillKey": "jarvaniv_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "巨龙撞击单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage=BaseDamage+1.45×来源额外攻击力；沿途多个目标由事件层分别结算。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/jarvaniv_q/effects",
+      "detailRoute": "/skills/jarvaniv_q/effects/mana_cost",
+      "skillKey": "jarvaniv_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/shield_base",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "黄金圣盾基础护盾",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 80,
+          "3": 100,
+          "4": 120,
+          "5": 140
+        },
+        "description": "当前TotalShield的mEffectIndex=1对应mEffectAmount[0]，取技能等级索引1至5为60/80/100/120/140。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/shield_bonus_ad_ratio",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "shield_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_bonus_ad_ratio",
+        "name": "黄金圣盾命中英雄额外护盾额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.69999999,
+        "levelValues": null,
+        "description": "TotalShield第二项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/shield_bonus_stat12_ratio",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "shield_bonus_stat12_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_bonus_stat12_ratio",
+        "name": "黄金圣盾命中英雄额外护盾生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.013,
+        "levelValues": null,
+        "description": "BonusShield的mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/slow_ratio",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "黄金圣盾附近敌人减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.15000001,
+          "2": 0.2,
+          "3": 0.25,
+          "4": 0.30000001,
+          "5": 0.34999999
+        },
+        "description": "正文将BaseSlowAmount乘100后显示；保存0.15至0.35比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/slow_duration_ms",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "黄金圣盾减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前Effect5Amount取索引1为2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/parameters",
+      "detailRoute": "/skills/jarvaniv_w/parameters/cast_time_ms",
+      "skillKey": "jarvaniv_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "黄金圣盾根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 125,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/formulas",
+      "detailRoute": "/skills/jarvaniv_w/formulas/shield_value",
+      "skillKey": "jarvaniv_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "黄金圣盾自身基础护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalShield=基础护盾+0.7×来源额外攻击力；每名敌方英雄的额外护盾另由BonusShield保留为独立公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/jarvaniv_w/formulas",
+      "detailRoute": "/skills/jarvaniv_w/formulas/bonus_shield_value",
+      "skillKey": "jarvaniv_w",
+      "kind": "formulas",
+      "stableKey": "bonus_shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_shield_value",
+        "name": "黄金圣盾命中英雄额外护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_bonus_stat12_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前BonusShield=0.013×来源生命总值；mStat12映射依据同版窄证，目标命中事件待接。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/dash_speed",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dash_speed",
+        "name": "德邦军旗冲刺速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1400,
+        "levelValues": null,
+        "description": "当前正文/数据值明确的空间移动参数；不接入伤害或发数公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/behind_flag_check_distance",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "behind_flag_check_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "behind_flag_check_distance",
+        "name": "德邦军旗身后判定距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "当前来源几何判定值，保留为资料参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/knock_up_radius",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "knock_up_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knock_up_radius",
+        "name": "德邦军旗击飞范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 180,
+        "levelValues": null,
+        "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/self_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "self_attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_attack_speed_ratio",
+        "name": "德邦军旗自身攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "description": "当前正文被动直接消费PermanentAttackSpeed并乘100显示；取技能等级索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "ally_attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ally_attack_speed_ratio",
+        "name": "德邦军旗附近友军攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/ap_ratio",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "德邦军旗法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.80000001,
+        "levelValues": null,
+        "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/base_magic_damage",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "base_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_magic_damage",
+        "name": "德邦军旗基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/flag_duration_ms",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "flag_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flag_duration_ms",
+        "name": "德邦军旗持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/parameters",
+      "detailRoute": "/skills/jarvaniv_e/parameters/cast_time_ms",
+      "skillKey": "jarvaniv_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "德邦军旗根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/formulas",
+      "detailRoute": "/skills/jarvaniv_e/formulas/magic_damage",
+      "skillKey": "jarvaniv_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "德邦军旗落点单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_magic_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/effects",
+      "detailRoute": "/skills/jarvaniv_e/effects/mana_cost",
+      "skillKey": "jarvaniv_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/effects",
+      "detailRoute": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "德邦军旗自身被动攻击速度",
+        "description": "当前正文明确军旗被动给予自身攻击速度；该自身被动随技能/资格存在，不使用主动军旗8秒时长。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "德邦军旗自身被动攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "self_attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/parameters",
+      "detailRoute": "/skills/jarvaniv_r/parameters/base_damage",
+      "skillKey": "jarvaniv_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "天崩地裂基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 325,
+          "3": 450
+        },
+        "description": "客户端当前根绑定DataValues.BaseDamage取技能等级索引1至3为200/325/450；不采用索引0旧值75或尾部占位。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/parameters",
+      "detailRoute": "/skills/jarvaniv_r/parameters/bonus_ad_ratio",
+      "skillKey": "jarvaniv_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "天崩地裂额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.79999995,
+        "levelValues": null,
+        "description": "DamageCalc的mStat=2、mStatFormula=2，按同版窄证读取来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/parameters",
+      "detailRoute": "/skills/jarvaniv_r/parameters/wall_duration_ms",
+      "skillKey": "jarvaniv_r",
+      "kind": "parameters",
+      "stableKey": "wall_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "wall_duration_ms",
+        "name": "天崩地裂竞技场持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3500,
+        "levelValues": null,
+        "description": "当前WallDuration=3.5秒，转换为3500毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/parameters",
+      "detailRoute": "/skills/jarvaniv_r/parameters/cast_time_ms",
+      "skillKey": "jarvaniv_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "天崩地裂根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/formulas",
+      "detailRoute": "/skills/jarvaniv_r/formulas/physical_damage",
+      "skillKey": "jarvaniv_r",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "天崩地裂选中敌人及落地物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前DamageCalc=BaseDamage+1.8×来源额外攻击力；主目标与附近额外目标的命中事件分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/jarvaniv_r/effects",
+      "detailRoute": "/skills/jarvaniv_r/effects/mana_cost",
+      "skillKey": "jarvaniv_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/empowered_attack_count",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "empowered_attack_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_attack_count",
+        "name": "疾风骤雨强化攻击次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前正文明确一次技能后的下两次攻击获得效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/passive_attack_speed_percent_points",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "passive_attack_speed_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_attack_speed_percent_points",
+        "name": "疾风骤雨攻击速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前正文直接接PassiveAS百分号；保存40百分数点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_at_character_level",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_at_character_level",
+        "name": "疾风骤雨第二次攻击当前等级能量回复",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "EnergyReturn为角色等级断点树；运行层提供当前角色等级实际值，不将断点线性展开。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_level1",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_level1",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_level1",
+        "name": "疾风骤雨能量回复1级起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前角色等级断点树起点10。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_breakpoint_1_level",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_breakpoint_1_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_breakpoint_1_level",
+        "name": "疾风骤雨能量回复第一次断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7,
+        "levelValues": null,
+        "description": "当前角色等级断点。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_breakpoint_1_increase",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_breakpoint_1_increase",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_breakpoint_1_increase",
+        "name": "疾风骤雨能量回复第一次增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前7级增加5点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_breakpoint_2_level",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_breakpoint_2_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_breakpoint_2_level",
+        "name": "疾风骤雨能量回复第二次断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 13,
+        "levelValues": null,
+        "description": "当前角色等级断点。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/energy_return_breakpoint_2_increase",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "energy_return_breakpoint_2_increase",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_return_breakpoint_2_increase",
+        "name": "疾风骤雨能量回复第二次增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前13级增加5点。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/leesin_p/parameters",
+      "detailRoute": "/skills/leesin_p/parameters/first_hit_energy_multiplier",
+      "skillKey": "leesin_p",
+      "kind": "parameters",
+      "stableKey": "first_hit_energy_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "first_hit_energy_multiplier",
+        "name": "疾风骤雨第一次攻击能量倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "TTFirstHitEnergy以FirstHitEnergyMult修改EnergyReturn，当前倍率2。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/leesin_p/formulas",
+      "detailRoute": "/skills/leesin_p/formulas/first_hit_energy_return",
+      "skillKey": "leesin_p",
+      "kind": "formulas",
+      "stableKey": "first_hit_energy_return",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_hit_energy_return",
+        "name": "疾风骤雨第一次攻击能量回复",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "energy_return_at_character_level"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "first_hit_energy_multiplier"
+            }
+          ]
+        },
+        "description": "当前TTFirstHitEnergy=EnergyReturn×FirstHitEnergyMult；第一次和第二次回复分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/q1_base_damage",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "q1_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "q1_base_damage",
+        "name": "天音波首段基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端当前根绑定Q1BaseDamage取技能等级索引1至5为60/90/120/150/180。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/q2_base_damage",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "q2_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "q2_base_damage",
+        "name": "回音击再施放基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端当前根绑定Q2BaseDamage取技能等级索引1至5为60/90/120/150/180。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/q1_bonus_ad_ratio",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "q1_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "q1_bonus_ad_ratio",
+        "name": "天音波额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.89999998,
+        "levelValues": null,
+        "description": "InitialDamage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/q2_bonus_ad_ratio",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "q2_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "q2_bonus_ad_ratio",
+        "name": "回音击额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.89999998,
+        "levelValues": null,
+        "description": "RecastDamage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/reactivate_window_ms",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "reactivate_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reactivate_window_ms",
+        "name": "天音波再次施放窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前ReactivateTime=3秒，转换为3000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/cast_time_ms",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "天音波根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/empowered_damage_multiplier",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "empowered_damage_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_damage_multiplier",
+        "name": "回音击最高伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前绑定正文消费EmpoweredDamage最高值；只保留一次完整回音击基础树乘2，不把tooltipOnly树重复作为另一段伤害。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/leesin_q/parameters",
+      "detailRoute": "/skills/leesin_q/parameters/energy_cost",
+      "skillKey": "leesin_q",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "天音波能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 50,
+          "3": 50,
+          "4": 50,
+          "5": 50
+        },
+        "description": "当前英雄资源为能量；冻结官方成本等级1至5均为50，本参数不与法力字段混用。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/leesin_q/formulas",
+      "detailRoute": "/skills/leesin_q/formulas/initial_physical_damage",
+      "skillKey": "leesin_q",
+      "kind": "formulas",
+      "stableKey": "initial_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_physical_damage",
+        "name": "天音波首段单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "q1_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "q1_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前InitialDamage=Q1BaseDamage+Q1ADRatio×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/leesin_q/formulas",
+      "detailRoute": "/skills/leesin_q/formulas/recast_physical_damage",
+      "skillKey": "leesin_q",
+      "kind": "formulas",
+      "stableKey": "recast_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "recast_physical_damage",
+        "name": "回音击再施放单一敌人物理伤害基础项",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "q2_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "q2_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前RecastDamage=Q2BaseDamage+Q2ADRatio×来源额外攻击力；目标已损生命的中间曲线没有计算树。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/leesin_q/formulas",
+      "detailRoute": "/skills/leesin_q/formulas/empowered_physical_damage",
+      "skillKey": "leesin_q",
+      "kind": "formulas",
+      "stableKey": "empowered_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "empowered_physical_damage",
+        "name": "回音击最高单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "q2_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "q2_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前正文消费EmpoweredDamage最高值；按完整RecastDamage树乘2，目标已损生命的中间曲线仍待补。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/leesin_q/effects",
+      "detailRoute": "/skills/leesin_q/effects/energy_cost",
+      "skillKey": "leesin_q",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "李青使用能量资源；当前公共复用清单没有能量消耗，本候选新增意图仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/shield_base",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "金钟罩基础护盾",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "description": "客户端当前根绑定ShieldValue取技能等级索引1至5为60/105/150/195/240，索引0的15为旧占位。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/shield_ap_ratio",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "金钟罩法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.80000001,
+        "levelValues": null,
+        "description": "ShieldAmount第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/shield_duration_ms",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "金钟罩护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前ShieldDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/omnivamp_ratio",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "omnivamp_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "omnivamp_ratio",
+        "name": "铁布衫全能吸血比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.14,
+          "3": 0.18,
+          "4": 0.22,
+          "5": 0.26
+        },
+        "description": "当前正文直接接LifestealAndSpellVamp百分号；原始10/14/18/22/26百分数点转为0.10至0.26比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/omnivamp_duration_ms",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "omnivamp_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "omnivamp_duration_ms",
+        "name": "铁布衫全能吸血持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前LifestealAndSpellVampTime=4秒，转换为4000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/reactivate_window_ms",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "reactivate_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reactivate_window_ms",
+        "name": "金钟罩再次施放窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前W1ReactivateTime=3秒，转换为3000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/leesin_w/parameters",
+      "detailRoute": "/skills/leesin_w/parameters/energy_cost",
+      "skillKey": "leesin_w",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "金钟罩能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 50,
+          "3": 50,
+          "4": 50,
+          "5": 50
+        },
+        "description": "当前英雄资源为能量；官方成本等级1至5均为50。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/leesin_w/formulas",
+      "detailRoute": "/skills/leesin_w/formulas/shield_value",
+      "skillKey": "leesin_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "金钟罩自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前ShieldAmount=ShieldValue+0.8×来源总法术强度；友军英雄资格与自身目标分支由事件层接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/leesin_w/effects",
+      "detailRoute": "/skills/leesin_w/effects/energy_cost",
+      "skillKey": "leesin_w",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "李青使用能量资源；当前公共复用清单没有能量消耗，本候选新增意图仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/leesin_w/effects",
+      "detailRoute": "/skills/leesin_w/effects/self_shield",
+      "skillKey": "leesin_w",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "金钟罩自身普通护盾",
+        "description": "当前正文明确友军英雄目标时李青自身获得护盾；只定义自身普通护盾，不替代友军目标分支。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "金钟罩自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身普通护盾数值；触发和移除事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/leesin_w/effects",
+      "detailRoute": "/skills/leesin_w/effects/omnivamp",
+      "skillKey": "leesin_w",
+      "kind": "effects",
+      "stableKey": "omnivamp",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "omnivamp",
+        "name": "铁布衫自身全能吸血",
+        "description": "当前正文明确再次施放后自身获得全能吸血；再次施放事件待接。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "omnivamp_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "铁布衫自身全能吸血",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "omnivamp_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "omnivamp_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/slow_percent_points",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "摧筋断骨初始减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55,
+          "4": 65,
+          "5": 75
+        },
+        "description": "当前正文直接接SlowAmount百分号；技能等级索引1至5为35/45/55/65/75百分数点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/base_magic_damage",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "base_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_magic_damage",
+        "name": "天雷破基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 60,
+          "3": 85,
+          "4": 110,
+          "5": 135
+        },
+        "description": "客户端当前根绑定E1Damage取技能等级索引1至5为35/60/85/110/135。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/total_ad_ratio",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "total_ad_ratio",
+        "name": "天雷破总攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.89999998,
+        "levelValues": null,
+        "description": "InitialDamage的mStat=2且省略mStatFormula，按同版窄证读取来源总攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/slow_duration_ms",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "摧筋断骨减速及显形持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前SlowDuration=4秒，转换为4000毫秒；减速衰减曲线未证。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/reactivate_window_ms",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "reactivate_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reactivate_window_ms",
+        "name": "天雷破再次施放窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前ReactivateTime=3秒，转换为3000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/cast_time_ms",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "天雷破根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/leesin_e/parameters",
+      "detailRoute": "/skills/leesin_e/parameters/energy_cost",
+      "skillKey": "leesin_e",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "天雷破能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 50,
+          "3": 50,
+          "4": 50,
+          "5": 50
+        },
+        "description": "当前英雄资源为能量；官方成本等级1至5均为50。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/leesin_e/formulas",
+      "detailRoute": "/skills/leesin_e/formulas/initial_magic_damage",
+      "skillKey": "leesin_e",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "天雷破首段单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_magic_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前InitialDamage=E1Damage+0.9×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/leesin_e/effects",
+      "detailRoute": "/skills/leesin_e/effects/energy_cost",
+      "skillKey": "leesin_e",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "李青使用能量资源；当前公共复用清单没有能量消耗，本候选新增意图仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/leesin_r/parameters",
+      "detailRoute": "/skills/leesin_r/parameters/base_damage",
+      "skillKey": "leesin_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "猛龙摆尾基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 175,
+          "2": 400,
+          "3": 625
+        },
+        "description": "客户端当前根绑定BaseDamage取技能等级索引1至3为175/400/625；索引0的-50不是1级值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/leesin_r/parameters",
+      "detailRoute": "/skills/leesin_r/parameters/bonus_ad_ratio",
+      "skillKey": "leesin_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "猛龙摆尾额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "Damage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/leesin_r/parameters",
+      "detailRoute": "/skills/leesin_r/parameters/kick_distance",
+      "skillKey": "leesin_r",
+      "kind": "parameters",
+      "stableKey": "kick_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "kick_distance",
+        "name": "猛龙摆尾击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 800,
+        "levelValues": null,
+        "description": "当前KickDistance=800；只记录空间参数，不创建击退结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/leesin_r/parameters",
+      "detailRoute": "/skills/leesin_r/parameters/cast_time_ms",
+      "skillKey": "leesin_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "猛龙摆尾根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "只记录根spellCastTime；施法时间内禁锢为正文附加语义。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/leesin_r/formulas",
+      "detailRoute": "/skills/leesin_r/formulas/physical_damage",
+      "skillKey": "leesin_r",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "猛龙摆尾主目标单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前Damage=BaseDamage+2×来源额外攻击力；碰撞目标的额外生命附加是另一目标分支。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/stacks_to_trigger",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "stacks_to_trigger",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stacks_to_trigger",
+        "name": "战栗触发层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文明确3层触发。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/duration_ms",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "战栗持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前Duration=4秒，转换为4000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/percent_health_base_at_character_level",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "percent_health_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_health_base_at_character_level",
+        "name": "战栗最大生命伤害角色等级实际基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "PercentHealthDamage只有角色等级插值5至9；运行层提供当前角色等级实际基础值，不把端点线性展开。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/percent_health_level1_value",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "percent_health_level1_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_health_level1_value",
+        "name": "战栗最大生命伤害角色等级起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前角色等级插值起点5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/percent_health_level_max_value",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "percent_health_level_max_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_health_level_max_value",
+        "name": "战栗最大生命伤害角色等级终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "当前角色等级插值终点9。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/skarner_p/parameters",
+      "detailRoute": "/skills/skarner_p/parameters/percent_health_multiplier",
+      "skillKey": "skarner_p",
+      "kind": "parameters",
+      "stableKey": "percent_health_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_health_multiplier",
+        "name": "战栗最大生命伤害显示倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前树mMultiplier约0.01且mDisplayAsPercent为真；保留来源倍率，不按显示精度另行舍入。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/skarner_p/formulas",
+      "detailRoute": "/skills/skarner_p/formulas/percent_health_damage_ratio",
+      "skillKey": "skarner_p",
+      "kind": "formulas",
+      "stableKey": "percent_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "percent_health_damage_ratio",
+        "name": "战栗目标最大生命伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_health_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_health_base_at_character_level"
+            }
+          ]
+        },
+        "description": "当前PercentHealthDamage=0.01×角色等级插值基础值，结果按百分数显示；实际目标最大生命和周期事件待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/cooldown_ms",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "撼地基础冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 6750,
+          "3": 5500,
+          "4": 4250,
+          "5": 3000
+        },
+        "description": "当前root.cooldownTime按技能等级取索引1至5；mDoesNotConsumeCooldown不覆盖实际基础冷却数据。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/base_damage",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "撼地强化攻击基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30,
+          "4": 40,
+          "5": 50
+        },
+        "description": "客户端当前根绑定BaseDamage取技能等级索引1至5为10/20/30/40/50。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/max_health_ratio",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "max_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_ratio",
+        "name": "撼地最后一次攻击目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.11,
+        "levelValues": null,
+        "description": "正文将MaxHPPercent乘100显示；目标最大生命属性和最后一次攻击事件待接。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/slow_duration_ms",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "撼地减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前SlowDuration=1秒，转换为1000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/slow_ratio",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "撼地减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.40000001,
+        "levelValues": null,
+        "description": "正文将SlowPercent乘100显示；保存0.4比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/attack_speed_ratio",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_ratio",
+        "name": "撼地强化攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.30000001,
+          "4": 0.34999999,
+          "5": 0.40000001
+        },
+        "description": "正文将AttackSpeed乘100显示；技能等级索引1至5为0.20至0.40。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/empowered_attack_count",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "empowered_attack_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_attack_count",
+        "name": "撼地强化攻击次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文明确接下来的3次攻击获得强化；只保存次数，不创建攻击事件。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/bonus_health_ratio",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "撼地额外生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.03,
+        "levelValues": null,
+        "description": "AbilityDamage的mStat=12、mStatFormula=2；结合同版窄证映射为来源额外生命，使用SOURCE.hp.BONUS。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/bonus_ad_ratio",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "撼地额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.89999998,
+        "levelValues": null,
+        "description": "AbilityDamage的mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/rock_hold_duration_ms",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "rock_hold_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rock_hold_duration_ms",
+        "name": "撼地巨石持有时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前RockHoldDuration=5秒，转换为5000毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/skarner_q/parameters",
+      "detailRoute": "/skills/skarner_q/parameters/cast_time_ms",
+      "skillKey": "skarner_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "撼地根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/skarner_q/formulas",
+      "detailRoute": "/skills/skarner_q/formulas/ability_damage",
+      "skillKey": "skarner_q",
+      "kind": "formulas",
+      "stableKey": "ability_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "ability_damage",
+        "name": "撼地强化攻击单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前AbilityDamage=BaseDamage+0.9×来源额外攻击力+0.03×来源额外生命；最后一次攻击的最大生命比例另行保存。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/skarner_q/effects",
+      "detailRoute": "/skills/skarner_q/effects/mana_cost",
+      "skillKey": "skarner_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/base_damage",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "震地壁垒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "description": "客户端当前根绑定BaseDamage取技能等级索引1至5为50/70/90/110/130。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/damage_ap_ratio",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "震地壁垒法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.80000001,
+        "levelValues": null,
+        "description": "Damage的StatByNamedDataValue使用DamageAPRatio，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/shield_stat12_ratio",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "shield_stat12_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_stat12_ratio",
+        "name": "震地壁垒自身护盾生命总值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "InitialShield使用mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/shield_duration_ms",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "震地壁垒护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前ShieldDuration=2.5秒，转换为2500毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/slow_ratio",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "震地壁垒减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "正文使用SlowEffect*-100显示正减速；保存0.20比例并记录来源为-0.20。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/slow_duration_ms",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "震地壁垒减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前SlowDuration=1秒，转换为1000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/skarner_w/parameters",
+      "detailRoute": "/skills/skarner_w/parameters/cast_time_ms",
+      "skillKey": "skarner_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "震地壁垒根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 300,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/skarner_w/formulas",
+      "detailRoute": "/skills/skarner_w/formulas/magic_damage",
+      "skillKey": "skarner_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "震地壁垒附近单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前Damage=BaseDamage+0.8×来源总法术强度。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/skarner_w/formulas",
+      "detailRoute": "/skills/skarner_w/formulas/shield_value",
+      "skillKey": "skarner_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "震地壁垒自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_stat12_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前InitialShield=0.08×来源生命总值；mStat12映射依据同版窄证。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/skarner_w/effects",
+      "detailRoute": "/skills/skarner_w/effects/mana_cost",
+      "skillKey": "skarner_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/skarner_w/effects",
+      "detailRoute": "/skills/skarner_w/effects/self_shield",
+      "skillKey": "skarner_w",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "震地壁垒自身普通护盾",
+        "description": "当前正文明确自身获得护盾；地震伤害和减速是另一组数值。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "震地壁垒自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身普通护盾数值；触发和移除事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/charge_duration_ms",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "charge_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charge_duration_ms",
+        "name": "以绪塔尔冲击冲锋持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2750,
+        "levelValues": null,
+        "description": "当前ChargeDuration=2.75秒，转换为2750毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/initial_speed",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "initial_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_speed",
+        "name": "以绪塔尔冲锋初速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前冲锋空间参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/acceleration",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "acceleration",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "acceleration",
+        "name": "以绪塔尔冲锋加速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "当前冲锋空间参数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/maximum_speed",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "maximum_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_speed",
+        "name": "以绪塔尔冲锋最大速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 950,
+        "levelValues": null,
+        "description": "当前冲锋空间参数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/stun_duration_ms",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "以绪塔尔冲击晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1100,
+        "levelValues": null,
+        "description": "当前正文明确撞墙晕眩1.1秒，转换为1100毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/pin_base_damage",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "pin_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pin_base_damage",
+        "name": "以绪塔尔冲击撞墙基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 60,
+          "3": 90,
+          "4": 120,
+          "5": 150
+        },
+        "description": "客户端当前根绑定PinBaseDamage取技能等级索引1至5为30/60/90/120/150。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/bonus_ad_ratio",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "以绪塔尔冲击撞墙额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.20000005,
+        "levelValues": null,
+        "description": "PinDamage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/pin_stat12_ratio",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "pin_stat12_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pin_stat12_ratio",
+        "name": "以绪塔尔冲击撞墙生命总值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.06,
+        "levelValues": null,
+        "description": "PinDamage的mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/skarner_e/parameters",
+      "detailRoute": "/skills/skarner_e/parameters/refund_percent",
+      "skillKey": "skarner_e",
+      "kind": "parameters",
+      "stableKey": "refund_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "refund_percent",
+        "name": "以绪塔尔冲击撞墙后冷却保留比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.64999998,
+        "levelValues": null,
+        "description": "当前正文写冷却时间降至65%，保存0.65保留比例，不写成返还65%。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/skarner_e/formulas",
+      "detailRoute": "/skills/skarner_e/formulas/pin_physical_damage",
+      "skillKey": "skarner_e",
+      "kind": "formulas",
+      "stableKey": "pin_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "pin_physical_damage",
+        "name": "以绪塔尔冲击撞墙单一敌人物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "pin_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "pin_stat12_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前PinDamage=PinBaseDamage+1.2×来源额外攻击力+0.06×来源生命总值；只在拖拽后撞墙事件中成立。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/skarner_e/effects",
+      "detailRoute": "/skills/skarner_e/effects/mana_cost",
+      "skillKey": "skarner_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/base_damage",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "毒刺贯体基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端当前根绑定BaseDamage取技能等级索引1至3为150/250/350。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/ap_ratio",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "毒刺贯体法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "Damage第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/suppression_duration_ms",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "suppression_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "suppression_duration_ms",
+        "name": "毒刺贯体压制持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前Duration=1.5秒，转换为1500毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/self_move_speed_ratio",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "毒刺贯体命中英雄自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.40000001,
+        "levelValues": null,
+        "description": "正文将SpeedBoostAmount乘100显示；保存0.4比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/self_move_speed_duration_ms",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_duration_ms",
+        "name": "毒刺贯体自身移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前SpeedBoostDuration=1.5秒，转换为1500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/skarner_r/parameters",
+      "detailRoute": "/skills/skarner_r/parameters/cast_time_ms",
+      "skillKey": "skarner_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "毒刺贯体根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "只记录根spellCastTime。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/skarner_r/formulas",
+      "detailRoute": "/skills/skarner_r/formulas/magic_damage",
+      "skillKey": "skarner_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "毒刺贯体单一敌方英雄魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前Damage=BaseDamage+1×来源总法术强度；最多三个英雄的额外目标由事件层分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/skarner_r/effects",
+      "detailRoute": "/skills/skarner_r/effects/mana_cost",
+      "skillKey": "skarner_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/skarner_r/effects",
+      "detailRoute": "/skills/skarner_r/effects/self_move_speed",
+      "skillKey": "skarner_r",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "毒刺贯体命中英雄自身移动速度",
+        "description": "当前正文明确至少命中一个英雄后自身获得移动速度；命中事件待接。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "self_move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "毒刺贯体命中英雄自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "self_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/level_for_rank_0",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "level_for_rank_0",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "level_for_rank_0",
+        "name": "登神长阶狂热等级门槛",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前角色等级门槛1；等级变化不替换整套技能。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/level_for_rank_1",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "level_for_rank_1",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "level_for_rank_1",
+        "name": "登神长阶升腾等级门槛",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前角色等级门槛6。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/level_for_rank_2",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "level_for_rank_2",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "level_for_rank_2",
+        "name": "登神长阶炽诚等级门槛",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 11,
+        "levelValues": null,
+        "description": "当前角色等级门槛11。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/level_for_rank_3",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "level_for_rank_3",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "level_for_rank_3",
+        "name": "登神长阶超然等级门槛",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 16,
+        "levelValues": null,
+        "description": "当前角色等级门槛16。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/upgraded_attack_range",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "upgraded_attack_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "upgraded_attack_range",
+        "name": "登神长阶升腾攻击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 525,
+        "levelValues": null,
+        "description": "当前6级攻击距离525。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/final_attack_range",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "final_attack_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "final_attack_range",
+        "name": "登神长阶超然攻击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 625,
+        "levelValues": null,
+        "description": "当前16级攻击距离625。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/self_move_speed_ratio",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "登神长阶满层自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "正文将MSTowardsEnemy乘100显示；当前值0.1，触发条件由层数/角色等级事件提供。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/self_move_speed_radius",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_radius",
+        "name": "登神长阶自身移动速度作用半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前作用半径2000；只作来源数值。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/max_stack_count",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "max_stack_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_stack_count",
+        "name": "登神长阶攻击层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前正文明确最大5层。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/stack_duration_ms",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "stack_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stack_duration_ms",
+        "name": "登神长阶攻击层数持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前EnrageDuration=5秒，转换为5000毫秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/attack_speed_per_stack_percent_points",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "attack_speed_per_stack_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_per_stack_percent_points",
+        "name": "登神长阶每层攻击速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前正文直接接EnrageTotalASPerStack百分号，计算树直接引用EnrageASPerStack。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_base_at_character_level",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_base_at_character_level",
+        "name": "登神长阶焰浪角色等级实际基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "PassiveWaveDamage的1级起点20与12级起每级增加3属于角色等级断点；运行层提供当前角色等级实际基础值，不展开1至18固定曲线。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_level1_value",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_level1_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_level1_value",
+        "name": "登神长阶焰浪角色等级起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "当前焰浪角色等级起点20。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_breakpoint_level",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_breakpoint_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_breakpoint_level",
+        "name": "登神长阶焰浪增加断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前12级起进入增加。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_breakpoint_increment",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_breakpoint_increment",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_breakpoint_increment",
+        "name": "登神长阶焰浪每级增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前12级起每级增加3。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_ap_ratio",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_ap_ratio",
+        "name": "登神长阶焰浪法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前PassiveWaveDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/kayle_p/parameters",
+      "detailRoute": "/skills/kayle_p/parameters/passive_wave_bonus_ad_ratio",
+      "skillKey": "kayle_p",
+      "kind": "parameters",
+      "stableKey": "passive_wave_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_wave_bonus_ad_ratio",
+        "name": "登神长阶焰浪额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 170
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/kayle_p/formulas",
+      "detailRoute": "/skills/kayle_p/formulas/passive_wave_magic_damage",
+      "skillKey": "kayle_p",
+      "kind": "formulas",
+      "stableKey": "passive_wave_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_wave_magic_damage",
+        "name": "登神长阶焰浪单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_wave_base_at_character_level"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_wave_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_wave_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前PassiveWaveDamage=角色等级焰浪基础值+0.25×来源总法术强度+0.1×来源额外攻击力；保持角色等级断点输入。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/kayle_p/effects",
+      "detailRoute": "/skills/kayle_p/effects/self_move_speed",
+      "skillKey": "kayle_p",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "登神长阶满层自身移动速度",
+        "description": "当前正文明确满层昂扬时自身获得移动速度；层数和角色等级触发待接。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "登神长阶满层自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "self_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/base_damage",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "耀焰冲击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端当前根绑定Damage取技能等级索引1至5为60/90/120/150/180。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 161,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/ap_ratio",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "耀焰冲击法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "TotalDamage的第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 162,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/bonus_ad_ratio",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "耀焰冲击额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.60000002,
+        "levelValues": null,
+        "description": "TotalDamage的第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 163,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/slow_percent_points",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "耀焰冲击减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 30,
+          "3": 35,
+          "4": 40,
+          "5": 45
+        },
+        "description": "当前正文直接接SlowPercent百分号；技能等级索引1至5为25/30/35/40/45。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 164,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/slow_duration_ms",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "耀焰冲击减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前SlowDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 165,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/shred_percent_points",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "shred_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shred_percent_points",
+        "name": "耀焰冲击护甲魔抗削减百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "当前正文直接接ShredPercent百分号，保存15百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 166,
+      "method": "POST",
+      "route": "/skills/kayle_q/parameters",
+      "detailRoute": "/skills/kayle_q/parameters/shred_duration_ms",
+      "skillKey": "kayle_q",
+      "kind": "parameters",
+      "stableKey": "shred_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shred_duration_ms",
+        "name": "耀焰冲击削减持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前ShredDuration=4秒，转换为4000毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 167,
+      "method": "POST",
+      "route": "/skills/kayle_q/formulas",
+      "detailRoute": "/skills/kayle_q/formulas/magic_damage",
+      "skillKey": "kayle_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "耀焰冲击单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage=Damage+0.5×来源总法术强度+0.6×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 168,
+      "method": "POST",
+      "route": "/skills/kayle_q/effects",
+      "detailRoute": "/skills/kayle_q/effects/mana_cost",
+      "skillKey": "kayle_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 169,
+      "method": "POST",
+      "route": "/skills/kayle_w/parameters",
+      "detailRoute": "/skills/kayle_w/parameters/base_heal",
+      "skillKey": "kayle_w",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "星界恩典基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 170,
+      "method": "POST",
+      "route": "/skills/kayle_w/parameters",
+      "detailRoute": "/skills/kayle_w/parameters/heal_ap_ratio",
+      "skillKey": "kayle_w",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "星界恩典法术强度治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 171,
+      "method": "POST",
+      "route": "/skills/kayle_w/parameters",
+      "detailRoute": "/skills/kayle_w/parameters/haste_ratio",
+      "skillKey": "kayle_w",
+      "kind": "parameters",
+      "stableKey": "haste_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "haste_ratio",
+        "name": "星界恩典移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.23999999,
+          "2": 0.28,
+          "3": 0.31999999,
+          "4": 0.36000001,
+          "5": 0.40000001
+        },
+        "description": "当前正文直接接TotalHaste，计算树标记mDisplayAsPercent；保存技能等级1至5的0.24至0.40。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 172,
+      "method": "POST",
+      "route": "/skills/kayle_w/parameters",
+      "detailRoute": "/skills/kayle_w/parameters/haste_ap_ratio",
+      "skillKey": "kayle_w",
+      "kind": "parameters",
+      "stableKey": "haste_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "haste_ap_ratio",
+        "name": "星界恩典法术强度移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0008,
+        "levelValues": null,
+        "description": "TotalHaste第二项为0.0008×来源总法术强度，结果按百分比显示。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 173,
+      "method": "POST",
+      "route": "/skills/kayle_w/parameters",
+      "detailRoute": "/skills/kayle_w/parameters/haste_duration_ms",
+      "skillKey": "kayle_w",
+      "kind": "parameters",
+      "stableKey": "haste_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "haste_duration_ms",
+        "name": "星界恩典移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前HasteDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 174,
+      "method": "POST",
+      "route": "/skills/kayle_w/formulas",
+      "detailRoute": "/skills/kayle_w/formulas/heal_value",
+      "skillKey": "kayle_w",
+      "kind": "formulas",
+      "stableKey": "heal_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_value",
+        "name": "星界恩典单次基础治疗值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 175,
+      "method": "POST",
+      "route": "/skills/kayle_w/formulas",
+      "detailRoute": "/skills/kayle_w/formulas/haste_ratio",
+      "skillKey": "kayle_w",
+      "kind": "formulas",
+      "stableKey": "haste_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "haste_ratio",
+        "name": "星界恩典自身与友军移动速度比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "haste_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "haste_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalHaste=Haste+0.0008×来源总法术强度，并按百分比显示。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 176,
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "detailRoute": "/skills/kayle_w/effects/mana_cost",
+      "skillKey": "kayle_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 177,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/passive_base_damage",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "passive_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_base_damage",
+        "name": "星火符刃被动基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "description": "客户端当前根绑定PassiveDamage取技能等级索引1至5为15/20/25/30/35；索引0重复15不作为起点证据。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 178,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/active_execute_percent_points",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "active_execute_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_execute_percent_points",
+        "name": "星火符刃主动已损生命百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8,
+          "2": 8.5,
+          "3": 9,
+          "4": 9.5,
+          "5": 10
+        },
+        "description": "当前ActiveTotalExecuteDamage树使用百分数点数组，取技能等级索引1至5为8/8.5/9/9.5/10。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 179,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/passive_ap_ratio",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "passive_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_ap_ratio",
+        "name": "星火符刃被动法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "EPassiveTotalDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 180,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/passive_bonus_ad_ratio",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "passive_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_bonus_ad_ratio",
+        "name": "星火符刃被动额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "EPassiveTotalDamage第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 181,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/active_execute_ap_ratio",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "active_execute_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_execute_ap_ratio",
+        "name": "星火符刃主动已损生命法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.015,
+        "levelValues": null,
+        "description": "主动树第二项为0.015×来源总法术强度，外层mMultiplier约0.01且按百分数显示。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 182,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/active_execute_multiplier",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "active_execute_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_execute_multiplier",
+        "name": "星火符刃主动已损生命倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "保留当前树外层0.01倍率；不把它与百分数显示重复换算。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 183,
+      "method": "POST",
+      "route": "/skills/kayle_e/parameters",
+      "detailRoute": "/skills/kayle_e/parameters/buff_duration_ms",
+      "skillKey": "kayle_e",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "星火符刃主动强化持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前来源BuffDuration=5秒；只记录来源时长，不替代下一次攻击事件。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 184,
+      "method": "POST",
+      "route": "/skills/kayle_e/formulas",
+      "detailRoute": "/skills/kayle_e/formulas/passive_magic_damage",
+      "skillKey": "kayle_e",
+      "kind": "formulas",
+      "stableKey": "passive_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_magic_damage",
+        "name": "星火符刃被动单一目标额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前EPassiveTotalDamage=PassiveDamage+0.2×来源总法术强度+0.1×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 185,
+      "method": "POST",
+      "route": "/skills/kayle_e/formulas",
+      "detailRoute": "/skills/kayle_e/formulas/active_execute_ratio",
+      "skillKey": "kayle_e",
+      "kind": "formulas",
+      "stableKey": "active_execute_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "active_execute_ratio",
+        "name": "星火符刃主动已损生命伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_execute_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_execute_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_execute_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前ActiveTotalExecuteDamage=0.01×(ActiveExecutePercent+0.015×来源总法术强度)，结果按百分数显示；目标已损生命由运行层提供。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 186,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/base_damage",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "圣裁之刻基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "description": "客户端当前根绑定Damage取技能等级索引1至3为200/300/400。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 187,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/ap_ratio",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "圣裁之刻法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.69999999,
+        "levelValues": null,
+        "description": "TotalDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 188,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/bonus_ad_ratio",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "圣裁之刻额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "TotalDamage第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 189,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/invulnerability_duration_ms",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "invulnerability_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "invulnerability_duration_ms",
+        "name": "圣裁之刻友方英雄无敌持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前InvulnDuration=2.5秒，转换为2500毫秒。友方英雄资格不由范围推断。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 190,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/aoe_radius",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "aoe_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "aoe_radius",
+        "name": "圣裁之刻范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 675,
+          "2": 675,
+          "3": 775
+        },
+        "description": "当前正文消费AoERadius，技能等级索引1至3为675/675/775。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 191,
+      "method": "POST",
+      "route": "/skills/kayle_r/parameters",
+      "detailRoute": "/skills/kayle_r/parameters/mana_cost",
+      "skillKey": "kayle_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "圣裁之刻法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 50,
+          "3": 0
+        },
+        "description": "当前官方基础消耗按技能等级索引1至3为100/50/0；根mana数组尾部占位不覆盖该值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 192,
+      "method": "POST",
+      "route": "/skills/kayle_r/formulas",
+      "detailRoute": "/skills/kayle_r/formulas/magic_damage",
+      "skillKey": "kayle_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "圣裁之刻范围内单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage=Damage+0.7×来源总法术强度+1×来源额外攻击力；友方无敌与敌方伤害分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 193,
+      "method": "POST",
+      "route": "/skills/kayle_r/effects",
+      "detailRoute": "/skills/kayle_r/effects/mana_cost",
+      "skillKey": "kayle_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0
+}
