@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T12:35:36.728Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/khazix_p/formulas",
+  "detailRoute": "/skills/khazix_p/formulas/passive_damage",
+  "skillKey": "khazix_p",
+  "kind": "formulas",
+  "id": "passive_damage",
+  "body": {
+    "formulaKey": "passive_damage",
+    "name": "无形威胁额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "passive_level_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；TotalDamage = 角色等级基础伤害 + BonusADRatio×来源额外攻击力；隐身、英雄目标和孤立资格待接线。",
+    "sortOrder": 10
+  }
+}

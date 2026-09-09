@@ -1,0 +1,581 @@
+{
+  "at": "2026-09-09T13:11:12.254Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "aatrox_e",
+      "observed": "代表图片、基础0.16和每点额外生命增量0.00011可见；打开完整治疗比例公式，属性对象为施法者、生命值、加成值，包含根百分比换算。"
+    },
+    {
+      "skillKey": "riven_w",
+      "observed": "基础65/95/125/155/185和750毫秒眩晕可见；伤害公式引用施法者攻击力的加成值，而非最终值。"
+    },
+    {
+      "skillKey": "rengar_r",
+      "observed": "15/20/25固定护甲削减点数、4000毫秒持续及伪装和移速分支数值可见，没有误标为15%/20%/25%。"
+    }
+  ],
+  "GETs": 14,
+  "requests": [
+    {
+      "route": "/skills/aatrox_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:15:17.90717Z",
+        "description": "被动效果：亚托克斯会在对敌方英雄造成伤害时治疗自身。主动效果：他会朝一个方向突进。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚托克斯·暗影冲决",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "aatrox_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:15:17.90717Z"
+      }
+    },
+    {
+      "route": "/skills/aatrox_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_aatrox_e",
+          "name": "aatrox_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/aatrox_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:34:16.483623Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "aatrox_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:34:16.483623Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:34:17.396811Z",
+          "description": "当前根绑定 DataValues.ESpellVamp 取索引1至5；单位正文百分数点转比例；按正文单位换算为系统值",
+          "fixedValue": 0.16,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "暗影冲决基础治疗效果比例",
+          "parameterKey": "base_healing_ratio",
+          "skillKey": "aatrox_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:34:17.396811Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:34:18.393384Z",
+          "description": "当前根 DataValues.EVampHPRatio 原值约0.011，TotalEVamp的mMultiplier为0.01；与第十七批Vladimir W的BonusHealthRatio同型mStat=12、mStatFormula=2交叉证明为来源额外生命值，因此每点来源额外生命值的治疗比例增量为0.011×0.01=0.00011。",
+          "fixedValue": 0.00011,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每点额外生命值带来的治疗比例增量",
+          "parameterKey": "bonus_healing_ratio_per_bonus_health",
+          "skillKey": "aatrox_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:34:18.393384Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:35:46.33984Z",
+          "description": "DDragon16.17.1 Aatrox.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aatrox_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:46.33984Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/aatrox_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:34:19.438148Z",
+          "description": "TotalEVamp = 0.01×(ESpellVamp + EVampHPRatio×来源额外生命值)；按正文百分比和同型来源树换算为0.16 + 0.00011×SOURCE.hp.BONUS。只保存完整比例公式，不创建治疗效果；来源额外生命值由运行时属性快照提供且没有默认值。",
+          "formulaKey": "total_healing_ratio",
+          "gameId": "lol",
+          "name": "暗影冲决完整治疗效果比例",
+          "skillKey": "aatrox_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:34:19.438148Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/riven_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:05.504851Z",
+        "description": "锐雯爆发斗气，对附近敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "锐雯·震魂怒吼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "riven_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:05.504851Z"
+      }
+    },
+    {
+      "route": "/skills/riven_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_riven_w",
+          "name": "riven_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/riven_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:33:32.321892Z",
+          "description": "当前根mCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 267,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "riven_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:33:32.321892Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:33:33.283759Z",
+          "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 65,
+            "2": 95,
+            "3": 125,
+            "4": 155,
+            "5": 185
+          },
+          "name": "震魂怒吼基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "riven_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:33:33.283759Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:33:34.321062Z",
+          "description": "当前根绑定 DataValues.StunDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "震魂怒吼晕眩持续时间",
+          "parameterKey": "stun_duration_ms",
+          "skillKey": "riven_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:33:34.321062Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:16.548375Z",
+          "description": "DDragon16.17.1 Riven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "riven_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:16.548375Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/riven_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:33:35.307937Z",
+          "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；只保存独立数学量。",
+          "formulaKey": "total_damage",
+          "gameId": "lol",
+          "name": "震魂怒吼物理伤害",
+          "skillKey": "riven_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:33:35.307937Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rengar_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:04.637521Z",
+        "description": "雷恩加尔激活他的掠食者本能，<font color='#cd90ee'>伪装</font>自身并感知附近极大范围内的距他最近的敌方英雄。在狩猎律动期间，他会获得移动速度加成，他的下次攻击将使他即使不在草丛内也可以进行跳跃，并且会减少目标的护甲。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "雷恩加尔·狩猎律动",
+        "skillCategoryKeys": [],
+        "skillKey": "rengar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:04.637521Z"
+      }
+    },
+    {
+      "route": "/skills/rengar_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_rengar_r",
+          "name": "rengar_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/rengar_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:35:20.04084Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "rengar_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:35:20.04084Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:21.083799Z",
+          "description": "当前根绑定 DataValues.StealthDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 16000,
+            "3": 20000
+          },
+          "name": "狩猎律动持续时间",
+          "parameterKey": "stealth_duration_ms",
+          "skillKey": "rengar_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:35:21.083799Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:22.076367Z",
+          "description": "当前根绑定 DataValues.EnemyDetectionRange 取索引1至3",
+          "fixedValue": 1600,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最近敌方英雄侦测范围",
+          "parameterKey": "enemy_detection_range",
+          "skillKey": "rengar_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:35:22.076367Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:23.102463Z",
+          "description": "当前根绑定 DataValues.SelfRevealRange 取索引1至3",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身显形范围",
+          "parameterKey": "self_reveal_range",
+          "skillKey": "rengar_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:35:23.102463Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:24.101599Z",
+          "description": "当前根绑定 DataValues.StealthMS 取索引1至3",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 50,
+            "3": 60
+          },
+          "name": "狩猎律动移动速度加成百分数点",
+          "parameterKey": "movement_speed_percent_points",
+          "skillKey": "rengar_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:35:24.101599Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:25.198582Z",
+          "description": "当前根绑定 DataValues.FadeTime 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "进入伪装前等待时间",
+          "parameterKey": "fade_time_ms",
+          "skillKey": "rengar_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:35:25.198582Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:26.270084Z",
+          "description": "当前根绑定 DataValues.ArmorShred 取索引1至3",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15,
+            "2": 20,
+            "3": 25
+          },
+          "name": "跃击目标固定护甲削减点数",
+          "parameterKey": "armor_shred_points",
+          "skillKey": "rengar_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:35:26.270084Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:27.285131Z",
+          "description": "当前根绑定 DataValues.ArmorShredDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标护甲削减持续时间",
+          "parameterKey": "armor_shred_duration_ms",
+          "skillKey": "rengar_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:35:27.285131Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:01.299618Z",
+          "description": "DDragon16.17.1 Rengar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rengar_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:01.299618Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:35:28.358073Z",
+          "description": "当前根绑定 DataValues.LeapRange 取索引1至3",
+          "fixedValue": 725,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狩猎律动跃击距离",
+          "parameterKey": "leap_range",
+          "skillKey": "rengar_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:35:28.358073Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rengar_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/aatrox_e/formulas/total_healing_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:34:19.438148Z",
+        "description": "TotalEVamp = 0.01×(ESpellVamp + EVampHPRatio×来源额外生命值)；按正文百分比和同型来源树换算为0.16 + 0.00011×SOURCE.hp.BONUS。只保存完整比例公式，不创建治疗效果；来源额外生命值由运行时属性快照提供且没有默认值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_healing_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_healing_ratio_per_bonus_health"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_healing_ratio",
+        "gameId": "lol",
+        "name": "暗影冲决完整治疗效果比例",
+        "skillKey": "aatrox_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:34:19.438148Z"
+      }
+    },
+    {
+      "route": "/skills/riven_w/formulas/total_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:33:35.307937Z",
+        "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；只保存独立数学量。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "BONUS",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "震魂怒吼物理伤害",
+        "skillKey": "riven_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:33:35.307937Z"
+      }
+    }
+  ],
+  "mathCases": 5,
+  "cases": [
+    {
+      "skillKey": "aatrox_e",
+      "formulaKey": "total_healing_ratio",
+      "input": {
+        "SOURCE.hp.BONUS": 0
+      },
+      "actual": 0.16,
+      "expected": 0.16,
+      "passed": true
+    },
+    {
+      "skillKey": "aatrox_e",
+      "formulaKey": "total_healing_ratio",
+      "input": {
+        "SOURCE.hp.BONUS": 1000
+      },
+      "actual": 0.27,
+      "expected": 0.27,
+      "passed": true
+    },
+    {
+      "skillKey": "aatrox_e",
+      "formulaKey": "total_healing_ratio",
+      "input": {
+        "SOURCE.hp.BONUS": 2000
+      },
+      "actual": 0.38,
+      "expected": 0.38,
+      "passed": true
+    },
+    {
+      "skillKey": "riven_w",
+      "formulaKey": "total_damage",
+      "input": {
+        "rank": 1,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "actual": 165,
+      "expected": 165,
+      "passed": true
+    },
+    {
+      "skillKey": "riven_w",
+      "formulaKey": "total_damage",
+      "input": {
+        "rank": 5,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "actual": 285,
+      "expected": 285,
+      "passed": true
+    }
+  ],
+  "armorShredPoints": {
+    "1": 15,
+    "2": 20,
+    "3": 25
+  },
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

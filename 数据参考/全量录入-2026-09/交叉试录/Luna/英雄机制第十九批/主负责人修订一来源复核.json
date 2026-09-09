@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-09T12:32:41.702Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "planSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+  "sourceSha256": "30779f022bcf82a87191627db649a59d8f7c771c0f0e330d31194025ce8d8a30",
+  "passed": true,
+  "approvedNewComponents": 175,
+  "sourceChecks": [
+    "沿用主负责人对cb3候选十四个技能根树的复核；mStat2/2按额外攻击力、2/0按总攻击力。",
+    "Aatrox E根TotalEVamp的0.01乘完整和式：基础16百分数点转换为0.16，额外生命系数0.011转换为比例0.00011。",
+    "当前同类12/2由弗拉基米尔W与余震来源窄证为额外生命。",
+    "Aatrox P治疗使用实际伤害外供值，Rengar护甲削减为15/20/25点；揭露视野排除，战前骨齿层数保留。"
+  ],
+  "differences": [
+    {
+      "path": "aatrox_e.parameters.3.parameterKey",
+      "before": "bonus_healing_ratio_per_unresolved_stat",
+      "after": "bonus_healing_ratio_per_bonus_health"
+    },
+    {
+      "path": "aatrox_e.parameters.3.name",
+      "before": "暗影冲决未映射统计项治疗比例",
+      "after": "每点额外生命值带来的治疗比例增量"
+    },
+    {
+      "path": "aatrox_e.parameters.3.fixedValue",
+      "before": 0.011,
+      "after": 0.00011
+    },
+    {
+      "path": "aatrox_e.parameters.3.description",
+      "before": "当前根绑定 DataValues.EVampHPRatio 取索引1至5",
+      "after": "当前根 DataValues.EVampHPRatio 原值约0.011，TotalEVamp的mMultiplier为0.01；与第十七批Vladimir W的BonusHealthRatio同型mStat=12、mStatFormula=2交叉证明为来源额外生命值，因此每点来源额外生命值的治疗比例增量为0.011×0.01=0.00011。"
+    },
+    {
+      "path": "aatrox_e.formulas.0",
+      "after": {
+        "formulaKey": "total_healing_ratio",
+        "name": "暗影冲决完整治疗效果比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_healing_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_healing_ratio_per_bonus_health"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalEVamp = 0.01×(ESpellVamp + EVampHPRatio×来源额外生命值)；按正文百分比和同型来源树换算为0.16 + 0.00011×SOURCE.hp.BONUS。只保存完整比例公式，不创建治疗效果；来源额外生命值由运行时属性快照提供且没有默认值。",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "cases": [
+    {
+      "bonusHealth": 0,
+      "actual": 0.16,
+      "expected": 0.16
+    },
+    {
+      "bonusHealth": 1000,
+      "actual": 0.27,
+      "expected": 0.27
+    },
+    {
+      "bonusHealth": 2000,
+      "actual": 0.38,
+      "expected": 0.38
+    }
+  ],
+  "scope": "只授权冻结计划175项组成新增及独立回读；保护主体、角色、关系、图片、目录和16公共参数；无完整战斗运行声明。"
+}

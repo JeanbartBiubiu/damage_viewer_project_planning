@@ -1,0 +1,661 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保存当前四名英雄根绑定主技能的本地化键和中文正文；动态键缺失时保留缺失事实。",
+  "skills": {
+    "riven_p": {
+      "binding": "Characters/Riven/Spells/RivenPassiveAbility/RivenPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RivenPassive_Name",
+          "key": "spell_rivenpassive_name",
+          "text": "符文之刃"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RivenPassive_Tooltip",
+          "key": "spell_rivenpassive_tooltip",
+          "text": "使用一个技能后，会为锐雯提供一层持续6秒的充能(最多@Charges@层)。她的攻击会花费一层充能来造成额外的<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RivenPassive_Summary",
+          "key": "spell_rivenpassive_summary",
+          "text": "锐雯的技能会为她的剑刃充能，并且她的普通攻击会消耗充能来造成额外伤害。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_RivenPassive_TooltipExtended",
+          "key": "spell_rivenpassive_tooltipextended",
+          "text": "{{Spell_RivenPassive_Tooltip}}<br><br><rules>这个额外伤害可产生暴击。<br>对野怪造成@MonsterBonusDamage@额外伤害。</rules>"
+        }
+      }
+    },
+    "riven_q": {
+      "binding": "Characters/Riven/Spells/RivenTriCleaveAbility/RivenTriCleave",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RivenTriCleave_Name",
+          "key": "spell_riventricleave_name",
+          "text": "折翼之舞"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RivenTriCleave_Summary",
+          "key": "spell_riventricleave_summary",
+          "text": "锐雯斩出一套猛烈的剑式。在短时间内，这个技能最多可以重新激活3次，并且第三次会将周围的所有敌人击飞。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RivenTriCleave_Tooltip",
+          "key": "spell_riventricleave_tooltip",
+          "text": "锐雯向前冲刺，造成<physicalDamage>@FirstSlashDamage@物理伤害</physicalDamage>。她可以<recast>再次施放</recast>这个技能两次。第一次<recast>再次施放</recast>和初始效果相同，但第二次会有不同的效果：<br><br><recast>再次施放</recast>: 锐雯向前跃起并猛劈，对附近的敌人们造成<physicalDamage>@FirstSlashDamage@物理伤害</physicalDamage>和0.75秒<status>击飞</status>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RivenTriCleave_TooltipExtendedBelowLine",
+          "key": "spell_riventricleave_tooltipextendedbelowline",
+          "text": "<rules>这个技能只有最后一段可以穿过地形。<br>锐雯会以被你的鼠标悬停着的单位为目标，或在没有目标时向前冲刺。</rules>"
+        }
+      }
+    },
+    "riven_w": {
+      "binding": "Characters/Riven/Spells/RivenMartyrAbility/RivenMartyr",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RivenMartyr_Name",
+          "key": "spell_rivenmartyr_name",
+          "text": "震魂怒吼"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RivenMartyr_Summary",
+          "key": "spell_rivenmartyr_summary",
+          "text": "锐雯爆发斗气，对附近敌人造成伤害和晕眩效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RivenMartyr_Tooltip",
+          "key": "spell_rivenmartyr_tooltip",
+          "text": "锐雯的剑爆发出一股符文能量，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和@StunDuration@秒<status>晕眩</status>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "riven_e": {
+      "binding": "Characters/Riven/Spells/RivenFeintAbility/RivenFeint",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RivenFeint_Name",
+          "key": "spell_rivenfeint_name",
+          "text": "勇往直前"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RivenFeint_Summary",
+          "key": "spell_rivenfeint_summary",
+          "text": "锐雯向前冲锋一小段距离，并格挡即将到来的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RivenFeint_Tooltip",
+          "key": "spell_rivenfeint_tooltip",
+          "text": "锐雯快速冲刺并获得持续1.5秒的<shield>@TotalShield@护盾值</shield>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RivenFeint_TooltipExtendedBelowLine",
+          "key": "spell_rivenfeint_tooltipextendedbelowline",
+          "text": "<rules>这个冲刺不能穿过地形。</rules>"
+        }
+      }
+    },
+    "riven_r": {
+      "binding": "Characters/Riven/Spells/RivenFengShuiEngineAbility/RivenFengShuiEngine",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RivenFengShuiEngineAbility_Name",
+          "key": "spell_rivenfengshuiengineability_name",
+          "text": "放逐之锋"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RivenFengShuiEngine_Summary",
+          "key": "spell_rivenfengshuiengine_summary",
+          "text": "锐雯将能量灌入她那残破不堪的武器中，使攻击力和攻击范围都得到提高。在这段时间里，她还能使用一次疾风斩（一次强大的远程打击）。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RivenFengShuiEngine_Tooltip",
+          "key": "spell_rivenfengshuiengine_tooltip",
+          "text": "锐雯的武器激荡着灵体能量，为她提供<physicalDamage>@BonusAD@攻击力</physicalDamage>，并且伤害型技能和攻击获得距离提升，持续@Duration@秒。在此期间，她可以进行<recast>再次施放</recast>。<br><br><recast>再次施放</recast>：锐雯发射一道疾风斩来造成<physicalDamage>@MinDamage@</physicalDamage>到<physicalDamage>@MaxDamage@物理伤害</physicalDamage>，基于目标们的已损失生命值。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RivenFengShuiEngine_TooltipExtendedBelowLine",
+          "key": "spell_rivenfengshuiengine_tooltipextendedbelowline",
+          "text": "<rules>获得@TooltipAttackRange@攻击距离。</rules> "
+        }
+      }
+    },
+    "aatrox_p": {
+      "binding": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
+      "keys": {
+        "keyTooltip": {
+          "sourceKey": "Passive_AatroxPassive_Tooltip",
+          "key": "passive_aatroxpassive_tooltip",
+          "text": "亚托克斯的攻击造成额外的<magicDamage>@PDamage@最大生命值魔法伤害</magicDamage>并回复<healing>@PHealingRatio*100@%实际伤害值的生命值</healing>，对小兵时降低至@PHealingMinionMod*100@%。这个效果有@PCooldown@秒冷却时间。<br><br>对英雄和大型野怪进行的攻击和技能会使这个效果的冷却时间缩短2秒。用<spellName>暗裔利刃</spellName>的边缘命中时会使这个效果的冷却时间缩短4秒。"
+        },
+        "keyName": {
+          "sourceKey": "Passive_AatroxPassive_Name",
+          "key": "passive_aatroxpassive_name",
+          "text": "赐死剑气"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Passive_AatroxPassive_TooltipExtended",
+          "key": "passive_aatroxpassive_tooltipextended",
+          "text": "{{Passive_AatroxPassive_Tooltip}}<br><br><rules>对野怪最多造成@MonsterDamageCap@伤害。 <br>用技能命中多个目标时也仅会缩短一次冷却时间。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AatroxPassive_Summary",
+          "key": "spell_aatroxpassive_summary",
+          "text": "每过一段时间，亚托克斯的下次普攻会造成额外<magicDamage>魔法伤害</magicDamage>，并治疗亚托克斯，治疗量基于目标的最大生命值。 "
+        },
+        "keyCooldown": {
+          "sourceKey": "Passive_AatroxPassive_Cooldown",
+          "key": "passive_aatroxpassive_cooldown",
+          "text": "<passiveCooldown>@PCooldown@秒%i:cooldown%</passiveCooldown>"
+        }
+      }
+    },
+    "aatrox_q": {
+      "binding": "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ",
+      "keys": {
+        "keyTooltip": {
+          "sourceKey": "Spell_AatroxQ_Tooltip",
+          "key": "spell_aatroxq_tooltip",
+          "text": "亚托克斯猛砸他的巨剑，造成<physicalDamage>@QDamage@物理伤害</physicalDamage>。如果敌人被边缘命中，还会被暂时<status>击飞</status>并转而受到<physicalDamage>@QEdgeDamage@伤害</physicalDamage>。这个技能可以<recast>再次施放</recast>两段，每段都会改变形状并比上一段多造成25%伤害。"
+        },
+        "keyName": {
+          "sourceKey": "Spell_AatroxQ_Name",
+          "key": "spell_aatroxq_name",
+          "text": "暗裔利刃"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AatroxQ_TooltipExtendedBelowLine",
+          "key": "spell_aatroxq_tooltipextendedbelowline",
+          "text": "<rules>对小兵造成@QMinionDamage@伤害。<br>对野怪的<status>击飞</status>时长翻倍并且它造成@QMonsterBonus@额外伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AatroxQ_Summary",
+          "key": "spell_aatroxq_summary",
+          "text": "亚托克斯向下猛砸他的巨剑，并造成物理伤害。他可以挥击三次，每次都有一个不同的范围效果。"
+        }
+      }
+    },
+    "aatrox_w": {
+      "binding": "Characters/Aatrox/Spells/AatroxWAbility/AatroxW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AatroxW_Name",
+          "key": "spell_aatroxw_name",
+          "text": "恶火束链"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AatroxW_Tooltip",
+          "key": "spell_aatroxw_tooltip",
+          "text": "亚托克斯发射一道锁链，对命中的第一个敌人造成持续 @WSlowDuration@秒的@WSlowPercentage*-100@%<status>减速</status>和<physicalDamage>@WDamage@物理伤害</physicalDamage>。英雄和大型野怪需要在@WSlowDuration@秒内离开被影响的区域，否则就会被<status>拖拽</status>回中心并再次受到等额伤害。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AatroxW_TooltipExtendedBelowLine",
+          "key": "spell_aatroxw_tooltipextendedbelowline",
+          "text": "<rules>对小兵造成双倍伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AatroxW_Summary",
+          "key": "spell_aatroxw_summary",
+          "text": "亚托克斯猛砸地面，对命中的第一个敌人造成伤害。英雄和大型野怪需要快速离开被影响的区域，否则就会被拖拽到中心并再次受到伤害。"
+        }
+      }
+    },
+    "aatrox_e": {
+      "binding": "Characters/Aatrox/Spells/AatroxEAbility/AatroxE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AatroxE_Name",
+          "key": "spell_aatroxe_name",
+          "text": "暗影冲决"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AatroxE_Tooltip",
+          "key": "spell_aatroxe_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>亚托克斯获得治疗效果，相当于他对英雄造成的<lifeSteal>@TotalEVamp@</lifeSteal>伤害。<br><br><spellActive>主动：</spellActive>亚托克斯突进。他可以在其它技能的前摇阶段使用这个技能。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AatroxE_Summary",
+          "key": "spell_aatroxe_summary",
+          "text": "被动效果：亚托克斯会在对敌方英雄造成伤害时治疗自身。主动效果：他会朝一个方向突进。"
+        }
+      }
+    },
+    "aatrox_r": {
+      "binding": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AatroxR_Name",
+          "key": "spell_aatroxr_name",
+          "text": "大灭"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AatroxR_Tooltip",
+          "key": "spell_aatroxr_tooltip",
+          "text": "亚托克斯显现他真正的恶魔形态，<status>恐惧</status>附近的小兵@RMinionFearDuration@秒并获得在 @RDuration@秒里持续衰减的<speed>@RMovementSpeedBonus*100@%移动速度</speed>。在此期间，他还会获得<scaleAD>@RTotalADAmp*100@%攻击力</scaleAD>并提升<healing>@RHealingAmp*100@%自我治疗效果</healing>。<br><br>参与击杀英雄后会使这个效果的持续时间延长@RExtension@秒并刷新<speed>移动速度</speed>效果。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AatroxR_Summary",
+          "key": "spell_aatroxr_summary",
+          "text": "亚托克斯现出他的恶魔形态，恐惧附近的敌方小兵，并获得攻击力、治疗效果提升、以及移动速度。如果他参与了一次击杀，这个效果就会延长。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AatroxR_TooltipExtendedBelowLine",
+          "key": "spell_aatroxr_tooltipextendedbelowline",
+          "text": "<rules>持续时间最多只会提升到@RDuration@秒。</rules>"
+        }
+      }
+    },
+    "rengar_p": {
+      "binding": "Characters/Rengar/Spells/RengarPassiveAbility/RengarPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RengarPassive_Name",
+          "key": "spell_rengarpassive_name",
+          "text": "无形掠食者"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RengarPassive_Tooltip",
+          "key": "spell_rengarpassive_tooltip",
+          "text": "在草丛中时，雷恩加尔会对他攻击的敌人进行跃击。<br><br>雷恩加尔在使用一个非终极技能时会生成<keywordMajor>1残暴值</keywordMajor>。在开始跃击时，【无形掠食者】将生成<keywordMajor>1残暴值</keywordMajor>，前提是他的当前残暴值之中没有通过这种方式生成过的。<br> <br>在<keywordMajor>@MaxFerocity@残暴值</keywordMajor>时，他的非终极技能会获得强化。在施放一个强化版技能时，雷恩加尔会获得持续@EmpoweredMSDuration@秒的<speed>@EmpoweredMS@移动速度</speed>。<br><br>独特的参与击杀会提升雷恩加尔来自<keywordMajor>骨齿项链</keywordMajor>的<physicalDamage>攻击力</physicalDamage>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_RengarPassive_TooltipExtended",
+          "key": "spell_rengarpassive_tooltipextended",
+          "text": "{{Spell_RengarPassive_Tooltip}}<br><rules><br>在离开战斗状态@InCombatTimer@秒后，雷恩加尔会失去所有<keywordMajor>残暴值</keywordMajor>。<br>雷恩加尔在击杀卡兹克后会获得额外<physicalDamage>攻击力</physicalDamage>。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RengarPassive_Summary",
+          "key": "spell_rengarpassive_summary",
+          "text": "在草丛时，雷恩加尔的普通攻击会让他跳跃至目标敌人身边。<br><br>雷恩加尔在每次施放技能时会生成残暴值。在满残暴值时，他的下一个技能会得到强化。<br><br>击杀敌方英雄会在雷恩加尔的<font color='#BBFFFF'>骨齿项链</font>上新增战利品奖励，从而提供额外攻击力。"
+        }
+      }
+    },
+    "rengar_q": {
+      "binding": "Characters/Rengar/Spells/RengarQAbility/RengarQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RengarQ_Name",
+          "key": "spell_rengarq_name",
+          "text": "残忍无情"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RengarQ_Summary",
+          "key": "spell_rengarq_summary",
+          "text": "雷恩加尔的下次攻击会蛮横地戳刺他的目标来造成额外伤害。<br><br>残暴效果：造成更多伤害，并且他会获得攻击速度加成。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RengarQ_Tooltip",
+          "key": "spell_rengarq_tooltip",
+          "text": "雷恩加尔的下两次攻击获得<attackSpeed>@ASBonus@%攻击速度</attackSpeed>。第一次攻击造成<physicalDamage>@QTotalDamage@物理伤害</physicalDamage>。<br><br><keywordMajor>满层残暴值：</keywordMajor>第一次攻击造成<physicalDamage>@EmpoweredQTotalDamage@物理伤害</physicalDamage>并为雷恩加尔提供持续@ASDuration@秒的<attackSpeed>@EmpoweredQAS@攻击速度</attackSpeed>。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_AmmoRecharge_As_Cooldown",
+          "key": "spell_ammorecharge_as_cooldown",
+          "text": "@AmmoRechargeTime@秒%i:cooldown%"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RengarQWE_Cost",
+          "key": "spell_rengarqwe_cost",
+          "text": "<font color='#EDDA74'>产生1点残暴值</font>"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_RengarQ_TooltipExtended",
+          "key": "spell_rengarq_tooltipextended",
+          "text": "雷恩加尔的下两次攻击获得<attackSpeed>@ASBonus@%攻击速度</attackSpeed>。第一次攻击造成<physicalDamage>@QTotalDamage@物理伤害</physicalDamage>。<br><br><keywordMajor>满层残暴值：</keywordMajor>第一次攻击造成<physicalDamage>@EmpoweredQTotalDamage@物理伤害</physicalDamage>并为雷恩加尔提供持续@ASDuration@秒的<attackSpeed>@EmpoweredQAS@攻击速度</attackSpeed>。<br><br><rules>这个技能的额外伤害在对抗建筑物时降低至@TowerMod*100@%。</rules>"
+        }
+      }
+    },
+    "rengar_w": {
+      "binding": "Characters/Rengar/Spells/RengarWAbility/RengarW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RengarW_Name",
+          "key": "spell_rengarw_name",
+          "text": "战争咆哮"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RengarW_Summary",
+          "key": "spell_rengarw_summary",
+          "text": "雷恩加尔发出一声战争咆哮，对敌人造成伤害并基于近期受到的伤害回复生命值。<br><br>残暴效果：额外移除控制效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RengarW_Tooltip",
+          "key": "spell_rengarw_tooltip",
+          "text": "雷恩加尔进行咆哮，对附近的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并回复生命值，相当于他在前@HealingWindow@秒受到的<healing>@DamagePercentageHealed@%</healing>伤害。<br><br><keywordMajor>满层残暴值：</keywordMajor>造成<magicDamage>@TotalDamageEmpowered@魔法伤害</magicDamage>并且还会净化雷恩加尔身上的控制效果。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_AmmoRecharge_As_Cooldown",
+          "key": "spell_ammorecharge_as_cooldown",
+          "text": "@AmmoRechargeTime@秒%i:cooldown%"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RengarQWE_Cost",
+          "key": "spell_rengarqwe_cost",
+          "text": "<font color='#EDDA74'>产生1点残暴值</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RengarW_TooltipExtendedBelowLine",
+          "key": "spell_rengarw_tooltipextendedbelowline",
+          "text": "<rules>这个技能对野怪造成额外的<magicDamage>@BonusMonsterDamage@魔法伤害</magicDamage>。回复生命值，数额相当于所受的来自野怪的<healing>@MonsterHealingMod@%</healing>伤害。</rules>"
+        }
+      }
+    },
+    "rengar_e": {
+      "binding": "Characters/Rengar/Spells/RengarEAbility/RengarE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RengarE_Name",
+          "key": "spell_rengare_name",
+          "text": "套索打击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RengarE_Summary",
+          "key": "spell_rengare_summary",
+          "text": "雷恩加尔扔出一个套索，套索在命中第一个敌人后，会暂时降低这名敌人的移动速度。<br><br>残暴效果：对目标造成禁锢效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RengarE_Tooltip",
+          "key": "spell_rengare_tooltip",
+          "text": "雷恩加尔扔出一个套索，对命中的第一个敌人造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，以及持续@CCDuration@秒的显形和@SlowAmount@%<status>减速</status>。<br><br><keywordMajor>满层残暴值：</keywordMajor>造成<physicalDamage>@TotalEmpoweredDamage@物理伤害</physicalDamage>和@CCDuration@秒<status>禁锢</status>。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_AmmoRecharge_As_Cooldown",
+          "key": "spell_ammorecharge_as_cooldown",
+          "text": "@AmmoRechargeTime@秒%i:cooldown%"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RengarQWE_Cost",
+          "key": "spell_rengarqwe_cost",
+          "text": "<font color='#EDDA74'>产生1点残暴值</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RengarE_TooltipExtendedBelowLine",
+          "key": "spell_rengare_tooltipextendedbelowline",
+          "text": "<rules>显形敌人@RevealDuration@秒。</rules><br><rules><spellName>套索打击</spellName>在跃击期间没有施放时间。</rules>"
+        }
+      }
+    },
+    "rengar_r": {
+      "binding": "Characters/Rengar/Spells/RengarRAbility/RengarR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RengarR_Name",
+          "key": "spell_rengarr_name",
+          "text": "狩猎律动"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RengarR_Summary",
+          "key": "spell_rengarr_summary",
+          "text": "雷恩加尔激活他的掠食者本能，<font color='#cd90ee'>伪装</font>自身并感知附近极大范围内的距他最近的敌方英雄。在狩猎律动期间，他会获得移动速度加成，他的下次攻击将使他即使不在草丛内也可以进行跳跃，并且会减少目标的护甲。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RengarR_Tooltip",
+          "key": "spell_rengarr_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>雷恩加尔在<keywordStealth>伪装</keywordStealth>状态下也能进行跃击。<br><br><spellActive>主动：</spellActive>雷恩加尔获得<speed>@StealthMS@%移动速度</speed>和相距最近的敌方英雄周围一个小区域内的<keywordStealth>真实视野</keywordStealth>，持续@StealthDuration@秒。<br><br>在@FadeTime@秒后，雷恩加尔变为<keywordStealth>伪装</keywordStealth>状态并且不需要在草丛中就能进行跃击。跃击该相距最近的敌方英雄时会造成<physicalDamage>@BonusDamage@物理伤害</physicalDamage>，击碎<scaleArmor>@ArmorShred@护甲</scaleArmor>达@ArmorShredDuration@秒，并结束这个技能。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_RengarR_TooltipExtendedBelowLine",
+          "key": "spell_rengarr_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_Camouflage}}</rules>"
+        }
+      }
+    },
+    "khazix_p": {
+      "binding": "Characters/Khazix/Spells/KhazixPassiveAbility/KhazixPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KhazixPassive_Name",
+          "key": "spell_khazixpassive_name",
+          "text": "无形威胁"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KhazixPassive_Summary",
+          "key": "spell_khazixpassive_summary",
+          "text": "附近陷入<font color='#FFF673'>孤立无援</font>状态的敌人会被标记出来。卡兹克的技能会与<font color='#FFF673'>孤立无援</font>的目标产生交互作用。<br><br>当卡兹克没有被敌方队伍所看见时，他会获得无形威胁，使他的下次对敌方英雄发动的普通攻击造成额外魔法伤害，并使目标减速数秒。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KhazixPassive_Tooltip",
+          "key": "spell_khazixpassive_tooltip",
+          "text": "当卡兹克没有在敌方队伍的视野内时，他的下次对敌方英雄发起的攻击会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>附近没有友军的敌人会处于<keywordMajor>孤立无援</keywordMajor>状态。"
+        }
+      }
+    },
+    "khazix_q": {
+      "binding": "Characters/Khazix/Spells/KhazixQAbility/KhazixQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KhazixQ_Name",
+          "key": "spell_khazixq_name",
+          "text": "品尝恐惧"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KhazixQ_Summary",
+          "key": "spell_khazixq_summary",
+          "text": "对目标造成物理伤害。对<font color='#FFF673'>孤立无援</font>的目标造成的伤害会提高。如果他选择<font color='#00DD33'>进化收割利爪</font>的话，这个技能会在对抗<font color='#FFF673'>孤立无援</font>的目标时返还一部分冷却时间。卡兹克也会提升他的普通攻击和品尝恐惧的距离。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KhazixQ_Tooltip",
+          "key": "spell_khazixq_tooltip",
+          "text": "{{Spell_KhazixQ_Tooltip_@IsEvolved@}}"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KhazixQ_TooltipExtended",
+          "key": "spell_khazixq_tooltipextended",
+          "text": "{{Spell_KhazixQ_Tooltip_0}}<br><br>{{Spell_KhazixQ_Tooltip_1}}"
+        }
+      }
+    },
+    "khazix_w": {
+      "binding": "Characters/Khazix/Spells/KhazixWAbility/KhazixW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KhazixW_Name",
+          "key": "spell_khazixw_name",
+          "text": "虚空突刺"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KhazixW_Summary",
+          "key": "spell_khazixw_summary",
+          "text": "卡兹克发射爆炸性的尖刺，对命中的敌人造成物理伤害。卡兹克如果在爆炸范围内，则会回复生命值。如果他选择<font color='#00DD33'>进化刺鞘</font>的话，虚空突刺现在会呈锥形发射三个尖刺，减速被命中的敌人并使被命中的敌方英雄显形2秒。<font color='#FFF673'>孤立无援</font>的目标会被减速额外的幅度。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KhazixW_Tooltip",
+          "key": "spell_khazixw_tooltip",
+          "text": "{{Spell_KhazixW_Tooltip_@IsEvolved@}}"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KhazixW_TooltipExtended",
+          "key": "spell_khazixw_tooltipextended",
+          "text": "{{Spell_KhazixW_Tooltip_0}}<br><br>{{Spell_KhazixW_Tooltip_1}}"
+        }
+      }
+    },
+    "khazix_e": {
+      "binding": "Characters/Khazix/Spells/KhazixEAbility/KhazixE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KhazixE_Name",
+          "key": "spell_khazixe_name",
+          "text": "跃击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KhazixE_Summary",
+          "key": "spell_khazixe_summary",
+          "text": "卡兹克跳向一个区域，在着陆时造成物理伤害。如果他选择<font color='#00DD33'>进化虫翼</font>的话，跃击的距离会提升200并在击杀和助攻时重置冷却时间。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KhazixE_Tooltip",
+          "key": "spell_khazixe_tooltip",
+          "text": "{{Spell_KhazixE_Tooltip_@IsEvolved@}}"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KhazixE_TooltipExtended",
+          "key": "spell_khazixe_tooltipextended",
+          "text": "{{Spell_KhazixE_Tooltip_0}}<br><br>{{Spell_KhazixE_Tooltip_1}}"
+        }
+      }
+    },
+    "khazix_r": {
+      "binding": "Characters/Khazix/Spells/KhazixRAbility/KhazixR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KhazixR_Name",
+          "key": "spell_khazixr_name",
+          "text": "虚空来袭"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KhazixR_Summary",
+          "key": "spell_khazixr_summary",
+          "text": "每升一级此技能都会允许卡兹克进化他的一项技能，给予该技能独特的附加效果。在激活【虚空来袭】时，会使卡兹克变成<font color='#91d7ee'>隐形</font>状态，触发无形威胁并提升移动速度。如果他选择<font color='#00DD33'>进化动态遮蔽</font>的话，【虚空来袭】获得已提升的<font color='#91d7ee'>隐形</font>持续时间，以及一次额外的使用次数。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KhazixR_Tooltip",
+          "key": "spell_khazixr_tooltip",
+          "text": "{{Spell_KhazixR_Tooltip_@IsEvolved@}}<br><br>{{Spell_KhazixR_Tooltip_P}}"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KhazixR_TooltipExtended",
+          "key": "spell_khazixr_tooltipextended",
+          "text": "{{Spell_KhazixR_Tooltip_P}}<br><br>{{Spell_KhazixR_Tooltip_0}}<br><br>{{Spell_KhazixR_Tooltip_1}}"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KhazixR_TooltipExtendedBelowLine",
+          "key": "spell_khazixr_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_Invisibility}}</rules>"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_rivenpassive_name": "符文之刃",
+    "spell_rivenpassive_tooltip": "使用一个技能后，会为锐雯提供一层持续6秒的充能(最多@Charges@层)。她的攻击会花费一层充能来造成额外的<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。",
+    "spell_rivenpassive_summary": "锐雯的技能会为她的剑刃充能，并且她的普通攻击会消耗充能来造成额外伤害。",
+    "spell_rivenpassive_tooltipextended": "{{Spell_RivenPassive_Tooltip}}<br><br><rules>这个额外伤害可产生暴击。<br>对野怪造成@MonsterBonusDamage@额外伤害。</rules>",
+    "spell_riventricleave_name": "折翼之舞",
+    "spell_riventricleave_summary": "锐雯斩出一套猛烈的剑式。在短时间内，这个技能最多可以重新激活3次，并且第三次会将周围的所有敌人击飞。",
+    "spell_riventricleave_tooltip": "锐雯向前冲刺，造成<physicalDamage>@FirstSlashDamage@物理伤害</physicalDamage>。她可以<recast>再次施放</recast>这个技能两次。第一次<recast>再次施放</recast>和初始效果相同，但第二次会有不同的效果：<br><br><recast>再次施放</recast>: 锐雯向前跃起并猛劈，对附近的敌人们造成<physicalDamage>@FirstSlashDamage@物理伤害</physicalDamage>和0.75秒<status>击飞</status>。",
+    "spell_cost_nocost": "无消耗",
+    "spell_riventricleave_tooltipextendedbelowline": "<rules>这个技能只有最后一段可以穿过地形。<br>锐雯会以被你的鼠标悬停着的单位为目标，或在没有目标时向前冲刺。</rules>",
+    "spell_rivenmartyr_name": "震魂怒吼",
+    "spell_rivenmartyr_summary": "锐雯爆发斗气，对附近敌人造成伤害和晕眩效果。",
+    "spell_rivenmartyr_tooltip": "锐雯的剑爆发出一股符文能量，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和@StunDuration@秒<status>晕眩</status>。",
+    "spell_rivenfeint_name": "勇往直前",
+    "spell_rivenfeint_summary": "锐雯向前冲锋一小段距离，并格挡即将到来的伤害。",
+    "spell_rivenfeint_tooltip": "锐雯快速冲刺并获得持续1.5秒的<shield>@TotalShield@护盾值</shield>。",
+    "spell_rivenfeint_tooltipextendedbelowline": "<rules>这个冲刺不能穿过地形。</rules>",
+    "spell_rivenfengshuiengineability_name": "放逐之锋",
+    "spell_rivenfengshuiengine_summary": "锐雯将能量灌入她那残破不堪的武器中，使攻击力和攻击范围都得到提高。在这段时间里，她还能使用一次疾风斩（一次强大的远程打击）。",
+    "spell_rivenfengshuiengine_tooltip": "锐雯的武器激荡着灵体能量，为她提供<physicalDamage>@BonusAD@攻击力</physicalDamage>，并且伤害型技能和攻击获得距离提升，持续@Duration@秒。在此期间，她可以进行<recast>再次施放</recast>。<br><br><recast>再次施放</recast>：锐雯发射一道疾风斩来造成<physicalDamage>@MinDamage@</physicalDamage>到<physicalDamage>@MaxDamage@物理伤害</physicalDamage>，基于目标们的已损失生命值。",
+    "spell_rivenfengshuiengine_tooltipextendedbelowline": "<rules>获得@TooltipAttackRange@攻击距离。</rules> ",
+    "passive_aatroxpassive_tooltip": "亚托克斯的攻击造成额外的<magicDamage>@PDamage@最大生命值魔法伤害</magicDamage>并回复<healing>@PHealingRatio*100@%实际伤害值的生命值</healing>，对小兵时降低至@PHealingMinionMod*100@%。这个效果有@PCooldown@秒冷却时间。<br><br>对英雄和大型野怪进行的攻击和技能会使这个效果的冷却时间缩短2秒。用<spellName>暗裔利刃</spellName>的边缘命中时会使这个效果的冷却时间缩短4秒。",
+    "passive_aatroxpassive_name": "赐死剑气",
+    "passive_aatroxpassive_tooltipextended": "{{Passive_AatroxPassive_Tooltip}}<br><br><rules>对野怪最多造成@MonsterDamageCap@伤害。 <br>用技能命中多个目标时也仅会缩短一次冷却时间。</rules>",
+    "spell_aatroxpassive_summary": "每过一段时间，亚托克斯的下次普攻会造成额外<magicDamage>魔法伤害</magicDamage>，并治疗亚托克斯，治疗量基于目标的最大生命值。 ",
+    "passive_aatroxpassive_cooldown": "<passiveCooldown>@PCooldown@秒%i:cooldown%</passiveCooldown>",
+    "spell_aatroxq_tooltip": "亚托克斯猛砸他的巨剑，造成<physicalDamage>@QDamage@物理伤害</physicalDamage>。如果敌人被边缘命中，还会被暂时<status>击飞</status>并转而受到<physicalDamage>@QEdgeDamage@伤害</physicalDamage>。这个技能可以<recast>再次施放</recast>两段，每段都会改变形状并比上一段多造成25%伤害。",
+    "spell_aatroxq_name": "暗裔利刃",
+    "spell_aatroxq_tooltipextendedbelowline": "<rules>对小兵造成@QMinionDamage@伤害。<br>对野怪的<status>击飞</status>时长翻倍并且它造成@QMonsterBonus@额外伤害。</rules>",
+    "spell_aatroxq_summary": "亚托克斯向下猛砸他的巨剑，并造成物理伤害。他可以挥击三次，每次都有一个不同的范围效果。",
+    "spell_aatroxw_name": "恶火束链",
+    "spell_aatroxw_tooltip": "亚托克斯发射一道锁链，对命中的第一个敌人造成持续 @WSlowDuration@秒的@WSlowPercentage*-100@%<status>减速</status>和<physicalDamage>@WDamage@物理伤害</physicalDamage>。英雄和大型野怪需要在@WSlowDuration@秒内离开被影响的区域，否则就会被<status>拖拽</status>回中心并再次受到等额伤害。",
+    "spell_aatroxw_tooltipextendedbelowline": "<rules>对小兵造成双倍伤害。</rules>",
+    "spell_aatroxw_summary": "亚托克斯猛砸地面，对命中的第一个敌人造成伤害。英雄和大型野怪需要快速离开被影响的区域，否则就会被拖拽到中心并再次受到伤害。",
+    "spell_aatroxe_name": "暗影冲决",
+    "spell_aatroxe_tooltip": "<spellPassive>被动：</spellPassive>亚托克斯获得治疗效果，相当于他对英雄造成的<lifeSteal>@TotalEVamp@</lifeSteal>伤害。<br><br><spellActive>主动：</spellActive>亚托克斯突进。他可以在其它技能的前摇阶段使用这个技能。",
+    "spell_aatroxe_summary": "被动效果：亚托克斯会在对敌方英雄造成伤害时治疗自身。主动效果：他会朝一个方向突进。",
+    "spell_aatroxr_name": "大灭",
+    "spell_aatroxr_tooltip": "亚托克斯显现他真正的恶魔形态，<status>恐惧</status>附近的小兵@RMinionFearDuration@秒并获得在 @RDuration@秒里持续衰减的<speed>@RMovementSpeedBonus*100@%移动速度</speed>。在此期间，他还会获得<scaleAD>@RTotalADAmp*100@%攻击力</scaleAD>并提升<healing>@RHealingAmp*100@%自我治疗效果</healing>。<br><br>参与击杀英雄后会使这个效果的持续时间延长@RExtension@秒并刷新<speed>移动速度</speed>效果。",
+    "spell_aatroxr_summary": "亚托克斯现出他的恶魔形态，恐惧附近的敌方小兵，并获得攻击力、治疗效果提升、以及移动速度。如果他参与了一次击杀，这个效果就会延长。",
+    "spell_aatroxr_tooltipextendedbelowline": "<rules>持续时间最多只会提升到@RDuration@秒。</rules>",
+    "spell_rengarpassive_name": "无形掠食者",
+    "spell_rengarpassive_tooltip": "在草丛中时，雷恩加尔会对他攻击的敌人进行跃击。<br><br>雷恩加尔在使用一个非终极技能时会生成<keywordMajor>1残暴值</keywordMajor>。在开始跃击时，【无形掠食者】将生成<keywordMajor>1残暴值</keywordMajor>，前提是他的当前残暴值之中没有通过这种方式生成过的。<br> <br>在<keywordMajor>@MaxFerocity@残暴值</keywordMajor>时，他的非终极技能会获得强化。在施放一个强化版技能时，雷恩加尔会获得持续@EmpoweredMSDuration@秒的<speed>@EmpoweredMS@移动速度</speed>。<br><br>独特的参与击杀会提升雷恩加尔来自<keywordMajor>骨齿项链</keywordMajor>的<physicalDamage>攻击力</physicalDamage>。",
+    "spell_rengarpassive_tooltipextended": "{{Spell_RengarPassive_Tooltip}}<br><rules><br>在离开战斗状态@InCombatTimer@秒后，雷恩加尔会失去所有<keywordMajor>残暴值</keywordMajor>。<br>雷恩加尔在击杀卡兹克后会获得额外<physicalDamage>攻击力</physicalDamage>。</rules>",
+    "spell_rengarpassive_summary": "在草丛时，雷恩加尔的普通攻击会让他跳跃至目标敌人身边。<br><br>雷恩加尔在每次施放技能时会生成残暴值。在满残暴值时，他的下一个技能会得到强化。<br><br>击杀敌方英雄会在雷恩加尔的<font color='#BBFFFF'>骨齿项链</font>上新增战利品奖励，从而提供额外攻击力。",
+    "spell_rengarq_name": "残忍无情",
+    "spell_rengarq_summary": "雷恩加尔的下次攻击会蛮横地戳刺他的目标来造成额外伤害。<br><br>残暴效果：造成更多伤害，并且他会获得攻击速度加成。",
+    "spell_rengarq_tooltip": "雷恩加尔的下两次攻击获得<attackSpeed>@ASBonus@%攻击速度</attackSpeed>。第一次攻击造成<physicalDamage>@QTotalDamage@物理伤害</physicalDamage>。<br><br><keywordMajor>满层残暴值：</keywordMajor>第一次攻击造成<physicalDamage>@EmpoweredQTotalDamage@物理伤害</physicalDamage>并为雷恩加尔提供持续@ASDuration@秒的<attackSpeed>@EmpoweredQAS@攻击速度</attackSpeed>。",
+    "spell_ammorecharge_as_cooldown": "@AmmoRechargeTime@秒%i:cooldown%",
+    "spell_rengarqwe_cost": "<font color='#EDDA74'>产生1点残暴值</font>",
+    "spell_rengarq_tooltipextended": "雷恩加尔的下两次攻击获得<attackSpeed>@ASBonus@%攻击速度</attackSpeed>。第一次攻击造成<physicalDamage>@QTotalDamage@物理伤害</physicalDamage>。<br><br><keywordMajor>满层残暴值：</keywordMajor>第一次攻击造成<physicalDamage>@EmpoweredQTotalDamage@物理伤害</physicalDamage>并为雷恩加尔提供持续@ASDuration@秒的<attackSpeed>@EmpoweredQAS@攻击速度</attackSpeed>。<br><br><rules>这个技能的额外伤害在对抗建筑物时降低至@TowerMod*100@%。</rules>",
+    "spell_rengarw_name": "战争咆哮",
+    "spell_rengarw_summary": "雷恩加尔发出一声战争咆哮，对敌人造成伤害并基于近期受到的伤害回复生命值。<br><br>残暴效果：额外移除控制效果。",
+    "spell_rengarw_tooltip": "雷恩加尔进行咆哮，对附近的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并回复生命值，相当于他在前@HealingWindow@秒受到的<healing>@DamagePercentageHealed@%</healing>伤害。<br><br><keywordMajor>满层残暴值：</keywordMajor>造成<magicDamage>@TotalDamageEmpowered@魔法伤害</magicDamage>并且还会净化雷恩加尔身上的控制效果。",
+    "spell_rengarw_tooltipextendedbelowline": "<rules>这个技能对野怪造成额外的<magicDamage>@BonusMonsterDamage@魔法伤害</magicDamage>。回复生命值，数额相当于所受的来自野怪的<healing>@MonsterHealingMod@%</healing>伤害。</rules>",
+    "spell_rengare_name": "套索打击",
+    "spell_rengare_summary": "雷恩加尔扔出一个套索，套索在命中第一个敌人后，会暂时降低这名敌人的移动速度。<br><br>残暴效果：对目标造成禁锢效果。",
+    "spell_rengare_tooltip": "雷恩加尔扔出一个套索，对命中的第一个敌人造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，以及持续@CCDuration@秒的显形和@SlowAmount@%<status>减速</status>。<br><br><keywordMajor>满层残暴值：</keywordMajor>造成<physicalDamage>@TotalEmpoweredDamage@物理伤害</physicalDamage>和@CCDuration@秒<status>禁锢</status>。",
+    "spell_rengare_tooltipextendedbelowline": "<rules>显形敌人@RevealDuration@秒。</rules><br><rules><spellName>套索打击</spellName>在跃击期间没有施放时间。</rules>",
+    "spell_rengarr_name": "狩猎律动",
+    "spell_rengarr_summary": "雷恩加尔激活他的掠食者本能，<font color='#cd90ee'>伪装</font>自身并感知附近极大范围内的距他最近的敌方英雄。在狩猎律动期间，他会获得移动速度加成，他的下次攻击将使他即使不在草丛内也可以进行跳跃，并且会减少目标的护甲。",
+    "spell_rengarr_tooltip": "<spellPassive>被动：</spellPassive>雷恩加尔在<keywordStealth>伪装</keywordStealth>状态下也能进行跃击。<br><br><spellActive>主动：</spellActive>雷恩加尔获得<speed>@StealthMS@%移动速度</speed>和相距最近的敌方英雄周围一个小区域内的<keywordStealth>真实视野</keywordStealth>，持续@StealthDuration@秒。<br><br>在@FadeTime@秒后，雷恩加尔变为<keywordStealth>伪装</keywordStealth>状态并且不需要在草丛中就能进行跃击。跃击该相距最近的敌方英雄时会造成<physicalDamage>@BonusDamage@物理伤害</physicalDamage>，击碎<scaleArmor>@ArmorShred@护甲</scaleArmor>达@ArmorShredDuration@秒，并结束这个技能。",
+    "spell_rengarr_tooltipextendedbelowline": "<rules>{{Reminder_Camouflage}}</rules>",
+    "spell_khazixpassive_name": "无形威胁",
+    "spell_khazixpassive_summary": "附近陷入<font color='#FFF673'>孤立无援</font>状态的敌人会被标记出来。卡兹克的技能会与<font color='#FFF673'>孤立无援</font>的目标产生交互作用。<br><br>当卡兹克没有被敌方队伍所看见时，他会获得无形威胁，使他的下次对敌方英雄发动的普通攻击造成额外魔法伤害，并使目标减速数秒。",
+    "spell_khazixpassive_tooltip": "当卡兹克没有在敌方队伍的视野内时，他的下次对敌方英雄发起的攻击会造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>附近没有友军的敌人会处于<keywordMajor>孤立无援</keywordMajor>状态。",
+    "spell_khazixq_name": "品尝恐惧",
+    "spell_khazixq_summary": "对目标造成物理伤害。对<font color='#FFF673'>孤立无援</font>的目标造成的伤害会提高。如果他选择<font color='#00DD33'>进化收割利爪</font>的话，这个技能会在对抗<font color='#FFF673'>孤立无援</font>的目标时返还一部分冷却时间。卡兹克也会提升他的普通攻击和品尝恐惧的距离。",
+    "spell_khazixq_tooltip": "{{Spell_KhazixQ_Tooltip_@IsEvolved@}}",
+    "spell_khazixq_tooltipextended": "{{Spell_KhazixQ_Tooltip_0}}<br><br>{{Spell_KhazixQ_Tooltip_1}}",
+    "spell_khazixw_name": "虚空突刺",
+    "spell_khazixw_summary": "卡兹克发射爆炸性的尖刺，对命中的敌人造成物理伤害。卡兹克如果在爆炸范围内，则会回复生命值。如果他选择<font color='#00DD33'>进化刺鞘</font>的话，虚空突刺现在会呈锥形发射三个尖刺，减速被命中的敌人并使被命中的敌方英雄显形2秒。<font color='#FFF673'>孤立无援</font>的目标会被减速额外的幅度。",
+    "spell_khazixw_tooltip": "{{Spell_KhazixW_Tooltip_@IsEvolved@}}",
+    "spell_khazixw_tooltipextended": "{{Spell_KhazixW_Tooltip_0}}<br><br>{{Spell_KhazixW_Tooltip_1}}",
+    "spell_khazixe_name": "跃击",
+    "spell_khazixe_summary": "卡兹克跳向一个区域，在着陆时造成物理伤害。如果他选择<font color='#00DD33'>进化虫翼</font>的话，跃击的距离会提升200并在击杀和助攻时重置冷却时间。",
+    "spell_khazixe_tooltip": "{{Spell_KhazixE_Tooltip_@IsEvolved@}}",
+    "spell_khazixe_tooltipextended": "{{Spell_KhazixE_Tooltip_0}}<br><br>{{Spell_KhazixE_Tooltip_1}}",
+    "spell_khazixr_name": "虚空来袭",
+    "spell_khazixr_summary": "每升一级此技能都会允许卡兹克进化他的一项技能，给予该技能独特的附加效果。在激活【虚空来袭】时，会使卡兹克变成<font color='#91d7ee'>隐形</font>状态，触发无形威胁并提升移动速度。如果他选择<font color='#00DD33'>进化动态遮蔽</font>的话，【虚空来袭】获得已提升的<font color='#91d7ee'>隐形</font>持续时间，以及一次额外的使用次数。",
+    "spell_khazixr_tooltip": "{{Spell_KhazixR_Tooltip_@IsEvolved@}}<br><br>{{Spell_KhazixR_Tooltip_P}}",
+    "spell_khazixr_tooltipextended": "{{Spell_KhazixR_Tooltip_P}}<br><br>{{Spell_KhazixR_Tooltip_0}}<br><br>{{Spell_KhazixR_Tooltip_1}}",
+    "spell_khazixr_tooltipextendedbelowline": "<rules>{{Reminder_Invisibility}}</rules>"
+  }
+}

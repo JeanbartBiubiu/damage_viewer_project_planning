@@ -1,0 +1,80 @@
+{
+  "at": "2026-09-09T13:12:01.068Z",
+  "status": "瑞雯亚托克斯雷恩加尔卡兹克二十槽明确组成已保存与验收",
+  "skills": [
+    "riven_p",
+    "riven_q",
+    "riven_w",
+    "riven_e",
+    "riven_r",
+    "aatrox_p",
+    "aatrox_q",
+    "aatrox_w",
+    "aatrox_e",
+    "aatrox_r",
+    "rengar_p",
+    "rengar_q",
+    "rengar_w",
+    "rengar_e",
+    "rengar_r",
+    "khazix_p",
+    "khazix_q",
+    "khazix_w",
+    "khazix_e",
+    "khazix_r"
+  ],
+  "counts": {
+    "parameters": 157,
+    "formulas": 26,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 16,
+  "createdParameters": 141,
+  "businessWrites": 175,
+  "candidateFileSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "writePlanSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+  "execution": {
+    "file": "修订一执行记录/2026-09-09T12-33-10-576Z/执行结果.json",
+    "GETs": 538,
+    "successfulPOSTs": 175,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "修订一独立回读/2026-09-09T12-36-35-368Z/执行结果.json",
+    "GETs": 363,
+    "details": 191,
+    "lists": 120,
+    "protectedDetails": 16,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "实际全公式数值核对.json",
+    "formulaCount": 26,
+    "formulaCases": 52,
+    "missingInputChecks": 32,
+    "runtimeInputsWithoutDefaults": 27,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 14,
+    "mathCases": 5,
+    "passed": true
+  },
+  "issues": [
+    "亚托克斯E初稿漏乘根0.01换算，修订一改为0.16+0.00011×来源额外生命，写入前修正；当前没有治疗结果。",
+    "全字段独立GET通过后，补齐直接使用实际回读表达式的26公式双场景和缺值拒绝；原28项候选检查单列，不冒充实际全公式算术验收。"
+  ],
+  "pending": [
+    "瑞雯和雷恩加尔、卡兹克等角色等级曲线只保留无默认实际输入，未按端点猜线性。",
+    "瑞雯R缺血伤害的实际曲线、亚托克斯Q重施放与回血结算、雷恩加尔残暴/骨齿/跃击、卡兹克孤立和进化事件尚未接线。",
+    "当前实际命中伤害与面板量分开；历史最近受伤和战前骨齿层数无默认值。"
+  ],
+  "runtimeValidation": "未执行"
+}

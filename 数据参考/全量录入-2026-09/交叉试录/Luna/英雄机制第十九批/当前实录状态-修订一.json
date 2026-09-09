@@ -1,0 +1,82 @@
+{
+  "at": "2026-09-09T20:43:20.8866660+08:00",
+  "status": "修订一已完成实际写入和独立全量回读；可交主负责人页面验收",
+  "source": "client16.17/official16.17.1",
+  "revision": "修订一",
+  "basedOnCandidateSha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+  "candidateFileSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "candidatePlanSha256": "aa89ecca3c72b8d4bb02a1a87180e7ac6050b5cbf267a484808e0353fd783e64",
+  "candidateVersionFileSha256": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+  "writePlanSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+  "freezeSha256": "8c79339da015b246e56871674327c967c0cc1db0c0bdd38e833f34ca8e8fcb97",
+  "independentMathSha256": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376",
+  "independentMathTextSha256": "6d2ab7b7752932f389aaddb55034ccc36043f48dd739361fecd8d5c252079dc3",
+  "writeBeforeProtectionSha256": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+  "originalSnapshotSha256": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8",
+  "counts": {
+    "parameters": 157,
+    "formulas": 26,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "total": 191,
+    "reusedPublicParameters": 16,
+    "newComponentIntents": 175
+  },
+  "write": {
+    "runId": "2026-09-09T12-33-10-576Z",
+    "apiWrites": 175,
+    "postCount": 175,
+    "confirmed": 175,
+    "skippedExisting": 0,
+    "stopped": false,
+    "errors": 0,
+    "calls": 713,
+    "methods": { "GET": 538, "POST": 175 },
+    "statuses": { "200": 363, "201": 175, "404": 175 }
+  },
+  "afterWriteRead": {
+    "runId": "2026-09-09T12-36-35-368Z",
+    "apiWrites": 0,
+    "calls": 363,
+    "getCalls": 363,
+    "status200": 363,
+    "staticFailures": 0,
+    "independentMathChecks": 28,
+    "protectionConflicts": 0,
+    "componentConflicts": 0,
+    "finalComponents": 191,
+    "uniqueComponentKeys": 191,
+    "reusedPublicParameters": 16
+  },
+  "actualFormulaChecks": {
+    "aatroxE": {
+      "baseHealingRatio": 0.16,
+      "bonusHealingRatioPerBonusHealth": 0.00011,
+      "formulaKey": "total_healing_ratio",
+      "expression": "0.16 + 0.00011×SOURCE.hp.BONUS",
+      "bonusHealthExamples": { "0": 0.16, "1000": 0.27, "2000": 0.38 },
+      "effectCreated": false
+    },
+    "attackDamageExample": { "totalAttackDamage": 200, "bonusAttackDamage": 100 },
+    "aatroxPassiveActualHitDamage": "RUNTIME_INPUT，无默认值",
+    "rengarArmorShredPoints": { "1": 15, "2": 20, "3": 25 }
+  },
+  "protectedReadOnly": {
+    "skillSubjects": 20,
+    "sixKindLists": 120,
+    "publicParameterDetails": 16,
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "images": 20,
+    "allUnchanged": true
+  },
+  "handoff": {
+    "pageAcceptance": false,
+    "battleValidation": false,
+    "next": "主负责人进行页面验收并按运行时接线缺口继续处理"
+  },
+  "scope": "本轮未修改其他批次、阶段进度、SOP、Git或浏览器；原候选和历史冻结文件保留。"
+}

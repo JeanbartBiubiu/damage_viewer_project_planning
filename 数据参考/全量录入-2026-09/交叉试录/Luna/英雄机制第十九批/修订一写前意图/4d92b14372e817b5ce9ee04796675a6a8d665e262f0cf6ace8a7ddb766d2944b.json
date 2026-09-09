@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T12:33:59.884Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/aatrox_p/parameters",
+  "detailRoute": "/skills/aatrox_p/parameters/passive_cooldown_ms",
+  "skillKey": "aatrox_p",
+  "kind": "parameters",
+  "id": "passive_cooldown_ms",
+  "body": {
+    "parameterKey": "passive_cooldown_ms",
+    "name": "赐死剑气被动冷却（实际值外供）（实际值外供）",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "客户端只给出角色等级22至10秒的断点插值树；等级求值不猜，实际冷却无默认。",
+    "sortOrder": 50
+  }
+}
