@@ -1,0 +1,187 @@
+{
+  "at": "2026-09-09T09:59:18.999Z",
+  "candidateSha256": "0527d1d034297a8b68fadf973c91688e01f3ceb881a7382f1db860f71896fad6",
+  "requests": [
+    {
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3158_passive",
+      "body": {
+        "skillKey": "item_3158_passive",
+        "name": "明朗之靴·艾欧尼亚的洞悉",
+        "description": "当前16.17绑定说明获得10召唤师技能急速；与已录基础技能急速区分。保留明确数值，召唤师技能范围和冷却修正入口待接。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "method": "POST",
+      "route": "/skills/item_3158_passive/parameters",
+      "readRoute": "/skills/item_3158_passive/parameters/summoner_haste",
+      "body": {
+        "parameterKey": "summoner_haste",
+        "name": "召唤师技能急速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "Item_3158_Tooltip绑定SummonerHaste=10；未使用FeatsHaste旧字段。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3158",
+      "body": {
+        "equipmentKey": "item_3158",
+        "skillKey": "item_3158_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/item_3158_passive/representative-image",
+      "readRoute": "/skills/item_3158_passive/representative-image",
+      "body": {
+        "imageKey": "item_3158"
+      }
+    },
+    {
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_4628_passive",
+      "body": {
+        "skillKey": "item_4628_passive",
+        "name": "视界专注·高能射击",
+        "description": "从技能施放位置计算，与600码或更远的英雄造成技能伤害后显形6秒，对高能射击显形目标造成10%提升伤害。宠物和陷阱不触发，领域类技能仅初始放置触发。保留唯一敌人增伤分支；触发资格、命中顺序及修正乘区待接，不将仅显形其他敌人的专注支路并入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "method": "POST",
+      "route": "/skills/item_4628_passive/parameters",
+      "readRoute": "/skills/item_4628_passive/parameters/minimum_cast_distance",
+      "body": {
+        "parameterKey": "minimum_cast_distance",
+        "name": "高能射击最小施放距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "当前正文SnipeRange=600；600码或更远，距离从技能施放位置起算。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "method": "POST",
+      "route": "/skills/item_4628_passive/parameters",
+      "readRoute": "/skills/item_4628_passive/parameters/hypershot_duration_ms",
+      "body": {
+        "parameterKey": "hypershot_duration_ms",
+        "name": "高能射击显形持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前正文BuffDuration=6秒，转换为6000毫秒；不是专注支路的3秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "method": "POST",
+      "route": "/skills/item_4628_passive/parameters",
+      "readRoute": "/skills/item_4628_passive/parameters/damage_amplification_ratio",
+      "body": {
+        "parameterKey": "damage_amplification_ratio",
+        "name": "高能射击伤害提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前正文DamageAmp*100明确10%提升；保留原值，不使用缺增伤文案的外部简略说明覆盖。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "method": "POST",
+      "route": "/skills/item_4628_passive/parameters",
+      "readRoute": "/skills/item_4628_passive/parameters/actual_qualified_damage",
+      "body": {
+        "parameterKey": "actual_qualified_damage",
+        "name": "当前合资格伤害值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由同一次对高能射击显形目标的合资格伤害结算提供；乘区和取样时点待核，不补零，不默认所有伤害合资格。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "formulas",
+      "method": "POST",
+      "route": "/skills/item_4628_passive/formulas",
+      "readRoute": "/skills/item_4628_passive/formulas/additional_damage",
+      "body": {
+        "formulaKey": "additional_damage",
+        "name": "高能射击额外伤害值",
+        "description": "当前合资格伤害×0.1，只表达提升部分；触发和修正资格未接，不自动造成伤害。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_qualified_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amplification_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "relation",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_4628",
+      "body": {
+        "equipmentKey": "item_4628",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/item_4628_passive/representative-image",
+      "readRoute": "/skills/item_4628_passive/representative-image",
+      "body": {
+        "imageKey": "item_4628"
+      }
+    }
+  ],
+  "businessWrites": 0
+}

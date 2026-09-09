@@ -1,0 +1,354 @@
+{
+  "at": "2026-09-09T09:59:18.997Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348"
+  },
+  "sourceFiles": [
+    {
+      "key": "officialItem",
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "format": "JSON",
+      "role": "官方16.17.1装备说明、直接属性和图片键",
+      "bytes": 691131,
+      "modifiedAt": "2026-09-06T14:10:07.953Z",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "key": "clientItemList",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备列表和中文动态说明旁证",
+      "bytes": 96301,
+      "modifiedAt": "2026-09-06T14:59:31.906Z",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "key": "clientItems",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备对象、数据值和计算树主证",
+      "bytes": 1577238,
+      "modifiedAt": "2026-09-06T15:00:14.328Z",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "key": "clientStringTable",
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+      "bytes": 8350124,
+      "modifiedAt": "2026-09-06T15:08:11.306Z",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "selectedSourceSha256": "4915624d27c4e22d80fbf09f03591e5df6e8429b7e43dc667e3b46ff578d4808",
+  "items": [
+    {
+      "equipmentKey": "item_3158",
+      "root": {
+        "mDisplayName": "Item_3158_Name",
+        "itemID": 3158,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/Boots",
+          "Items/ItemGroups/BootsWithoutActives"
+        ],
+        "price": 350,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1001",
+          "Items/2022"
+        ],
+        "mScripts": [
+          "ItemBootsLucidity"
+        ],
+        "mDataValues": [
+          {
+            "mName": "SummonerHaste",
+            "mValue": 10,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "FeatsHaste",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 10,
+        "mFlatMovementSpeedMod": 45,
+        "mCategories": [
+          "Boots",
+          "CooldownReduction"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          32,
+          16,
+          4
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3158",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3158_Name",
+              "keyBrief": "Item_3158_Brief",
+              "keyTooltip": "Item_3158_Tooltip",
+              "keyColloquialism": "Item_3158_Colloquialism",
+              "keyFlavorText": "Item_3158_FlavorText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3158_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3158_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3158_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3158_class_t2_ionianbootsoflucidity.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3158_Class_T2_IonianBootsofLucidity.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3158_Class_T2_IonianBootsofLucidity.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "spellObjects": {},
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyName",
+          "key": "Item_3158_Name",
+          "text": "明朗之靴"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyBrief",
+          "key": "Item_3158_Brief",
+          "text": "技能急速"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+          "key": "Item_3158_Tooltip",
+          "text": "<passive>艾欧尼亚的洞悉</passive><br>获得@SummonerHaste@召唤师技能急速。<br><br>"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyColloquialism",
+          "key": "Item_3158_Colloquialism",
+          "text": ";Ionian Boots of Lucidity;minglangzhixue;mlzx;CD鞋;cdxie"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyFlavorText",
+          "key": "Item_3158_FlavorText",
+          "text": "“这个物品是为了庆祝在联盟历20年12月10日艾欧尼亚和诺克萨斯的重赛中，艾欧尼亚取得胜利。”"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4628",
+      "root": {
+        "mDisplayName": "Item_4628_Name",
+        "itemID": 4628,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{466ecfe1}"
+        ],
+        "mItemAdviceAttributes": [
+          "{30f046e4}"
+        ],
+        "price": 600,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3108",
+          "Items/3108",
+          "Items/1052"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BuffDuration",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SnipeRange",
+            "mValue": 600,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ItemCooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "VisionRadius",
+            "mValue": 1400,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "VisionDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SecondaryBuffDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageAmp",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 25,
+        "mFlatMagicDamageMod": 75,
+        "mCategories": [
+          "SpellDamage",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "4628",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_4628_Name",
+              "keyBrief": "Item_4628_Brief",
+              "keyTooltip": "Item_4628_Tooltip",
+              "keyColloquialism": "Item_4628_Colloquialism",
+              "keyTooltipExtendedRules": "Item_4628_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_4628_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_4628_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_4628_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_4628_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/4628_mage_t3_horizonfocus.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/4628_Mage_T3_HorizonFocus.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/4628_Mage_T3_HorizonFocus.png",
+          "epicness": 5,
+          "effectRadius": 600,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{9e9a5698}": "Items/4628/Particles/4628_Damage_Tar_Start",
+            "{5f96538d}": "Items/4628/Particles/4628_Damage_Tar_Mark",
+            "{91bb6a05}": "Items/4628/Particles/4628_Vision_Explosion"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "spellObjects": {
+        "Items/4628/Spells/4628Marker": {
+          "ObjectName": "4628Marker",
+          "objectPath": "Items/4628/Spells/4628Marker",
+          "mScriptName": "4628Marker",
+          "mBuff": {
+            "mTooltipData": {
+              "mObjectName": "4628Marker",
+              "mFormat": "{b34f999a}",
+              "mLocKeys": {
+                "keyName": "Item_4628_Name",
+                "keyTooltip": "buff_desc_4628Marker"
+              },
+              "__type": "TooltipInstanceBuff"
+            },
+            "__type": "BuffData"
+          },
+          "__type": "SpellObject"
+        }
+      },
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyName",
+          "key": "Item_4628_Name",
+          "text": "视界专注"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyBrief",
+          "key": "Item_4628_Brief",
+          "text": "魔法大炮"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+          "key": "Item_4628_Tooltip",
+          "text": "<passive>高能射击</passive><br>在对@SnipeRange@码或更远的英雄造成技能伤害时，将其<keywordStealth>显形</keywordStealth>@BuffDuration@秒。对被<passive>高能射击</passive><keywordStealth>显形</keywordStealth>的敌人们造成@DamageAmp*100@%提升伤害。<br><br><passive>专注</passive> {{ Item_Cooldown }}<br>在<passive>高能射击</passive>触发时，<keywordStealth>显形</keywordStealth>目标@VisionRadius@码内的所有其它敌方英雄@SecondaryBuffDuration@秒。"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyColloquialism",
+          "key": "Item_4628_Colloquialism",
+          "text": ";Horizon Focus;shijiezhuanzhu;sjzz"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltipExtendedRules",
+          "key": "Item_4628_TooltipExtendedRules",
+          "text": "<rules>来自宠物和陷阱的伤害不会触发<passive>高能射击</passive>。<br>领域类技能只有在初始放置时会触发<passive>高能射击</passive>。<br>距离是从技能施放位置处开始算的。</rules>"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltipExternal",
+          "key": "Item_4628_TooltipExternal",
+          "text": "<passive>高能射击</passive><br>在对@SnipeRange@码或更远的英雄造成技能伤害时，将其<keywordStealth>显形</keywordStealth>@BuffDuration@秒。<br><br><passive>专注</passive><br>在<passive>高能射击</passive>触发时，<keywordStealth>显形</keywordStealth>目标@VisionRadius@码内的所有其它敌方英雄@SecondaryBuffDuration@秒。"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    "3158未被正文消费的FeatsHaste=5",
+    "4628专注仅显形其他敌人，1400范围/3秒/30秒冷却均不借给高能射击"
+  ],
+  "pending": [
+    "伤害是否反向包含触发首击与增幅取样乘区",
+    "显形条件及同次施放事件入口"
+  ],
+  "businessWrites": 0
+}
