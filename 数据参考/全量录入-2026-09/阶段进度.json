@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T02:18:17.277Z",
+  "generatedAt": "2026-09-09T02:40:30.171Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1298,
+    "objectUses": 1310,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 74,
+    "additionalEquipmentSkillRepresentativeReuses": 86,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -117,7 +117,8 @@
       "装备技能实录/第十三批常规效果/独立全量回读.json",
       "装备技能实录/Luna第十批/第二组/页面验收.json",
       "装备技能实录/第十四批常规效果/独立全量回读.json",
-      "装备技能实录/Luna第十批/第三组/页面验收.json"
+      "装备技能实录/Luna第十批/第三组/页面验收.json",
+      "装备技能实录/第十五批伤害装备/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -1115,6 +1116,35 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第八批/页面验收.json",
         "commit": "03ba9afd"
       }
+    },
+    "equipmentFifteenthBatch": {
+      "skills": [
+        "item_2503_passive",
+        "item_2508_passive",
+        "item_3118_passive",
+        "item_3152_active",
+        "item_6660_passive",
+        "item_6655_passive",
+        "item_3094_passive",
+        "item_3095_passive",
+        "item_3087_passive",
+        "item_3147_passive",
+        "item_6699_passive",
+        "item_4646_passive"
+      ],
+      "parameters": 50,
+      "formulas": 12,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 12,
+      "representativeImageReuses": 12,
+      "status": "部分录入；98项写后同值，独立全量回读与31算例、3个代表页面通过；事件及时序仍待配置。缺省属性有后续补证，原批次冻结。",
+      "evidence": "装备技能实录/第十五批伤害装备/独立全量回读.json",
+      "browserEvidence": "装备技能实录/第十五批伤害装备/页面验收.json",
+      "candidateSha256": "8eef5d285f2ee624db477c9519e7aa94c4cb7c61f1a24ff227daa084931947be",
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
