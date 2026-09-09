@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T18:04:01.668Z",
+  "generatedAt": "2026-09-09T18:35:16.440Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -3153,7 +3153,7 @@
       "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
       "planSha256": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
       "sourceExpectedModuleSha256": "b6e7f97242ca77dc11f9fa9b9af35892dc11987d1e0b7efe54f23d7704efce1e",
-      "executor": "Cursor来源复核，Luna候选，主负责人保存与独立回读、实际数学和页面验收",
+      "executor": "Cursor来源复核，Luna Max候选、独立回读与源值期望，主负责人保存及实际数学和页面验收",
       "status": "明确组成已保存，并通过独立全字段回读、实际公式核算和代表页面验收；等级曲线、暴击阶段、施放时序与事件接线继续处理",
       "evidence": {
         "worktree": "damage_web_dev",
@@ -3165,6 +3165,83 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三十二批/页面验收.json",
         "commit": "753d9c23d98056b077c55cd4808d61e36060e84d"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroThirtyFirstBatch": {
+      "skills": [
+        "janna_p",
+        "janna_q",
+        "janna_w",
+        "janna_e",
+        "janna_r",
+        "lulu_p",
+        "lulu_q",
+        "lulu_w",
+        "lulu_e",
+        "lulu_r",
+        "nami_p",
+        "nami_q",
+        "nami_w",
+        "nami_e",
+        "nami_r",
+        "morgana_p",
+        "morgana_q",
+        "morgana_w",
+        "morgana_e",
+        "morgana_r"
+      ],
+      "heroes": [
+        "Janna",
+        "Lulu",
+        "Nami",
+        "Morgana"
+      ],
+      "parameters": 149,
+      "formulas": 35,
+      "effects": 23,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "newCounts": {
+        "parameters": 120,
+        "formulas": 35,
+        "effects": 23
+      },
+      "currentTotalComponents": 207,
+      "reusedParameters": 29,
+      "created": 178,
+      "businessWrites": 180,
+      "successfulPOSTs": 179,
+      "rejectedPOSTs": 1,
+      "successfulDELETEs": 1,
+      "saveGETs": 1598,
+      "independentGets": 379,
+      "protectedPaths": 201,
+      "detailChecks": 207,
+      "additionalMathGets": 178,
+      "independentFormulaChecks": 35,
+      "independentSourceCases": 70,
+      "independentMissingRejects": 37,
+      "independentIntegerChecks": 70,
+      "independentBoundaryChecks": 24,
+      "representativePages": 4,
+      "pageGets": 24,
+      "pageMathCases": 20,
+      "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+      "planSha256": "67d053b4f95435ad515d01e245175081a6bbd5eb4be8f8ca29e0bdae07f4bcc1",
+      "executor": "Cursor来源审计、Luna候选与主负责人保存，独立全字段回读、实际公式核算和页面验收",
+      "status": "明确组成已保存，并通过独立全字段回读、实际公式核算和代表页面验收；等级曲线、触发资格、施放时序和资源阶段继续处理",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/当前实录状态.json",
+        "sha256": "e32fd3252db196e9889be52550212a3b07b13ac9ef473607b8ca76f5fc943410",
+        "commit": "61ad81f2246e24bdda772a946eb7e468797787ca"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订三/页面验收.json",
+        "commit": "61ad81f2246e24bdda772a946eb7e468797787ca"
       },
       "runtimeValidation": "未执行"
     }
