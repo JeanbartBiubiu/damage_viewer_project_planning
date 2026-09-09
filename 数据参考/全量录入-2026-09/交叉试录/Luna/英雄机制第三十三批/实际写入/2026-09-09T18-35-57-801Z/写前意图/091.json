@@ -1,0 +1,29 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/karma_w/parameters",
+    "detailRoute": "/skills/karma_w/parameters/root_duration_ms",
+    "skillKey": "karma_w",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "坚定不移禁锢持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "description": "当前RootDuration技能等级1至5。",
+      "sortOrder": 40
+    }
+  }
+}

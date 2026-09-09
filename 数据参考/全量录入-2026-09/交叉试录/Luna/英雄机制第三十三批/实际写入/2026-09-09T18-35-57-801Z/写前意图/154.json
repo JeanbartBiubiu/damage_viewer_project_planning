@@ -1,0 +1,33 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/seraphine_w/formulas",
+    "detailRoute": "/skills/seraphine_w/formulas/self_missing_health_heal",
+    "skillKey": "seraphine_w",
+    "kind": "formulas",
+    "stableKey": "self_missing_health_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_missing_health_heal",
+      "name": "护盾后自身已损生命治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "missing_health_heal_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_missing_health"
+          }
+        ]
+      },
+      "description": "当前护盾后治疗为一次性已损生命比例；重复施放不直接把治疗乘2。",
+      "sortOrder": 30
+    }
+  }
+}

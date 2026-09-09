@@ -1,0 +1,23 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/tempo_duration_ms",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "tempo_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tempo_duration_ms",
+      "name": "节奏减速持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前TempoDuration=2秒。",
+      "sortOrder": 120
+    }
+  }
+}

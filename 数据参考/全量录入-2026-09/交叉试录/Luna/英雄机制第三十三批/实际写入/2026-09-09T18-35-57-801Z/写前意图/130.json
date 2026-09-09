@@ -1,0 +1,23 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/note_ap_ratio",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "note_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "note_ap_ratio",
+      "name": "音符法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.04,
+      "levelValues": null,
+      "description": "当前AutoDamage实际消费NoteAPRatio=0.04，不使用未消费AutoAPRatio。",
+      "sortOrder": 80
+    }
+  }
+}

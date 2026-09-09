@@ -1,0 +1,23 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/self_move_speed_duration_min_ms",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_duration_min_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_duration_min_ms",
+      "name": "自身加速最短时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前无受伤延长的最短3秒。",
+      "sortOrder": 50
+    }
+  }
+}

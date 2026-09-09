@@ -1,0 +1,23 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/self_move_speed_duration_ms",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_duration_ms",
+      "name": "流星坠落自身加速持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前MoveSpeedDuration=2.5秒。",
+      "sortOrder": 90
+    }
+  }
+}

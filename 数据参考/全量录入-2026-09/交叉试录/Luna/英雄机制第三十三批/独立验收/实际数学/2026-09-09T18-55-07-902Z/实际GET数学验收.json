@@ -1,0 +1,2651 @@
+{
+  "generatedAt": "2026-09-09T18:55:18.718Z",
+  "mode": "第三十三批实际GET公式数学",
+  "afterApply": true,
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "status": "PASS",
+  "complete": true,
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "methodology": "公式表达式和参数值均从业务接口实际GET回读；期望值只由独立模块从冻结客户端DataValues、mSpellCalculations和当前文本绑定重建；不使用候选固定值代替来源值，不创建默认运行输入。每个公式两组有限输入，缺一个实际运行/属性输入后调用同一求值器确认拒绝；整数毫秒和层数边界由实际求值器检查。",
+  "hashes": {
+    "candidateFileSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+    "planFileSha256": "0deb6cea79b44b7f9db2a73a0fedc4d91802f650abcc4703fac3070513acbf52",
+    "candidateHistoricalContentSha256": "9d09798406df9fc6e50152211a2611c8fd5d2bead66dabed373d0c6600339a23",
+    "planDeclaredCandidateFileSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+    "inputVersionSha256": "862f0e0a0b934e4ea19cbd79ac38c348a4faf1bc66075e48e6611abfec703fb2",
+    "sourceBindingSha256": "4f75c9bd57e9c0d7d71536c0b79ef7640796655e9b10cbfbecfd7f4f8b269767",
+    "byteFreezeSha256": "e48a31510344a7a2207e25638839a6837d4a4bd234fd026b792449870684ca5f",
+    "sourceExpectedModuleSha256": "f3ce6c0211136fbc4f5b6a5898d622409b622ca9c34038fc91658e531dce2bf6"
+  },
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "actualGET": {
+    "calls": 193,
+    "expectedCalls": 193,
+    "methods": {
+      "GET": 193
+    },
+    "statuses": {
+      "200": 193
+    },
+    "allStatus200": true,
+    "journalPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-independent-review\\实际数学\\2026-09-09T18-55-07-902Z\\所有GET原始响应.jsonl"
+  },
+  "formulaCases": [
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0,
+      "sourceExpected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "case": 2,
+      "level": 1,
+      "abilityPower": 240,
+      "actual": 60,
+      "sourceExpected": 60,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 36,
+      "sourceExpected": 36.00000011920929,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "case": 2,
+      "level": 1,
+      "abilityPower": 240,
+      "actual": 130,
+      "sourceExpected": 130.00000071525574,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 66,
+      "sourceExpected": 66.00000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 286,
+      "sourceExpected": 286.0000014305115,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "melody_attack_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 14,
+      "sourceExpected": 14.000000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "melody_attack_magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 54,
+      "sourceExpected": 54.00000035762787,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 47,
+      "sourceExpected": 47.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 168,
+      "sourceExpected": 168.00000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 42,
+      "sourceExpected": 42.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 162,
+      "sourceExpected": 162.00000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 35,
+      "sourceExpected": 35,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 165,
+      "sourceExpected": 165,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0.266,
+      "sourceExpected": 0.265999999595806,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 0.346,
+      "sourceExpected": 0.345999997574836,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0.20800000000000002,
+      "sourceExpected": 0.20800000277813524,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 0.248,
+      "sourceExpected": 0.24800000176765025,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "tempo_slow_ratio",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0.516,
+      "sourceExpected": 0.515999999595806,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "tempo_slow_ratio",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 0.596,
+      "sourceExpected": 0.595999997574836,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 170,
+      "sourceExpected": 170,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 3,
+      "abilityPower": 240,
+      "actual": 470,
+      "sourceExpected": 470,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 99,
+      "sourceExpected": 98.99999976158142,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 309,
+      "sourceExpected": 308.9999985694885,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "self_heal_total",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 72,
+      "sourceExpected": 72.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "self_heal_total",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 192,
+      "sourceExpected": 192.00000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 86,
+      "sourceExpected": 86.00000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 266,
+      "sourceExpected": 266.0000014305115,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 170,
+      "sourceExpected": 170,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "level": 3,
+      "abilityPower": 240,
+      "actual": 470,
+      "sourceExpected": 470,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 255,
+      "sourceExpected": 255,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "case": 2,
+      "level": 3,
+      "abilityPower": 240,
+      "actual": 705,
+      "sourceExpected": 705,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 88,
+      "sourceExpected": 87.99999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 428,
+      "sourceExpected": 427.99999713897705,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "formulaKey": "initial_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 58,
+      "sourceExpected": 57.99999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "formulaKey": "initial_magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 248,
+      "sourceExpected": 247.99999713897705,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 104,
+      "sourceExpected": 104.00000095367432,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 424,
+      "sourceExpected": 424.0000057220459,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_impact_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 52,
+      "sourceExpected": 52.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_impact_magic_damage",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 292,
+      "sourceExpected": 292.00000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_field_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 60,
+      "sourceExpected": 60,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_field_magic_damage",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 430,
+      "sourceExpected": 430,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_heal_ratio",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0.174,
+      "sourceExpected": 0.17399999602138996,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_heal_ratio",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 0.19399999999999998,
+      "sourceExpected": 0.1939999951273203,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_open_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 20.88,
+      "sourceExpected": 20.879999522566795,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_open_heal",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 139.67999999999998,
+      "sourceExpected": 139.6799964916706,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_close_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 48.72,
+      "sourceExpected": 48.71999888598919,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_close_heal",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 73.71999999999998,
+      "sourceExpected": 73.71999814838172,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "re_bonus_shield_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 63,
+      "sourceExpected": 62.99999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "re_bonus_shield_value",
+      "case": 2,
+      "level": 4,
+      "abilityPower": 240,
+      "actual": 273,
+      "sourceExpected": 272.99999713897705,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "note_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 19.6,
+      "sourceExpected": 19.599999964237213,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "note_magic_damage",
+      "case": 2,
+      "level": 1,
+      "abilityPower": 240,
+      "actual": 53.6,
+      "sourceExpected": 53.59999978542328,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0,
+      "sourceExpected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "case": 2,
+      "level": 1,
+      "abilityPower": 240,
+      "actual": 214.4,
+      "sourceExpected": 214.39999914169312,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 76,
+      "sourceExpected": 76.00000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 256,
+      "sourceExpected": 256.0000014305115,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "low_health_max_magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 133,
+      "sourceExpected": 133.0000004172325,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "low_health_max_magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 448,
+      "sourceExpected": 448.0000025033951,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 68,
+      "sourceExpected": 68.00000011920929,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 188,
+      "sourceExpected": 188.00000071525574,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 0.20800000000000002,
+      "sourceExpected": 0.20800000277813524,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 0.248,
+      "sourceExpected": 0.24800000176765025,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_missing_health_heal",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 16,
+      "sourceExpected": 16,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_missing_health_heal",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 144,
+      "sourceExpected": 144,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 90,
+      "sourceExpected": 90,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 5,
+      "abilityPower": 240,
+      "actual": 310,
+      "sourceExpected": 310,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "level": 1,
+      "abilityPower": 40,
+      "actual": 166,
+      "sourceExpected": 166.00000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "level": 3,
+      "abilityPower": 240,
+      "actual": 346,
+      "sourceExpected": 346.0000014305115,
+      "pass": true
+    }
+  ],
+  "formulaCaseCount": 68,
+  "finiteChecks": [
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "melody_attack_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "melody_attack_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "tempo_slow_ratio",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "tempo_slow_ratio",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "self_heal_total",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "self_heal_total",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "formulaKey": "initial_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "formulaKey": "initial_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_impact_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_impact_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_field_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_field_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_heal_ratio",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_heal_ratio",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_open_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_open_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_close_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_close_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "re_bonus_shield_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "re_bonus_shield_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "note_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "note_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "low_health_max_magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "low_health_max_magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "shield_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "shield_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_move_speed_ratio_value",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_missing_health_heal",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_missing_health_heal",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "pass": true
+    }
+  ],
+  "missingInputChecks": [
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "accelerando_current_stacks",
+      "rejected": true,
+      "message": "运行输入缺失：sona_p/accelerando_current_stacks"
+    },
+    {
+      "skillKey": "sona_p",
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "power_chord_character_level_base_damage",
+      "rejected": true,
+      "message": "运行输入缺失：sona_p/power_chord_character_level_base_damage"
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "melody_attack_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "chord_character_level_base_damage",
+      "rejected": true,
+      "message": "运行输入缺失：sona_q/chord_character_level_base_damage"
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "self_heal",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_w",
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "self_move_speed_ratio_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_e",
+      "formulaKey": "tempo_slow_ratio",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "sona_r",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "self_heal_total",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "soraka_e",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_heal",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_w",
+      "formulaKey": "initial_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_e",
+      "formulaKey": "shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_impact_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rq_field_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_heal_ratio",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_open_heal",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "rw_open_missing_health",
+      "rejected": true,
+      "message": "运行输入缺失：karma_r/rw_open_missing_health"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "rw_close_heal",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "rw_close_missing_health",
+      "rejected": true,
+      "message": "运行输入缺失：karma_r/rw_close_missing_health"
+    },
+    {
+      "skillKey": "karma_r",
+      "formulaKey": "re_bonus_shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "note_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "note_character_level_base_damage",
+      "rejected": true,
+      "message": "运行输入缺失：seraphine_p/note_character_level_base_damage"
+    },
+    {
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "current_note_count",
+      "rejected": true,
+      "message": "运行输入缺失：seraphine_p/current_note_count"
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_q",
+      "formulaKey": "low_health_max_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_move_speed_ratio_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_w",
+      "formulaKey": "self_missing_health_heal",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "self_missing_health",
+      "rejected": true,
+      "message": "运行输入缺失：seraphine_w/self_missing_health"
+    },
+    {
+      "skillKey": "seraphine_e",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    },
+    {
+      "skillKey": "seraphine_r",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失：SOURCE:ability_power:TOTAL"
+    }
+  ],
+  "binaryChecks": [
+    {
+      "skillKey": "sona_p",
+      "at": "accelerando_current_ability_haste",
+      "operation": "MIN",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "at": "accelerando_current_ability_haste.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "at": "power_chord_bonus_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_p",
+      "at": "power_chord_bonus_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "melody_attack_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "melody_attack_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "chord_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_q",
+      "at": "chord_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "self_heal",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "self_heal.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "shield_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "shield_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "diminuendo_damage_reduction_ratio",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_w",
+      "at": "diminuendo_damage_reduction_ratio.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "at": "self_move_speed_ratio_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "at": "self_move_speed_ratio_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "at": "tempo_slow_ratio",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_e",
+      "at": "tempo_slow_ratio.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "sona_r",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "at": "self_heal_total",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_q",
+      "at": "self_heal_total.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_e",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "at": "self_heal",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "at": "self_heal.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "at": "self_low_health_heal",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "at": "self_low_health_heal.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "soraka_r",
+      "at": "self_low_health_heal.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_q",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "at": "initial_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_w",
+      "at": "initial_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "at": "shield_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_e",
+      "at": "shield_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rq_impact_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rq_impact_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rq_field_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rq_field_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_heal_ratio",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_heal_ratio.operands[1]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_heal_ratio.operands[1].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_open_heal",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_open_heal.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_open_heal.operands[1].operands[1]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_open_heal.operands[1].operands[1].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_close_heal",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_close_heal.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_close_heal.operands[1].operands[1]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "rw_close_heal.operands[1].operands[1].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "re_bonus_shield_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "karma_r",
+      "at": "re_bonus_shield_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "at": "note_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "at": "note_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "at": "total_note_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "at": "total_note_magic_damage.operands[1]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_p",
+      "at": "total_note_magic_damage.operands[1].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "at": "low_health_max_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "at": "low_health_max_magic_damage.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_q",
+      "at": "low_health_max_magic_damage.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "shield_value",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "shield_value.operands[1]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "shield_value.operands[1].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "self_move_speed_ratio_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "self_move_speed_ratio_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_w",
+      "at": "self_missing_health_heal",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_e",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "at": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "at": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    }
+  ],
+  "integerMillisecondsChecks": [
+    {
+      "key": "sona_p/accelerando_ult_cooldown_refund_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_q/melody_aura_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_q/melody_attack_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_q/melody_interval_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_q/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/aura_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/diminuendo_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/melody_interval_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_w/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/self_move_speed_duration_min_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/self_move_speed_duration_max_ms",
+      "valueType": "INTEGER",
+      "values": [
+        7000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/aura_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/melody_interval_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/tempo_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_r/stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_r/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_q/slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_q/self_heal_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_q/self_move_speed_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_q/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_e/field_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_e/root_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_e/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_r/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_p/mantra_cooldown_refund_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_q/slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_q/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_w/tether_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_w/root_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_w/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_e/shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_e/move_speed_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_e/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_r/mantra_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_r/rq_slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_r/rw_bonus_root_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500,
+        750,
+        1000,
+        1250
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_r/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_p/note_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_p/echo_cast_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_p/adjacent_note_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        75
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_q/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        0
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_w/shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_w/heal_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_e/slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1100,
+        1200,
+        1300,
+        1400,
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_e/cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        0
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_r/charm_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250,
+        1500,
+        1750
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        14000
+      ],
+      "pass": true
+    },
+    {
+      "key": "sona_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        140000,
+        120000,
+        100000
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        8000,
+        7000,
+        6000,
+        5000,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        20000,
+        19000,
+        18000,
+        17000,
+        16000
+      ],
+      "pass": true
+    },
+    {
+      "key": "soraka_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        150000,
+        135000,
+        120000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        9000,
+        8000,
+        7000,
+        6000,
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        12000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "key": "karma_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        40000,
+        38000,
+        36000,
+        34000
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        8000,
+        7500,
+        7000,
+        6500,
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        22000
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        11000,
+        10500,
+        10000,
+        9500,
+        9000
+      ],
+      "pass": true
+    },
+    {
+      "key": "seraphine_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        160000,
+        140000,
+        120000
+      ],
+      "pass": true
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "name": "sona_accelerando_stacks_0",
+      "pass": true,
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "actual": 0,
+      "sourceExpected": 0,
+      "level": 1,
+      "abilityPower": 40
+    },
+    {
+      "name": "sona_accelerando_stacks_120",
+      "pass": true,
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "actual": 60,
+      "sourceExpected": 60,
+      "level": 1,
+      "abilityPower": 240
+    },
+    {
+      "name": "sona_accelerando_invalid_121",
+      "pass": true,
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "rejected": true,
+      "reason": "0至120且INTEGER",
+      "message": "运行输入超出范围：sona_p/accelerando_current_stacks"
+    },
+    {
+      "name": "sona_accelerando_invalid_-1",
+      "pass": true,
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "rejected": true,
+      "reason": "0至120且INTEGER",
+      "message": "运行输入超出范围：sona_p/accelerando_current_stacks"
+    },
+    {
+      "name": "sona_accelerando_invalid_0_5",
+      "pass": true,
+      "skillKey": "sona_p",
+      "formulaKey": "accelerando_current_ability_haste",
+      "rejected": true,
+      "reason": "0至120且INTEGER",
+      "message": "INTEGER参数收到非整数：sona_p/accelerando_current_stacks"
+    },
+    {
+      "name": "seraphine_notes_0",
+      "pass": true,
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "actual": 0,
+      "sourceExpected": 0,
+      "level": 1,
+      "abilityPower": 40
+    },
+    {
+      "name": "seraphine_notes_4",
+      "pass": true,
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "actual": 214.4,
+      "sourceExpected": 214.39999914169312,
+      "level": 1,
+      "abilityPower": 240
+    },
+    {
+      "name": "seraphine_notes_growth_0_to_4",
+      "pass": true,
+      "note0": 0,
+      "note4": 214.4,
+      "sourceMaxCount": 4
+    },
+    {
+      "name": "seraphine_notes_invalid_5",
+      "pass": true,
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "rejected": true,
+      "reason": "0至4且INTEGER",
+      "message": "运行输入超出范围：seraphine_p/current_note_count"
+    },
+    {
+      "name": "seraphine_notes_invalid_-1",
+      "pass": true,
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "rejected": true,
+      "reason": "0至4且INTEGER",
+      "message": "运行输入超出范围：seraphine_p/current_note_count"
+    },
+    {
+      "name": "seraphine_notes_invalid_1_5",
+      "pass": true,
+      "skillKey": "seraphine_p",
+      "formulaKey": "total_note_magic_damage",
+      "rejected": true,
+      "reason": "0至4且INTEGER",
+      "message": "INTEGER参数收到非整数：seraphine_p/current_note_count"
+    },
+    {
+      "name": "soraka_r_low_health_eval_case_1",
+      "pass": true,
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "actual": 255,
+      "sourceExpected": 255,
+      "level": 1,
+      "abilityPower": 40
+    },
+    {
+      "name": "soraka_r_low_health_eval_case_2",
+      "pass": true,
+      "skillKey": "soraka_r",
+      "formulaKey": "self_low_health_heal",
+      "actual": 705,
+      "sourceExpected": 705,
+      "level": 3,
+      "abilityPower": 240
+    },
+    {
+      "name": "soraka_r_40_percent_condition",
+      "pass": true,
+      "actualParameter": 0.4,
+      "sourceThreshold": 0.4000000059604645,
+      "textHasCondition": true,
+      "sourceText": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>@HealingCalc@生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>@AmpedHealing@</healing>。"
+    },
+    {
+      "name": "soraka_r_low_health_two_distinct_actual_values",
+      "pass": true,
+      "case1": 255,
+      "case2": 705,
+      "sourceCase1": 255,
+      "sourceCase2": 705,
+      "reason": "两个不同等级与法强输入的实际公式求值"
+    }
+  ],
+  "sourceChecks": {
+    "sorakaRThreshold": {
+      "actualParameter": 0.4,
+      "sourceDataValue": 0.4000000059604645,
+      "text": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>@HealingCalc@生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>@AmpedHealing@</healing>。",
+      "conditionBound": 0.4
+    },
+    "karmaRWRootPercentPointToRatio": "由独立模块读取RWHealAmount根mMultiplier，未用候选参数名代替",
+    "seraphineQEmpoweredMultiplier": "由独立模块读取TotalEmpoweredDamage根修饰，当前正文仅作待核条件"
+  },
+  "failures": [],
+  "writeEvidence": {
+    "candidateDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\修订二",
+    "candidateFileSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+    "planFileSha256": "0deb6cea79b44b7f9db2a73a0fedc4d91802f650abcc4703fac3070513acbf52"
+  }
+}

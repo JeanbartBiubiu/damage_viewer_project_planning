@@ -1,0 +1,65 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/rw_open_heal",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "rw_open_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rw_open_heal",
+      "name": "梵咒W起始阶段治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_open_missing_health"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_percent_points_to_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "rw_base_heal_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "rw_heal_percent_points_per_ap"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "起始阶段使用独立已损生命输入。",
+      "sortOrder": 40
+    }
+  }
+}

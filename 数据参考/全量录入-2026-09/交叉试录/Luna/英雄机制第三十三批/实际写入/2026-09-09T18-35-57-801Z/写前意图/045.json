@@ -1,0 +1,23 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/tempo_slow_base_ratio",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "tempo_slow_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tempo_slow_base_ratio",
+      "name": "节奏减速基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+      "sortOrder": 100
+    }
+  }
+}

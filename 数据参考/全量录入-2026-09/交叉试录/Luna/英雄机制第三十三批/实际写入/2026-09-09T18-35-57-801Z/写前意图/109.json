@@ -1,0 +1,23 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rw_base_heal_percent_points",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rw_base_heal_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_base_heal_percent_points",
+      "name": "梵咒W治疗基础百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 17,
+      "levelValues": null,
+      "description": "当前RWBaseHeal=17，公式先按百分数点再乘0.01。",
+      "sortOrder": 90
+    }
+  }
+}

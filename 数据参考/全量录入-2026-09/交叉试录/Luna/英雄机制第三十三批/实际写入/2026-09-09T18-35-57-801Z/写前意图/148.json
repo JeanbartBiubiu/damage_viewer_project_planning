@@ -1,0 +1,29 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/seraphine_w/parameters",
+    "detailRoute": "/skills/seraphine_w/parameters/missing_health_heal_ratio",
+    "skillKey": "seraphine_w",
+    "kind": "parameters",
+    "stableKey": "missing_health_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_heal_ratio",
+      "name": "护盾后自身已损生命治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.08,
+        "2": 0.1,
+        "3": 0.12,
+        "4": 0.14,
+        "5": 0.16
+      },
+      "description": "当前WMissingHPBase技能等级1至5，正文按百分比显示。",
+      "sortOrder": 60
+    }
+  }
+}

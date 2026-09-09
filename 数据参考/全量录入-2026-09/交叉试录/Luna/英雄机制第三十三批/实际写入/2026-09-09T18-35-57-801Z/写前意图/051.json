@@ -1,0 +1,27 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/sona_r/parameters",
+    "detailRoute": "/skills/sona_r/parameters/base_damage",
+    "skillKey": "sona_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "狂舞终乐章基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前BaseDamage技能等级1至3。",
+      "sortOrder": 10
+    }
+  }
+}

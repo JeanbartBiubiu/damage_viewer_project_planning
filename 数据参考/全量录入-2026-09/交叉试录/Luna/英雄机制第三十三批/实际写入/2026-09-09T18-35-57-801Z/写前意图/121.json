@@ -1,0 +1,65 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/rw_close_heal",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "rw_close_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rw_close_heal",
+      "name": "梵咒W结束阶段治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_close_missing_health"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_percent_points_to_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "rw_base_heal_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "rw_heal_percent_points_per_ap"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "结束阶段使用独立已损生命输入，不重复使用起始快照。",
+      "sortOrder": 50
+    }
+  }
+}

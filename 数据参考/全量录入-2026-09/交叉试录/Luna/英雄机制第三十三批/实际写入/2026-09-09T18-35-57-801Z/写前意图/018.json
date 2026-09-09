@@ -1,0 +1,23 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "method": "POST",
+    "route": "/skills/sona_q/parameters",
+    "detailRoute": "/skills/sona_q/parameters/chord_character_level_base_damage",
+    "skillKey": "sona_q",
+    "kind": "parameters",
+    "stableKey": "chord_character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "chord_character_level_base_damage",
+      "name": "Q能量和弦等级基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。",
+      "sortOrder": 80
+    }
+  }
+}

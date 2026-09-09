@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/soraka_r/parameters",
+    "detailRoute": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+    "skillKey": "soraka_r",
+    "kind": "parameters",
+    "stableKey": "low_health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "low_health_threshold_ratio",
+      "name": "祈愿低生命阈值",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "当前低于40%生命值分支。",
+      "sortOrder": 30
+    }
+  }
+}

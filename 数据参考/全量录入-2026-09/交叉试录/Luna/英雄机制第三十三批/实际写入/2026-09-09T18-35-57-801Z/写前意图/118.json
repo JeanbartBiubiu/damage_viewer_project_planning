@@ -1,0 +1,45 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/rq_field_magic_damage",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "rq_field_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rq_field_magic_damage",
+      "name": "梵咒Q爆炸魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rq_field_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rq_field_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "爆炸段与冲击段分开；额外目标分配不在本轮。",
+      "sortOrder": 20
+    }
+  }
+}

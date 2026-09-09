@@ -1,0 +1,40 @@
+{
+  "batch": "英雄机制第三十三批",
+  "status": "修订一已冻结，严格数学通过，未调用业务接口",
+  "previousRevision": "hero33-source-v1",
+  "revision": "hero33-source-v2",
+  "previousCandidateSha256": "3b3c6938806e8883d040315872a211ced00d0c6efd0c1730d3ed07fc6c73594c",
+  "previousPlanSha256": "232eae33e5483b780778076882c49393f9d55f99e12956e28326d6e053d4e6dc",
+  "previousMathSha256": "5a53cfcc8da50dd6772e3ff5cadd6e43aaac9d2246969ec2b2965b06bc425723",
+  "changes": [
+    "移除 sona_e 的合资格友方移动速度三项参数和对应公式；本轮仅保留自身加速、减速和时间参数，第三友方整支列为排除。",
+    "移除 sona_w 的 AccelerandoShieldBreakpoint 未引用参数；该断点仅服务另一名友方的来源支路。",
+    "将 soraka_p、soraka_w 的第三友方方向从待接改为明确排除。",
+    "修正 sona_p 排除说明，保留 Q/W/E 自身或单一敌方附加数值的范围。",
+    "将 seraphine_w 排除说明更正为第三友方护盾、治疗和加速。",
+    "修正 seraphine_q 原始 spellCastTime=0 的说明；R 的 0 与 0.5 秒冲突仍仅保留来源证据。",
+    "修正 soraka_e、soraka_r 的 250 毫秒来源为 mCastTime。",
+    "独立数学改为删除实际运行或属性输入后求值；补充有限值、层数0/120与音符0/4真实越界拒绝，以及官方娑娜W十秒冷却核对。"
+  ],
+  "newCandidateSha256": "9d09798406df9fc6e50152211a2611c8fd5d2bead66dabed373d0c6600339a23",
+  "newPlanSha256": "d5bb6040b51c2c2293706ccc91a4dcd9af9ae80f7a13641562cc3d4886a0519a",
+  "newMathSha256": "9d65732473017087f8e9653a28bf52e841b7d9893de675db4d5b8e1ca3e28707",
+  "counts": {
+    "previous": {
+      "parameters": 135,
+      "formulas": 35,
+      "effects": 1,
+      "total": 171
+    },
+    "current": {
+      "parameters": 131,
+      "formulas": 34,
+      "effects": 1,
+      "total": 166
+    }
+  },
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "noApiCalls": true,
+  "previousArchive": "修订前/"
+}

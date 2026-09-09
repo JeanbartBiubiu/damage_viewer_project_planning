@@ -1,0 +1,28 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/re_bonus_shield",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "re_bonus_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "re_bonus_shield",
+      "name": "梵咒E主目标额外护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 85,
+        "3": 125,
+        "4": 165
+      },
+      "description": "EBonusShield按R技能等级1至4。",
+      "sortOrder": 140
+    }
+  }
+}

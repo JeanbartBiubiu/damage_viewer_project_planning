@@ -1,0 +1,55 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/seraphine_p/formulas",
+    "detailRoute": "/skills/seraphine_p/formulas/total_note_magic_damage",
+    "skillKey": "seraphine_p",
+    "kind": "formulas",
+    "stableKey": "total_note_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_note_magic_damage",
+      "name": "当前音符总额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_note_count"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "note_character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "note_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "只计算实际音符计数；0至4由运行输入提供。",
+      "sortOrder": 20
+    }
+  }
+}

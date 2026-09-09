@@ -1,0 +1,4765 @@
+{
+  "generatedAt": "2026-09-09T18:20:12.832Z",
+  "status": "候选已冻结，严格数学通过；仅写入意图，未调用业务接口",
+  "batch": "英雄机制第三十三批",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "9d09798406df9fc6e50152211a2611c8fd5d2bead66dabed373d0c6600339a23",
+  "currentSnapshotSha256": "d5c5172422a5db3066da7c553683cc4162aafe913b4cc7beff757a6390131f67",
+  "requestCount": 166,
+  "requestCounts": {
+    "parameters": 131,
+    "formulas": 34,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "currentTotalComponents": 314,
+  "reusedPublicParameters": [
+    {
+      "skillKey": "sona_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "sona_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "soraka_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "karma_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "seraphine_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "protectedSkills": [
+    "sona_p",
+    "sona_q",
+    "sona_w",
+    "sona_e",
+    "sona_r",
+    "soraka_p",
+    "soraka_q",
+    "soraka_w",
+    "soraka_e",
+    "soraka_r",
+    "karma_p",
+    "karma_q",
+    "karma_w",
+    "karma_e",
+    "karma_r",
+    "seraphine_p",
+    "seraphine_q",
+    "seraphine_w",
+    "seraphine_e",
+    "seraphine_r"
+  ],
+  "protectedCounts": {
+    "GETs": 200,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 28,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_sona",
+    "/character-skill-relations?characterKey=champion_sona",
+    "/characters/champion_soraka",
+    "/character-skill-relations?characterKey=champion_soraka",
+    "/characters/champion_karma",
+    "/character-skill-relations?characterKey=champion_karma",
+    "/characters/champion_seraphine",
+    "/character-skill-relations?characterKey=champion_seraphine",
+    "/skills/sona_p",
+    "/skills/sona_p/representative-image",
+    "/skills/sona_p/parameters",
+    "/skills/sona_p/formulas",
+    "/skills/sona_p/effects",
+    "/skills/sona_p/processes",
+    "/skills/sona_p/internal-states",
+    "/skills/sona_p/trigger-rules",
+    "/skills/sona_q",
+    "/skills/sona_q/representative-image",
+    "/skills/sona_q/parameters",
+    "/skills/sona_q/parameters/cooldown_ms",
+    "/skills/sona_q/parameters/mana_cost",
+    "/skills/sona_q/formulas",
+    "/skills/sona_q/effects",
+    "/skills/sona_q/processes",
+    "/skills/sona_q/internal-states",
+    "/skills/sona_q/trigger-rules",
+    "/skills/sona_w",
+    "/skills/sona_w/representative-image",
+    "/skills/sona_w/parameters",
+    "/skills/sona_w/parameters/mana_cost",
+    "/skills/sona_w/formulas",
+    "/skills/sona_w/effects",
+    "/skills/sona_w/processes",
+    "/skills/sona_w/internal-states",
+    "/skills/sona_w/trigger-rules",
+    "/skills/sona_e",
+    "/skills/sona_e/representative-image",
+    "/skills/sona_e/parameters",
+    "/skills/sona_e/parameters/cooldown_ms",
+    "/skills/sona_e/parameters/mana_cost",
+    "/skills/sona_e/formulas",
+    "/skills/sona_e/effects",
+    "/skills/sona_e/processes",
+    "/skills/sona_e/internal-states",
+    "/skills/sona_e/trigger-rules",
+    "/skills/sona_r",
+    "/skills/sona_r/representative-image",
+    "/skills/sona_r/parameters",
+    "/skills/sona_r/parameters/cooldown_ms",
+    "/skills/sona_r/parameters/mana_cost",
+    "/skills/sona_r/formulas",
+    "/skills/sona_r/effects",
+    "/skills/sona_r/processes",
+    "/skills/sona_r/internal-states",
+    "/skills/sona_r/trigger-rules",
+    "/skills/soraka_p",
+    "/skills/soraka_p/representative-image",
+    "/skills/soraka_p/parameters",
+    "/skills/soraka_p/formulas",
+    "/skills/soraka_p/effects",
+    "/skills/soraka_p/processes",
+    "/skills/soraka_p/internal-states",
+    "/skills/soraka_p/trigger-rules",
+    "/skills/soraka_q",
+    "/skills/soraka_q/representative-image",
+    "/skills/soraka_q/parameters",
+    "/skills/soraka_q/parameters/cooldown_ms",
+    "/skills/soraka_q/parameters/mana_cost",
+    "/skills/soraka_q/formulas",
+    "/skills/soraka_q/effects",
+    "/skills/soraka_q/processes",
+    "/skills/soraka_q/internal-states",
+    "/skills/soraka_q/trigger-rules",
+    "/skills/soraka_w",
+    "/skills/soraka_w/representative-image",
+    "/skills/soraka_w/parameters",
+    "/skills/soraka_w/formulas",
+    "/skills/soraka_w/effects",
+    "/skills/soraka_w/processes",
+    "/skills/soraka_w/internal-states",
+    "/skills/soraka_w/trigger-rules",
+    "/skills/soraka_e",
+    "/skills/soraka_e/representative-image",
+    "/skills/soraka_e/parameters",
+    "/skills/soraka_e/parameters/cooldown_ms",
+    "/skills/soraka_e/parameters/mana_cost",
+    "/skills/soraka_e/formulas",
+    "/skills/soraka_e/effects",
+    "/skills/soraka_e/processes",
+    "/skills/soraka_e/internal-states",
+    "/skills/soraka_e/trigger-rules",
+    "/skills/soraka_r",
+    "/skills/soraka_r/representative-image",
+    "/skills/soraka_r/parameters",
+    "/skills/soraka_r/parameters/cooldown_ms",
+    "/skills/soraka_r/parameters/mana_cost",
+    "/skills/soraka_r/formulas",
+    "/skills/soraka_r/effects",
+    "/skills/soraka_r/processes",
+    "/skills/soraka_r/internal-states",
+    "/skills/soraka_r/trigger-rules",
+    "/skills/karma_p",
+    "/skills/karma_p/representative-image",
+    "/skills/karma_p/parameters",
+    "/skills/karma_p/formulas",
+    "/skills/karma_p/effects",
+    "/skills/karma_p/processes",
+    "/skills/karma_p/internal-states",
+    "/skills/karma_p/trigger-rules",
+    "/skills/karma_q",
+    "/skills/karma_q/representative-image",
+    "/skills/karma_q/parameters",
+    "/skills/karma_q/parameters/cooldown_ms",
+    "/skills/karma_q/parameters/mana_cost",
+    "/skills/karma_q/formulas",
+    "/skills/karma_q/effects",
+    "/skills/karma_q/processes",
+    "/skills/karma_q/internal-states",
+    "/skills/karma_q/trigger-rules",
+    "/skills/karma_w",
+    "/skills/karma_w/representative-image",
+    "/skills/karma_w/parameters",
+    "/skills/karma_w/parameters/cooldown_ms",
+    "/skills/karma_w/parameters/mana_cost",
+    "/skills/karma_w/formulas",
+    "/skills/karma_w/effects",
+    "/skills/karma_w/processes",
+    "/skills/karma_w/internal-states",
+    "/skills/karma_w/trigger-rules",
+    "/skills/karma_e",
+    "/skills/karma_e/representative-image",
+    "/skills/karma_e/parameters",
+    "/skills/karma_e/parameters/cooldown_ms",
+    "/skills/karma_e/parameters/mana_cost",
+    "/skills/karma_e/formulas",
+    "/skills/karma_e/effects",
+    "/skills/karma_e/processes",
+    "/skills/karma_e/internal-states",
+    "/skills/karma_e/trigger-rules",
+    "/skills/karma_r",
+    "/skills/karma_r/representative-image",
+    "/skills/karma_r/parameters",
+    "/skills/karma_r/parameters/cooldown_ms",
+    "/skills/karma_r/formulas",
+    "/skills/karma_r/effects",
+    "/skills/karma_r/processes",
+    "/skills/karma_r/internal-states",
+    "/skills/karma_r/trigger-rules",
+    "/skills/seraphine_p",
+    "/skills/seraphine_p/representative-image",
+    "/skills/seraphine_p/parameters",
+    "/skills/seraphine_p/formulas",
+    "/skills/seraphine_p/effects",
+    "/skills/seraphine_p/processes",
+    "/skills/seraphine_p/internal-states",
+    "/skills/seraphine_p/trigger-rules",
+    "/skills/seraphine_q",
+    "/skills/seraphine_q/representative-image",
+    "/skills/seraphine_q/parameters",
+    "/skills/seraphine_q/parameters/cooldown_ms",
+    "/skills/seraphine_q/parameters/mana_cost",
+    "/skills/seraphine_q/formulas",
+    "/skills/seraphine_q/effects",
+    "/skills/seraphine_q/processes",
+    "/skills/seraphine_q/internal-states",
+    "/skills/seraphine_q/trigger-rules",
+    "/skills/seraphine_w",
+    "/skills/seraphine_w/representative-image",
+    "/skills/seraphine_w/parameters",
+    "/skills/seraphine_w/parameters/cooldown_ms",
+    "/skills/seraphine_w/parameters/mana_cost",
+    "/skills/seraphine_w/formulas",
+    "/skills/seraphine_w/effects",
+    "/skills/seraphine_w/processes",
+    "/skills/seraphine_w/internal-states",
+    "/skills/seraphine_w/trigger-rules",
+    "/skills/seraphine_e",
+    "/skills/seraphine_e/representative-image",
+    "/skills/seraphine_e/parameters",
+    "/skills/seraphine_e/parameters/cooldown_ms",
+    "/skills/seraphine_e/parameters/mana_cost",
+    "/skills/seraphine_e/formulas",
+    "/skills/seraphine_e/effects",
+    "/skills/seraphine_e/processes",
+    "/skills/seraphine_e/internal-states",
+    "/skills/seraphine_e/trigger-rules",
+    "/skills/seraphine_r",
+    "/skills/seraphine_r/representative-image",
+    "/skills/seraphine_r/parameters",
+    "/skills/seraphine_r/parameters/cooldown_ms",
+    "/skills/seraphine_r/parameters/mana_cost",
+    "/skills/seraphine_r/formulas",
+    "/skills/seraphine_r/effects",
+    "/skills/seraphine_r/processes",
+    "/skills/seraphine_r/internal-states",
+    "/skills/seraphine_r/trigger-rules"
+  ],
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/power_chord_basic_casts",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "power_chord_basic_casts",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "power_chord_basic_casts",
+        "name": "能量和弦基础技能次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文@PowerChordPassiveCountMax@为3；只保存计数。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/accelerando_ability_haste_per_stack",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "accelerando_ability_haste_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "accelerando_ability_haste_per_stack",
+        "name": "渐入佳音每层基础技能急速",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前AccelerandoAHPerStack=0.5；每层数值不是技能急速百分比。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/accelerando_ability_haste_cap",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "accelerando_ability_haste_cap",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "accelerando_ability_haste_cap",
+        "name": "渐入佳音基础技能急速上限",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "当前AccelerandoCap=60；达到上限后不再继续加层。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/accelerando_stack_cap",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "accelerando_stack_cap",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "accelerando_stack_cap",
+        "name": "渐入佳音层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 120,
+        "levelValues": null,
+        "description": "由60/0.5得出的整数层数上限，供边界核对，不展开成长曲线。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/accelerando_ult_cooldown_refund_ms",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "accelerando_ult_cooldown_refund_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "accelerando_ult_cooldown_refund_ms",
+        "name": "满层终极技能冷却缩短",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前AccelerandoUltCDR=1.5秒，转换为1500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/accelerando_current_stacks",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "accelerando_current_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "accelerando_current_stacks",
+        "name": "当前渐入佳音层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际战斗层数由运行输入提供，范围0至120，不默认满层。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/power_chord_character_level_base_damage",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "power_chord_character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "power_chord_character_level_base_damage",
+        "name": "能量和弦等级基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "PowerChordDamage有等级1/9断点原值，但完整等级算法未证，按实际等级值外供。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/sona_p/parameters",
+      "detailRoute": "/skills/sona_p/parameters/power_chord_ap_ratio",
+      "skillKey": "sona_p",
+      "kind": "parameters",
+      "stableKey": "power_chord_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "power_chord_ap_ratio",
+        "name": "能量和弦法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前PowerChordDamage树的AP比例为0.2。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/sona_p/formulas",
+      "detailRoute": "/skills/sona_p/formulas/accelerando_current_ability_haste",
+      "skillKey": "sona_p",
+      "kind": "formulas",
+      "stableKey": "accelerando_current_ability_haste",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "accelerando_current_ability_haste",
+        "name": "当前渐入佳音基础技能急速",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "accelerando_ability_haste_cap"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "accelerando_ability_haste_per_stack"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "accelerando_current_stacks"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MIN(60,0.5×当前层数)，上限进入最终公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/sona_p/formulas",
+      "detailRoute": "/skills/sona_p/formulas/power_chord_bonus_magic_damage",
+      "skillKey": "sona_p",
+      "kind": "formulas",
+      "stableKey": "power_chord_bonus_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "power_chord_bonus_magic_damage",
+        "name": "能量和弦额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "power_chord_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "power_chord_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "等级基础值由运行输入提供，再加0.2×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/base_damage",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "英勇赞美诗基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 85,
+          "3": 120,
+          "4": 155,
+          "5": 190
+        },
+        "description": "当前BaseDamage技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/ability_power_ratio",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "基础魔法伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前TotalDamage树使用0.4×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/melody_attack_base_damage",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "melody_attack_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_attack_base_damage",
+        "name": "乐曲强化普攻基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "当前BaseOnHitDamage技能等级1至5；是下次攻击额外组成。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/melody_attack_ap_ratio",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "melody_attack_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_attack_ap_ratio",
+        "name": "乐曲强化普攻法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前TotalOnHitDamage树使用0.1×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/melody_aura_duration_ms",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "melody_aura_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_aura_duration_ms",
+        "name": "英勇赞美诗乐曲持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/melody_attack_window_ms",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "melody_attack_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_attack_window_ms",
+        "name": "强化普攻窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前OnHitDuration=5秒，转换为5000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/melody_interval_ms",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "melody_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_interval_ms",
+        "name": "基础技能公共间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前BaseGlobalCD=0.5秒，区别于8秒公共冷却。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "chord_character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chord_character_level_base_damage",
+        "name": "Q能量和弦等级基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/chord_ap_ratio",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "chord_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chord_ap_ratio",
+        "name": "Q能量和弦法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前TotalStaccatoDamage树AP比例为0.3。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/sona_q/parameters",
+      "detailRoute": "/skills/sona_q/parameters/cast_time_ms",
+      "skillKey": "sona_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/sona_q/formulas",
+      "detailRoute": "/skills/sona_q/formulas/magic_damage",
+      "skillKey": "sona_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "英勇赞美诗单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保留唯一敌方命中，未把第二目标或命中顺序建成结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/sona_q/formulas",
+      "detailRoute": "/skills/sona_q/formulas/melody_attack_magic_damage",
+      "skillKey": "sona_q",
+      "kind": "formulas",
+      "stableKey": "melody_attack_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "melody_attack_magic_damage",
+        "name": "乐曲强化普攻额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melody_attack_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "melody_attack_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "强化普攻窗口内的额外组成，不等于自动普攻事件。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/sona_q/formulas",
+      "detailRoute": "/skills/sona_q/formulas/chord_magic_damage",
+      "skillKey": "sona_q",
+      "kind": "formulas",
+      "stableKey": "chord_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "chord_magic_damage",
+        "name": "Q能量和弦魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chord_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "chord_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalStaccatoDamage等级基础值外供，再加0.3×法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/cooldown_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "坚毅咏叹调冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端当前槽缺少可用冷却值；官方16.17.1明确为10秒，新增为正式候选。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/base_heal",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "自身治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90
+        },
+        "description": "当前BaseHeal技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/heal_ap_ratio",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "自身治疗法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前TotalHeal树AP比例为0.3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/base_shield",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 45,
+          "3": 65,
+          "4": 85,
+          "5": 105
+        },
+        "description": "当前BaseShield技能等级1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/shield_ap_ratio",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前TotalShield树AP比例为0.25。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/shield_duration_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前ShieldDuration=1.5秒，转换为1500毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/aura_duration_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "aura_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "aura_duration_ms",
+        "name": "光环持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/diminuendo_duration_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "diminuendo_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "diminuendo_duration_ms",
+        "name": "减伤持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前DiminuendoDuration=3秒，转换为3000毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/melody_interval_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "melody_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_interval_ms",
+        "name": "基础技能公共间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前BaseGlobalCD=0.5秒，保存为独立间隔。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/diminuendo_base_ratio",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "diminuendo_base_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "diminuendo_base_ratio",
+        "name": "减伤基础比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前TotalDiminuendoWeakenPercent树以0.25为基础比例；正文按百分比显示。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/diminuendo_ap_ratio",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "diminuendo_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "diminuendo_ap_ratio",
+        "name": "减伤法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0004,
+        "levelValues": null,
+        "description": "当前TotalDiminuendoWeakenPercent树法强系数为0.0004。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/sona_w/parameters",
+      "detailRoute": "/skills/sona_w/parameters/cast_time_ms",
+      "skillKey": "sona_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/sona_w/formulas",
+      "detailRoute": "/skills/sona_w/formulas/self_heal",
+      "skillKey": "sona_w",
+      "kind": "formulas",
+      "stableKey": "self_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_heal",
+        "name": "坚毅咏叹调自身治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "自身治疗数值；友方治疗资格和事件待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/sona_w/formulas",
+      "detailRoute": "/skills/sona_w/formulas/shield_value",
+      "skillKey": "sona_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "坚毅咏叹调护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "护盾数值保留供后续符合资格的自身护盾事件引用。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/sona_w/formulas",
+      "detailRoute": "/skills/sona_w/formulas/diminuendo_damage_reduction_ratio",
+      "skillKey": "sona_w",
+      "kind": "formulas",
+      "stableKey": "diminuendo_damage_reduction_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "diminuendo_damage_reduction_ratio",
+        "name": "坚毅咏叹调减伤比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "diminuendo_base_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "diminuendo_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "减伤比例只保存公式，不创建自动减伤状态；结果为比例而非百分数点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/self_move_speed_ratio",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前SelfBaseMovementSpeed=0.2。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/self_move_speed_ap_ratio",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ap_ratio",
+        "name": "自身移动速度法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0002,
+        "levelValues": null,
+        "description": "当前自身加速树法强系数为0.0002。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/self_move_speed_duration_min_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_duration_min_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_duration_min_ms",
+        "name": "自身加速最短时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前无受伤延长的最短3秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/self_move_speed_duration_max_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_duration_max_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_duration_max_ms",
+        "name": "自身加速最长时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "当前无受伤延长的最长7秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/aura_duration_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "aura_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "aura_duration_ms",
+        "name": "迅捷奏鸣曲光环持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前AuraDuration=3秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/melody_interval_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "melody_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "melody_interval_ms",
+        "name": "基础技能公共间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前BaseGlobalCD=0.5秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/tempo_slow_base_ratio",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "tempo_slow_base_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tempo_slow_base_ratio",
+        "name": "节奏减速基础比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/tempo_slow_ap_ratio",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "tempo_slow_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tempo_slow_ap_ratio",
+        "name": "节奏减速法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0004,
+        "levelValues": null,
+        "description": "当前TotalTempoMoveSpeedSlow法强系数为0.0004。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/tempo_duration_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "tempo_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tempo_duration_ms",
+        "name": "节奏减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前TempoDuration=2秒。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/sona_e/parameters",
+      "detailRoute": "/skills/sona_e/parameters/cast_time_ms",
+      "skillKey": "sona_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/sona_e/formulas",
+      "detailRoute": "/skills/sona_e/formulas/self_move_speed_ratio_value",
+      "skillKey": "sona_e",
+      "kind": "formulas",
+      "stableKey": "self_move_speed_ratio_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_move_speed_ratio_value",
+        "name": "自身移动速度加成比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_move_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_move_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/sona_e/formulas",
+      "detailRoute": "/skills/sona_e/formulas/tempo_slow_ratio",
+      "skillKey": "sona_e",
+      "kind": "formulas",
+      "stableKey": "tempo_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "tempo_slow_ratio",
+        "name": "节奏减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tempo_slow_base_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tempo_slow_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "减速比例是数值组成，不自动创建减速事件。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/sona_r/parameters",
+      "detailRoute": "/skills/sona_r/parameters/base_damage",
+      "skillKey": "sona_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "狂舞终乐章基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "当前BaseDamage技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/sona_r/parameters",
+      "detailRoute": "/skills/sona_r/parameters/ability_power_ratio",
+      "skillKey": "sona_r",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "终极技能法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前TotalDamage树AP比例为0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/sona_r/parameters",
+      "detailRoute": "/skills/sona_r/parameters/stun_duration_ms",
+      "skillKey": "sona_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "眩晕持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前StunDuration=1.5秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/sona_r/parameters",
+      "detailRoute": "/skills/sona_r/parameters/cast_time_ms",
+      "skillKey": "sona_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/sona_r/formulas",
+      "detailRoute": "/skills/sona_r/formulas/magic_damage",
+      "skillKey": "sona_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "狂舞终乐章单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保留单一敌方命中。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/base_damage",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "流星坠落基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 85,
+          "2": 120,
+          "3": 155,
+          "4": 190,
+          "5": 225
+        },
+        "description": "当前BaseDamage技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/ability_power_ratio",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "流星坠落法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "当前TotalDamage树AP比例为0.35。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/slow_ratio",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "流星坠落减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前MoveSpeedSlow正文显示30%，保存为0.3比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/slow_duration_ms",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "流星坠落减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前SlowDuration=1.5秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/self_heal_base",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "self_heal_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_heal_base",
+        "name": "流星坠落自身持续治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 75,
+          "3": 90,
+          "4": 105,
+          "5": 120
+        },
+        "description": "当前BaseHoT技能等级1至5；是2.5秒总量。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/self_heal_ap_ratio",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "self_heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_heal_ap_ratio",
+        "name": "流星坠落自身持续治疗法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前TotalHot树AP比例为0.3。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/self_heal_duration_ms",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "self_heal_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_heal_duration_ms",
+        "name": "流星坠落自身治疗持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前HotDuration=2.5秒；不按每次跳数拆分。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/self_move_speed_ratio",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "流星坠落自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.225,
+          "3": 0.25,
+          "4": 0.275,
+          "5": 0.3
+        },
+        "description": "当前MoveSpeedHaste技能等级1至5。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/self_move_speed_duration_ms",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_duration_ms",
+        "name": "流星坠落自身加速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前MoveSpeedDuration=2.5秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/soraka_q/parameters",
+      "detailRoute": "/skills/soraka_q/parameters/cast_time_ms",
+      "skillKey": "soraka_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/soraka_q/formulas",
+      "detailRoute": "/skills/soraka_q/formulas/magic_damage",
+      "skillKey": "soraka_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "流星坠落单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "单一敌方命中，减速为独立数值参数。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/soraka_q/formulas",
+      "detailRoute": "/skills/soraka_q/formulas/self_heal_total",
+      "skillKey": "soraka_q",
+      "kind": "formulas",
+      "stableKey": "self_heal_total",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_heal_total",
+        "name": "流星坠落自身持续治疗总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalHot是2.5秒期间总治疗量，不默认每次周期治疗。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/soraka_e/parameters",
+      "detailRoute": "/skills/soraka_e/parameters/base_damage",
+      "skillKey": "soraka_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "星界结界基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "description": "当前BaseDamage技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/soraka_e/parameters",
+      "detailRoute": "/skills/soraka_e/parameters/ability_power_ratio",
+      "skillKey": "soraka_e",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "星界结界法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前TotalDamage树AP比例为0.4。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/soraka_e/parameters",
+      "detailRoute": "/skills/soraka_e/parameters/field_duration_ms",
+      "skillKey": "soraka_e",
+      "kind": "parameters",
+      "stableKey": "field_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "field_duration_ms",
+        "name": "星界结界场持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前RootDelay=1.5秒，作为同一敌人的场持续时间。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/soraka_e/parameters",
+      "detailRoute": "/skills/soraka_e/parameters/root_duration_ms",
+      "skillKey": "soraka_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "星界结界禁锢持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "description": "当前RootDuration技能等级1至5，秒值转换为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/soraka_e/parameters",
+      "detailRoute": "/skills/soraka_e/parameters/cast_time_ms",
+      "skillKey": "soraka_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/soraka_e/formulas",
+      "detailRoute": "/skills/soraka_e/formulas/magic_damage",
+      "skillKey": "soraka_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "星界结界单一敌方单次魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "同一敌人第一次命中和满足留场条件的第二次命中各自引用该单次伤害式，不建周期tick。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/soraka_r/parameters",
+      "detailRoute": "/skills/soraka_r/parameters/base_heal",
+      "skillKey": "soraka_r",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "祈愿自身基础治疗值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "当前BaseHeal技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/soraka_r/parameters",
+      "detailRoute": "/skills/soraka_r/parameters/ability_power_ratio",
+      "skillKey": "soraka_r",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "祈愿法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前HealingCalc树AP比例为0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/soraka_r/parameters",
+      "detailRoute": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+      "skillKey": "soraka_r",
+      "kind": "parameters",
+      "stableKey": "low_health_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "low_health_threshold_ratio",
+        "name": "祈愿低生命阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前低于40%生命值分支。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/soraka_r/parameters",
+      "detailRoute": "/skills/soraka_r/parameters/low_health_multiplier",
+      "skillKey": "soraka_r",
+      "kind": "parameters",
+      "stableKey": "low_health_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "low_health_multiplier",
+        "name": "祈愿低生命治疗倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "当前AmpedHealing为完整治疗的1.5倍。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/soraka_r/parameters",
+      "detailRoute": "/skills/soraka_r/parameters/cast_time_ms",
+      "skillKey": "soraka_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/soraka_r/formulas",
+      "detailRoute": "/skills/soraka_r/formulas/self_heal",
+      "skillKey": "soraka_r",
+      "kind": "formulas",
+      "stableKey": "self_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_heal",
+        "name": "祈愿自身治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "自身目标的正常治疗式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/soraka_r/formulas",
+      "detailRoute": "/skills/soraka_r/formulas/self_low_health_heal",
+      "skillKey": "soraka_r",
+      "kind": "formulas",
+      "stableKey": "self_low_health_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_low_health_heal",
+        "name": "祈愿自身低生命治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "low_health_multiplier"
+            }
+          ]
+        },
+        "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/karma_p/parameters",
+      "detailRoute": "/skills/karma_p/parameters/mantra_cooldown_refund_ms",
+      "skillKey": "karma_p",
+      "kind": "parameters",
+      "stableKey": "mantra_cooldown_refund_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mantra_cooldown_refund_ms",
+        "name": "技能命中缩短梵咒冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前SpellMantraRefund=4秒，转换为4000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/karma_q/parameters",
+      "detailRoute": "/skills/karma_q/parameters/base_damage",
+      "skillKey": "karma_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "心灵烈焰基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 110,
+          "3": 160,
+          "4": 210,
+          "5": 260
+        },
+        "description": "Q技能等级1至5的BaseDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/karma_q/parameters",
+      "detailRoute": "/skills/karma_q/parameters/ability_power_ratio",
+      "skillKey": "karma_q",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "心灵烈焰法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "当前Q TotalDamage树AP比例为0.7。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/karma_q/parameters",
+      "detailRoute": "/skills/karma_q/parameters/slow_ratio",
+      "skillKey": "karma_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "心灵烈焰减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "原始SlowAmount为-0.4，正文按负百分比显示；候选保存正向减速幅度0.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/karma_q/parameters",
+      "detailRoute": "/skills/karma_q/parameters/slow_duration_ms",
+      "skillKey": "karma_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "心灵烈焰减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前SlowDuration=1.5秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/karma_q/parameters",
+      "detailRoute": "/skills/karma_q/parameters/cast_time_ms",
+      "skillKey": "karma_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/karma_q/formulas",
+      "detailRoute": "/skills/karma_q/formulas/magic_damage",
+      "skillKey": "karma_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "心灵烈焰单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保留单一敌方伤害；是否强化由R/事件资格决定。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/karma_w/parameters",
+      "detailRoute": "/skills/karma_w/parameters/base_damage",
+      "skillKey": "karma_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "坚定不移基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 65,
+          "3": 90,
+          "4": 115,
+          "5": 140
+        },
+        "description": "W技能等级1至5的BaseDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/karma_w/parameters",
+      "detailRoute": "/skills/karma_w/parameters/ability_power_ratio",
+      "skillKey": "karma_w",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "坚定不移法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "当前InitialDamage/TotalDamage树AP比例为0.45。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/karma_w/parameters",
+      "detailRoute": "/skills/karma_w/parameters/tether_duration_ms",
+      "skillKey": "karma_w",
+      "kind": "parameters",
+      "stableKey": "tether_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tether_duration_ms",
+        "name": "坚定不移连接持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前TetherDuration=2秒；不当作周期伤害间隔。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/karma_w/parameters",
+      "detailRoute": "/skills/karma_w/parameters/root_duration_ms",
+      "skillKey": "karma_w",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "坚定不移禁锢持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "description": "当前RootDuration技能等级1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/karma_w/parameters",
+      "detailRoute": "/skills/karma_w/parameters/cast_time_ms",
+      "skillKey": "karma_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/karma_w/formulas",
+      "detailRoute": "/skills/karma_w/formulas/initial_magic_damage",
+      "skillKey": "karma_w",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "坚定不移首次单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保存首次命中伤害；2秒后再次伤害依赖同一敌人连接事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/base_shield",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "鼓舞基础护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "description": "E技能等级1至5的BaseShield。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/shield_ap_ratio",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "鼓舞法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前TotalShield树AP比例为0.6。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/shield_duration_ms",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "鼓舞护盾持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前ShieldDuration=2.5秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/move_speed_ratio",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ratio",
+        "name": "鼓舞自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前MoveSpeed=0.4；自身资格仍待补。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/move_speed_duration_ms",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "鼓舞移动速度持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前MoveSpeedDuration=2秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/karma_e/parameters",
+      "detailRoute": "/skills/karma_e/parameters/cast_time_ms",
+      "skillKey": "karma_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/karma_e/formulas",
+      "detailRoute": "/skills/karma_e/formulas/shield_value",
+      "skillKey": "karma_e",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "鼓舞自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "护盾公式仅供符合资格的自身效果引用，不自动创建效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/mantra_window_ms",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "mantra_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mantra_window_ms",
+        "name": "梵咒强化窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前R窗口8秒，R是四级槽而非五级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_bonus_damage",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_bonus_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_bonus_damage",
+        "name": "梵咒Q冲击额外基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 100,
+          "3": 160,
+          "4": 220
+        },
+        "description": "RQBonusDamage按R技能等级1至4。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_bonus_ap_ratio",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_bonus_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_bonus_ap_ratio",
+        "name": "梵咒Q冲击额外法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前QBonusAPRatio=0.3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_field_damage",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_field_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_field_damage",
+        "name": "梵咒Q爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 130,
+          "3": 220,
+          "4": 310
+        },
+        "description": "RQDetonationDamage按R技能等级1至4。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_field_ap_ratio",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_field_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_field_ap_ratio",
+        "name": "梵咒Q爆炸法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前QDetonationAPRatio=0.5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_slow_ratio",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_slow_ratio",
+        "name": "梵咒Q减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "原始RQSlow=-0.5，按正文显示转为正减速比例。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rq_slow_duration_ms",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rq_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq_slow_duration_ms",
+        "name": "梵咒Q减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前RQSlowDuration=1.5秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_bonus_root_ms",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_bonus_root_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_bonus_root_ms",
+        "name": "梵咒W额外禁锢时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 500,
+          "2": 750,
+          "3": 1000,
+          "4": 1250
+        },
+        "description": "RWBonusRoot原值0.5/0.75/1/1.25秒，按R等级1至4转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_base_heal_percent_points",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_base_heal_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_base_heal_percent_points",
+        "name": "梵咒W治疗基础百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 17,
+        "levelValues": null,
+        "description": "当前RWBaseHeal=17，公式先按百分数点再乘0.01。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_heal_percent_points_per_ap",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_heal_percent_points_per_ap",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_heal_percent_points_per_ap",
+        "name": "梵咒W每点法强治疗百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前RWHealRatio=0.01百分数点/法强。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_percent_points_to_ratio",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "17百分数点需乘0.01才得到0.17比例。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_open_missing_health",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_open_missing_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_open_missing_health",
+        "name": "梵咒W起始阶段已损生命",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "起始治疗阶段的实际已损生命由运行输入提供，无默认且独立于结束阶段。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/rw_close_missing_health",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "rw_close_missing_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_close_missing_health",
+        "name": "梵咒W结束阶段已损生命",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "结束治疗阶段的实际已损生命由运行输入提供，无默认且独立于起始阶段。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/re_bonus_shield",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "re_bonus_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re_bonus_shield",
+        "name": "梵咒E主目标额外护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 85,
+          "3": 125,
+          "4": 165
+        },
+        "description": "EBonusShield按R技能等级1至4。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/re_bonus_shield_ap_ratio",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "re_bonus_shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re_bonus_shield_ap_ratio",
+        "name": "梵咒E额外护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "当前EBonusShieldRatio=0.45。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/karma_r/parameters",
+      "detailRoute": "/skills/karma_r/parameters/cast_time_ms",
+      "skillKey": "karma_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/rq_impact_magic_damage",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "rq_impact_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rq_impact_magic_damage",
+        "name": "梵咒Q冲击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rq_bonus_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rq_bonus_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只表示RQ额外冲击段，不重算基础Q。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/rq_field_magic_damage",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "rq_field_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rq_field_magic_damage",
+        "name": "梵咒Q爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rq_field_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rq_field_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "爆炸段与冲击段分开；额外目标分配不在本轮。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/rw_heal_ratio",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "rw_heal_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rw_heal_ratio",
+        "name": "梵咒W治疗比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_base_heal_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "rw_heal_percent_points_per_ap"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "按0.01×(17+0.01×法强)计算，避免把17直接当比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/rw_open_heal",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "rw_open_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rw_open_heal",
+        "name": "梵咒W起始阶段治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_open_missing_health"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_percent_points_to_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "rw_base_heal_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "rw_heal_percent_points_per_ap"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "起始阶段使用独立已损生命输入。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/rw_close_heal",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "rw_close_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rw_close_heal",
+        "name": "梵咒W结束阶段治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_close_missing_health"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_percent_points_to_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "rw_base_heal_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "rw_heal_percent_points_per_ap"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "结束阶段使用独立已损生命输入，不重复使用起始快照。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/karma_r/formulas",
+      "detailRoute": "/skills/karma_r/formulas/re_bonus_shield_value",
+      "skillKey": "karma_r",
+      "kind": "formulas",
+      "stableKey": "re_bonus_shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "re_bonus_shield_value",
+        "name": "梵咒E主目标额外护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "re_bonus_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "re_bonus_shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "主目标额外护盾值；附近友方范围不录。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/echo_basic_skill_count",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "echo_basic_skill_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "echo_basic_skill_count",
+        "name": "回响所需基础技能次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文每第三个基础技能回响一次。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/note_max_count",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "note_max_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "note_max_count",
+        "name": "音符目标层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前MaxNotes=4；是计数边界而非默认当前层数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/note_duration_ms",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "note_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "note_duration_ms",
+        "name": "音符持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前NoteDuration=6秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/note_attack_range_bonus",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "note_attack_range_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "note_attack_range_bonus",
+        "name": "音符攻击距离加成",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "当前BonusAARange=25，点数而非百分比。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/echo_cast_delay_ms",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "echo_cast_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "echo_cast_delay_ms",
+        "name": "回响施法延迟",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前EchoCastDelay=0.01秒，转换为10毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/adjacent_note_delay_ms",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "adjacent_note_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "adjacent_note_delay_ms",
+        "name": "相邻音符来源延迟",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "description": "当前DelayBetweenNoteCasts=0.075秒，保留为来源时序参数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/adjacent_note_delay_decay_ratio",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "adjacent_note_delay_decay_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "adjacent_note_delay_decay_ratio",
+        "name": "相邻音符延迟衰减比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.95,
+        "levelValues": null,
+        "description": "当前Decay=0.95；未把它猜作固定命中间隔。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/note_ap_ratio",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "note_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "note_ap_ratio",
+        "name": "音符法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "当前AutoDamage实际消费NoteAPRatio=0.04，不使用未消费AutoAPRatio。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/note_character_level_base_damage",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "note_character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "note_character_level_base_damage",
+        "name": "音符等级基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "AutoDamage有等级曲线起止值，完整中间等级未证，按实际等级值外供。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/seraphine_p/parameters",
+      "detailRoute": "/skills/seraphine_p/parameters/current_note_count",
+      "skillKey": "seraphine_p",
+      "kind": "parameters",
+      "stableKey": "current_note_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_note_count",
+        "name": "当前音符层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际音符层数由运行输入提供，范围0至4，不默认满层。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/seraphine_p/formulas",
+      "detailRoute": "/skills/seraphine_p/formulas/note_magic_damage",
+      "skillKey": "seraphine_p",
+      "kind": "formulas",
+      "stableKey": "note_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "note_magic_damage",
+        "name": "单个音符额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "note_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "note_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "AutoDamage=等级基础值+0.04×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/seraphine_p/formulas",
+      "detailRoute": "/skills/seraphine_p/formulas/total_note_magic_damage",
+      "skillKey": "seraphine_p",
+      "kind": "formulas",
+      "stableKey": "total_note_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_note_magic_damage",
+        "name": "当前音符总额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_note_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "note_character_level_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "note_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只计算实际音符计数；0至4由运行输入提供。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/base_damage",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "清籁基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "description": "当前BaseDamage技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/ability_power_ratio",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "清籁法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前TotalEmpoweredDamage/基础伤害树AP比例为0.4。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/execute_threshold_ratio",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "execute_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_threshold_ratio",
+        "name": "清籁低生命阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前低于25%生命值分支。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/execute_max_multiplier",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "execute_max_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_max_multiplier",
+        "name": "清籁低生命最大倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.75,
+        "levelValues": null,
+        "description": "当前DamageAmp75，最大明确倍率1.75；中间生命曲线不猜。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/cast_time_ms",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前清籁原始spellCastTime=0；本槽没有冲突的mCastTime字段，保留原始零值，不解释为缺省。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/seraphine_q/parameters",
+      "detailRoute": "/skills/seraphine_q/parameters/target_health_ratio",
+      "skillKey": "seraphine_q",
+      "kind": "parameters",
+      "stableKey": "target_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "target_health_ratio",
+        "name": "目标当前生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "低生命资格由施法/命中时实际生命输入提供，不能默认25%以下。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/seraphine_q/formulas",
+      "detailRoute": "/skills/seraphine_q/formulas/magic_damage",
+      "skillKey": "seraphine_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "清籁单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "正常单一敌人伤害，不自动触发回响。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/seraphine_q/formulas",
+      "detailRoute": "/skills/seraphine_q/formulas/low_health_max_magic_damage",
+      "skillKey": "seraphine_q",
+      "kind": "formulas",
+      "stableKey": "low_health_max_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "low_health_max_magic_damage",
+        "name": "清籁低生命最大魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "execute_max_multiplier"
+            }
+          ]
+        },
+        "description": "仅记录明确的25%以下最大倍率，未把中间生命变化拟合成线性。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/shield_strength",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "shield_strength",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_strength",
+        "name": "护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 80,
+          "3": 100,
+          "4": 120,
+          "5": 140
+        },
+        "description": "当前ShieldStrength技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/shield_ap_ratio",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前ShieldStrengthAPRatio=0.2。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/shield_duration_ms",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前ShieldDuration=2.5秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/self_move_speed_ratio",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前WMSBonus=0.2。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/self_move_speed_ap_ratio",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "self_move_speed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_move_speed_ap_ratio",
+        "name": "自身移动速度法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0002,
+        "levelValues": null,
+        "description": "当前WMSBonusAPRatio=0.0002。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/missing_health_heal_ratio",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "missing_health_heal_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missing_health_heal_ratio",
+        "name": "护盾后自身已损生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.08,
+          "2": 0.1,
+          "3": 0.12,
+          "4": 0.14,
+          "5": 0.16
+        },
+        "description": "当前WMissingHPBase技能等级1至5，正文按百分比显示。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/heal_delay_ms",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "heal_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_delay_ms",
+        "name": "护盾后治疗延迟",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前WHealSplitDelay=2.5秒，治疗只发生一次。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/shield_amp_for_seraphine",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "shield_amp_for_seraphine",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_amp_for_seraphine",
+        "name": "自身护盾倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前ShieldAmpForSeraphine=1；保留成熟自身护盾式。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/seraphine_w/parameters",
+      "detailRoute": "/skills/seraphine_w/parameters/self_missing_health",
+      "skillKey": "seraphine_w",
+      "kind": "parameters",
+      "stableKey": "self_missing_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_missing_health",
+        "name": "护盾后自身已损生命",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际治疗阶段已损生命由运行输入提供，无默认。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/seraphine_w/formulas",
+      "detailRoute": "/skills/seraphine_w/formulas/shield_value",
+      "skillKey": "seraphine_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "护盾自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_amp_for_seraphine"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_strength"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "自身护盾数值供合法NORMAL_SHIELD效果引用。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/seraphine_w/formulas",
+      "detailRoute": "/skills/seraphine_w/formulas/self_move_speed_ratio_value",
+      "skillKey": "seraphine_w",
+      "kind": "formulas",
+      "stableKey": "self_move_speed_ratio_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_move_speed_ratio_value",
+        "name": "自身移动速度比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_move_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_move_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "自益加速数值不转为无证属性效果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/seraphine_w/formulas",
+      "detailRoute": "/skills/seraphine_w/formulas/self_missing_health_heal",
+      "skillKey": "seraphine_w",
+      "kind": "formulas",
+      "stableKey": "self_missing_health_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_missing_health_heal",
+        "name": "护盾后自身已损生命治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_health_heal_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_missing_health"
+            }
+          ]
+        },
+        "description": "当前护盾后治疗为一次性已损生命比例；重复施放不直接把治疗乘2。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/seraphine_w/effects",
+      "detailRoute": "/skills/seraphine_w/effects/self_shield",
+      "skillKey": "seraphine_w",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "萨勒芬妮自身护盾",
+        "description": "只建立明确自身护盾生命周期；施放与已有护盾资格由事件层接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "self_shield",
+            "name": "自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "只定义施法后自身护盾的成熟生命周期，触发资格由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/base_damage",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "增幅节拍基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "description": "当前BaseDamage技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/ability_power_ratio",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "增幅节拍法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前FinalDamage树AP比例为0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/slow_percent_points",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 99,
+        "levelValues": null,
+        "description": "当前SlowValue=99且正文按@SlowValue@%显示；这是99百分数点，不是0.99比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/slow_duration_ms",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1100,
+          "2": 1200,
+          "3": 1300,
+          "4": 1400,
+          "5": 1500
+        },
+        "description": "当前SlowDuration技能等级1至5的秒值转换为毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/cast_time_ms",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "基础施法时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前spellCastTime=0；仅保存明确原始字段，实际施法事件仍待接。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 161,
+      "method": "POST",
+      "route": "/skills/seraphine_e/parameters",
+      "detailRoute": "/skills/seraphine_e/parameters/status_replacement_stage",
+      "skillKey": "seraphine_e",
+      "kind": "parameters",
+      "stableKey": "status_replacement_stage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "status_replacement_stage",
+        "name": "状态替换阶段",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "减速目标才可转禁锢、禁锢目标才可转晕眩，阶段由事件层提供，不默认任一状态。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 162,
+      "method": "POST",
+      "route": "/skills/seraphine_e/formulas",
+      "detailRoute": "/skills/seraphine_e/formulas/magic_damage",
+      "skillKey": "seraphine_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "增幅节拍单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前FinalDamage单一敌方基础式；状态升级不构成三次伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 163,
+      "method": "POST",
+      "route": "/skills/seraphine_r/parameters",
+      "detailRoute": "/skills/seraphine_r/parameters/base_damage",
+      "skillKey": "seraphine_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "舞台魅影基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 200,
+          "3": 250
+        },
+        "description": "当前R1BaseDamage技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 164,
+      "method": "POST",
+      "route": "/skills/seraphine_r/parameters",
+      "detailRoute": "/skills/seraphine_r/parameters/ability_power_ratio",
+      "skillKey": "seraphine_r",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "舞台魅影法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前R1TotalDamage树AP比例为0.4。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 165,
+      "method": "POST",
+      "route": "/skills/seraphine_r/parameters",
+      "detailRoute": "/skills/seraphine_r/parameters/charm_duration_ms",
+      "skillKey": "seraphine_r",
+      "kind": "parameters",
+      "stableKey": "charm_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charm_duration_ms",
+        "name": "魅惑持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1500,
+          "3": 1750
+        },
+        "description": "当前RChannelDuration技能等级1至3对应1.25/1.5/1.75秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 166,
+      "method": "POST",
+      "route": "/skills/seraphine_r/formulas",
+      "detailRoute": "/skills/seraphine_r/formulas/magic_damage",
+      "skillKey": "seraphine_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "舞台魅影单一敌方魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保存单一敌方伤害；范围延伸和友方音符不录。",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "noApiCalls": true
+}

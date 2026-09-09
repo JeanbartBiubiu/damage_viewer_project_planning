@@ -1,0 +1,23 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/soraka_r/parameters",
+    "detailRoute": "/skills/soraka_r/parameters/low_health_multiplier",
+    "skillKey": "soraka_r",
+    "kind": "parameters",
+    "stableKey": "low_health_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "low_health_multiplier",
+      "name": "祈愿低生命治疗倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前AmpedHealing为完整治疗的1.5倍。",
+      "sortOrder": 40
+    }
+  }
+}

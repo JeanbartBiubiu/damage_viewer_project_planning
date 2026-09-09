@@ -1,0 +1,55 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/seraphine_q/formulas",
+    "detailRoute": "/skills/seraphine_q/formulas/low_health_max_magic_damage",
+    "skillKey": "seraphine_q",
+    "kind": "formulas",
+    "stableKey": "low_health_max_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "low_health_max_magic_damage",
+      "name": "清籁低生命最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "execute_max_multiplier"
+          }
+        ]
+      },
+      "description": "仅记录明确的25%以下最大倍率，未把中间生命变化拟合成线性。",
+      "sortOrder": 20
+    }
+  }
+}

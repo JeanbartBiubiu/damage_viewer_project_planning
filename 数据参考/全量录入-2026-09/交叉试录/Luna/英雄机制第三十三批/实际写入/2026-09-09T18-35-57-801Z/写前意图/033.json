@@ -1,0 +1,23 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/sona_w/parameters",
+    "detailRoute": "/skills/sona_w/parameters/diminuendo_base_ratio",
+    "skillKey": "sona_w",
+    "kind": "parameters",
+    "stableKey": "diminuendo_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "diminuendo_base_ratio",
+      "name": "减伤基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前TotalDiminuendoWeakenPercent树以0.25为基础比例；正文按百分比显示。",
+      "sortOrder": 110
+    }
+  }
+}

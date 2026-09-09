@@ -1,0 +1,23 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rw_heal_percent_points_per_ap",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rw_heal_percent_points_per_ap",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_heal_percent_points_per_ap",
+      "name": "梵咒W每点法强治疗百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "当前RWHealRatio=0.01百分数点/法强。",
+      "sortOrder": 100
+    }
+  }
+}

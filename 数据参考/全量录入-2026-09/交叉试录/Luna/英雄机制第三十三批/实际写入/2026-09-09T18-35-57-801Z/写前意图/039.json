@@ -1,0 +1,23 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/self_move_speed_ratio",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前SelfBaseMovementSpeed=0.2。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/rw_heal_ratio",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "rw_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rw_heal_ratio",
+      "name": "梵咒W治疗比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_percent_points_to_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_base_heal_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "rw_heal_percent_points_per_ap"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "按0.01×(17+0.01×法强)计算，避免把17直接当比例。",
+      "sortOrder": 30
+    }
+  }
+}

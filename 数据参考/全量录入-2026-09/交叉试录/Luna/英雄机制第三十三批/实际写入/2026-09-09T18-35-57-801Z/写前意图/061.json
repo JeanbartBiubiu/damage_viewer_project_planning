@@ -1,0 +1,23 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/self_heal_ap_ratio",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_ap_ratio",
+      "name": "流星坠落自身持续治疗法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前TotalHot树AP比例为0.3。",
+      "sortOrder": 60
+    }
+  }
+}

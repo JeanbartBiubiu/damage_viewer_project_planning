@@ -1,0 +1,23 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/note_max_count",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "note_max_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "note_max_count",
+      "name": "音符目标层数上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前MaxNotes=4；是计数边界而非默认当前层数。",
+      "sortOrder": 20
+    }
+  }
+}

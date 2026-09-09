@@ -1,0 +1,23 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/seraphine_q/parameters",
+    "detailRoute": "/skills/seraphine_q/parameters/target_health_ratio",
+    "skillKey": "seraphine_q",
+    "kind": "parameters",
+    "stableKey": "target_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_health_ratio",
+      "name": "目标当前生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "低生命资格由施法/命中时实际生命输入提供，不能默认25%以下。",
+      "sortOrder": 60
+    }
+  }
+}

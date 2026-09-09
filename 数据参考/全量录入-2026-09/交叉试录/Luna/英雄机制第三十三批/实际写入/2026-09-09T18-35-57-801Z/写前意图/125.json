@@ -1,0 +1,23 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/note_duration_ms",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "note_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "note_duration_ms",
+      "name": "音符持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "当前NoteDuration=6秒。",
+      "sortOrder": 30
+    }
+  }
+}

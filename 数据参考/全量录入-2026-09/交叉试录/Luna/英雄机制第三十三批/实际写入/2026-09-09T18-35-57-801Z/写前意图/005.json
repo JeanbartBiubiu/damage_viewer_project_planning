@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/sona_p/parameters",
+    "detailRoute": "/skills/sona_p/parameters/accelerando_ult_cooldown_refund_ms",
+    "skillKey": "sona_p",
+    "kind": "parameters",
+    "stableKey": "accelerando_ult_cooldown_refund_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "accelerando_ult_cooldown_refund_ms",
+      "name": "满层终极技能冷却缩短",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前AccelerandoUltCDR=1.5秒，转换为1500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

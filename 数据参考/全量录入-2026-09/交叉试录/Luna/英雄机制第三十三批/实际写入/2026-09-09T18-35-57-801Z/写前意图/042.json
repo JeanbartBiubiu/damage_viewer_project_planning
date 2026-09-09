@@ -1,0 +1,23 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/self_move_speed_duration_max_ms",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_duration_max_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_duration_max_ms",
+      "name": "自身加速最长时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7000,
+      "levelValues": null,
+      "description": "当前无受伤延长的最长7秒。",
+      "sortOrder": 60
+    }
+  }
+}
