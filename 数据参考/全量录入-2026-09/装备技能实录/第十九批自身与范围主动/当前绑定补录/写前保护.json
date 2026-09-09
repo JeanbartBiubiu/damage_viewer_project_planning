@@ -1,0 +1,712 @@
+[
+  {
+    "route": "/skills/item_3190_active",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:52.449174Z",
+      "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "钢铁烈阳之匣·虔诚自身护盾",
+      "skillCategoryKeys": [],
+      "skillKey": "item_3190_active",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T09:30:52.449174Z"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters",
+    "status": 200,
+    "data": [
+      {
+        "createdAt": "2026-09-09T09:30:53.395597Z",
+        "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+        "fixedValue": 290,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾下限",
+        "parameterKey": "shield_min",
+        "skillKey": "item_3190_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:30:53.395597Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:54.418319Z",
+        "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+        "fixedValue": 360,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾上限",
+        "parameterKey": "shield_max",
+        "skillKey": "item_3190_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T09:30:54.418319Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:55.432895Z",
+        "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前合资格英雄基础护盾值",
+        "parameterKey": "actual_self_shield_value",
+        "skillKey": "item_3190_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:30:55.432895Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:56.39898Z",
+        "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾持续",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "item_3190_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:30:56.39898Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:57.445253Z",
+        "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+        "fixedValue": 850,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾范围",
+        "parameterKey": "shield_range",
+        "skillKey": "item_3190_active",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T09:30:57.445253Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:58.360567Z",
+        "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+        "fixedValue": 90000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3190_active",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T09:30:58.360567Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ]
+  },
+  {
+    "route": "/skills/item_3190_active/formulas",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3190_active/effects",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3190_active/processes",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3190_active/internal-states",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3190_active/trigger-rules",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/shield_min",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:53.395597Z",
+      "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+      "fixedValue": 290,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虔诚护盾下限",
+      "parameterKey": "shield_min",
+      "skillKey": "item_3190_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:30:53.395597Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/shield_max",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:54.418319Z",
+      "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+      "fixedValue": 360,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虔诚护盾上限",
+      "parameterKey": "shield_max",
+      "skillKey": "item_3190_active",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T09:30:54.418319Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/actual_self_shield_value",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:55.432895Z",
+      "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "当前合资格英雄基础护盾值",
+      "parameterKey": "actual_self_shield_value",
+      "skillKey": "item_3190_active",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T09:30:55.432895Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/shield_duration_ms",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:56.39898Z",
+      "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虔诚护盾持续",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "item_3190_active",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T09:30:56.39898Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/shield_range",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:57.445253Z",
+      "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+      "fixedValue": 850,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虔诚护盾范围",
+      "parameterKey": "shield_range",
+      "skillKey": "item_3190_active",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T09:30:57.445253Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/active_cooldown_ms",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:58.360567Z",
+      "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+      "fixedValue": 90000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虔诚冷却",
+      "parameterKey": "active_cooldown_ms",
+      "skillKey": "item_3190_active",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T09:30:58.360567Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3190",
+        "name": "item_3190"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_3190",
+    "status": 200,
+    "data": {
+      "items": [
+        {
+          "equipmentKey": "item_3190",
+          "equipmentName": "钢铁烈阳之匣",
+          "gameId": "lol",
+          "skillKey": "item_3190_active",
+          "skillName": "钢铁烈阳之匣·虔诚自身护盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    }
+  },
+  {
+    "route": "/skills/item_3107_active",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:39.522128Z",
+      "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "救赎·干涉敌方伤害",
+      "skillCategoryKeys": [],
+      "skillKey": "item_3107_active",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T09:30:39.522128Z"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters",
+    "status": 200,
+    "data": [
+      {
+        "createdAt": "2026-09-09T09:30:40.474482Z",
+        "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "干涉敌方真实伤害比例",
+        "parameterKey": "enemy_true_damage_ratio",
+        "skillKey": "item_3107_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:30:40.474482Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:41.495245Z",
+        "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前敌方英雄最大生命值",
+        "parameterKey": "actual_target_max_health",
+        "skillKey": "item_3107_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T09:30:41.495245Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:42.449924Z",
+        "description": "官方与客户端中文明确2.5秒后生效。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "干涉生效延迟",
+        "parameterKey": "impact_delay_ms",
+        "skillKey": "item_3107_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:30:42.449924Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:43.459838Z",
+        "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+        "fixedValue": 550,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "干涉区域半径",
+        "parameterKey": "area_radius",
+        "skillKey": "item_3107_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:30:43.459838Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:44.355122Z",
+        "description": "客户端CastRange=5500。",
+        "fixedValue": 5500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "干涉施法距离",
+        "parameterKey": "cast_range",
+        "skillKey": "item_3107_active",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T09:30:44.355122Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:45.408966Z",
+        "description": "客户端根Cooldown=90秒；只读根数据值。",
+        "fixedValue": 90000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "干涉冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3107_active",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T09:30:45.408966Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:46.384955Z",
+        "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+        "fixedValue": 150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "友方治疗下限",
+        "parameterKey": "ally_heal_min",
+        "skillKey": "item_3107_active",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T09:30:46.384955Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:47.377293Z",
+        "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+        "fixedValue": 350,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "友方治疗上限",
+        "parameterKey": "ally_heal_max",
+        "skillKey": "item_3107_active",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T09:30:47.377293Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:30:48.415892Z",
+        "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前合资格友方英雄基础治疗输入",
+        "parameterKey": "actual_qualified_ally_base_heal",
+        "skillKey": "item_3107_active",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T09:30:48.415892Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ]
+  },
+  {
+    "route": "/skills/item_3107_active/formulas",
+    "status": 200,
+    "data": [
+      {
+        "createdAt": "2026-09-09T09:30:49.301456Z",
+        "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+        "formulaKey": "enemy_true_damage",
+        "gameId": "lol",
+        "name": "干涉敌方真实伤害值",
+        "skillKey": "item_3107_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:30:49.301456Z"
+      }
+    ]
+  },
+  {
+    "route": "/skills/item_3107_active/effects",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3107_active/processes",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3107_active/internal-states",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3107_active/trigger-rules",
+    "status": 200,
+    "data": []
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/enemy_true_damage_ratio",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:40.474482Z",
+      "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "干涉敌方真实伤害比例",
+      "parameterKey": "enemy_true_damage_ratio",
+      "skillKey": "item_3107_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:30:40.474482Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/actual_target_max_health",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:41.495245Z",
+      "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "当前敌方英雄最大生命值",
+      "parameterKey": "actual_target_max_health",
+      "skillKey": "item_3107_active",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T09:30:41.495245Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/impact_delay_ms",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:42.449924Z",
+      "description": "官方与客户端中文明确2.5秒后生效。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "干涉生效延迟",
+      "parameterKey": "impact_delay_ms",
+      "skillKey": "item_3107_active",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T09:30:42.449924Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/area_radius",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:43.459838Z",
+      "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+      "fixedValue": 550,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "干涉区域半径",
+      "parameterKey": "area_radius",
+      "skillKey": "item_3107_active",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T09:30:43.459838Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/cast_range",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:44.355122Z",
+      "description": "客户端CastRange=5500。",
+      "fixedValue": 5500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "干涉施法距离",
+      "parameterKey": "cast_range",
+      "skillKey": "item_3107_active",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T09:30:44.355122Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/active_cooldown_ms",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:45.408966Z",
+      "description": "客户端根Cooldown=90秒；只读根数据值。",
+      "fixedValue": 90000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "干涉冷却",
+      "parameterKey": "active_cooldown_ms",
+      "skillKey": "item_3107_active",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T09:30:45.408966Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/ally_heal_min",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:46.384955Z",
+      "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+      "fixedValue": 150,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "友方治疗下限",
+      "parameterKey": "ally_heal_min",
+      "skillKey": "item_3107_active",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T09:30:46.384955Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/ally_heal_max",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:47.377293Z",
+      "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+      "fixedValue": 350,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "友方治疗上限",
+      "parameterKey": "ally_heal_max",
+      "skillKey": "item_3107_active",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T09:30:47.377293Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/actual_qualified_ally_base_heal",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:48.415892Z",
+      "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "当前合资格友方英雄基础治疗输入",
+      "parameterKey": "actual_qualified_ally_base_heal",
+      "skillKey": "item_3107_active",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T09:30:48.415892Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/formulas/enemy_true_damage",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T09:30:49.301456Z",
+      "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "enemy_true_damage_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_target_max_health"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "enemy_true_damage",
+      "gameId": "lol",
+      "name": "干涉敌方真实伤害值",
+      "skillKey": "item_3107_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:30:49.301456Z"
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3107",
+        "name": "item_3107"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_3107",
+    "status": 200,
+    "data": {
+      "items": [
+        {
+          "equipmentKey": "item_3107",
+          "equipmentName": "救赎",
+          "gameId": "lol",
+          "skillKey": "item_3107_active",
+          "skillName": "救赎·干涉敌方伤害",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/repeated_shield_window_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "repeated_shield_window_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    }
+  },
+  {
+    "route": "/skills/item_3190_active/parameters/repeated_shield_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "repeated_shield_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    }
+  },
+  {
+    "route": "/skills/item_3107_active/parameters/repeated_effect_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "repeated_effect_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    }
+  }
+]

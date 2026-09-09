@@ -1,0 +1,731 @@
+{
+  "at": "2026-09-09T09:50:00.457Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Codex内置浏览器，真实已有标签页2",
+  "representativeSkills": [
+    "item_3748_active",
+    "item_6664_passive",
+    "item_3190_active",
+    "item_3107_active"
+  ],
+  "observations": [
+    {
+      "skillKey": "item_3748_active",
+      "observed": "同装备主动与被动两行均有代表图，主动分类为空；主动三固定参数0.04/0.5/10000，无临时生命输入；远程公式详情显示来源生命最终值乘0.04再乘0.5。"
+    },
+    {
+      "skillKey": "item_6664_passive",
+      "observed": "参数页面将光环325、普通触发350、英雄触发500分开显示。"
+    },
+    {
+      "skillKey": "item_3190_active",
+      "observed": "当前合资格英雄基础护盾值显示为计算时传入的小数；端点290/360，持续2500毫秒；补录后名称为虔诚护盾，时间窗20000、保留比例0.25可见。"
+    },
+    {
+      "skillKey": "item_3107_active",
+      "observed": "详情显示死亡期间可主动使用、对相同目标后续干涉降低50%；友方治疗150/350和目标待证说明保留。"
+    }
+  ],
+  "apiGetCount": 19,
+  "apiWrites": 0,
+  "checksPassed": true,
+  "apiEvidence": [
+    {
+      "route": "/skills/item_3748_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:22.649593Z",
+        "description": "保留刚斩强化下一次顺劈时对当前唯一主目标的额外物理伤害比例、远程倍率和10秒冷却；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外伤害留在来源。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "巨型九头蛇·刚斩",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3748_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T09:30:22.649593Z"
+      }
+    },
+    {
+      "route": "/skills/item_3748_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3748",
+          "name": "item_3748"
+        }
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3748",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3748",
+            "equipmentName": "巨型九头蛇",
+            "gameId": "lol",
+            "skillKey": "item_3748_passive",
+            "skillName": "巨型九头蛇·顺劈主目标",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          {
+            "equipmentKey": "item_3748",
+            "equipmentName": "巨型九头蛇",
+            "gameId": "lol",
+            "skillKey": "item_3748_active",
+            "skillName": "巨型九头蛇·刚斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 20
+          }
+        ],
+        "total": 2
+      }
+    },
+    {
+      "route": "/skills/item_6664_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:31:01.416193Z",
+        "description": "保留献祭对当前唯一附近敌方英雄的每秒伤害计算树、3秒持续、光环半径325、触发脉冲350/500、英雄触发倍率和范围参数。不要把来源节拍直接生成周期过程；荒弃击杀周围支路留在来源。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "璀璨回响·献祭当前敌人",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6664_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T09:31:01.416193Z"
+      }
+    },
+    {
+      "route": "/skills/item_6664_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6664",
+          "name": "item_6664"
+        }
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_6664",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_6664",
+            "equipmentName": "璀璨回响",
+            "gameId": "lol",
+            "skillKey": "item_6664_passive",
+            "skillName": "璀璨回响·献祭当前敌人",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_3190_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:52.449174Z",
+        "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。 当前绑定扩展说明：20秒内后续虔诚护盾保留25%效果；自身目标资格仍待补证，名称不预先限定自身。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "钢铁烈阳之匣·虔诚护盾",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3190_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T09:44:03.52516Z"
+      }
+    },
+    {
+      "route": "/skills/item_3190_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3190",
+          "name": "item_3190"
+        }
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3190",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3190",
+            "equipmentName": "钢铁烈阳之匣",
+            "gameId": "lol",
+            "skillKey": "item_3190_active",
+            "skillName": "钢铁烈阳之匣·虔诚护盾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_3107_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:39.522128Z",
+        "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。 当前绑定扩展说明：死亡期间也可主动使用；对相同目标的后续干涉效果降低50%。本次保存比例，重复时间窗和实际触发待核。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "救赎·干涉敌方伤害",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3107_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T09:44:04.609627Z"
+      }
+    },
+    {
+      "route": "/skills/item_3107_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3107",
+          "name": "item_3107"
+        }
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3107",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3107",
+            "equipmentName": "救赎",
+            "gameId": "lol",
+            "skillKey": "item_3107_active",
+            "skillName": "救赎·干涉敌方伤害",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_3190_active/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:30:53.395597Z",
+          "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+          "fixedValue": 290,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾下限",
+          "parameterKey": "shield_min",
+          "skillKey": "item_3190_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:30:53.395597Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:54.418319Z",
+          "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+          "fixedValue": 360,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾上限",
+          "parameterKey": "shield_max",
+          "skillKey": "item_3190_active",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:30:54.418319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:55.432895Z",
+          "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前合资格英雄基础护盾值",
+          "parameterKey": "actual_self_shield_value",
+          "skillKey": "item_3190_active",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:30:55.432895Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:56.39898Z",
+          "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:30:56.39898Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:57.445253Z",
+          "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+          "fixedValue": 850,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾范围",
+          "parameterKey": "shield_range",
+          "skillKey": "item_3190_active",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:30:57.445253Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:58.360567Z",
+          "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+          "fixedValue": 90000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚冷却",
+          "parameterKey": "active_cooldown_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:30:58.360567Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:44:00.270276Z",
+          "description": "当前绑定扩展说明20秒；秒转换毫秒。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+          "fixedValue": 20000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重复护盾判定时间窗",
+          "parameterKey": "repeated_shield_window_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:44:00.270276Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:44:01.379363Z",
+          "description": "当前绑定扩展说明后续护盾降为25%；是保留比例而非减去25%。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重复护盾保留比例",
+          "parameterKey": "repeated_shield_ratio",
+          "skillKey": "item_3190_active",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:44:01.379363Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3107_active/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:30:40.474482Z",
+          "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "干涉敌方真实伤害比例",
+          "parameterKey": "enemy_true_damage_ratio",
+          "skillKey": "item_3107_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:30:40.474482Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:41.495245Z",
+          "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前敌方英雄最大生命值",
+          "parameterKey": "actual_target_max_health",
+          "skillKey": "item_3107_active",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:30:41.495245Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:42.449924Z",
+          "description": "官方与客户端中文明确2.5秒后生效。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "干涉生效延迟",
+          "parameterKey": "impact_delay_ms",
+          "skillKey": "item_3107_active",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:30:42.449924Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:43.459838Z",
+          "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+          "fixedValue": 550,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "干涉区域半径",
+          "parameterKey": "area_radius",
+          "skillKey": "item_3107_active",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:30:43.459838Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:44.355122Z",
+          "description": "客户端CastRange=5500。",
+          "fixedValue": 5500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "干涉施法距离",
+          "parameterKey": "cast_range",
+          "skillKey": "item_3107_active",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:30:44.355122Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:45.408966Z",
+          "description": "客户端根Cooldown=90秒；只读根数据值。",
+          "fixedValue": 90000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "干涉冷却",
+          "parameterKey": "active_cooldown_ms",
+          "skillKey": "item_3107_active",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:30:45.408966Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:46.384955Z",
+          "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+          "fixedValue": 150,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "友方治疗下限",
+          "parameterKey": "ally_heal_min",
+          "skillKey": "item_3107_active",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:30:46.384955Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:47.377293Z",
+          "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+          "fixedValue": 350,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "友方治疗上限",
+          "parameterKey": "ally_heal_max",
+          "skillKey": "item_3107_active",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:30:47.377293Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:48.415892Z",
+          "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前合资格友方英雄基础治疗输入",
+          "parameterKey": "actual_qualified_ally_base_heal",
+          "skillKey": "item_3107_active",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T09:30:48.415892Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:44:02.43169Z",
+          "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重复干预效果保留比例",
+          "parameterKey": "repeated_effect_ratio",
+          "skillKey": "item_3107_active",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T09:44:02.43169Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6664_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:31:02.282964Z",
+          "description": "客户端DamagePerTick计算树第一项明确为15；另有10的tooltipOnly字段，不用10覆盖实际计算树。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭每次伤害固定值",
+          "parameterKey": "damage_flat_per_tick",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:31:02.282964Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:03.261228Z",
+          "description": "客户端DamagePerTick的mStat=12、mStatFormula=2、系数0.01；属性语义不在本批推广，实际值运行时输入。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭mStat12缩放比例",
+          "parameterKey": "damage_scaling_ratio",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:31:03.261228Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:04.215187Z",
+          "description": "该对象没有具名属性旁证；保留原节点实际值作为运行时输入，不补零、不套用其他对象。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭来源mStat12/formula2输入",
+          "parameterKey": "source_mstat12_formula2_value",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:31:04.215187Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:05.156258Z",
+          "description": "客户端AuraDuration=3秒；不表示已经建立周期执行。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭持续时间",
+          "parameterKey": "aura_duration_ms",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:31:05.156258Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:06.073361Z",
+          "description": "客户端Range=325；这是献祭光环资格半径，与ProcAoE=350和ChampProcAoE=500的触发脉冲范围不同。",
+          "fixedValue": 325,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭光环半径",
+          "parameterKey": "aura_range",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 45,
+          "updatedAt": "2026-09-09T09:31:06.073361Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:07.052027Z",
+          "description": "客户端TicksPerSecond=1；只保存源参数，首跳和事件调度未接线。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭来源节拍",
+          "parameterKey": "ticks_per_second",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:31:07.052027Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:07.984898Z",
+          "description": "客户端ChampProcDPSMultiplier=4；当前只表达计算节点。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭英雄触发伤害倍率",
+          "parameterKey": "champion_proc_multiplier",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:31:07.984898Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:08.90457Z",
+          "description": "客户端ProcAoE=350；这是触发脉冲范围，与aura_range=325的献祭光环资格半径分开；当前唯一敌人是否在范围内由运行时判断。",
+          "fixedValue": 350,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭普通触发范围",
+          "parameterKey": "proc_aoe_radius",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:31:08.90457Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:09.828883Z",
+          "description": "客户端ChampProcAoE=500；这是英雄触发脉冲范围，与aura_range=325的献祭光环资格半径分开；不因附近文字排除单个敌人。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭英雄触发范围",
+          "parameterKey": "champion_proc_aoe_radius",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:31:09.828883Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:31:10.969088Z",
+          "description": "客户端Cooldown=12秒；只保留参数，未创建触发规则。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "献祭冷却",
+          "parameterKey": "trigger_cooldown_ms",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T09:31:10.969088Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3190_active/parameters/repeated_shield_window_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:44:00.270276Z",
+        "description": "当前绑定扩展说明20秒；秒转换毫秒。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "fixedValue": 20000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "重复护盾判定时间窗",
+        "parameterKey": "repeated_shield_window_ms",
+        "skillKey": "item_3190_active",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T09:44:00.270276Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3190_active/parameters/repeated_shield_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:44:01.379363Z",
+        "description": "当前绑定扩展说明后续护盾降为25%；是保留比例而非减去25%。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "重复护盾保留比例",
+        "parameterKey": "repeated_shield_ratio",
+        "skillKey": "item_3190_active",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T09:44:01.379363Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3107_active/parameters/repeated_effect_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:44:02.43169Z",
+        "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "重复干预效果保留比例",
+        "parameterKey": "repeated_effect_ratio",
+        "skillKey": "item_3107_active",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T09:44:02.43169Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3748_active/formulas/active_primary_damage_ranged",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:27.951746Z",
+        "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_primary_target_hp_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_effectiveness"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "active_primary_damage_ranged",
+        "gameId": "lol",
+        "name": "刚斩主目标远程伤害值",
+        "skillKey": "item_3748_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T09:30:27.951746Z"
+      }
+    }
+  ],
+  "runtimeValidation": "未执行",
+  "boundary": "页面查看及保存数据回读；未运行战斗，未将未知目标资格记为机制完成。"
+}

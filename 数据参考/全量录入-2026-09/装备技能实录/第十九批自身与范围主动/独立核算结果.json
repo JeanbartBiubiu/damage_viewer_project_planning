@@ -1,0 +1,872 @@
+{
+  "generatedAt": "2026-09-09T06:54:36.945Z",
+  "stage": "第十九批候选独立结构、条件和数值核算",
+  "candidateSha256": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+  "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+  "currentGETSha256": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+  "formulaCount": 11,
+  "arithmeticCaseCount": 21,
+  "arithmeticCases": [
+    {
+      "label": "3074血斩总攻击力300",
+      "actual": 240,
+      "expected": 240,
+      "passed": true
+    },
+    {
+      "label": "3074血斩总攻击力475",
+      "actual": 380,
+      "expected": 380,
+      "passed": true
+    },
+    {
+      "label": "3748顺劈近战mStat12=1000",
+      "actual": 10,
+      "expected": 10,
+      "passed": true
+    },
+    {
+      "label": "3748顺劈远程mStat12=1000",
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "label": "3748刚斩近战mStat12=1250",
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "label": "3748刚斩远程mStat12=1250",
+      "actual": 25,
+      "expected": 25,
+      "passed": true
+    },
+    {
+      "label": "6698邪斩总攻击力315",
+      "actual": 252,
+      "expected": 252,
+      "passed": true
+    },
+    {
+      "label": "3107目标最大生命2000",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "label": "3107目标最大生命4175",
+      "actual": 417.5,
+      "expected": 417.5,
+      "passed": true
+    },
+    {
+      "label": "6664每次伤害mStat12=1000",
+      "actual": 25,
+      "expected": 25,
+      "passed": true
+    },
+    {
+      "label": "6664每秒伤害mStat12=1000",
+      "actual": 25,
+      "expected": 25,
+      "passed": true
+    },
+    {
+      "label": "6664英雄触发mStat12=1000",
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "label": "6664每次伤害mStat12=2000",
+      "actual": 35,
+      "expected": 35,
+      "passed": true
+    },
+    {
+      "label": "6664英雄触发mStat12=2000",
+      "actual": 140,
+      "expected": 140,
+      "passed": true
+    },
+    {
+      "label": "8020合资格魔法伤害1000",
+      "actual": 120,
+      "expected": 120,
+      "passed": true
+    },
+    {
+      "label": "8020合资格魔法伤害333",
+      "actual": 39.96,
+      "expected": 39.96,
+      "passed": true
+    },
+    {
+      "label": "3190护盾下限",
+      "actual": 290,
+      "expected": 290,
+      "passed": true
+    },
+    {
+      "label": "3190护盾上限",
+      "actual": 360,
+      "expected": 360,
+      "passed": true
+    },
+    {
+      "label": "3190护盾持续",
+      "actual": 2500,
+      "expected": 2500,
+      "passed": true
+    },
+    {
+      "label": "3074冷却毫秒",
+      "actual": 10000,
+      "expected": 10000,
+      "passed": true
+    },
+    {
+      "label": "3107冷却毫秒",
+      "actual": 90000,
+      "expected": 90000,
+      "passed": true
+    }
+  ],
+  "structureCheckCount": 16,
+  "structureChecks": [
+    {
+      "name": "item_3074_active无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3074_active写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3074",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3074",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_3748_passive无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3748_passive写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3748",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3748",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_3748_active无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3748_active写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3748",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3748",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_6698_active无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_6698_active写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6698",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6698",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_3107_active无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3107_active写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3107",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3107",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_3190_active无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3190_active写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3190",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3190",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_6664_passive无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_6664_passive写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6664",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6664",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_8020_passive无无证效果过程状态规则",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_8020_passive写前关系为空",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_8020",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_8020",
+        "apiWrites": 0
+      }
+    }
+  ],
+  "scopeCheckCount": 16,
+  "scopeChecks": [
+    {
+      "name": "装备目录数量为当前GET值",
+      "passed": true,
+      "evidence": {
+        "equipmentCount": 198,
+        "mountedEquipmentCount": 108,
+        "unmountedEquipmentCount": 90,
+        "relationCount": 110,
+        "uniqueMountedSkillCount": 110,
+        "mountedSkillDetailsCount": 110,
+        "targetCount": 10,
+        "targetUnmountedCount": 10,
+        "getRequests": 329,
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "既有装备挂载关系数量为当前GET值",
+      "passed": true,
+      "evidence": {
+        "equipmentCount": 198,
+        "mountedEquipmentCount": 108,
+        "unmountedEquipmentCount": 90,
+        "relationCount": 110,
+        "uniqueMountedSkillCount": 110,
+        "mountedSkillDetailsCount": 110,
+        "targetCount": 10,
+        "targetUnmountedCount": 10,
+        "getRequests": 329,
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "item_3074未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3074",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3074",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3074_passive",
+            "route": "/skills/item_3074_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3074_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3074_active",
+            "route": "/skills/item_3074_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3074_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3748未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3748",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3748",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3748_passive",
+            "route": "/skills/item_3748_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3748_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3748_active",
+            "route": "/skills/item_3748_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3748_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_6698未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6698",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_6698",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_6698_passive",
+            "route": "/skills/item_6698_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6698_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_6698_active",
+            "route": "/skills/item_6698_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6698_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3107未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3107",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3107",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3107_passive",
+            "route": "/skills/item_3107_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3107_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3107_active",
+            "route": "/skills/item_3107_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3107_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3190未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3190",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3190",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3190_passive",
+            "route": "/skills/item_3190_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3190_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3190_active",
+            "route": "/skills/item_3190_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3190_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3222未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3222",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3222",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3222_passive",
+            "route": "/skills/item_3222_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3222_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3222_active",
+            "route": "/skills/item_3222_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3222_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_6664未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6664",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_6664",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_6664_passive",
+            "route": "/skills/item_6664_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6664_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_6664_active",
+            "route": "/skills/item_6664_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6664_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_8020未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_8020",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_8020",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_8020_passive",
+            "route": "/skills/item_8020_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_8020_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_8020_active",
+            "route": "/skills/item_8020_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_8020_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3085未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3085",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3085",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3085_passive",
+            "route": "/skills/item_3085_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3085_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3085_active",
+            "route": "/skills/item_3085_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3085_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "item_3504未被别批挂载且主体不存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3504",
+        "relationGET": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3504",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "total": 0,
+          "items": []
+        },
+        "subjectGET": [
+          {
+            "skillKey": "item_3504_passive",
+            "route": "/skills/item_3504_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          {
+            "skillKey": "item_3504_active",
+            "route": "/skills/item_3504_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3504_active"
+                },
+                "message": "技能不存在"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "钢铁烈阳之匣SelfAoe自身受益证据",
+      "passed": true,
+      "evidence": {
+        "targeting": {
+          "__type": "SelfAoe"
+        },
+        "flags": 8193
+      }
+    },
+    {
+      "name": "米凯尔未证明SelfAoe而留在范围外",
+      "passed": true,
+      "evidence": {
+        "targeting": null,
+        "flags": 1
+      }
+    },
+    {
+      "name": "卢安娜额外目标支路范围外证据",
+      "passed": true,
+      "evidence": "<mainText><stats><attention>40%</attention>攻击速度<br><attention>25%</attention>暴击几率<br><attention>5%</attention>移动速度</stats><br><br><passive>风怒</passive><br>攻击对目标附近的2个额外敌人发射弩箭。<br>每根弩箭造成<physicalDamage>物理伤害</physicalDamage>并施加<OnHit>攻击特效</OnHit>。</mainText>"
+    },
+    {
+      "name": "炽热香炉第三友方支路范围外证据",
+      "passed": true,
+      "evidence": "<mainText><stats><attention>45</attention>法术强度<br><attention> 10%</attention>治疗和护盾强度<br><attention>125%</attention>基础法力回复<br><attention>4%</attention>移动速度</stats><br><br><passive>圣洁化</passive><br>对一名友方英雄施加治疗或护盾时，会使你们两个都获得持续6秒的强化，提供<attackSpeed>25%攻击速度</attackSpeed>和<magicDamage>20魔法伤害</magicDamage> <OnHit>攻击特效</OnHit>。</mainText>"
+    }
+  ],
+  "negativeSelfTest": {
+    "exitCode": 1,
+    "signal": null,
+    "passed": true,
+    "stderr": "file:///C:/project/damage_web_dev/.agents/artifacts/gear19-20260909/%E7%8B%AC%E7%AB%8B%E6%A0%B8%E7%AE%97.mjs:11\r\nfunction fail(message) { throw new Error(message); }\r\n                               ^\r\n\r\nError: 负例必须失败；证据={\"forced\":false}\r\n    at fail (file:///C:/project/damage_web_dev/.agents/artifacts/gear19-20260909/%E7%8B%AC%E7%AB%8B%E6%A0%B8%E7%AE%97.mjs:11:32)\r\n    at check (file:///C:/project/damage_web_dev/.agents/artifacts/gear19-20260909/%E7%8B%AC%E7%AB%8B%E6%A0%B8%E7%AE%97.mjs:12:64)\r\n "
+  },
+  "effects": 0,
+  "processes": 0,
+  "internalStates": 0,
+  "triggerRules": 0,
+  "conclusion": "通过：所有公式使用PARAMETER/ATTRIBUTE/OPERATION且无FORMULA节点；21个区别性算例、结构和范围条件通过。效果/过程/状态/规则均为0，避免无证据默认DAMAGE、DIRECT_HEAL、周期首跳和空过程。"
+}

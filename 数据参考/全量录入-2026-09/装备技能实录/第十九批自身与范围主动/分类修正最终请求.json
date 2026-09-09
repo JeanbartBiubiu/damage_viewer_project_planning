@@ -1,0 +1,1565 @@
+{
+  "at": "2026-09-09T08:54:29.351Z",
+  "stage": "第十九批最终请求草稿；仅生成未执行请求，不调用业务写接口",
+  "gameId": "lol",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "gameSourceBuild": "16.17.8104348",
+  "authHeaderPersisted": false,
+  "noApply": true,
+  "apiWrites": 0,
+  "candidateSha256": "be371ab2b79c2106f70880b94a2a894f93c4cf1d507634a37dc2c7d4078a7c1f",
+  "sourceSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+  "beforeSha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+  "candidatePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/分类修正最终候选.json",
+  "sourcePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/冻结来源.json",
+  "beforePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+  "scope": [
+    {
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active"
+    },
+    {
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive"
+    },
+    {
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active"
+    },
+    {
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active"
+    },
+    {
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active"
+    },
+    {
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active"
+    },
+    {
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive"
+    },
+    {
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive"
+    }
+  ],
+  "pendingTargetQualifications": [
+    {
+      "equipmentKey": "item_3222",
+      "skillKey": "item_3222_active",
+      "component": "友方净化与治疗目标归属",
+      "status": "待补证",
+      "reason": "未证明施法者自身是否在友方目标集合；保留来源，暂不创建技能。"
+    },
+    {
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "component": "友方治疗目标资格",
+      "status": "待补证",
+      "reason": "友方文字未证明施法者自身资格；只保存150/350端点和无默认运行时基础治疗输入。"
+    },
+    {
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "component": "自身护盾目标资格",
+      "status": "待补证",
+      "reason": "SelfAoe仅给出几何原点，8193缺少同版目标枚举旁证。"
+    }
+  ],
+  "requestSummary": {
+    "skill": 8,
+    "parameters": 42,
+    "formulas": 11,
+    "relation": 8,
+    "image": 8,
+    "total": 77
+  },
+  "requests": [
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3074_active",
+      "body": {
+        "skillKey": "item_3074_active",
+        "name": "贪欲九头蛇·血斩",
+        "description": "保留血斩对当前唯一敌方英雄的物理伤害比例、范围、冷却和生命偷取适用旁证。主动以自身为中心，未因范围文字排除；伤害资格和吸血结算尚未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/parameters",
+      "readRoute": "/skills/item_3074_active/parameters/active_damage_ratio",
+      "body": {
+        "parameterKey": "active_damage_ratio",
+        "name": "血斩物理伤害总攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/parameters",
+      "readRoute": "/skills/item_3074_active/parameters/active_radius",
+      "body": {
+        "parameterKey": "active_radius",
+        "name": "血斩影响范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 450,
+        "levelValues": null,
+        "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/parameters",
+      "readRoute": "/skills/item_3074_active/parameters/active_cast_radius",
+      "body": {
+        "parameterKey": "active_cast_radius",
+        "name": "血斩施法半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 325,
+        "levelValues": null,
+        "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/parameters",
+      "readRoute": "/skills/item_3074_active/parameters/active_cooldown_ms",
+      "body": {
+        "parameterKey": "active_cooldown_ms",
+        "name": "血斩冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/parameters",
+      "readRoute": "/skills/item_3074_active/parameters/life_steal_applies_multiplier",
+      "body": {
+        "parameterKey": "life_steal_applies_multiplier",
+        "name": "血斩生命偷取适用倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/skills/item_3074_active/formulas",
+      "readRoute": "/skills/item_3074_active/formulas/active_physical_damage",
+      "body": {
+        "formulaKey": "active_physical_damage",
+        "name": "血斩物理伤害值",
+        "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_damage_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3074",
+      "body": {
+        "equipmentKey": "item_3074",
+        "skillKey": "item_3074_active",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "method": "PUT",
+      "route": "/skills/item_3074_active/representative-image",
+      "readRoute": "/skills/item_3074_active/representative-image",
+      "body": {
+        "imageKey": "item_3074"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3748_passive",
+      "body": {
+        "skillKey": "item_3748_passive",
+        "name": "巨型九头蛇·顺劈主目标",
+        "description": "保留攻击对当前唯一目标的顺劈物理伤害主目标分支；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外敌人支路范围外；目标资格与攻击触发尚未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/skills/item_3748_passive/parameters",
+      "readRoute": "/skills/item_3748_passive/parameters/primary_target_hp_ratio",
+      "body": {
+        "parameterKey": "primary_target_hp_ratio",
+        "name": "顺劈主目标生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "客户端OnHitDamageCalc和PrimaryTargetHPRatio均为0.01；不将mStat12无formula节点擅自映射为生命属性。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/skills/item_3748_passive/parameters",
+      "readRoute": "/skills/item_3748_passive/parameters/ranged_effectiveness",
+      "body": {
+        "parameterKey": "ranged_effectiveness",
+        "name": "远程顺劈倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/skills/item_3748_passive/formulas",
+      "readRoute": "/skills/item_3748_passive/formulas/primary_on_hit_damage_melee",
+      "body": {
+        "formulaKey": "primary_on_hit_damage_melee",
+        "name": "顺劈主目标近战伤害值",
+        "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "primary_target_hp_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/skills/item_3748_passive/formulas",
+      "readRoute": "/skills/item_3748_passive/formulas/primary_on_hit_damage_ranged",
+      "body": {
+        "formulaKey": "primary_on_hit_damage_ranged",
+        "name": "顺劈主目标远程伤害值",
+        "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "primary_target_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_effectiveness"
+            }
+          ]
+        },
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3748",
+      "body": {
+        "equipmentKey": "item_3748",
+        "skillKey": "item_3748_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "method": "PUT",
+      "route": "/skills/item_3748_passive/representative-image",
+      "readRoute": "/skills/item_3748_passive/representative-image",
+      "body": {
+        "imageKey": "item_3748"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3748_active",
+      "body": {
+        "skillKey": "item_3748_active",
+        "name": "巨型九头蛇·刚斩",
+        "description": "保留刚斩强化下一次顺劈时对当前唯一主目标的额外物理伤害比例、远程倍率和10秒冷却；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外伤害留在来源。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills/item_3748_active/parameters",
+      "readRoute": "/skills/item_3748_active/parameters/active_primary_target_hp_ratio",
+      "body": {
+        "parameterKey": "active_primary_target_hp_ratio",
+        "name": "刚斩主目标生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills/item_3748_active/parameters",
+      "readRoute": "/skills/item_3748_active/parameters/ranged_effectiveness",
+      "body": {
+        "parameterKey": "ranged_effectiveness",
+        "name": "刚斩远程倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills/item_3748_active/parameters",
+      "readRoute": "/skills/item_3748_active/parameters/active_cooldown_ms",
+      "body": {
+        "parameterKey": "active_cooldown_ms",
+        "name": "刚斩冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills/item_3748_active/formulas",
+      "readRoute": "/skills/item_3748_active/formulas/active_primary_damage_melee",
+      "body": {
+        "formulaKey": "active_primary_damage_melee",
+        "name": "刚斩主目标近战伤害值",
+        "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_primary_target_hp_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/skills/item_3748_active/formulas",
+      "readRoute": "/skills/item_3748_active/formulas/active_primary_damage_ranged",
+      "body": {
+        "formulaKey": "active_primary_damage_ranged",
+        "name": "刚斩主目标远程伤害值",
+        "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_primary_target_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_effectiveness"
+            }
+          ]
+        },
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3748",
+      "body": {
+        "equipmentKey": "item_3748",
+        "skillKey": "item_3748_active",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "method": "PUT",
+      "route": "/skills/item_3748_active/representative-image",
+      "readRoute": "/skills/item_3748_active/representative-image",
+      "body": {
+        "imageKey": "item_3748"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6698_active",
+      "body": {
+        "skillKey": "item_6698_active",
+        "name": "亵渎九头蛇·邪斩",
+        "description": "保留邪斩对当前唯一附近敌方英雄的物理伤害、450范围和10秒冷却。顺劈被动及未绑定生命阈值字段留来源。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills/item_6698_active/parameters",
+      "readRoute": "/skills/item_6698_active/parameters/active_damage_ratio",
+      "body": {
+        "parameterKey": "active_damage_ratio",
+        "name": "邪斩物理伤害总攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills/item_6698_active/parameters",
+      "readRoute": "/skills/item_6698_active/parameters/active_radius",
+      "body": {
+        "parameterKey": "active_radius",
+        "name": "邪斩影响范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 450,
+        "levelValues": null,
+        "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills/item_6698_active/parameters",
+      "readRoute": "/skills/item_6698_active/parameters/active_cast_radius",
+      "body": {
+        "parameterKey": "active_cast_radius",
+        "name": "邪斩施法半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 325,
+        "levelValues": null,
+        "description": "客户端6698Active的castRadius=325。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills/item_6698_active/parameters",
+      "readRoute": "/skills/item_6698_active/parameters/active_cooldown_ms",
+      "body": {
+        "parameterKey": "active_cooldown_ms",
+        "name": "邪斩冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/skills/item_6698_active/formulas",
+      "readRoute": "/skills/item_6698_active/formulas/active_physical_damage",
+      "body": {
+        "formulaKey": "active_physical_damage",
+        "name": "邪斩物理伤害值",
+        "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_damage_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6698",
+      "body": {
+        "equipmentKey": "item_6698",
+        "skillKey": "item_6698_active",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "method": "PUT",
+      "route": "/skills/item_6698_active/representative-image",
+      "readRoute": "/skills/item_6698_active/representative-image",
+      "body": {
+        "imageKey": "item_6698"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3107_active",
+      "body": {
+        "skillKey": "item_3107_active",
+        "name": "救赎·干涉敌方伤害",
+        "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/enemy_true_damage_ratio",
+      "body": {
+        "parameterKey": "enemy_true_damage_ratio",
+        "name": "干涉敌方真实伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/actual_target_max_health",
+      "body": {
+        "parameterKey": "actual_target_max_health",
+        "name": "当前敌方英雄最大生命值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/impact_delay_ms",
+      "body": {
+        "parameterKey": "impact_delay_ms",
+        "name": "干涉生效延迟",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "官方与客户端中文明确2.5秒后生效。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/area_radius",
+      "body": {
+        "parameterKey": "area_radius",
+        "name": "干涉区域半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 550,
+        "levelValues": null,
+        "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/cast_range",
+      "body": {
+        "parameterKey": "cast_range",
+        "name": "干涉施法距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5500,
+        "levelValues": null,
+        "description": "客户端CastRange=5500。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/active_cooldown_ms",
+      "body": {
+        "parameterKey": "active_cooldown_ms",
+        "name": "干涉冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90000,
+        "levelValues": null,
+        "description": "客户端根Cooldown=90秒；只读根数据值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/ally_heal_min",
+      "body": {
+        "parameterKey": "ally_heal_min",
+        "name": "友方治疗下限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/ally_heal_max",
+      "body": {
+        "parameterKey": "ally_heal_max",
+        "name": "友方治疗上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/actual_qualified_ally_base_heal",
+      "body": {
+        "parameterKey": "actual_qualified_ally_base_heal",
+        "name": "当前合资格友方英雄基础治疗输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/skills/item_3107_active/formulas",
+      "readRoute": "/skills/item_3107_active/formulas/enemy_true_damage",
+      "body": {
+        "formulaKey": "enemy_true_damage",
+        "name": "干涉敌方真实伤害值",
+        "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "enemy_true_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_target_max_health"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3107",
+      "body": {
+        "equipmentKey": "item_3107",
+        "skillKey": "item_3107_active",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "method": "PUT",
+      "route": "/skills/item_3107_active/representative-image",
+      "readRoute": "/skills/item_3107_active/representative-image",
+      "body": {
+        "imageKey": "item_3107"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3190_active",
+      "body": {
+        "skillKey": "item_3190_active",
+        "name": "钢铁烈阳之匣·虔诚自身护盾",
+        "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/shield_min",
+      "body": {
+        "parameterKey": "shield_min",
+        "name": "虔诚护盾下限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 290,
+        "levelValues": null,
+        "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/shield_max",
+      "body": {
+        "parameterKey": "shield_max",
+        "name": "虔诚护盾上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 360,
+        "levelValues": null,
+        "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/actual_self_shield_value",
+      "body": {
+        "parameterKey": "actual_self_shield_value",
+        "name": "当前合资格英雄基础护盾值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "虔诚护盾持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/shield_range",
+      "body": {
+        "parameterKey": "shield_range",
+        "name": "虔诚护盾范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 850,
+        "levelValues": null,
+        "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/active_cooldown_ms",
+      "body": {
+        "parameterKey": "active_cooldown_ms",
+        "name": "虔诚冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90000,
+        "levelValues": null,
+        "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3190",
+      "body": {
+        "equipmentKey": "item_3190",
+        "skillKey": "item_3190_active",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "method": "PUT",
+      "route": "/skills/item_3190_active/representative-image",
+      "readRoute": "/skills/item_3190_active/representative-image",
+      "body": {
+        "imageKey": "item_3190"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6664_passive",
+      "body": {
+        "skillKey": "item_6664_passive",
+        "name": "璀璨回响·献祭当前敌人",
+        "description": "保留献祭对当前唯一附近敌方英雄的每秒伤害计算树、3秒持续、光环半径325、触发脉冲350/500、英雄触发倍率和范围参数。不要把来源节拍直接生成周期过程；荒弃击杀周围支路留在来源。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/damage_flat_per_tick",
+      "body": {
+        "parameterKey": "damage_flat_per_tick",
+        "name": "献祭每次伤害固定值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "客户端DamagePerTick计算树第一项明确为15；另有10的tooltipOnly字段，不用10覆盖实际计算树。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/damage_scaling_ratio",
+      "body": {
+        "parameterKey": "damage_scaling_ratio",
+        "name": "献祭mStat12缩放比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "客户端DamagePerTick的mStat=12、mStatFormula=2、系数0.01；属性语义不在本批推广，实际值运行时输入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/source_mstat12_formula2_value",
+      "body": {
+        "parameterKey": "source_mstat12_formula2_value",
+        "name": "献祭来源mStat12/formula2输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "该对象没有具名属性旁证；保留原节点实际值作为运行时输入，不补零、不套用其他对象。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/aura_duration_ms",
+      "body": {
+        "parameterKey": "aura_duration_ms",
+        "name": "献祭持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端AuraDuration=3秒；不表示已经建立周期执行。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/aura_range",
+      "body": {
+        "parameterKey": "aura_range",
+        "name": "献祭光环半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 325,
+        "levelValues": null,
+        "description": "客户端Range=325；这是献祭光环资格半径，与ProcAoE=350和ChampProcAoE=500的触发脉冲范围不同。",
+        "sortOrder": 45
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/ticks_per_second",
+      "body": {
+        "parameterKey": "ticks_per_second",
+        "name": "献祭来源节拍",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端TicksPerSecond=1；只保存源参数，首跳和事件调度未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/champion_proc_multiplier",
+      "body": {
+        "parameterKey": "champion_proc_multiplier",
+        "name": "献祭英雄触发伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "客户端ChampProcDPSMultiplier=4；当前只表达计算节点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/proc_aoe_radius",
+      "body": {
+        "parameterKey": "proc_aoe_radius",
+        "name": "献祭普通触发范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "客户端ProcAoE=350；这是触发脉冲范围，与aura_range=325的献祭光环资格半径分开；当前唯一敌人是否在范围内由运行时判断。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/champion_proc_aoe_radius",
+      "body": {
+        "parameterKey": "champion_proc_aoe_radius",
+        "name": "献祭英雄触发范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端ChampProcAoE=500；这是英雄触发脉冲范围，与aura_range=325的献祭光环资格半径分开；不因附近文字排除单个敌人。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/parameters",
+      "readRoute": "/skills/item_6664_passive/parameters/trigger_cooldown_ms",
+      "body": {
+        "parameterKey": "trigger_cooldown_ms",
+        "name": "献祭冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "description": "客户端Cooldown=12秒；只保留参数，未创建触发规则。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/formulas",
+      "readRoute": "/skills/item_6664_passive/formulas/damage_per_tick",
+      "body": {
+        "formulaKey": "damage_per_tick",
+        "name": "献祭每次伤害值",
+        "description": "15+0.01×运行时mStat12/formula2输入；不把对象缺失属性命名为生命值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_flat_per_tick"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/formulas",
+      "readRoute": "/skills/item_6664_passive/formulas/damage_per_second",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "献祭每秒伤害值",
+        "description": "TicksPerSecond×(15+0.01×运行时mStat12/formula2输入)；仅保存原计算树，不创建周期过程。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ticks_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_flat_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_scaling_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat12_formula2_value"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/skills/item_6664_passive/formulas",
+      "readRoute": "/skills/item_6664_passive/formulas/champion_proc_damage_per_tick",
+      "body": {
+        "formulaKey": "champion_proc_damage_per_tick",
+        "name": "献祭英雄触发每次伤害值",
+        "description": "4×(15+0.01×运行时mStat12/formula2输入)；子公式内联，避免后端不支持FORMULA节点引用。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "champion_proc_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_flat_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_scaling_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat12_formula2_value"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6664",
+      "body": {
+        "equipmentKey": "item_6664",
+        "skillKey": "item_6664_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "method": "PUT",
+      "route": "/skills/item_6664_passive/representative-image",
+      "readRoute": "/skills/item_6664_passive/representative-image",
+      "body": {
+        "imageKey": "item_6664"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_8020_passive",
+      "body": {
+        "skillKey": "item_8020_passive",
+        "name": "深渊面具·损毁",
+        "description": "保留损毁对700范围内当前唯一敌方英雄所承受魔法伤害的12%增幅。附近单个敌人仍相关；目标范围和伤害增幅乘区尚未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/skills/item_8020_passive/parameters",
+      "readRoute": "/skills/item_8020_passive/parameters/damage_amp_ratio",
+      "body": {
+        "parameterKey": "damage_amp_ratio",
+        "name": "损毁额外魔法伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "官方与客户端中文明确附近敌方英雄承受12%额外魔法伤害；客户端DamageAmp=0.12。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/skills/item_8020_passive/parameters",
+      "readRoute": "/skills/item_8020_passive/parameters/radius",
+      "body": {
+        "parameterKey": "radius",
+        "name": "损毁范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 700,
+        "levelValues": null,
+        "description": "客户端Radius=700、effectRadius=700；只作当前唯一敌人距离条件。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/skills/item_8020_passive/parameters",
+      "readRoute": "/skills/item_8020_passive/parameters/actual_qualified_magic_damage",
+      "body": {
+        "parameterKey": "actual_qualified_magic_damage",
+        "name": "当前合资格魔法伤害输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "伤害类型、目标英雄资格和增幅乘区由运行时提供；不创建默认伤害效果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/skills/item_8020_passive/formulas",
+      "readRoute": "/skills/item_8020_passive/formulas/additional_magic_damage",
+      "body": {
+        "formulaKey": "additional_magic_damage",
+        "name": "损毁额外魔法伤害值",
+        "description": "0.12×当前合资格魔法伤害输入；只保存公式，不声称已接线增幅效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amp_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_qualified_magic_damage"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_8020",
+      "body": {
+        "equipmentKey": "item_8020",
+        "skillKey": "item_8020_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "method": "PUT",
+      "route": "/skills/item_8020_passive/representative-image",
+      "readRoute": "/skills/item_8020_passive/representative-image",
+      "body": {
+        "imageKey": "item_8020"
+      }
+    }
+  ]
+}
