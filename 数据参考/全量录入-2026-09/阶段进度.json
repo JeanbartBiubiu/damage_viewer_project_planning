@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T01:50:48.764Z",
+  "generatedAt": "2026-09-09T02:18:17.277Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1070,6 +1070,50 @@
         "conflicts": 0,
         "apiWrites": 0,
         "evidence": "API实录/符文效果第二批/独立复核/独立复核结果.json"
+      }
+    },
+    "heroEighthBatch": {
+      "skills": [
+        "caitlyn_p",
+        "caitlyn_q",
+        "caitlyn_w",
+        "caitlyn_e",
+        "caitlyn_r",
+        "jhin_p",
+        "jhin_q",
+        "jhin_w",
+        "jhin_e",
+        "jhin_r",
+        "draven_p",
+        "draven_q",
+        "draven_w",
+        "draven_e",
+        "draven_r",
+        "kalista_p",
+        "kalista_q",
+        "kalista_w",
+        "kalista_e",
+        "kalista_r"
+      ],
+      "parameters": 111,
+      "formulas": 24,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "created": 128,
+      "reused": 23,
+      "arithmeticCases": 46,
+      "invariantChecks": 314,
+      "independentBusinessFields": 1828,
+      "status": "部分录入；151组成独立回读、三代表页面和20项页面后GET通过；未解码来源、合法时序和触发继续补录",
+      "executor": "Codex候选与执行，Cursor独立审查，主负责人纠错核对与页面验收",
+      "cursorRunId": "run-96eb9496-3277-4982-8caa-93fb743b9ebe",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第八批/页面验收.json",
+        "commit": "03ba9afd"
       }
     }
   },
