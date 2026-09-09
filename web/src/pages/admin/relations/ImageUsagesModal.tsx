@@ -4,6 +4,7 @@ import { getErrorMessage, listGames } from '../../../services/apiClient';
 import { listCharacters } from '../../../services/characterClient';
 import { listAttributes } from '../../../services/attributeClient';
 import { listEquipment } from '../../../services/equipmentClient';
+import { listRunes, listRunePaths } from '../../../services/runeClient';
 import { listSkills } from '../../../services/skillClient';
 import { listSkillEffects } from '../../../services/skillEffectClient';
 import { listStatuses } from '../../../services/statusClient';
@@ -38,6 +39,10 @@ async function sourceOptions(apiBaseUrl: string, gameId: string, token: string, 
       .map((row) => ({ target: { kind, key: row.attributeKey, name: row.name }, status: row.status }));
     case 'equipment': return (await listEquipment(apiBaseUrl, gameId, token)).data.items
       .map((row) => ({ target: { kind, key: row.equipmentKey, name: row.name } }));
+    case 'rune': return (await listRunes(apiBaseUrl, gameId, token)).data.items
+      .map((row) => ({ target: { kind, key: row.runeKey, name: row.name } }));
+    case 'runePath': return (await listRunePaths(apiBaseUrl, gameId, token)).data.items
+      .map((row) => ({ target: { kind, key: row.pathKey, name: row.name } }));
     case 'skill': return (await listSkills(apiBaseUrl, gameId, token)).data.items
       .map((row) => ({ target: { kind, key: row.skillKey, name: row.name }, status: row.status }));
     case 'skillEffect': return skillKey ? (await listSkillEffects(apiBaseUrl, gameId, skillKey, token)).data

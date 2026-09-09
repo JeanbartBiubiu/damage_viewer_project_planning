@@ -6,12 +6,14 @@ import type { ImageRelationTarget, ImageUsages } from '../types/imageRelation';
 const BASE = 'http://localhost:8080';
 const GAME = 'demo arena';
 const IMAGE = { imageKey: 'portrait/?', name: '测试图片', enabled: true };
-const EMPTY_USAGES: ImageUsages = { imageKey: IMAGE.imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [] };
+const EMPTY_USAGES: ImageUsages = { imageKey: IMAGE.imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [], runes: [], runePaths: [] };
 const SOURCES: Array<{ target: ImageRelationTarget; path: string }> = [
   { target: { kind: 'game', key: GAME, name: '游戏' }, path: '/representative-image' },
   { target: { kind: 'character', key: 'same/?', name: '角色' }, path: '/characters/same%2F%3F/representative-image' },
   { target: { kind: 'attribute', key: 'same/?', name: '属性' }, path: '/attributes/same%2F%3F/representative-image' },
   { target: { kind: 'equipment', key: 'same/?', name: '装备' }, path: '/equipment/same%2F%3F/representative-image' },
+  { target: { kind: 'rune', key: 'same/?', name: '符文' }, path: '/runes/same%2F%3F/representative-image' },
+  { target: { kind: 'runePath', key: 'same/?', name: '符文分组' }, path: '/rune-paths/same%2F%3F/representative-image' },
   { target: { kind: 'skill', key: 'same/?', name: '技能' }, path: '/skills/same%2F%3F/representative-image' },
   { target: { kind: 'skillEffect', key: 'same/?', name: '技能效果', skillKey: 'parent/#' }, path: '/skills/parent%2F%23/effects/same%2F%3F/representative-image' },
   { target: { kind: 'status', key: 'same/?', name: '状态' }, path: '/statuses/same%2F%3F/representative-image' }
@@ -93,13 +95,15 @@ describe('imageRelationClient', () => {
     await expect(listImageOptions(BASE, GAME, '', '图片')).rejects.toMatchObject({ status: 502 });
   });
 
-  it('reads all seven fixed usage groups and preserves effect parent identity', async () => {
+  it('reads all nine fixed usage groups and preserves effect parent identity', async () => {
     const payload: ImageUsages = {
       imageKey: IMAGE.imageKey,
       games: [{ gameId: GAME, gameName: '游戏' }],
       characters: [{ characterKey: 'c', characterName: '角色' }],
       attributes: [{ attributeKey: 'a', attributeName: '属性', attributeStatus: 'DISABLED' }],
       equipment: [{ equipmentKey: 'e', equipmentName: '装备' }],
+      runes: [{ runeKey: 'r', runeName: '符文' }],
+      runePaths: [{ pathKey: 'p', pathName: '符文系' }],
       skills: [{ skillKey: 's', skillName: '技能', skillStatus: 'ENABLED' }],
       skillEffects: [{ skillKey: 'parent/one', skillName: '所属技能', effectKey: 'same', effectName: '效果' }],
       statuses: [{ statusKey: 't', statusName: '状态', statusStatus: 'DISABLED' }]

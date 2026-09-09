@@ -4,6 +4,7 @@ import type { ImageRelationTarget, ImageSourceStatus, ImageUsages, Representativ
 export const IMAGE_SOURCE_KINDS: Array<{ value: ImageRelationTarget['kind']; label: string }> = [
   { value: 'game', label: '游戏' }, { value: 'character', label: '角色' },
   { value: 'attribute', label: '属性' }, { value: 'equipment', label: '装备' },
+  { value: 'rune', label: '符文' }, { value: 'runePath', label: '符文分组' },
   { value: 'skill', label: '技能' }, { value: 'skillEffect', label: '技能效果' },
   { value: 'status', label: '状态' }
 ];
@@ -26,6 +27,8 @@ export function imageUsageGroups(usages: ImageUsages): ImageUsageGroup[] {
     character: usages.characters.map((row) => ({ target: { kind: 'character', key: row.characterKey, name: row.characterName } })),
     attribute: usages.attributes.map((row) => ({ target: { kind: 'attribute', key: row.attributeKey, name: row.attributeName }, status: row.attributeStatus })),
     equipment: usages.equipment.map((row) => ({ target: { kind: 'equipment', key: row.equipmentKey, name: row.equipmentName } })),
+    rune: usages.runes.map((row) => ({ target: { kind: 'rune', key: row.runeKey, name: row.runeName } })),
+    runePath: usages.runePaths.map((row) => ({ target: { kind: 'runePath', key: row.pathKey, name: row.pathName } })),
     skill: usages.skills.map((row) => ({ target: { kind: 'skill', key: row.skillKey, name: row.skillName }, status: row.skillStatus })),
     skillEffect: usages.skillEffects.map((row) => ({ target: { kind: 'skillEffect', key: row.effectKey, name: row.effectName, skillKey: row.skillKey }, skillName: row.skillName })),
     status: usages.statuses.map((row) => ({ target: { kind: 'status', key: row.statusKey, name: row.statusName }, status: row.statusStatus }))

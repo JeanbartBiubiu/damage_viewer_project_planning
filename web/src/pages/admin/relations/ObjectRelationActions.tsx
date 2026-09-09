@@ -19,7 +19,7 @@ export function ObjectRelationActions({ target, onImageSaved, onOpenSkills, ...c
 }) {
   const [active, setActive] = useState<'skills' | 'image' | null>(null);
   const { apiBaseUrl, selectedGameId, adminToken, onDirtyChange } = context;
-  const skillTarget = target.kind === 'character' || target.kind === 'equipment' || target.kind === 'skill'
+  const skillTarget = target.kind === 'character' || target.kind === 'equipment' || target.kind === 'skill' || target.kind === 'rune'
     ? { kind: target.kind, key: target.key, name: target.name } : null;
   useEffect(() => { setActive(null); }, [apiBaseUrl, selectedGameId, adminToken, target.kind, target.key, target.skillKey]);
   const close = () => { setActive(null); onDirtyChange(false); };
