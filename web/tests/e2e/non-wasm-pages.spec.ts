@@ -5386,6 +5386,15 @@ test.describe('skill management without Wasm', () => {
     await expect(blockedCounter).toBeVisible();
     await expect(blockedCounter.getByText('取值来源不完整或数值不合法。', { exact: true })).toBeVisible();
     expect(mock.skillInternalStates.some(state => state.stateKey === 'blocked_counter')).toBe(false);
+    await expect(blockedCounter.getByRole('button', { name: '重试', exact: true })).toBeVisible();
+    mock.skillFormulaListFailure = false;
+    const recoveredFormulaRead = page.waitForResponse(response => response.url().endsWith('/skills/varus_w/formulas') && response.status() === 200);
+    await blockedCounter.getByRole('button', { name: '重试', exact: true }).click();
+    await recoveredFormulaRead;
+    await expect(blockedCounter.getByRole('button', { name: '重试', exact: true })).toHaveCount(0);
+    await expect(blockedCounter.getByLabel('内部状态名称', { exact: true })).toHaveValue('被阻断计数');
+    await expect(blockedCounter.getByLabel('上限取值固定数值', { exact: true })).toHaveValue('3');
+    expect(mock.skillInternalStates.some(state => state.stateKey === 'blocked_counter')).toBe(false);
     await closeEditorByOutsideOrEscape(page, testInfo);
     diagnostics.assertClean('referenced step block, retained draft and catalog isolation');
   });
@@ -6676,6 +6685,39 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/images"]').count()).toBe(1);
     diagnostics.assertClean('current pages and unknown hash fallback');
   });
+});
+
+test('retries a failed formula catalog inside an unfinished effect result without losing drafts', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillEffectCatalog(mock);
+  mock.skillFormulaListFailure = true;
+  await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  const failedRead = page.waitForResponse(response => response.url().endsWith('/skills/varus_w/formulas') && response.status() === 503);
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const effect = visibleModal(page, '新增效果');
+  await failedRead;
+  await effect.getByLabel('效果标识', { exact: true }).fill('retained_heal');
+  await effect.getByLabel('效果名称', { exact: true }).fill('保留治疗草稿');
+  await effect.getByRole('button', { name: '新增结果', exact: true }).click();
+  const result = visibleModal(page, '新增结果');
+  await result.getByLabel('结果标识', { exact: true }).fill('heal');
+  await result.getByLabel('结果名称', { exact: true }).fill('未选公式的治疗');
+  await chooseSelectOption(page, result, '结果种类', '直接治疗');
+  await result.getByText('技能公式', { exact: true }).click();
+  await expect(result.getByRole('button', { name: '重试', exact: true })).toBeVisible();
+  mock.skillFormulaListFailure = false;
+  const recoveredRead = page.waitForResponse(response => response.url().endsWith('/skills/varus_w/formulas') && response.status() === 200);
+  await result.getByRole('button', { name: '重试', exact: true }).click();
+  await recoveredRead;
+  await expect(result.getByRole('button', { name: '重试', exact: true })).toHaveCount(0);
+  await expect(result.getByLabel('结果名称', { exact: true })).toHaveValue('未选公式的治疗');
+  await expect(effect.getByLabel('效果名称', { exact: true })).toHaveValue('保留治疗草稿');
+  await fillValueRule(page, result, '治疗公式');
+  await saveOpenModal(result);
+  await expect(effect.locator('tr', { hasText: 'heal' })).toBeVisible();
+  expect(mock.writes).toHaveLength(0);
 });
 
 test('numeric values keep fixed zero through catalog failure and preserve parameter drafts after rejected save', async ({ page }) => {
